@@ -285,7 +285,7 @@
             style="grid-column: {seg.from + 1} / span {seg.len}"
           >
             {#if seg.head}
-              <button type="button" class="stayname" onclick={() => onopen(c.key)}>{c.name}</button>
+              <button type="button" class="stayname" onclick={() => onopen(c.key, { month: stay.start })}>{c.name}</button>
               <span class="stayq num">{Math.round(stayAvg(stay))}</span>
               <button type="button" class="x" aria-label="Remove stay" onclick={() => removeStay(stay)}>×</button>
               <div class="dur-ctl">

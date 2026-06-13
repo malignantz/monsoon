@@ -44,7 +44,8 @@
       .map((x) => x.key)
   );
 
-  function openSheet(key, { replace = false } = {}) {
+  function openSheet(key, { replace = false, month: sheetMonth } = {}) {
+    if (Number.isInteger(sheetMonth) && sheetMonth >= 0 && sheetMonth < 12) month = sheetMonth;
     cityKey = key;
     const u = new URL(location.href);
     u.searchParams.set('city', key);
