@@ -13,7 +13,8 @@
     MONTH_LETTERS,
     monthOccupancy,
     routeStats,
-    stayMonths
+    stayMonths,
+    schengenCheck
   } from './data.svelte.js';
   import { defaultFilters, filtersActive, cityPasses, stayPasses, proposeRoutes, routeTravelKm } from './planner.js';
 
@@ -56,6 +57,14 @@
   let planMax = $state(4);
   let planObjective = $state('qol');
   let planTravel = $state('some');
+  let planning = $state(false);
+
+  // Board element + a one-shot flash so applying a proposal (which fills the
+  // timeline far above the proposal list) gives visible, located confirmation.
+  let boardEl;
+  let flash = $state(false);
+  const reducedMotion = () =>
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Proposals are only shown while the planner inputs still match what they
   // were proposed under — staleness is derived, never a clearing side effect.
@@ -85,19 +94,37 @@
   }
 
   function runPlanner() {
-    const { routes, reason } = proposeRoutes(filters, {
-      preset,
-      objective: planObjective,
-      minLen: planMin,
-      maxLen: planMax,
-      travel: planTravel
-    });
-    plan = { sig: planSig, proposals: routes, msg: reason };
+    if (planning) return;
+    const sig = planSig;
+    planning = true;
+    // Two frames so the "Planning…" state paints before the beam search blocks
+    // the main thread; the search is fast but shouldn't read as a dead click.
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        const { routes, reason } = proposeRoutes(filters, {
+          preset,
+          objective: planObjective,
+          minLen: planMin,
+          maxLen: planMax,
+          travel: planTravel
+        });
+        plan = { sig, proposals: routes, msg: reason };
+        planning = false;
+      })
+    );
   }
 
   function useProposal(p) {
     stays = p.stays.map((s) => ({ ...s }));
     selStart = -1;
+    // The timeline being filled sits above the proposal list — bring it into
+    // view and flash it so the change is seen, not just made.
+    flash = false;
+    requestAnimationFrame(() => {
+      boardEl?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
+      flash = true;
+      setTimeout(() => (flash = false), 1000);
+    });
   }
 
   // Great-circle hop totals are a rough proxy, so show them rough: "8k km".
@@ -106,7 +133,7 @@
   const occ = $derived(monthOccupancy(stays));
   const stats = $derived(routeStats(stays, preset));
   const sch = $derived(stats.schengen);
-  const schState = $derived(!sch.ok ? 'Over limit' : sch.tight ? 'Getting tight' : 'Within limits');
+  const schState = $derived(!sch.ok ? 'Over limit' : sch.atLimit ? 'At the limit' : 'Within limits');
 
   function clearRoute() {
     stays = [];
@@ -164,18 +191,24 @@
 
   const emptyMonths = $derived(occ.map((x, i) => (x === null ? i : -1)).filter((i) => i >= 0));
 
+  // Where addStay would drop the next stay (mirrors addStay exactly): drives
+  // both the month-dependent filtering and the Schengen breach preview.
+  const prospect = $derived.by(() => {
+    const start = selStart >= 0 && occ[selStart] === null ? selStart : occ.findIndex((x) => x === null);
+    if (start < 0) return null;
+    return { start, len: Math.max(1, Math.min(dur, freeRun(start))) };
+  });
+
   // Filtered candidates: static criteria always; month-dependent criteria are
-  // checked against the months the prospective stay (as addStay would place
-  // it) will actually occupy.
+  // checked against the months the prospective stay will actually occupy.
   const filteredCities = $derived.by(() => {
     let list = cities.filter((c) => cityPasses(c, filters));
-    const start = selStart >= 0 && occ[selStart] === null ? selStart : occ.findIndex((x) => x === null);
-    if (start >= 0) {
-      const len = Math.max(1, Math.min(dur, freeRun(start)));
-      list = list.filter((c) => stayPasses(c, start, len, filters));
-    }
+    if (prospect) list = list.filter((c) => stayPasses(c, prospect.start, prospect.len, filters));
     return list;
   });
+
+  // Remaining Schengen budget (days) in the route's worst rolling window.
+  const schLeft = $derived(sch.anySchengen ? sch.remaining : 90);
 
   const pickerList = $derived.by(() => {
     const q = query.trim().toLowerCase();
@@ -185,7 +218,17 @@
     return list
       .map((c) => ({ c, s: target.reduce((a, m) => a + qolFor(c, m, preset), 0) / target.length }))
       .sort((a, b) => b.s - a.s)
-      .slice(0, 30);
+      .slice(0, 30)
+      .map(({ c, s }) => ({
+        c,
+        s,
+        // Warn (don't block) when adding this Schengen city where addStay would
+        // place it pushes the rolling 90/180 window over the cap.
+        breach:
+          c.schengen && prospect
+            ? !schengenCheck([...stays, { key: c.key, start: prospect.start, len: prospect.len }]).ok
+            : false
+      }));
   });
 </script>
 
@@ -202,7 +245,7 @@
     {/if}
   </header>
 
-  <div class="board">
+  <div class="board" class:flash bind:this={boardEl}>
     <div class="boardscroll">
     <div class="months num">
       {#each MONTH_LETTERS as l, i}
@@ -254,7 +297,7 @@
       <p class="board-hint">Click any month above to mark a starting point, then choose a city from the list below — or let Auto-plan propose a year for you.</p>
     {/if}
 
-    <div class="schtrack" class:bad={!sch.ok} class:tight={sch.ok && sch.tight} class:none={!sch.anySchengen}>
+    <div class="schtrack" class:bad={!sch.ok} class:tight={sch.ok && sch.atLimit} class:none={!sch.anySchengen}>
       <div class="sch-head">
         <span class="mlabel">◆ Schengen 90/180</span>
         <ScoreInfo title="Schengen 90/180 rule">
@@ -279,12 +322,15 @@
           {/each}
         </div>
         <p class="sch-read">
-          {#if sch.ok}
-            <strong class="num">{sch.remaining}</strong> of 90 days still free
-            <span class="sch-sub">— worst window {sch.window} uses {sch.worst}</span>
-          {:else}
+          {#if !sch.ok}
             <strong class="num">{sch.over}</strong> {sch.over === 1 ? 'day' : 'days'} over the limit
             <span class="sch-sub">— {sch.worst} days inside {sch.window}, cap is 90</span>
+          {:else if sch.atLimit}
+            <strong class="num">0</strong> of 90 days left
+            <span class="sch-sub">— worst window {sch.window} is at the cap</span>
+          {:else}
+            <strong class="num">{sch.remaining}</strong> of 90 days still free
+            <span class="sch-sub">— worst window {sch.window} uses {sch.worst}</span>
           {/if}
         </p>
       {/if}
@@ -366,7 +412,9 @@
           <option value="some">Fewer long hops</option>
           <option value="strict">Minimize travel</option>
         </select>
-        <button type="button" class="go" onclick={runPlanner}>Propose my year</button>
+        <button type="button" class="go" onclick={runPlanner} disabled={planning}>
+          {planning ? 'Planning…' : 'Propose my year'}
+        </button>
         <span class="fcount num">{filteredCities.length} of {cities.length} cities pass</span>
       </div>
     </div>
@@ -407,6 +455,11 @@
         <input type="search" placeholder="Search 111 cities…" bind:value={query} />
       </div>
     </div>
+    {#if sch.anySchengen}
+      <p class="schbudget num" class:warn={!sch.ok}>
+        ◆ {#if sch.ok}{schLeft} of 90 Schengen days left in your tightest window{:else}{sch.over} days over the Schengen cap{/if}
+      </p>
+    {/if}
     <div class="legendrow"><Legend /></div>
     {#if pickerList.length === 0}
       <p class="picker-empty">
@@ -419,14 +472,26 @@
       </p>
     {/if}
     <ul class="rows">
-      {#each pickerList as { c, s } (c.key)}
+      {#each pickerList as { c, s, breach } (c.key)}
         <li>
-          <button type="button" class="rowname" onclick={() => onopen(c.key)}>
-            {c.name}<em>{c.country}{c.schengen ? ' ◆' : ''}</em>
-          </button>
+          <div class="rowmain">
+            <button type="button" class="rowname" onclick={() => onopen(c.key)}>
+              {c.name}<em>{c.country}{c.schengen ? ' ◆' : ''}</em>
+            </button>
+            {#if breach}
+              <span class="rowwarn" title="Adding this Schengen stay pushes the rolling 90/180 window over 90 days">◆ over 90/180</span>
+            {/if}
+          </div>
           <div class="rowstrip"><MonthStrip cells={stripCells(c, preset)} selected={selStart} /></div>
           <span class="num rowq">{Math.round(s)}</span>
-          <button type="button" class="add" onclick={() => addStay(c.key)} disabled={!emptyMonths.length}>
+          <button
+            type="button"
+            class="add"
+            class:warn={breach}
+            onclick={() => addStay(c.key)}
+            disabled={!emptyMonths.length}
+            title={breach ? 'Will exceed the Schengen 90/180 limit' : null}
+          >
             Add
           </button>
         </li>
@@ -450,6 +515,17 @@
     border: 1px solid var(--line);
     border-radius: 16px;
     padding: 18px 20px 16px;
+  }
+
+  /* One-shot confirmation when a proposal is applied to the timeline above. */
+  .board.flash {
+    animation: boardflash 1s ease;
+  }
+
+  @keyframes boardflash {
+    0% { box-shadow: 0 0 0 0 rgba(193, 79, 43, 0); border-color: var(--line); }
+    22% { box-shadow: 0 0 0 4px rgba(193, 79, 43, 0.22); border-color: var(--terra); }
+    100% { box-shadow: 0 0 0 0 rgba(193, 79, 43, 0); border-color: var(--line); }
   }
 
   @media (max-width: 600px) {
@@ -763,6 +839,18 @@
 
   .add:disabled { opacity: 0.35; cursor: default; }
 
+  /* Breach-aware Add: warn (terracotta outline) but stay clickable. */
+  .add.warn {
+    background: transparent;
+    color: var(--terra-deep);
+    border-color: var(--terra);
+  }
+
+  .add.warn:hover:not(:disabled) {
+    background: var(--terra);
+    color: var(--paper);
+  }
+
   .fcount { font-size: 11.5px; color: var(--ink-3); margin-left: auto; }
 
   .planmsg {
@@ -811,6 +899,15 @@
 
   .legendrow { margin-bottom: 8px; }
 
+  .schbudget {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--schengen);
+  }
+
+  .schbudget.warn { color: var(--band-bad); }
+
   .pickctl { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--ink-2); }
   .pickctl input { width: 200px; }
 
@@ -834,6 +931,25 @@
     gap: 14px;
     padding: 7px 0;
     border-top: 1px solid var(--line-soft);
+  }
+
+  .rowmain {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .rowwarn {
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #7d2c12;
+    background: #f3ddd2;
+    border-radius: 999px;
+    padding: 1px 7px;
+    white-space: nowrap;
   }
 
   .rowname {
