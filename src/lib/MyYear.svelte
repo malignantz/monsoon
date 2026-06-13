@@ -1,6 +1,7 @@
 <script>
   import MonthStrip from './MonthStrip.svelte';
   import ScoreInfo from './ScoreInfo.svelte';
+  import Legend from './Legend.svelte';
   import {
     cities,
     cityByKey,
@@ -11,14 +12,13 @@
     MONTHS,
     MONTH_LETTERS,
     TEMPLATES,
-    PRESETS,
     monthOccupancy,
     routeStats,
     stayMonths
   } from './data.svelte.js';
   import { defaultFilters, filtersActive, cityPasses, stayPasses, proposeRoutes, routeTravelKm } from './planner.js';
 
-  let { preset, onpreset, onopen } = $props();
+  let { preset, onopen } = $props();
 
   const STORE = 'atlas.route.v1';
   const STORE_F = 'atlas.route.filters.v1';
@@ -125,6 +125,8 @@
   function loadTemplate(t) {
     stays = t.stays.map((s) => ({ ...s }));
     selStart = -1;
+    // On touch there's no mouseenter — show the tapped template's blurb right away.
+    hoverTemplate = t.id;
   }
 
   function clearRoute() {
@@ -209,7 +211,7 @@
 </script>
 
 <section class="wrap">
-  <header class="head">
+  <header class="view-head">
     <div>
       <p class="kicker">Build the year</p>
       <h1>My year<span class="dot">.</span></h1>
@@ -230,19 +232,6 @@
         {/each}
         <button type="button" class="chip clear" onclick={clearRoute}>Clear</button>
       </div>
-      <div class="preset-ctl">
-        <span class="preset-lbl">Optimize for</span>
-        <select
-          value={preset}
-          title={PRESETS[preset].blurb}
-          aria-label="Priority preset"
-          onchange={(e) => onpreset(e.currentTarget.value)}
-        >
-          {#each Object.entries(PRESETS) as [k, v]}
-            <option value={k}>{v.label}</option>
-          {/each}
-        </select>
-      </div>
     </div>
     {#if visibleBlurb}
       <p class="tblurb">{visibleBlurb}</p>
@@ -250,6 +239,7 @@
   </header>
 
   <div class="board">
+    <div class="boardscroll">
     <div class="months num">
       {#each MONTH_LETTERS as l, i}
         <span class:sel={i === selStart}>{l}</span>
@@ -294,6 +284,7 @@
         {/each}
       {/each}
     </div>
+    </div>
 
     {#if stays.length === 0}
       <p class="board-hint">Click any month above to mark a starting point, then choose a city from the list below — or pick a template.</p>
@@ -305,10 +296,12 @@
         <p>EU short-stay visa: max 90 days in any rolling 180-day window.</p>
         <p>◆ marks Schengen-area countries. Exceeding 90 days requires a visa or a non-Schengen break.</p>
       </ScoreInfo>
-      <div class="track">
-        <div class="used" style="width: {Math.min(100, (stats.schengen.worst / 90) * 100)}%"></div>
-        <div class="limit"></div>
-      </div>
+      {#if stats.schengen.anySchengen}
+        <div class="track">
+          <div class="used" style="width: {Math.min(100, (stats.schengen.worst / 90) * 100)}%"></div>
+          <div class="limit"></div>
+        </div>
+      {/if}
       <span class="mread num">
         {#if !stats.schengen.anySchengen}
           no Schengen stays
@@ -441,6 +434,17 @@
         <input type="search" placeholder="Search 111 cities…" bind:value={query} />
       </div>
     </div>
+    <div class="legendrow"><Legend /></div>
+    {#if pickerList.length === 0}
+      <p class="picker-empty">
+        {query.trim()
+          ? 'No cities match your search and filters.'
+          : `${filteredCities.length} of ${cities.length} cities pass your filters — loosen one to see options here.`}
+        {#if filtersActive(filters)}
+          <button type="button" class="chip clear" onclick={resetFilters}>Reset filters</button>
+        {/if}
+      </p>
+    {/if}
     <ul class="rows">
       {#each pickerList as { c, s } (c.key)}
         <li>
@@ -461,18 +465,6 @@
 <style>
   .wrap { padding-bottom: 70px; }
 
-  .head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 14px;
-    margin: 28px 0 20px;
-  }
-
-  h1 { font-size: 56px; font-weight: 600; }
-  .dot { color: var(--terra); }
-
   .head-right {
     display: flex;
     flex-direction: column;
@@ -482,20 +474,6 @@
 
   .templates { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
   .chip.clear { color: var(--terra-deep); }
-
-  .preset-ctl {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-  }
-
-  .preset-lbl {
-    font-size: 10px;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    font-family: var(--sans);
-  }
 
   .tblurb {
     margin: 6px 0 0;
@@ -511,6 +489,18 @@
     border: 1px solid var(--line);
     border-radius: 16px;
     padding: 18px 20px 16px;
+  }
+
+  @media (max-width: 600px) {
+    .boardscroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .boardscroll .months,
+    .boardscroll .timeline {
+      min-width: 560px;
+    }
   }
 
   .months {
@@ -614,6 +604,10 @@
   }
 
   .stay:hover .dur-ctl { opacity: 1; }
+
+  @media (hover: none) {
+    .dur-ctl { opacity: 1; }
+  }
 
   .dur-val {
     font-size: 9.5px;
@@ -809,10 +803,23 @@
     margin-bottom: 10px;
   }
 
-  h2 { font-size: 22px; font-weight: 580; }
+  h2 { font-size: var(--h2); font-weight: 580; }
+
+  .legendrow { margin-bottom: 8px; }
 
   .pickctl { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--ink-2); }
   .pickctl input { width: 200px; }
+
+  .picker-empty {
+    margin: 14px 0;
+    padding: 22px 0;
+    text-align: center;
+    border-top: 1px solid var(--line-soft);
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 13.5px;
+    color: var(--ink-2);
+  }
 
   .rows { list-style: none; margin: 0; padding: 0; }
 

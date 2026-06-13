@@ -3,7 +3,7 @@
   import MyYear from './lib/MyYear.svelte';
   import Explore from './lib/Explore.svelte';
   import CitySheet from './lib/CitySheet.svelte';
-  import { cityByKey, MONTHS, MONTH_LETTERS, PRESETS } from './lib/data.svelte.js';
+  import { cities, cityByKey, qolFor, valueFor, MONTHS, MONTH_LETTERS, PRESETS } from './lib/data.svelte.js';
 
   const PREFS = 'atlas.prefs.v1';
 
@@ -17,24 +17,44 @@
 
   const p = loadPrefs();
 
+  const currentMonth = new Date().getMonth();
+
   let view = $state(p.view ?? 'month');
-  let month = $state(p.month ?? new Date().getMonth());
+  let month = $state(currentMonth);
   let mode = $state(p.mode ?? 'quality');
   let preset = $state(PRESETS[p.preset] ? p.preset : 'balanced');
   let valueModel = $state(p.valueModel ?? 'adjusted');
   let cityKey = $state(new URLSearchParams(location.search).get('city'));
 
   $effect(() => {
-    localStorage.setItem(PREFS, JSON.stringify({ view, month, mode, preset, valueModel }));
+    localStorage.setItem(PREFS, JSON.stringify({ view, mode, preset, valueModel }));
   });
 
   const openCity = $derived(cityKey ? cityByKey.get(cityKey) : null);
 
-  function openSheet(key) {
+  // Same ranking the views use (unfiltered), so ←/→ in the sheet flips
+  // through the deck in the order the user is browsing it.
+  const rankedKeys = $derived(
+    [...cities]
+      .map((c) => ({
+        key: c.key,
+        s: mode === 'value' ? valueFor(c, month, preset, valueModel) : qolFor(c, month, preset)
+      }))
+      .sort((a, b) => b.s - a.s)
+      .map((x) => x.key)
+  );
+
+  function openSheet(key, { replace = false } = {}) {
     cityKey = key;
     const u = new URL(location.href);
     u.searchParams.set('city', key);
-    history.pushState({}, '', u);
+    replace ? history.replaceState({}, '', u) : history.pushState({}, '', u);
+  }
+
+  function stepCity(dir) {
+    const i = rankedKeys.indexOf(cityKey);
+    if (i < 0) return;
+    openSheet(rankedKeys[(i + dir + rankedKeys.length) % rankedKeys.length], { replace: true });
   }
 
   function closeSheet() {
@@ -77,9 +97,9 @@
 
   </header>
 
-  {#if view !== 'year'}
-    <div class="toolbar">
-      <div class="ctl-group">
+  <div class="toolbar">
+    {#if view !== 'year'}
+      <div class="ctl-group monthgroup">
         <span class="ctl-lbl" aria-hidden="true">Viewing</span>
         <div class="monthsel" role="group" aria-label="Month">
           {#each MONTH_LETTERS as l, i}
@@ -87,10 +107,11 @@
               type="button"
               class="mbtn"
               class:on={i === month}
-              title={MONTHS[i]}
+              class:now={i === currentMonth}
+              title="{MONTHS[i]}{i === currentMonth ? ' (current month)' : ''}"
               onclick={() => (month = i)}
             >
-              {l}
+              {i === month ? MONTHS[i] : l}
             </button>
           {/each}
         </div>
@@ -103,8 +124,9 @@
           <button type="button" class:on={mode === 'value'} onclick={() => (mode = 'value')}>Value</button>
         </div>
       </div>
+    {/if}
 
-      <div class="ctl-group">
+    <div class="ctl-group">
         <span class="ctl-lbl" aria-hidden="true">Optimize for</span>
         <select bind:value={preset} title={PRESETS[preset].blurb} aria-label="Priority preset">
           {#each Object.entries(PRESETS) as [k, v]}
@@ -112,14 +134,13 @@
           {/each}
         </select>
       </div>
-    </div>
-  {/if}
+  </div>
 
   <main>
     {#if view === 'month'}
       <ThisMonth {month} {preset} {mode} {valueModel} onopen={openSheet} />
     {:else if view === 'year'}
-      <MyYear {preset} onpreset={(p) => (preset = p)} onopen={openSheet} />
+      <MyYear {preset} onopen={openSheet} />
     {:else}
       <Explore {month} {preset} {mode} {valueModel} onmodel={(m) => (valueModel = m)} onopen={openSheet} />
     {/if}
@@ -132,7 +153,7 @@
 </div>
 
 {#if openCity}
-  <CitySheet city={openCity} {month} {preset} onclose={closeSheet} onmonth={(i) => (month = i)} />
+  <CitySheet city={openCity} {month} {preset} onclose={closeSheet} onmonth={(i) => (month = i)} onstep={stepCity} />
 {/if}
 
 <style>
@@ -206,6 +227,16 @@
     gap: 10px;
     padding: 12px 0;
     border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--paper);
+    box-shadow: 0 6px 14px -12px rgba(33, 36, 30, 0.35);
+  }
+
+  .toolbar select {
+    height: 32px;
+    padding: 0 10px;
   }
 
   .ctl-group {
@@ -225,6 +256,8 @@
 
   .monthsel {
     display: flex;
+    align-items: center;
+    height: 32px;
     border: 1px solid var(--line);
     border-radius: 999px;
     overflow: hidden;
@@ -232,13 +265,37 @@
   }
 
   .mbtn {
+    position: relative;
     border: none;
     background: none;
     width: 26px;
-    padding: 5px 0;
+    height: 100%;
+    padding: 0;
     font-size: 11px;
     font-weight: 600;
     color: var(--ink-3);
+  }
+
+  .mbtn.now::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--terra);
+  }
+
+  .mbtn.on.now::after { background: #fdf3ec; }
+
+  .mbtn.on { width: auto; padding: 0 10px; }
+
+  @media (max-width: 700px) {
+    .monthgroup { width: 100%; }
+    .monthsel { width: 100%; height: 36px; }
+    .mbtn { width: auto; flex: 1; }
   }
 
   .mbtn:hover { color: var(--ink); }
@@ -250,6 +307,8 @@
 
   .seg {
     display: flex;
+    align-items: center;
+    height: 32px;
     border: 1px solid var(--line);
     border-radius: 999px;
     overflow: hidden;
@@ -262,7 +321,8 @@
     font-size: 12.5px;
     font-weight: 600;
     color: var(--ink-3);
-    padding: 6px 14px;
+    padding: 0 14px;
+    height: 100%;
   }
 
   .seg button.on {

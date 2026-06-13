@@ -3,7 +3,27 @@
   import ScoreInfo from './ScoreInfo.svelte';
   import { stripCells, qolFor, fmtMoney, fmtMonthRange, swimNow, MONTHS, eventsInMonth, PRESETS, detailStatus } from './data.svelte.js';
 
-  let { city, month, preset, onclose, onmonth } = $props();
+  let { city, month, preset, onclose, onmonth, onstep } = $props();
+
+  let sheetEl = $state(null);
+
+  $effect(() => {
+    const onkey = (e) => {
+      if (e.key === 'Escape') onclose();
+      else if (e.key === 'ArrowLeft') onstep?.(-1);
+      else if (e.key === 'ArrowRight') onstep?.(1);
+    };
+    window.addEventListener('keydown', onkey);
+    const prevFocus = document.activeElement;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    sheetEl?.focus();
+    return () => {
+      window.removeEventListener('keydown', onkey);
+      document.body.style.overflow = prevOverflow;
+      prevFocus?.focus?.();
+    };
+  });
 
   const pw = $derived(PRESETS[preset]?.w ?? PRESETS.balanced.w);
   const pct = (x) => Math.round(x * 100);
@@ -32,10 +52,25 @@
   }
 </script>
 
-<div class="scrim" role="dialog" aria-label="{city.name} city sheet">
-  <article class="sheet">
+<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
+<div class="scrim" onclick={(e) => e.target === e.currentTarget && onclose()}>
+  <article
+    class="sheet"
+    role="dialog"
+    aria-modal="true"
+    aria-label="{city.name} city sheet"
+    tabindex="-1"
+    bind:this={sheetEl}
+  >
     <header class="hero">
       <button type="button" class="back" onclick={onclose}>← Atlas</button>
+      <div class="hero-ctl">
+        {#if onstep}
+          <button type="button" class="back step" onclick={() => onstep(-1)} aria-label="Previous city" title="Previous city (←)">‹</button>
+          <button type="button" class="back step" onclick={() => onstep(1)} aria-label="Next city" title="Next city (→)">›</button>
+        {/if}
+        <button type="button" class="back close" onclick={onclose} aria-label="Close">×</button>
+      </div>
       <div class="title">
         <p class="kicker">{city.region} · {city.country} · {city.timezone ?? ''}</p>
         <h1>{city.name}</h1>
@@ -213,12 +248,36 @@
   }
 
   .sheet {
+    position: relative;
     max-width: 880px;
     margin: 0 auto;
     background: var(--paper);
     border-radius: 18px;
     border: 1px solid var(--line);
     padding: 26px 30px 18px;
+    outline: none;
+  }
+
+  .hero-ctl {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    display: flex;
+    gap: 6px;
+  }
+
+  .hero-ctl .back { margin-bottom: 0; }
+
+  .step {
+    padding: 3px 12px;
+    font-size: 16px;
+    line-height: 1.3;
+  }
+
+  .close {
+    padding: 3px 11px;
+    font-size: 17px;
+    line-height: 1.3;
   }
 
   .back {
@@ -233,7 +292,7 @@
 
   .back:hover { border-color: var(--ink-2); color: var(--ink); }
 
-  h1 { font-size: 44px; font-weight: 600; }
+  h1 { font-size: clamp(30px, 6vw, 44px); font-weight: 600; }
 
   .vibe {
     font-family: var(--display);

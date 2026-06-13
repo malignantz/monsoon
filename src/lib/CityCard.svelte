@@ -18,8 +18,8 @@
       <h3>{city.name}</h3>
       <span class="country">{city.country}</span>
     </div>
-    <div class="score band-{cells[month].band}">
-      <span class="num big">{mode === 'value' ? score.toFixed(1) : Math.round(score)}</span>
+    <div class="score {mode === 'value' ? 'neutral' : `band-${cells[month].band}`}">
+      <span class="num big">{Math.round(score)}</span>
       <span class="lbl">{mode === 'value' ? 'value' : 'quality'}</span>
     </div>
   </div>
@@ -33,7 +33,7 @@
     <span class="tags">
       <span class="tag">{city.region}</span>
       {#if city.schengen}<span class="tag schengen">◆ Schengen</span>{/if}
-      {#if m.risk >= 1}<span class="tag hazard">hazard</span>{/if}
+      {#if m.risk >= 1}<span class="tag hazard" title={m.riskNote}>hazard</span>{/if}
     </span>
   </div>
 </button>
@@ -83,6 +83,12 @@
     min-width: 56px;
     border-radius: 10px;
     padding: 6px 8px 4px;
+  }
+
+  .neutral {
+    background: var(--card);
+    color: var(--ink);
+    border: 1px solid var(--line);
   }
 
   .band-great { background: var(--band-great); color: var(--band-great-ink); }

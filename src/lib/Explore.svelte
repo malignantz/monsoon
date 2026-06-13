@@ -1,5 +1,6 @@
 <script>
   import ScoreInfo from './ScoreInfo.svelte';
+  import Legend from './Legend.svelte';
   import { cities, regions, qolFor, valueFor, fmtMoney, swimNow, MONTHS, settings } from './data.svelte.js';
 
   let { month, preset, mode, valueModel, onmodel, onopen } = $props();
@@ -22,6 +23,18 @@
     { k: 'cost1', label: 'Solo /mo',  num: true, tip: 'Estimated monthly cost of living, one person (USD)' },
     { k: 'cost2', label: 'Couple /mo', num: true, tip: 'Estimated monthly cost of living, two people (USD)' }
   ];
+
+  const filtersActive = $derived(
+    region !== 'all' || maxCost !== '' || minQol !== '' || nonSchengen || swimOnly
+  );
+
+  function resetFilters() {
+    region = 'all';
+    maxCost = '';
+    minQol = '';
+    nonSchengen = false;
+    swimOnly = false;
+  }
 
   function setSort(k) {
     if (sortKey === k) sortDir = -sortDir;
@@ -46,6 +59,7 @@
         cost1: m.cost1,
         cost2: m.cost2,
         risk: m.risk,
+        riskNote: m.riskNote,
         schengen: c.schengen,
         swim: swimNow(c, month)
       };
@@ -73,55 +87,88 @@
 </script>
 
 <section>
-  <header class="head">
+  <header class="view-head">
     <div>
       <p class="kicker">The full dataset · {MONTHS[month]}</p>
       <h1>Explore<span class="dot">.</span></h1>
     </div>
     <div class="filters">
-      <select bind:value={region}>
-        <option value="all">All regions</option>
-        {#each regions as r}<option value={r}>{r}</option>{/each}
-      </select>
-      <input type="number" placeholder="Max couple $/mo" bind:value={maxCost} />
-      <input type="number" placeholder="Min quality" bind:value={minQol} />
-      <label class="cb"><input type="checkbox" bind:checked={nonSchengen} /> non-Schengen</label>
-      <label class="cb"><input type="checkbox" bind:checked={swimOnly} /> ≋ swimmable in {MONTHS[month]}</label>
-      <label class="cb">
-        <input
-          type="checkbox"
-          checked={valueModel === 'classic'}
-          onchange={(e) => onmodel(e.currentTarget.checked ? 'classic' : 'adjusted')}
-        />
-        classic value
-      </label>
+      <div class="fgroup">
+        <span class="flbl" aria-hidden="true">Region</span>
+        <select bind:value={region} aria-label="Region">
+          <option value="all">All regions</option>
+          {#each regions as r}<option value={r}>{r}</option>{/each}
+        </select>
+      </div>
+      <div class="fgroup">
+        <span class="flbl" aria-hidden="true">Max $/mo couple</span>
+        <input type="number" placeholder="any" aria-label="Max couple $/mo" bind:value={maxCost} />
+      </div>
+      <div class="fgroup">
+        <span class="flbl" aria-hidden="true">Min quality</span>
+        <input type="number" placeholder="any" aria-label="Min quality" bind:value={minQol} />
+      </div>
+      <span class="vdiv" aria-hidden="true"></span>
+      <div class="cbs">
+        <label class="cb"><input type="checkbox" bind:checked={nonSchengen} /> non-Schengen</label>
+        <label class="cb"><input type="checkbox" bind:checked={swimOnly} /> ≋ swimmable in {MONTHS[month]}</label>
+        {#if filtersActive}
+          <button type="button" class="chip clear" onclick={resetFilters}>Reset</button>
+        {/if}
+      </div>
       <ScoreInfo title="Value index" align="right">
         <p>Quality divided by cost — but cost is damped
           (cost<sup>{settings.value_cost_exponent ?? 0.55}</sup>) so "best value" rewards
           cheap-<em>and</em>-nice, not merely cheap.</p>
         <p>Tick "classic value" for plain quality ÷ cost per $1k, where cheapness dominates.</p>
+        <label class="cb pop-toggle">
+          <input
+            type="checkbox"
+            checked={valueModel === 'classic'}
+            onchange={(e) => onmodel(e.currentTarget.checked ? 'classic' : 'adjusted')}
+          />
+          classic value
+        </label>
         <p class="src">A unitless index — compare cities, don't read it as $ per anything.</p>
       </ScoreInfo>
     </div>
   </header>
 
+  <div class="legendrow"><Legend /></div>
+
+  <div class="tableouter">
   <div class="tablewrap">
     <table>
       <thead>
         <tr>
           {#each COLS as col}
-            <th class:numh={col.num} class:sorted={sortKey === col.k} title={col.tip} onclick={() => setSort(col.k)}>
-              {col.label}{#if col.num}<span class="sort-arrow">{sortKey === col.k ? (sortDir < 0 ? '↓' : '↑') : '⇅'}</span>{/if}
+            <th
+              class:numh={col.num}
+              class:sorted={sortKey === col.k}
+              aria-sort={sortKey === col.k ? (sortDir < 0 ? 'descending' : 'ascending') : undefined}
+            >
+              <button type="button" class="thbtn" title={col.tip} onclick={() => setSort(col.k)}>
+                {col.label}{#if col.num}<span class="sort-arrow">{sortKey === col.k ? (sortDir < 0 ? '↓' : '↑') : '⇅'}</span>{/if}
+              </button>
             </th>
           {/each}
         </tr>
       </thead>
       <tbody>
+        {#if rows.length === 0}
+          <tr class="empty">
+            <td colspan="8">
+              No cities match — try raising the budget or clearing a filter.
+              <button type="button" class="chip clear" onclick={resetFilters}>Reset filters</button>
+            </td>
+          </tr>
+        {/if}
         {#each rows as r (r.c.key)}
           <tr onclick={() => onopen(r.c.key)}>
             <td class="city">
               {r.name}
-              <em>{r.region}{r.schengen ? ' ◆' : ''}{r.swim ? ' ≋' : ''}{r.risk >= 1 ? ' ⚠' : ''}</em>
+              <em>{r.region}{r.schengen ? ' ◆' : ''}{r.swim ? ' ≋' : ''}{#if r.risk >= 1}
+                  <span class="hz" title={r.riskNote}>⚠</span>{/if}</em>
             </td>
             <td class="num {shade(r.qol)}">{Math.round(r.qol)}</td>
             <td class="num">{r.value.toFixed(1)}</td>
@@ -135,30 +182,52 @@
       </tbody>
     </table>
   </div>
+  </div>
   <p class="count">{rows.length} of {cities.length} cities · sorted by {sortKey}</p>
 </section>
 
 <style>
-  .head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 14px;
-    margin: 28px 0 18px;
-  }
-
-  h1 { font-size: 56px; font-weight: 600; }
-  .dot { color: var(--terra); }
-
   .filters {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
+    gap: 10px;
+    align-items: flex-end;
   }
 
-  .filters input[type='number'] { width: 130px; }
+  .filters input[type='number'] { width: 120px; }
+
+  .fgroup {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .flbl {
+    font-size: 9.5px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    line-height: 1;
+  }
+
+  .vdiv {
+    align-self: stretch;
+    width: 1px;
+    background: var(--line);
+    margin: 0 2px;
+  }
+
+  .cbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 6px;
+  }
+
+  .filters :global(.wrap) { margin-bottom: 6px; }
+
+  .pop-toggle { margin: 2px 0 7px; }
 
   .cb {
     display: flex;
@@ -166,6 +235,38 @@
     gap: 5px;
     font-size: 12.5px;
     color: var(--ink-2);
+  }
+
+  .legendrow { margin: 0 2px 10px; }
+
+  .tableouter { position: relative; }
+
+  th:first-child,
+  td.city {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--card);
+  }
+
+  tbody tr:hover td.city { background: var(--paper-2); }
+
+  @media (max-width: 700px) {
+    /* Solo cost is secondary everywhere else in the app — drop it to cut scroll distance */
+    th:nth-child(7),
+    td:nth-child(7) { display: none; }
+
+    .tableouter::after {
+      content: '';
+      position: absolute;
+      top: 1px;
+      bottom: 1px;
+      right: 1px;
+      width: 26px;
+      border-radius: 0 14px 14px 0;
+      background: linear-gradient(90deg, transparent, rgba(33, 36, 30, 0.08));
+      pointer-events: none;
+    }
   }
 
   .tablewrap {
@@ -195,6 +296,29 @@
 
   th:first-child { text-align: left; }
   th:hover { color: var(--ink); }
+
+  .thbtn {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    white-space: inherit;
+  }
+
+  .chip.clear { color: var(--terra-deep); }
+
+  .hz { cursor: help; }
+
+  tr.empty td {
+    text-align: center;
+    padding: 30px 14px;
+    color: var(--ink-2);
+    font-size: 13.5px;
+    white-space: normal;
+  }
 
   .sort-arrow {
     margin-left: 3px;
