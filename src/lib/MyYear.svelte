@@ -14,11 +14,12 @@
     monthOccupancy,
     routeStats,
     stayMonths,
-    schengenCheck
+    schengenCheck,
+    PRESETS
   } from './data.svelte.js';
   import { defaultFilters, filtersActive, cityPasses, stayPasses, proposeRoutes, routeTravelKm } from './planner.js';
 
-  let { preset, onopen } = $props();
+  let { preset = $bindable(), onopen } = $props();
 
   const STORE = 'atlas.route.v1';
   const STORE_F = 'atlas.route.filters.v1';
@@ -238,11 +239,19 @@
       <p class="kicker">Build the year</p>
       <h1>My year<span class="dot">.</span></h1>
     </div>
-    {#if stays.length > 0}
-      <div class="head-right">
+    <div class="head-right">
+      <label class="optfor">
+        <span class="optfor-lbl">Optimize for</span>
+        <select bind:value={preset} title={PRESETS[preset].blurb} aria-label="Priority preset">
+          {#each Object.entries(PRESETS) as [k, v]}
+            <option value={k}>{v.label}</option>
+          {/each}
+        </select>
+      </label>
+      {#if stays.length > 0}
         <button type="button" class="chip clear" onclick={clearRoute}>Clear route</button>
-      </div>
-    {/if}
+      {/if}
+    </div>
   </header>
 
   <div class="board" class:flash bind:this={boardEl}>
@@ -506,6 +515,26 @@
   .head-right {
     display: flex;
     align-items: flex-end;
+    gap: 14px;
+  }
+
+  .optfor {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .optfor-lbl {
+    font-size: 9.5px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    line-height: 1;
+  }
+
+  .optfor select {
+    height: 32px;
+    padding: 0 10px;
   }
 
   .chip.clear { color: var(--terra-deep); }
