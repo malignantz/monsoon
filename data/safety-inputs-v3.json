@@ -1,0 +1,1664 @@
+{
+ "Mexico City": {
+  "propertySub": 45,
+  "womensAdj": -11,
+  "propertyNote": "Central boroughs (Roma, Condesa, Polanco) low theft; metro-wide petty crime",
+  "womensSafetyNote": "Gallup MX women feel-safe low; central districts patrolled",
+  "touristMod": 1.08,
+  "touristRationale": "Central tourist boroughs far safer than the citywide figure; main visitor risks are petty theft and express kidnapping via unregulated taxis.",
+  "touristTags": [
+   "tourist-zones-safer",
+   "petty-theft",
+   "express-kidnapping-taxi"
+  ],
+  "homicideOverride": 10.0,
+  "homicideScope": "entity",
+  "homicideSource": "CDMX SESNSP (~13/100k 2020, declining)",
+  "homicideUrl": "https://en.wikipedia.org/wiki/List_of_Mexican_states_by_homicides",
+  "localLevel": 2,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -11 preserves pre-WPS hand-set womensSafety 42 vs country Gallup baseline 53 (CS 41%)"
+  }
+ },
+ "Mérida": {
+  "propertySub": 80,
+  "womensAdj": 25,
+  "propertyNote": "Safest state capital; very low street theft",
+  "womensSafetyNote": "Yucatán women report high safety",
+  "touristMod": 1.12,
+  "touristRationale": "Safest state capital in Mexico; violent crime against residents and visitors is rare.",
+  "touristTags": [
+   "very-low-crime",
+   "tourist-safe"
+  ],
+  "homicideOverride": 1.8,
+  "homicideScope": "city",
+  "homicideSource": "Yucatán SESNSP 2024 (~1.8/100k)",
+  "homicideUrl": "https://yucatanmagazine.com/merida-has-lowest-crime-rate-mexico-safety/",
+  "localLevel": 1,
+  "_audit": {
+   "date": "2026-06",
+   "note": "2026-06 review: Yucatán lowest-crime state, women report high safety — delta kept"
+  }
+ },
+ "Oaxaca": {
+  "propertySub": 70,
+  "womensAdj": 11,
+  "propertyNote": "Calm colonial tourist core; modest petty theft",
+  "womensSafetyNote": "Moderate; harassment less than border/coast",
+  "touristMod": 1.12,
+  "touristRationale": "State violence is concentrated in the Isthmus and coast, not the capital; the tourist core is calm.",
+  "touristTags": [
+   "tourist-zones-safer",
+   "violence-elsewhere-in-state"
+  ],
+  "homicideOverride": 15.0,
+  "homicideScope": "state",
+  "homicideSource": "Oaxaca state SESNSP (19.5/100k 2020; capital lower)",
+  "homicideUrl": "https://en.wikipedia.org/wiki/List_of_Mexican_states_by_homicides",
+  "localLevel": 2,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +11 preserves pre-WPS hand-set womensSafety 64 vs country Gallup baseline 53 (CS 41%)"
+  }
+ },
+ "Puebla": {
+  "propertySub": 55,
+  "propertyNote": "Well-policed historic center; petty theft + highway risk around",
+  "womensSafetyNote": "Survey: many women report feeling unsafe citywide",
+  "touristMod": 1.08,
+  "touristRationale": "Historic center is well-policed; risks are petty theft and intercity-highway crime, not tourist-targeted violence.",
+  "touristTags": [
+   "tourist-zones-safer",
+   "petty-theft",
+   "highway-caution"
+  ],
+  "homicideOverride": 12.0,
+  "homicideScope": "state",
+  "homicideSource": "Puebla state SESNSP (~13.7/100k 2020)",
+  "homicideUrl": "https://en.wikipedia.org/wiki/List_of_Mexican_states_by_homicides",
+  "localLevel": 2
+ },
+ "San Miguel de Allende": {
+  "propertySub": 75,
+  "womensAdj": 15,
+  "propertyNote": "Walkable expat core, very low street theft",
+  "womensSafetyNote": "Expat community reports feeling safe; statewide women's safety low",
+  "touristMod": 1.4,
+  "touristRationale": "Guanajuato's Bajío cartel war is intra-criminal and concentrated in peripheral neighborhoods; the Centro Histórico and large expat community see little violent crime (Oct 2025: zero municipal homicides, calmest month in 20 years). Tourists are rarely targeted — but an Aug 2025 festival shooting (2 dead, 17 wounded) shows public-space exposure isn't zero, so the visitor modifier is generous (1.40, the model max) but not unbounded.",
+  "touristTags": [
+   "intra-cartel",
+   "expat-haven",
+   "tourist-rarely-targeted"
+  ],
+  "homicideOverride": 49.3,
+  "homicideScope": "city",
+  "homicideSource": "SESNSP via Mexico News Daily, 50th most violent municipality, 12mo to Aug 2025",
+  "homicideUrl": "https://mexiconewsdaily.com/news/5-tourism-destinations-among-mexico-most-violent-municipalities/",
+  "localLevel": 3,
+  "localArea": "Guanajuato",
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +15 preserves pre-WPS hand-set womensSafety 68 vs country Gallup baseline 53 (CS 41%)"
+  }
+ },
+ "Antigua": {
+  "propertySub": 55,
+  "womensAdj": -5,
+  "propertyNote": "Tourist-friendly colonial town; petty theft and scams",
+  "womensSafetyNote": "Moderate; tour with awareness",
+  "touristMod": 1.15,
+  "touristRationale": "Guatemala's violence is concentrated elsewhere; Antigua is a managed tourist town, though it sits under a national Level-3 advisory.",
+  "touristTags": [
+   "tourist-zones-safer",
+   "violence-elsewhere-in-state",
+   "scams-common"
+  ],
+  "homicideOverride": 7.0,
+  "homicideScope": "region",
+  "homicideSource": "Sacatepéquez among Guatemala's safer departments (estimate)",
+  "homicideUrl": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -5 preserves pre-WPS hand-set womensSafety 50 vs country Gallup baseline 55 (CS 46%)"
+  }
+ },
+ "Lake Atitlán (Panajachel)": {
+  "propertySub": 55,
+  "womensAdj": -5,
+  "propertyNote": "Lakeside tourist villages; petty theft, occasional robbery",
+  "womensSafetyNote": "Moderate",
+  "touristMod": 1.15,
+  "touristRationale": "Sololá highlands are calmer than Guatemala's violent corridors; national Level-3 advisory still applies.",
+  "touristTags": [
+   "tourist-zones-safer",
+   "violence-elsewhere-in-state"
+  ],
+  "homicideOverride": 6.0,
+  "homicideScope": "region",
+  "homicideSource": "Sololá among Guatemala's safer departments (estimate)",
+  "homicideUrl": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -5 preserves pre-WPS hand-set womensSafety 50 vs country Gallup baseline 55 (CS 46%)"
+  }
+ },
+ "San José": {
+  "propertySub": 50,
+  "womensAdj": -6,
+  "propertyNote": "Notable petty theft, bag-snatching, scams in the capital",
+  "womensSafetyNote": "Moderate; harassment reported",
+  "touristMod": 1.05,
+  "touristRationale": "Costa Rica's tourism is well-managed; San José sees property crime more than tourist-targeted violence.",
+  "touristTags": [
+   "petty-theft",
+   "scams-common"
+  ],
+  "homicideOverride": 12.0,
+  "homicideScope": "city",
+  "homicideSource": "San José metro estimate (CR national 17.8/100k 2023)",
+  "homicideUrl": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -6 preserves pre-WPS hand-set womensSafety 48 vs country Gallup baseline 54 (CS 44%)"
+  }
+ },
+ "Boquete": {
+  "propertySub": 65,
+  "womensAdj": 4,
+  "propertyNote": "Quiet expat mountain town; little street crime",
+  "womensSafetyNote": "Calm; expats report feeling safe",
+  "touristMod": 1.05,
+  "touristRationale": "Chiriquí highlands are among Panama's safest areas; established retiree community.",
+  "touristTags": [
+   "expat-haven",
+   "very-low-crime"
+  ],
+  "homicideOverride": 2.5,
+  "homicideScope": "region",
+  "homicideSource": "Chiriquí province well below Panama's 11.7/100k national (estimate)",
+  "homicideUrl": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +4 preserves pre-WPS hand-set womensSafety 64 vs country Gallup baseline 60 (CS 54%)"
+  }
+ },
+ "Medellín": {
+  "propertySub": 50,
+  "womensAdj": -7,
+  "propertyNote": "Petty theft and scams common in tourist zones (Poblado, Laureles)",
+  "womensSafetyNote": "Drugging/robbery risk via dating apps; women advised caution",
+  "touristMod": 0.95,
+  "touristRationale": "Homicides at an 80-year low, but tourists face real targeted risk: scopolamine drugging, dating-app robbery and overdose deaths.",
+  "touristTags": [
+   "scams-common",
+   "nightlife-risk",
+   "women-safety-caution"
+  ],
+  "homicideOverride": 11.0,
+  "homicideScope": "city",
+  "homicideSource": "Medellín 2024 ~11/100k, lowest since 1942",
+  "homicideUrl": "https://colombiaone.com/2024/12/16/medellin-homicide-rate/",
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -7 preserves pre-WPS hand-set womensSafety 46 vs country Gallup baseline 53 (CS 42%)"
+  }
+ },
+ "Cuenca": {
+  "propertySub": 62,
+  "womensAdj": 14,
+  "propertyNote": "Calm Andean expat city; modest petty theft",
+  "womensSafetyNote": "Highland city; women report feeling relatively safe",
+  "touristMod": 1.12,
+  "touristRationale": "Ecuador's homicide crisis is a coastal trafficking crisis; Cuenca sits in the Andes off the routes (1.4/100k H1 2025) — far safer than the national figure.",
+  "touristTags": [
+   "expat-haven",
+   "violence-elsewhere-in-state"
+  ],
+  "homicideOverride": 1.4,
+  "homicideScope": "city",
+  "homicideSource": "Cuenca/Azuay H1 2025 ~1.4/100k",
+  "homicideUrl": "https://cuencahighlife.com/cuencas-murder-rate-drops-dramatically-while-most-other-crime-categories-show-reductions/",
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +14 preserves pre-WPS hand-set womensSafety 58 vs country Gallup baseline 44 (CS 31%)"
+  }
+ },
+ "Cusco": {
+  "propertySub": 50,
+  "propertyNote": "Tourist hub; pickpocketing, scams, occasional strangle-robbery at night",
+  "womensSafetyNote": "Moderate; harassment reported",
+  "touristMod": 1.0,
+  "touristRationale": "Andean tourist center; property crime and scams are the main visitor risks.",
+  "touristTags": [
+   "petty-theft",
+   "scams-common"
+  ]
+ },
+ "Arequipa": {
+  "propertySub": 52,
+  "propertyNote": "Colonial tourist city; pickpocketing and taxi scams",
+  "womensSafetyNote": "Moderate",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft",
+   "scams-common"
+  ]
+ },
+ "Buenos Aires": {
+  "propertySub": 52,
+  "propertyNote": "Pickpocketing and bag-snatching common; violent crime low",
+  "womensSafetyNote": "Generally comfortable in central barrios; petty crime aside",
+  "touristMod": 1.0,
+  "touristRationale": "Homicide at a 31-year low; the visitor issue is property crime, not violence.",
+  "touristTags": [
+   "petty-theft",
+   "bag-snatching"
+  ],
+  "homicideOverride": 4.6,
+  "homicideScope": "city",
+  "homicideSource": "CABA 2023 ~4.6/100k, lowest in 31 years",
+  "homicideUrl": "https://buenosairesherald.com/society/buenos-aires-city-records-lowest-homicide-rate-in-31-years"
+ },
+ "Montevideo": {
+  "propertySub": 55,
+  "propertyNote": "Petty theft and phone-snatching; some armed robbery in outer areas",
+  "womensSafetyNote": "Moderate",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft",
+   "bag-snatching"
+  ],
+  "homicideOverride": 13.0,
+  "homicideScope": "city",
+  "homicideSource": "Montevideo above Uruguay's 11.3/100k national (estimate)",
+  "homicideUrl": null
+ },
+ "Santiago": {
+  "propertySub": 50,
+  "propertyNote": "Rising property crime, pickpocketing, smash-and-grab",
+  "womensSafetyNote": "Moderate",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft",
+   "scams-common"
+  ]
+ },
+ "Florianópolis": {
+  "propertySub": 58,
+  "propertyNote": "One of Brazil's safer capitals; beach-area petty theft",
+  "womensSafetyNote": "Moderate",
+  "touristMod": 1.05,
+  "touristRationale": "Santa Catarina is among Brazil's safest states; far below the national homicide figure.",
+  "touristTags": [
+   "tourist-zones-safer",
+   "petty-theft"
+  ],
+  "homicideOverride": 10.0,
+  "homicideScope": "city",
+  "homicideSource": "Santa Catarina among Brazil's safest states (estimate; national 19.3/100k)",
+  "homicideUrl": null
+ },
+ "Vienna": {
+  "propertySub": 85,
+  "propertyNote": "Very low street crime; isolated pickpocketing",
+  "womensSafetyNote": "Women report high safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": []
+ },
+ "Berlin": {
+  "propertySub": 72,
+  "womensAdj": -7,
+  "propertyNote": "Some pickpocketing and bike theft; districts vary",
+  "womensSafetyNote": "Generally safe; nightlife awareness",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -7 preserves pre-WPS hand-set womensSafety 70 vs country Gallup baseline 77 (CS 78%)"
+  }
+ },
+ "Paris": {
+  "propertySub": 52,
+  "womensAdj": -14,
+  "propertyNote": "Heavy pickpocketing and bag-snatching in tourist zones/metro",
+  "womensSafetyNote": "Metro harassment reported",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "bag-snatching",
+   "petty-theft"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -14 preserves pre-WPS hand-set womensSafety 56 vs country Gallup baseline 70 (CS 70%)"
+  }
+ },
+ "Nice": {
+  "propertySub": 58,
+  "womensAdj": -10,
+  "propertyNote": "Riviera petty theft, beach and station pickpocketing",
+  "womensSafetyNote": "Moderate",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -10 preserves pre-WPS hand-set womensSafety 60 vs country Gallup baseline 70 (CS 70%)"
+  }
+ },
+ "London": {
+  "propertySub": 60,
+  "womensAdj": -13,
+  "propertyNote": "Phone-snatching and pickpocketing; violent crime localized",
+  "womensSafetyNote": "Generally safe; transport awareness",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -13 preserves pre-WPS hand-set womensSafety 60 vs country Gallup baseline 73 (CS 73%)"
+  }
+ },
+ "Dublin": {
+  "propertySub": 60,
+  "womensAdj": -7,
+  "propertyNote": "City-center pickpocketing, bike theft, some antisocial nighttime crime",
+  "womensSafetyNote": "Moderate; nightlife awareness",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -7 preserves pre-WPS hand-set womensSafety 62 vs country Gallup baseline 69 (CS 68%)"
+  }
+ },
+ "Amsterdam": {
+  "propertySub": 74,
+  "propertyNote": "Pickpocketing and bike theft in tourist core; otherwise calm",
+  "womensSafetyNote": "Women report high safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft"
+  ]
+ },
+ "Copenhagen": {
+  "propertySub": 82,
+  "propertyNote": "Very safe; occasional pickpocketing at stations",
+  "womensSafetyNote": "Women report high safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": []
+ },
+ "Stockholm": {
+  "propertySub": 68,
+  "womensAdj": -7,
+  "propertyNote": "Pickpocketing in tourist zones; gang violence is localized and not tourist-facing",
+  "womensSafetyNote": "Women report high safety",
+  "touristMod": 1.05,
+  "touristRationale": "Sweden's gang shootings are intra-criminal in specific suburbs, not in visitor areas.",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -7 preserves pre-WPS hand-set womensSafety 66 vs country Gallup baseline 73 (CS 74%)"
+  }
+ },
+ "Zurich": {
+  "propertySub": 88,
+  "propertyNote": "Very low crime; rare pickpocketing",
+  "womensSafetyNote": "Women report very high safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": []
+ },
+ "Lisbon": {
+  "propertySub": 70,
+  "propertyNote": "Pickpocketing on trams and in tourist zones; violent crime low",
+  "womensSafetyNote": "Women report relatively high safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft"
+  ]
+ },
+ "Porto": {
+  "propertySub": 74,
+  "womensAdj": 4,
+  "propertyNote": "Modest pickpocketing; calm overall",
+  "womensSafetyNote": "Relatively high safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +4 preserves pre-WPS hand-set womensSafety 73 vs country Gallup baseline 69 (CS 68%)"
+  }
+ },
+ "Lagos (Algarve)": {
+  "propertySub": 80,
+  "womensAdj": 9,
+  "propertyNote": "Quiet resort town; low crime off-season",
+  "womensSafetyNote": "High safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +9 preserves pre-WPS hand-set womensSafety 78 vs country Gallup baseline 69 (CS 68%)"
+  }
+ },
+ "Funchal (Madeira)": {
+  "propertySub": 85,
+  "womensAdj": 14,
+  "propertyNote": "Very safe island capital",
+  "womensSafetyNote": "Very high safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +14 preserves pre-WPS hand-set womensSafety 83 vs country Gallup baseline 69 (CS 68%)"
+  }
+ },
+ "Madrid": {
+  "propertySub": 66,
+  "womensAdj": -8,
+  "propertyNote": "Pickpocketing in center and metro; violent crime low",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -8 preserves pre-WPS hand-set womensSafety 66 vs country Gallup baseline 74 (CS 75%)"
+  }
+ },
+ "Barcelona": {
+  "propertySub": 48,
+  "womensAdj": -8,
+  "propertyNote": "Among Europe's worst for pickpocketing and bag-snatching",
+  "womensSafetyNote": "Street harassment lower than most large capitals; theft is scored under Property",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "bag-snatching",
+   "petty-theft"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "2026-06 review: street harassment less common than most large capitals; high theft is already in PropertySub. Old -19 mixed theft into the women's number; aligned with Madrid -8"
+  }
+ },
+ "Seville": {
+  "propertySub": 70,
+  "propertyNote": "Some pickpocketing at festivals/center; calm overall",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": []
+ },
+ "Valencia": {
+  "propertySub": 70,
+  "propertyNote": "Beach and center petty theft; calm overall",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": []
+ },
+ "Málaga": {
+  "propertySub": 70,
+  "propertyNote": "Tourist-zone pickpocketing; calm overall",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": []
+ },
+ "Granada": {
+  "propertySub": 70,
+  "propertyNote": "Modest pickpocketing in tourist areas",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": []
+ },
+ "Las Palmas (Gran Canaria)": {
+  "propertySub": 65,
+  "womensAdj": -10,
+  "propertyNote": "Resort and port petty theft",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -10 preserves pre-WPS hand-set womensSafety 64 vs country Gallup baseline 74 (CS 75%)"
+  }
+ },
+ "Rome": {
+  "propertySub": 52,
+  "propertyNote": "Heavy pickpocketing/bag-snatching at sights and on transit",
+  "womensSafetyNote": "Harassment reported near stations",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "bag-snatching",
+   "petty-theft"
+  ]
+ },
+ "Florence": {
+  "propertySub": 62,
+  "womensAdj": 10,
+  "propertyNote": "Tourist-zone pickpocketing",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +10 preserves pre-WPS hand-set womensSafety 64 vs country Gallup baseline 54 (CS 44%)"
+  }
+ },
+ "Bologna": {
+  "propertySub": 60,
+  "womensAdj": 8,
+  "propertyNote": "Station-area petty theft and some drug-market nuisance",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +8 preserves pre-WPS hand-set womensSafety 62 vs country Gallup baseline 54 (CS 44%)"
+  }
+ },
+ "Catania (Sicily)": {
+  "propertySub": 50,
+  "propertyNote": "Notable pickpocketing, scooter bag-snatching, scams",
+  "womensSafetyNote": "Moderate",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "bag-snatching",
+   "petty-theft",
+   "scams-common"
+  ]
+ },
+ "Palermo": {
+  "propertySub": 50,
+  "propertyNote": "Pickpocketing, scooter bag-snatching, scams in center/markets",
+  "womensSafetyNote": "Moderate",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "bag-snatching",
+   "petty-theft",
+   "scams-common"
+  ]
+ },
+ "Athens": {
+  "propertySub": 55,
+  "propertyNote": "Pickpocketing on metro/Monastiraki; periodic protests",
+  "womensSafetyNote": "Moderate",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft",
+   "protest-unrest"
+  ]
+ },
+ "Thessaloniki": {
+  "propertySub": 58,
+  "propertyNote": "Some pickpocketing; calmer than Athens",
+  "womensSafetyNote": "Moderate",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft"
+  ]
+ },
+ "Chania (Crete)": {
+  "propertySub": 68,
+  "womensAdj": 10,
+  "propertyNote": "Low-key resort town; minor theft",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +10 preserves pre-WPS hand-set womensSafety 68 vs country Gallup baseline 58 (CS 51%)"
+  }
+ },
+ "Valletta": {
+  "propertySub": 80,
+  "womensAdj": 17,
+  "propertyNote": "Very safe small capital",
+  "womensSafetyNote": "High safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "2026-06 review: ranked among safest European solo-female destinations (4.4/5); women report comfort walking late in Valletta core; pushiness/drink-spiking limited to Paceville nightlife — delta kept"
+  }
+ },
+ "Paphos": {
+  "propertySub": 78,
+  "womensAdj": 14,
+  "propertyNote": "Quiet resort; low crime",
+  "womensSafetyNote": "High safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +14 preserves pre-WPS hand-set womensSafety 76 vs country Gallup baseline 62 (CS 59%)"
+  }
+ },
+ "Ljubljana": {
+  "propertySub": 88,
+  "womensAdj": 8,
+  "propertyNote": "Very low crime",
+  "womensSafetyNote": "Very high safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +8 preserves pre-WPS hand-set womensSafety 86 vs country Gallup baseline 78 (CS 79%)"
+  }
+ },
+ "Split": {
+  "propertySub": 84,
+  "womensAdj": 12,
+  "propertyNote": "Tourist-zone petty theft aside, very safe",
+  "womensSafetyNote": "High safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +12 preserves pre-WPS hand-set womensSafety 82 vs country Gallup baseline 70 (CS 69%)"
+  }
+ },
+ "Prague": {
+  "propertySub": 62,
+  "womensAdj": -4,
+  "propertyNote": "Tourist-area pickpocketing, taxi/currency scams",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft",
+   "scams-common"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -4 preserves pre-WPS hand-set womensSafety 66 vs country Gallup baseline 70 (CS 70%)"
+  }
+ },
+ "Kraków": {
+  "propertySub": 78,
+  "womensAdj": 15,
+  "propertyNote": "Low crime; minor tourist-zone pickpocketing",
+  "womensSafetyNote": "High safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +15 preserves pre-WPS hand-set womensSafety 78 vs country Gallup baseline 63 (CS 60%)"
+  }
+ },
+ "Warsaw": {
+  "propertySub": 74,
+  "womensAdj": 11,
+  "propertyNote": "Low crime; some pickpocketing",
+  "womensSafetyNote": "High safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +11 preserves pre-WPS hand-set womensSafety 74 vs country Gallup baseline 63 (CS 60%)"
+  }
+ },
+ "Budapest": {
+  "propertySub": 70,
+  "propertyNote": "Pickpocketing and nightlife/taxi scams in center",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft",
+   "scams-common"
+  ]
+ },
+ "Bucharest": {
+  "propertySub": 68,
+  "propertyNote": "Pickpocketing and ATM/taxi scams; calm overall",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft",
+   "scams-common"
+  ]
+ },
+ "Cluj-Napoca": {
+  "propertySub": 74,
+  "womensAdj": 10,
+  "propertyNote": "Low crime university city",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +10 preserves pre-WPS hand-set womensSafety 72 vs country Gallup baseline 62 (CS 59%)"
+  }
+ },
+ "Sofia": {
+  "propertySub": 64,
+  "propertyNote": "Pickpocketing and taxi scams; calm overall",
+  "womensSafetyNote": "Moderate",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft",
+   "scams-common"
+  ]
+ },
+ "Plovdiv": {
+  "propertySub": 70,
+  "propertyNote": "Low crime; minor petty theft",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": []
+ },
+ "Belgrade": {
+  "propertySub": 70,
+  "propertyNote": "Low street crime; nightlife awareness",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": []
+ },
+ "Sarajevo": {
+  "propertySub": 72,
+  "womensAdj": 6,
+  "propertyNote": "Low crime; some pickpocketing; legacy-mine warnings off-trail",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +6 preserves pre-WPS hand-set womensSafety 70 vs country Gallup baseline 64 (CS 62%)"
+  }
+ },
+ "Tirana": {
+  "propertySub": 66,
+  "propertyNote": "Pickpocketing and traffic chaos; calm overall",
+  "womensSafetyNote": "Moderate",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft"
+  ]
+ },
+ "Sarandë": {
+  "propertySub": 66,
+  "propertyNote": "Coastal resort petty theft",
+  "womensSafetyNote": "Moderate",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": []
+ },
+ "Kotor": {
+  "propertySub": 78,
+  "womensAdj": -9,
+  "propertyNote": "Very safe walled town; minor seasonal theft",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -9 preserves pre-WPS hand-set womensSafety 74 vs country Gallup baseline 83 (CS 85%)"
+  }
+ },
+ "Tbilisi": {
+  "propertySub": 80,
+  "propertyNote": "Notably safe city; minor petty theft",
+  "womensSafetyNote": "Generally safe; some harassment",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": []
+ },
+ "Yerevan": {
+  "propertySub": 80,
+  "propertyNote": "Notably safe city; little street crime",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": []
+ },
+ "Tallinn": {
+  "propertySub": 80,
+  "propertyNote": "Low crime; old-town pickpocketing",
+  "womensSafetyNote": "High safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": []
+ },
+ "Riga": {
+  "propertySub": 70,
+  "propertyNote": "Old-town pickpocketing and nightlife scams",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft",
+   "scams-common"
+  ]
+ },
+ "Vilnius": {
+  "propertySub": 70,
+  "propertyNote": "Low crime; minor pickpocketing",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": []
+ },
+ "Bratislava": {
+  "propertySub": 78,
+  "womensAdj": 14,
+  "propertyNote": "Low crime; minor tourist-zone theft",
+  "womensSafetyNote": "High safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +14 preserves pre-WPS hand-set womensSafety 76 vs country Gallup baseline 62 (CS 58.0%)"
+  }
+ },
+ "Istanbul": {
+  "propertySub": 58,
+  "propertyNote": "Tourist-zone pickpocketing, bait-and-switch and taxi scams",
+  "womensSafetyNote": "Harassment reported; dress/area awareness",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft",
+   "scams-common",
+   "women-safety-caution"
+  ]
+ },
+ "Bangkok": {
+  "propertySub": 62,
+  "propertyNote": "Scams (gem/tuk-tuk), pickpocketing; violent crime against tourists rare",
+  "womensSafetyNote": "Generally safe; nightlife awareness",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "scams-common",
+   "petty-theft"
+  ]
+ },
+ "Chiang Mai": {
+  "propertySub": 74,
+  "womensAdj": 10,
+  "propertyNote": "Low crime; minor scams",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +10 preserves pre-WPS hand-set womensSafety 72 vs country Gallup baseline 62 (CS 59%)"
+  }
+ },
+ "Bali (Canggu/Ubud)": {
+  "propertySub": 64,
+  "womensAdj": -11,
+  "propertyNote": "Scooter bag-snatching, ATM skimming, theft from rentals",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "bag-snatching",
+   "petty-theft"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -11 preserves pre-WPS hand-set womensSafety 62 vs country Gallup baseline 73 (CS 74%)"
+  }
+ },
+ "Siem Reap": {
+  "propertySub": 55,
+  "womensAdj": -8,
+  "propertyNote": "Bag-snatching from motorbikes, pickpocketing, scams",
+  "womensSafetyNote": "Moderate",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "bag-snatching",
+   "scams-common",
+   "petty-theft"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -8 preserves pre-WPS hand-set womensSafety 52 vs country Gallup baseline 60 (CS 54%)"
+  }
+ },
+ "Kuala Lumpur": {
+  "propertySub": 55,
+  "propertyNote": "Motorcycle bag-snatching, credit-card and ATM fraud",
+  "womensSafetyNote": "Moderate",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "bag-snatching",
+   "petty-theft",
+   "scams-common"
+  ]
+ },
+ "George Town (Penang)": {
+  "propertySub": 62,
+  "womensAdj": 11,
+  "propertyNote": "Bag-snatching and petty theft; calmer than KL",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "bag-snatching"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +11 preserves pre-WPS hand-set womensSafety 60 vs country Gallup baseline 49 (CS 36%)"
+  }
+ },
+ "Hanoi": {
+  "propertySub": 66,
+  "womensAdj": -16,
+  "propertyNote": "Pickpocketing and bag-snatching; taxi/scooter scams",
+  "womensSafetyNote": "Harassment rare; big-city taxi and nightlife awareness",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "petty-theft",
+   "scams-common"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "Same Vietnam evidence; big-city taxi/nightlife caution but harassment rare — moderated from migration -20"
+  }
+ },
+ "Ho Chi Minh City": {
+  "propertySub": 50,
+  "womensAdj": -20,
+  "propertyNote": "Notorious drive-by phone/bag-snatching by motorbike",
+  "womensSafetyNote": "Harassment rare; use ride-hailing apps and nightlife awareness",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [
+   "bag-snatching",
+   "petty-theft"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "Solo-female sources rate VN high (travelladies 4.4/5, #55 globally); harassment rare but documented in taxis/nightlife; Gallup CS 86% likely inflated by acquiescence bias — moderated from migration -34"
+  }
+ },
+ "Da Nang": {
+  "propertySub": 72,
+  "womensAdj": -12,
+  "propertyNote": "Low crime beach city; minor theft",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "2026-06 evidence review: women travelers rate Da Nang among Vietnam's easiest solo cities; harassment rare; Gallup CS 86% discounted for survey bias — eased from migration -14"
+  }
+ },
+ "Da Lat": {
+  "propertySub": 74,
+  "womensAdj": -10,
+  "propertyNote": "Quiet highland town; low crime",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "Calm highland town — eased from migration -12"
+  }
+ },
+ "Hoi An": {
+  "propertySub": 72,
+  "womensAdj": -10,
+  "propertyNote": "Low crime tourist town; minor theft",
+  "womensSafetyNote": "Generally safe",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "Small tourist town, women report high comfort — eased from migration -14"
+  }
+ },
+ "Taipei": {
+  "propertySub": 88,
+  "womensAdj": 5,
+  "propertyNote": "Very low crime; rare petty theft",
+  "womensSafetyNote": "Women report very high safety",
+  "touristMod": 1.0,
+  "touristRationale": "",
+  "touristTags": [],
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +5 preserves pre-WPS hand-set womensSafety 86 vs country Gallup baseline 81 (CS 82%)"
+  }
+ },
+ "Marrakech": {
+  "propertySub": 55,
+  "womensAdj": -23,
+  "propertyNote": "Aggressive scams, souk pickpocketing, motorbike bag-snatching",
+  "womensSafetyNote": "Persistent harassment of women travelers",
+  "touristMod": 0.95,
+  "touristRationale": "Tourists are actively worked by scams and aggressive touts; harassment of women is common.",
+  "touristTags": [
+   "scams-common",
+   "petty-theft",
+   "women-safety-caution"
+  ],
+  "_audit": {
+   "date": "2026-06",
+   "note": "2026-06 review: persistent harassment of foreign women extensively documented — delta kept"
+  }
+ },
+ "Cape Town": {
+  "propertySub": 40,
+  "propertyNote": "Muggings on hiking trails and after dark; tourist zones privately secured",
+  "womensSafetyNote": "Real risk; women advised strong caution",
+  "touristMod": 1.2,
+  "touristRationale": "One of the world's highest murder rates, but homicide is concentrated in the Cape Flats; V&A Waterfront, Atlantic Seaboard and Table Mountain are heavily secured — though trail muggings of tourists do occur.",
+  "touristTags": [
+   "tourist-zones-safer",
+   "women-safety-caution"
+  ],
+  "homicideOverride": 70.2,
+  "homicideScope": "city",
+  "homicideSource": "Cape Town 2024 70.2/100k (SAPS); SA national 42",
+  "homicideUrl": "https://africacheck.org/fact-checks/reports/cape-town-south-africas-second-most-dangerous-city-heres-what-numbers-show"
+ },
+ "Geneva": {
+  "homicideOverride": 0.6,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Switzerland)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 89,
+  "womensAdj": 5,
+  "propertyNote": "Very low violent and property crime; lakefront/tourist theft is uncommon",
+  "womensSafetyNote": "Women report high public-space safety",
+  "touristMod": 1,
+  "touristRationale": "Very low violent and property crime; lakefront/tourist theft is uncommon",
+  "touristTags": [],
+  "localLevel": 1,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +5 preserves pre-WPS hand-set womensSafety 87 vs country Gallup baseline 82 (CS 84%)"
+  }
+ },
+ "Munich": {
+  "homicideOverride": 0.91,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Germany)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 80,
+  "propertyNote": "Very safe overall; pickpocketing around major stations and festivals",
+  "womensSafetyNote": "Women report high public-space safety",
+  "touristMod": 1,
+  "touristRationale": "Very safe overall; pickpocketing around major stations and festivals",
+  "touristTags": [],
+  "localLevel": 2,
+  "localArea": null
+ },
+ "Helsinki": {
+  "homicideOverride": 1.3,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Finland)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 86,
+  "womensAdj": 8,
+  "propertyNote": "Very low crime; excellent public-space safety",
+  "womensSafetyNote": "Women report high public-space safety",
+  "touristMod": 1,
+  "touristRationale": "Very low crime; excellent public-space safety",
+  "touristTags": [
+   "very-low-crime"
+  ],
+  "localLevel": 1,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +8 preserves pre-WPS hand-set womensSafety 85 vs country Gallup baseline 77 (CS 78%)"
+  }
+ },
+ "Oslo": {
+  "homicideOverride": 0.54,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Norway)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 84,
+  "propertyNote": "Very low violent crime; ordinary city-center nightlife caution",
+  "womensSafetyNote": "Women report high public-space safety",
+  "touristMod": 1,
+  "touristRationale": "Very low violent crime; ordinary city-center nightlife caution",
+  "touristTags": [
+   "very-low-crime"
+  ],
+  "localLevel": 1,
+  "localArea": null
+ },
+ "Utrecht": {
+  "homicideOverride": 0.69,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Netherlands)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 78,
+  "womensAdj": 6,
+  "propertyNote": "Safe overall; bike theft and petty theft around stations",
+  "womensSafetyNote": "Displayed visitor-safety signal; use ordinary local caution",
+  "touristMod": 1,
+  "touristRationale": "Safe overall; bike theft and petty theft around stations",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "localLevel": 2,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +6 preserves pre-WPS hand-set womensSafety 76 vs country Gallup baseline 70 (CS 69%)"
+  }
+ },
+ "The Hague": {
+  "homicideOverride": 0.69,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Netherlands)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 80,
+  "womensAdj": 8,
+  "propertyNote": "Very safe by large-city standards; petty theft in busy transit/beach areas",
+  "womensSafetyNote": "Women report high public-space safety",
+  "touristMod": 1,
+  "touristRationale": "Very safe by large-city standards; petty theft in busy transit/beach areas",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "localLevel": 2,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +8 preserves pre-WPS hand-set womensSafety 78 vs country Gallup baseline 70 (CS 69%)"
+  }
+ },
+ "Vancouver": {
+  "homicideOverride": 2.27,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Canada)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 72,
+  "womensAdj": 11,
+  "propertyNote": "Safe overall; property theft and open-air disorder in specific downtown areas",
+  "womensSafetyNote": "Displayed visitor-safety signal; use ordinary local caution",
+  "touristMod": 1,
+  "touristRationale": "Safe overall; property theft and open-air disorder in specific downtown areas",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "localLevel": 1,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +11 preserves pre-WPS hand-set womensSafety 76 vs country Gallup baseline 65 (CS 63%)"
+  }
+ },
+ "Melbourne": {
+  "homicideOverride": 0.74,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Australia)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 76,
+  "womensAdj": 19,
+  "propertyNote": "Safe overall; late-night entertainment districts need ordinary caution",
+  "womensSafetyNote": "Women report high public-space safety",
+  "touristMod": 1,
+  "touristRationale": "Safe overall; late-night entertainment districts need ordinary caution",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "localLevel": 1,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "2026-06 review: same AU fear-vs-victimization correction — delta kept"
+  }
+ },
+ "Auckland": {
+  "homicideOverride": 1,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (New Zealand)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 74,
+  "womensAdj": 22,
+  "propertyNote": "Safe overall; car break-ins and petty theft around tourist parking areas",
+  "womensSafetyNote": "Women report high public-space safety",
+  "touristMod": 1,
+  "touristRationale": "Safe overall; car break-ins and petty theft around tourist parking areas",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "localLevel": 1,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "2026-06 review: Gallup feel-safe runs ~20pts below victimization-implied risk in NZ/AU (fear-of-crime reporting culture) — delta kept"
+  }
+ },
+ "Wellington": {
+  "homicideOverride": 1,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (New Zealand)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 76,
+  "womensAdj": 22,
+  "propertyNote": "Safe overall; compact nightlife areas need ordinary late-night caution",
+  "womensSafetyNote": "Women report high public-space safety",
+  "touristMod": 1,
+  "touristRationale": "Safe overall; compact nightlife areas need ordinary late-night caution",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "localLevel": 1,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "2026-06 review: same NZ fear-vs-victimization correction — delta kept"
+  }
+ },
+ "Tokyo": {
+  "homicideOverride": 0.23,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Japan)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 86,
+  "womensAdj": 13,
+  "propertyNote": "Extremely low violent crime; lost-property culture, minor entertainment-district scams",
+  "womensSafetyNote": "Women report high public-space safety",
+  "touristMod": 1,
+  "touristRationale": "Extremely low violent crime; lost-property culture, minor entertainment-district scams",
+  "touristTags": [
+   "very-low-crime"
+  ],
+  "localLevel": 1,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +13 preserves pre-WPS hand-set womensSafety 84 vs country Gallup baseline 71 (CS 71%)"
+  }
+ },
+ "Osaka": {
+  "homicideOverride": 0.23,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Japan)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 83,
+  "womensAdj": 11,
+  "propertyNote": "Very low violent crime; entertainment-zone scams are the main visitor issue",
+  "womensSafetyNote": "Women report high public-space safety",
+  "touristMod": 1,
+  "touristRationale": "Very low violent crime; entertainment-zone scams are the main visitor issue",
+  "touristTags": [
+   "very-low-crime"
+  ],
+  "localLevel": 1,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +11 preserves pre-WPS hand-set womensSafety 82 vs country Gallup baseline 71 (CS 71%)"
+  }
+ },
+ "Nha Trang": {
+  "homicideOverride": 1.52,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Vietnam)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 72,
+  "womensAdj": -14,
+  "propertyNote": "Generally safe; beach/tourist-strip petty theft and traffic risk",
+  "womensSafetyNote": "Displayed visitor-safety signal; use ordinary local caution",
+  "touristMod": 1,
+  "touristRationale": "Generally safe; beach/tourist-strip petty theft and traffic risk",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "localLevel": 1,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "Beach-nightlife zone; keeps migration delta; Gallup CS 86% discounted for survey bias"
+  }
+ },
+ "Ipoh": {
+  "homicideOverride": 0.67,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Malaysia)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 76,
+  "womensAdj": 20,
+  "propertyNote": "Safe, low-key city; ordinary petty-theft caution in crowded areas",
+  "womensSafetyNote": "Displayed visitor-safety signal; use ordinary local caution",
+  "touristMod": 1,
+  "touristRationale": "Safe, low-key city; ordinary petty-theft caution in crowded areas",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "localLevel": 1,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "2026-06 evidence review: calm small city but women-traveler ratings notably weaker than Kuching (Travel Ladies 3/5, #83 in MY vs Kuching 4/5, #14); streets deserted after ~21:00; eased from migration +25 — country baseline still discounted for KL-metro fear skew"
+  }
+ },
+ "Kuching": {
+  "homicideOverride": 0.67,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Malaysia)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 78,
+  "womensAdj": 27,
+  "propertyNote": "Relaxed and safe by regional standards; low violent crime",
+  "womensSafetyNote": "Displayed visitor-safety signal; use ordinary local caution",
+  "touristMod": 1,
+  "touristRationale": "Relaxed and safe by regional standards; low violent crime",
+  "touristTags": [
+   "tourist-safe"
+  ],
+  "localLevel": 1,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "2026-06 evidence review: country CS 36% reflects the world's largest night-safety gender gap (Gallup 2024: men 79/women 36, KL-metro fear); Kuching among Malaysia's safest for women travelers (Travel Ladies 4/5, #14 in MY) — delta kept"
+  }
+ },
+ "Dumaguete": {
+  "homicideOverride": 4.3,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Philippines)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 64,
+  "propertyNote": "Tourist-friendly town, but national advisory risks and petty crime warrant caution",
+  "womensSafetyNote": "Displayed visitor-safety signal; use ordinary local caution",
+  "touristMod": 0.98,
+  "touristRationale": "Tourist-friendly town, but national advisory risks and petty crime warrant caution",
+  "touristTags": [
+   "petty-theft",
+   "women-safety-caution"
+  ],
+  "localLevel": 2,
+  "localArea": null
+ },
+ "Novi Sad": {
+  "homicideOverride": 1,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Serbia)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 72,
+  "propertyNote": "Generally safe; petty theft around nightlife/festival crowds",
+  "womensSafetyNote": "Displayed visitor-safety signal; use ordinary local caution",
+  "touristMod": 1,
+  "touristRationale": "Generally safe; petty theft around nightlife/festival crowds",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "localLevel": 2,
+  "localArea": null
+ },
+ "Skopje": {
+  "homicideOverride": 1.6,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (North Macedonia)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 69,
+  "propertyNote": "Generally safe; petty theft and late-night caution in busy areas",
+  "womensSafetyNote": "Displayed visitor-safety signal; use ordinary local caution",
+  "touristMod": 1,
+  "touristRationale": "Generally safe; petty theft and late-night caution in busy areas",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "localLevel": 1,
+  "localArea": null
+ },
+ "Ohrid": {
+  "homicideOverride": 1.6,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (North Macedonia)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 74,
+  "propertyNote": "Safe lake-town profile; petty theft is the main visitor issue",
+  "womensSafetyNote": "Displayed visitor-safety signal; use ordinary local caution",
+  "touristMod": 1,
+  "touristRationale": "Safe lake-town profile; petty theft is the main visitor issue",
+  "touristTags": [
+   "tourist-safe"
+  ],
+  "localLevel": 1,
+  "localArea": null
+ },
+ "Brno": {
+  "homicideOverride": 0.66,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Czechia)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 78,
+  "womensAdj": 8,
+  "propertyNote": "Very safe overall; petty theft near transit and event crowds",
+  "womensSafetyNote": "Women report high public-space safety",
+  "touristMod": 1,
+  "touristRationale": "Very safe overall; petty theft near transit and event crowds",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "localLevel": 1,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +8 preserves pre-WPS hand-set womensSafety 78 vs country Gallup baseline 70 (CS 70%)"
+  }
+ },
+ "Wrocław": {
+  "homicideOverride": 0.68,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Poland)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 80,
+  "womensAdj": 15,
+  "propertyNote": "Very safe; petty theft mainly in crowded old-town/transit zones",
+  "womensSafetyNote": "Women report high public-space safety",
+  "touristMod": 1,
+  "touristRationale": "Very safe; petty theft mainly in crowded old-town/transit zones",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "localLevel": 1,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +15 preserves pre-WPS hand-set womensSafety 78 vs country Gallup baseline 63 (CS 60%)"
+  }
+ },
+ "Gdańsk": {
+  "homicideOverride": 0.68,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Poland)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 80,
+  "womensAdj": 15,
+  "propertyNote": "Very safe; old-town and beach-season petty theft is the main issue",
+  "womensSafetyNote": "Women report high public-space safety",
+  "touristMod": 1,
+  "touristRationale": "Very safe; old-town and beach-season petty theft is the main issue",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "localLevel": 1,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +15 preserves pre-WPS hand-set womensSafety 78 vs country Gallup baseline 63 (CS 60%)"
+  }
+ },
+ "Mendoza": {
+  "homicideOverride": 4.49,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Argentina)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 62,
+  "womensAdj": 11,
+  "propertyNote": "Generally comfortable for visitors; theft risk is higher after dark and in busier areas",
+  "womensSafetyNote": "Displayed visitor-safety signal; use ordinary local caution",
+  "touristMod": 1,
+  "touristRationale": "Generally comfortable for visitors; theft risk is higher after dark and in busier areas",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "localLevel": 1,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +11 preserves pre-WPS hand-set womensSafety 64 vs country Gallup baseline 53 (CS 41%)"
+  }
+ },
+ "Salta": {
+  "homicideOverride": 4.49,
+  "homicideScope": "country",
+  "homicideSource": "World Bank / UNODC intentional homicide baseline (Argentina)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 60,
+  "womensAdj": 9,
+  "propertyNote": "Generally manageable visitor profile; petty theft and isolated robberies require caution",
+  "womensSafetyNote": "Displayed visitor-safety signal; use ordinary local caution",
+  "touristMod": 1,
+  "touristRationale": "Generally manageable visitor profile; petty theft and isolated robberies require caution",
+  "touristTags": [
+   "petty-theft"
+  ],
+  "localLevel": 1,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +9 preserves pre-WPS hand-set womensSafety 62 vs country Gallup baseline 53 (CS 41%)"
+  }
+ },
+ "Querétaro": {
+  "homicideOverride": 6,
+  "homicideScope": "city",
+  "homicideSource": "City/regional homicide override (Mexico)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 68,
+  "womensAdj": 13,
+  "propertyNote": "Lower-violence Bajio city by Mexico standards; highway and nightlife caution still apply",
+  "womensSafetyNote": "Displayed visitor-safety signal; use ordinary local caution",
+  "touristMod": 1.08,
+  "touristRationale": "Lower-violence Bajio city by Mexico standards; highway and nightlife caution still apply",
+  "touristTags": [
+   "violence-elsewhere-in-state",
+   "expat-haven"
+  ],
+  "localLevel": 2,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +13 preserves pre-WPS hand-set womensSafety 66 vs country Gallup baseline 53 (CS 41%)"
+  }
+ },
+ "Guanajuato": {
+  "homicideOverride": 20,
+  "homicideScope": "state",
+  "homicideSource": "City/regional homicide override (Mexico)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 55,
+  "womensAdj": 5,
+  "propertyNote": "Tourist core is calmer than the statewide picture, but Guanajuato state has elevated organized-crime risk",
+  "womensSafetyNote": "Displayed visitor-safety signal; use ordinary local caution",
+  "touristMod": 1.12,
+  "touristRationale": "Tourist core is calmer than the statewide picture, but Guanajuato state has elevated organized-crime risk",
+  "touristTags": [
+   "violence-elsewhere-in-state",
+   "highway-caution",
+   "women-safety-caution"
+  ],
+  "localLevel": 3,
+  "localArea": "Guanajuato state",
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj +5 preserves pre-WPS hand-set womensSafety 58 vs country Gallup baseline 53 (CS 41%)"
+  }
+ },
+ "João Pessoa": {
+  "homicideOverride": 30,
+  "homicideScope": "regional",
+  "homicideSource": "City/regional homicide override (Brazil)",
+  "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
+  "propertySub": 46,
+  "womensAdj": -8,
+  "propertyNote": "Good beach lifestyle value, but robbery and neighborhood-by-neighborhood safety variance are meaningful",
+  "womensSafetyNote": "Displayed visitor-safety signal; use ordinary local caution",
+  "touristMod": 0.95,
+  "touristRationale": "Good beach lifestyle value, but robbery and neighborhood-by-neighborhood safety variance are meaningful",
+  "touristTags": [
+   "petty-theft",
+   "nightlife-risk",
+   "women-safety-caution"
+  ],
+  "localLevel": 2,
+  "localArea": null,
+  "_audit": {
+   "date": "2026-06",
+   "note": "womensAdj -8 preserves pre-WPS hand-set womensSafety 44 vs country Gallup baseline 52 (CS 40%)"
+  }
+ }
+}

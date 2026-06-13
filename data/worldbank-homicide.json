@@ -1,0 +1,215 @@
+{
+  "ALB": {
+    "rate": 1.39,
+    "year": "2023"
+  },
+  "ARG": {
+    "rate": 4.49,
+    "year": "2023"
+  },
+  "ARM": {
+    "rate": 2.21,
+    "year": "2023"
+  },
+  "AUT": {
+    "rate": 0.88,
+    "year": "2023"
+  },
+  "BGR": {
+    "rate": 1.09,
+    "year": "2023"
+  },
+  "BIH": {
+    "rate": 1.22,
+    "year": "2023"
+  },
+  "BRA": {
+    "rate": 19.28,
+    "year": "2023"
+  },
+  "CHE": {
+    "rate": 0.6,
+    "year": "2023"
+  },
+  "CHL": {
+    "rate": 6.35,
+    "year": "2023"
+  },
+  "COL": {
+    "rate": 24.91,
+    "year": "2023"
+  },
+  "CRI": {
+    "rate": 17.75,
+    "year": "2023"
+  },
+  "CYP": {
+    "rate": 0.82,
+    "year": "2023"
+  },
+  "CZE": {
+    "rate": 0.77,
+    "year": "2023"
+  },
+  "DEU": {
+    "rate": 0.91,
+    "year": "2023"
+  },
+  "DNK": {
+    "rate": 0.84,
+    "year": "2023"
+  },
+  "ECU": {
+    "rate": 45.72,
+    "year": "2023"
+  },
+  "ESP": {
+    "rate": 0.69,
+    "year": "2023"
+  },
+  "EST": {
+    "rate": 1.54,
+    "year": "2023"
+  },
+  "FRA": {
+    "rate": 1.34,
+    "year": "2023"
+  },
+  "GBR": {
+    "rate": 1.12,
+    "year": "2021"
+  },
+  "GEO": {
+    "rate": 1.87,
+    "year": "2021",
+    "source": "WHO GHO homicide estimate 2021 (CI 1.4-2.4); WB/UNODC submission stale (2019)"
+  },
+  "GRC": {
+    "rate": 0.84,
+    "year": "2023"
+  },
+  "GTM": {
+    "rate": 23.37,
+    "year": "2023"
+  },
+  "HRV": {
+    "rate": 0.67,
+    "year": "2023"
+  },
+  "HUN": {
+    "rate": 0.72,
+    "year": "2023"
+  },
+  "IDN": {
+    "rate": 0.3,
+    "year": "2022"
+  },
+  "IRL": {
+    "rate": 0.65,
+    "year": "2023"
+  },
+  "ITA": {
+    "rate": 0.57,
+    "year": "2023"
+  },
+  "KHM": {
+    "rate": 1.82,
+    "year": "2021",
+    "source": "WHO GHO homicide estimate 2021 (CI 0.9-3.2); WB/UNODC submission stale (2011)"
+  },
+  "LTU": {
+    "rate": 2.63,
+    "year": "2023"
+  },
+  "LVA": {
+    "rate": 2.5,
+    "year": "2023"
+  },
+  "MAR": {
+    "rate": 1.71,
+    "year": "2023"
+  },
+  "MEX": {
+    "rate": 24.86,
+    "year": "2023"
+  },
+  "MLT": {
+    "rate": 0.56,
+    "year": "2023"
+  },
+  "MNE": {
+    "rate": 0.79,
+    "year": "2023"
+  },
+  "MYS": {
+    "rate": 0.73,
+    "year": "2023"
+  },
+  "NLD": {
+    "rate": 0.69,
+    "year": "2023"
+  },
+  "PAN": {
+    "rate": 11.71,
+    "year": "2023"
+  },
+  "PER": {
+    "rate": 8.6,
+    "year": "2021"
+  },
+  "POL": {
+    "rate": 0.8,
+    "year": "2023"
+  },
+  "PRT": {
+    "rate": 0.72,
+    "year": "2022"
+  },
+  "ROU": {
+    "rate": 1.11,
+    "year": "2023"
+  },
+  "SRB": {
+    "rate": 1.31,
+    "year": "2023"
+  },
+  "SVK": {
+    "rate": 1.12,
+    "year": "2023"
+  },
+  "SVN": {
+    "rate": 0.57,
+    "year": "2023"
+  },
+  "SWE": {
+    "rate": 1.15,
+    "year": "2023"
+  },
+  "THA": {
+    "rate": 4.44,
+    "year": "2021",
+    "source": "WHO GHO homicide estimate 2021 (CI 2.6-6.9); WB/UNODC submission stale (2011)"
+  },
+  "TUR": {
+    "rate": 3.23,
+    "year": "2023"
+  },
+  "TWN": {
+    "rate": 0.8,
+    "year": "2023",
+    "source": "manual: Taiwan not in World Bank; national police statistics"
+  },
+  "URY": {
+    "rate": 11.25,
+    "year": "2023"
+  },
+  "VNM": {
+    "rate": 1.91,
+    "year": "2021",
+    "source": "WHO GHO homicide estimate 2021 (CI 1.0-3.4); WB/UNODC submission stale (2011)"
+  },
+  "ZAF": {
+    "rate": 43.72,
+    "year": "2022"
+  }
+}

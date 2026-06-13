@@ -1,0 +1,1005 @@
+{
+ "_meta": {
+  "source": "Georgetown Institute WPS Index 2025/26, Table 1",
+  "url": "https://giwps.georgetown.edu/the-index/",
+  "dataUrl": "https://giwps.georgetown.edu/wp-content/uploads/2025/10/WPS-Index-2025-Data.xlsx",
+  "retrieved": "2026-06-11",
+  "fields": {
+   "communitySafety": "% of women 15+ who feel safe walking alone at night where they live (Gallup World Poll, 2022-2024)",
+   "ipv": "% of ever-partnered women experiencing physical/sexual intimate-partner violence in past 12 months (2018)",
+   "index": "WPS Index 2025 headline score 0-1 (not used in scoring; reference only)"
+  }
+ },
+ "countries": {
+  "Denmark": {
+   "index": 0.939,
+   "communitySafety": 85,
+   "ipv": 3.3
+  },
+  "Iceland": {
+   "index": 0.932,
+   "communitySafety": 82,
+   "ipv": 2.8
+  },
+  "Norway": {
+   "index": 0.924,
+   "communitySafety": 86,
+   "ipv": 4.4
+  },
+  "Sweden": {
+   "index": 0.924,
+   "communitySafety": 74,
+   "ipv": 6.3
+  },
+  "Finland": {
+   "index": 0.921,
+   "communitySafety": 78,
+   "ipv": 8.1
+  },
+  "Luxembourg": {
+   "index": 0.918,
+   "communitySafety": 86,
+   "ipv": 3.5
+  },
+  "Belgium": {
+   "index": 0.912,
+   "communitySafety": 63,
+   "ipv": 4.8
+  },
+  "Netherlands": {
+   "index": 0.905,
+   "communitySafety": 69,
+   "ipv": 5.1
+  },
+  "Austria": {
+   "index": 0.898,
+   "communitySafety": 82,
+   "ipv": 3.6
+  },
+  "New Zealand": {
+   "index": 0.898,
+   "communitySafety": 47,
+   "ipv": 4.2
+  },
+  "Australia": {
+   "index": 0.896,
+   "communitySafety": 52,
+   "ipv": 2.9
+  },
+  "Estonia": {
+   "index": 0.896,
+   "communitySafety": 75,
+   "ipv": 4.2
+  },
+  "Ireland": {
+   "index": 0.891,
+   "communitySafety": 68,
+   "ipv": 3.3
+  },
+  "Slovenia": {
+   "index": 0.889,
+   "communitySafety": 79,
+   "ipv": 3.4
+  },
+  "Lithuania": {
+   "index": 0.887,
+   "communitySafety": 65,
+   "ipv": 5.2
+  },
+  "Canada": {
+   "index": 0.885,
+   "communitySafety": 63,
+   "ipv": 2.6
+  },
+  "Latvia": {
+   "index": 0.884,
+   "communitySafety": 65,
+   "ipv": 6.3
+  },
+  "Singapore": {
+   "index": 0.884,
+   "communitySafety": 97,
+   "ipv": 2.4
+  },
+  "Switzerland": {
+   "index": 0.877,
+   "communitySafety": 84,
+   "ipv": 1.7
+  },
+  "United Arab Emirates": {
+   "index": 0.872,
+   "communitySafety": 91,
+   "ipv": 8.2
+  },
+  "Germany": {
+   "index": 0.869,
+   "communitySafety": 78,
+   "ipv": 5.1
+  },
+  "Japan": {
+   "index": 0.866,
+   "communitySafety": 71,
+   "ipv": 3.9
+  },
+  "France": {
+   "index": 0.864,
+   "communitySafety": 70,
+   "ipv": 5
+  },
+  "United Kingdom": {
+   "index": 0.864,
+   "communitySafety": 73,
+   "ipv": 4.2
+  },
+  "Spain": {
+   "index": 0.862,
+   "communitySafety": 75,
+   "ipv": 2.9
+  },
+  "Portugal": {
+   "index": 0.861,
+   "communitySafety": 68,
+   "ipv": 4.4
+  },
+  "Poland": {
+   "index": 0.854,
+   "communitySafety": 60,
+   "ipv": 3.1
+  },
+  "Taiwan": {
+   "index": 0.854,
+   "communitySafety": 82,
+   "ipv": 6.5
+  },
+  "Serbia": {
+   "index": 0.844,
+   "communitySafety": 69,
+   "ipv": 3.9
+  },
+  "Malta": {
+   "index": 0.841,
+   "communitySafety": 56.0,
+   "ipv": 4
+  },
+  "United States": {
+   "index": 0.84,
+   "communitySafety": 58.0,
+   "ipv": 6
+  },
+  "Czechia": {
+   "index": 0.832,
+   "communitySafety": 70,
+   "ipv": 4.1
+  },
+  "Hungary": {
+   "index": 0.832,
+   "communitySafety": 65,
+   "ipv": 5.7
+  },
+  "Costa Rica": {
+   "index": 0.824,
+   "communitySafety": 44,
+   "ipv": 7.2
+  },
+  "Uruguay": {
+   "index": 0.822,
+   "communitySafety": 40,
+   "ipv": 4.3
+  },
+  "Moldova": {
+   "index": 0.821,
+   "communitySafety": 58.0,
+   "ipv": 9.1
+  },
+  "South Korea": {
+   "index": 0.815,
+   "communitySafety": 72,
+   "ipv": 8
+  },
+  "Bulgaria": {
+   "index": 0.814,
+   "communitySafety": 64,
+   "ipv": 5.9
+  },
+  "Italy": {
+   "index": 0.811,
+   "communitySafety": 44,
+   "ipv": 3.5
+  },
+  "Seychelles": {
+   "index": 0.81,
+   "communitySafety": 58.6,
+   "ipv": 10.2
+  },
+  "Hong Kong": {
+   "index": 0.809,
+   "communitySafety": 92,
+   "ipv": 2.5
+  },
+  "Barbados": {
+   "index": 0.807,
+   "communitySafety": 56.4,
+   "ipv": 6.2
+  },
+  "Romania": {
+   "index": 0.801,
+   "communitySafety": 59,
+   "ipv": 6.9
+  },
+  "Mongolia": {
+   "index": 0.799,
+   "communitySafety": 46,
+   "ipv": 11.5
+  },
+  "Georgia": {
+   "index": 0.798,
+   "communitySafety": 79,
+   "ipv": 2.9
+  },
+  "Slovakia": {
+   "index": 0.797,
+   "communitySafety": 58.0,
+   "ipv": 5.9
+  },
+  "Argentina": {
+   "index": 0.791,
+   "communitySafety": 41,
+   "ipv": 4.5
+  },
+  "Croatia": {
+   "index": 0.788,
+   "communitySafety": 69,
+   "ipv": 4
+  },
+  "Grenada": {
+   "index": 0.787,
+   "communitySafety": 60.6,
+   "ipv": 7.8
+  },
+  "North Macedonia": {
+   "index": 0.787,
+   "communitySafety": 68,
+   "ipv": 4.2
+  },
+  "Suriname": {
+   "index": 0.779,
+   "communitySafety": 63.6,
+   "ipv": 7.7
+  },
+  "Cyprus": {
+   "index": 0.77,
+   "communitySafety": 59,
+   "ipv": 3.1
+  },
+  "Guyana": {
+   "index": 0.77,
+   "communitySafety": 63.6,
+   "ipv": 10.5
+  },
+  "Paraguay": {
+   "index": 0.768,
+   "communitySafety": 44,
+   "ipv": 5.5
+  },
+  "Bahrain": {
+   "index": 0.765,
+   "communitySafety": 87,
+   "ipv": 8.2
+  },
+  "Armenia": {
+   "index": 0.762,
+   "communitySafety": 79,
+   "ipv": 4.6
+  },
+  "Thailand": {
+   "index": 0.761,
+   "communitySafety": 59,
+   "ipv": 9.3
+  },
+  "Oman": {
+   "index": 0.755,
+   "communitySafety": 90,
+   "ipv": 8.2
+  },
+  "Bosnia and Herzegovina": {
+   "index": 0.753,
+   "communitySafety": 62,
+   "ipv": 3.4
+  },
+  "Greece": {
+   "index": 0.752,
+   "communitySafety": 51,
+   "ipv": 5.1
+  },
+  "Montenegro": {
+   "index": 0.743,
+   "communitySafety": 85,
+   "ipv": 4.4
+  },
+  "Cabo Verde": {
+   "index": 0.741,
+   "communitySafety": 58.0,
+   "ipv": 10.9
+  },
+  "Belarus": {
+   "index": 0.739,
+   "communitySafety": 56.0,
+   "ipv": 6.3
+  },
+  "Chile": {
+   "index": 0.739,
+   "communitySafety": 34,
+   "ipv": 5.8
+  },
+  "Palau": {
+   "index": 0.739,
+   "communitySafety": 74.9,
+   "ipv": 13.8
+  },
+  "Saudi Arabia": {
+   "index": 0.739,
+   "communitySafety": 87,
+   "ipv": 8.2
+  },
+  "Malaysia": {
+   "index": 0.738,
+   "communitySafety": 36,
+   "ipv": 7.4
+  },
+  "Albania": {
+   "index": 0.731,
+   "communitySafety": 60,
+   "ipv": 6.2
+  },
+  "Fiji": {
+   "index": 0.731,
+   "communitySafety": 77.9,
+   "ipv": 23.2
+  },
+  "Kuwait": {
+   "index": 0.723,
+   "communitySafety": 84,
+   "ipv": 8.2
+  },
+  "Qatar": {
+   "index": 0.723,
+   "communitySafety": 64.5,
+   "ipv": 8.2
+  },
+  "Kazakhstan": {
+   "index": 0.722,
+   "communitySafety": 60,
+   "ipv": 6
+  },
+  "Viet Nam": {
+   "index": 0.721,
+   "communitySafety": 86,
+   "ipv": 9.5
+  },
+  "Turkmenistan": {
+   "index": 0.72,
+   "communitySafety": 91,
+   "ipv": 8.4
+  },
+  "Russian Federation": {
+   "index": 0.718,
+   "communitySafety": 61,
+   "ipv": 6.1
+  },
+  "Puerto Rico": {
+   "index": 0.707,
+   "communitySafety": 40,
+   "ipv": 6.6
+  },
+  "Sri Lanka": {
+   "index": 0.706,
+   "communitySafety": 57.0,
+   "ipv": 4.1
+  },
+  "Maldives": {
+   "index": 0.704,
+   "communitySafety": 43,
+   "ipv": 6.1
+  },
+  "Jamaica": {
+   "index": 0.703,
+   "communitySafety": 60,
+   "ipv": 7.3
+  },
+  "Bolivia": {
+   "index": 0.701,
+   "communitySafety": 43,
+   "ipv": 18.3
+  },
+  "Peru": {
+   "index": 0.701,
+   "communitySafety": 38,
+   "ipv": 11.1
+  },
+  "Kosovo": {
+   "index": 0.7,
+   "communitySafety": 85,
+   "ipv": 11.9
+  },
+  "Lao PDR": {
+   "index": 0.698,
+   "communitySafety": 56.0,
+   "ipv": 8
+  },
+  "Israel": {
+   "index": 0.697,
+   "communitySafety": 63,
+   "ipv": 5.6
+  },
+  "Kyrgyzstan": {
+   "index": 0.697,
+   "communitySafety": 71,
+   "ipv": 13.3
+  },
+  "Panama": {
+   "index": 0.696,
+   "communitySafety": 54,
+   "ipv": 7.8
+  },
+  "El Salvador": {
+   "index": 0.691,
+   "communitySafety": 85,
+   "ipv": 5.7
+  },
+  "Jordan": {
+   "index": 0.686,
+   "communitySafety": 68,
+   "ipv": 13.5
+  },
+  "China": {
+   "index": 0.685,
+   "communitySafety": 93,
+   "ipv": 7.6
+  },
+  "Samoa": {
+   "index": 0.685,
+   "communitySafety": 74.2,
+   "ipv": 17.8
+  },
+  "Tajikistan": {
+   "index": 0.685,
+   "communitySafety": 93,
+   "ipv": 14
+  },
+  "Tonga": {
+   "index": 0.685,
+   "communitySafety": 77.9,
+   "ipv": 16.9
+  },
+  "Trinidad and Tobago": {
+   "index": 0.685,
+   "communitySafety": 42,
+   "ipv": 7.5
+  },
+  "Gabon": {
+   "index": 0.679,
+   "communitySafety": 34,
+   "ipv": 22
+  },
+  "Mauritius": {
+   "index": 0.679,
+   "communitySafety": 53,
+   "ipv": 11.4
+  },
+  "Indonesia": {
+   "index": 0.678,
+   "communitySafety": 74,
+   "ipv": 8.9
+  },
+  "Dominican Republic": {
+   "index": 0.675,
+   "communitySafety": 40,
+   "ipv": 9.6
+  },
+  "Uzbekistan": {
+   "index": 0.674,
+   "communitySafety": 81,
+   "ipv": 11.2
+  },
+  "Bhutan": {
+   "index": 0.673,
+   "communitySafety": 59,
+   "ipv": 8.6
+  },
+  "Tunisia": {
+   "index": 0.671,
+   "communitySafety": 55.0,
+   "ipv": 10.1
+  },
+  "Marshall Islands": {
+   "index": 0.67,
+   "communitySafety": 70.7,
+   "ipv": 19.3
+  },
+  "Morocco": {
+   "index": 0.668,
+   "communitySafety": 57.0,
+   "ipv": 10.5
+  },
+  "Timor-Leste": {
+   "index": 0.668,
+   "communitySafety": 64.8,
+   "ipv": 28.2
+  },
+  "Belize": {
+   "index": 0.667,
+   "communitySafety": 66,
+   "ipv": 7.8
+  },
+  "Cambodia": {
+   "index": 0.667,
+   "communitySafety": 54,
+   "ipv": 9.1
+  },
+  "Türkiye": {
+   "index": 0.664,
+   "communitySafety": 44,
+   "ipv": 12.1
+  },
+  "Nicaragua": {
+   "index": 0.659,
+   "communitySafety": 54,
+   "ipv": 6.4
+  },
+  "Botswana": {
+   "index": 0.658,
+   "communitySafety": 27,
+   "ipv": 17.1
+  },
+  "Solomon Islands": {
+   "index": 0.658,
+   "communitySafety": 64.8,
+   "ipv": 28.1
+  },
+  "Senegal": {
+   "index": 0.657,
+   "communitySafety": 48,
+   "ipv": 12.4
+  },
+  "Azerbaijan": {
+   "index": 0.653,
+   "communitySafety": 62,
+   "ipv": 5.2
+  },
+  "Kiribati": {
+   "index": 0.652,
+   "communitySafety": 64.8,
+   "ipv": 25.2
+  },
+  "Federated States of Micronesia": {
+   "index": 0.648,
+   "communitySafety": 64.8,
+   "ipv": 21.1
+  },
+  "South Africa": {
+   "index": 0.648,
+   "communitySafety": 25,
+   "ipv": 13.1
+  },
+  "Vanuatu": {
+   "index": 0.646,
+   "communitySafety": 70.1,
+   "ipv": 29.4
+  },
+  "Ukraine": {
+   "index": 0.645,
+   "communitySafety": 51,
+   "ipv": 8.7
+  },
+  "Ghana": {
+   "index": 0.639,
+   "communitySafety": 62,
+   "ipv": 10.2
+  },
+  "Venezuela": {
+   "index": 0.638,
+   "communitySafety": 52,
+   "ipv": 8.5
+  },
+  "Brazil": {
+   "index": 0.632,
+   "communitySafety": 40,
+   "ipv": 6.5
+  },
+  "Nepal": {
+   "index": 0.631,
+   "communitySafety": 55.0,
+   "ipv": 11.4
+  },
+  "Rwanda": {
+   "index": 0.624,
+   "communitySafety": 76,
+   "ipv": 23.5
+  },
+  "Tanzania": {
+   "index": 0.624,
+   "communitySafety": 60,
+   "ipv": 24.3
+  },
+  "Algeria": {
+   "index": 0.621,
+   "communitySafety": 71,
+   "ipv": 10.5
+  },
+  "São Tomé and Príncipe": {
+   "index": 0.62,
+   "communitySafety": 55.7,
+   "ipv": 18.1
+  },
+  "Egypt": {
+   "index": 0.617,
+   "communitySafety": 76,
+   "ipv": 15.1
+  },
+  "Lesotho": {
+   "index": 0.614,
+   "communitySafety": 29.0,
+   "ipv": 16.5
+  },
+  "Ecuador": {
+   "index": 0.612,
+   "communitySafety": 31,
+   "ipv": 8.1
+  },
+  "Iran": {
+   "index": 0.608,
+   "communitySafety": 72,
+   "ipv": 17.6
+  },
+  "Libya": {
+   "index": 0.608,
+   "communitySafety": 77,
+   "ipv": 12.7
+  },
+  "Namibia": {
+   "index": 0.608,
+   "communitySafety": 44,
+   "ipv": 15.9
+  },
+  "India": {
+   "index": 0.607,
+   "communitySafety": 68,
+   "ipv": 18.4
+  },
+  "Philippines": {
+   "index": 0.607,
+   "communitySafety": 58.0,
+   "ipv": 5.9
+  },
+  "Angola": {
+   "index": 0.601,
+   "communitySafety": 58.0,
+   "ipv": 24.7
+  },
+  "Sierra Leone": {
+   "index": 0.601,
+   "communitySafety": 50,
+   "ipv": 19.8
+  },
+  "Comoros": {
+   "index": 0.59,
+   "communitySafety": 60,
+   "ipv": 8.2
+  },
+  "Zimbabwe": {
+   "index": 0.59,
+   "communitySafety": 33,
+   "ipv": 18.2
+  },
+  "Côte d'Ivoire": {
+   "index": 0.589,
+   "communitySafety": 60,
+   "ipv": 16.4
+  },
+  "Benin": {
+   "index": 0.587,
+   "communitySafety": 58.0,
+   "ipv": 14.6
+  },
+  "Uganda": {
+   "index": 0.587,
+   "communitySafety": 44,
+   "ipv": 26.1
+  },
+  "Congo": {
+   "index": 0.583,
+   "communitySafety": 45,
+   "ipv": 18.5
+  },
+  "Lebanon": {
+   "index": 0.575,
+   "communitySafety": 44,
+   "ipv": 14.7
+  },
+  "Zambia": {
+   "index": 0.566,
+   "communitySafety": 35,
+   "ipv": 27.8
+  },
+  "Togo": {
+   "index": 0.562,
+   "communitySafety": 43,
+   "ipv": 12.7
+  },
+  "Guatemala": {
+   "index": 0.561,
+   "communitySafety": 46,
+   "ipv": 7.3
+  },
+  "Honduras": {
+   "index": 0.561,
+   "communitySafety": 54,
+   "ipv": 7.2
+  },
+  "Djibouti": {
+   "index": 0.56,
+   "communitySafety": 58.5,
+   "ipv": 17.5
+  },
+  "Mexico": {
+   "index": 0.558,
+   "communitySafety": 41,
+   "ipv": 9.9
+  },
+  "Eswatini": {
+   "index": 0.556,
+   "communitySafety": 32,
+   "ipv": 17.7
+  },
+  "Colombia": {
+   "index": 0.551,
+   "communitySafety": 42,
+   "ipv": 11.9
+  },
+  "Malawi": {
+   "index": 0.549,
+   "communitySafety": 46,
+   "ipv": 16.6
+  },
+  "Mozambique": {
+   "index": 0.548,
+   "communitySafety": 45,
+   "ipv": 16.4
+  },
+  "Kenya": {
+   "index": 0.542,
+   "communitySafety": 40,
+   "ipv": 22.8
+  },
+  "Gambia": {
+   "index": 0.528,
+   "communitySafety": 39,
+   "ipv": 10
+  },
+  "Guinea": {
+   "index": 0.527,
+   "communitySafety": 56.0,
+   "ipv": 20.8
+  },
+  "Bangladesh": {
+   "index": 0.526,
+   "communitySafety": 72,
+   "ipv": 23.2
+  },
+  "Ethiopia": {
+   "index": 0.516,
+   "communitySafety": 52,
+   "ipv": 26.5
+  },
+  "Liberia": {
+   "index": 0.512,
+   "communitySafety": 29.0,
+   "ipv": 26.9
+  },
+  "Iraq": {
+   "index": 0.51,
+   "communitySafety": 67,
+   "ipv": 15.1
+  },
+  "Guinea-Bissau": {
+   "index": 0.508,
+   "communitySafety": 47.8,
+   "ipv": 21.2
+  },
+  "Burkina Faso": {
+   "index": 0.507,
+   "communitySafety": 63,
+   "ipv": 11.2
+  },
+  "Papua New Guinea": {
+   "index": 0.507,
+   "communitySafety": 64.8,
+   "ipv": 30.6
+  },
+  "Nigeria": {
+   "index": 0.495,
+   "communitySafety": 51,
+   "ipv": 13.2
+  },
+  "Niger": {
+   "index": 0.492,
+   "communitySafety": 63,
+   "ipv": 12.9
+  },
+  "Mali": {
+   "index": 0.478,
+   "communitySafety": 67,
+   "ipv": 18.4
+  },
+  "Chad": {
+   "index": 0.476,
+   "communitySafety": 43,
+   "ipv": 16.2
+  },
+  "Mauritania": {
+   "index": 0.475,
+   "communitySafety": 60,
+   "ipv": 18.3
+  },
+  "Palestine": {
+   "index": 0.469,
+   "communitySafety": 56.0,
+   "ipv": 19.1
+  },
+  "Madagascar": {
+   "index": 0.466,
+   "communitySafety": 38,
+   "ipv": 21.9
+  },
+  "Pakistan": {
+   "index": 0.462,
+   "communitySafety": 41,
+   "ipv": 16.2
+  },
+  "Somalia": {
+   "index": 0.455,
+   "communitySafety": 82,
+   "ipv": 19.8
+  },
+  "Cameroon": {
+   "index": 0.451,
+   "communitySafety": 41,
+   "ipv": 22
+  },
+  "Myanmar": {
+   "index": 0.442,
+   "communitySafety": 38,
+   "ipv": 10.7
+  },
+  "South Sudan": {
+   "index": 0.411,
+   "communitySafety": 43,
+   "ipv": 26.7
+  },
+  "Burundi": {
+   "index": 0.407,
+   "communitySafety": 62,
+   "ipv": 22.1
+  },
+  "Democratic Republic of the Congo": {
+   "index": 0.405,
+   "communitySafety": 45,
+   "ipv": 35.6
+  },
+  "Haiti": {
+   "index": 0.399,
+   "communitySafety": 45,
+   "ipv": 12.2
+  },
+  "Sudan": {
+   "index": 0.397,
+   "communitySafety": 52.2,
+   "ipv": 16.7
+  },
+  "Syrian Arab Republic": {
+   "index": 0.364,
+   "communitySafety": 17,
+   "ipv": 19.0
+  },
+  "Central African Republic": {
+   "index": 0.362,
+   "communitySafety": 50,
+   "ipv": 20.9
+  },
+  "Yemen": {
+   "index": 0.323,
+   "communitySafety": 43,
+   "ipv": 19.8
+  },
+  "Afghanistan": {
+   "index": 0.279,
+   "communitySafety": 25,
+   "ipv": 34.7
+  },
+  "Developed countries": {
+   "index": 0.847,
+   "communitySafety": 65.3,
+   "ipv": 5.0
+  },
+  "Central and East Europe and Central Asia": {
+   "index": 0.715,
+   "communitySafety": 60.4,
+   "ipv": 7.7
+  },
+  "East Asia and the Pacific": {
+   "index": 0.68,
+   "communitySafety": 84.3,
+   "ipv": 8.1
+  },
+  "Latin America and the Caribbean": {
+   "index": 0.625,
+   "communitySafety": 42.2,
+   "ipv": 8.2
+  },
+  "Middle East and North Africa": {
+   "index": 0.536,
+   "communitySafety": 64.7,
+   "ipv": 14.2
+  },
+  "South Asia": {
+   "index": 0.581,
+   "communitySafety": 64.7,
+   "ipv": 18.6
+  },
+  "Sub Saharan Africa": {
+   "index": 0.511,
+   "communitySafety": 48.6,
+   "ipv": 20.1
+  },
+  "Fragile States": {
+   "index": 0.458,
+   "communitySafety": 49.2,
+   "ipv": 18.9
+  },
+  "World": {
+   "index": 0.65,
+   "communitySafety": 66.3,
+   "ipv": 12.4
+  },
+  "High income": {
+   "index": 0.818,
+   "communitySafety": 64.9,
+   "ipv": 5.2
+  },
+  "Upper-middle income": {
+   "index": 0.679,
+   "communitySafety": 73.8,
+   "ipv": 8.7
+  },
+  "Lower-middle income": {
+   "index": 0.581,
+   "communitySafety": 62.8,
+   "ipv": 16.7
+  },
+  "Low income": {
+   "index": 0.464,
+   "communitySafety": 48.6,
+   "ipv": 23.4
+  },
+  "Very high human development": {
+   "index": 0.805,
+   "communitySafety": 62.6,
+   "ipv": 5.7
+  },
+  "High human development": {
+   "index": 0.673,
+   "communitySafety": 75.2,
+   "ipv": 8.8
+  },
+  "Medium human development": {
+   "index": 0.577,
+   "communitySafety": 62.9,
+   "ipv": 18.2
+  },
+  "Low human development": {
+   "index": 0.458,
+   "communitySafety": 46.8,
+   "ipv": 21.2
+  }
+ }
+}

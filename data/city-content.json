@@ -1,0 +1,4062 @@
+{
+ "_meta": {
+  "note": "Qualitative city content. AI-drafted, human-reviewed (METHODOLOGY §12). Authored in region batches; any city absent here falls back to the legacy `draw` string + per-month `events`. activities are 0-3 on 8 fixed dimensions: food, nature, water, culture, nightlife, wellness, adventure, nomad. events.months are 1-12; tier 3 = major.",
+  "asOf": "2026-06",
+  "status": "pilot batch (6 cities) for review before full rollout"
+ },
+ "Lisbon": {
+  "safetyNarrative": "One of Europe's safest capitals; the realistic visitor risk is pickpocketing on tram 28 and in Alfama and Baixa, plus persistent (but harmless) street drug-hawkers near tourist spots. Violent crime against tourists is rare.",
+  "draw": {
+   "narrative": "Atlantic light, tiled façades and steep miradouros over the Tagus, with some of Europe's best seafood and a café-to-fado rhythm that rewards a long stay. Surf and day-trip beaches are 30 minutes away.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 2,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 2,
+    "adventure": 2,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Carnival",
+    "months": [
+     2
+    ],
+    "tier": 2,
+    "blurb": "pre-Lent parades and parties"
+   },
+   {
+    "name": "Festas de Lisboa / Santo António",
+    "months": [
+     6
+    ],
+    "tier": 3,
+    "blurb": "grilled sardines, street parties and the saint's-day parade down Avenida da Liberdade"
+   },
+   {
+    "name": "NOS Alive",
+    "months": [
+     7
+    ],
+    "tier": 2,
+    "blurb": "major riverside music festival"
+   }
+  ]
+ },
+ "Chiang Mai": {
+  "safetyNarrative": "Very low violent crime; the main risks are motorbike accidents, occasional bag-snatching, and scooter-rental damage scams. The bigger seasonal concern is burning-season smoke (Feb–Apr), a health rather than safety issue.",
+  "draw": {
+   "narrative": "A walkable old city of temples and night markets ringed by jungle mountains, with a deep café and wellness scene and the most established nomad community in Southeast Asia. Doi Suthep and waterfalls are a short ride out.",
+   "activities": {
+    "food": 3,
+    "nature": 3,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 3,
+    "adventure": 2,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Flower Festival",
+    "months": [
+     2
+    ],
+    "tier": 2,
+    "blurb": "floats and blooms as cool season peaks"
+   },
+   {
+    "name": "Songkran",
+    "months": [
+     4
+    ],
+    "tier": 3,
+    "blurb": "Thai New Year water festival, city-wide"
+   },
+   {
+    "name": "Yi Peng & Loy Krathong",
+    "months": [
+     11
+    ],
+    "tier": 3,
+    "blurb": "lantern and river-offering festival, the signature Chiang Mai sight"
+   }
+  ]
+ },
+ "Mexico City": {
+  "safetyNarrative": "Central boroughs (Roma, Condesa, Polanco, Centro) are well-policed and feel safe by day; the real risks are pickpocketing on the metro and express kidnapping via hailed street taxis — use ride apps and avoid flashing valuables. Cartel violence does not reach the tourist core.",
+  "draw": {
+   "narrative": "A vast, layered capital where world-class museums, Aztec ruins and leafy Roma–Condesa cafés sit beside one of the planet's great food scenes, from street tacos to tasting menus. Endlessly walkable in pockets, with strong nomad infrastructure.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 2,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Semana Santa",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 2,
+    "blurb": "Holy Week; the city empties as locals travel"
+   },
+   {
+    "name": "Grito de Independencia",
+    "months": [
+     9
+    ],
+    "tier": 3,
+    "blurb": "Independence Day; the Zócalo fills on the 15th"
+   },
+   {
+    "name": "Día de Muertos",
+    "months": [
+     10,
+     11
+    ],
+    "tier": 3,
+    "blurb": "Day of the Dead ofrendas and the grand parade"
+   }
+  ]
+ },
+ "Cape Town": {
+  "safetyNarrative": "Spectacular but genuinely high-crime: violent-crime rates are among the world's highest, though overwhelmingly concentrated in townships well away from visitor areas. The V&A Waterfront, Atlantic Seaboard and Winelands are heavily secured; risks are muggings if you walk the CBD after dark, hike Table Mountain alone, or stop at isolated viewpoints. Don't display valuables and use a car after dark.",
+  "draw": {
+   "narrative": "Few cities pair a mountain, two oceans and a wine region this dramatically. World-class hiking on Table Mountain, cold-water surf, penguin beaches and the Cape Winelands make it an outdoor playground — best enjoyed with local situational awareness.",
+   "activities": {
+    "food": 3,
+    "nature": 3,
+    "water": 3,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 3,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Cape Town Cycle Tour",
+    "months": [
+     3
+    ],
+    "tier": 2,
+    "blurb": "the world's largest timed cycle race"
+   },
+   {
+    "name": "Cape Town Jazz Festival",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 2,
+    "blurb": "Africa's grandest jazz gathering"
+   },
+   {
+    "name": "Summer (peak)",
+    "months": [
+     12,
+     1
+    ],
+    "tier": 2,
+    "blurb": "beach and festival season; book ahead"
+   }
+  ]
+ },
+ "San Miguel de Allende": {
+  "safetyNarrative": "San Miguel sits in Guanajuato, Mexico's most violent state, and the municipality's homicide rate (~49/100k for the year to Aug 2025) is genuinely high — so the score stays grounded at a mid-'Safe' level rather than pretending otherwise. But the violence is overwhelmingly cartel-vs-cartel and concentrated in peripheral neighborhoods (Atascadero, the Los Frailes outskirts), not the Centro Histórico, where daytime safety is rated very high and the main risk is pickpocketing. The large retiree and expat community consistently reports feeling safe and is rarely affected; newer arrivals increasingly favor gated communities. Two real caveats: an August 2025 shooting at a patron-saint festival left 2 dead and 17 wounded (an organized-crime outlier, but in a public space), and peripheral areas are riskier after dark. The trend is improving sharply — October 2025 recorded zero homicides, the calmest month in two decades. Both the US (Level 3) and UK FCDO flag the state; weigh those, but the in-town visitor reality is far calmer than the municipal figure alone suggests.",
+  "draw": {
+   "narrative": "A UNESCO jewel of rose-stone streets, a famous parish silhouette and a long-established arts and expat scene, with rooftop dining, galleries and hot-spring spas in the surrounding countryside. Made for slow days.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 3,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Semana Santa",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 3,
+    "blurb": "one of Mexico's most elaborate Holy Week observances"
+   },
+   {
+    "name": "La Alborada",
+    "months": [
+     9
+    ],
+    "tier": 2,
+    "blurb": "pre-dawn fireworks honoring St Michael"
+   },
+   {
+    "name": "Día de los Muertos",
+    "months": [
+     10,
+     11
+    ],
+    "tier": 3,
+    "blurb": "altars, Catrinas and La Calaca festival"
+   }
+  ]
+ },
+ "Medellín": {
+  "safetyNarrative": "Transformed but still demanding street smarts — locals say 'no dar papaya' (don't make yourself an easy target). The real risks are drink-spiking and scopolamine (often via dating apps), robbery around El Poblado and Laureles nightlife, and express kidnapping in unregistered taxis. Cartel violence is not aimed at tourists, but the US rates Colombia Level 3.",
+  "draw": {
+   "narrative": "A valley city of eternal spring with a famous metro-and-cable-car transformation story, vibrant Poblado and Laureles neighborhoods, and a fast-growing nomad scene. Easy weekend escapes to Guatapé and coffee-country fincas.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 0,
+    "culture": 2,
+    "nightlife": 3,
+    "wellness": 2,
+    "adventure": 2,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Feria de las Flores",
+    "months": [
+     8
+    ],
+    "tier": 3,
+    "blurb": "the Flower Fair — silleteros parade, the city's signature week"
+   },
+   {
+    "name": "Alumbrados",
+    "months": [
+     12
+    ],
+    "tier": 3,
+    "blurb": "spectacular Christmas light displays along the river"
+   }
+  ]
+ },
+ "Bangkok": {
+  "safetyNarrative": "Violent crime against visitors is rare; the realistic risks are gem and tuk-tuk scams around the major sights, pickpocketing in crowded markets and on transit, and the traffic itself. Stick to metered taxis or ride apps and the city is easy.",
+  "draw": {
+   "narrative": "A maximalist capital: street-food alleys and Michelin-starred shophouses, gilded temples beside canal neighborhoods, rooftop bars over the Chao Phraya — all hyper-connected by BTS/MRT and the region's best flight hub. Malls and cafés make the hot months livable.",
+   "activities": {
+    "food": 3,
+    "nature": 0,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 2,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Songkran",
+    "months": [
+     4
+    ],
+    "tier": 3,
+    "blurb": "Thai New Year water festival — the whole city becomes a water fight"
+   },
+   {
+    "name": "Loy Krathong",
+    "months": [
+     11
+    ],
+    "tier": 2,
+    "blurb": "candle-lit floats on every waterway"
+   },
+   {
+    "name": "Vegetarian Festival",
+    "months": [
+     10
+    ],
+    "tier": 1,
+    "blurb": "yellow-flag street food across Chinatown"
+   }
+  ]
+ },
+ "Hoi An": {
+  "safetyNarrative": "A low-crime tourist town; the realistic concerns are minor theft of unattended items, occasional overcharging, and scooter traffic on the beach road. Walking the old town at night is comfortable.",
+  "draw": {
+   "narrative": "Lantern-lit UNESCO old town on a lazy river, tailor shops and cooking classes, with rice-paddy cafés and An Bang beach a ten-minute cycle away. Touristy at the core but genuinely lovely on its edges — a soft landing for a slow month.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 2,
+    "culture": 3,
+    "nightlife": 1,
+    "wellness": 2,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Tết (Lunar New Year)",
+    "months": [
+     2
+    ],
+    "tier": 2,
+    "blurb": "flowers, family altars — many businesses close for a week"
+   },
+   {
+    "name": "Mid-Autumn Festival",
+    "months": [
+     9
+    ],
+    "tier": 2,
+    "blurb": "lion dances and mooncakes in the old town"
+   },
+   {
+    "name": "Full-moon Lantern Nights",
+    "months": [
+     1,
+     3,
+     5,
+     7,
+     11
+    ],
+    "tier": 1,
+    "blurb": "monthly: electric lights off, lanterns on, every lunar 14th"
+   }
+  ]
+ },
+ "Da Nang": {
+  "safetyNarrative": "One of Vietnam's easier big cities: low crime beyond minor beach-strip theft. The main daily risk is scooter traffic; lock bikes and don't leave phones on café tables.",
+  "draw": {
+   "narrative": "A long sandy beach city with mountain backdrops — My Khe surf mornings, the Marble Mountains and Hai Van Pass for weekends, Son Tra's monkeys at sunset, and a fast-growing café/coworking scene at mainland prices. Hoi An is 30 minutes south.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 3,
+    "culture": 1,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 2,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Da Nang International Fireworks Festival",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "blurb": "weeks of riverfront pyrotechnic competitions"
+   },
+   {
+    "name": "Tết (Lunar New Year)",
+    "months": [
+     2
+    ],
+    "tier": 2,
+    "blurb": "the year's big holiday; expect closures"
+   }
+  ]
+ },
+ "Hanoi": {
+  "safetyNarrative": "Pickpocketing and bag-snatching around the Old Quarter and markets, plus taxi and scooter-rental scams, are the realistic risks; violent crime against visitors is rare. Crossing the street is the real adventure.",
+  "draw": {
+   "narrative": "The grand old capital: a thousand-year-old quarter of leaning shophouses and lakes, egg coffee in hidden cafés, bún chả alleys, and weekend escapes to Ninh Binh or Ha Long. Cooler and moodier than the south — bring a jacket for the grey winter.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Tết (Lunar New Year)",
+    "months": [
+     2
+    ],
+    "tier": 3,
+    "blurb": "peach blossoms and kumquat trees everywhere; the city empties then feasts"
+   },
+   {
+    "name": "Mid-Autumn Festival",
+    "months": [
+     9
+    ],
+    "tier": 1,
+    "blurb": "toy street (Hàng Mã) in full glow"
+   }
+  ]
+ },
+ "Ho Chi Minh City": {
+  "safetyNarrative": "The one habit to build: keep phones and bags away from the curb — drive-by snatching from motorbikes is the city's signature crime. Beyond that, violent crime against visitors is rare and the center feels lively late.",
+  "draw": {
+   "narrative": "Vietnam's economic engine: relentless, friendly energy, the country's most ambitious food scene from bánh mì carts to fine dining, rooftop bars, war-history museums, and a deep café culture. The expat/nomad infrastructure is the best in the country.",
+   "activities": {
+    "food": 3,
+    "nature": 0,
+    "water": 0,
+    "culture": 2,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Tết (Lunar New Year)",
+    "months": [
+     2
+    ],
+    "tier": 3,
+    "blurb": "flower street on Nguyễn Huệ; the city is uncharacteristically quiet for a week"
+   }
+  ]
+ },
+ "Da Lat": {
+  "safetyNarrative": "A quiet highland town with low crime; the realistic risks are mountain-road traffic and tour-activity safety standards rather than people.",
+  "draw": {
+   "narrative": "Vietnam's cool-air hill station: pine forests, flower farms and lakes at 1,500 m, French villas gone pleasantly mossy, strawberry gardens and some of the country's best coffee growing next door. Sweater weather year-round while the coast swelters.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 1,
+    "culture": 1,
+    "nightlife": 1,
+    "wellness": 2,
+    "adventure": 2,
+    "nomad": 1
+   }
+  },
+  "events": [
+   {
+    "name": "Da Lat Flower Festival",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "blurb": "biennial city-wide flower show and night markets"
+   }
+  ]
+ },
+ "Nha Trang": {
+  "safetyNarrative": "Generally safe; petty theft along the beach strip and tourist promenade is the main issue, plus the usual scooter-traffic risk. Watch belongings on the sand.",
+  "draw": {
+   "narrative": "A proper beach-resort city: a long urban bay with islands offshore, Vietnam's best easy diving and snorkeling, seafood streets, mud baths, and a boardwalk that hums on weekends. More Russian-resort than nomad-hub in vibe — come for the water.",
+   "activities": {
+    "food": 2,
+    "nature": 1,
+    "water": 3,
+    "culture": 1,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 2,
+    "nomad": 1
+   }
+  },
+  "events": [
+   {
+    "name": "Tết (Lunar New Year)",
+    "months": [
+     2
+    ],
+    "tier": 2,
+    "blurb": "beach town at its busiest with domestic travelers"
+   }
+  ]
+ },
+ "Siem Reap": {
+  "safetyNarrative": "Bag-snatching from passing motorbikes, pickpocketing around Pub Street and the markets, and tuk-tuk overcharging are the realistic risks; keep bags on the inside arm. The temples themselves are well-patrolled.",
+  "draw": {
+   "narrative": "The Angkor temples are one of the planet's great sights, and the town has grown a real life beyond them — riverside cafés, a maturing food scene, craft workshops and rice-field cycling. A week minimum for the ruins; a month is calmer than it sounds.",
+   "activities": {
+    "food": 2,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Khmer New Year",
+    "months": [
+     4
+    ],
+    "tier": 3,
+    "blurb": "three days of water, talc and family visits"
+   },
+   {
+    "name": "Bon Om Touk (Water Festival)",
+    "months": [
+     11
+    ],
+    "tier": 2,
+    "blurb": "boat races as the Tonlé Sap reverses flow"
+   }
+  ]
+ },
+ "Bali (Canggu/Ubud)": {
+  "safetyNarrative": "Scooter bag-snatching, ATM skimming and theft from villas/rentals are the realistic risks, along with scooter accidents — the island's biggest actual danger. Violent crime against visitors is rare.",
+  "draw": {
+   "narrative": "The nomad archetype for a reason: rice-terrace mornings, surf at a dozen breaks, yoga and breathwork everywhere, temple ceremonies threading daily life, and a café/coworking density few places match. Choose Ubud for green quiet, Canggu for the scene.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 3,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 3,
+    "adventure": 3,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Nyepi (Day of Silence)",
+    "months": [
+     3
+    ],
+    "tier": 3,
+    "blurb": "ogoh-ogoh parades, then a full day when the whole island stops — airport included"
+   },
+   {
+    "name": "Ubud Writers & Readers Festival",
+    "months": [
+     10
+    ],
+    "tier": 1,
+    "blurb": "international literary festival"
+   }
+  ]
+ },
+ "George Town (Penang)": {
+  "safetyNarrative": "Calmer than Kuala Lumpur; occasional bag-snatching and petty theft in the busy heritage core are the realistic risks. Walking the old town at night is generally comfortable.",
+  "draw": {
+   "narrative": "Southeast Asia's street-food capital inside a UNESCO shophouse grid — hawker courts, clan jetties, street art, and a creative café scene, with beaches and Penang Hill jungle at the edges. Cheap, walkable (rare for Malaysia), and easy to settle into.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 1,
+    "culture": 3,
+    "nightlife": 1,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Thaipusam",
+    "months": [
+     1,
+     2
+    ],
+    "tier": 2,
+    "blurb": "dramatic Hindu procession to the waterfall temple"
+   },
+   {
+    "name": "George Town Festival",
+    "months": [
+     7
+    ],
+    "tier": 2,
+    "blurb": "month of arts across the heritage zone"
+   },
+   {
+    "name": "Chinese New Year",
+    "months": [
+     2
+    ],
+    "tier": 2,
+    "blurb": "clan-house open nights and lion dances"
+   }
+  ]
+ },
+ "Kuala Lumpur": {
+  "safetyNarrative": "Motorcycle bag-snatching, card/ATM fraud and taxi overcharging are the realistic risks; keep bags on the building side of the pavement. Violent crime against visitors is uncommon.",
+  "draw": {
+   "narrative": "A genuinely multicultural metropolis — Malay, Chinese and Indian food in the same block, glossy malls and jungle parks, kopitiams under the Petronas Towers. Some of the best apartment value of any major Asian city, with English everywhere.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 0,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Thaipusam (Batu Caves)",
+    "months": [
+     1,
+     2
+    ],
+    "tier": 3,
+    "blurb": "over a million pilgrims climb the 272 steps"
+   },
+   {
+    "name": "Hari Raya Aidilfitri",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 2,
+    "blurb": "open houses and bazaars at Ramadan's end (date shifts yearly)"
+   }
+  ]
+ },
+ "Ipoh": {
+  "safetyNarrative": "A safe, low-key city; ordinary petty-theft caution in crowded old-town blocks is all that's needed.",
+  "draw": {
+   "narrative": "Malaysia's quiet food pilgrimage: white coffee kopitiams, bean sprout chicken, dim sum mornings — in a colonial old town ringed by limestone karsts and cave temples. Very cheap, very calm; a between-cities breather more than a scene.",
+   "activities": {
+    "food": 3,
+    "nature": 2,
+    "water": 0,
+    "culture": 1,
+    "nightlife": 0,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 1
+   }
+  },
+  "events": [
+   {
+    "name": "Chinese New Year",
+    "months": [
+     1,
+     2
+    ],
+    "tier": 2,
+    "blurb": "the old town's clan kopitiams at full tilt"
+   }
+  ]
+ },
+ "Kuching": {
+  "safetyNarrative": "Relaxed and safe by regional standards, with low violent crime; normal city caution after dark around the bazaar suffices.",
+  "draw": {
+   "narrative": "Borneo's easiest base: a riverfront old town with serious Sarawak laksa, and orangutans, proboscis monkeys and national-park rainforest all within day-trip range. The pace is slow in the best way.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 1,
+    "culture": 2,
+    "nightlife": 1,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 1
+   }
+  },
+  "events": [
+   {
+    "name": "Rainforest World Music Festival",
+    "months": [
+     7
+    ],
+    "tier": 2,
+    "blurb": "three days of world music at the Cultural Village under Mount Santubong"
+   },
+   {
+    "name": "Gawai Dayak",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "blurb": "harvest festival; longhouse open doors and tuak"
+   }
+  ]
+ },
+ "Dumaguete": {
+  "safetyNarrative": "A tourist-friendly university town; petty theft and the Philippines' national advisory context (re-check before booking) warrant ordinary caution, and solo women report wanting extra care after dark.",
+  "draw": {
+   "narrative": "The 'City of Gentle People': a seafront promenade, student energy, and world-class water on the doorstep — Apo Island's turtles, Siquijor across the strait, dolphins off Bais. One of Asia's cheapest comfortable bases.",
+   "activities": {
+    "food": 1,
+    "nature": 2,
+    "water": 3,
+    "culture": 1,
+    "nightlife": 1,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Buglasan Festival",
+    "months": [
+     10
+    ],
+    "tier": 2,
+    "blurb": "Negros Oriental's festival of festivals — floats, dance-offs, food fairs"
+   },
+   {
+    "name": "Sandurot Festival",
+    "months": [
+     11
+    ],
+    "tier": 1,
+    "blurb": "city fiesta celebrating Dumaguete's mixed heritage"
+   }
+  ]
+ },
+ "Oaxaca": {
+  "safetyNarrative": "The colonial tourist core is calm with modest petty theft; the state's violence sits far away in the Isthmus and coastal corridors. Standard market-crowd care and registered taxis cover the realistic risks.",
+  "draw": {
+   "narrative": "Mexico's food-and-craft heartland: mole and tlayudas, mezcal palenques, weaving villages, baroque churches in green cantera stone — with Monte Albán above town and Pacific surf a (winding) bus away. Day of the Dead here is the country's most moving.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Guelaguetza",
+    "months": [
+     7
+    ],
+    "tier": 3,
+    "blurb": "two Mondays of state-wide indigenous dance in the hillside amphitheater"
+   },
+   {
+    "name": "Día de Muertos",
+    "months": [
+     10,
+     11
+    ],
+    "tier": 3,
+    "blurb": "comparsas, sand tapestries and candle-lit panteones"
+   },
+   {
+    "name": "Noche de Rábanos",
+    "months": [
+     12
+    ],
+    "tier": 1,
+    "blurb": "Dec 23: carved-radish dioramas on the zócalo"
+   }
+  ]
+ },
+ "Mérida": {
+  "safetyNarrative": "Mexico's safest state capital — violent crime against residents or visitors is genuinely rare and street theft is very low. The heat, not crime, is what needs managing.",
+  "draw": {
+   "narrative": "A grand white limestone city with Yucatecan food all its own (cochinita, sopa de lima), free music in the plazas most nights, and cenotes, Mayan ruins and Gulf beaches fanning out in every direction. Brutally hot April–June; winter is glorious.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 1,
+    "culture": 2,
+    "nightlife": 1,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Mérida Fest",
+    "months": [
+     1
+    ],
+    "tier": 2,
+    "blurb": "a month of concerts and theater for the city's anniversary"
+   },
+   {
+    "name": "Carnaval",
+    "months": [
+     2
+    ],
+    "tier": 2,
+    "blurb": "family-friendly parades out at Xmatkuil"
+   },
+   {
+    "name": "Hanal Pixán (Day of the Dead)",
+    "months": [
+     10,
+     11
+    ],
+    "tier": 2,
+    "blurb": "the Mayan Day of the Dead — altars and Paseo de Ánimas"
+   }
+  ]
+ },
+ "Puebla": {
+  "safetyNarrative": "The historic center is well-policed and walkable; the realistic risks are petty theft in markets and intercity-highway crime when traveling onward — book first-class buses or fly.",
+  "draw": {
+   "narrative": "A baroque showpiece two hours from CDMX: talavera-tiled churches, the country's deepest mole tradition, volcano views down avenue sightlines, and Cholula's great pyramid next door. Underrated for a slow colonial month at small-city prices.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 1,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 1
+   }
+  },
+  "events": [
+   {
+    "name": "Cinco de Mayo",
+    "months": [
+     5
+    ],
+    "tier": 3,
+    "blurb": "the battle was here — Puebla's parade is the real one"
+   },
+   {
+    "name": "Día de Muertos",
+    "months": [
+     10,
+     11
+    ],
+    "tier": 2,
+    "blurb": "altars across the centro and in Huaquechula nearby"
+   }
+  ]
+ },
+ "Querétaro": {
+  "safetyNarrative": "One of the lower-violence big cities in Mexico, with an expat-friendly, prosperous feel; highway travel and late-night bar zones are where normal caution applies — the state's troubles are elsewhere.",
+  "draw": {
+   "narrative": "A polished Bajío city on the rise: aqueduct-framed colonial center, Mexico's fastest-growing wine-and-cheese country (Tequisquiapan, Bernal's monolith) within an hour, and a strong remote-work middle-class infrastructure. Safe-feeling and very livable.",
+   "activities": {
+    "food": 2,
+    "nature": 1,
+    "water": 0,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Feria del Queso y el Vino",
+    "months": [
+     5,
+     6
+    ],
+    "tier": 2,
+    "blurb": "the region's wine & cheese fair in Tequisquiapan"
+   },
+   {
+    "name": "Fiestas de Independencia",
+    "months": [
+     9
+    ],
+    "tier": 2,
+    "blurb": "the conspiracy began here — September runs proud"
+   }
+  ]
+ },
+ "Guanajuato": {
+  "safetyNarrative": "The tunnel-laced tourist core is far calmer than the statewide statistics, but Guanajuato state carries elevated cartel violence and a US Level 3 plus a UK FCDO carve-out — keep to the city, travel by day, and weigh the advisories yourself.",
+  "draw": {
+   "narrative": "Maybe Mexico's most beautiful small city: a painted-canyon jumble of plazas, callejones and student music, with the Diego Rivera house, mummies museum and silver-mine history packed into a walkable bowl. Cervantino month transforms it.",
+   "activities": {
+    "food": 2,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 1
+   }
+  },
+  "events": [
+   {
+    "name": "Festival Internacional Cervantino",
+    "months": [
+     10
+    ],
+    "tier": 3,
+    "blurb": "Latin America's biggest performing-arts festival takes over every plaza"
+   },
+   {
+    "name": "Día de Muertos",
+    "months": [
+     11
+    ],
+    "tier": 2,
+    "blurb": "university comparsas through the callejones"
+   }
+  ]
+ },
+ "Porto": {
+  "safetyNarrative": "Calm and walkable with modest pickpocketing around the Ribeira, São Bento and trams as the main risk; violent crime against visitors is rare.",
+  "draw": {
+   "narrative": "Lisbon's moodier, cheaper sibling: port lodges across the Douro, azulejo churches and brutalist gems, the Atlantic at the end of a tram line, and a serious food renaissance from tasca to tasting menu. Grey and romantic in winter, golden in June.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 2,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "São João",
+    "months": [
+     6
+    ],
+    "tier": 3,
+    "blurb": "the city's wild midsummer night — plastic hammers, sardines, fireworks over the Douro"
+   },
+   {
+    "name": "Queima das Fitas",
+    "months": [
+     5
+    ],
+    "tier": 1,
+    "blurb": "student week; ribbons and concerts"
+   }
+  ]
+ },
+ "Lagos (Algarve)": {
+  "safetyNarrative": "A quiet resort town with low crime, especially off-season; summer brings ordinary nightlife-district care and car break-ins at trailhead parking.",
+  "draw": {
+   "narrative": "Golden cliffs and sea caves (Ponta da Piedade), town beaches you can walk to, and a compact old town that stays alive — but humane — through winter. Off-season it's one of Europe's best warm, cheap, safe bases; high summer is another animal.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 3,
+    "culture": 1,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Festival dos Descobrimentos",
+    "months": [
+     4,
+     5
+    ],
+    "tier": 1,
+    "blurb": "caravels and costumed history on the waterfront"
+   },
+   {
+    "name": "Banho de 29",
+    "months": [
+     8
+    ],
+    "tier": 1,
+    "blurb": "Aug 29 midnight sea bath tradition"
+   }
+  ]
+ },
+ "Funchal (Madeira)": {
+  "safetyNarrative": "A very safe island capital — crime is about as low as European cities get; the real risks are levada-trail exposure and rental-car mountain roads.",
+  "draw": {
+   "narrative": "Eternal-spring island living: levada walks through laurel forest, poncha bars and black-scabbard-fish dinners, ocean pools, and 1,800 m peaks twenty minutes from the marina. The digital-nomad village scheme made it one of Europe's easiest remote bases.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 2,
+    "culture": 2,
+    "nightlife": 1,
+    "wellness": 2,
+    "adventure": 3,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Festa da Flor",
+    "months": [
+     4,
+     5
+    ],
+    "tier": 2,
+    "blurb": "flower carpets and parades as spring peaks"
+   },
+   {
+    "name": "Madeira Wine Festival",
+    "months": [
+     9
+    ],
+    "tier": 2,
+    "blurb": "harvest treading and old-town tastings"
+   },
+   {
+    "name": "New Year Fireworks",
+    "months": [
+     12
+    ],
+    "tier": 3,
+    "blurb": "one of the world's biggest displays, ringing the whole amphitheater bay"
+   }
+  ]
+ },
+ "Tbilisi": {
+  "safetyNarrative": "A notably safe city day-to-day — minor petty theft is the main concern, and large political protests on Rustaveli Avenue are worth avoiding when they flare. Solo walking at night in central districts feels comfortable.",
+  "draw": {
+   "narrative": "Crooked balconied houses over sulfur baths, supra feasts with amber wine, a world-class techno scene in a Soviet bathhouse, and the Caucasus an easy marshrutka away. Cheap, visa-generous (a year for most passports), and endlessly characterful.",
+   "activities": {
+    "food": 3,
+    "nature": 2,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 2,
+    "adventure": 2,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Tbilisoba",
+    "months": [
+     10
+    ],
+    "tier": 2,
+    "blurb": "city festival — harvest stalls, churchkhela and concerts in the old town"
+   },
+   {
+    "name": "New Wine Festival",
+    "months": [
+     5
+    ],
+    "tier": 1,
+    "blurb": "qvevri openings in Mtatsminda Park"
+   }
+  ]
+ },
+ "Granada": {
+  "safetyNarrative": "Calm beyond modest pickpocketing in the Albaicín and around the cathedral; the steep dark lanes feel safer than they look.",
+  "draw": {
+   "narrative": "The Alhambra above, free tapas with every drink below — Granada is Spain's best value for a slow stay: Moorish lanes, teterías, Sacromonte flamenco caves, and Sierra Nevada skiing or hiking an hour away with the coast just beyond.",
+   "activities": {
+    "food": 3,
+    "nature": 2,
+    "water": 1,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Semana Santa",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 2,
+    "blurb": "hooded processions through the Albaicín (date moves with Easter)"
+   },
+   {
+    "name": "Corpus Christi Feria",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "blurb": "the city's big week of casetas and bullfights"
+   }
+  ]
+ },
+ "Seville": {
+  "safetyNarrative": "Calm overall; pickpocketing concentrates in the center and at the big festivals. Summer heat is the real adversary.",
+  "draw": {
+   "narrative": "Andalusia at maximum saturation: orange-blossom springs, tiled palaces and the world's largest Gothic cathedral, tapas crawls across Triana, and flamenco that isn't for show. April is glorious; July and August are 40°C+ and best avoided.",
+   "activities": {
+    "food": 3,
+    "nature": 0,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Semana Santa",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 3,
+    "blurb": "Spain's most famous Holy Week processions"
+   },
+   {
+    "name": "Feria de Abril",
+    "months": [
+     4
+    ],
+    "tier": 3,
+    "blurb": "a week of casetas, horses, sherry and sevillanas"
+   }
+  ]
+ },
+ "Valencia": {
+  "safetyNarrative": "Calm; petty theft around the beach and old town is the realistic concern. Regularly ranked among expats' favorite cities to live.",
+  "draw": {
+   "narrative": "Spain's most livable big city: the Turia park threading 9 km through town, real beach neighborhoods, paella in its birthplace, the futurist City of Arts — at prices Madrid and Barcelona left behind. Bikeable, sunny, and easy to settle into.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 3,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Las Fallas",
+    "months": [
+     3
+    ],
+    "tier": 3,
+    "blurb": "a week of daily mascletàs and burning five-story sculptures"
+   },
+   {
+    "name": "La Tomatina (Buñol)",
+    "months": [
+     8
+    ],
+    "tier": 1,
+    "blurb": "the tomato fight, 40 min away"
+   }
+  ]
+ },
+ "Barcelona": {
+  "safetyNarrative": "Violent crime is low, but Barcelona is among Europe's worst for pickpocketing and bag-snatching — Las Ramblas, the metro and the beach are the hot zones. Phone-out-of-pocket discipline changes everything.",
+  "draw": {
+   "narrative": "Gaudí's city on a beach: world-class architecture, food markets and a Michelin constellation, Mediterranean swims after work, Collserola trails above. The catch: peak-season crowds and Europe's most professional pickpockets.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 3,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Festes de la Mercè",
+    "months": [
+     9
+    ],
+    "tier": 3,
+    "blurb": "the city's festa major — castells, correfocs, free concerts"
+   },
+   {
+    "name": "Sant Jordi",
+    "months": [
+     4
+    ],
+    "tier": 2,
+    "blurb": "books and roses on every street"
+   },
+   {
+    "name": "Primavera Sound",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "blurb": "one of Europe's biggest music festivals"
+   }
+  ]
+ },
+ "Madrid": {
+  "safetyNarrative": "Violent crime is low; pickpocketing in the center and on the metro is the realistic issue, especially around Sol and the Rastro.",
+  "draw": {
+   "narrative": "Spain's great indoors-outdoors capital: the Prado–Reina Sofía–Thyssen triangle, tapas at 1 a.m. as a way of life, Retiro Sundays, and rooftop sunsets against the Guadarrama. High-altitude seasons — crisp winters, hot dry summers.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "San Isidro",
+    "months": [
+     5
+    ],
+    "tier": 3,
+    "blurb": "the patron-saint festival — chotis, picnics and the bullfighting feria"
+   },
+   {
+    "name": "Veranos de la Villa",
+    "months": [
+     7,
+     8
+    ],
+    "tier": 1,
+    "blurb": "summer-long open-air culture program"
+   }
+  ]
+ },
+ "Málaga": {
+  "safetyNarrative": "Calm beyond tourist-zone pickpocketing; the old town and seafront feel easy at night.",
+  "draw": {
+   "narrative": "The Costa del Sol's actual city: a renovated old town with the Picasso and Pompidou, chiringuito espetos on city beaches, 300+ sunny days, and Andalusia by rail in every direction. Winter here is southern Europe's mildest big-city deal.",
+   "activities": {
+    "food": 2,
+    "nature": 1,
+    "water": 3,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Feria de Málaga",
+    "months": [
+     8
+    ],
+    "tier": 3,
+    "blurb": "a week of street fino and verdiales in the August heat"
+   },
+   {
+    "name": "Semana Santa",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 2,
+    "blurb": "massive thrones carried through the center"
+   }
+  ]
+ },
+ "Las Palmas (Gran Canaria)": {
+  "safetyNarrative": "Resort- and port-area petty theft is the realistic concern; the city otherwise runs calm year-round.",
+  "draw": {
+   "narrative": "Europe's winter-sun nomad capital: Las Canteras beach and its surf at the city's heart, 22°C Decembers, volcanic interior hikes, and a real (non-resort) Spanish city behind the sand. The remote-work community is large and well-organized.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 3,
+    "culture": 1,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 2,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Carnaval de Las Palmas",
+    "months": [
+     2,
+     3
+    ],
+    "tier": 3,
+    "blurb": "weeks of murgas, drag galas and parades — one of Spain's biggest"
+   },
+   {
+    "name": "WOMAD",
+    "months": [
+     11
+    ],
+    "tier": 1,
+    "blurb": "free world-music festival in the park"
+   }
+  ]
+ },
+ "Rome": {
+  "safetyNarrative": "Violent crime is rare; heavy pickpocketing and bag-snatching at the major sights and on bus 64/metro are the realistic risks.",
+  "draw": {
+   "narrative": "The deepest open-air museum on earth — Caravaggios in free churches, the Forum on your morning walk, trastevere evenings and cacio e pepe — layered over a functioning, chaotic capital. Shoulder seasons turn it from gauntlet to gift.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Natale di Roma",
+    "months": [
+     4
+    ],
+    "tier": 1,
+    "blurb": "the city's 2,700-something birthday — legionaries in the Circus Maximus"
+   },
+   {
+    "name": "Estate Romana",
+    "months": [
+     6,
+     7,
+     8
+    ],
+    "tier": 2,
+    "blurb": "open-air cinema and concerts along the Tiber all summer"
+   }
+  ]
+ },
+ "Florence": {
+  "safetyNarrative": "Calm; tourist-zone pickpocketing around the Duomo and station is the main issue.",
+  "draw": {
+   "narrative": "The Renaissance per square meter champion — Uffizi, Brunelleschi's dome, artisan Oltrarno workshops — with Chianti hills starting at the city bus line. Small enough to learn completely; crowded enough to make early mornings precious.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 1,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Scoppio del Carro",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 2,
+    "blurb": "Easter's exploding cart of fireworks outside the Duomo"
+   },
+   {
+    "name": "Calcio Storico",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "blurb": "costumed no-rules football in Santa Croce"
+   }
+  ]
+ },
+ "Bologna": {
+  "safetyNarrative": "Generally safe; station-area petty theft and some street drug nuisance around the university zone are the realistic concerns.",
+  "draw": {
+   "narrative": "Italy's food brain and best-kept big-city secret: 40 km of porticoes, Europe's oldest university keeping it young and political, tagliatelle al ragù in its homeland, and a rail hub that puts half of Italy within 90 minutes.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Cioccoshow",
+    "months": [
+     11
+    ],
+    "tier": 1,
+    "blurb": "chocolate fair under the porticoes"
+   },
+   {
+    "name": "Estate in piazza",
+    "months": [
+     6,
+     7
+    ],
+    "tier": 1,
+    "blurb": "open-air cinema on Piazza Maggiore"
+   }
+  ]
+ },
+ "Catania (Sicily)": {
+  "safetyNarrative": "Pickpocketing, scooter bag-snatching and short-change scams around the fish market and station are the realistic risks; the lava-stone center otherwise feels lived-in and fine.",
+  "draw": {
+   "narrative": "Sicily's gritty, magnetic second city under a smoking Etna: the pescheria's theater every morning, baroque black-and-white streets, granita breakfasts, and the volcano or the sea within an hour. Cheap for Italy and proudly unpolished.",
+   "activities": {
+    "food": 3,
+    "nature": 3,
+    "water": 2,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Festa di Sant'Agata",
+    "months": [
+     2
+    ],
+    "tier": 3,
+    "blurb": "one of the world's biggest saint festivals — a million people, candle-bearing devotees, three days"
+   }
+  ]
+ },
+ "Palermo": {
+  "safetyNarrative": "Pickpocketing, scooter bag-snatching and market scams are the realistic risks in the center; the mafia is not a tourist-facing problem. Normal big-city care after dark in unlit lanes.",
+  "draw": {
+   "narrative": "An Arab-Norman layer cake of markets, golden mosaics and street food (pani ca meusa, sfincione) that feels like nowhere else in Italy. Crumbling and regenerating at once — Ballarò mornings, Mondello beach summers, opera at the Massimo.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 2,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Festino di Santa Rosalia",
+    "months": [
+     7
+    ],
+    "tier": 3,
+    "blurb": "July 14–15: the patron saint's cart parades to the sea with fireworks"
+   }
+  ]
+ },
+ "Athens": {
+  "safetyNarrative": "Pickpocketing on the metro and around Monastiraki is the main risk, and periodic protests around Syntagma/Exarchia are worth stepping around; violent crime against visitors is rare.",
+  "draw": {
+   "narrative": "The ancient core everyone comes for, plus the scruffy-cool city most miss: Anafiotika's island lanes under the Acropolis, third-wave cafés and natural-wine bars, Aegean ferries from Piraeus, and Athens Riviera swims by tram.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 2,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Athens Epidaurus Festival",
+    "months": [
+     6,
+     7,
+     8
+    ],
+    "tier": 2,
+    "blurb": "ancient-theater performances all summer, including Epidaurus itself"
+   },
+   {
+    "name": "Apokries (Carnival)",
+    "months": [
+     2,
+     3
+    ],
+    "tier": 1,
+    "blurb": "pre-Lent costumes and Plaka mayhem"
+   }
+  ]
+ },
+ "Chania (Crete)": {
+  "safetyNarrative": "A low-key resort town: minor theft in the high season is about it. Crete generally runs safe.",
+  "draw": {
+   "narrative": "A Venetian harbor town with Ottoman bones on Crete's green west end — the Samaria Gorge and Balos lagoon for adventure days, kafeneio rhythms for the rest. Mild enough to winter in, gorgeous enough to fight the May–September crowds for.",
+   "activities": {
+    "food": 3,
+    "nature": 3,
+    "water": 3,
+    "culture": 2,
+    "nightlife": 1,
+    "wellness": 2,
+    "adventure": 3,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Orthodox Easter",
+    "months": [
+     4,
+     5
+    ],
+    "tier": 3,
+    "blurb": "Crete's biggest moment — midnight fireworks and lamb on every spit"
+   },
+   {
+    "name": "Battle of Crete commemorations",
+    "months": [
+     5
+    ],
+    "tier": 1,
+    "blurb": "memorials and events late May"
+   }
+  ]
+ },
+ "Thessaloniki": {
+  "safetyNarrative": "Calmer than Athens; some pickpocketing around Aristotelous and the station. The waterfront feels easy at any hour.",
+  "draw": {
+   "narrative": "Greece's food capital and student city: Byzantine churches between coffee bars, a 5 km seafront promenade, Ano Poli sunsets over the gulf, and a deserved reputation for the country's best eating at two-thirds the price of the capital.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 1,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Thessaloniki International Film Festival",
+    "months": [
+     11
+    ],
+    "tier": 2,
+    "blurb": "the Balkans' premier film event"
+   },
+   {
+    "name": "Dimitria Festival",
+    "months": [
+     10
+    ],
+    "tier": 1,
+    "blurb": "a month of arts for the patron saint"
+   }
+  ]
+ },
+ "Split": {
+  "safetyNarrative": "Very safe beyond seasonal tourist-zone petty theft; Diocletian's Palace at 2 a.m. is calmer than most city centers at noon.",
+  "draw": {
+   "narrative": "Life inside a Roman emperor's retirement palace: marble lanes that empty beautifully off-season, Marjan hill swims off the rocks, ferries fanning out to Hvar, Vis and Brač. May–June and September are the sweet spots; August is wall-to-wall.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 3,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Sudamja (St Domnius)",
+    "months": [
+     5
+    ],
+    "tier": 2,
+    "blurb": "the city's saint week — concerts and processions"
+   },
+   {
+    "name": "Ultra Europe",
+    "months": [
+     7
+    ],
+    "tier": 2,
+    "blurb": "the EDM invasion; book around it"
+   }
+  ]
+ },
+ "Kotor": {
+  "safetyNarrative": "A very safe walled town; minor theft in cruise season is the extent of it. The switchback fortress path wants decent shoes more than caution.",
+  "draw": {
+   "narrative": "A fjord-like bay with a miniature walled city at its elbow — ramparts to climb at dawn, Perast and its island churches a boat-hop away, Lovćen's serpentine road above. Tiny enough that a slow month makes you a regular everywhere.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 3,
+    "culture": 2,
+    "nightlife": 1,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 1
+   }
+  },
+  "events": [
+   {
+    "name": "Boka Night",
+    "months": [
+     8
+    ],
+    "tier": 2,
+    "blurb": "decorated boats and fireworks across the bay"
+   },
+   {
+    "name": "Kotor Carnival",
+    "months": [
+     2
+    ],
+    "tier": 1,
+    "blurb": "masked winter parade"
+   }
+  ]
+ },
+ "Sarajevo": {
+  "safetyNarrative": "Low crime with some pickpocketing around Baščaršija; the standing caution is legacy landmines well off marked trails in the surrounding hills — stay on paths.",
+  "draw": {
+   "narrative": "East and West folded into one compact valley: Ottoman bazaar lanes into Austro-Hungarian boulevards, ćevapi and strong coffee, harrowing and humane war history, and genuinely warm hosting culture. Skiable Olympic mountains are 30 minutes out.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 1
+   }
+  },
+  "events": [
+   {
+    "name": "Sarajevo Film Festival",
+    "months": [
+     8
+    ],
+    "tier": 3,
+    "blurb": "the Balkans' biggest cultural event — the whole city turns cinema"
+   },
+   {
+    "name": "Baščaršija Nights",
+    "months": [
+     7
+    ],
+    "tier": 1,
+    "blurb": "a month of free concerts and theater"
+   }
+  ]
+ },
+ "Belgrade": {
+  "safetyNarrative": "Street crime is low for a city this size; the realistic cautions are nightlife-district awareness and the occasional football-derby crowd.",
+  "draw": {
+   "narrative": "The Balkans' night-owl capital: splav river clubs, kafana sing-alongs, brutalist New Belgrade and the Kalemegdan fortress over two rivers' meeting. Rough-edged, cheap, and famously hospitable once you're one conversation in.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 1,
+    "culture": 2,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Belgrade Beer Fest",
+    "months": [
+     8
+    ],
+    "tier": 2,
+    "blurb": "huge free-entry festival at Ušće"
+   },
+   {
+    "name": "FEST film festival",
+    "months": [
+     2,
+     3
+    ],
+    "tier": 1,
+    "blurb": "long-running international film week"
+   }
+  ]
+ },
+ "Novi Sad": {
+  "safetyNarrative": "Generally safe; petty theft clusters around nightlife and festival crowds, and that's about the extent of it.",
+  "draw": {
+   "narrative": "Serbia's gentler second city: a Habsburg center on the Danube under the Petrovaradin fortress, Fruška Gora monasteries and wineries behind, and one of Europe's great music festivals each July. Slower, cheaper and tidier than Belgrade.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 1,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 1
+   }
+  },
+  "events": [
+   {
+    "name": "EXIT Festival",
+    "months": [
+     7
+    ],
+    "tier": 3,
+    "blurb": "four nights in the fortress moats — book housing far ahead"
+   },
+   {
+    "name": "Tamburica Fest",
+    "months": [
+     6
+    ],
+    "tier": 1,
+    "blurb": "tamburitza orchestras on the quay"
+   }
+  ]
+ },
+ "Tirana": {
+  "safetyNarrative": "Calm beyond pickpocketing and chaotic traffic; Albania's street-safety reputation is far better than its old image.",
+  "draw": {
+   "narrative": "Europe's most surprising capital glow-up: painted facades and bunker museums, Blloku café society, Dajti mountain by cable car, and the Albanian Riviera or Ohrid within a few hours. Cheap, friendly, visa-easy for long stays — and changing fast.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 0,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Summer Day (Dita e Verës)",
+    "months": [
+     3
+    ],
+    "tier": 2,
+    "blurb": "pagan spring festival — ballokume cookies and street parties"
+   },
+   {
+    "name": "Tirana International Film Festival",
+    "months": [
+     9,
+     10
+    ],
+    "tier": 1,
+    "blurb": "the country's main film event"
+   }
+  ]
+ },
+ "Sarandë": {
+  "safetyNarrative": "Coastal-resort petty theft in summer is the realistic concern; off-season the town is sleepy-safe.",
+  "draw": {
+   "narrative": "The Albanian Riviera's base camp: Ksamil's absurdly turquoise coves, ancient Butrint in its lagoon, Corfu glittering across the strait, and seafood dinners at half Greek prices. July–August heaves; June and September are the play.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 3,
+    "culture": 1,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 1
+   }
+  },
+  "events": [
+   {
+    "name": "Summer season opening",
+    "months": [
+     6
+    ],
+    "tier": 1,
+    "blurb": "beach bars and boat lines spin up for the Riviera season"
+   }
+  ]
+ },
+ "Skopje": {
+  "safetyNarrative": "Generally safe; petty theft in busy areas and ordinary late-night caution cover it.",
+  "draw": {
+   "narrative": "A capital of glorious whiplash: the kitsch statue-park center, the Ottoman Old Bazaar's silversmiths and kebapçis, Matka Canyon kayaking 30 minutes away, and Šar mountain weekends. One of Europe's cheapest capitals to actually live in.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 1,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 1
+   }
+  },
+  "events": [
+   {
+    "name": "Skopje Jazz Festival",
+    "months": [
+     10
+    ],
+    "tier": 2,
+    "blurb": "respected international jazz lineup"
+   },
+   {
+    "name": "Vevčani Carnival (nearby)",
+    "months": [
+     1
+    ],
+    "tier": 1,
+    "blurb": "pagan masked carnival, Jan 13–14"
+   }
+  ]
+ },
+ "Ohrid": {
+  "safetyNarrative": "A safe lake town; petty theft in the August crush is the main visitor issue.",
+  "draw": {
+   "narrative": "A UNESCO double (town and lake): Byzantine churches over impossibly clear water, the Bay of Bones, monastery beaches toward St Naum, and trout dinners on stilted terraces. Off-season it's a contemplative, dirt-cheap writing retreat.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 3,
+    "culture": 3,
+    "nightlife": 1,
+    "wellness": 2,
+    "adventure": 2,
+    "nomad": 1
+   }
+  },
+  "events": [
+   {
+    "name": "Ohrid Summer Festival",
+    "months": [
+     7,
+     8
+    ],
+    "tier": 2,
+    "blurb": "classical and theater in ancient venues"
+   },
+   {
+    "name": "Epiphany cross dive",
+    "months": [
+     1
+    ],
+    "tier": 1,
+    "blurb": "Jan 19: swimmers race for the cross in the lake"
+   }
+  ]
+ },
+ "Sofia": {
+  "safetyNarrative": "Calm overall; pickpocketing on busy trams and taxi overcharging are the realistic issues — use the apps, not the rank.",
+  "draw": {
+   "narrative": "A capital with a ski mountain on its doorstep: Vitosha's trails and lifts from the metro line, onion-domed churches and communist monuments, a fast-growing food scene, and some of the EU's lowest living costs. Banya mineral baths are the local secret.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 0,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Sofia Film Fest",
+    "months": [
+     3
+    ],
+    "tier": 1,
+    "blurb": "the country's main film festival"
+   },
+   {
+    "name": "St George's Day",
+    "months": [
+     5
+    ],
+    "tier": 1,
+    "blurb": "roast lamb and name-day feasts"
+   }
+  ]
+ },
+ "Plovdiv": {
+  "safetyNarrative": "Low crime; minor petty theft around the pedestrian mall is about it.",
+  "draw": {
+   "narrative": "One of Europe's oldest living cities, casually: a Roman theater still staging concerts, the Kapana craft-beer quarter, Revival-era mansions on the old town's three hills — all walkable, all cheap. The value pick of the Balkans.",
+   "activities": {
+    "food": 2,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Kapana Fest",
+    "months": [
+     6
+    ],
+    "tier": 1,
+    "blurb": "craft-quarter street festival"
+   },
+   {
+    "name": "Opera Open",
+    "months": [
+     7
+    ],
+    "tier": 2,
+    "blurb": "opera under the stars in the Roman theater"
+   }
+  ]
+ },
+ "Bucharest": {
+  "safetyNarrative": "Calm beyond pickpocketing and ATM/taxi scams — use ride apps. The stray-dog era is long past; the metro is fine.",
+  "draw": {
+   "narrative": "The EU's underrated bargain capital: Belle Époque villas next to Ceaușescu's megalomanic Palace, a serious specialty-coffee and cocktail scene, Herastrau lakes, and the Carpathians two hours away. Fast internet is a national point of pride.",
+   "activities": {
+    "food": 2,
+    "nature": 1,
+    "water": 0,
+    "culture": 2,
+    "nightlife": 3,
+    "wellness": 2,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "George Enescu Festival",
+    "months": [
+     9
+    ],
+    "tier": 2,
+    "blurb": "world-class classical festival (odd years)"
+   },
+   {
+    "name": "Christmas Market",
+    "months": [
+     12
+    ],
+    "tier": 1,
+    "blurb": "Constitution Square lights up"
+   }
+  ]
+ },
+ "Cluj-Napoca": {
+  "safetyNarrative": "A low-crime university city; ordinary nightlife-district care is all that's needed.",
+  "draw": {
+   "narrative": "Transylvania's confident capital: a hundred thousand students keeping it caffeinated, Untold and TIFF on the calendar, the Apuseni mountains and Turda's underground salt-mine theme park nearby, and Romania's strongest tech/remote-work scene.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 0,
+    "culture": 2,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Untold Festival",
+    "months": [
+     8
+    ],
+    "tier": 3,
+    "blurb": "one of Europe's biggest EDM festivals, in the stadium and parks"
+   },
+   {
+    "name": "TIFF",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "blurb": "Transylvania International Film Festival"
+   }
+  ]
+ },
+ "Budapest": {
+  "safetyNarrative": "Pickpocketing in the center and tourist-bar scams (inflated bills) are the realistic issues; violent crime is low. Use ride apps over street taxis.",
+  "draw": {
+   "narrative": "The Danube's showpiece: thermal baths from Ottoman to Art Nouveau, ruin bars in the old Jewish quarter, opera tickets for the price of a cocktail, and coffeehouse culture a century deep. The river panorama never stops earning its UNESCO badge.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 1,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 3,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Sziget Festival",
+    "months": [
+     8
+    ],
+    "tier": 3,
+    "blurb": "a week-long island city of music — one of Europe's biggest"
+   },
+   {
+    "name": "St Stephen's Day",
+    "months": [
+     8
+    ],
+    "tier": 2,
+    "blurb": "Aug 20: fireworks over the Danube"
+   },
+   {
+    "name": "Christmas markets",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "blurb": "Vörösmarty Square and the Basilica light show"
+   }
+  ]
+ },
+ "Buenos Aires": {
+  "safetyNarrative": "Violent crime is low for the region, but pickpocketing and phone/bag-snatching are common — La Boca beyond Caminito, retiro/Constitución stations and crowded subte cars are the hot spots. Keep phones off café tables.",
+  "draw": {
+   "narrative": "Paris built by Italians speaking Spanish: all-night bookstores and milongas, parrilla smoke and natural wine, peeling belle-époque grandeur, fútbol religion. For dollar earners the steak-and-opera life costs astonishingly little.",
+   "activities": {
+    "food": 3,
+    "nature": 0,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Carnaval porteño",
+    "months": [
+     2
+    ],
+    "tier": 2,
+    "blurb": "murga drumming in the barrios"
+   },
+   {
+    "name": "Tango BA Festival y Mundial",
+    "months": [
+     8
+    ],
+    "tier": 3,
+    "blurb": "the world tango championship and city-wide milongas"
+   },
+   {
+    "name": "Feria de Mataderos",
+    "months": [
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11
+    ],
+    "tier": 1,
+    "blurb": "Sunday gaucho fair (closes high summer)"
+   }
+  ]
+ },
+ "Mendoza": {
+  "safetyNarrative": "Comfortable by day; theft risk rises after dark in quiet streets and parks — taxi home from late asados. The standard local advice is don't flash phones.",
+  "draw": {
+   "narrative": "Malbec's hometown under the Andes wall: bodega lunches among the vines, leafy plane-tree streets irrigated by Inca-era canals, Aconcagua treks and high-pass days to Chile. The siesta is real; plan around it.",
+   "activities": {
+    "food": 3,
+    "nature": 3,
+    "water": 0,
+    "culture": 1,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 3,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Fiesta Nacional de la Vendimia",
+    "months": [
+     3
+    ],
+    "tier": 3,
+    "blurb": "the harvest festival — queen crownings, parades, amphitheater spectacle"
+   }
+  ]
+ },
+ "Salta": {
+  "safetyNarrative": "A manageable visitor profile: petty theft and isolated robberies late at night; the compact center is fine with ordinary care.",
+  "draw": {
+   "narrative": "Argentina's best-preserved colonial city and the gate to the surreal northwest — Cafayate's high-altitude torrontés, the Train to the Clouds, red-rock quebradas, peñas with empanadas and folk guitar every night.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 0,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 3,
+    "nomad": 1
+   }
+  },
+  "events": [
+   {
+    "name": "Fiesta del Milagro",
+    "months": [
+     9
+    ],
+    "tier": 3,
+    "blurb": "the city's massive September pilgrimage and processions"
+   },
+   {
+    "name": "Serenata a Cafayate",
+    "months": [
+     2
+    ],
+    "tier": 1,
+    "blurb": "folk-music festival in wine country"
+   }
+  ]
+ },
+ "Montevideo": {
+  "safetyNarrative": "Petty theft and phone-snatching in the center and on buses; armed robbery exists in outer barrios visitors rarely cross. The rambla by day is easy.",
+  "draw": {
+   "narrative": "South America's calmest capital: a 22 km rambla for sunset mate rituals, asado smoke from the Mercado del Puerto, faded art-deco charm, and beach-town weekends up the coast. Stable, unhurried, and deeply liveable — at a price above its neighbors.",
+   "activities": {
+    "food": 2,
+    "nature": 1,
+    "water": 2,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Carnaval (Murgas)",
+    "months": [
+     1,
+     2
+    ],
+    "tier": 3,
+    "blurb": "the world's longest carnival — 40 days of tablados and candombe"
+   },
+   {
+    "name": "Noche de la Nostalgia",
+    "months": [
+     8
+    ],
+    "tier": 1,
+    "blurb": "Aug 24: the whole country dances to oldies"
+   }
+  ]
+ },
+ "Santiago": {
+  "safetyNarrative": "Property crime has risen: pickpocketing, phone-snatching and bag theft in the center and on transit are the realistic risks; violent crime against visitors stays uncommon.",
+  "draw": {
+   "narrative": "The Andes at the end of every street: world-class skiing 90 minutes up, Casablanca and Maipo wine down, ceviche at the Mercado, and Valparaíso's painted chaos an hour away. A polished, efficient base for exploring the country's extremes.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 0,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 3,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Fiestas Patrias",
+    "months": [
+     9
+    ],
+    "tier": 3,
+    "blurb": "Sept 18 fondas — a week of asado, terremotos and cueca"
+   },
+   {
+    "name": "Santiago a Mil",
+    "months": [
+     1
+    ],
+    "tier": 2,
+    "blurb": "international theater festival across the city"
+   }
+  ]
+ },
+ "Cusco": {
+  "safetyNarrative": "A heavily touristed hub: pickpocketing around the Plaza and markets, taxi scams, and rare late-night strangle-robberies on empty streets — taxi home after midnight, and give yourself days for the 3,400 m altitude.",
+  "draw": {
+   "narrative": "The Inca capital wearing a conquistador shell: perfect polygonal walls under baroque churches, the Sacred Valley's ruins and markets, and the Machu Picchu pilgrimage — but staying a month means San Blas cafés and festivals tourists never see.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 3,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Inti Raymi",
+    "months": [
+     6
+    ],
+    "tier": 3,
+    "blurb": "the Inca sun festival at Sacsayhuamán, June 24"
+   },
+   {
+    "name": "Corpus Christi",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "blurb": "fifteen saints carried into the cathedral square"
+   },
+   {
+    "name": "Señor de los Temblores",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 2,
+    "blurb": "the city's dark-skinned Christ procession (Holy Monday)"
+   }
+  ]
+ },
+ "Arequipa": {
+  "safetyNarrative": "A colonial tourist city with pickpocketing and taxi scams as the realistic risks; the white-stone center polices well. Use registered taxis at night.",
+  "draw": {
+   "narrative": "The white city under three volcanoes: sillar-stone cloisters (Santa Catalina is a city within the city), Peru's proudest food tradition in its picanterías, Colca Canyon condors a dawn bus away — and 300+ days of high-desert sun.",
+   "activities": {
+    "food": 3,
+    "nature": 3,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 1,
+    "wellness": 1,
+    "adventure": 3,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Aniversario de Arequipa",
+    "months": [
+     8
+    ],
+    "tier": 3,
+    "blurb": "Aug 15 city week — parades, fireworks off El Misti"
+   },
+   {
+    "name": "Semana Santa",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 1,
+    "blurb": "processions through the white streets"
+   }
+  ]
+ },
+ "Cuenca": {
+  "safetyNarrative": "A calm Andean city and long-running expat haven; modest petty theft around markets is the main issue — Ecuador's troubles concentrate far away on the coast.",
+  "draw": {
+   "narrative": "Ecuador's loveliest city: four rivers, a UNESCO center of flowerpot balconies and 52 churches, $3 almuerzos, Cajas páramo hiking out the back door, and the hemisphere's most established retiree-expat infrastructure at altitude-spring temperatures.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 1,
+    "wellness": 2,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Fiestas de Cuenca",
+    "months": [
+     11
+    ],
+    "tier": 3,
+    "blurb": "independence week, Nov 1–4 — the whole center celebrates"
+   },
+   {
+    "name": "Corpus Christi",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "blurb": "a week of fireworks castles and sweets stalls"
+   },
+   {
+    "name": "Pase del Niño",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "blurb": "Dec 24's vast nativity parade"
+   }
+  ]
+ },
+ "Florianópolis": {
+  "safetyNarrative": "One of Brazil's safer capitals; beach-area petty theft is the realistic concern, and the island's tourist zones run calmer than the mainland statistics suggest.",
+  "draw": {
+   "narrative": "An island of 42 beaches that happens to be a state capital: surf at Joaquina, dunes and lagoon life around Lagoa da Conceição, oysters by the sackful, and a big remote-work scene wintering through the southern summer. Jan–Feb is packed.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 3,
+    "culture": 1,
+    "nightlife": 3,
+    "wellness": 2,
+    "adventure": 3,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Carnaval",
+    "months": [
+     2,
+     3
+    ],
+    "tier": 3,
+    "blurb": "Brazil's quieter-but-still-Carnaval island edition"
+   },
+   {
+    "name": "Festa do Divino",
+    "months": [
+     5,
+     6
+    ],
+    "tier": 1,
+    "blurb": "Azorean heritage processions"
+   }
+  ]
+ },
+ "João Pessoa": {
+  "safetyNarrative": "The value is real but so is the caution: robbery risk varies sharply by neighborhood, the beachfront is fine by day, and night moves should be by app-taxi. Solo women report extra care after dark.",
+  "draw": {
+   "narrative": "Where Brazil's coast turns quiet: warm calm water at Tambaú and Cabo Branco, the hemisphere's easternmost point, weekday beaches that feel private, and seafood-and-sunset living at some of the country's lowest big-city costs.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 3,
+    "culture": 1,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Carnaval / Folia de Rua",
+    "months": [
+     2,
+     3
+    ],
+    "tier": 2,
+    "blurb": "street blocos in the run-up week"
+   },
+   {
+    "name": "São João (Festa Junina)",
+    "months": [
+     6
+    ],
+    "tier": 3,
+    "blurb": "the northeast's huge June festival — forró and bonfires (Campina Grande nearby is the epicenter)"
+   }
+  ]
+ },
+ "San José": {
+  "safetyNarrative": "The capital has notable petty theft, bag-snatching and scams — keep day bags light and use official taxis or apps; most stays here are short on the way to the green parts.",
+  "draw": {
+   "narrative": "Costa Rica's urban interlude: the Central Valley's eternal-spring climate, the Teatro Nacional and good coffee culture, with both coasts, cloud forests and volcanoes within a few hours' drive. A logistics base more than a destination — but a pleasant one.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 0,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Fiestas de Zapote",
+    "months": [
+     12,
+     1
+    ],
+    "tier": 2,
+    "blurb": "year-end fairgrounds, bull-teasing and chicharrones"
+   },
+   {
+    "name": "Festival de la Luz",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "blurb": "the December light parade"
+   }
+  ]
+ },
+ "Boquete": {
+  "safetyNarrative": "A quiet expat mountain town with little street crime; trail safety and river crossings are the realistic concerns.",
+  "draw": {
+   "narrative": "Panama's cool-weather coffee capital: geisha-farm tours and cuppings, the Quetzal trail and Barú's sunrise summit (both oceans visible), hot springs, and a large settled expat community with the infrastructure to match.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 0,
+    "culture": 1,
+    "nightlife": 1,
+    "wellness": 2,
+    "adventure": 3,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Feria de las Flores y del Café",
+    "months": [
+     1
+    ],
+    "tier": 3,
+    "blurb": "ten days of flowers, coffee and crowds from across the country"
+   },
+   {
+    "name": "Boquete Jazz & Blues",
+    "months": [
+     2,
+     3
+    ],
+    "tier": 1,
+    "blurb": "small but loved music festival"
+   }
+  ]
+ },
+ "Antigua": {
+  "safetyNarrative": "A tourist-friendly colonial town with petty theft and scams as the realistic risks; tourist police patrol the core. The US Level 3 applies to Guatemala broadly — Antigua itself runs far calmer; weigh both signals.",
+  "draw": {
+   "narrative": "Three volcanoes over a grid of ruined baroque churches and coffee farms: Acatenango's overnight lava-view trek, Spanish schools by the dozen, gallery-café culture, and the most photogenic Holy Week on the continent.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 3,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Semana Santa",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 3,
+    "blurb": "alfombra sawdust carpets and processions — book months ahead"
+   },
+   {
+    "name": "Día de los Santos / barriletes",
+    "months": [
+     11
+    ],
+    "tier": 2,
+    "blurb": "giant kites fly in nearby Sumpango, Nov 1"
+   }
+  ]
+ },
+ "Lake Atitlán (Panajachel)": {
+  "safetyNarrative": "Lakeside villages see petty theft and occasional robbery on paths between towns — boat between villages rather than walking remote trails alone. The national Level 3 advisory applies; the lake's tourist economy runs calmer.",
+  "draw": {
+   "narrative": "A volcano-ringed caldera Aldous Huxley oversold only slightly: each village its own world (yoga San Marcos, market Chichicastenango days, weaving San Juan), lancha commutes across blue water, and dawn Mayan ceremonies on the shore.",
+   "activities": {
+    "food": 1,
+    "nature": 3,
+    "water": 2,
+    "culture": 3,
+    "nightlife": 1,
+    "wellness": 3,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Semana Santa",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 2,
+    "blurb": "lakeside processions and Maximón's big week in Santiago Atitlán"
+   },
+   {
+    "name": "Feria de San Francisco (Pana)",
+    "months": [
+     10
+    ],
+    "tier": 1,
+    "blurb": "Panajachel's patron fair"
+   }
+  ]
+ },
+ "Yerevan": {
+  "safetyNarrative": "A notably safe capital with little street crime; the realistic concerns are road-crossing and the occasional geopolitical news cycle — the city itself stays calm.",
+  "draw": {
+   "narrative": "Pink tuff stone, brandy and apricots: Cascade sunsets over Ararat, a café culture that runs past midnight, monasteries (Geghard, Khor Virap) on easy day trips, 180-day visa-free stays and a thriving relocated-tech scene.",
+   "activities": {
+    "food": 3,
+    "nature": 2,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Vardavar",
+    "months": [
+     7
+    ],
+    "tier": 3,
+    "blurb": "the water-throwing festival — nobody stays dry"
+   },
+   {
+    "name": "Yerevan Wine Days",
+    "months": [
+     5,
+     6
+    ],
+    "tier": 2,
+    "blurb": "Saryan street becomes one long tasting"
+   }
+  ]
+ },
+ "Istanbul": {
+  "safetyNarrative": "Tourist-zone pickpocketing, bait-and-switch bar scams and taxi games are the realistic risks; use apps or insist on the meter, and solo women report wanting extra care in some districts at night.",
+  "draw": {
+   "narrative": "Two continents of layered empire: Hagia Sophia mornings, ferry commutes between Europe and Asia for pocket change, meyhane nights and çay-and-backgammon afternoons, the Grand Bazaar's fifty-some streets. Endless — a month scratches the surface.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 1,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 2,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Ramadan & Eid",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 2,
+    "blurb": "iftar crowds in Sultanahmet; dates shift yearly"
+   },
+   {
+    "name": "Istanbul Music Festival",
+    "months": [
+     6
+    ],
+    "tier": 1,
+    "blurb": "classical in historic venues"
+   },
+   {
+    "name": "Istanbul Biennial",
+    "months": [
+     9,
+     10
+    ],
+    "tier": 2,
+    "blurb": "major contemporary-art event (odd years)"
+   }
+  ]
+ },
+ "Marrakech": {
+  "safetyNarrative": "The medina's aggressive touts, faux-guide and souk scams, plus motorbike bag-snatching, are the daily texture; violent crime is rare. Women report persistent harassment — many prefer the Ville Nouvelle for living and the medina for visiting.",
+  "draw": {
+   "narrative": "A sensory deep-end: Jemaa el-Fnaa's nightly food-circus, riad courtyards hiding from souk noise, Majorelle blue, hammam rituals, and the High Atlas an hour away for Berber-village treks. Exhilarating in doses; renting outside the medina makes it sustainable.",
+   "activities": {
+    "food": 3,
+    "nature": 2,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 3,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Ramadan & Eid",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 2,
+    "blurb": "the medina's rhythm inverts; ftour at sunset (dates shift yearly)"
+   },
+   {
+    "name": "Marrakech International Film Festival",
+    "months": [
+     11,
+     12
+    ],
+    "tier": 2,
+    "blurb": "red carpets on the Jemaa"
+   }
+  ]
+ },
+ "Paphos": {
+  "safetyNarrative": "A quiet resort town with low crime; rental-car coastal roads are the main risk.",
+  "draw": {
+   "narrative": "Aphrodite's coast with EU plumbing: harbor-castle sunsets, whole hillsides of Roman mosaics, sea caves and the Akamas peninsula's trails, halloumi-and-meze villages inland — and a mild, swimmable winter that draws long-stay northerners.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 3,
+    "culture": 3,
+    "nightlife": 1,
+    "wellness": 2,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Anthestiria Flower Festival",
+    "months": [
+     5
+    ],
+    "tier": 1,
+    "blurb": "spring flower parades"
+   },
+   {
+    "name": "Paphos Aphrodite Festival",
+    "months": [
+     9
+    ],
+    "tier": 2,
+    "blurb": "opera under the medieval castle"
+   }
+  ]
+ },
+ "Taipei": {
+  "safetyNarrative": "Very low crime — late-night night-market wandering is genuinely carefree; earthquakes and typhoon season are the actual risks to plan around.",
+  "draw": {
+   "narrative": "The most underrated city in Asia for living: night markets and beef noodle pilgrimages, MRT everywhere, hot springs in the city limits (Beitou), gorge hikes from metro stops, and a warm, civil society with great coffee. Humid summers are the toll.",
+   "activities": {
+    "food": 3,
+    "nature": 3,
+    "water": 1,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 3,
+    "adventure": 2,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Lunar New Year",
+    "months": [
+     1,
+     2
+    ],
+    "tier": 3,
+    "blurb": "Dihua street markets and family week"
+   },
+   {
+    "name": "Lantern Festival / Pingxi",
+    "months": [
+     2,
+     3
+    ],
+    "tier": 2,
+    "blurb": "sky lanterns rise from the Pingxi valley"
+   },
+   {
+    "name": "Dragon Boat Festival",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "blurb": "races on the Keelung river"
+   }
+  ]
+ },
+ "Tokyo": {
+  "safetyNarrative": "Extremely low violent crime; lost wallets famously come back. The realistic notes: late-night touts in Kabukichō/Roppongi (never follow one), and earthquakes as the background risk.",
+  "draw": {
+   "narrative": "The deepest city on earth: every neighborhood a different city, 200,000 restaurants from ¥800 ramen counters to the sushi pantheon, gardens and shrines folded between towers, and trains that make the whole megalopolis one address.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 2,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Cherry blossom (sakura)",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 3,
+    "blurb": "hanami picnics across Ueno, Yoyogi, the Meguro river"
+   },
+   {
+    "name": "Sumidagawa Fireworks",
+    "months": [
+     7
+    ],
+    "tier": 2,
+    "blurb": "the great Edo fireworks rivalry"
+   },
+   {
+    "name": "Sanja Matsuri",
+    "months": [
+     5
+    ],
+    "tier": 2,
+    "blurb": "Asakusa's rowdy three-day shrine festival"
+   }
+  ]
+ },
+ "Osaka": {
+  "safetyNarrative": "Very low violent crime; entertainment-zone bar scams in Minami are the main visitor issue — pick your own bars, skip the touts.",
+  "draw": {
+   "narrative": "Japan with its tie loosened: the nation's kitchen (takoyaki, kushikatsu, the Kuromon market), Dotonbori neon, comedians for taxi drivers, and Kyoto/Nara/Kobe all within 40 minutes — at rents well under Tokyo's.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 0,
+    "culture": 2,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Tenjin Matsuri",
+    "months": [
+     7
+    ],
+    "tier": 3,
+    "blurb": "one of Japan's three great festivals — river procession and fireworks"
+   },
+   {
+    "name": "Cherry blossom",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 2,
+    "blurb": "Osaka Castle park under bloom"
+   }
+  ]
+ },
+ "Melbourne": {
+  "safetyNarrative": "Safe overall; late-night entertainment strips need ordinary caution, and that's the list.",
+  "draw": {
+   "narrative": "The southern hemisphere's coffee capital: laneway bars behind unmarked doors, AFL religion, gallery and live-music depth, Great Ocean Road weekends — plus four seasons in a day, every day. Expensive, but it earns it.",
+   "activities": {
+    "food": 3,
+    "nature": 2,
+    "water": 2,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Australian Open",
+    "months": [
+     1
+    ],
+    "tier": 3,
+    "blurb": "the whole city runs on tennis for two weeks"
+   },
+   {
+    "name": "Melbourne International Comedy Festival",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 2,
+    "blurb": "one of the world's big three comedy festivals"
+   },
+   {
+    "name": "White Night / Now or Never",
+    "months": [
+     8
+    ],
+    "tier": 1,
+    "blurb": "winter arts takeover"
+   }
+  ]
+ },
+ "Auckland": {
+  "safetyNarrative": "Safe overall; car break-ins at trailhead and beach parking are the recurring nuisance.",
+  "draw": {
+   "narrative": "A harbor city built on volcanoes: sailing at lunch, black-sand surf at Piha, island vineyards on Waiheke, and the whole North Island within a weekend radius. NZ prices sting, but the access-to-nature-per-minute ratio is world-class.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 3,
+    "culture": 1,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 3,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Auckland Anniversary Regatta",
+    "months": [
+     1
+    ],
+    "tier": 2,
+    "blurb": "the harbor fills with sails"
+   },
+   {
+    "name": "Pasifika Festival",
+    "months": [
+     3
+    ],
+    "tier": 2,
+    "blurb": "the world's largest Pacific Islands festival"
+   }
+  ]
+ },
+ "Wellington": {
+  "safetyNarrative": "Safe overall; compact nightlife blocks need ordinary late-night care. The weather is the only real assailant.",
+  "draw": {
+   "narrative": "The world's best small capital on its day: a walkable harbor amphitheater, Te Papa and a film-industry creative streak, craft beer per capita records, bush trails from the cable car — and wind that builds character.",
+   "activities": {
+    "food": 3,
+    "nature": 3,
+    "water": 2,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "CubaDupa",
+    "months": [
+     3
+    ],
+    "tier": 2,
+    "blurb": "Cuba Street's huge free street festival"
+   },
+   {
+    "name": "Matariki",
+    "months": [
+     6,
+     7
+    ],
+    "tier": 1,
+    "blurb": "Māori new year — lights and ceremonies"
+   }
+  ]
+ },
+ "Vancouver": {
+  "safetyNarrative": "Safe overall; car break-ins and visible street disorder in pockets of downtown (East Hastings) are the realistic notes — neither typically touches visitors.",
+  "draw": {
+   "narrative": "Mountains, ocean and old-growth forest inside city limits: seawall cycling, Grouse or Cypress skiing 30 minutes from downtown, the best Asian food in North America, and summers that explain the rents. Grey-wet winters are the trade.",
+   "activities": {
+    "food": 3,
+    "nature": 3,
+    "water": 2,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 3,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Celebration of Light",
+    "months": [
+     7,
+     8
+    ],
+    "tier": 2,
+    "blurb": "international fireworks over English Bay"
+   },
+   {
+    "name": "Vancouver International Film Festival",
+    "months": [
+     9,
+     10
+    ],
+    "tier": 1,
+    "blurb": "major fall film event"
+   }
+  ]
+ },
+ "Kraków": {
+  "safetyNarrative": "Low crime; minor pickpocketing around the Rynek and station is the realistic extent of it.",
+  "draw": {
+   "narrative": "Poland's intact royal capital: Europe's biggest medieval square, Kazimierz's bar-cellar nightlife and Jewish heritage, pierogi-and-craft-beer prices, Auschwitz and the Tatras within day-trip reach. Smog in cold snaps is the asterisk.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Wianki",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "blurb": "midsummer wreaths and concerts on the Vistula"
+   },
+   {
+    "name": "Christmas Market",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "blurb": "the Rynek under lights"
+   },
+   {
+    "name": "Jewish Culture Festival",
+    "months": [
+     6,
+     7
+    ],
+    "tier": 2,
+    "blurb": "Kazimierz's major heritage festival"
+   }
+  ]
+ },
+ "Ljubljana": {
+  "safetyNarrative": "Very low crime — one of Europe's most relaxed capitals after dark.",
+  "draw": {
+   "narrative": "A pocket capital that got everything right: car-free riverbanks of café terraces, a castle on its hill, Tivoli park mornings, and Alps, karst caves and the Adriatic each under 90 minutes. Small enough to know; connected enough never to feel it.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 1,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Ljubljana Festival",
+    "months": [
+     7,
+     8
+    ],
+    "tier": 2,
+    "blurb": "summer-long classical and theater program"
+   },
+   {
+    "name": "December markets",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "blurb": "the riverside in festival lights"
+   }
+  ]
+ },
+ "Valletta": {
+  "safetyNarrative": "A very safe small capital; Paceville's nightlife strip across the harbor is where ordinary care applies.",
+  "draw": {
+   "narrative": "A baroque fortress city the size of a neighborhood: golden bastions over two harbors, Caravaggios in the co-cathedral, ferry-and-swim summers, English everywhere, and EU-Mediterranean winters mild enough to live outdoors.",
+   "activities": {
+    "food": 2,
+    "nature": 1,
+    "water": 3,
+    "culture": 3,
+    "nightlife": 1,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Carnival",
+    "months": [
+     2
+    ],
+    "tier": 2,
+    "blurb": "five days of floats and confetti"
+   },
+   {
+    "name": "Festa season",
+    "months": [
+     6,
+     7,
+     8,
+     9
+    ],
+    "tier": 2,
+    "blurb": "village fireworks and band clubs nearly every weekend"
+   },
+   {
+    "name": "Isle of MTV",
+    "months": [
+     7
+    ],
+    "tier": 1,
+    "blurb": "big free pop concert"
+   }
+  ]
+ },
+ "Nice": {
+  "safetyNarrative": "Riviera petty theft — beach bags, station pickpockets, scooter snatching on the Promenade — is the realistic risk; violent crime is uncommon.",
+  "draw": {
+   "narrative": "The Riviera's only real city: morning markets in the old town, the Promenade's seven kilometers of Mediterranean light, gallery-grade art (Matisse, Chagall), and trains stringing Monaco, Antibes and the perched villages like beads.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 3,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Carnaval de Nice",
+    "months": [
+     2
+    ],
+    "tier": 3,
+    "blurb": "one of the world's great carnivals — flower battles on the Prom"
+   },
+   {
+    "name": "Nice Jazz Festival",
+    "months": [
+     7
+    ],
+    "tier": 2,
+    "blurb": "one of Europe's oldest jazz festivals"
+   }
+  ]
+ },
+ "Prague": {
+  "safetyNarrative": "Tourist-area pickpocketing and taxi/currency-exchange scams are the realistic risks — use apps and bank ATMs; violent crime is low.",
+  "draw": {
+   "narrative": "The fairy-tale that survived the 20th century intact: the Charles Bridge at dawn, beer culture as civic religion (and still cheap off the tourist track), Vyšehrad picnics, and a layered café-and-classical life beneath the crowds.",
+   "activities": {
+    "food": 2,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Christmas Markets",
+    "months": [
+     12
+    ],
+    "tier": 3,
+    "blurb": "Old Town Square's famous market"
+   },
+   {
+    "name": "Prague Spring",
+    "months": [
+     5
+    ],
+    "tier": 2,
+    "blurb": "the international classical festival"
+   },
+   {
+    "name": "Signal Festival",
+    "months": [
+     10
+    ],
+    "tier": 1,
+    "blurb": "light installations across the center"
+   }
+  ]
+ },
+ "Warsaw": {
+  "safetyNarrative": "Low crime with some pickpocketing; the rebuilt center and Vistula boulevards feel easy at night.",
+  "draw": {
+   "narrative": "Europe's comeback capital: a meticulously rebuilt Old Town beside unapologetic skyscrapers, Vistula-beach summers, a serious restaurant boom, milk bars for nostalgia — and the EU's most dynamic job-and-startup energy east of Berlin.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 1,
+    "culture": 2,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Chopin Concerts in Łazienki",
+    "months": [
+     5,
+     6,
+     7,
+     8,
+     9
+    ],
+    "tier": 1,
+    "blurb": "free Sunday piano under the willows"
+   },
+   {
+    "name": "Orange Warsaw Festival",
+    "months": [
+     6
+    ],
+    "tier": 1,
+    "blurb": "big pop/rock weekend"
+   }
+  ]
+ },
+ "Vilnius": {
+  "safetyNarrative": "Low crime; minor pickpocketing in the old town is the extent of it.",
+  "draw": {
+   "narrative": "A baroque old town with a self-deprecating streak (see: the Užupis 'republic' and its constitution), G-spot-of-Europe marketing, lush parks, cellar bars, and a tech-forward, English-friendly ease that makes settling in frictionless.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Kaziuko mugė",
+    "months": [
+     3
+    ],
+    "tier": 2,
+    "blurb": "the great St Casimir crafts fair"
+   },
+   {
+    "name": "Užupis Independence Day",
+    "months": [
+     4
+    ],
+    "tier": 1,
+    "blurb": "April 1: passports stamped at the bridge"
+   }
+  ]
+ },
+ "Tallinn": {
+  "safetyNarrative": "Low crime; old-town pickpocketing in cruise season is the realistic note.",
+  "draw": {
+   "narrative": "A medieval walled town running on e-government: Hanseatic towers over a startup economy, Telliskivi's creative-city conversion, bog-and-island day trips, and the EU's smoothest digital-nomad bureaucracy. Dark winters are the trade for white-night summers.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 1,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Christmas Market",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "blurb": "Town Hall Square, often Europe's prettiest"
+   },
+   {
+    "name": "Old Town Days",
+    "months": [
+     6
+    ],
+    "tier": 1,
+    "blurb": "medieval festival week"
+   },
+   {
+    "name": "Song Festival (every 5 yrs)",
+    "months": [
+     7
+    ],
+    "tier": 1,
+    "blurb": "tens of thousands singing — a national sacrament"
+   }
+  ]
+ },
+ "Riga": {
+  "safetyNarrative": "Old-town pickpocketing and nightlife scams (clip joints) are the realistic risks — pick your own bars; daytime is easy.",
+  "draw": {
+   "narrative": "Europe's Art Nouveau capital with a Hanseatic core: the vast Central Market in zeppelin hangars, Jūrmala's beach a commuter train away, black balsam winters and white-night summers — at Baltic prices that undercut its polish.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 1,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Midsummer (Jāņi)",
+    "months": [
+     6
+    ],
+    "tier": 3,
+    "blurb": "the Baltic's biggest night — bonfires, flower crowns, cheese and beer"
+   },
+   {
+    "name": "Riga City Festival",
+    "months": [
+     8
+    ],
+    "tier": 1,
+    "blurb": "birthday weekend on the riverfront"
+   }
+  ]
+ },
+ "Bratislava": {
+  "safetyNarrative": "Low crime; minor tourist-zone theft around the old town. The Vienna train makes it feel like a shared metro area.",
+  "draw": {
+   "narrative": "The capital you can learn in a week and like for months: a compact old town under the castle, Danube cycling to Devín, Small Carpathian wine villages on the tram line, and Vienna 60 minutes away for big-city days — at half the cost.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 1,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Christmas Market",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "blurb": "Hlavné square's lokše and punch"
+   },
+   {
+    "name": "Coronation Days",
+    "months": [
+     6
+    ],
+    "tier": 1,
+    "blurb": "reenacting the Habsburg coronations"
+   }
+  ]
+ },
+ "Amsterdam": {
+  "safetyNarrative": "Pickpocketing in the tourist core and bike theft are the realistic risks; otherwise calm. The canals claim more phones than thieves do.",
+  "draw": {
+   "narrative": "Canal-ring civilization: museum density (Rijks, Van Gogh) per square kilometer nobody matches, bike-first streets, brown cafés and proper coffee, and the whole country within an hour by rail. Housing cost and crowds are the honest caveats.",
+   "activities": {
+    "food": 2,
+    "nature": 1,
+    "water": 1,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "King's Day",
+    "months": [
+     4
+    ],
+    "tier": 3,
+    "blurb": "Apr 27: the city turns orange and becomes one street party"
+   },
+   {
+    "name": "Amsterdam Light Festival",
+    "months": [
+     12,
+     1
+    ],
+    "tier": 2,
+    "blurb": "art installations along the canals"
+   },
+   {
+    "name": "Pride",
+    "months": [
+     8
+    ],
+    "tier": 2,
+    "blurb": "the canal parade"
+   }
+  ]
+ },
+ "Berlin": {
+  "safetyNarrative": "Some pickpocketing and bike theft, with district-by-district texture; violent crime against visitors is uncommon. Park nightlife areas warrant ordinary late-night sense.",
+  "draw": {
+   "narrative": "Still the continent's free-space: lake swimming inside city limits, club culture as heritage, Turkish markets and Michelin tables, history on every block — and more affordable than any comparable capital, even after the squeeze.",
+   "activities": {
+    "food": 3,
+    "nature": 2,
+    "water": 2,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Karneval der Kulturen",
+    "months": [
+     5
+    ],
+    "tier": 2,
+    "blurb": "Kreuzberg's huge multicultural parade"
+   },
+   {
+    "name": "Berlinale",
+    "months": [
+     2
+    ],
+    "tier": 2,
+    "blurb": "the public's film festival — tickets actually buyable"
+   },
+   {
+    "name": "Christmas Markets",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "blurb": "Gendarmenmarkt and a hundred others"
+   }
+  ]
+ },
+ "Vienna": {
+  "safetyNarrative": "Very low street crime; isolated pickpocketing on busy trams is the extent of it. Regularly tops global livability tables.",
+  "draw": {
+   "narrative": "The city that wrote the livability rankings: €1-standing-room opera, coffeehouses with house rules, Danube island summers, heuriger wine villages on the tram network, and social housing that keeps the whole machine humane.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 2,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Ball season",
+    "months": [
+     1,
+     2
+    ],
+    "tier": 2,
+    "blurb": "450 balls; the Opera Ball is the summit"
+   },
+   {
+    "name": "Christmas Markets",
+    "months": [
+     11,
+     12
+    ],
+    "tier": 3,
+    "blurb": "Rathausplatz and Spittelberg — the classics"
+   },
+   {
+    "name": "Donauinselfest",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "blurb": "Europe's biggest free open-air festival"
+   }
+  ]
+ },
+ "Zurich": {
+  "safetyNarrative": "Very low crime; the rare pickpocket works the station. The prices are the only mugging.",
+  "draw": {
+   "narrative": "Efficiency with a swimmable lake: badis (river/lake baths) as summer culture, Alps visible from the tram, art (Kunsthaus) and Bahnhofstrasse polish, hiking from the S-Bahn. Costs are brutal — value it as a high-earning or short-stay base.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 3,
+    "culture": 2,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Sechseläuten",
+    "months": [
+     4
+    ],
+    "tier": 2,
+    "blurb": "guild parade and the exploding snowman (Böögg)"
+   },
+   {
+    "name": "Street Parade",
+    "months": [
+     8
+    ],
+    "tier": 2,
+    "blurb": "a million ravers around the lake"
+   }
+  ]
+ },
+ "London": {
+  "safetyNarrative": "Phone-snatching (often by e-bike) and pickpocketing are the realistic risks, and violent crime is localized away from visitor patterns; keep phones gripped near road edges.",
+  "draw": {
+   "narrative": "The world in one city: free national museums, theater depth no rival matches, village-like neighborhoods strung on the Tube, parks the size of towns — and weather and rents that test your commitment to all of it.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Notting Hill Carnival",
+    "months": [
+     8
+    ],
+    "tier": 3,
+    "blurb": "Europe's biggest street festival"
+   },
+   {
+    "name": "Wimbledon",
+    "months": [
+     6,
+     7
+    ],
+    "tier": 2,
+    "blurb": "the championships and the queue"
+   },
+   {
+    "name": "West End / Proms season",
+    "months": [
+     7,
+     8,
+     9
+    ],
+    "tier": 2,
+    "blurb": "the Proms at the Albert Hall"
+   }
+  ]
+ },
+ "Paris": {
+  "safetyNarrative": "Heavy pickpocketing and bag-snatching in tourist zones and on the métro is the realistic risk — violent crime against visitors is rare. RER-station awareness and zipped bags cover most of it.",
+  "draw": {
+   "narrative": "The most studied city on earth still over-delivers: market-street mornings, the Seine at every hour, neighborhood museums beyond the Louvre, and the discipline of the apéro. A month in one arrondissement beats a week sprinting between them.",
+   "activities": {
+    "food": 3,
+    "nature": 1,
+    "water": 0,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Fête de la Musique",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "blurb": "June 21: free music on every corner"
+   },
+   {
+    "name": "Paris Plages",
+    "months": [
+     7,
+     8
+    ],
+    "tier": 1,
+    "blurb": "the Seine quays become beaches"
+   },
+   {
+    "name": "Nuit Blanche",
+    "months": [
+     10
+    ],
+    "tier": 1,
+    "blurb": "all-night art across the city"
+   }
+  ]
+ },
+ "Dublin": {
+  "safetyNarrative": "City-center pickpocketing, bike theft and some late-night antisocial behavior on O'Connell Street environs; violent crime against visitors is uncommon.",
+  "draw": {
+   "narrative": "The most talkative city in Europe: pub sessions where literature happens to you, Georgian squares, the DART to coastal villages and cliff walks, and a tech-economy buzz — undercut by a housing market that's the country's open wound.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 1,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "St Patrick's Festival",
+    "months": [
+     3
+    ],
+    "tier": 3,
+    "blurb": "the homeland edition — five days around the 17th"
+   },
+   {
+    "name": "Bloomsday",
+    "months": [
+     6
+    ],
+    "tier": 1,
+    "blurb": "June 16: Joyce cosplay and readings"
+   },
+   {
+    "name": "TradFest",
+    "months": [
+     1
+    ],
+    "tier": 1,
+    "blurb": "trad music in Temple Bar's churches"
+   }
+  ]
+ },
+ "Copenhagen": {
+  "safetyNarrative": "Very safe; occasional pickpocketing around the station and Strøget. Bike-lane etiquette is the steepest danger.",
+  "draw": {
+   "narrative": "The good-life benchmark: harbor baths you actually swim in, bike infrastructure as civic art, new-Nordic eating from smørrebrød to the world list, hygge as winter survival strategy. Costs are high; quality-per-krone is too.",
+   "activities": {
+    "food": 3,
+    "nature": 2,
+    "water": 3,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Distortion",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "blurb": "five days of street parties moving across the bridges"
+   },
+   {
+    "name": "Tivoli Christmas",
+    "months": [
+     11,
+     12
+    ],
+    "tier": 2,
+    "blurb": "the gardens in full glow"
+   },
+   {
+    "name": "CPH:DOX",
+    "months": [
+     3
+    ],
+    "tier": 1,
+    "blurb": "world-class documentary festival"
+   }
+  ]
+ },
+ "Stockholm": {
+  "safetyNarrative": "Pickpocketing in tourist zones is the visitor-facing risk; the gang violence in headlines is localized far from visitor patterns.",
+  "draw": {
+   "narrative": "An archipelago capital of 14 islands: Gamla Stan's amber lanes, ferry commutes as sightseeing, fika as institution, design and second-hand depth, and 30,000 islands to summer on. Winter darkness is real; June repays it.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 3,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Midsommar",
+    "months": [
+     6
+    ],
+    "tier": 3,
+    "blurb": "the country decamps to maypoles and herring — magical, and the city empties"
+   },
+   {
+    "name": "Nobel Week",
+    "months": [
+     12
+    ],
+    "tier": 1,
+    "blurb": "lectures and lights"
+   }
+  ]
+ },
+ "Geneva": {
+  "safetyNarrative": "Very low crime; lakefront tourist-spot theft is the rare exception. The cost of living is the hazard.",
+  "draw": {
+   "narrative": "Lake-and-Mont-Blanc views with a UN lanyard: jet d'eau swims off the Bains des Pâquis, Old Town calm, vineyards on the city bus, Chamonix an hour away — international, multilingual, and eye-wateringly priced.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 3,
+    "culture": 2,
+    "nightlife": 1,
+    "wellness": 2,
+    "adventure": 3,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Fêtes de Genève",
+    "months": [
+     8
+    ],
+    "tier": 2,
+    "blurb": "lakeside funfair and fireworks"
+   },
+   {
+    "name": "L'Escalade",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "blurb": "chocolate cauldrons and a torchlit run for the 1602 victory"
+   }
+  ]
+ },
+ "Munich": {
+  "safetyNarrative": "Very safe overall; pickpocketing concentrates at the Hauptbahnhof and festival crowds.",
+  "draw": {
+   "narrative": "Alpine-adjacent order: beer gardens under chestnuts as the social contract, the Englischer Garten's river surfers, world-class museums, and lakes and peaks an S-Bahn ride south. Bavaria's wealth shows in the prices — and the polish.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 2,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "Oktoberfest",
+    "months": [
+     9,
+     10
+    ],
+    "tier": 3,
+    "blurb": "the original — book a year out or commute in"
+   },
+   {
+    "name": "Christkindlmarkt",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "blurb": "Marienplatz under the glockenspiel"
+   },
+   {
+    "name": "Starkbierzeit",
+    "months": [
+     3
+    ],
+    "tier": 1,
+    "blurb": "strong-beer season, the local's Oktoberfest"
+   }
+  ]
+ },
+ "Helsinki": {
+  "safetyNarrative": "Very low crime and excellent public-space safety; winter ice on pavements genuinely outranks any human threat.",
+  "draw": {
+   "narrative": "Design-forward calm on the Baltic: public saunas (Löyly, Kotiharju) as the social glue, island-hopping to Suomenlinna, Oodi library as the city's living room, and a ferry to Tallinn for lunch. Dark Novembers; endless June light.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 2,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 3,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Vappu",
+    "months": [
+     4,
+     5
+    ],
+    "tier": 3,
+    "blurb": "Apr 30–May 1: student caps, sparkling wine and park picnics — the year's big party"
+   },
+   {
+    "name": "Juhannus (Midsummer)",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "blurb": "bonfires; the city empties to cottages"
+   }
+  ]
+ },
+ "Oslo": {
+  "safetyNarrative": "Very low violent crime; ordinary nightlife care around the center covers it.",
+  "draw": {
+   "narrative": "A fjord city gone bold: the Opera roof walk, Munch and the new museum quarter, island swims off the harbor sauna rafts, Nordmarka forest skiing from the metro's last stop. Expensive — but the nature is free and ten minutes away.",
+   "activities": {
+    "food": 2,
+    "nature": 3,
+    "water": 3,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 2,
+    "adventure": 2,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "17. mai (Constitution Day)",
+    "months": [
+     5
+    ],
+    "tier": 3,
+    "blurb": "the children's parade and a city in bunad"
+   },
+   {
+    "name": "Øyafestivalen",
+    "months": [
+     8
+    ],
+    "tier": 2,
+    "blurb": "the big eco-minded music festival"
+   }
+  ]
+ },
+ "Utrecht": {
+  "safetyNarrative": "Safe overall; bike theft and station-area petty theft are the realistic notes.",
+  "draw": {
+   "narrative": "Amsterdam's canals without Amsterdam's crowds: wharf-cellar cafés at water level, the Dom tower over a true university town, the country's rail hub making everywhere 30 minutes away — and a calmer, cheaper canal-ring life.",
+   "activities": {
+    "food": 2,
+    "nature": 1,
+    "water": 1,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Le Guess Who?",
+    "months": [
+     11
+    ],
+    "tier": 2,
+    "blurb": "adventurous music festival across the city's churches"
+   },
+   {
+    "name": "Sint Maarten / canal lights",
+    "months": [
+     11,
+     12
+    ],
+    "tier": 1,
+    "blurb": "winter lights on the wharves"
+   }
+  ]
+ },
+ "The Hague": {
+  "safetyNarrative": "Very safe by large-city standards; petty theft around busy transit is the note.",
+  "draw": {
+   "narrative": "The royal-and-rule-of-law city with a beach: Vermeer at the Mauritshuis, embassy-quarter calm, Scheveningen's dunes and surf on the tram line, and Delft ten minutes away. The Netherlands' most underrated long-stay base.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 3,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Prinsjesdag",
+    "months": [
+     9
+    ],
+    "tier": 2,
+    "blurb": "the King's golden coach opens parliament"
+   },
+   {
+    "name": "Vlaggetjesdag",
+    "months": [
+     6
+    ],
+    "tier": 1,
+    "blurb": "new-herring season opens at Scheveningen"
+   }
+  ]
+ },
+ "Brno": {
+  "safetyNarrative": "Very safe overall; petty theft near transit and event crowds is the realistic extent.",
+  "draw": {
+   "narrative": "The Czech Republic's confident second city: a student-powered café and cocktail scene (per-capita among Europe's best), functionalist architecture (Villa Tugendhat), Moravian wine cellars south, and Vienna or Prague under two hours — at small-city costs.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 0,
+    "culture": 2,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Ignis Brunensis",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "blurb": "international fireworks over the reservoir"
+   },
+   {
+    "name": "Christmas Markets",
+    "months": [
+     12
+    ],
+    "tier": 1,
+    "blurb": "náměstí Svobody mulled-wine season"
+   }
+  ]
+ },
+ "Wrocław": {
+  "safetyNarrative": "Very safe; petty theft in crowded old-town and transit zones is the main note.",
+  "draw": {
+   "narrative": "A hundred bridges and a thousand brass gnomes: a candy-colored Rynek, island cathedral quarter, big-student-city energy and serious food value. One of central Europe's most photogenic — and least expensive — bases.",
+   "activities": {
+    "food": 2,
+    "nature": 1,
+    "water": 1,
+    "culture": 3,
+    "nightlife": 3,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 3
+   }
+  },
+  "events": [
+   {
+    "name": "Wratislavia Cantans",
+    "months": [
+     9
+    ],
+    "tier": 1,
+    "blurb": "oratorio festival in gothic interiors"
+   },
+   {
+    "name": "Christmas Market",
+    "months": [
+     11,
+     12
+    ],
+    "tier": 2,
+    "blurb": "one of Poland's best"
+   }
+  ]
+ },
+ "Gdańsk": {
+  "safetyNarrative": "Very safe; old-town and beach-season petty theft is the main visitor issue.",
+  "draw": {
+   "narrative": "Hanseatic amber-gold on the Baltic: the rebuilt Długi Targ waterfront, WWII and Solidarity history told brilliantly, Sopot's pier and beach on the commuter line, pierogi-and-seafood value. Summer is bright and busy; shoulder months are a steal.",
+   "activities": {
+    "food": 2,
+    "nature": 2,
+    "water": 3,
+    "culture": 3,
+    "nightlife": 2,
+    "wellness": 1,
+    "adventure": 1,
+    "nomad": 2
+   }
+  },
+  "events": [
+   {
+    "name": "St Dominic's Fair",
+    "months": [
+     7,
+     8
+    ],
+    "tier": 3,
+    "blurb": "760 years of Europe's biggest open-air market — three weeks"
+   },
+   {
+    "name": "Christmas Market",
+    "months": [
+     12
+    ],
+    "tier": 1,
+    "blurb": "golden lights on Długi Targ"
+   }
+  ]
+ }
+}

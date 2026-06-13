@@ -1,0 +1,110 @@
+{
+  "_meta": {
+    "source": "UK Foreign, Commonwealth & Development Office (FCDO) foreign travel advice",
+    "asOf": "2026-06",
+    "note": "Display-only advisory layer. NEVER feeds the numeric Safety score. Only the ~10 countries with meaningful crime narrative or regional carve-outs are recorded; every other country is treated as 'no advisory' (status none). `overall` is the whole-country status; `carveouts` list amber/red sub-regions and which of OUR cities (if any) fall inside them via matchCities. crimeSummary is an AI-drafted, human-reviewable precis of the FCDO Safety & Security section.",
+    "statusValues": {
+      "none": "No FCDO advisory against travel",
+      "amber": "FCDO advises against all but essential travel",
+      "red": "FCDO advises against all travel"
+    }
+  },
+
+  "Mexico": {
+    "url": "https://www.gov.uk/foreign-travel-advice/mexico",
+    "asOf": "2026-06",
+    "overall": "none",
+    "crimeSummary": "Most violent crime is linked to organised cartels and concentrated in specific states; petty theft, scams and express kidnapping via unregulated taxis are the main risks to tourists. Use registered taxis/ride apps and avoid displaying valuables.",
+    "carveouts": [
+      { "status": "amber", "area": "areas south-west of road 45D in Guanajuato state", "matchCities": ["San Miguel de Allende", "Guanajuato"] },
+      { "status": "amber", "area": "Tijuana (Baja California), and parts of Chihuahua, Sinaloa, Tamaulipas, Zacatecas, Michoacán, Jalisco, Colima, Guerrero and Chiapas", "matchCities": [] }
+    ]
+  },
+
+  "Colombia": {
+    "url": "https://www.gov.uk/foreign-travel-advice/colombia",
+    "asOf": "2026-06",
+    "overall": "none",
+    "crimeSummary": "Street crime, muggings and scams occur in cities; FCDO warns against drink-spiking and the use of 'scopolamine'. Medellín itself carries no advisory, but parts of Antioquia (Urabá, Bajo Cauca) and several border departments do.",
+    "carveouts": [
+      { "status": "amber", "area": "Norte de Santander and Arauca departments, the Urabá and Bajo Cauca regions of Antioquia, western Valle del Cauca/Buenaventura, parts of Chocó, and areas within 5km of the Venezuela and Ecuador borders", "matchCities": [] }
+    ]
+  },
+
+  "Brazil": {
+    "url": "https://www.gov.uk/foreign-travel-advice/brazil",
+    "asOf": "2026-06",
+    "overall": "none",
+    "crimeSummary": "Urban crime is significant — robbery, theft and 'quicknappings' occur, especially in and around favelas and at night. Avoid favelas (including on organised tours), use ride apps over street taxis, and carry minimal valuables.",
+    "carveouts": [
+      { "status": "amber", "area": "remote river areas of Amazonas state and some border zones", "matchCities": [] }
+    ]
+  },
+
+  "Peru": {
+    "url": "https://www.gov.uk/foreign-travel-advice/peru",
+    "asOf": "2026-06",
+    "overall": "none",
+    "crimeSummary": "Opportunistic theft, mugging and express kidnapping occur in cities and at transport hubs; Cusco, Arequipa and Lima carry no advisory but warrant normal city precautions. Drug-trafficking violence is confined to the VRAEM and the Colombia border zone.",
+    "carveouts": [
+      { "status": "amber", "area": "the VRAEM (Apurímac, Ene and Mantaro river valley) and areas within 20km south of the Putumayo River on the Colombia border", "matchCities": [] }
+    ]
+  },
+
+  "Guatemala": {
+    "url": "https://www.gov.uk/foreign-travel-advice/guatemala",
+    "asOf": "2026-06",
+    "overall": "none",
+    "crimeSummary": "Violent crime rates are high nationally but tourist hubs (Antigua, Lake Atitlán) are comparatively calm; main risks are armed robbery, theft and occasional incidents on shuttle routes. Use reputable transport and avoid travelling at night.",
+    "carveouts": [
+      { "status": "amber", "area": "within 5km of the Mexican border (Pacific coast up to the Gracias a Dios crossing) and the towns of Santa Ana Huista, San Antonio Huista and La Democracia in Huehuetenango", "matchCities": [] }
+    ]
+  },
+
+  "Morocco": {
+    "url": "https://www.gov.uk/foreign-travel-advice/morocco",
+    "asOf": "2026-06",
+    "overall": "none",
+    "crimeSummary": "Petty theft, bag-snatching, aggressive street vendors and persistent scams are the main tourist risks, particularly in Marrakech's medina; harassment of solo women travellers is reported. There is a general terrorism threat.",
+    "carveouts": [
+      { "status": "amber", "area": "Western Sahara, including areas near the berm/militarised zone", "matchCities": [] }
+    ]
+  },
+
+  "Turkey": {
+    "url": "https://www.gov.uk/foreign-travel-advice/turkey",
+    "asOf": "2026-06",
+    "overall": "none",
+    "crimeSummary": "Istanbul carries no advisory; risks are petty theft, scams (e.g. spiked drinks, inflated bar bills in Beyoğlu) and a general terrorism threat. The only travel restriction is the Syria border zone.",
+    "carveouts": [
+      { "status": "red", "area": "within 10km of the border with Syria", "matchCities": [] }
+    ]
+  },
+
+  "Philippines": {
+    "url": "https://www.gov.uk/foreign-travel-advice/philippines",
+    "asOf": "2026-06",
+    "overall": "none",
+    "crimeSummary": "Dumaguete (Negros, Visayas) carries no advisory; usual risks are petty theft, scams and drink-spiking. FCDO travel restrictions apply only to Mindanao and the Sulu archipelago, well away from the central Visayas.",
+    "carveouts": [
+      { "status": "red", "area": "western and central Mindanao and the Sulu archipelago", "matchCities": [] },
+      { "status": "amber", "area": "the rest of Mindanao (except Camiguin, Dinagat and Siargao Islands)", "matchCities": [] }
+    ]
+  },
+
+  "South Africa": {
+    "url": "https://www.gov.uk/foreign-travel-advice/south-africa",
+    "asOf": "2026-06",
+    "overall": "none",
+    "crimeSummary": "Violent crime — armed robbery, carjacking, muggings — is a serious nationwide risk, though tourist areas of Cape Town are heavily policed. Stay alert at ATMs and traffic lights, avoid walking after dark, and don't display valuables. No region is under a travel restriction.",
+    "carveouts": []
+  },
+
+  "Costa Rica": {
+    "url": "https://www.gov.uk/foreign-travel-advice/costa-rica",
+    "asOf": "2026-06",
+    "overall": "none",
+    "crimeSummary": "Rising gang-related violence is largely between criminal groups, but opportunistic theft from cars, beaches and accommodation affects tourists; San José's centre warrants caution after dark. No region is under a travel restriction.",
+    "carveouts": []
+  }
+}

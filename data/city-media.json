@@ -1,0 +1,895 @@
+{
+  "_meta": {
+    "note": "Hero photos + attribution per city. Only entries with review:true ship (build_city_media.py enforces this); every other city renders a region-gradient hero. Populate with scripts/fetch_city_photos.py, then review each image by hand before flipping review:true. License compliance: credit + license are shown on the sheet hero.",
+    "asOf": "2026-06",
+    "status": "empty — photo pilot not yet run; all cities on gradient fallback"
+  },
+  "Chiang Mai": {
+    "hero": "assets/cities/chiang-mai-thailand.webp",
+    "thumb": "assets/cities/chiang-mai-thailand-sm.webp",
+    "credit": "Nawit science / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:0020-%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B8%9E%E0%B8%A3%E0%B8%B0%E0%B8%AA%E0%B8%B4%E0%B8%87%E0%B8%AB%E0%B9%8C%E0%B8%A7%E0%B8%A3%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%A7%E0%B8%B4%E0%B8%AB%E0%B8%B2%E0%B8%A3.jpg",
+    "review": true
+  },
+  "Tbilisi": {
+    "hero": "assets/cities/tbilisi-georgia.webp",
+    "thumb": "assets/cities/tbilisi-georgia-sm.webp",
+    "credit": "Alexey Komarov / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:View_of_Tbilisi_from_Tabori_Church_2023-10-08-2.jpg",
+    "review": true
+  },
+  "Granada": {
+    "hero": "assets/cities/granada-spain.webp",
+    "thumb": "assets/cities/granada-spain-sm.webp",
+    "credit": "Brett Hodnett / Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Granada_(25987961022).jpg",
+    "review": true
+  },
+  "Mexico City": {
+    "hero": "assets/cities/mexico-city-mexico.webp",
+    "thumb": "assets/cities/mexico-city-mexico-sm.webp",
+    "credit": "Gobierno CDMX / Wikimedia Commons",
+    "license": "CC0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sobrevuelos_CDMX_HJ2A4913_(25514321687)_(cropped).jpg",
+    "review": true
+  },
+  "Buenos Aires": {
+    "hero": "assets/cities/buenos-aires-argentina.webp",
+    "thumb": "assets/cities/buenos-aires-argentina-sm.webp",
+    "credit": "Deensel / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Puerto_Madero,_Buenos_Aires_(40689219792)_(cropped).jpg",
+    "review": true
+  },
+  "Marrakech": {
+    "hero": "assets/cities/marrakech-morocco.webp",
+    "thumb": "assets/cities/marrakech-morocco-sm.webp",
+    "credit": "Acp / Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pavillon_Menarag%C3%A4rten.jpg",
+    "review": true
+  },
+  "Taipei": {
+    "hero": "assets/cities/taipei-taiwan.webp",
+    "thumb": "assets/cities/taipei-taiwan-sm.webp",
+    "credit": "毛貓大少爺 / Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Taipei_Skyline_2022.06.29.jpg",
+    "review": true
+  },
+  "Copenhagen": {
+    "hero": "assets/cities/copenhagen-denmark.webp",
+    "thumb": "assets/cities/copenhagen-denmark-sm.webp",
+    "credit": "Moahim / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:2018_-_Christiansborg_from_the_Marble_Bridge.jpg",
+    "review": true
+  },
+  "Vancouver": {
+    "hero": "assets/cities/vancouver-canada.webp",
+    "thumb": "assets/cities/vancouver-canada-sm.webp",
+    "credit": "Quintin Soloviev / Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Skyline_of_Vancouver,_Canada.jpg",
+    "review": true
+  },
+  "Istanbul": {
+    "hero": "assets/cities/istanbul-turkey.webp",
+    "thumb": "assets/cities/istanbul-turkey-sm.webp",
+    "credit": "Hunanuk / Wikimedia Commons",
+    "license": "CC0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Historical_peninsula_and_modern_skyline_of_Istanbul.jpg",
+    "review": true
+  },
+  "Amsterdam": {
+    "hero": "assets/cities/amsterdam-netherlands.webp",
+    "thumb": "assets/cities/amsterdam-netherlands-sm.webp",
+    "credit": "Andrés Barrios / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Imagen_de_los_canales_conc%C3%A9ntricos_en_%C3%81msterdam.png",
+    "review": true
+  },
+  "Melbourne": {
+    "hero": "assets/cities/melbourne-australia.webp",
+    "thumb": "assets/cities/melbourne-australia-sm.webp",
+    "credit": "Melbpal / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Melbourne_skyline_sor.jpg",
+    "review": true
+  },
+  "Bangkok": {
+    "hero": "assets/cities/bangkok-thailand.webp",
+    "thumb": "assets/cities/bangkok-thailand-sm.webp",
+    "credit": "Ninara from Helsinki, Finland / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:4Y1A1159_Bangkok_(33536795515).jpg",
+    "review": true
+  },
+  "Da Nang": {
+    "hero": "assets/cities/da-nang-vietnam.webp",
+    "thumb": "assets/cities/da-nang-vietnam-sm.webp",
+    "credit": "Somerset999 / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dragon_Bridge,_Da_Nang_during_day_-_20230819_(cropped).jpg",
+    "review": true
+  },
+  "Hanoi": {
+    "hero": "assets/cities/hanoi-vietnam.webp",
+    "thumb": "assets/cities/hanoi-vietnam-sm.webp",
+    "credit": "Quangnlnhe182394 / Wikimedia Commons",
+    "license": "CC0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hanoi_skyline_with_Ba_Vi_Mountain.jpg",
+    "review": true
+  },
+  "Siem Reap": {
+    "hero": "assets/cities/siem-reap-cambodia.webp",
+    "thumb": "assets/cities/siem-reap-cambodia-sm.webp",
+    "credit": "Willuconquer / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Front_porch_of_Wat_Damnak.jpg",
+    "review": true
+  },
+  "Kraków": {
+    "hero": "assets/cities/krak-w-poland.webp",
+    "thumb": "assets/cities/krak-w-poland-sm.webp",
+    "credit": "Andrzej Otrębski / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Krakow_Rynek_Glowny_panorama_2.jpg",
+    "review": true
+  },
+  "Budapest": {
+    "hero": "assets/cities/budapest-hungary.webp",
+    "thumb": "assets/cities/budapest-hungary-sm.webp",
+    "credit": "Visions of Domino / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:View_from_Gell%C3%A9rt_Hill_to_the_Danube,_Hungary_-_Budapest_(28493220635).jpg",
+    "review": true
+  },
+  "Sofia": {
+    "hero": "assets/cities/sofia-bulgaria.webp",
+    "thumb": "assets/cities/sofia-bulgaria-sm.webp",
+    "credit": "Deensel / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Russian_church_(37591925970).jpg",
+    "review": true
+  },
+  "Belgrade": {
+    "hero": "assets/cities/belgrade-serbia.webp",
+    "thumb": "assets/cities/belgrade-serbia-sm.webp",
+    "credit": "ZlatanJovanovic / Wikimedia Commons",
+    "license": "CC BY 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Panorama_Belgrad.jpg",
+    "review": true
+  },
+  "Kotor": {
+    "hero": "assets/cities/kotor-montenegro.webp",
+    "thumb": "assets/cities/kotor-montenegro-sm.webp",
+    "credit": "User:Ggia / Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:20090719_Crkva_Gospa_od_Zdravlja_Kotor_Bay_Montenegro.jpg",
+    "review": true
+  },
+  "Sarandë": {
+    "hero": "assets/cities/sarand-albania.webp",
+    "thumb": "assets/cities/sarand-albania-sm.webp",
+    "credit": "Photo: Gary Bembridge / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:CIty_of_Saranda_Albania_2016.jpg",
+    "review": true
+  },
+  "Seville": {
+    "hero": "assets/cities/seville-spain.webp",
+    "thumb": "assets/cities/seville-spain-sm.webp",
+    "credit": "Ingo Mehling / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sevilla_Cathedral_-_Southeast.jpg",
+    "review": true
+  },
+  "Valencia": {
+    "hero": "assets/cities/valencia-spain.webp",
+    "thumb": "assets/cities/valencia-spain-sm.webp",
+    "credit": "Boris  Dzhingarov / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Malvarrosa_Beach,_Valencia,_Spain_(29812271043).jpg",
+    "review": true
+  },
+  "Athens": {
+    "hero": "assets/cities/athens-greece.webp",
+    "thumb": "assets/cities/athens-greece-sm.webp",
+    "credit": "dronepicr / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Monastiraki_Square_and_Acropolis_in_Athens_(44149181684).jpg",
+    "review": true
+  },
+  "Oaxaca": {
+    "hero": "assets/cities/oaxaca-mexico.webp",
+    "thumb": "assets/cities/oaxaca-mexico-sm.webp",
+    "credit": "Mike Dickison / Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Santo_Domingo_Oaxaca_MRD.jpg",
+    "review": true
+  },
+  "Antigua": {
+    "hero": "assets/cities/antigua-guatemala.webp",
+    "thumb": "assets/cities/antigua-guatemala-sm.webp",
+    "credit": "David Amsler / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Volcano_Through_the_Arch.jpg",
+    "review": true
+  },
+  "Medellín": {
+    "hero": "assets/cities/medell-n-colombia.webp",
+    "thumb": "assets/cities/medell-n-colombia-sm.webp",
+    "credit": "Daniel-1-1 / Wikimedia Commons",
+    "license": "CC BY 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:El_Poblado_Medell%C3%ADn.jpg",
+    "review": true
+  },
+  "Florianópolis": {
+    "hero": "assets/cities/florian-polis-brazil.webp",
+    "thumb": "assets/cities/florian-polis-brazil-sm.webp",
+    "credit": "oscar fava / Wikimedia Commons",
+    "license": "CC BY 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Morro_da_Cruz,_Florian%C3%B3polis_-_SC,_Brazil_-_panoramio_(cropped).jpg",
+    "review": true
+  },
+  "Montevideo": {
+    "hero": "assets/cities/montevideo-uruguay.webp",
+    "thumb": "assets/cities/montevideo-uruguay-sm.webp",
+    "credit": "Eduardo Ruggieri / Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:PALACIO_LEGISLATIVO_01.JPG",
+    "review": true
+  },
+  "Cusco": {
+    "hero": "assets/cities/cusco-peru.webp",
+    "thumb": "assets/cities/cusco-peru-sm.webp",
+    "credit": "tomscoffin / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vista_Calle_Suecia.jpg",
+    "review": true
+  },
+  "Santiago": {
+    "hero": "assets/cities/santiago-chile.webp",
+    "thumb": "assets/cities/santiago-chile-sm.webp",
+    "credit": "Miguel hernandez / Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Palacio_de_La_Moneda_-_miguelreflex.jpg",
+    "review": true
+  },
+  "Tirana": {
+    "hero": "assets/cities/tirana-albania.webp",
+    "thumb": "assets/cities/tirana-albania-sm.webp",
+    "credit": "Photo: Chris Walts / Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Skanderbeg_square_tirana_2016.jpg",
+    "review": true
+  },
+  "San Miguel de Allende": {
+    "hero": "assets/cities/san-miguel-de-allende-mexico.webp",
+    "thumb": "assets/cities/san-miguel-de-allende-mexico-sm.webp",
+    "credit": "Carlos Valenzuela / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:ParroquiaSanMiguelFacade2019.jpg",
+    "review": true
+  },
+  "Ljubljana": {
+    "hero": "assets/cities/ljubljana-slovenia.webp",
+    "thumb": "assets/cities/ljubljana-slovenia-sm.webp",
+    "credit": "Andrew Milligan Sumo / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ljubljana_Old_Town,_Slovenia_(Old_Camera)_(33286165680).jpg",
+    "review": true
+  },
+  "Porto": {
+    "hero": "assets/cities/porto-portugal.webp",
+    "thumb": "assets/cities/porto-portugal-sm.webp",
+    "credit": "Diego Delso / Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Puente_Don_Luis_I,_Oporto,_Portugal,_2012-05-09,_DD_13.JPG",
+    "review": true
+  },
+  "Yerevan": {
+    "hero": "assets/cities/yerevan-armenia.webp",
+    "thumb": "assets/cities/yerevan-armenia-sm.webp",
+    "credit": "Սէրուժ Ուրիշեան (Serouj Ourishian) / Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mount_Ararat_and_the_Yerevan_skyline_(June_2018).jpg",
+    "review": true
+  },
+  "Puebla": {
+    "hero": "assets/cities/puebla-mexico.webp",
+    "thumb": "assets/cities/puebla-mexico-sm.webp",
+    "credit": "Jakub Hejtmánek / Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mexico-Popocatepetl.jpg",
+    "review": true
+  },
+  "Ho Chi Minh City": {
+    "hero": "assets/cities/ho-chi-minh-city-vietnam.webp",
+    "thumb": "assets/cities/ho-chi-minh-city-vietnam-sm.webp",
+    "credit": "Lê Minh Phát / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ho_Chi_Minh_City_panorama_2019_(cropped2).jpg",
+    "review": true
+  },
+  "Kuala Lumpur": {
+    "hero": "assets/cities/kuala-lumpur-malaysia.webp",
+    "thumb": "assets/cities/kuala-lumpur-malaysia-sm.webp",
+    "credit": "CEphoto, Uwe Aranas / Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kuala_Lumpur_Malaysia_Skyline-03.jpg",
+    "review": true
+  },
+  "Da Lat": {
+    "hero": "assets/cities/da-lat-vietnam.webp",
+    "thumb": "assets/cities/da-lat-vietnam-sm.webp",
+    "credit": "Diane Selwyn / Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Xuan_Huong_Lake_11.jpg",
+    "review": true
+  },
+  "Boquete": {
+    "hero": "assets/cities/boquete-panama.webp",
+    "thumb": "assets/cities/boquete-panama-sm.webp",
+    "credit": "No machine-readable author provided. Bateau ivre assumed (based on copyright claims). / Wikimedia Commons",
+    "license": "Public domain",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Boquete.jpg",
+    "review": true
+  },
+  "Arequipa": {
+    "hero": "assets/cities/arequipa-peru.webp",
+    "thumb": "assets/cities/arequipa-peru-sm.webp",
+    "credit": "Hans Brian Brandsberg Berg / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Plaza_de_Armas,_Arequipa_2006.jpg",
+    "review": true
+  },
+  "Cape Town": {
+    "hero": "assets/cities/cape-town-south-africa.webp",
+    "thumb": "assets/cities/cape-town-south-africa-sm.webp",
+    "credit": "Der Berzerker from Washington, DC, USA / Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Camps_bay_(53460319478)_(cropped).jpg",
+    "review": true
+  },
+  "Paphos": {
+    "hero": "assets/cities/paphos-cyprus.webp",
+    "thumb": "assets/cities/paphos-cyprus-sm.webp",
+    "credit": "Dmitry Panov / Wikimedia Commons",
+    "license": "CC BY 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Paphos_Marine,_Cyprus_-_panoramio.jpg",
+    "review": true
+  },
+  "Barcelona": {
+    "hero": "assets/cities/barcelona-spain.webp",
+    "thumb": "assets/cities/barcelona-spain-sm.webp",
+    "credit": "dronepicr / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aerial_view_of_Barcelona,_Spain_(51227309370)_edited.jpg",
+    "review": true
+  },
+  "Madrid": {
+    "hero": "assets/cities/madrid-spain.webp",
+    "thumb": "assets/cities/madrid-spain-sm.webp",
+    "credit": "Francisco Anzola / Wikimedia Commons",
+    "license": "CC BY 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Plaza_Mayor_De_Madrid_(215862629)_edited.jpeg",
+    "review": true
+  },
+  "Málaga": {
+    "hero": "assets/cities/m-laga-spain.webp",
+    "thumb": "assets/cities/m-laga-spain-sm.webp",
+    "credit": "Kiban / Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Da_Gibralfaro_(cropped)2.jpg",
+    "review": true
+  },
+  "Rome": {
+    "hero": "assets/cities/rome-italy.webp",
+    "thumb": "assets/cities/rome-italy-sm.webp",
+    "credit": "Diliff / Wikimedia Commons",
+    "license": "CC BY 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Trevi_Fountain,_Rome,_Italy_2_-_May_2007.jpg",
+    "review": true
+  },
+  "Florence": {
+    "hero": "assets/cities/florence-italy.webp",
+    "thumb": "assets/cities/florence-italy-sm.webp",
+    "credit": "Hagai Agmon-Snir حچاي اچمون-سنير חגי אגמון-שניר / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:FirenzeDec092023_01.jpg",
+    "review": true
+  },
+  "Palermo": {
+    "hero": "assets/cities/palermo-sicily.webp",
+    "thumb": "assets/cities/palermo-sicily-sm.webp",
+    "credit": "Tango7174 / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sicilia_Palermo5_tango7174.jpg",
+    "review": true
+  },
+  "Valletta": {
+    "hero": "assets/cities/valletta-malta.webp",
+    "thumb": "assets/cities/valletta-malta-sm.webp",
+    "credit": "Mandyy88 / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:St_Sebastian_Curtain_(cropped).jpg",
+    "review": true
+  },
+  "Thessaloniki": {
+    "hero": "assets/cities/thessaloniki-greece.webp",
+    "thumb": "assets/cities/thessaloniki-greece-sm.webp",
+    "credit": "Ymblanter / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Thessaloniki_Heptapyrgion_northeastern_wall_from_the_inner_yard.jpg",
+    "review": true
+  },
+  "Nice": {
+    "hero": "assets/cities/nice-france.webp",
+    "thumb": "assets/cities/nice-france-sm.webp",
+    "credit": "Alexander Migl / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Promenade_des_Anglais_Nice_IMG_1255.jpg",
+    "review": true
+  },
+  "Prague": {
+    "hero": "assets/cities/prague-czech-republic.webp",
+    "thumb": "assets/cities/prague-czech-republic-sm.webp",
+    "credit": "Moyan Brenn from Italy / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Prague_(6365119737).jpg",
+    "review": true
+  },
+  "Warsaw": {
+    "hero": "assets/cities/warsaw-poland.webp",
+    "thumb": "assets/cities/warsaw-poland-sm.webp",
+    "credit": "Emptywords / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aleja_Niepdleglosci_Warsaw_2022_aerial_(cropped).jpg",
+    "review": true
+  },
+  "Vilnius": {
+    "hero": "assets/cities/vilnius-lithuania.webp",
+    "thumb": "assets/cities/vilnius-lithuania-sm.webp",
+    "credit": "Augustas Didžgalvis / Wikimedia Commons",
+    "license": "CC-BY-SA-4.0",
+    "sourceUrl": "https://en.wikipedia.org/wiki/File:The_White_Bridge_and_%C5%A0nipi%C5%A1k%C4%97s_district_in_Vilnius_in_2023_by_Augustas_Did%C5%BEgalvis.jpg",
+    "review": true
+  },
+  "Tallinn": {
+    "hero": "assets/cities/tallinn-estonia.webp",
+    "thumb": "assets/cities/tallinn-estonia-sm.webp",
+    "credit": "Jorge Franganillo / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Raekoja_plats_at_night.jpg",
+    "review": true
+  },
+  "Bucharest": {
+    "hero": "assets/cities/bucharest-romania.webp",
+    "thumb": "assets/cities/bucharest-romania-sm.webp",
+    "credit": "Madalin Pentelie / Wikimedia Commons",
+    "license": "CC0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bucharest_University_Square_(cropped).jpg",
+    "review": true
+  },
+  "Cluj-Napoca": {
+    "hero": "assets/cities/cluj-napoca-romania.webp",
+    "thumb": "assets/cities/cluj-napoca-romania-sm.webp",
+    "credit": "Dennis G. Jarvis / Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Romania-2382_-_View_from_Hotel_(7794313314).jpg",
+    "review": true
+  },
+  "Bratislava": {
+    "hero": "assets/cities/bratislava-slovakia.webp",
+    "thumb": "assets/cities/bratislava-slovakia-sm.webp",
+    "credit": "Arne Müseler / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Slovakia_bratislava.jpg",
+    "review": true
+  },
+  "Plovdiv": {
+    "hero": "assets/cities/plovdiv-bulgaria.webp",
+    "thumb": "assets/cities/plovdiv-bulgaria-sm.webp",
+    "credit": "Dan Lundberg / Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:20190523_Bulgaria_6619_Plovdiv_sRGB_(48655982438).jpg",
+    "review": true
+  },
+  "Sarajevo": {
+    "hero": "assets/cities/sarajevo-bosnia-herzegovina.webp",
+    "thumb": "assets/cities/sarajevo-bosnia-herzegovina-sm.webp",
+    "credit": "Julian Nyča / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sarajevo_City_Panorama.JPG",
+    "review": true
+  },
+  "Berlin": {
+    "hero": "assets/cities/berlin-germany.webp",
+    "thumb": "assets/cities/berlin-germany-sm.webp",
+    "credit": "File:Museumsinsel Berlin Juli 2021 1 (cropped).jpg: Kasa Fue\nderivative work: Georgfotoart / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Museumsinsel_Berlin_Juli_2021_1_(cropped)_b.jpg",
+    "review": true
+  },
+  "Vienna": {
+    "hero": "assets/cities/vienna-austria.webp",
+    "thumb": "assets/cities/vienna-austria-sm.webp",
+    "credit": "Superbass / Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Schoenbrunn_philharmoniker_2012.jpg",
+    "review": true
+  },
+  "Zurich": {
+    "hero": "assets/cities/zurich-switzerland.webp",
+    "thumb": "assets/cities/zurich-switzerland-sm.webp",
+    "credit": "Thomas Wolf, www.foto-tw.de / Wikimedia Commons",
+    "license": "CC BY-SA 3.0 de",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Altstadt_Z%C3%BCrich_2015.jpg",
+    "review": true
+  },
+  "London": {
+    "hero": "assets/cities/london-united-kingdom.webp",
+    "thumb": "assets/cities/london-united-kingdom-sm.webp",
+    "credit": "Ilya Grigorik / Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:London_Skyline_(125508655).jpeg",
+    "review": true
+  },
+  "Paris": {
+    "hero": "assets/cities/paris-france.webp",
+    "thumb": "assets/cities/paris-france-sm.webp",
+    "credit": "Yann Caradec from Paris, France / Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:La_Tour_Eiffel_vue_de_la_Tour_Saint-Jacques,_Paris_ao%C3%BBt_2014_(2).jpg",
+    "review": true
+  },
+  "Stockholm": {
+    "hero": "assets/cities/stockholm-sweden.webp",
+    "thumb": "assets/cities/stockholm-sweden-sm.webp",
+    "credit": "Steven Lek / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Royal_Dramatic_Theatre_Stockholm.jpg",
+    "review": true
+  },
+  "Geneva": {
+    "hero": "assets/cities/geneva-switzerland.webp",
+    "thumb": "assets/cities/geneva-switzerland-sm.webp",
+    "credit": "fr:Utilisateur:Stéphane_Pecorini / Wikimedia Commons",
+    "license": "CC BY-SA 2.0 fr",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Geneve_2005_001_Ork.ch.jpg",
+    "review": true
+  },
+  "Munich": {
+    "hero": "assets/cities/munich-germany.webp",
+    "thumb": "assets/cities/munich-germany-sm.webp",
+    "credit": "Thomas Wolf, www.foto-tw.de / Wikimedia Commons",
+    "license": "CC BY-SA 3.0 de",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Stadtbild_M%C3%BCnchen.jpg",
+    "review": true
+  },
+  "Helsinki": {
+    "hero": "assets/cities/helsinki-finland.webp",
+    "thumb": "assets/cities/helsinki-finland-sm.webp",
+    "credit": "Michal Pise, Michal.Pise / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Suomenlinna_(cropped).jpg",
+    "review": true
+  },
+  "Oslo": {
+    "hero": "assets/cities/oslo-norway.webp",
+    "thumb": "assets/cities/oslo-norway-sm.webp",
+    "credit": "Orjanarvola / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nationaltheatret_evening.jpg",
+    "review": true
+  },
+  "Utrecht": {
+    "hero": "assets/cities/utrecht-netherlands.webp",
+    "thumb": "assets/cities/utrecht-netherlands-sm.webp",
+    "credit": "Wil Leeuwis / Wikimedia Commons",
+    "license": "CC0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sol_Lumen.jpg",
+    "review": true
+  },
+  "The Hague": {
+    "hero": "assets/cities/the-hague-netherlands.webp",
+    "thumb": "assets/cities/the-hague-netherlands-sm.webp",
+    "credit": "Zairon / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Den_Haag_Skyline_1.jpg",
+    "review": true
+  },
+  "Auckland": {
+    "hero": "assets/cities/auckland-new-zealand.webp",
+    "thumb": "assets/cities/auckland-new-zealand-sm.webp",
+    "credit": "elpinto007 / Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Auckland_skyline_-_May_2024_(2).jpg",
+    "review": true
+  },
+  "Wellington": {
+    "hero": "assets/cities/wellington-new-zealand.webp",
+    "thumb": "assets/cities/wellington-new-zealand-sm.webp",
+    "credit": "russellstreet / Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Seddon_Statue_in_Parliament_Grounds.jpg",
+    "review": true
+  },
+  "Osaka": {
+    "hero": "assets/cities/osaka-japan.webp",
+    "thumb": "assets/cities/osaka-japan-sm.webp",
+    "credit": "663highland / Wikimedia Commons",
+    "license": "CC BY 2.5",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Osaka_Castle_02bs3200.jpg",
+    "review": true
+  },
+  "Nha Trang": {
+    "hero": "assets/cities/nha-trang-vietnam.webp",
+    "thumb": "assets/cities/nha-trang-vietnam-sm.webp",
+    "credit": "Chris Lewis / Wikimedia Commons",
+    "license": "CC BY 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nha_Trang,_Kh%C3%A1nh_H%C3%B2a.png",
+    "review": true
+  },
+  "Ipoh": {
+    "hero": "assets/cities/ipoh-malaysia.webp",
+    "thumb": "assets/cities/ipoh-malaysia-sm.webp",
+    "credit": "HundenvonPenang / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ipoh_skyline_24-2.jpg",
+    "review": true
+  },
+  "Kuching": {
+    "hero": "assets/cities/kuching-malaysia.webp",
+    "thumb": "assets/cities/kuching-malaysia-sm.webp",
+    "credit": "Mike86 at English Wikipedia / Wikimedia Commons",
+    "license": "Public domain",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kuching_Skyline.jpg",
+    "review": true
+  },
+  "Dumaguete": {
+    "hero": "assets/cities/dumaguete-philippines.webp",
+    "thumb": "assets/cities/dumaguete-philippines-sm.webp",
+    "credit": "Patrickroque01 / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dumaguete_Belfry_park_view_(Perdices_Street,_Dumaguete,_Negros_Oriental;_01-19-2023).jpg",
+    "review": true
+  },
+  "Novi Sad": {
+    "hero": "assets/cities/novi-sad-serbia.webp",
+    "thumb": "assets/cities/novi-sad-serbia-sm.webp",
+    "credit": "Bybbisch94, Christian Gebhardt / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:20230429.Ansichten_in_Novi_Sad.-039.jpg",
+    "review": true
+  },
+  "Skopje": {
+    "hero": "assets/cities/skopje-north-macedonia.webp",
+    "thumb": "assets/cities/skopje-north-macedonia-sm.webp",
+    "credit": "kallerna / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Skopje_view_from_Kale_3.jpg",
+    "review": true
+  },
+  "Ohrid": {
+    "hero": "assets/cities/ohrid-north-macedonia.webp",
+    "thumb": "assets/cities/ohrid-north-macedonia-sm.webp",
+    "credit": "xiquinhosilva / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:03760-Ohrid_(16064511578).jpg",
+    "review": true
+  },
+  "Brno": {
+    "hero": "assets/cities/brno-czech-republic.webp",
+    "thumb": "assets/cities/brno-czech-republic-sm.webp",
+    "credit": "Kojot333 / Wikimedia Commons",
+    "license": "CC BY 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cathedral_of_St._Peter_and_Paul,_Petrov_Hill,_Brno_(from_south-east)_2.jpg",
+    "review": true
+  },
+  "Wrocław": {
+    "hero": "assets/cities/wroc-aw-poland.webp",
+    "thumb": "assets/cities/wroc-aw-poland-sm.webp",
+    "credit": "Jar.ciurus / Wikimedia Commons",
+    "license": "CC BY-SA 3.0 pl",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wroclaw-_Most_Grunwaldzki.jpg",
+    "review": true
+  },
+  "Gdańsk": {
+    "hero": "assets/cities/gda-sk-poland.webp",
+    "thumb": "assets/cities/gda-sk-poland-sm.webp",
+    "credit": "Diego Delso / Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Calle_Dlugie_Pobrzeze,_Gdansk,_Polonia,_2013-05-20,_DD_06.jpg",
+    "review": true
+  },
+  "Salta": {
+    "hero": "assets/cities/salta-argentina.webp",
+    "thumb": "assets/cities/salta-argentina-sm.webp",
+    "credit": "loco085 / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Panor%C3%A1mica_Ciudad_de_Salta.jpg",
+    "review": true
+  },
+  "Querétaro": {
+    "hero": "assets/cities/quer-taro-mexico.webp",
+    "thumb": "assets/cities/quer-taro-mexico-sm.webp",
+    "credit": "Pabloangulo84 / Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Acueducto_de_Quer%C3%A9taro_2.JPG",
+    "review": true
+  },
+  "Guanajuato": {
+    "hero": "assets/cities/guanajuato-mexico.webp",
+    "thumb": "assets/cities/guanajuato-mexico-sm.webp",
+    "credit": "Oescalona / Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Panorama_Guanajuato_Atardecer.jpg",
+    "review": true
+  },
+  "Bali (Canggu/Ubud)": {
+    "hero": "assets/cities/bali-canggu-ubud-indonesia.webp",
+    "thumb": "assets/cities/bali-canggu-ubud-indonesia-sm.webp",
+    "credit": "Vyacheslav Argenberg / Wikimedia Commons",
+    "license": "CC BY 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rice_terraces,_Ubud,_Bali.jpg",
+    "review": true
+  },
+  "George Town (Penang)": {
+    "hero": "assets/cities/george-town-penang-malaysia.webp",
+    "thumb": "assets/cities/george-town-penang-malaysia-sm.webp",
+    "credit": "HundenvonPenang / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Skyline_of_George_Town,_Penang_at_night_Nov2024-29-17.jpg",
+    "review": true
+  },
+  "Split": {
+    "hero": "assets/cities/split-croatia.webp",
+    "thumb": "assets/cities/split-croatia-sm.webp",
+    "credit": "Tatyana Peshkova / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Split_080620-133710-IMG_0968x.jpg",
+    "review": true
+  },
+  "Lisbon": {
+    "hero": "assets/cities/lisbon-portugal.webp",
+    "thumb": "assets/cities/lisbon-portugal-sm.webp",
+    "credit": "Vitor Oliveira from Torres Vedras, PORTUGAL / Wikimedia Commons",
+    "license": "CC BY-SA 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lisboa_-_Portugal_(52597836992).jpg",
+    "review": true
+  },
+  "Lagos (Algarve)": {
+    "hero": "assets/cities/lagos-algarve-portugal.webp",
+    "thumb": "assets/cities/lagos-algarve-portugal-sm.webp",
+    "credit": "Bextrel / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vista_Centro_Hist%C3%B3rico_de_Lagos_(cropped).jpg",
+    "review": true
+  },
+  "Catania (Sicily)": {
+    "hero": "assets/cities/catania-sicily-italy.webp",
+    "thumb": "assets/cities/catania-sicily-italy-sm.webp",
+    "credit": "Dariolp83 / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Catania_vista_dall%27alto_e_il_vulcano_Etna_a_sovrastarla.jpg",
+    "review": true
+  },
+  "Chania (Crete)": {
+    "hero": "assets/cities/chania-crete-greece.webp",
+    "thumb": "assets/cities/chania-crete-greece-sm.webp",
+    "credit": "dronepicr / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aerial_view_of_the_Old_Venetian_Harbour_in_Chania,_Greece.jpg",
+    "review": true
+  },
+  "Mérida": {
+    "hero": "assets/cities/m-rida-mexico.webp",
+    "thumb": "assets/cities/m-rida-mexico-sm.webp",
+    "credit": "amanderson2 / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Paseo_de_Montejo_Merida_Yucatan_Mexico_2018-07.jpg",
+    "review": true
+  },
+  "Lake Atitlán (Panajachel)": {
+    "hero": "assets/cities/lake-atitl-n-panajachel-guatemala.webp",
+    "thumb": "assets/cities/lake-atitl-n-panajachel-guatemala-sm.webp",
+    "credit": "Arian Zwegers from Brussels, Belgium / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lake_Atitlan,_Volcan_Tolim%C3%A1n_and_Volcan_Atitl%C3%A1n.jpg",
+    "review": true
+  },
+  "Cuenca": {
+    "hero": "assets/cities/cuenca-ecuador.webp",
+    "thumb": "assets/cities/cuenca-ecuador-sm.webp",
+    "credit": "Alex Proimos / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Domes_of_the_New_Cathedral_in_Cuenca,_Ecuador.jpg",
+    "review": true
+  },
+  "San José": {
+    "hero": "assets/cities/san-jos-costa-rica.webp",
+    "thumb": "assets/cities/san-jos-costa-rica-sm.webp",
+    "credit": "Richie Diesterheft\nderivative work: MrPanyGoff / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:National_Theatre_of_Costa_Rica.jpg",
+    "review": true
+  },
+  "Bologna": {
+    "hero": "assets/cities/bologna-italy.webp",
+    "thumb": "assets/cities/bologna-italy-sm.webp",
+    "credit": "Fabio Ciminelli / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Torri_di_Bologna,_Bologna.jpg",
+    "review": true
+  },
+  "Funchal (Madeira)": {
+    "hero": "assets/cities/funchal-madeira-portugal.webp",
+    "thumb": "assets/cities/funchal-madeira-portugal-sm.webp",
+    "credit": "Dr. Thomas Liptak / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Funchal,_Jardins_da_Quinta_Vigia_(lookout).jpg",
+    "review": true
+  },
+  "Las Palmas (Gran Canaria)": {
+    "hero": "assets/cities/las-palmas-gran-canaria-spain.webp",
+    "thumb": "assets/cities/las-palmas-gran-canaria-spain-sm.webp",
+    "credit": "Bengt Nyman from Vaxholm, Sweden / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Canteras_EM1B2907_(40642755393).jpg",
+    "review": true
+  },
+  "Riga": {
+    "hero": "assets/cities/riga-latvia.webp",
+    "thumb": "assets/cities/riga-latvia-sm.webp",
+    "credit": "Jorge Franganillo from Barcelona, Spain / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Riga_(33844464828).jpg",
+    "review": true
+  },
+  "Dublin": {
+    "hero": "assets/cities/dublin-ireland.webp",
+    "thumb": "assets/cities/dublin-ireland-sm.webp",
+    "credit": "瑞丽江的河水 / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dublin_-_aerial_-_2025-07-07_01.jpg",
+    "review": true
+  },
+  "Tokyo": {
+    "hero": "assets/cities/tokyo-japan.webp",
+    "thumb": "assets/cities/tokyo-japan-sm.webp",
+    "credit": "Morio / Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Skyscrapers_of_Shinjuku_2009_January.jpg",
+    "review": true
+  },
+  "Mendoza": {
+    "hero": "assets/cities/mendoza-argentina.webp",
+    "thumb": "assets/cities/mendoza-argentina-sm.webp",
+    "credit": "David / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Downtown_Mendoza.jpg",
+    "review": true
+  },
+  "João Pessoa": {
+    "hero": "assets/cities/jo-o-pessoa-brazil.webp",
+    "thumb": "assets/cities/jo-o-pessoa-brazil-sm.webp",
+    "credit": "Rogerio121402 / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Centro_Hist%C3%B3rico_de_Jo%C3%A3o_Pessoa.jpg",
+    "review": true
+  },
+  "Hoi An": {
+    "hero": "assets/cities/hoi-an-vietnam.webp",
+    "thumb": "assets/cities/hoi-an-vietnam-sm.webp",
+    "credit": "www.viajar24h.com / Wikimedia Commons",
+    "license": "CC BY 2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hoi_An_lanterns_at_night.jpg",
+    "review": true
+  }
+}
