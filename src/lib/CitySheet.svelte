@@ -52,9 +52,9 @@
   }
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
-<div class="scrim" onclick={(e) => e.target === e.currentTarget && onclose()}>
-  <article
+<div class="scrim">
+  <button type="button" class="scrim-back" aria-label="Close city sheet" onclick={onclose}></button>
+  <div
     class="sheet"
     role="dialog"
     aria-modal="true"
@@ -234,7 +234,7 @@
       <span>{city.visa}</span>
       <span>Scores per the Atlas methodology — re-verify advisories before travel.</span>
     </footer>
-  </article>
+  </div>
 </div>
 
 <style>
@@ -247,8 +247,19 @@
     padding: 4vh 16px;
   }
 
+  .scrim-back {
+    position: fixed;
+    inset: 0;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: default;
+  }
+
   .sheet {
     position: relative;
+    z-index: 1;
     max-width: 880px;
     margin: 0 auto;
     background: var(--paper);

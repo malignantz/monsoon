@@ -193,9 +193,16 @@ export function schengenCheck(stays) {
       worstStart = i;
     }
   }
+  // The six month indices that make up the worst rolling 180-day window.
+  const windowMonths = Array.from({ length: 6 }, (_, j) => (worstStart + j) % 12);
   return {
     worst,
+    worstStart,
+    windowMonths,
+    schengenMonths: days.map((d) => d > 0),
     window: `${MONTHS[worstStart]}–${MONTHS[(worstStart + 5) % 12]}`,
+    remaining: Math.max(0, 90 - worst),
+    over: Math.max(0, worst - 90),
     ok: worst <= 90,
     tight: worst > 75 && worst <= 90,
     anySchengen: days.some((d) => d > 0)

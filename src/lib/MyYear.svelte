@@ -11,7 +11,6 @@
     fmtMoney,
     MONTHS,
     MONTH_LETTERS,
-    TEMPLATES,
     monthOccupancy,
     routeStats,
     stayMonths
@@ -28,7 +27,7 @@
       const s = JSON.parse(localStorage.getItem(STORE));
       if (Array.isArray(s) && s.every((x) => cityByKey.has(x.key))) return s;
     } catch {}
-    return TEMPLATES[0].stays.map((s) => ({ ...s }));
+    return [];
   }
 
   function loadFilters() {
@@ -51,21 +50,6 @@
   let selStart = $state(-1);
   let dur = $state(2);
   let query = $state('');
-  let hoverTemplate = $state(null);
-
-  // A template chip is "on" only while the route still matches it exactly.
-  const activeTemplate = $derived(
-    TEMPLATES.find(
-      (t) =>
-        t.stays.length === stays.length &&
-        t.stays.every((s, i) => s.key === stays[i].key && s.start === stays[i].start && s.len === stays[i].len)
-    )?.id ?? ''
-  );
-
-  const visibleBlurb = $derived.by(() => {
-    const id = hoverTemplate ?? activeTemplate ?? null;
-    return id ? (TEMPLATES.find((x) => x.id === id)?.blurb ?? null) : null;
-  });
 
   let filters = $state(loadFilters());
   let planMin = $state(2);
@@ -121,13 +105,8 @@
 
   const occ = $derived(monthOccupancy(stays));
   const stats = $derived(routeStats(stays, preset));
-
-  function loadTemplate(t) {
-    stays = t.stays.map((s) => ({ ...s }));
-    selStart = -1;
-    // On touch there's no mouseenter — show the tapped template's blurb right away.
-    hoverTemplate = t.id;
-  }
+  const sch = $derived(stats.schengen);
+  const schState = $derived(!sch.ok ? 'Over limit' : sch.tight ? 'Getting tight' : 'Within limits');
 
   function clearRoute() {
     stays = [];
@@ -216,25 +195,10 @@
       <p class="kicker">Build the year</p>
       <h1>My year<span class="dot">.</span></h1>
     </div>
-    <div class="head-right">
-      <div class="templates">
-        {#each TEMPLATES as t}
-          <button
-            type="button"
-            class="chip"
-            class:on={activeTemplate === t.id}
-            onmouseenter={() => (hoverTemplate = t.id)}
-            onmouseleave={() => (hoverTemplate = null)}
-            onclick={() => loadTemplate(t)}
-          >
-            {t.name}
-          </button>
-        {/each}
-        <button type="button" class="chip clear" onclick={clearRoute}>Clear</button>
+    {#if stays.length > 0}
+      <div class="head-right">
+        <button type="button" class="chip clear" onclick={clearRoute}>Clear route</button>
       </div>
-    </div>
-    {#if visibleBlurb}
-      <p class="tblurb">{visibleBlurb}</p>
     {/if}
   </header>
 
@@ -287,30 +251,43 @@
     </div>
 
     {#if stays.length === 0}
-      <p class="board-hint">Click any month above to mark a starting point, then choose a city from the list below — or pick a template.</p>
+      <p class="board-hint">Click any month above to mark a starting point, then choose a city from the list below — or let Auto-plan propose a year for you.</p>
     {/if}
 
-    <div class="meter" class:bad={!stats.schengen.ok} class:tight={stats.schengen.tight}>
-      <span class="mlabel">◆ Schengen 90/180</span>
-      <ScoreInfo title="Schengen 90/180 rule">
-        <p>EU short-stay visa: max 90 days in any rolling 180-day window.</p>
-        <p>◆ marks Schengen-area countries. Exceeding 90 days requires a visa or a non-Schengen break.</p>
-      </ScoreInfo>
-      {#if stats.schengen.anySchengen}
-        <div class="track">
-          <div class="used" style="width: {Math.min(100, (stats.schengen.worst / 90) * 100)}%"></div>
-          <div class="limit"></div>
-        </div>
-      {/if}
-      <span class="mread num">
-        {#if !stats.schengen.anySchengen}
-          no Schengen stays
-        {:else if stats.schengen.ok}
-          {stats.schengen.worst} of 90 days · worst window {stats.schengen.window}
-        {:else}
-          {stats.schengen.worst} days in {stats.schengen.window} — over the 90-day limit
+    <div class="schtrack" class:bad={!sch.ok} class:tight={sch.ok && sch.tight} class:none={!sch.anySchengen}>
+      <div class="sch-head">
+        <span class="mlabel">◆ Schengen 90/180</span>
+        <ScoreInfo title="Schengen 90/180 rule">
+          <p>EU short-stay visa: max 90 days in any rolling 180-day window.</p>
+          <p>◆ marks Schengen-area countries. Exceeding 90 days requires a visa or a non-Schengen break.</p>
+        </ScoreInfo>
+        {#if sch.anySchengen}
+          <span class="sch-state">{schState}</span>
         {/if}
-      </span>
+      </div>
+
+      {#if !sch.anySchengen}
+        <p class="sch-none">No Schengen stays — the 90/180 cap doesn't apply to this route yet.</p>
+      {:else}
+        <div class="sch-year num" role="img" aria-label="Schengen days across the year, worst 180-day window {sch.window}">
+          {#each MONTH_LETTERS as l, i}
+            <span
+              class="sch-cell"
+              class:fill={sch.schengenMonths[i]}
+              class:inwin={sch.windowMonths.includes(i)}
+            >{l}</span>
+          {/each}
+        </div>
+        <p class="sch-read">
+          {#if sch.ok}
+            <strong class="num">{sch.remaining}</strong> of 90 days still free
+            <span class="sch-sub">— worst window {sch.window} uses {sch.worst}</span>
+          {:else}
+            <strong class="num">{sch.over}</strong> {sch.over === 1 ? 'day' : 'days'} over the limit
+            <span class="sch-sub">— {sch.worst} days inside {sch.window}, cap is 90</span>
+          {/if}
+        </p>
+      {/if}
     </div>
 
     <div class="totals">
@@ -329,10 +306,6 @@
       <div class="tot">
         <span class="num tv">{stats.festivals}</span>
         <span class="tk">major festivals</span>
-      </div>
-      <div class="tot" class:warn={stats.hazardMonths > 0}>
-        <span class="num tv">{stats.hazardMonths}</span>
-        <span class="tk">hazard months</span>
       </div>
     </div>
   </div>
@@ -467,22 +440,10 @@
 
   .head-right {
     display: flex;
-    flex-direction: column;
     align-items: flex-end;
-    gap: 10px;
   }
 
-  .templates { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
   .chip.clear { color: var(--terra-deep); }
-
-  .tblurb {
-    margin: 6px 0 0;
-    text-align: right;
-    font-family: var(--display);
-    font-style: italic;
-    font-size: 13px;
-    color: var(--ink-3);
-  }
 
   .board {
     background: var(--card);
@@ -631,46 +592,90 @@
 
   .cont { font-size: 11px; color: var(--ink-2); white-space: nowrap; }
 
-  .meter {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 12px;
+  /* Schengen tracker — a state pill + a year strip that brackets the worst
+     rolling 180-day window, so the cap reads as the moving constraint it is. */
+  .schtrack {
     margin-top: 14px;
     padding-top: 14px;
     border-top: 1px solid var(--line-soft);
+    --sch-accent: var(--schengen);
   }
 
-  .mlabel { font-size: 12px; font-weight: 600; color: var(--schengen); white-space: nowrap; }
+  .schtrack.tight { --sch-accent: var(--band-ok); }
+  .schtrack.bad { --sch-accent: var(--band-bad); }
 
-  .track {
-    position: relative;
-    height: 8px;
+  .sch-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mlabel { font-size: 12px; font-weight: 600; color: var(--sch-accent); white-space: nowrap; }
+
+  .sch-state {
+    margin-left: auto;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--sch-accent);
+    border: 1px solid var(--sch-accent);
+    border-radius: 999px;
+    padding: 2px 10px;
+  }
+
+  .sch-none {
+    margin: 8px 0 0;
+    font-size: 12.5px;
+    color: var(--ink-3);
+    font-style: italic;
+    font-family: var(--display);
+  }
+
+  .sch-year {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 3px;
+    margin-top: 10px;
+  }
+
+  .sch-cell {
+    text-align: center;
+    font-size: 10.5px;
+    color: var(--ink-3);
+    padding: 4px 0;
+    border-radius: 5px;
+    border: 1px solid transparent;
     background: var(--paper-2);
-    border-radius: 4px;
   }
 
-  .used {
-    height: 100%;
-    border-radius: 4px;
-    background: var(--schengen);
-    transition: width 0.25s ease;
+  /* Months inside the worst 180-day window get the accent outline. */
+  .sch-cell.inwin {
+    border-color: var(--sch-accent);
+    color: var(--sch-accent);
   }
 
-  .meter.tight .used { background: var(--band-ok); }
-  .meter.bad .used { background: var(--band-bad); }
-  .meter.bad .mlabel { color: var(--band-bad); }
-
-  .limit {
-    position: absolute;
-    right: 0;
-    top: -3px;
-    width: 2px;
-    height: 14px;
-    background: var(--ink-3);
+  /* Actual Schengen stays are filled; filled + in-window is the binding case. */
+  .sch-cell.fill {
+    background: var(--schengen-soft);
+    color: var(--schengen);
+    font-weight: 600;
   }
 
-  .mread { font-size: 11.5px; color: var(--ink-2); white-space: nowrap; }
+  .sch-cell.fill.inwin {
+    background: var(--sch-accent);
+    color: #fdf3ec;
+    border-color: var(--sch-accent);
+  }
+
+  .sch-read {
+    margin: 9px 0 0;
+    font-size: 12.5px;
+    color: var(--ink-2);
+  }
+
+  .sch-read strong { color: var(--sch-accent); font-size: 14px; }
+  .sch-sub { color: var(--ink-3); }
 
   .board-hint {
     margin: 4px 0 10px;
@@ -693,7 +698,6 @@
   .tot { display: flex; flex-direction: column; }
   .tv { font-size: 19px; font-weight: 600; }
   .tk { font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); }
-  .tot.warn .tv { color: var(--terra-deep); }
 
   .plan {
     margin-top: 16px;
