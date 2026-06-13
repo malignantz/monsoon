@@ -7,10 +7,44 @@
   let { mode = 'settings', onclose } = $props();
 
   let cardEl = $state(null);
+  let collapsing = $state(false);
+
+  const reducedMotion = () =>
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function done() {
     saveSettings();
+    // First run: shrink the panel into the gear so a new user sees where these
+    // controls now live. Everywhere else (and for reduced-motion) just close.
+    if (onboarding && !collapsing && !reducedMotion() && collapseToGear()) return;
     onclose();
+  }
+
+  // FLIP-style collapse: measure the gear, translate + scale the card so its
+  // center lands on the gear, then unmount. Pure transform/opacity, so it runs
+  // smoothly and degrades safely across browsers. Returns false if it can't run.
+  function collapseToGear() {
+    const gear = document.querySelector('.gear');
+    if (!gear || !cardEl) return false;
+    const g = gear.getBoundingClientRect();
+    const c = cardEl.getBoundingClientRect();
+    const dx = g.left + g.width / 2 - (c.left + c.width / 2);
+    const dy = g.top + g.height / 2 - (c.top + c.height / 2);
+    const scale = Math.max(g.width / c.width, 0.06);
+    cardEl.style.setProperty('--dx', `${dx}px`);
+    cardEl.style.setProperty('--dy', `${dy}px`);
+    cardEl.style.setProperty('--s', scale);
+    collapsing = true;
+    let finished = false;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      onclose();
+    };
+    cardEl.addEventListener('transitionend', finish, { once: true });
+    // Fallback in case transitionend never fires (interrupted, hidden tab, etc.).
+    setTimeout(finish, 600);
+    return true;
   }
 
   $effect(() => {
@@ -32,9 +66,9 @@
   const onboarding = $derived(mode === 'onboarding');
 </script>
 
-<div class="scrim">
+<div class="scrim" class:collapsing>
   <button type="button" class="scrim-back" aria-label="Close settings" onclick={done}></button>
-  <div class="card" role="dialog" aria-modal="true" aria-label="Settings" tabindex="-1" bind:this={cardEl}>
+  <div class="card" class:collapsing role="dialog" aria-modal="true" aria-label="Settings" tabindex="-1" bind:this={cardEl}>
     <header class="head">
       <span class="mark">✳</span>
       {#if onboarding}
@@ -93,6 +127,13 @@
     padding: 6vh 16px;
   }
 
+  /* First-run dismissal: fade the backdrop and let the card fly to the gear. */
+  .scrim.collapsing {
+    background: rgba(33, 36, 30, 0);
+    pointer-events: none;
+    transition: background 0.42s ease;
+  }
+
   .scrim-back {
     position: fixed;
     inset: 0;
@@ -113,6 +154,15 @@
     border: 1px solid var(--line);
     padding: 28px 30px 22px;
     outline: none;
+  }
+
+  .card.collapsing {
+    transform: translate(var(--dx, 0), var(--dy, 0)) scale(var(--s, 0.1));
+    transform-origin: center center;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.5s cubic-bezier(0.5, 0, 0.2, 1), opacity 0.45s ease;
+    will-change: transform, opacity;
   }
 
   .head { margin-bottom: 22px; }

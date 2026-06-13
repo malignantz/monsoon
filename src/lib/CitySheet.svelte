@@ -1,7 +1,7 @@
 <script>
   import MonthStrip from './MonthStrip.svelte';
   import ScoreInfo from './ScoreInfo.svelte';
-  import { stripCells, qolFor, fmtMoney, fmtMonthRange, swimNow, MONTHS, eventsInMonth, PRESETS, detailStatus, cityCost, partyWord } from './data.svelte.js';
+  import { stripCells, qolFor, fmtMoney, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, cityCost, partyWord } from './data.svelte.js';
 
   let { city, month, preset, onclose, onmonth, onstep } = $props();
 

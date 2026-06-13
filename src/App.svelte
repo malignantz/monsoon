@@ -31,10 +31,22 @@
   // panel in "settings" mode. onboarded.done flips once settings are saved.
   let settingsOpen = $state(!onboarded.done);
   let settingsMode = $state(onboarded.done ? 'settings' : 'onboarding');
+  // Brief highlight on the gear after onboarding collapses into it, so the new
+  // user clocks where their settings landed.
+  let gearPulse = $state(false);
 
   function openSettings() {
     settingsMode = 'settings';
     settingsOpen = true;
+  }
+
+  function closeSettings() {
+    const fromOnboarding = settingsMode === 'onboarding';
+    settingsOpen = false;
+    if (fromOnboarding) {
+      gearPulse = true;
+      setTimeout(() => (gearPulse = false), 1100);
+    }
   }
 
   $effect(() => {
@@ -105,7 +117,7 @@
           {n.label}
         </button>
       {/each}
-      <button type="button" class="gear" onclick={openSettings} aria-label="Settings" title="Settings">⚙</button>
+      <button type="button" class="gear" class:pulse={gearPulse} onclick={openSettings} aria-label="Settings" title="Settings">⚙</button>
     </nav>
 
   </header>
@@ -170,7 +182,7 @@
 {/if}
 
 {#if settingsOpen}
-  <Settings mode={settingsMode} onclose={() => (settingsOpen = false)} />
+  <Settings mode={settingsMode} onclose={closeSettings} />
 {/if}
 
 <style>
@@ -249,6 +261,23 @@
   }
 
   .gear:hover { color: var(--ink); }
+
+  /* Lands the onboarding collapse: a quick pop + terracotta flash on the gear. */
+  .gear.pulse {
+    animation: gearpop 0.95s ease;
+    color: var(--terra);
+  }
+
+  @keyframes gearpop {
+    0% { transform: scale(0.7); }
+    35% { transform: scale(1.3); }
+    60% { transform: scale(0.96); }
+    100% { transform: scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gear.pulse { animation: none; }
+  }
 
   .toolbar {
     display: flex;

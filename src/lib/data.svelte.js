@@ -155,36 +155,26 @@ export function band(qol) {
   return 'bad';
 }
 
-// Strip cells for a city under a preset: [{q, band, risk, fest}]
+// Strip cells for a city under a preset:
+// [{q, band, risk, fest, weather, air, season, events, airCat, seasonPhase}]
+// Carries every month-varying component of the quality score (safety is the
+// one static input) so tooltips can break down what drives each month.
 export function stripCells(city, presetKey = 'balanced') {
   return city.months.map((m, i) => {
     const q = qolFor(city, i, presetKey);
-    return { q, band: band(q), risk: m.risk, fest: m.evtTier >= 3 };
-  });
-}
-
-// Strip cells grouped into blocks of `size` consecutive months, each block
-// averaging the quality of the months it covers (worst risk, any festival
-// carried up). Mirrors a planned stay of `size` months so the picker strip
-// reads as the blocks the user would actually book, not 12 single months.
-// Each cell carries `from` (first month index) and `span` (months covered).
-export function stripGroups(city, presetKey = 'balanced', size = 1) {
-  const cells = stripCells(city, presetKey);
-  if (size <= 1) return cells.map((c, i) => ({ ...c, from: i, span: 1 }));
-  const out = [];
-  for (let i = 0; i < 12; i += size) {
-    const grp = cells.slice(i, Math.min(i + size, 12));
-    const q = grp.reduce((a, c) => a + c.q, 0) / grp.length;
-    out.push({
+    return {
       q,
       band: band(q),
-      risk: Math.max(...grp.map((c) => c.risk)),
-      fest: grp.some((c) => c.fest),
-      from: i,
-      span: grp.length
-    });
-  }
-  return out;
+      risk: m.risk,
+      fest: m.evtTier >= 3,
+      weather: m.weather,
+      air: m.air,
+      season: m.seasonScore,
+      events: m.eventScore,
+      airCat: m.airCat,
+      seasonPhase: m.season
+    };
+  });
 }
 
 export function eventsInMonth(city, mIdx, minTier = 2) {
@@ -301,67 +291,3 @@ export function routeStats(stays, presetKey = 'balanced') {
     schengen: schengenCheck(stays)
   };
 }
-
-// ---- Curated route templates (§4.3) ----
-export const TEMPLATES = [
-  {
-    id: 'dry-line',
-    name: 'The Dry Line',
-    blurb: 'Southeast Asia with the seasons — the route that started it all.',
-    stays: [
-      { key: slug('Chiang Mai'), start: 10, len: 3 },
-      { key: slug('Hoi An'), start: 1, len: 3 },
-      { key: slug('Bali (Canggu/Ubud)'), start: 4, len: 4 },
-      { key: slug('George Town (Penang)'), start: 8, len: 2 }
-    ]
-  },
-  {
-    id: 'endless-spring',
-    name: 'The Endless Spring',
-    blurb: 'Highland Americas, 70°F all year, zero Schengen paperwork.',
-    stays: [
-      { key: slug('Oaxaca'), start: 0, len: 3 },
-      { key: slug('Antigua'), start: 3, len: 2 },
-      { key: slug('Cusco'), start: 5, len: 3 },
-      { key: slug('Querétaro'), start: 8, len: 2 },
-      { key: slug('Oaxaca'), start: 10, len: 2 }
-    ]
-  },
-  {
-    id: 'clean-air',
-    name: 'The Clean Air Year',
-    blurb: 'Twelve months under PM2.5 you can actually see through.',
-    stays: [
-      { key: slug('Auckland'), start: 0, len: 2 },
-      { key: slug('Tokyo'), start: 2, len: 2 },
-      { key: slug('Vancouver'), start: 4, len: 3 },
-      { key: slug('Funchal (Madeira)'), start: 7, len: 3 },
-      { key: slug('Cape Town'), start: 10, len: 2 }
-    ]
-  },
-  {
-    id: 'schengen-shuffle',
-    name: 'The Schengen Shuffle',
-    blurb: 'Europe maximized — two 90-day blocks, perfectly legal.',
-    stays: [
-      { key: slug('Las Palmas (Gran Canaria)'), start: 0, len: 3 },
-      { key: slug('Tirana'), start: 3, len: 3 },
-      { key: slug('Porto'), start: 6, len: 3 },
-      { key: slug('Kotor'), start: 9, len: 3 }
-    ]
-  },
-  {
-    id: 'festival-circuit',
-    name: 'The Festival Circuit',
-    blurb: 'Songkran to Día de Muertos — be there when the city celebrates.',
-    stays: [
-      { key: slug('Mexico City'), start: 0, len: 2 },
-      { key: slug('Valencia'), start: 2, len: 1 },
-      { key: slug('Chiang Mai'), start: 3, len: 1 },
-      { key: slug('Bali (Canggu/Ubud)'), start: 4, len: 2 },
-      { key: slug('Oaxaca'), start: 6, len: 2 },
-      { key: slug('Tbilisi'), start: 8, len: 2 },
-      { key: slug('Mexico City'), start: 10, len: 2 }
-    ]
-  }
-];

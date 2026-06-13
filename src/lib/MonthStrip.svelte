@@ -1,5 +1,5 @@
 <script>
-  import { MONTH_LETTERS } from './data.svelte.js';
+  import { MONTH_LETTERS, MONTHS } from './data.svelte.js';
 
   let { cells, selected = -1, size = 'sm', onselect = null, labels = false, frameFrom = -1, frameLen = 0 } = $props();
 
@@ -24,7 +24,7 @@
       class:dim={frameFrom >= 0 && (i - frameFrom + 12) % 12 >= frameLen}
       disabled={!onselect}
       onclick={() => onselect?.(i)}
-      title="{MONTH_LETTERS[i]}: {Math.round(c.q)}"
+      title={`${MONTHS[i]}: ${Math.round(c.q)} QoL\nWeather: ${Math.round(c.weather)}${c.airCat ? ` · Air: ${c.airCat}` : ''}${c.seasonPhase ? ` · Season: ${c.seasonPhase}` : ''} · Events: ${Math.round(c.events)}${c.fest ? ' ★' : ''}`}
     >
       {#if labels}<span class="ml">{MONTH_LETTERS[i]}</span>{/if}
       {#if size === 'lg'}<span class="q num">{Math.round(c.q)}</span>{/if}
