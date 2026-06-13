@@ -1,6 +1,6 @@
 <script>
   import MonthStrip from './MonthStrip.svelte';
-  import { stripCells, qolFor, valueFor, whyNow, fmtMoney } from './data.svelte.js';
+  import { stripCells, qolFor, valueFor, whyNow, fmtMoney, cityCost, partyWord } from './data.svelte.js';
 
   let { city, month, preset, mode, valueModel, onopen } = $props();
 
@@ -29,7 +29,7 @@
   <p class="why">{why || city.draw}</p>
 
   <div class="meta">
-    <span class="num cost">{fmtMoney(m.cost2)}<em>/mo couple</em></span>
+    <span class="num cost">{fmtMoney(cityCost(m))}<em>/mo {partyWord()}</em></span>
     <span class="tags">
       <span class="tag">{city.region}</span>
       {#if city.schengen}<span class="tag schengen">◆ Schengen</span>{/if}

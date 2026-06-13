@@ -1,7 +1,7 @@
 <script>
   import ScoreInfo from './ScoreInfo.svelte';
   import Legend from './Legend.svelte';
-  import { cities, regions, qolFor, valueFor, fmtMoney, swimNow, MONTHS, settings } from './data.svelte.js';
+  import { cities, regions, qolFor, valueFor, fmtMoney, swimNow, MONTHS, settings, cityCost, partyWord } from './data.svelte.js';
 
   let { month, preset, mode, valueModel, onmodel, onopen } = $props();
 
@@ -13,16 +13,15 @@
   let sortKey = $state('qol');
   let sortDir = $state(-1);
 
-  const COLS = [
+  const COLS = $derived([
     { k: 'name',  label: 'City',      num: false },
     { k: 'qol',   label: 'Quality',   num: true, tip: 'Composite score: weather, safety, air quality, seasonality & events · 0–100' },
     { k: 'value', label: 'Value',     num: true, tip: 'Quality relative to cost (cost is damped so "best value" = cheap-and-nice, not merely cheap) · unitless index, compare cities only' },
     { k: 'weather', label: 'Weather', num: true, tip: 'Temperature & sunshine comfort · 0–100' },
     { k: 'air',   label: 'Air',       num: true, tip: 'Air quality (PM2.5) · 100 = cleanest in dataset' },
     { k: 'safety', label: 'Safety',   num: true, tip: 'Crime & personal safety index · 100 = safest' },
-    { k: 'cost1', label: 'Solo /mo',  num: true, tip: 'Estimated monthly cost of living, one person (USD)' },
-    { k: 'cost2', label: 'Couple /mo', num: true, tip: 'Estimated monthly cost of living, two people (USD)' }
-  ];
+    { k: 'cost',  label: `${partyWord() === 'solo' ? 'Solo' : 'Couple'} /mo`, num: true, tip: `Estimated monthly cost of living, ${partyWord()} (USD)` }
+  ]);
 
   const filtersActive = $derived(
     region !== 'all' || maxCost !== '' || minQol !== '' || nonSchengen || swimOnly
@@ -56,8 +55,7 @@
         weather: m.weather,
         air: m.air,
         safety: c.safety?.score ?? 0,
-        cost1: m.cost1,
-        cost2: m.cost2,
+        cost: cityCost(m),
         risk: m.risk,
         riskNote: m.riskNote,
         schengen: c.schengen,
@@ -68,7 +66,7 @@
     if (nonSchengen) list = list.filter((r) => !r.schengen);
     if (swimOnly) list = list.filter((r) => r.swim);
     const mc = parseFloat(maxCost);
-    if (!isNaN(mc)) list = list.filter((r) => r.cost2 <= mc);
+    if (!isNaN(mc)) list = list.filter((r) => r.cost <= mc);
     const mq = parseFloat(minQol);
     if (!isNaN(mq)) list = list.filter((r) => r.qol >= mq);
     return list.sort((a, b) => {
@@ -101,8 +99,8 @@
         </select>
       </div>
       <div class="fgroup">
-        <span class="flbl" aria-hidden="true">Max $/mo couple</span>
-        <input type="number" placeholder="any" aria-label="Max couple $/mo" bind:value={maxCost} />
+        <span class="flbl" aria-hidden="true">Max $/mo {partyWord()}</span>
+        <input type="number" placeholder="any" aria-label="Max {partyWord()} $/mo" bind:value={maxCost} />
       </div>
       <div class="fgroup">
         <span class="flbl" aria-hidden="true">Min quality</span>
@@ -157,7 +155,7 @@
       <tbody>
         {#if rows.length === 0}
           <tr class="empty">
-            <td colspan="8">
+            <td colspan="7">
               No cities match — try raising the budget or clearing a filter.
               <button type="button" class="chip clear" onclick={resetFilters}>Reset filters</button>
             </td>
@@ -175,8 +173,7 @@
             <td class="num {shade(r.weather)}">{Math.round(r.weather)}</td>
             <td class="num {shade(r.air)}">{Math.round(r.air)}</td>
             <td class="num {shade(r.safety)}">{Math.round(r.safety)}</td>
-            <td class="num">{fmtMoney(r.cost1)}</td>
-            <td class="num">{fmtMoney(r.cost2)}</td>
+            <td class="num">{fmtMoney(r.cost)}</td>
           </tr>
         {/each}
       </tbody>
@@ -252,10 +249,6 @@
   tbody tr:hover td.city { background: var(--paper-2); }
 
   @media (max-width: 700px) {
-    /* Solo cost is secondary everywhere else in the app — drop it to cut scroll distance */
-    th:nth-child(7),
-    td:nth-child(7) { display: none; }
-
     .tableouter::after {
       content: '';
       position: absolute;

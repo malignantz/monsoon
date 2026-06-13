@@ -10,6 +10,48 @@ export const MONTH_LETTERS = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 
 
 export const settings = core.settings;
 
+// ---- User settings (onboarding identity, not the exploratory lens) ----
+// Persisted separately from the view/mode/preset "lens" that App.svelte owns:
+// these are set-once-ish facts about the traveller that condense the UI (one
+// price set) and tune scoring (women's-safety blend). Visa/passport is stubbed
+// for now — see TODO below.
+const SETTINGS_KEY = 'atlas.settings.v1';
+
+function loadSettings() {
+  if (typeof localStorage === 'undefined') return null;
+  try {
+    return JSON.parse(localStorage.getItem(SETTINGS_KEY));
+  } catch {
+    return null;
+  }
+}
+
+const storedSettings = loadSettings();
+
+// done flips true once the user has saved settings at least once; App.svelte
+// shows first-run onboarding while it's false.
+export const onboarded = $state({ done: storedSettings != null });
+
+export const prefs = $state({
+  party: storedSettings?.party ?? 'couple', // 'solo' | 'couple' — picks which cost field is shown everywhere
+  womensSafety: storedSettings?.womensSafety ?? false, // blend the women's-safety signal into safety, orthogonal to any preset
+  passport: storedSettings?.passport ?? null // TODO: visa data — would drive per-passport visa-free windows
+});
+
+export function saveSettings() {
+  if (typeof localStorage === 'undefined') return;
+  localStorage.setItem(
+    SETTINGS_KEY,
+    JSON.stringify({ party: prefs.party, womensSafety: prefs.womensSafety, passport: prefs.passport })
+  );
+  onboarded.done = true;
+}
+
+// The single monthly cost to show, per the traveller's party size. Reads prefs
+// so any $derived/template that calls it re-runs when party changes.
+export const cityCost = (m) => (prefs.party === 'solo' ? m.cost1 : m.cost2);
+export const partyWord = () => (prefs.party === 'solo' ? 'solo' : 'couple');
+
 export function slug(name) {
   return name
     .toLowerCase()
@@ -67,12 +109,6 @@ export const PRESETS = {
     label: 'Festival-chaser',
     blurb: 'Be there when the city is celebrating.',
     w: { weather: 0.3, safety: 0.14, air: 0.1, season: 0.16, events: 0.3 }
-  },
-  solo: {
-    label: 'Solo woman',
-    blurb: "Balanced weights, with the women's-safety signal blended 50/50 into safety.",
-    w: { weather: 0.35, safety: 0.24, air: 0.18, season: 0.13, events: 0.1 },
-    blendWomens: true
   }
 };
 
@@ -80,9 +116,11 @@ const FLOOR_T = settings.safety_floor_threshold ?? 55;
 const FLOOR_MIN = settings.safety_floor_min ?? 0.6;
 const VALUE_EXP = settings.value_cost_exponent ?? 0.55;
 
-export function safetyInput(city, presetKey) {
+export function safetyInput(city) {
   const s = city.safety?.score ?? 50;
-  if (PRESETS[presetKey]?.blendWomens && city.safety?.womensSafety?.sub != null) {
+  // Women's-safety blend is now a global setting, orthogonal to the preset, so
+  // any priority lens (comfort, festival, …) can run with it on or off.
+  if (prefs.womensSafety && city.safety?.womensSafety?.sub != null) {
     return 0.5 * s + 0.5 * city.safety.womensSafety.sub;
   }
   return s;
@@ -97,7 +135,7 @@ export function safetyFloor(safety) {
 export function qolFor(city, mIdx, presetKey = 'balanced') {
   const m = city.months[mIdx];
   const w = PRESETS[presetKey].w;
-  const saf = safetyInput(city, presetKey);
+  const saf = safetyInput(city);
   const base =
     w.weather * m.weather + w.safety * saf + w.air * m.air + w.season * m.seasonScore + w.events * m.eventScore;
   return safetyFloor(saf) * base;
@@ -106,7 +144,7 @@ export function qolFor(city, mIdx, presetKey = 'balanced') {
 export function valueFor(city, mIdx, presetKey = 'balanced', model = 'adjusted') {
   const m = city.months[mIdx];
   const qol = qolFor(city, mIdx, presetKey);
-  const k = m.cost2 / 1000;
+  const k = cityCost(m) / 1000;
   return qol / Math.pow(k, model === 'adjusted' ? VALUE_EXP : 1);
 }
 
@@ -123,6 +161,30 @@ export function stripCells(city, presetKey = 'balanced') {
     const q = qolFor(city, i, presetKey);
     return { q, band: band(q), risk: m.risk, fest: m.evtTier >= 3 };
   });
+}
+
+// Strip cells grouped into blocks of `size` consecutive months, each block
+// averaging the quality of the months it covers (worst risk, any festival
+// carried up). Mirrors a planned stay of `size` months so the picker strip
+// reads as the blocks the user would actually book, not 12 single months.
+// Each cell carries `from` (first month index) and `span` (months covered).
+export function stripGroups(city, presetKey = 'balanced', size = 1) {
+  const cells = stripCells(city, presetKey);
+  if (size <= 1) return cells.map((c, i) => ({ ...c, from: i, span: 1 }));
+  const out = [];
+  for (let i = 0; i < 12; i += size) {
+    const grp = cells.slice(i, Math.min(i + size, 12));
+    const q = grp.reduce((a, c) => a + c.q, 0) / grp.length;
+    out.push({
+      q,
+      band: band(q),
+      risk: Math.max(...grp.map((c) => c.risk)),
+      fest: grp.some((c) => c.fest),
+      from: i,
+      span: grp.length
+    });
+  }
+  return out;
 }
 
 export function eventsInMonth(city, mIdx, minTier = 2) {
@@ -223,7 +285,7 @@ export function routeStats(stays, presetKey = 'balanced') {
     if (!c) continue;
     for (const m of stayMonths(s)) {
       qSum += qolFor(c, m, presetKey);
-      cSum += c.months[m].cost2;
+      cSum += cityCost(c.months[m]);
       if (c.months[m].evtTier >= 3) fest++;
       if (c.months[m].risk >= 1) hazard++;
       n++;

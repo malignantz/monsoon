@@ -1,7 +1,7 @@
 <script>
   import MonthStrip from './MonthStrip.svelte';
   import ScoreInfo from './ScoreInfo.svelte';
-  import { stripCells, qolFor, fmtMoney, fmtMonthRange, swimNow, MONTHS, eventsInMonth, PRESETS, detailStatus } from './data.svelte.js';
+  import { stripCells, qolFor, fmtMoney, fmtMonthRange, swimNow, MONTHS, eventsInMonth, PRESETS, detailStatus, cityCost, partyWord } from './data.svelte.js';
 
   let { city, month, preset, onclose, onmonth, onstep } = $props();
 
@@ -86,12 +86,8 @@
           <span class="k">{saf.label ?? 'safety'}</span>
         </div>
         <div class="snapcell">
-          <span class="num v">{fmtMoney(m.cost2)}</span>
-          <span class="k">/mo couple</span>
-        </div>
-        <div class="snapcell">
-          <span class="num v">{fmtMoney(m.cost1)}</span>
-          <span class="k">/mo solo</span>
+          <span class="num v">{fmtMoney(cityCost(m))}</span>
+          <span class="k">/mo {partyWord()}</span>
         </div>
         {#if city.schengen}
           <div class="snapcell schengen"><span class="v">◆</span><span class="k">Schengen 90/180</span></div>
@@ -183,8 +179,8 @@
                   on our scale{#if saf.womensSafety?.adj},
                   {saf.womensSafety.adj > 0 ? '+' : ''}{saf.womensSafety.adj} city adjustment{/if}.</p>
                 {#if saf.womensSafety?.source}<p>{saf.womensSafety.source}.</p>{/if}
-                <p>Displayed alongside, never folded into the headline score — the Solo-woman
-                  preset blends it in by choice.</p>
+                <p>Displayed alongside, never folded into the headline score — turn on
+                  the women's-safety setting to blend it 50/50 into safety across every view.</p>
                 <p class="src"><a href={saf.womensSafety?.url} target="_blank" rel="noopener">
                   Gallup World Poll, via the Georgetown WPS Index</a></p>
               </ScoreInfo>

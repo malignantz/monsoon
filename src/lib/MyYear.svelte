@@ -15,7 +15,8 @@
     routeStats,
     stayMonths,
     schengenCheck,
-    PRESETS
+    PRESETS,
+    partyWord
   } from './data.svelte.js';
   import { defaultFilters, filtersActive, cityPasses, stayPasses, proposeRoutes, routeTravelKm } from './planner.js';
 
@@ -404,7 +405,7 @@
       </div>
       <div class="tot">
         <span class="num tv">{stats.months ? fmtMoney(stats.avgCost) : '—'}</span>
-        <span class="tk">avg /mo couple</span>
+        <span class="tk">avg /mo {partyWord()}</span>
       </div>
       <div class="tot">
         <span class="num tv">{stats.months ? fmtMoney(stats.totalCost) : '—'}</span>
@@ -433,7 +434,7 @@
       <div class="fctl">
         <label class="filt">
           <span class="filt-lbl">Max $/mo</span>
-          <input type="number" inputmode="numeric" placeholder="couple, e.g. 2500" bind:value={filters.maxCost} />
+          <input type="number" inputmode="numeric" placeholder="{partyWord()}, e.g. 2500" bind:value={filters.maxCost} />
         </label>
         <label class="filt">
           <span class="filt-lbl">Min safety</span>

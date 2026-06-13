@@ -3,7 +3,8 @@
   import MyYear from './lib/MyYear.svelte';
   import Explore from './lib/Explore.svelte';
   import CitySheet from './lib/CitySheet.svelte';
-  import { cities, cityByKey, qolFor, valueFor, MONTHS, MONTH_LETTERS, PRESETS } from './lib/data.svelte.js';
+  import Settings from './lib/Settings.svelte';
+  import { cities, cityByKey, qolFor, valueFor, MONTHS, MONTH_LETTERS, PRESETS, onboarded } from './lib/data.svelte.js';
 
   const PREFS = 'atlas.prefs.v1';
 
@@ -25,6 +26,16 @@
   let preset = $state(PRESETS[p.preset] ? p.preset : 'balanced');
   let valueModel = $state(p.valueModel ?? 'adjusted');
   let cityKey = $state(new URLSearchParams(location.search).get('city'));
+
+  // First run (no saved settings) shows onboarding; the gear re-opens the same
+  // panel in "settings" mode. onboarded.done flips once settings are saved.
+  let settingsOpen = $state(!onboarded.done);
+  let settingsMode = $state(onboarded.done ? 'settings' : 'onboarding');
+
+  function openSettings() {
+    settingsMode = 'settings';
+    settingsOpen = true;
+  }
 
   $effect(() => {
     localStorage.setItem(PREFS, JSON.stringify({ view, mode, preset, valueModel }));
@@ -94,6 +105,7 @@
           {n.label}
         </button>
       {/each}
+      <button type="button" class="gear" onclick={openSettings} aria-label="Settings" title="Settings">⚙</button>
     </nav>
 
   </header>
@@ -155,6 +167,10 @@
 
 {#if openCity}
   <CitySheet city={openCity} {month} {preset} onclose={closeSheet} onmonth={(i) => (month = i)} onstep={stepCity} />
+{/if}
+
+{#if settingsOpen}
+  <Settings mode={settingsMode} onclose={() => (settingsOpen = false)} />
 {/if}
 
 <style>
@@ -220,6 +236,19 @@
     background: var(--ink);
     color: var(--paper);
   }
+
+  .gear {
+    background: none;
+    border: none;
+    font-size: 17px;
+    color: var(--ink-3);
+    padding: 7px 8px;
+    margin-left: 2px;
+    border-radius: 999px;
+    line-height: 1;
+  }
+
+  .gear:hover { color: var(--ink); }
 
   .toolbar {
     display: flex;

@@ -1,7 +1,7 @@
 // Candidate filters + auto-planner for the My Year surface.
 // Depends only on core-tier fields (methodology §9): months[].{cost2,air,risk},
 // safety.score, english.tier, swim, schengen — never the lazy detail layer.
-import { cities, cityByKey, regions, qolFor, valueFor, schengenCheck, MONTHS } from './data.svelte.js';
+import { cities, cityByKey, regions, qolFor, valueFor, schengenCheck, cityCost, MONTHS } from './data.svelte.js';
 
 export const DEFAULT_FILTERS = {
   regions: [...regions], // all selected by default; deselecting one excludes it
@@ -44,7 +44,7 @@ export function cityPasses(c, f) {
 export function monthPasses(c, mIdx, f) {
   const m = c.months[mIdx];
   const mc = num(f.maxCost);
-  if (mc != null && m.cost2 > mc) return false;
+  if (mc != null && cityCost(m) > mc) return false;
   const ma = num(f.minAir);
   if (ma != null && m.air < ma) return false;
   const mr = num(f.maxRain);
