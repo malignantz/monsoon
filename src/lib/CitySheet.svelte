@@ -63,7 +63,7 @@
     bind:this={sheetEl}
   >
     <header class="hero">
-      <button type="button" class="back" onclick={onclose}>← Atlas</button>
+      <button type="button" class="back" onclick={onclose}>← Monsoon</button>
       <div class="hero-ctl">
         {#if onstep}
           <button type="button" class="back step" onclick={() => onstep(-1)} aria-label="Previous city" title="Previous city (←)">‹</button>
@@ -228,7 +228,7 @@
 
     <footer class="foot">
       <span>{city.visa}</span>
-      <span>Scores per the Atlas methodology — re-verify advisories before travel.</span>
+      <span>Scores per the Monsoon methodology — re-verify advisories before travel.</span>
     </footer>
   </div>
 </div>

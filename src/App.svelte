@@ -99,17 +99,29 @@
     { id: 'year', label: 'My year' },
     { id: 'explore', label: 'Explore' }
   ];
+
+  // The logo strip is real data: Bali's twelve months under the balanced lens —
+  // the dry season cresting to two great months, monsoon softening the edges.
+  // The brand primitive, doing the brand's one job.
+  const BRAND_BANDS = ['ok', 'ok', 'good', 'good', 'good', 'great', 'great', 'good', 'good', 'good', 'ok', 'ok'];
+
+  function goHome() {
+    if (cityKey) closeSheet();
+    view = 'month';
+  }
 </script>
 
 <div class="shell">
   <header class="bar">
-    <div class="brand">
-      <span class="mark">✳</span>
-      <div>
-        <span class="name">Slow Travel Atlas</span>
-        <span class="tag">follow the good months</span>
-      </div>
-    </div>
+    <button type="button" class="brand" onclick={goHome} aria-label="Monsoon — go to This month">
+      <span class="lockup">
+        <span class="name">Monsoon<span class="tld">.fyi</span></span>
+        <span class="brandstrip" aria-hidden="true">
+          {#each BRAND_BANDS as b}<span class="bcell band-{b}"></span>{/each}
+        </span>
+      </span>
+      <span class="tag">follow the good months</span>
+    </button>
 
     <nav>
       {#each NAV as n}
@@ -203,24 +215,67 @@
 
   .brand {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    align-items: baseline;
+    gap: 14px;
     margin-right: auto;
+    padding: 4px 6px 4px 0;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
   }
 
-  .mark {
-    font-size: 26px;
-    color: var(--terra);
-    line-height: 1;
+  .brand:focus-visible {
+    outline: 2px solid var(--terra);
+    outline-offset: 3px;
+  }
+
+  .lockup {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
   }
 
   .name {
     display: block;
     font-family: var(--display);
-    font-weight: 620;
-    font-size: 19px;
-    line-height: 1.1;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: 23px;
+    letter-spacing: -0.018em;
+    line-height: 1;
+    color: var(--ink);
   }
+
+  .tld {
+    color: var(--terra);
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 0.56em;
+    letter-spacing: 0;
+  }
+
+  /* The signature strip, scaled down as a wordmark underline. Sized to sit
+     flush under "Monsoon" so the lockup reads as one object. */
+  .brandstrip {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5px;
+    width: 122px;
+  }
+
+  .bcell {
+    height: 5px;
+    border-radius: 1.5px;
+  }
+
+  .bcell.band-great { background: var(--band-great); }
+  .bcell.band-good { background: var(--band-good); }
+  .bcell.band-ok { background: var(--band-ok); }
+  .bcell.band-bad { background: var(--band-bad); }
+
+  .brand:hover .bcell { opacity: 0.88; }
 
   .tag {
     display: block;
@@ -228,6 +283,11 @@
     font-style: italic;
     font-size: 12px;
     color: var(--ink-2);
+    line-height: 1;
+  }
+
+  @media (max-width: 460px) {
+    .tag { display: none; }
   }
 
   nav { display: flex; gap: 2px; }

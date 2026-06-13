@@ -9,6 +9,9 @@
   let cardEl = $state(null);
   let collapsing = $state(false);
 
+  // The signature month strip, reused as the brand mark (Bali's twelve months).
+  const BRAND_BANDS = ['ok', 'ok', 'good', 'good', 'good', 'great', 'great', 'good', 'good', 'good', 'ok', 'ok'];
+
   const reducedMotion = () =>
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -70,9 +73,11 @@
   <button type="button" class="scrim-back" aria-label="Close settings" onclick={done}></button>
   <div class="card" class:collapsing role="dialog" aria-modal="true" aria-label="Settings" tabindex="-1" bind:this={cardEl}>
     <header class="head">
-      <span class="mark">✳</span>
+      <span class="mark" aria-hidden="true">
+        {#each BRAND_BANDS as b}<span class="bcell band-{b}"></span>{/each}
+      </span>
       {#if onboarding}
-        <p class="kicker">Slow Travel Atlas</p>
+        <p class="kicker">Monsoon<span class="tld">.fyi</span></p>
         <h1>Let's tune your atlas</h1>
         <p class="lede">Two quick questions so every screen shows the right prices and the
           safety that matters to you. Change them anytime.</p>
@@ -168,11 +173,28 @@
   .head { margin-bottom: 22px; }
 
   .mark {
-    font-size: 26px;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2px;
+    width: 132px;
+    margin-bottom: 12px;
+  }
+
+  .bcell {
+    height: 6px;
+    border-radius: 2px;
+  }
+
+  .bcell.band-great { background: var(--band-great); }
+  .bcell.band-good { background: var(--band-good); }
+  .bcell.band-ok { background: var(--band-ok); }
+  .bcell.band-bad { background: var(--band-bad); }
+
+  .tld {
     color: var(--terra);
-    line-height: 1;
-    display: block;
-    margin-bottom: 10px;
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 0.82em;
   }
 
   h1 {
