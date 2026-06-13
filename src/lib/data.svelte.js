@@ -205,6 +205,9 @@ export function schengenCheck(stays) {
     over: Math.max(0, worst - 90),
     ok: worst <= 90,
     tight: worst > 75 && worst <= 90,
+    // Months are 30-day blocks, so the worst window is always a multiple of 30 —
+    // the only compliant-but-maxed case is exactly 90 (three Schengen months).
+    atLimit: worst === 90,
     anySchengen: days.some((d) => d > 0)
   };
 }

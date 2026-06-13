@@ -44,7 +44,8 @@
       .map((x) => x.key)
   );
 
-  function openSheet(key, { replace = false } = {}) {
+  function openSheet(key, { replace = false, month: sheetMonth } = {}) {
+    if (Number.isInteger(sheetMonth) && sheetMonth >= 0 && sheetMonth < 12) month = sheetMonth;
     cityKey = key;
     const u = new URL(location.href);
     u.searchParams.set('city', key);
@@ -97,8 +98,8 @@
 
   </header>
 
-  <div class="toolbar">
-    {#if view !== 'year'}
+  {#if view !== 'year'}
+    <div class="toolbar">
       <div class="ctl-group monthgroup">
         <span class="ctl-lbl" aria-hidden="true">Viewing</span>
         <div class="monthsel" role="group" aria-label="Month">
@@ -124,9 +125,8 @@
           <button type="button" class:on={mode === 'value'} onclick={() => (mode = 'value')}>Value</button>
         </div>
       </div>
-    {/if}
 
-    <div class="ctl-group">
+      <div class="ctl-group">
         <span class="ctl-lbl" aria-hidden="true">Optimize for</span>
         <select bind:value={preset} title={PRESETS[preset].blurb} aria-label="Priority preset">
           {#each Object.entries(PRESETS) as [k, v]}
@@ -134,13 +134,14 @@
           {/each}
         </select>
       </div>
-  </div>
+    </div>
+  {/if}
 
   <main>
     {#if view === 'month'}
       <ThisMonth {month} {preset} {mode} {valueModel} onopen={openSheet} />
     {:else if view === 'year'}
-      <MyYear {preset} onopen={openSheet} />
+      <MyYear bind:preset onopen={openSheet} />
     {:else}
       <Explore {month} {preset} {mode} {valueModel} onmodel={(m) => (valueModel = m)} onopen={openSheet} />
     {/if}
