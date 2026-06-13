@@ -95,6 +95,20 @@
     filters = defaultFilters();
   }
 
+  // Clicking a row's "over 90/180" warning points the user at the fix: scroll
+  // the non-Schengen filter into view, focus it, and flash it so it's found.
+  let nonSchengenEl;
+  let nonSchengenFlash = $state(false);
+  function flagNonSchengen() {
+    nonSchengenEl?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'center' });
+    nonSchengenEl?.querySelector('input')?.focus({ preventScroll: true });
+    nonSchengenFlash = false;
+    requestAnimationFrame(() => {
+      nonSchengenFlash = true;
+      setTimeout(() => (nonSchengenFlash = false), 1400);
+    });
+  }
+
   // Keep the selection in canonical `regions` order so equal selections
   // always serialize identically (the proposal-staleness signature relies on it).
   function toggleRegion(r) {
@@ -220,6 +234,14 @@
     return { start, len: Math.max(1, Math.min(dur, freeRun(start))) };
   });
 
+  // Heading label for the window the next stay will fill: "Mar" or "Mar–Jun".
+  const windowLabel = $derived.by(() => {
+    if (!prospect) return '';
+    const a = MONTHS[prospect.start];
+    if (prospect.len === 1) return a;
+    return `${a}–${MONTHS[(prospect.start + prospect.len - 1) % 12]}`;
+  });
+
   // Filtered candidates: static criteria always; month-dependent criteria are
   // checked against the months the prospective stay will actually occupy.
   const filteredCities = $derived.by(() => {
@@ -231,11 +253,19 @@
   // Remaining Schengen budget (days) in the route's worst rolling window.
   const schLeft = $derived(sch.anySchengen ? sch.remaining : 90);
 
+  // Months the prospective stay would actually occupy — the window we score and
+  // frame each city against, so the row number reflects the block you'd book.
+  const targetMonths = $derived(
+    prospect ? stayMonths({ start: prospect.start, len: prospect.len })
+      : emptyMonths.length ? emptyMonths
+      : [...Array(12).keys()]
+  );
+
   const pickerList = $derived.by(() => {
     const q = query.trim().toLowerCase();
     let list = filteredCities;
     if (q) list = list.filter((c) => (c.name + ' ' + c.country + ' ' + c.region).toLowerCase().includes(q));
-    const target = selStart >= 0 ? [selStart] : emptyMonths.length ? emptyMonths : [...Array(12).keys()];
+    const target = targetMonths;
     return list
       .map((c) => ({ c, s: target.reduce((a, m) => a + qolFor(c, m, preset), 0) / target.length }))
       .sort((a, b) => b.s - a.s)
@@ -423,7 +453,7 @@
           <option value={2}>English: decent +</option>
           <option value={3}>English: high</option>
         </select>
-        <label class="cb"><input type="checkbox" bind:checked={filters.nonSchengen} /> non-Schengen</label>
+        <label class="cb" class:flash={nonSchengenFlash} bind:this={nonSchengenEl}><input type="checkbox" bind:checked={filters.nonSchengen} /> non-Schengen</label>
         <label class="cb"><input type="checkbox" bind:checked={filters.swimOnly} /> ≋ swimmable</label>
         {#if filtersActive(filters)}
           <button type="button" class="chip clear" onclick={resetFilters}>Reset</button>
@@ -484,14 +514,18 @@
   <div class="picker">
     <div class="pickhead">
       <h2>
-        {#if selStart >= 0}Fill {MONTHS[selStart]}{:else if emptyMonths.length}Best for your open months{:else}Year is full — remove a stay to swap{/if}
+        {#if selStart >= 0}Fill {windowLabel}{:else if emptyMonths.length}Best for your open months{:else}Year is full — remove a stay to swap{/if}
       </h2>
       <div class="pickctl">
-        <label>Stay
-          <select bind:value={dur}>
-            {#each [1, 2, 3, 4, 5, 6] as n}<option value={n}>{n} mo</option>{/each}
-          </select>
-        </label>
+        <div class="stayctl" role="group" aria-label="Stay length in months">
+          <span class="stayctl-lbl">Stay</span>
+          <div class="seg">
+            {#each [1, 2, 3, 4, 5, 6] as n}
+              <button type="button" class="segbtn num" class:on={dur === n} aria-pressed={dur === n} onclick={() => (dur = n)}>{n}</button>
+            {/each}
+          </div>
+          <span class="stayctl-unit">mo</span>
+        </div>
         <input type="search" placeholder="Search 111 cities…" bind:value={query} />
       </div>
     </div>
@@ -514,25 +548,37 @@
     <ul class="rows">
       {#each pickerList as { c, s, breach } (c.key)}
         <li>
-          <div class="rowmain">
-            <button type="button" class="rowname" onclick={() => onopen(c.key)}>
-              {c.name}<em>{c.country}{c.schengen ? ' ◆' : ''}</em>
-            </button>
-            {#if breach}
-              <span class="rowwarn" title="Adding this Schengen stay pushes the rolling 90/180 window over 90 days">◆ over 90/180</span>
-            {/if}
+          <div class="rowbody">
+            <div class="rowhead">
+              <button type="button" class="rowname" onclick={() => onopen(c.key)}>
+                {c.name}<em>{c.country}{c.schengen ? ' ◆' : ''}</em>
+              </button>
+              <div class="rowmeasure">
+                {#if breach}
+                  <button type="button" class="rowwarn" onclick={flagNonSchengen} title="Adding this Schengen stay breaks the 90/180 cap — filter to non-Schengen cities">◆ over 90/180</button>
+                {/if}
+                <span class="num rowq" title="Average quality across the months you'd book">{Math.round(s)}</span>
+              </div>
+            </div>
+            <div class="rowstrip">
+              <MonthStrip
+                cells={stripCells(c, preset)}
+                selected={selStart}
+                frameFrom={prospect ? prospect.start : -1}
+                frameLen={prospect ? prospect.len : 0}
+              />
+            </div>
           </div>
-          <div class="rowstrip"><MonthStrip cells={stripCells(c, preset)} selected={selStart} /></div>
-          <span class="num rowq">{Math.round(s)}</span>
           <button
             type="button"
             class="add"
             class:warn={breach}
             onclick={() => addStay(c.key)}
             disabled={!emptyMonths.length}
-            title={breach ? 'Will exceed the Schengen 90/180 limit' : null}
+            title={breach ? 'Will exceed the Schengen 90/180 limit' : `Add ${c.name}`}
+            aria-label="Add {c.name}"
           >
-            Add
+            <span class="plus" aria-hidden="true">+</span>Add
           </button>
         </li>
       {/each}
@@ -920,6 +966,16 @@
     gap: 5px;
     font-size: 12.5px;
     color: var(--ink-2);
+    border-radius: 6px;
+  }
+
+  /* Flash drawn when a row's 90/180 warning sends the user here. */
+  .cb.flash { animation: cbflash 1.4s ease; }
+
+  @keyframes cbflash {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(193, 79, 43, 0); background: transparent; }
+    15% { box-shadow: 0 0 0 5px rgba(193, 79, 43, 0.22); background: rgba(193, 79, 43, 0.12); }
+    65% { box-shadow: 0 0 0 5px rgba(193, 79, 43, 0.16); background: rgba(193, 79, 43, 0.08); }
   }
 
   .go, .use, .add {
@@ -933,7 +989,22 @@
 
   .go { padding: 5px 14px; }
   .use { padding: 4px 16px; }
-  .add { padding: 4px 0; min-height: 30px; }
+
+  .add {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 15px 6px 12px;
+    min-height: 32px;
+  }
+
+  /* The + glyph anchors the action visually; the word keeps it unambiguous. */
+  .add .plus {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1;
+    margin-top: -1px;
+  }
 
   .go:hover,
   .use:hover,
@@ -1010,8 +1081,51 @@
 
   .schbudget.warn { color: var(--band-bad); }
 
-  .pickctl { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--ink-2); }
+  .pickctl { display: flex; align-items: center; gap: 14px; font-size: 12.5px; color: var(--ink-2); }
   .pickctl input { width: 200px; }
+
+  /* Stay length as a segmented control: each months a tappable cell so the
+     choice reads as a row of widths, echoing the window drawn on every strip. */
+  .stayctl {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+  }
+
+  .stayctl-lbl,
+  .stayctl-unit { color: var(--ink-3); }
+
+  .seg {
+    display: inline-flex;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--paper-2);
+  }
+
+  .segbtn {
+    border: none;
+    background: transparent;
+    color: var(--ink-2);
+    padding: 4px 9px;
+    font-size: 12.5px;
+    line-height: 1;
+    border-left: 1px solid var(--line);
+  }
+
+  .segbtn:first-child { border-left: none; }
+  .segbtn:hover:not(.on) { background: rgba(33, 36, 30, 0.06); color: var(--ink); }
+
+  .segbtn.on {
+    background: var(--ink);
+    color: var(--paper);
+    font-weight: 600;
+  }
+
+  @media (hover: none) {
+    .segbtn { min-width: 32px; min-height: 30px; }
+  }
 
   .picker-empty {
     margin: 14px 0;
@@ -1028,11 +1142,27 @@
 
   .rows li {
     display: grid;
-    grid-template-columns: 200px 1fr 40px 64px;
+    grid-template-columns: 1fr auto;
     align-items: center;
-    gap: 14px;
-    padding: 7px 0;
+    gap: 16px;
+    padding: 11px 0;
     border-top: 1px solid var(--line-soft);
+  }
+
+  /* Name + score share a header line; the strip runs full width beneath it so
+     the months get the most room and still align column-to-column down the list. */
+  .rowbody {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .rowhead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
   }
 
   .rowmain {
@@ -1044,15 +1174,22 @@
   }
 
   .rowwarn {
+    font-family: inherit;
     font-size: 9.5px;
     font-weight: 600;
     letter-spacing: 0.02em;
     color: #7d2c12;
     background: #f3ddd2;
+    border: none;
     border-radius: 999px;
-    padding: 1px 7px;
+    padding: 2px 8px;
     white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.13s ease;
   }
+
+  .rowwarn:hover { background: #ecc6b3; }
+  .rowwarn:focus-visible { outline: 2px solid var(--terra); outline-offset: 1px; }
 
   .rowname {
     background: none;
@@ -1074,10 +1211,27 @@
   }
 
   .rowname:hover { color: var(--terra-deep); }
-  .rowq { font-size: 13px; text-align: right; color: var(--ink-2); }
 
-  @media (max-width: 760px) {
-    .rows li { grid-template-columns: 130px 1fr 56px; }
-    .rowq { display: none; }
+  .rowstrip { min-width: 0; }
+
+  /* Score + optional Schengen warning, right side of the header line. Always
+     present, so the warning never changes a row's height. */
+  .rowmeasure {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
   }
+
+  /* Underlined in the same accent as the in-window month marker, so the line
+     itself reads as "this number measures those months." */
+  .rowq {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    border-bottom: 2px solid var(--terra);
+    padding-bottom: 1px;
+    line-height: 1.1;
+  }
+
 </style>
