@@ -67,6 +67,15 @@
   const reducedMotion = () =>
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // The timeline scrolls horizontally on narrow viewports; a right-edge fade
+  // signals there are more months off-screen (only when there actually are).
+  let scrollEl;
+  let canScrollRight = $state(false);
+  function updateScroll() {
+    if (!scrollEl) return;
+    canScrollRight = scrollEl.scrollWidth - scrollEl.clientWidth - scrollEl.scrollLeft > 4;
+  }
+
   // Proposals are only shown while the planner inputs still match what they
   // were proposed under — staleness is derived, never a clearing side effect.
   const planSig = $derived(JSON.stringify([filters, planObjective, planTravel, planMin, planMax, preset]));
@@ -135,6 +144,17 @@
   const stats = $derived(routeStats(stays, preset));
   const sch = $derived(stats.schengen);
   const schState = $derived(!sch.ok ? 'Over limit' : sch.atLimit ? 'At the limit' : 'Within limits');
+
+  // Recheck the scroll affordance whenever the route's width could change.
+  $effect(() => {
+    occ;
+    requestAnimationFrame(updateScroll);
+  });
+
+  $effect(() => {
+    window.addEventListener('resize', updateScroll);
+    return () => window.removeEventListener('resize', updateScroll);
+  });
 
   function clearRoute() {
     stays = [];
@@ -255,7 +275,8 @@
   </header>
 
   <div class="board" class:flash bind:this={boardEl}>
-    <div class="boardscroll">
+    <div class="boardscroll-wrap" class:more={canScrollRight}>
+    <div class="boardscroll" bind:this={scrollEl} onscroll={updateScroll}>
     <div class="months num">
       {#each MONTH_LETTERS as l, i}
         <span class:sel={i === selStart}>{l}</span>
@@ -299,6 +320,7 @@
           </div>
         {/each}
       {/each}
+    </div>
     </div>
     </div>
 
@@ -379,9 +401,18 @@
     <div class="planrow">
       <span class="plabel">Filter cities</span>
       <div class="fctl">
-        <input type="number" placeholder="Max couple $/mo" bind:value={filters.maxCost} />
-        <input type="number" placeholder="Min safety" bind:value={filters.minSafety} />
-        <input type="number" placeholder="Min air" bind:value={filters.minAir} />
+        <label class="filt">
+          <span class="filt-lbl">Max $/mo</span>
+          <input type="number" inputmode="numeric" placeholder="couple, e.g. 2500" bind:value={filters.maxCost} />
+        </label>
+        <label class="filt">
+          <span class="filt-lbl">Min safety</span>
+          <input type="number" inputmode="numeric" placeholder="0–100" bind:value={filters.minSafety} />
+        </label>
+        <label class="filt">
+          <span class="filt-lbl">Min air</span>
+          <input type="number" inputmode="numeric" placeholder="0–100" bind:value={filters.minAir} />
+        </label>
         <select bind:value={filters.maxRain} aria-label="Rain tolerance">
           <option value="">Any rain</option>
           <option value={15}>Avoid heavy rain (&gt;15 d/mo)</option>
@@ -557,6 +588,26 @@
     100% { box-shadow: 0 0 0 0 rgba(193, 79, 43, 0); border-color: var(--line); }
   }
 
+  .boardscroll-wrap {
+    position: relative;
+  }
+
+  /* Right-edge fade: appears only while more months sit off-screen. */
+  .boardscroll-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 44px;
+    pointer-events: none;
+    background: linear-gradient(to right, rgba(253, 250, 242, 0), var(--card));
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .boardscroll-wrap.more::after {
+    opacity: 1;
+  }
+
   @media (max-width: 600px) {
     .boardscroll {
       overflow-x: auto;
@@ -665,11 +716,13 @@
     display: flex;
     align-items: center;
     gap: 1px;
-    opacity: 0;
+    opacity: 0.5;
     transition: opacity 0.15s;
   }
 
-  .stay:hover .dur-ctl { opacity: 1; }
+  /* Visible at rest so the control is discoverable; full on hover/keyboard focus. */
+  .stay:hover .dur-ctl,
+  .stay:focus-within .dur-ctl { opacity: 1; }
 
   @media (hover: none) {
     .dur-ctl { opacity: 1; }
@@ -694,6 +747,12 @@
 
   .dur-btn:hover:not(:disabled) { background: rgba(33, 36, 30, 0.1); color: var(--ink); }
   .dur-btn:disabled { opacity: 0.25; cursor: default; }
+
+  /* Roomier tap targets on touch, where there's no hover to enlarge intent. */
+  @media (hover: none) {
+    .dur-btn { min-width: 30px; min-height: 30px; }
+    .x { min-width: 30px; min-height: 30px; }
+  }
 
   .cont { font-size: 11px; color: var(--ink-2); white-space: nowrap; }
 
@@ -834,12 +893,26 @@
   .fctl {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-end;
     gap: 8px;
     flex: 1;
   }
 
   .fctl input[type='number'] { width: 130px; }
+
+  .filt {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .filt-lbl {
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    line-height: 1;
+  }
 
   .cb {
     display: flex;
@@ -860,7 +933,7 @@
 
   .go { padding: 5px 14px; }
   .use { padding: 4px 16px; }
-  .add { padding: 4px 0; }
+  .add { padding: 4px 0; min-height: 30px; }
 
   .go:hover,
   .use:hover,
