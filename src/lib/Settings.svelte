@@ -106,8 +106,8 @@
         onclick={() => (prefs.womensSafety = !prefs.womensSafety)}
       >
         <span class="switchtext">
-          <span class="qlabel">Weight women's safety</span>
-          <span class="qhint">Blends the women's-safety signal 50/50 into every safety score —
+          <span class="qlabel">Weight women's street-safety</span>
+          <span class="qhint">Blends the women's street-safety estimate 50/50 into every safety score —
             on top of whichever priority you pick.</span>
         </span>
         <span class="switch" class:on={prefs.womensSafety} aria-hidden="true"><span class="knob"></span></span>

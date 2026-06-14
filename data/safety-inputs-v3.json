@@ -344,9 +344,9 @@
  },
  "Nice": {
   "propertySub": 58,
-  "womensAdj": -10,
+  "womensAdj": -5,
   "propertyNote": "Riviera petty theft, beach and station pickpocketing",
-  "womensSafetyNote": "Moderate",
+  "womensSafetyNote": "Promenade/nightlife awareness; France street-harassment context",
   "touristMod": 1.0,
   "touristRationale": "",
   "touristTags": [
@@ -354,7 +354,7 @@
   ],
   "_audit": {
    "date": "2026-06",
-   "note": "womensAdj -10 preserves pre-WPS hand-set womensSafety 60 vs country Gallup baseline 70 (CS 70%)"
+   "note": "2026-06 re-pass: France Gallup CS 70%. Eased from -10 (silent discount, note was just 'Moderate') to -5 for Riviera nightlife + the documented French street-harassment context (cf. Paris kept at -14 for metro harassment); smaller city so a smaller nudge."
   }
  },
  "London": {
@@ -407,7 +407,7 @@
  },
  "Stockholm": {
   "propertySub": 68,
-  "womensAdj": -7,
+  "womensAdj": 0,
   "propertyNote": "Pickpocketing in tourist zones; gang violence is localized and not tourist-facing",
   "womensSafetyNote": "Women report high safety",
   "touristMod": 1.05,
@@ -417,7 +417,7 @@
   ],
   "_audit": {
    "date": "2026-06",
-   "note": "womensAdj -7 preserves pre-WPS hand-set womensSafety 66 vs country Gallup baseline 73 (CS 74%)"
+   "note": "2026-06 re-pass: the -7 contradicted the note ('Women report high safety'). Sweden's Gallup CS 74% is already well below Nordic peers (Norway 86, Denmark 85), so the baseline already encodes the lower feeling — a further penalty double-counted it. Set to 0 (baseline), in line with Oslo/Copenhagen sitting at/above their baselines."
   }
  },
  "Zurich": {
@@ -479,9 +479,9 @@
  },
  "Madrid": {
   "propertySub": 66,
-  "womensAdj": -8,
+  "womensAdj": -3,
   "propertyNote": "Pickpocketing in center and metro; violent crime low",
-  "womensSafetyNote": "Generally safe",
+  "womensSafetyNote": "Big-city nightlife/metro awareness",
   "touristMod": 1.0,
   "touristRationale": "",
   "touristTags": [
@@ -489,7 +489,7 @@
   ],
   "_audit": {
    "date": "2026-06",
-   "note": "womensAdj -8 preserves pre-WPS hand-set womensSafety 66 vs country Gallup baseline 74 (CS 75%)"
+   "note": "2026-06 re-pass: Spain Gallup CS 75%; -8 with no women-specific reason left Madrid below peer Spanish cities (Valencia/Malaga at baseline). Eased to -3 for big-city nightlife/metro awareness; stays a touch above Barcelona (-8, higher pickpocketing/harassment)."
   }
  },
  "Barcelona": {
@@ -542,9 +542,9 @@
  },
  "Las Palmas (Gran Canaria)": {
   "propertySub": 65,
-  "womensAdj": -10,
+  "womensAdj": -3,
   "propertyNote": "Resort and port petty theft",
-  "womensSafetyNote": "Generally safe",
+  "womensSafetyNote": "Generally safe; resort nightlife-strip awareness",
   "touristMod": 1.0,
   "touristRationale": "",
   "touristTags": [
@@ -552,7 +552,7 @@
   ],
   "_audit": {
    "date": "2026-06",
-   "note": "womensAdj -10 preserves pre-WPS hand-set womensSafety 64 vs country Gallup baseline 74 (CS 75%)"
+   "note": "2026-06 re-pass: Spain Gallup CS 75%; -10 left it the lowest Spanish city with no women-specific reason while peer coastal cities (Malaga, Valencia) sit at baseline. Eased to -3 for resort nightlife-strip awareness only."
   }
  },
  "Rome": {
@@ -708,9 +708,9 @@
  },
  "Prague": {
   "propertySub": 62,
-  "womensAdj": -4,
+  "womensAdj": -3,
   "propertyNote": "Tourist-area pickpocketing, taxi/currency scams",
-  "womensSafetyNote": "Generally safe",
+  "womensSafetyNote": "Old Town stag-party/drink-spiking scene awareness",
   "touristMod": 1.0,
   "touristRationale": "",
   "touristTags": [
@@ -719,7 +719,7 @@
   ],
   "_audit": {
    "date": "2026-06",
-   "note": "womensAdj -4 preserves pre-WPS hand-set womensSafety 66 vs country Gallup baseline 70 (CS 70%)"
+   "note": "2026-06 re-pass: Czechia Gallup CS 70%. Kept a small -3 (was -4) but gave it a women-specific reason — the Old Town stag-party/drink-spiking scene — instead of the generic 'Generally safe'."
   }
  },
  "Kraków": {
@@ -843,15 +843,15 @@
  },
  "Kotor": {
   "propertySub": 78,
-  "womensAdj": -9,
+  "womensAdj": -2,
   "propertyNote": "Very safe walled town; minor seasonal theft",
-  "womensSafetyNote": "Generally safe",
+  "womensSafetyNote": "Generally safe; cruise-season crowds",
   "touristMod": 1.0,
   "touristRationale": "",
   "touristTags": [],
   "_audit": {
    "date": "2026-06",
-   "note": "womensAdj -9 preserves pre-WPS hand-set womensSafety 74 vs country Gallup baseline 83 (CS 85%)"
+   "note": "2026-06 re-pass: Montenegro Gallup CS 85% and Kotor is a small, very safe walled town. Eased from -9 (which silently discounted the poll, no women-specific reason) to a token -2 for cruise-season crowds."
   }
  },
  "Tbilisi": {
@@ -948,9 +948,9 @@
  },
  "Bali (Canggu/Ubud)": {
   "propertySub": 64,
-  "womensAdj": -11,
+  "womensAdj": -5,
   "propertyNote": "Scooter bag-snatching, ATM skimming, theft from rentals",
-  "womensSafetyNote": "Generally safe",
+  "womensSafetyNote": "Generally safe; Canggu nightlife/party-scene awareness",
   "touristMod": 1.0,
   "touristRationale": "",
   "touristTags": [
@@ -959,7 +959,7 @@
   ],
   "_audit": {
    "date": "2026-06",
-   "note": "womensAdj -11 preserves pre-WPS hand-set womensSafety 62 vs country Gallup baseline 73 (CS 74%)"
+   "note": "2026-06 re-pass: Indonesia Gallup CS 74% and Bali is a long-standing solo-female-traveler hub. Eased from -11 (which silently discounted the poll) to -5 for the Canggu nightlife/party scene only; scooter bag-snatching is already in property/tourist, not women-specific."
   }
  },
  "Siem Reap": {
@@ -1008,7 +1008,7 @@
  },
  "Hanoi": {
   "propertySub": 66,
-  "womensAdj": -16,
+  "womensAdj": -5,
   "propertyNote": "Pickpocketing and bag-snatching; taxi/scooter scams",
   "womensSafetyNote": "Harassment rare; big-city taxi and nightlife awareness",
   "touristMod": 1.0,
@@ -1019,12 +1019,12 @@
   ],
   "_audit": {
    "date": "2026-06",
-   "note": "Same Vietnam evidence; big-city taxi/nightlife caution but harassment rare — moderated from migration -20"
+   "note": "2026-06 re-pass: Gallup CS 86% + solo-female sources both rate VN very safe for women; harassment rare. Removed the survey-bias discount (was -16); keep a small -5 for big-city taxi/nightlife awareness only. Petty theft already in property/tourist."
   }
  },
  "Ho Chi Minh City": {
   "propertySub": 50,
-  "womensAdj": -20,
+  "womensAdj": -6,
   "propertyNote": "Notorious drive-by phone/bag-snatching by motorbike",
   "womensSafetyNote": "Harassment rare; use ride-hailing apps and nightlife awareness",
   "touristMod": 1.0,
@@ -1035,12 +1035,12 @@
   ],
   "_audit": {
    "date": "2026-06",
-   "note": "Solo-female sources rate VN high (travelladies 4.4/5, #55 globally); harassment rare but documented in taxis/nightlife; Gallup CS 86% likely inflated by acquiescence bias — moderated from migration -34"
+   "note": "2026-06 re-pass: solo-female sources rate VN high (travelladies 4.4/5, #55 globally) and Gallup CS is 86%; harassment rare. Dropped the acquiescence-bias discount (was -20) — that overrode the data rather than measuring women's risk. Keep -6 for big-city nightlife/bar-scam & taxi awareness only."
   }
  },
  "Da Nang": {
   "propertySub": 72,
-  "womensAdj": -12,
+  "womensAdj": -2,
   "propertyNote": "Low crime beach city; minor theft",
   "womensSafetyNote": "Generally safe",
   "touristMod": 1.0,
@@ -1048,12 +1048,12 @@
   "touristTags": [],
   "_audit": {
    "date": "2026-06",
-   "note": "2026-06 evidence review: women travelers rate Da Nang among Vietnam's easiest solo cities; harassment rare; Gallup CS 86% discounted for survey bias — eased from migration -14"
+   "note": "2026-06 re-pass: women travelers rate Da Nang among Vietnam's easiest solo cities; harassment rare; Gallup CS 86%. Removed the survey-bias discount (was -12); only a token -2 for a calm beach city."
   }
  },
  "Da Lat": {
   "propertySub": 74,
-  "womensAdj": -10,
+  "womensAdj": 0,
   "propertyNote": "Quiet highland town; low crime",
   "womensSafetyNote": "Generally safe",
   "touristMod": 1.0,
@@ -1061,12 +1061,12 @@
   "touristTags": [],
   "_audit": {
    "date": "2026-06",
-   "note": "Calm highland town — eased from migration -12"
+   "note": "2026-06 re-pass: calm highland town, harassment rare, Gallup CS 86%. Removed the survey-bias discount (was -10); sits at the country baseline."
   }
  },
  "Hoi An": {
   "propertySub": 72,
-  "womensAdj": -10,
+  "womensAdj": 0,
   "propertyNote": "Low crime tourist town; minor theft",
   "womensSafetyNote": "Generally safe",
   "touristMod": 1.0,
@@ -1074,7 +1074,7 @@
   "touristTags": [],
   "_audit": {
    "date": "2026-06",
-   "note": "Small tourist town, women report high comfort — eased from migration -14"
+   "note": "2026-06 re-pass: small tourist town, women report high comfort, Gallup CS 86%. Removed the survey-bias discount (was -10); sits at the country baseline."
   }
  },
  "Taipei": {
@@ -1366,7 +1366,7 @@
   "homicideSource": "World Bank / UNODC intentional homicide baseline (Vietnam)",
   "homicideUrl": "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5",
   "propertySub": 72,
-  "womensAdj": -14,
+  "womensAdj": -4,
   "propertyNote": "Generally safe; beach/tourist-strip petty theft and traffic risk",
   "womensSafetyNote": "Displayed visitor-safety signal; use ordinary local caution",
   "touristMod": 1,
@@ -1378,7 +1378,7 @@
   "localArea": null,
   "_audit": {
    "date": "2026-06",
-   "note": "Beach-nightlife zone; keeps migration delta; Gallup CS 86% discounted for survey bias"
+   "note": "2026-06 re-pass: Gallup CS 86% + harassment rare across VN. Removed the survey-bias discount (was -14); keep -4 for the beach-nightlife strip only."
   }
  },
  "Ipoh": {

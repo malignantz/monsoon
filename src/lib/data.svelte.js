@@ -52,6 +52,25 @@ export function saveSettings() {
 export const cityCost = (m) => (prefs.party === 'solo' ? m.cost1 : m.cost2);
 export const partyWord = () => (prefs.party === 'solo' ? 'solo' : 'couple');
 
+// Passports the visa data is keyed by (data/travel-data.json -> city.visa).
+export const PASSPORTS = [
+  { code: 'US', label: 'US' },
+  { code: 'UK', label: 'UK' },
+  { code: 'EU', label: 'EU' },
+  { code: 'AU', label: 'Australia' }
+];
+
+// The visa rows to show for a city: just the traveller's passport once chosen
+// in settings, otherwise all four. Returns [] if a city has no visa data.
+export function visaRows(city) {
+  const v = city?.visa;
+  if (!v || typeof v !== 'object') return [];
+  const codes = prefs.passport && v[prefs.passport] ? [prefs.passport] : PASSPORTS.map((p) => p.code);
+  return codes
+    .map((code) => ({ code, label: PASSPORTS.find((p) => p.code === code)?.label ?? code, ...v[code] }))
+    .filter((r) => r.note != null);
+}
+
 export function slug(name) {
   return name
     .toLowerCase()

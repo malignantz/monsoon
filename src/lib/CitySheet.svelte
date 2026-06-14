@@ -1,7 +1,7 @@
 <script>
   import MonthStrip from './MonthStrip.svelte';
   import ScoreInfo from './ScoreInfo.svelte';
-  import { stripCells, qolFor, fmtMoney, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, cityCost, partyWord } from './data.svelte.js';
+  import { stripCells, qolFor, fmtMoney, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, cityCost, partyWord, visaRows } from './data.svelte.js';
 
   let { city, month, preset, onclose, onmonth, onstep } = $props();
 
@@ -32,6 +32,7 @@
   const m = $derived(city.months[month]);
   const qol = $derived(qolFor(city, month, preset));
   const saf = $derived(city.safety ?? {});
+  const visa = $derived(visaRows(city));
   const yearEvents = $derived(
     Array.isArray(city.events) ? [...city.events].sort((a, b) => (a.months?.[0] ?? 0) - (b.months?.[0] ?? 0)) : []
   );
@@ -172,15 +173,19 @@
             <span class="num bar-num">{Math.round(saf.property?.sub ?? 0)}</span>
           </div>
           <div class="bar-row womens">
-            <span class="bar-label">Women's signal
-              <ScoreInfo title="Women's safety signal">
-                <p>{saf.womensSafety?.cs ?? '—'}% of women in {city.country} tell Gallup they
-                  feel safe walking alone at night — baseline {Math.round(saf.womensSafety?.baseline ?? 0)}
-                  on our scale{#if saf.womensSafety?.adj},
-                  {saf.womensSafety.adj > 0 ? '+' : ''}{saf.womensSafety.adj} city adjustment{/if}.</p>
+            <span class="bar-label">Women's street-safety
+              <ScoreInfo title="Women's street-safety estimate">
+                <p>Our estimate of street safety for women, <strong>{Math.round(saf.womensSafety?.sub ?? 0)}</strong>
+                  on a 0–100 scale. It starts from the country baseline and is then adjusted for this city.</p>
+                <p>Baseline {Math.round(saf.womensSafety?.baseline ?? 0)}, derived from the
+                  {saf.womensSafety?.cs ?? '—'}% of women in {city.country} who tell Gallup they feel safe
+                  walking alone at night{#if saf.womensSafety?.adj}, then a
+                  {saf.womensSafety.adj > 0 ? '+' : ''}{saf.womensSafety.adj} city adjustment for local
+                  conditions (harassment, within-country variation, tourist-vs-local risk){/if}. The estimate
+                  can diverge from the raw Gallup figure where local evidence warrants.</p>
                 {#if saf.womensSafety?.source}<p>{saf.womensSafety.source}.</p>{/if}
                 <p>Displayed alongside, never folded into the headline score — turn on
-                  the women's-safety setting to blend it 50/50 into safety across every view.</p>
+                  the women's street-safety setting to blend it 50/50 into safety across every view.</p>
                 <p class="src"><a href={saf.womensSafety?.url} target="_blank" rel="noopener">
                   Gallup World Poll, via the Georgetown WPS Index</a></p>
               </ScoreInfo>
@@ -226,9 +231,25 @@
       </section>
     {/if}
 
+    {#if visa.length}
+      <section class="visa">
+        <h3>Tourist visa</h3>
+        <ul>
+          {#each visa as r (r.code)}
+            <li>
+              <span class="vpass">{r.label}</span>
+              <span class="vdays" class:vno={!r.visaFree}>
+                {r.days == null ? (r.visaFree ? 'no limit' : '—') : `${r.days}d`}
+              </span>
+              <span class="vnote">{r.note}</span>
+            </li>
+          {/each}
+        </ul>
+      </section>
+    {/if}
+
     <footer class="foot">
-      <span>{city.visa}</span>
-      <span>Scores per the Monsoon methodology — re-verify advisories before travel.</span>
+      <span>Scores per the Monsoon methodology — re-verify visa rules &amp; advisories before travel.</span>
     </footer>
   </div>
 </div>
@@ -447,6 +468,48 @@
   }
 
   li.major .ename { color: var(--terra-deep); }
+
+  .visa {
+    margin-top: 30px;
+  }
+  .visa h3 {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-2);
+  }
+  .visa ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .visa li {
+    display: grid;
+    grid-template-columns: 64px 56px 1fr;
+    align-items: baseline;
+    gap: 10px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+  }
+  .vpass {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .vdays {
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+  .vdays.vno {
+    color: var(--band-bad-ink);
+  }
+  .vnote {
+    color: var(--ink-3);
+  }
 
   .foot {
     margin-top: 30px;
