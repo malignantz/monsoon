@@ -1,4 +1,5 @@
 <script>
+  import { untrack } from 'svelte';
   import MonthStrip from './MonthStrip.svelte';
   import ScoreInfo from './ScoreInfo.svelte';
   import Legend from './Legend.svelte';
@@ -76,7 +77,8 @@
   // Arriving on a shared link (?route=…) shows that itinerary read-only, so it
   // never silently overwrites the visitor's own saved year. They can adopt it
   // ("Save a copy") or dismiss it back to their own route.
-  let previewing = $state(sharedRoute != null);
+  const startsWithSharedRoute = untrack(() => sharedRoute != null);
+  let previewing = $state(startsWithSharedRoute);
   const boardStays = $derived(previewing ? (sharedRoute ?? []) : stays);
 
   function adoptShared() {
@@ -142,7 +144,7 @@
 
   // Clicking a row's "over 90/180" warning points the user at the fix: scroll
   // the non-Schengen filter into view, focus it, and flash it so it's found.
-  let nonSchengenEl;
+  let nonSchengenEl = $state(null);
   let nonSchengenFlash = $state(false);
   function flagNonSchengen() {
     nonSchengenEl?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'center' });

@@ -28,7 +28,7 @@
   let sharedRoute = $state(initialRoute.length ? initialRoute : null);
 
   // 'explore' merged into 'month' as a card/table density toggle; fall back for saved prefs.
-  let view = $state(sharedRoute ? 'year' : p.view === 'explore' ? 'month' : (p.view ?? 'month'));
+  let view = $state(initialRoute.length ? 'year' : p.view === 'explore' ? 'month' : (p.view ?? 'month'));
   let month = $state(currentMonth);
   let mode = $state(p.mode ?? 'quality');
   let preset = $state(PRESETS[p.preset] ? p.preset : 'balanced');
