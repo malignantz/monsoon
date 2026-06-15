@@ -33,7 +33,7 @@
       </div>
       <div class="score {mode === 'value' ? 'neutral' : `band-${cells[month].band}`}">
         <span class="num big">{Math.round(score)}</span>
-        <span class="lbl">{mode === 'value' ? 'value' : 'quality'}</span>
+        <span class="lbl">{mode === 'value' ? 'best value' : 'top pick'}</span>
       </div>
     </div>
 
@@ -133,7 +133,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 56px;
+    min-width: 64px;
     border-radius: 10px;
     padding: 6px 8px 4px;
   }
@@ -157,7 +157,7 @@
 
   .lbl {
     font-size: 9px;
-    letter-spacing: 0.12em;
+    letter-spacing: 0;
     text-transform: uppercase;
     opacity: 0.85;
   }

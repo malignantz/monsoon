@@ -8,7 +8,7 @@
 
   const BRAND_BANDS = ['ok', 'ok', 'good', 'good', 'good', 'great', 'great', 'good', 'good', 'good', 'ok', 'ok'];
 
-  // The headline Quality weights (Balanced preset · METHODOLOGY §6).
+  // The headline Top Pick weights (Top Pick preset · METHODOLOGY §6).
   const WEIGHTS = [
     { label: 'Weather', pct: 35 },
     { label: 'Safety', pct: 24 },
@@ -44,12 +44,12 @@
       <p class="kicker">Methodology<span class="tld"> · v5</span></p>
       <h1>How a month is scored</h1>
       <p class="lede">Every city is scored independently for all twelve months. One headline
-        <strong>Quality</strong> number blends five measures — each computed from sourced data,
+        <strong>Top Pick</strong> number blends five measures — each computed from sourced data,
         not vibes. Here's exactly what goes in.</p>
     </header>
 
     <section class="q">
-      <span class="qlabel">The headline: Quality</span>
+      <span class="qlabel">The headline: Top Pick</span>
       <p class="qhint">A weighted blend of five 0–100 sub-scores, then knocked down by a
         low-safety floor so a beautiful month in a dangerous place can't ride the weather to the top.</p>
       <div class="weights">
@@ -61,8 +61,9 @@
           </div>
         {/each}
       </div>
-      <p class="qnote">Balanced defaults. Priority presets (Comfort-first, Settle-in,
-        Festival-chaser, Solo-woman) re-weight the same sub-scores live; the safety floor always applies.</p>
+      <p class="qnote">Top Pick defaults. Livability and High season re-weight the same
+        sub-scores live; Livability ignores events and only subtracts a small peak-season
+        crowding penalty. The safety floor always applies.</p>
     </section>
 
     <section class="q">
@@ -91,8 +92,8 @@
 
     <section class="q">
       <span class="qlabel">Women's street-safety</span>
-      <p class="qhint">Shown alongside Safety but <strong>not folded into the headline</strong> (except the
-        Solo-woman preset). A country baseline of women who feel safe walking alone at night, plus a hand-set
+      <p class="qhint">Shown alongside Safety but <strong>not folded into the headline</strong> unless the
+        women's-safety setting is enabled. A country baseline of women who feel safe walking alone at night, plus a hand-set
         per-city adjustment for harassment of foreign women and within-country variation.</p>
       <p class="src">Source · Gallup World Poll via the Georgetown WPS Index · hand-set city deltas</p>
     </section>
@@ -106,10 +107,10 @@
     </section>
 
     <section class="q">
-      <span class="qlabel">Cost &amp; Value</span>
+      <span class="qlabel">Cost &amp; Best Value</span>
       <p class="qhint">Each city's monthly cost is built from eight itemized, dated, sourced components for
         one anchor persona (a solo nomad living mid-range), then scaled for a couple and adjusted for
-        accommodation seasonality. <strong>Value</strong> is the only place quality meets cost — Quality
+        accommodation seasonality. <strong>Best Value</strong> is the only place the Top Pick score meets cost — Top Pick
         divided by a damped cost, so "best value" rewards cheap-<em>and</em>-nice, not merely cheap.</p>
       <p class="src">Source · per-city cost-evidence store (rent, utilities, food, transit, coworking, …) with receipts &amp; dates</p>
     </section>

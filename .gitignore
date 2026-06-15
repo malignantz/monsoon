@@ -4,7 +4,17 @@ dist/
 .claude/
 .impeccable/
 *.md
+*.MD
+!README.md
+!TODO.md
+archive/
+archive/consumed/
 data/*.backup.json
+
+# Scratch screenshots & MCP capture artifacts
+about-desktop.png
+about-mobile.png
+.playwright-mcp/
 
 # Cost-evidence store (data/cost-evidence/*.json) is the sourced provenance behind
 # the catalog's cost fields and IS tracked in git, alongside data/safety-inputs-v3.json.

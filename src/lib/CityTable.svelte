@@ -12,8 +12,8 @@
 
   const COLS = $derived([
     { k: 'name',  label: 'City',      num: false },
-    { k: 'qol',   label: 'Quality',   num: true, tip: 'Composite score: weather, safety, air quality, seasonality & events · 0–100' },
-    { k: 'value', label: 'Value',     num: true, tip: 'Quality relative to cost (cost is damped so "best value" = cheap-and-nice, not merely cheap) · unitless index, compare cities only' },
+    { k: 'qol',   label: 'Top Pick',   num: true, tip: 'Best month money aside: weather, safety, air quality, seasonality & events · 0-100' },
+    { k: 'value', label: 'Best Value', num: true, tip: 'Top Pick score relative to cost (cost is damped so "best value" = cheap-and-nice, not merely cheap) · unitless index, compare cities only' },
     { k: 'weather', label: 'Weather', num: true, tip: 'Temperature & sunshine comfort · 0–100' },
     { k: 'air',   label: 'Air',       num: true, tip: 'Air quality (PM2.5) · 100 = cleanest in dataset' },
     { k: 'safety', label: 'Safety',   num: true, tip: 'Crime & personal safety index · 100 = safest' },
@@ -51,7 +51,7 @@
       const va = a[sortKey];
       const vb = b[sortKey];
       const primary = (typeof va === 'string' ? va.localeCompare(vb) : va - vb) * sortDir;
-      // Value tiebreaker (within 1pt): cheaper first.
+      // Best Value tiebreaker (within 1pt): cheaper first.
       if (sortKey === 'value' && Math.abs(va - vb) < 1.0) return a.cost - b.cost;
       return primary;
     });
@@ -63,22 +63,26 @@
     if (v >= 65) return 'g3';
     return 'g4';
   }
+
+  function sortLabel(k) {
+    return COLS.find((col) => col.k === k)?.label ?? k;
+  }
 </script>
 
 <div class="tablecap">
   <Legend />
-  <ScoreInfo title="Value index" align="right">
-    <p>Quality divided by cost — but cost is damped
+  <ScoreInfo title="Best Value index" align="right">
+    <p>Top Pick divided by cost — but cost is damped
       (cost<sup>{settings.value_cost_exponent ?? 0.55}</sup>) so "best value" rewards
       cheap-<em>and</em>-nice, not merely cheap.</p>
-    <p>Tick "classic value" for plain quality ÷ cost per $1k, where cheapness dominates.</p>
+    <p>Tick "classic Best Value" for plain Top Pick ÷ cost per $1k, where cheapness dominates.</p>
     <label class="cb pop-toggle">
       <input
         type="checkbox"
         checked={valueModel === 'classic'}
         onchange={(e) => onmodel(e.currentTarget.checked ? 'classic' : 'adjusted')}
       />
-      classic value
+      classic Best Value
     </label>
     <p class="src">A unitless index — compare cities, don't read it as $ per anything.</p>
   </ScoreInfo>
@@ -122,7 +126,7 @@
     </table>
   </div>
 </div>
-<p class="count">{rows.length} of {cities.length} cities · sorted by {sortKey}</p>
+<p class="count">{rows.length} of {cities.length} cities · sorted by {sortLabel(sortKey)}</p>
 
 <style>
   .tablecap {

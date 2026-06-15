@@ -17,7 +17,6 @@
     routeStats,
     stayMonths,
     schengenCheck,
-    PRESETS,
     partyWord,
     encodeRouteCompact,
     shareUrl,
@@ -304,14 +303,6 @@
       <h1>My year<span class="dot">.</span></h1>
     </div>
     <div class="head-right">
-      <label class="optfor">
-        <span class="optfor-lbl">Optimize for</span>
-        <select bind:value={preset} title={PRESETS[preset].blurb} aria-label="Priority preset">
-          {#each Object.entries(PRESETS) as [k, v]}
-            <option value={k}>{v.label}</option>
-          {/each}
-        </select>
-      </label>
       {#if !previewing && stays.length > 0}
         <button type="button" class="chip share" class:on={copied} onclick={shareRoute}>
           {copied ? '✓ Link copied' : '↗ Share'}
@@ -420,7 +411,7 @@
     <div class="totals">
       <div class="tot">
         <span class="num tv">{Math.round(stats.avgQol) || '—'}</span>
-        <span class="tk">avg quality</span>
+        <span class="tk">avg Top Pick</span>
       </div>
       <div class="tot">
         <span class="num tv">{stats.months ? fmtMoney(stats.avgCost) : '—'}</span>
@@ -490,8 +481,8 @@
       <span class="plabel">Sort by</span>
       <div class="fctl">
         <div class="seg" role="group" aria-label="Sort city list by">
-          <button type="button" class="segbtn" class:on={sortMode === 'qol'} aria-pressed={sortMode === 'qol'} onclick={() => (sortMode = 'qol')}>Quality</button>
-          <button type="button" class="segbtn" class:on={sortMode === 'value'} aria-pressed={sortMode === 'value'} onclick={() => (sortMode = 'value')}>Value</button>
+          <button type="button" class="segbtn" class:on={sortMode === 'qol'} aria-pressed={sortMode === 'qol'} onclick={() => (sortMode = 'qol')}>Top Pick</button>
+          <button type="button" class="segbtn" class:on={sortMode === 'value'} aria-pressed={sortMode === 'value'} onclick={() => (sortMode = 'value')}>Best Value</button>
         </div>
         <span class="fcount num">{filteredCities.length} of {cities.length} cities pass</span>
       </div>
@@ -544,7 +535,7 @@
                 {#if breach}
                   <button type="button" class="rowwarn" onclick={flagNonSchengen} title="Adding this Schengen stay breaks the 90/180 cap — filter to non-Schengen cities">◆ over 90/180</button>
                 {/if}
-                <span class="num rowq" title="Average quality across the months you'd book">{Math.round(s)}</span>
+                <span class="num rowq" title={sortMode === 'value' ? "Average Best Value across the months you'd book" : "Average Top Pick across the months you'd book"}>{Math.round(s)}</span>
               </div>
             </div>
             <div class="rowstrip">
@@ -581,25 +572,6 @@
     display: flex;
     align-items: flex-end;
     gap: 14px;
-  }
-
-  .optfor {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .optfor-lbl {
-    font-size: 9.5px;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    line-height: 1;
-  }
-
-  .optfor select {
-    height: 32px;
-    padding: 0 10px;
   }
 
   .chip.clear { color: var(--terra-deep); }

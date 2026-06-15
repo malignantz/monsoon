@@ -2,9 +2,9 @@
   // Doubles as first-run onboarding (mode="onboarding") and the re-openable
   // settings panel (mode="settings"). Both write the same shared `prefs` store
   // and persist on close, so nothing here is a one-way door.
-  import { prefs, saveSettings } from './data.svelte.js';
+  import { PRESETS, prefs, saveSettings } from './data.svelte.js';
 
-  let { mode = 'settings', onclose } = $props();
+  let { mode = 'settings', preset = $bindable('balanced'), onclose } = $props();
 
   let cardEl = $state(null);
   let collapsing = $state(false);
@@ -79,14 +79,33 @@
       {#if onboarding}
         <p class="kicker">Monsoon<span class="tld">.fyi</span></p>
         <h1>Let's tune your atlas</h1>
-        <p class="lede">Two quick questions so every screen shows the right prices and the
-          safety that matters to you. Change them anytime.</p>
+        <p class="lede">Three quick choices set the lens for every city: what good means,
+          whose costs to show, and the safety signal that matters to you.</p>
       {:else}
         <p class="kicker">Settings</p>
         <h1>Your atlas</h1>
-        <p class="lede">These shape pricing and safety across every view.</p>
+        <p class="lede">These shape ranking, pricing, and safety across every view.</p>
       {/if}
     </header>
+
+    <section class="q">
+      <span class="qlabel">Optimize for</span>
+      <div class="preset-grid" role="radiogroup" aria-label="Optimize for">
+        {#each Object.entries(PRESETS) as [k, v]}
+          <button
+            type="button"
+            class:on={preset === k}
+            role="radio"
+            aria-checked={preset === k}
+            title={v.blurb}
+            onclick={() => (preset = k)}
+          >
+            <span>{v.label}</span>
+            <em>{v.blurb}</em>
+          </button>
+        {/each}
+      </div>
+    </section>
 
     <section class="q">
       <span class="qlabel">Who's traveling?</span>
@@ -129,7 +148,7 @@
     background: rgba(33, 36, 30, 0.45);
     z-index: 60;
     overflow-y: auto;
-    padding: 6vh 16px;
+    padding: 4vh 16px;
   }
 
   /* First-run dismissal: fade the backdrop and let the card fly to the gear. */
@@ -152,12 +171,12 @@
   .card {
     position: relative;
     z-index: 1;
-    max-width: 460px;
+    max-width: 540px;
     margin: 0 auto;
     background: var(--paper);
     border-radius: 18px;
     border: 1px solid var(--line);
-    padding: 28px 30px 22px;
+    padding: 26px 28px 20px;
     outline: none;
   }
 
@@ -170,7 +189,7 @@
     will-change: transform, opacity;
   }
 
-  .head { margin-bottom: 22px; }
+  .head { margin-bottom: 18px; }
 
   .mark {
     display: grid;
@@ -214,7 +233,7 @@
   }
 
   .q {
-    padding: 18px 0;
+    padding: 15px 0;
     border-top: 1px solid var(--line-soft);
   }
 
@@ -230,6 +249,53 @@
     color: var(--ink-3);
     margin: 8px 0 0;
     line-height: 1.45;
+  }
+
+  .preset-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .preset-grid button {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-height: 96px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--card);
+    color: var(--ink-2);
+    padding: 10px;
+    text-align: left;
+    font: inherit;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+  }
+
+  .preset-grid button:hover {
+    border-color: var(--ink-3);
+    color: var(--ink);
+  }
+
+  .preset-grid button.on {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+
+  .preset-grid span {
+    font-size: 13.5px;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  .preset-grid em {
+    font-style: normal;
+    font-size: 11.5px;
+    line-height: 1.35;
+    color: currentColor;
+    opacity: 0.72;
   }
 
   .seg {
@@ -307,8 +373,8 @@
   .switch.on .knob { transform: translateX(20px); }
 
   .foot {
-    margin-top: 8px;
-    padding-top: 18px;
+    margin-top: 6px;
+    padding-top: 15px;
     border-top: 1px solid var(--line-soft);
   }
 
@@ -326,4 +392,9 @@
   }
 
   .cta:hover { background: var(--terra-deep); }
+
+  @media (max-width: 560px) {
+    .preset-grid { grid-template-columns: 1fr; }
+    .preset-grid button { min-height: 0; }
+  }
 </style>

@@ -4,7 +4,8 @@
   import CitySheet from './lib/CitySheet.svelte';
   import Settings from './lib/Settings.svelte';
   import Methodology from './lib/Methodology.svelte';
-  import { cities, cityByKey, qolFor, valueFor, MONTHS, MONTH_LETTERS, PRESETS, onboarded, decodeRouteCompact, decodeRoute } from './lib/data.svelte.js';
+  import About from './lib/About.svelte';
+  import { cities, cityByKey, qolFor, valueFor, MONTHS, MONTH_LETTERS, onboarded, decodeRouteCompact, decodeRoute, normalizePresetKey } from './lib/data.svelte.js';
 
   const PREFS = 'atlas.prefs.v1';
 
@@ -31,7 +32,7 @@
   let view = $state(initialRoute.length ? 'year' : p.view === 'explore' ? 'month' : (p.view ?? 'month'));
   let month = $state(currentMonth);
   let mode = $state(p.mode ?? 'quality');
-  let preset = $state(PRESETS[p.preset] ? p.preset : 'balanced');
+  let preset = $state(normalizePresetKey(p.preset));
   let valueModel = $state(p.valueModel ?? 'adjusted');
   let density = $state(p.density === 'table' ? 'table' : 'cards');
   let cityKey = $state(new URLSearchParams(location.search).get('city'));
@@ -40,6 +41,7 @@
   // panel in "settings" mode. onboarded.done flips once settings are saved.
   let settingsOpen = $state(!onboarded.done);
   let settingsMode = $state(onboarded.done ? 'settings' : 'onboarding');
+  let aboutOpen = $state(false);
   let methodOpen = $state(false);
   // Brief highlight on the gear after onboarding collapses into it, so the new
   // user clocks where their settings landed.
@@ -177,20 +179,12 @@
         <div class="ctl-group">
           <span class="ctl-lbl" aria-hidden="true">Rank by</span>
           <div class="seg" role="group" aria-label="Rank by">
-            <button type="button" class:on={mode === 'quality'} onclick={() => (mode = 'quality')}>Quality</button>
-            <button type="button" class:on={mode === 'value'} onclick={() => (mode = 'value')}>Value</button>
+            <button type="button" class:on={mode === 'quality'} onclick={() => (mode = 'quality')}>Top Pick</button>
+            <button type="button" class:on={mode === 'value'} onclick={() => (mode = 'value')}>Best Value</button>
           </div>
         </div>
       {/if}
 
-      <div class="ctl-group">
-        <span class="ctl-lbl" aria-hidden="true">Optimize for</span>
-        <select bind:value={preset} title={PRESETS[preset].blurb} aria-label="Priority preset">
-          {#each Object.entries(PRESETS) as [k, v]}
-            <option value={k}>{v.label}</option>
-          {/each}
-        </select>
-      </div>
     </div>
   {/if}
 
@@ -204,7 +198,11 @@
 
   <footer class="basefoot">
     <span>Your ancestors moved with the seasons. 111 cities, scored month by month — clean air, mild weather, no typhoons, festivals on, 90 Schengen days at a time.</span>
-    <button type="button" class="num methodlink" onclick={() => (methodOpen = true)}>methodology v5 · 2026</button>
+    <span class="footlinks">
+      <button type="button" class="num footlink" onclick={() => (aboutOpen = true)}>about</button>
+      <span aria-hidden="true">·</span>
+      <button type="button" class="num footlink" onclick={() => (methodOpen = true)}>methodology v5 · 2026</button>
+    </span>
   </footer>
 </div>
 
@@ -213,7 +211,11 @@
 {/if}
 
 {#if settingsOpen}
-  <Settings mode={settingsMode} onclose={closeSettings} />
+  <Settings mode={settingsMode} bind:preset onclose={closeSettings} />
+{/if}
+
+{#if aboutOpen}
+  <About onclose={() => (aboutOpen = false)} />
 {/if}
 
 {#if methodOpen}
@@ -376,11 +378,6 @@
     box-shadow: 0 6px 14px -12px rgba(33, 36, 30, 0.35);
   }
 
-  .toolbar select {
-    height: 32px;
-    padding: 0 10px;
-  }
-
   .ctl-group {
     display: flex;
     flex-direction: column;
@@ -490,7 +487,17 @@
     white-space: nowrap;
   }
 
-  .methodlink {
+  .footlinks {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+    font-family: var(--mono);
+    font-style: normal;
+    white-space: nowrap;
+  }
+
+  .footlink {
     background: none;
     border: none;
     padding: 0;
@@ -503,8 +510,19 @@
     transition: color 0.15s ease, text-decoration-color 0.15s ease;
   }
 
-  .methodlink:hover {
+  .footlink:hover {
     color: var(--terra-deep);
     text-decoration-color: var(--terra);
+  }
+
+  @media (max-width: 700px) {
+    .basefoot {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footlinks {
+      align-self: flex-start;
+    }
   }
 </style>

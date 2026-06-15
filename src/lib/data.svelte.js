@@ -80,25 +80,6 @@ export function toggleFavorite(key) {
 export const cityCost = (m) => (prefs.party === 'solo' ? m.cost1 : m.cost2);
 export const partyWord = () => (prefs.party === 'solo' ? 'solo' : 'couple');
 
-// Passports the visa data is keyed by (data/travel-data.json -> city.visa).
-export const PASSPORTS = [
-  { code: 'US', label: 'US' },
-  { code: 'UK', label: 'UK' },
-  { code: 'EU', label: 'EU' },
-  { code: 'AU', label: 'Australia' }
-];
-
-// The visa rows to show for a city: just the traveller's passport once chosen
-// in settings, otherwise all four. Returns [] if a city has no visa data.
-export function visaRows(city) {
-  const v = city?.visa;
-  if (!v || typeof v !== 'object') return [];
-  const codes = prefs.passport && v[prefs.passport] ? [prefs.passport] : PASSPORTS.map((p) => p.code);
-  return codes
-    .map((code) => ({ code, label: PASSPORTS.find((p) => p.code === code)?.label ?? code, ...v[code] }))
-    .filter((r) => r.note != null);
-}
-
 export function slug(name) {
   return name
     .toLowerCase()
@@ -135,29 +116,35 @@ if (typeof window !== 'undefined') {
   'requestIdleCallback' in window ? requestIdleCallback(kick) : setTimeout(kick, 1);
 }
 
-// ---- Priority presets: weights over stored component scores (methodology §6) ----
+// ---- "Optimize for" lenses: weights over stored component scores (methodology §6) ----
 export const PRESETS = {
   balanced: {
     label: 'Balanced',
-    blurb: 'The v5 defaults — weather first, safety and air close behind.',
+    blurb: 'Weather, safety, and air lead; season and events add a smaller nudge.',
     w: { weather: 0.35, safety: 0.24, air: 0.18, season: 0.13, events: 0.1 }
   },
-  comfort: {
-    label: 'Comfort-first',
-    blurb: 'Chase the mildest weather; festivals barely matter.',
-    w: { weather: 0.5, safety: 0.18, air: 0.2, season: 0.08, events: 0.04 }
+  livability: {
+    label: 'Livability',
+    blurb: 'Daily-life comfort: weather, safety, and air, with a small peak-season crowd penalty.',
+    w: { weather: 0.38, safety: 0.32, air: 0.3, season: 0, events: 0 },
+    peakPenalty: 4
   },
-  settle: {
-    label: 'Settle-in',
-    blurb: 'Month-plus stays — breathable air and safe streets over buzz.',
-    w: { weather: 0.3, safety: 0.26, air: 0.24, season: 0.1, events: 0.1 }
-  },
-  festival: {
-    label: 'Festival-chaser',
-    blurb: 'Be there when the city is celebrating.',
+  highSeason: {
+    label: 'High season',
+    blurb: 'Prioritizes in-season months and major events.',
     w: { weather: 0.3, safety: 0.14, air: 0.1, season: 0.16, events: 0.3 }
   }
 };
+
+export const PRESET_ALIASES = {
+  comfort: 'livability',
+  settle: 'livability',
+  festival: 'highSeason'
+};
+
+export function normalizePresetKey(key) {
+  return PRESETS[key] ? key : (PRESET_ALIASES[key] ?? 'balanced');
+}
 
 const FLOOR_T = settings.safety_floor_threshold ?? 55;
 const FLOOR_MIN = settings.safety_floor_min ?? 0.6;
@@ -178,14 +165,16 @@ export function safetyFloor(safety) {
   return FLOOR_MIN + (1 - FLOOR_MIN) * (safety / FLOOR_T);
 }
 
-// Recompute QoL client-side from stored component scores (methodology §6).
+// Recompute the Top Pick score client-side from stored component scores (methodology §6).
 export function qolFor(city, mIdx, presetKey = 'balanced') {
   const m = city.months[mIdx];
-  const w = PRESETS[presetKey].w;
+  const preset = PRESETS[normalizePresetKey(presetKey)];
+  const w = preset.w;
   const saf = safetyInput(city);
   const base =
     w.weather * m.weather + w.safety * saf + w.air * m.air + w.season * m.seasonScore + w.events * m.eventScore;
-  return safetyFloor(saf) * base;
+  const peakPenalty = m.season === 'Peak' ? (preset.peakPenalty ?? 0) : 0;
+  return Math.max(0, safetyFloor(saf) * base - peakPenalty);
 }
 
 export function valueFor(city, mIdx, presetKey = 'balanced', model = 'adjusted') {
@@ -204,7 +193,7 @@ export function band(qol) {
 
 // Strip cells for a city under a preset:
 // [{q, band, risk, fest, weather, air, season, events, airCat, seasonPhase}]
-// Carries every month-varying component of the quality score (safety is the
+// Carries every month-varying component of the Top Pick score (safety is the
 // one static input) so tooltips can break down what drives each month.
 export function stripCells(city, presetKey = 'balanced') {
   return city.months.map((m, i) => {

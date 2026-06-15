@@ -1,7 +1,7 @@
 <script>
   import MonthStrip from './MonthStrip.svelte';
   import ScoreInfo from './ScoreInfo.svelte';
-  import { stripCells, qolFor, fmtMoney, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, cityCost, partyWord, visaRows, isFavorite, toggleFavorite, shareUrl, copyText } from './data.svelte.js';
+  import { stripCells, qolFor, fmtMoney, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, copyText } from './data.svelte.js';
 
   let { city, month, preset, onclose, onmonth, onstep } = $props();
 
@@ -44,14 +44,18 @@
     };
   });
 
-  const pw = $derived(PRESETS[preset]?.w ?? PRESETS.balanced.w);
+  const activePreset = $derived(PRESETS[preset] ?? PRESETS.balanced);
+  const pw = $derived(activePreset.w);
   const pct = (x) => Math.round(x * 100);
+  const monthName = $derived(new Date(2026, month, 1).toLocaleString('en-US', { month: 'long' }));
 
   const cells = $derived(stripCells(city, preset));
   const m = $derived(city.months[month]);
+  const peakPenaltyText = $derived(
+    activePreset.peakPenalty && m.season === 'Peak' ? ` This lens subtracts ${activePreset.peakPenalty} points for peak-season crowding.` : ''
+  );
   const qol = $derived(qolFor(city, month, preset));
   const saf = $derived(city.safety ?? {});
-  const visa = $derived(visaRows(city));
   const yearEvents = $derived(
     Array.isArray(city.events) ? [...city.events].sort((a, b) => (a.months?.[0] ?? 0) - (b.months?.[0] ?? 0)) : []
   );
@@ -130,7 +134,7 @@
       <div class="snap">
         <div class="snapcell">
           <span class="num v">{Math.round(qol)}</span>
-          <span class="k">quality · {MONTHS[month]}</span>
+          <span class="k">top pick · {MONTHS[month]}</span>
         </div>
         <div class="snapcell">
           <span class="num v">{saf.score ?? '—'}</span>
@@ -184,11 +188,11 @@
 
     <div class="cols">
       <section class="block">
-        <h2>Why {MONTHS[month]} scores {Math.round(qol)}
-          <ScoreInfo title="Quality score">
-            <p>Five 0–100 sub-scores, weighted by your preset ({PRESETS[preset]?.label ?? 'Balanced'}):
+        <h2>{city.name} in {monthName}
+          <ScoreInfo title="Top Pick score">
+            <p>Five 0–100 sub-scores, weighted by your preset ({activePreset.label}):
               weather {pct(pw.weather)}%, safety {pct(pw.safety)}%, air {pct(pw.air)}%,
-              season {pct(pw.season)}%, events {pct(pw.events)}%.</p>
+              season {pct(pw.season)}%, events {pct(pw.events)}%.{peakPenaltyText}</p>
             <p>When safety falls below 55 it also drags the whole score down — a beautiful
               month in a dangerous place can't ride good weather to the top.</p>
             <p class="src">Built from climate normals, WHO-anchored PM2.5, and the safety index below.</p>
@@ -293,23 +297,6 @@
               <span class="ename">{e.name}</span>
               <span class="eblurb">{e.blurb}</span>
               {#if e.tier >= 3}<span class="etier">major</span>{/if}
-            </li>
-          {/each}
-        </ul>
-      </section>
-    {/if}
-
-    {#if visa.length}
-      <section class="visa">
-        <h3>Tourist visa</h3>
-        <ul>
-          {#each visa as r (r.code)}
-            <li>
-              <span class="vpass">{r.label}</span>
-              <span class="vdays" class:vno={!r.visaFree}>
-                {r.days == null ? (r.visaFree ? 'no limit' : '—') : `${r.days}d`}
-              </span>
-              <span class="vnote">{r.note}</span>
             </li>
           {/each}
         </ul>
@@ -565,48 +552,6 @@
   }
 
   li.major .ename { color: var(--terra-deep); }
-
-  .visa {
-    margin-top: 30px;
-  }
-  .visa h3 {
-    margin: 0 0 8px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--ink-2);
-  }
-  .visa ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .visa li {
-    display: grid;
-    grid-template-columns: 64px 56px 1fr;
-    align-items: baseline;
-    gap: 10px;
-    font-size: 12.5px;
-    color: var(--ink-2);
-  }
-  .vpass {
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .vdays {
-    font-variant-numeric: tabular-nums;
-    color: var(--ink);
-  }
-  .vdays.vno {
-    color: var(--band-bad-ink);
-  }
-  .vnote {
-    color: var(--ink-3);
-  }
 
   .foot {
     margin-top: 30px;

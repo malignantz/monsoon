@@ -134,7 +134,7 @@ export function routeTravelKm(stays) {
 }
 
 // Soft travel penalty, in score points per 1000 km of hop distance. Halved for
-// the value objective, whose monthly scores run about half the QoL scale.
+// the Best Value objective, whose monthly scores run about half the Top Pick scale.
 const TRAVEL_LAMBDA = { off: 0, some: 2, strict: 6 };
 
 const K_PER_SLOT = 12; // candidate cities kept per (start, len) slot

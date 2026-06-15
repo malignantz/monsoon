@@ -35,7 +35,7 @@
   }
 
   // One filter pass, shared by both densities. Cards re-rank it by the toolbar's
-  // Quality/Value mode; the table column-sorts it itself.
+  // Top Pick/Best Value mode; the table column-sorts it itself.
   const filtered = $derived.by(() => {
     let list = cities;
     if (favOnly) list = list.filter((c) => favorites.has(c.key));
@@ -58,7 +58,7 @@
       }))
       .sort((a, b) => {
         const diff = b.s - a.s;
-        // Value tiebreaker (within 1pt): no budget cap here, so cheaper first.
+        // Best Value tiebreaker (within 1pt): no budget cap here, so cheaper first.
         if (mode === 'value' && Math.abs(diff) < 1.0) return a.cost - b.cost;
         return diff;
       })
@@ -118,8 +118,8 @@
         <input type="number" placeholder="any" aria-label="Max {partyWord()} $/mo" bind:value={maxCost} />
       </label>
       <label class="ff">
-        <span class="ff-lbl">Min quality</span>
-        <input type="number" placeholder="any" aria-label="Min quality" bind:value={minQol} />
+        <span class="ff-lbl">Min Top Pick</span>
+        <input type="number" placeholder="any" aria-label="Min Top Pick score" bind:value={minQol} />
       </label>
       <label class="ff cb">
         <input type="checkbox" bind:checked={swimOnly} />
@@ -132,14 +132,14 @@
     <summary>How Monsoon works</summary>
     <div class="exbody">
       <p>Every city is scored <em>month by month</em> — the colored strip on each card is its year, green where the weather, air and season line up and red where they don't.</p>
-      <p>Sort by <strong>Value</strong> to surface hidden gems: an unfamiliar place at the right time of year often beats the famous one you'd default to, for far less.</p>
+      <p>Sort by <strong>Best Value</strong> to surface hidden gems: an unfamiliar place at the right time of year often beats the famous one you'd default to, for far less.</p>
     </div>
   </details>
 
   {#if density === 'cards'}
     <div class="strip-key">
       <span class="key-unit">
-        <span class="key-label">Quality by month:</span>
+        <span class="key-label">Top Pick by month:</span>
         <span class="kswatch kgreat">great</span>
         <span class="kswatch kgood">good</span>
         <span class="kswatch kok">ok</span>
