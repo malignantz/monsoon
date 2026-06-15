@@ -37,6 +37,23 @@
     Array.isArray(city.events) ? [...city.events].sort((a, b) => (a.months?.[0] ?? 0) - (b.months?.[0] ?? 0)) : []
   );
 
+  // Cost breakdown for the displayed month + party. Reconstructed from the same
+  // core fields the headline uses, so the three lines always sum to cityCost(m):
+  // rent carries the month's accommodation seasonality (cost1/cost2 already bake
+  // it in), utilities + daily-life are held flat. Couple scales the two shared
+  // items by ×1.15 (METHODOLOGY §6b).
+  const costBd = $derived.by(() => {
+    const total = cityCost(m);
+    const isSolo = partyWord() === 'solo';
+    const SHARED = 1.15;
+    const anchor = isSolo ? city.solo : city.couple;
+    const rentBase = (city.rent ?? 0) * (isSolo ? 1 : SHARED);
+    const rent = Math.round(total - anchor + rentBase);
+    const util = Math.round((city.util ?? 0) * (isSolo ? 1 : SHARED));
+    const living = total - rent - util; // exact remainder → three lines sum to total
+    return { total, rent, util, living, isSolo };
+  });
+
   const comps = $derived([
     { label: 'Weather', v: m.weather },
     { label: 'Air', v: m.air },
@@ -88,7 +105,28 @@
         </div>
         <div class="snapcell">
           <span class="num v">{fmtMoney(cityCost(m))}</span>
-          <span class="k">/mo {partyWord()}</span>
+          <span class="k">/mo {partyWord()}
+            <ScoreInfo title="Cost estimate" align="right">
+              <table class="costbd">
+                <tbody>
+                  <tr><td>Rent · {MONTHS[month]}</td><td>{fmtMoney(costBd.rent)}</td></tr>
+                  <tr><td>Utilities</td><td>{fmtMoney(costBd.util)}</td></tr>
+                  <tr><td>Food, transit &amp; daily life</td><td>{fmtMoney(costBd.living)}</td></tr>
+                  <tr class="tot"><td>Total</td><td>{fmtMoney(costBd.total)}/mo</td></tr>
+                </tbody>
+              </table>
+              {#if costBd.isSolo}
+                <p>Anchored to one solo nomad living mid-range: furnished 1BR in a
+                  nomad-popular area, some cooking and eating out, a coworking desk.</p>
+              {:else}
+                <p>Couple scales from the solo budget — housing shared (×1.15), most
+                  daily spending counted per-person.</p>
+              {/if}
+              <p>Rent reflects {MONTHS[month]} seasonality; other costs are held flat
+                across the year.</p>
+              <p class="src">Itemized from sourced, dated city cost research.</p>
+            </ScoreInfo>
+          </span>
         </div>
         {#if city.schengen}
           <div class="snapcell schengen"><span class="v">◆</span><span class="k">Schengen 90/180</span></div>
@@ -440,6 +478,14 @@
 
   .climate td:first-child { color: var(--ink-3); font-family: var(--sans); }
   .climate td:last-child { text-align: right; }
+
+  /* Cost-breakdown table inside the cost-estimate popover */
+  .costbd { width: 100%; border-collapse: collapse; margin: 1px 0 9px; }
+  .costbd td { padding: 4px 0; border-top: 1px solid var(--line-soft); }
+  .costbd tr:first-child td { border-top: none; }
+  .costbd td:first-child { color: var(--ink-2); }
+  .costbd td:last-child { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; padding-left: 14px; }
+  .costbd .tot td { border-top: 1px solid var(--line); font-weight: 600; color: var(--ink); padding-top: 5px; }
 
   .events { list-style: none; margin: 0; padding: 0; }
 
