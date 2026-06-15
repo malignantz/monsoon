@@ -1,8 +1,10 @@
 <script>
   import MonthStrip from './MonthStrip.svelte';
-  import { stripCells, qolFor, valueFor, whyNow, fmtMoney, cityCost, partyWord } from './data.svelte.js';
+  import { stripCells, qolFor, valueFor, whyNow, fmtMoney, cityCost, partyWord, isFavorite, toggleFavorite } from './data.svelte.js';
 
   let { city, month, preset, mode, valueModel, onopen } = $props();
+
+  const faved = $derived(isFavorite(city.key));
 
   const cells = $derived(stripCells(city, preset));
   const score = $derived(
@@ -12,33 +14,81 @@
   const m = $derived(city.months[month]);
 </script>
 
-<button type="button" class="card" onclick={() => onopen(city.key)}>
-  <div class="top">
-    <div class="names">
-      <h3>{city.name}</h3>
-      <span class="country">{city.country}</span>
+<div class="cardwrap">
+  <button
+    type="button"
+    class="fav"
+    class:on={faved}
+    aria-pressed={faved}
+    aria-label={faved ? `Remove ${city.name} from favorites` : `Save ${city.name} to favorites`}
+    title={faved ? 'Saved' : 'Save'}
+    onclick={() => toggleFavorite(city.key)}
+  >{faved ? '♥' : '♡'}</button>
+
+  <button type="button" class="card" onclick={() => onopen(city.key)}>
+    <div class="top">
+      <div class="names">
+        <h3>{city.name}</h3>
+        <span class="country">{city.country}</span>
+      </div>
+      <div class="score {mode === 'value' ? 'neutral' : `band-${cells[month].band}`}">
+        <span class="num big">{Math.round(score)}</span>
+        <span class="lbl">{mode === 'value' ? 'value' : 'quality'}</span>
+      </div>
     </div>
-    <div class="score {mode === 'value' ? 'neutral' : `band-${cells[month].band}`}">
-      <span class="num big">{Math.round(score)}</span>
-      <span class="lbl">{mode === 'value' ? 'value' : 'quality'}</span>
+
+    <MonthStrip {cells} selected={month} />
+
+    <p class="why">{why || city.draw}</p>
+
+    <div class="meta">
+      <span class="num cost">{fmtMoney(cityCost(m))}<em>/mo {partyWord()}</em></span>
+      <span class="tags">
+        <span class="tag">{city.region}</span>
+        {#if city.schengen}<span class="tag schengen">◆ Schengen</span>{/if}
+        {#if m.risk >= 1}<span class="tag hazard" title={m.riskNote}>hazard</span>{/if}
+      </span>
     </div>
-  </div>
-
-  <MonthStrip {cells} selected={month} />
-
-  <p class="why">{why || city.draw}</p>
-
-  <div class="meta">
-    <span class="num cost">{fmtMoney(cityCost(m))}<em>/mo {partyWord()}</em></span>
-    <span class="tags">
-      <span class="tag">{city.region}</span>
-      {#if city.schengen}<span class="tag schengen">◆ Schengen</span>{/if}
-      {#if m.risk >= 1}<span class="tag hazard" title={m.riskNote}>hazard</span>{/if}
-    </span>
-  </div>
-</button>
+  </button>
+</div>
 
 <style>
+  .cardwrap {
+    position: relative;
+  }
+
+  .fav {
+    position: absolute;
+    top: 11px;
+    right: 11px;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    border-radius: 999px;
+    font-size: 17px;
+    line-height: 1;
+    color: var(--ink-3);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s ease, color 0.15s ease, transform 0.12s ease;
+  }
+
+  /* Heart is discoverable on hover/focus, but always visible once saved. */
+  .cardwrap:hover .fav,
+  .fav:focus-visible,
+  .fav.on {
+    opacity: 1;
+  }
+
+  .fav:hover { color: var(--terra); transform: scale(1.12); }
+
+  .fav.on { color: var(--terra); }
+
   .card {
     display: flex;
     flex-direction: column;
@@ -50,6 +100,7 @@
     padding: 16px 16px 14px;
     font: inherit;
     color: inherit;
+    width: 100%;
     transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
   }
 
@@ -64,6 +115,8 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 10px;
+    /* Clear the top-right corner for the favorite heart. */
+    padding-right: 30px;
   }
 
   h3 {

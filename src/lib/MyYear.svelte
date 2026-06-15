@@ -8,6 +8,7 @@
     regions,
     stripCells,
     qolFor,
+    valueFor,
     fmtMoney,
     MONTHS,
     MONTH_LETTERS,
@@ -16,15 +17,16 @@
     stayMonths,
     schengenCheck,
     PRESETS,
-    partyWord
+    partyWord,
+    encodeRouteCompact,
+    shareUrl,
+    copyText
   } from './data.svelte.js';
   import {
     defaultFilters,
     filtersActive,
     cityPasses,
     stayPasses,
-    proposeRoutes,
-    routeTravelKm,
     normalizeFilters,
     COST_OPTIONS,
     SAFETY_OPTIONS,
@@ -32,7 +34,7 @@
     RAIN_OPTIONS
   } from './planner.js';
 
-  let { preset = $bindable(), onopen } = $props();
+  let { preset = $bindable(), onopen, sharedRoute = null, onsharedresolved } = $props();
 
   const STORE = 'atlas.route.v1';
   const STORE_F = 'atlas.route.filters.v1';
@@ -71,6 +73,36 @@
   let dur = $state(2);
   let query = $state('');
 
+  // Arriving on a shared link (?route=…) shows that itinerary read-only, so it
+  // never silently overwrites the visitor's own saved year. They can adopt it
+  // ("Save a copy") or dismiss it back to their own route.
+  let previewing = $state(sharedRoute != null);
+  const boardStays = $derived(previewing ? (sharedRoute ?? []) : stays);
+
+  function adoptShared() {
+    stays = (sharedRoute ?? []).map((s) => ({ ...s }));
+    selStart = -1;
+    previewing = false;
+    onsharedresolved?.();
+  }
+
+  function dismissShared() {
+    previewing = false;
+    onsharedresolved?.();
+  }
+
+  // Copy a link that encodes the current route into the URL — no backend.
+  let copied = $state(false);
+  let copyTimer;
+  async function shareRoute() {
+    if (!stays.length) return;
+    const ok = await copyText(shareUrl({ i: encodeRouteCompact(stays) }));
+    if (!ok) return;
+    copied = true;
+    clearTimeout(copyTimer);
+    copyTimer = setTimeout(() => (copied = false), 1800);
+  }
+
   let filters = $state(loadFilters());
 
   // Budget caps offered in the Max $/mo dropdown, scaled to the party-size cost
@@ -78,11 +110,7 @@
   // to 95th percentile of the dataset so each step prunes a meaningful slice.
   const costOptions = $derived(COST_OPTIONS[partyWord()] ?? COST_OPTIONS.solo);
 
-  let planMin = $state(2);
-  let planMax = $state(4);
-  let planObjective = $state('qol');
-  let planTravel = $state('some');
-  let planning = $state(false);
+  let sortMode = $state('qol');
 
   // Board element + a one-shot flash so applying a proposal (which fills the
   // timeline far above the proposal list) gives visible, located confirmation.
@@ -99,13 +127,6 @@
     if (!scrollEl) return;
     canScrollRight = scrollEl.scrollWidth - scrollEl.clientWidth - scrollEl.scrollLeft > 4;
   }
-
-  // Proposals are only shown while the planner inputs still match what they
-  // were proposed under — staleness is derived, never a clearing side effect.
-  const planSig = $derived(JSON.stringify([filters, planObjective, planTravel, planMin, planMax, preset]));
-  let plan = $state({ sig: '', proposals: [], msg: '' });
-  const proposals = $derived(plan.sig === planSig ? plan.proposals : []);
-  const planMsg = $derived(plan.sig === planSig ? plan.msg : '');
 
   $effect(() => {
     localStorage.setItem(STORE, JSON.stringify(stays));
@@ -141,45 +162,8 @@
     filters.regions = regions.filter((x) => on.has(x));
   }
 
-  function runPlanner() {
-    if (planning) return;
-    const sig = planSig;
-    planning = true;
-    // Two frames so the "Planning…" state paints before the beam search blocks
-    // the main thread; the search is fast but shouldn't read as a dead click.
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => {
-        const { routes, reason } = proposeRoutes(filters, {
-          preset,
-          objective: planObjective,
-          minLen: planMin,
-          maxLen: planMax,
-          travel: planTravel
-        });
-        plan = { sig, proposals: routes, msg: reason };
-        planning = false;
-      })
-    );
-  }
-
-  function useProposal(p) {
-    stays = p.stays.map((s) => ({ ...s }));
-    selStart = -1;
-    // The timeline being filled sits above the proposal list — bring it into
-    // view and flash it so the change is seen, not just made.
-    flash = false;
-    requestAnimationFrame(() => {
-      boardEl?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
-      flash = true;
-      setTimeout(() => (flash = false), 1000);
-    });
-  }
-
-  // Great-circle hop totals are a rough proxy, so show them rough: "8k km".
-  const fmtKm = (km) => (km < 950 ? `${Math.round(km / 100) * 100}` : `${Math.round(km / 1000)}k`);
-
-  const occ = $derived(monthOccupancy(stays));
-  const stats = $derived(routeStats(stays, preset));
+  const occ = $derived(monthOccupancy(boardStays));
+  const stats = $derived(routeStats(boardStays, preset));
   const sch = $derived(stats.schengen);
   const schState = $derived(!sch.ok ? 'Over limit' : sch.atLimit ? 'At the limit' : 'Within limits');
 
@@ -290,8 +274,12 @@
     let list = filteredCities;
     if (q) list = list.filter((c) => (c.name + ' ' + c.country + ' ' + c.region).toLowerCase().includes(q));
     const target = targetMonths;
+    const score = (c) =>
+      sortMode === 'value'
+        ? target.reduce((a, m) => a + valueFor(c, m, preset), 0) / target.length
+        : target.reduce((a, m) => a + qolFor(c, m, preset), 0) / target.length;
     return list
-      .map((c) => ({ c, s: target.reduce((a, m) => a + qolFor(c, m, preset), 0) / target.length }))
+      .map((c) => ({ c, s: score(c) }))
       .sort((a, b) => b.s - a.s)
       .slice(0, 30)
       .map(({ c, s }) => ({
@@ -322,11 +310,27 @@
           {/each}
         </select>
       </label>
-      {#if stays.length > 0}
+      {#if !previewing && stays.length > 0}
+        <button type="button" class="chip share" class:on={copied} onclick={shareRoute}>
+          {copied ? '✓ Link copied' : '↗ Share'}
+        </button>
         <button type="button" class="chip clear" onclick={clearRoute}>Clear route</button>
       {/if}
     </div>
   </header>
+
+  {#if previewing}
+    <div class="previewbar">
+      <div class="preview-msg">
+        <span class="preview-eyebrow">Shared itinerary</span>
+        <span class="preview-sub">You're viewing a year someone shared. Save a copy to edit it as your own.</span>
+      </div>
+      <div class="preview-act">
+        <button type="button" class="chip adopt" onclick={adoptShared}>Save a copy</button>
+        <button type="button" class="chip" onclick={dismissShared}>Dismiss</button>
+      </div>
+    </div>
+  {/if}
 
   <div class="board" class:flash bind:this={boardEl}>
     <div class="boardscroll-wrap" class:more={canScrollRight}>
@@ -339,7 +343,7 @@
 
     <div class="timeline">
       {#each occ as o, i}
-        {#if o === null}
+        {#if o === null && !previewing}
           <button
             type="button"
             class="gap"
@@ -348,9 +352,11 @@
             onclick={() => (selStart = selStart === i ? -1 : i)}
             title="Plan {MONTHS[i]}"
           >+</button>
+        {:else if o === null}
+          <div class="gap empty" style="grid-column: {i + 1} / span 1" aria-hidden="true"></div>
         {/if}
       {/each}
-      {#each stays as stay (stay)}
+      {#each boardStays as stay (stay)}
         {@const c = cityByKey.get(stay.key)}
         {#each segments(stay) as seg}
           <div
@@ -362,12 +368,16 @@
             {#if seg.head}
               <button type="button" class="stayname" onclick={() => onopen(c.key, { month: stay.start })}>{c.name}</button>
               <span class="stayq num">{Math.round(stayAvg(stay))}</span>
-              <button type="button" class="x" aria-label="Remove stay" onclick={() => removeStay(stay)}>×</button>
-              <div class="dur-ctl">
-                <button type="button" class="dur-btn" aria-label="Shorter" onclick={() => resizeStay(stay, stay.len - 1)} disabled={stay.len <= 1}>−</button>
-                <span class="dur-val num">{stay.len}mo</span>
-                <button type="button" class="dur-btn" aria-label="Longer" onclick={() => resizeStay(stay, stay.len + 1)}>+</button>
-              </div>
+              {#if previewing}
+                <span class="dur-val preview-len num">{stay.len}mo</span>
+              {:else}
+                <button type="button" class="x" aria-label="Remove stay" onclick={() => removeStay(stay)}>×</button>
+                <div class="dur-ctl">
+                  <button type="button" class="dur-btn" aria-label="Shorter" onclick={() => resizeStay(stay, stay.len - 1)} disabled={stay.len <= 1}>−</button>
+                  <span class="dur-val num">{stay.len}mo</span>
+                  <button type="button" class="dur-btn" aria-label="Longer" onclick={() => resizeStay(stay, stay.len + 1)}>+</button>
+                </div>
+              {/if}
             {:else}
               <span class="cont">↪ {c.name}</span>
             {/if}
@@ -378,8 +388,8 @@
     </div>
     </div>
 
-    {#if stays.length === 0}
-      <p class="board-hint">Click any month above to mark a starting point, then choose a city from the list below — or let Auto-plan propose a year for you.</p>
+    {#if !previewing && stays.length === 0}
+      <p class="board-hint">Click any month above to mark a starting point, then choose a city from the list below.</p>
     {/if}
 
     {#if sch.anySchengen}
@@ -425,6 +435,7 @@
     </div>
   </div>
 
+  {#if !previewing}
   <div class="plan">
     <div class="planrow">
       <span class="plabel">Regions</span>
@@ -467,62 +478,22 @@
         <div class="fctl-cbs">
           <label class="cb" title="Keep only cities where English works day-to-day — skips spots where you'd need translation outside tourist zones"><input type="checkbox" bind:checked={filters.englishOk} /> English-friendly</label>
           <label class="cb" class:flash={nonSchengenFlash} bind:this={nonSchengenEl}><input type="checkbox" bind:checked={filters.nonSchengen} /> non-Schengen</label>
-          <label class="cb"><input type="checkbox" bind:checked={filters.swimOnly} /> ≋ swimmable</label>
-          {#if filtersActive(filters)}
+            {#if filtersActive(filters)}
             <button type="button" class="chip clear" onclick={resetFilters}>Reset</button>
           {/if}
         </div>
       </div>
     </div>
     <div class="planrow">
-      <span class="plabel">Auto-plan</span>
+      <span class="plabel">Sort by</span>
       <div class="fctl">
-        <span class="cb">Stays of
-          <select bind:value={planMin} aria-label="Shortest stay, months" onchange={() => (planMax = Math.max(planMax, planMin))}>
-            {#each [1, 2, 3, 4, 5, 6] as n}<option value={n}>{n}</option>{/each}
-          </select>
-          to
-          <select bind:value={planMax} aria-label="Longest stay, months" onchange={() => (planMin = Math.min(planMin, planMax))}>
-            {#each [1, 2, 3, 4, 5, 6] as n}<option value={n}>{n}</option>{/each}
-          </select>
-          mo
-        </span>
-        <select bind:value={planObjective} aria-label="Objective">
-          <option value="qol">Best quality</option>
-          <option value="value">Best value</option>
-        </select>
-        <select bind:value={planTravel} aria-label="Travel preference">
-          <option value="off">Any travel</option>
-          <option value="some">Fewer long hops</option>
-          <option value="strict">Minimize travel</option>
-        </select>
-        <button type="button" class="go" onclick={runPlanner} disabled={planning}>
-          {planning ? 'Planning…' : 'Propose my year'}
-        </button>
+        <div class="seg" role="group" aria-label="Sort city list by">
+          <button type="button" class="segbtn" class:on={sortMode === 'qol'} aria-pressed={sortMode === 'qol'} onclick={() => (sortMode = 'qol')}>Quality</button>
+          <button type="button" class="segbtn" class:on={sortMode === 'value'} aria-pressed={sortMode === 'value'} onclick={() => (sortMode = 'value')}>Value</button>
+        </div>
         <span class="fcount num">{filteredCities.length} of {cities.length} cities pass</span>
       </div>
     </div>
-    {#if planMsg}<p class="planmsg">{planMsg}</p>{/if}
-    {#if proposals.length}
-      <ul class="props">
-        {#each proposals as p, i}
-          {@const st = routeStats(p.stays, preset)}
-          <li>
-            <span class="ptitle">Route {String.fromCharCode(65 + i)}</span>
-            <span class="pcities">
-              {p.stays.map((s) => `${cityByKey.get(s.key).name} · ${s.len}mo`).join('  →  ')}
-            </span>
-            <span class="pstat"><b class="num">{Math.round(st.avgQol)}</b> quality</span>
-            <span class="pstat"><b class="num">{fmtMoney(st.avgCost)}</b> /mo</span>
-            <span class="pstat"><b class="num">{fmtKm(routeTravelKm(p.stays))}</b> km</span>
-            <span class="pstat">
-              <b class="num">{st.schengen.anySchengen ? st.schengen.worst + 'd' : '—'}</b> ◆ 90/180
-            </span>
-            <button type="button" class="use" onclick={() => useProposal(p)}>Use</button>
-          </li>
-        {/each}
-      </ul>
-    {/if}
   </div>
 
   <div class="picker">
@@ -598,6 +569,7 @@
       {/each}
     </ul>
   </div>
+  {/if}
 </section>
 
 <style>
@@ -629,6 +601,65 @@
   }
 
   .chip.clear { color: var(--terra-deep); }
+
+  .chip.share.on {
+    background: var(--teal, #2f6f5e);
+    border-color: var(--teal, #2f6f5e);
+    color: var(--paper);
+  }
+
+  /* Shared-itinerary banner: a calm, distinct strip above the board so a visitor
+     immediately reads "this isn't mine yet" and sees how to make it theirs. */
+  .previewbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: var(--schengen-soft, #e8eef6);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+
+  .preview-msg { display: flex; flex-direction: column; gap: 2px; }
+
+  .preview-eyebrow {
+    font-size: 10.5px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+
+  .preview-sub { font-size: 12.5px; color: var(--ink-2); }
+
+  .preview-act { display: flex; gap: 8px; flex-shrink: 0; }
+
+  .chip.adopt {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+    font-weight: 600;
+  }
+
+  .chip.adopt:hover { background: var(--terra); border-color: var(--terra); }
+
+  /* Read-only stay length in preview, sitting where the +/− control would be. */
+  .preview-len {
+    position: absolute;
+    bottom: 5px;
+    right: 7px;
+    color: var(--ink-2);
+  }
+
+  /* Empty months render as quiet placeholders (no + affordance) in preview. */
+  .gap.empty {
+    border-style: dashed;
+    opacity: 0.5;
+    pointer-events: none;
+  }
 
   .board {
     background: var(--card);
@@ -951,7 +982,7 @@
     65% { box-shadow: 0 0 0 5px rgba(193, 79, 43, 0.16); background: rgba(193, 79, 43, 0.08); }
   }
 
-  .go, .use, .add {
+  .add {
     border: 1px solid var(--ink);
     background: var(--ink);
     color: var(--paper);
@@ -959,9 +990,6 @@
     font-size: 12px;
     font-weight: 600;
   }
-
-  .go { padding: 5px 14px; }
-  .use { padding: 4px 16px; }
 
   .add {
     display: inline-flex;
@@ -979,8 +1007,6 @@
     margin-top: -1px;
   }
 
-  .go:hover,
-  .use:hover,
   .add:hover:not(:disabled) { background: var(--terra); border-color: var(--terra); }
 
   .add:disabled { opacity: 0.35; cursor: default; }
@@ -998,37 +1024,6 @@
   }
 
   .fcount { font-size: 11.5px; color: var(--ink-3); margin-left: auto; }
-
-  .planmsg {
-    margin: 8px 0 2px;
-    padding-top: 8px;
-    border-top: 1px solid var(--line-soft);
-    font-size: 12.5px;
-    color: var(--terra-deep);
-  }
-
-  .props { list-style: none; margin: 8px 0 0; padding: 0; }
-
-  .props li {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 14px;
-    padding: 8px 0;
-    border-top: 1px solid var(--line-soft);
-  }
-
-  .ptitle { font-size: 12px; font-weight: 650; white-space: nowrap; }
-
-  .pcities {
-    flex: 1 1 260px;
-    font-size: 12px;
-    color: var(--ink-2);
-    line-height: 1.5;
-  }
-
-  .pstat { font-size: 11px; color: var(--ink-3); white-space: nowrap; }
-  .pstat b { font-size: 13px; font-weight: 600; color: var(--ink); }
 
   .picker { margin-top: 26px; }
 
