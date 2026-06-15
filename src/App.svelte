@@ -1,10 +1,10 @@
 <script>
   import ThisMonth from './lib/ThisMonth.svelte';
   import MyYear from './lib/MyYear.svelte';
-  import Explore from './lib/Explore.svelte';
   import CitySheet from './lib/CitySheet.svelte';
   import Settings from './lib/Settings.svelte';
-  import { cities, cityByKey, qolFor, valueFor, MONTHS, MONTH_LETTERS, PRESETS, onboarded } from './lib/data.svelte.js';
+  import Methodology from './lib/Methodology.svelte';
+  import { cities, cityByKey, qolFor, valueFor, MONTHS, MONTH_LETTERS, PRESETS, onboarded, decodeRouteCompact, decodeRoute } from './lib/data.svelte.js';
 
   const PREFS = 'atlas.prefs.v1';
 
@@ -20,17 +20,27 @@
 
   const currentMonth = new Date().getMonth();
 
-  let view = $state(p.view ?? 'month');
+  // A `?i=` (compact) or `?route=` (readable fallback) link opens straight into
+  // My year as a read-only shared itinerary.
+  const shareParams = new URLSearchParams(location.search);
+  const compact = decodeRouteCompact(shareParams.get('i'));
+  const initialRoute = compact.length ? compact : decodeRoute(shareParams.get('route'));
+  let sharedRoute = $state(initialRoute.length ? initialRoute : null);
+
+  // 'explore' merged into 'month' as a card/table density toggle; fall back for saved prefs.
+  let view = $state(initialRoute.length ? 'year' : p.view === 'explore' ? 'month' : (p.view ?? 'month'));
   let month = $state(currentMonth);
   let mode = $state(p.mode ?? 'quality');
   let preset = $state(PRESETS[p.preset] ? p.preset : 'balanced');
   let valueModel = $state(p.valueModel ?? 'adjusted');
+  let density = $state(p.density === 'table' ? 'table' : 'cards');
   let cityKey = $state(new URLSearchParams(location.search).get('city'));
 
   // First run (no saved settings) shows onboarding; the gear re-opens the same
   // panel in "settings" mode. onboarded.done flips once settings are saved.
   let settingsOpen = $state(!onboarded.done);
   let settingsMode = $state(onboarded.done ? 'settings' : 'onboarding');
+  let methodOpen = $state(false);
   // Brief highlight on the gear after onboarding collapses into it, so the new
   // user clocks where their settings landed.
   let gearPulse = $state(false);
@@ -50,7 +60,7 @@
   }
 
   $effect(() => {
-    localStorage.setItem(PREFS, JSON.stringify({ view, mode, preset, valueModel }));
+    localStorage.setItem(PREFS, JSON.stringify({ view, mode, preset, valueModel, density }));
   });
 
   const openCity = $derived(cityKey ? cityByKey.get(cityKey) : null);
@@ -96,14 +106,23 @@
 
   const NAV = [
     { id: 'month', label: 'This month' },
-    { id: 'year', label: 'My year' },
-    { id: 'explore', label: 'Explore' }
+    { id: 'year', label: 'My year' }
   ];
 
   // The logo strip is real data: Bali's twelve months under the balanced lens —
   // the dry season cresting to two great months, monsoon softening the edges.
   // The brand primitive, doing the brand's one job.
   const BRAND_BANDS = ['ok', 'ok', 'good', 'good', 'good', 'great', 'great', 'good', 'good', 'good', 'ok', 'ok'];
+
+  // Visitor adopted or dismissed the shared route: drop it from state and strip
+  // the param so a reload (or a later share) starts from their own year.
+  function resolveShared() {
+    sharedRoute = null;
+    const u = new URL(location.href);
+    u.searchParams.delete('i');
+    u.searchParams.delete('route');
+    history.replaceState({}, '', u);
+  }
 
   function goHome() {
     if (cityKey) closeSheet();
@@ -154,13 +173,15 @@
         </div>
       </div>
 
-      <div class="ctl-group">
-        <span class="ctl-lbl" aria-hidden="true">Rank by</span>
-        <div class="seg" role="group" aria-label="Rank by">
-          <button type="button" class:on={mode === 'quality'} onclick={() => (mode = 'quality')}>Quality</button>
-          <button type="button" class:on={mode === 'value'} onclick={() => (mode = 'value')}>Value</button>
+      {#if density !== 'table'}
+        <div class="ctl-group">
+          <span class="ctl-lbl" aria-hidden="true">Rank by</span>
+          <div class="seg" role="group" aria-label="Rank by">
+            <button type="button" class:on={mode === 'quality'} onclick={() => (mode = 'quality')}>Quality</button>
+            <button type="button" class:on={mode === 'value'} onclick={() => (mode = 'value')}>Value</button>
+          </div>
         </div>
-      </div>
+      {/if}
 
       <div class="ctl-group">
         <span class="ctl-lbl" aria-hidden="true">Optimize for</span>
@@ -175,17 +196,15 @@
 
   <main>
     {#if view === 'month'}
-      <ThisMonth {month} {preset} {mode} {valueModel} onopen={openSheet} />
-    {:else if view === 'year'}
-      <MyYear bind:preset onopen={openSheet} />
+      <ThisMonth {month} {preset} {mode} {valueModel} bind:density onopen={openSheet} onmodel={(m) => (valueModel = m)} />
     {:else}
-      <Explore {month} {preset} {mode} {valueModel} onmodel={(m) => (valueModel = m)} onopen={openSheet} />
+      <MyYear bind:preset {sharedRoute} onsharedresolved={resolveShared} onopen={openSheet} />
     {/if}
   </main>
 
   <footer class="basefoot">
     <span>Your ancestors moved with the seasons. 111 cities, scored month by month — clean air, mild weather, no typhoons, festivals on, 90 Schengen days at a time.</span>
-    <span class="num">methodology v5 · 2026</span>
+    <button type="button" class="num methodlink" onclick={() => (methodOpen = true)}>methodology v5 · 2026</button>
   </footer>
 </div>
 
@@ -195,6 +214,10 @@
 
 {#if settingsOpen}
   <Settings mode={settingsMode} onclose={closeSettings} />
+{/if}
+
+{#if methodOpen}
+  <Methodology onclose={() => (methodOpen = false)} />
 {/if}
 
 <style>
@@ -465,5 +488,23 @@
     font-family: var(--mono);
     font-style: normal;
     white-space: nowrap;
+  }
+
+  .methodlink {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+    color: var(--ink-3);
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-underline-offset: 3px;
+    transition: color 0.15s ease, text-decoration-color 0.15s ease;
+  }
+
+  .methodlink:hover {
+    color: var(--terra-deep);
+    text-decoration-color: var(--terra);
   }
 </style>

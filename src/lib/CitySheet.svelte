@@ -1,11 +1,30 @@
 <script>
   import MonthStrip from './MonthStrip.svelte';
   import ScoreInfo from './ScoreInfo.svelte';
-  import { stripCells, qolFor, fmtMoney, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, cityCost, partyWord, visaRows } from './data.svelte.js';
+  import { stripCells, qolFor, fmtMoney, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, cityCost, partyWord, visaRows, isFavorite, toggleFavorite, shareUrl, copyText } from './data.svelte.js';
 
   let { city, month, preset, onclose, onmonth, onstep } = $props();
 
   let sheetEl = $state(null);
+
+  const faved = $derived(isFavorite(city.key));
+
+  // Copy a deep link straight to this city's sheet (?city=key). Brief "Copied"
+  // confirmation, reset on city change so a stepped-to city starts fresh.
+  let copied = $state(false);
+  let copyTimer;
+  async function shareCity() {
+    const ok = await copyText(shareUrl({ city: city.key }));
+    if (!ok) return;
+    copied = true;
+    clearTimeout(copyTimer);
+    copyTimer = setTimeout(() => (copied = false), 1800);
+  }
+  $effect(() => {
+    city.key;
+    copied = false;
+    return () => clearTimeout(copyTimer);
+  });
 
   $effect(() => {
     const onkey = (e) => {
@@ -83,6 +102,20 @@
     <header class="hero">
       <button type="button" class="back" onclick={onclose}>← Monsoon</button>
       <div class="hero-ctl">
+        <button
+          type="button"
+          class="save"
+          class:on={faved}
+          aria-pressed={faved}
+          onclick={() => toggleFavorite(city.key)}
+        >{faved ? '♥ Saved' : '♡ Save'}</button>
+        <button
+          type="button"
+          class="save share"
+          class:on={copied}
+          onclick={shareCity}
+          title="Copy a link to {city.name}"
+        >{copied ? '✓ Copied' : '↗ Share'}</button>
         {#if onstep}
           <button type="button" class="back step" onclick={() => onstep(-1)} aria-label="Previous city" title="Previous city (←)">‹</button>
           <button type="button" class="back step" onclick={() => onstep(1)} aria-label="Next city" title="Next city (→)">›</button>
@@ -128,17 +161,14 @@
             </ScoreInfo>
           </span>
         </div>
-        {#if city.schengen}
-          <div class="snapcell schengen"><span class="v">◆</span><span class="k">Schengen 90/180</span></div>
-        {/if}
         {#if city.swim}
           <div
             class="snapcell swim"
             class:off={!swimNow(city, month)}
             title="{city.swim.name}{city.swim.note ? ` — ${city.swim.note}` : ''}"
           >
-            <span class="v">≋ {fmtMonthRange(city.swim.months)}</span>
-            <span class="k">{swimNow(city, month) ? `swim ${city.swim.body}` : `${city.swim.body} off-season`}</span>
+            <span class="v"><span class="swim-dot">≋</span> {fmtMonthRange(city.swim.months)}</span>
+            <span class="k">{swimNow(city, month) ? `${city.swim.body} · swim now` : `${city.swim.body} · too cold now`}</span>
           </div>
         {/if}
       </div>
@@ -358,6 +388,27 @@
 
   .back:hover { border-color: var(--ink-2); color: var(--ink); }
 
+  .save {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 5px 15px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-2);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .save:hover { border-color: var(--terra); color: var(--terra-deep); }
+
+  .save.on {
+    color: var(--terra-deep);
+    border-color: var(--terra);
+    background: var(--terra-soft, #f6e3d8);
+  }
+
   h1 { font-size: clamp(30px, 6vw, 44px); font-weight: 600; }
 
   .vibe {
@@ -385,16 +436,16 @@
     min-width: 90px;
   }
 
-  .snapcell.schengen { border-color: var(--schengen); color: var(--schengen); }
-
   .snapcell.swim { border-color: var(--teal); color: var(--teal); }
   .snapcell.swim .k { color: var(--teal); }
 
-  .snapcell.swim.off { border-color: var(--line); color: var(--ink-3); opacity: 0.75; }
+  .snapcell.swim.off { border-color: var(--line); color: var(--ink-3); }
   .snapcell.swim.off .k { color: var(--ink-3); }
+  .swim-dot { font-weight: 700; }
+  .snapcell.swim .swim-dot { color: var(--teal); }
+  .snapcell.swim.off .swim-dot { color: var(--ink-3); }
   .v { font-size: 19px; font-weight: 600; }
   .k { font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
-  .snapcell.schengen .k { color: var(--schengen); }
 
   .block { margin-top: 26px; }
 

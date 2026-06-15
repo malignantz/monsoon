@@ -1,15 +1,12 @@
 <script>
   import ScoreInfo from './ScoreInfo.svelte';
   import Legend from './Legend.svelte';
-  import { cities, regions, qolFor, valueFor, fmtMoney, swimNow, MONTHS, settings, cityCost, partyWord } from './data.svelte.js';
+  import { qolFor, valueFor, fmtMoney, swimNow, MONTHS, settings, cityCost, partyWord } from './data.svelte.js';
 
-  let { month, preset, mode, valueModel, onmodel, onopen } = $props();
+  // Dense view of the same ranking the cards show. The parent (This month) owns
+  // all filtering and hands us an already-filtered list; we only sort columns.
+  let { cities, month, preset, valueModel, onmodel, onopen } = $props();
 
-  let region = $state('all');
-  let maxCost = $state('');
-  let minQol = $state('');
-  let nonSchengen = $state(false);
-  let swimOnly = $state(false);
   let sortKey = $state('qol');
   let sortDir = $state(-1);
 
@@ -23,18 +20,6 @@
     { k: 'cost',  label: `${partyWord() === 'solo' ? 'Solo' : 'Couple'} /mo`, num: true, tip: `Estimated monthly cost of living, ${partyWord()} (USD)` }
   ]);
 
-  const filtersActive = $derived(
-    region !== 'all' || maxCost !== '' || minQol !== '' || nonSchengen || swimOnly
-  );
-
-  function resetFilters() {
-    region = 'all';
-    maxCost = '';
-    minQol = '';
-    nonSchengen = false;
-    swimOnly = false;
-  }
-
   function setSort(k) {
     if (sortKey === k) sortDir = -sortDir;
     else {
@@ -44,7 +29,7 @@
   }
 
   const rows = $derived.by(() => {
-    let list = cities.map((c) => {
+    const list = cities.map((c) => {
       const m = c.months[month];
       return {
         c,
@@ -62,17 +47,13 @@
         swim: swimNow(c, month)
       };
     });
-    if (region !== 'all') list = list.filter((r) => r.region === region);
-    if (nonSchengen) list = list.filter((r) => !r.schengen);
-    if (swimOnly) list = list.filter((r) => r.swim);
-    const mc = parseFloat(maxCost);
-    if (!isNaN(mc)) list = list.filter((r) => r.cost <= mc);
-    const mq = parseFloat(minQol);
-    if (!isNaN(mq)) list = list.filter((r) => r.qol >= mq);
     return list.sort((a, b) => {
       const va = a[sortKey];
       const vb = b[sortKey];
-      return (typeof va === 'string' ? va.localeCompare(vb) : va - vb) * sortDir;
+      const primary = (typeof va === 'string' ? va.localeCompare(vb) : va - vb) * sortDir;
+      // Value tiebreaker (within 1pt): cheaper first.
+      if (sortKey === 'value' && Math.abs(va - vb) < 1.0) return a.cost - b.cost;
+      return primary;
     });
   });
 
@@ -84,57 +65,26 @@
   }
 </script>
 
-<section>
-  <header class="view-head">
-    <div>
-      <p class="kicker">The full dataset · {MONTHS[month]}</p>
-      <h1>Explore<span class="dot">.</span></h1>
-    </div>
-    <div class="filters">
-      <div class="fgroup">
-        <span class="flbl" aria-hidden="true">Region</span>
-        <select bind:value={region} aria-label="Region">
-          <option value="all">All regions</option>
-          {#each regions as r}<option value={r}>{r}</option>{/each}
-        </select>
-      </div>
-      <div class="fgroup">
-        <span class="flbl" aria-hidden="true">Max $/mo {partyWord()}</span>
-        <input type="number" placeholder="any" aria-label="Max {partyWord()} $/mo" bind:value={maxCost} />
-      </div>
-      <div class="fgroup">
-        <span class="flbl" aria-hidden="true">Min quality</span>
-        <input type="number" placeholder="any" aria-label="Min quality" bind:value={minQol} />
-      </div>
-      <span class="vdiv" aria-hidden="true"></span>
-      <div class="cbs">
-        <label class="cb"><input type="checkbox" bind:checked={nonSchengen} /> non-Schengen</label>
-        <label class="cb"><input type="checkbox" bind:checked={swimOnly} /> ≋ swimmable in {MONTHS[month]}</label>
-        {#if filtersActive}
-          <button type="button" class="chip clear" onclick={resetFilters}>Reset</button>
-        {/if}
-      </div>
-      <ScoreInfo title="Value index" align="right">
-        <p>Quality divided by cost — but cost is damped
-          (cost<sup>{settings.value_cost_exponent ?? 0.55}</sup>) so "best value" rewards
-          cheap-<em>and</em>-nice, not merely cheap.</p>
-        <p>Tick "classic value" for plain quality ÷ cost per $1k, where cheapness dominates.</p>
-        <label class="cb pop-toggle">
-          <input
-            type="checkbox"
-            checked={valueModel === 'classic'}
-            onchange={(e) => onmodel(e.currentTarget.checked ? 'classic' : 'adjusted')}
-          />
-          classic value
-        </label>
-        <p class="src">A unitless index — compare cities, don't read it as $ per anything.</p>
-      </ScoreInfo>
-    </div>
-  </header>
+<div class="tablecap">
+  <Legend />
+  <ScoreInfo title="Value index" align="right">
+    <p>Quality divided by cost — but cost is damped
+      (cost<sup>{settings.value_cost_exponent ?? 0.55}</sup>) so "best value" rewards
+      cheap-<em>and</em>-nice, not merely cheap.</p>
+    <p>Tick "classic value" for plain quality ÷ cost per $1k, where cheapness dominates.</p>
+    <label class="cb pop-toggle">
+      <input
+        type="checkbox"
+        checked={valueModel === 'classic'}
+        onchange={(e) => onmodel(e.currentTarget.checked ? 'classic' : 'adjusted')}
+      />
+      classic value
+    </label>
+    <p class="src">A unitless index — compare cities, don't read it as $ per anything.</p>
+  </ScoreInfo>
+</div>
 
-  <div class="legendrow"><Legend /></div>
-
-  <div class="tableouter">
+<div class="tableouter">
   <div class="tablewrap">
     <table>
       <thead>
@@ -153,14 +103,6 @@
         </tr>
       </thead>
       <tbody>
-        {#if rows.length === 0}
-          <tr class="empty">
-            <td colspan="7">
-              No cities match — try raising the budget or clearing a filter.
-              <button type="button" class="chip clear" onclick={resetFilters}>Reset filters</button>
-            </td>
-          </tr>
-        {/if}
         {#each rows as r (r.c.key)}
           <tr onclick={() => onopen(r.c.key)}>
             <td class="city">
@@ -179,52 +121,19 @@
       </tbody>
     </table>
   </div>
-  </div>
-  <p class="count">{rows.length} of {cities.length} cities · sorted by {sortKey}</p>
-</section>
+</div>
+<p class="count">{rows.length} of {cities.length} cities · sorted by {sortKey}</p>
 
 <style>
-  .filters {
+  .tablecap {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: flex-end;
-  }
-
-  .filters input[type='number'] { width: 120px; }
-
-  .fgroup {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .flbl {
-    font-size: 9.5px;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    line-height: 1;
-  }
-
-  .vdiv {
-    align-self: stretch;
-    width: 1px;
-    background: var(--line);
-    margin: 0 2px;
-  }
-
-  .cbs {
-    display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
-    padding-bottom: 6px;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0 2px 10px;
   }
 
-  .filters :global(.wrap) { margin-bottom: 6px; }
-
-  .pop-toggle { margin: 2px 0 7px; }
+  .tablecap :global(.wrap) { margin-bottom: 0; }
 
   .cb {
     display: flex;
@@ -234,7 +143,7 @@
     color: var(--ink-2);
   }
 
-  .legendrow { margin: 0 2px 10px; }
+  .pop-toggle { margin: 2px 0 7px; }
 
   .tableouter { position: relative; }
 
@@ -301,17 +210,7 @@
     white-space: inherit;
   }
 
-  .chip.clear { color: var(--terra-deep); }
-
   .hz { cursor: help; }
-
-  tr.empty td {
-    text-align: center;
-    padding: 30px 14px;
-    color: var(--ink-2);
-    font-size: 13.5px;
-    white-space: normal;
-  }
 
   .sort-arrow {
     margin-left: 3px;

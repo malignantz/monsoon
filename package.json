@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "check:ids": "node scripts/check-city-ids.mjs",
     "deploy": "bash scripts/deploy.sh"
   },
   "devDependencies": {

@@ -2,8 +2,10 @@
 // every list surface; travel-detail.json (full safety breakdown, narratives,
 // climate-table fields) is fetched once the browser is idle and merged into
 // the same reactive city objects, so any open CitySheet fills in live.
+import { SvelteSet } from 'svelte/reactivity';
 import core from '../generated/travel-core.json';
 import detailUrl from '../generated/travel-detail.json?url';
+import { CITY_IDS_V1 } from './cityIds.v1.js';
 
 export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 export const MONTH_LETTERS = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
@@ -45,6 +47,32 @@ export function saveSettings() {
     JSON.stringify({ party: prefs.party, womensSafety: prefs.womensSafety, passport: prefs.passport })
   );
   onboarded.done = true;
+}
+
+// ---- Favorites: a lightweight saved shortlist, persisted as a list of keys ----
+const FAVORITES_KEY = 'atlas.favorites.v1';
+
+function loadFavorites() {
+  if (typeof localStorage === 'undefined') return [];
+  try {
+    const a = JSON.parse(localStorage.getItem(FAVORITES_KEY));
+    return Array.isArray(a) ? a : [];
+  } catch {
+    return [];
+  }
+}
+
+// SvelteSet so .has()/.add()/.delete() drive reactivity wherever favorites are read.
+export const favorites = new SvelteSet(loadFavorites());
+
+export const isFavorite = (key) => favorites.has(key);
+
+export function toggleFavorite(key) {
+  if (favorites.has(key)) favorites.delete(key);
+  else favorites.add(key);
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify([...favorites]));
+  }
 }
 
 // The single monthly cost to show, per the traveller's party size. Reads prefs
@@ -309,4 +337,140 @@ export function routeStats(stays, presetKey = 'balanced') {
     hazardMonths: hazard,
     schengen: schengenCheck(stays)
   };
+}
+
+// ---- Shareable routes: the whole itinerary lives in the URL, no backend ----
+//
+// Two formats, both decoded on load:
+//   • `?i=…`     compact, the one we EMIT. base64url of a versioned byte payload
+//                (see encodeRouteCompact). ~12 chars for a typical year.
+//   • `?route=…` readable `key~start~len_…`, kept as a debug/hand-authoring
+//                fallback. Self-documenting but long.
+//
+// Durability: compact links resolve city IDs against the frozen CITY_IDS_V1
+// table and dispatch on a version byte, so a v1 link decodes forever — even if
+// cities are added/reordered or a future v2 format ships. See docs/itinerary-sharing.md.
+
+const ROUTE_VERSION = 1;
+
+const ID_BY_SLUG_V1 = new Map(CITY_IDS_V1.map((slug, id) => [slug, id]));
+
+// Old encoded slug → current key, for cities renamed since v1. Lets old links
+// keep resolving without ever editing the frozen table. (None yet.)
+const SLUG_ALIASES = {};
+
+if (import.meta.env?.DEV) {
+  const missing = cities.filter((c) => !ID_BY_SLUG_V1.has(c.key)).map((c) => c.key);
+  if (missing.length)
+    console.warn(
+      `[share] ${missing.length} cities missing a v1 ID — append them to cityIds.v1.js and run \`npm run check:ids\`:`,
+      missing
+    );
+}
+
+// --- base64url (no padding), dependency-free ---
+function bytesToB64url(bytes) {
+  let bin = '';
+  for (const b of bytes) bin += String.fromCharCode(b);
+  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function b64urlToBytes(str) {
+  const bin = atob(str.replace(/-/g, '+').replace(/_/g, '/'));
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+
+// Compact v1: [version][cityId, (start<<4)|(len-1)] per stay → base64url. Stays
+// whose city has no v1 ID are dropped (can't be encoded compactly).
+export function encodeRouteCompact(stays) {
+  const bytes = [ROUTE_VERSION];
+  for (const s of stays) {
+    const id = ID_BY_SLUG_V1.get(s.key);
+    if (id == null || id > 255) continue;
+    bytes.push(id, ((s.start & 0x0f) << 4) | ((s.len - 1) & 0x0f));
+  }
+  return bytesToB64url(Uint8Array.from(bytes));
+}
+
+export function decodeRouteCompact(str) {
+  if (!str) return [];
+  let bytes;
+  try {
+    bytes = b64urlToBytes(str);
+  } catch {
+    return [];
+  }
+  if (bytes.length < 1 || bytes[0] !== ROUTE_VERSION) return [];
+  const stops = [];
+  for (let i = 1; i + 1 < bytes.length; i += 2) {
+    const key = SLUG_ALIASES[CITY_IDS_V1[bytes[i]]] ?? CITY_IDS_V1[bytes[i]];
+    stops.push({ key, start: (bytes[i + 1] >> 4) & 0x0f, len: (bytes[i + 1] & 0x0f) + 1 });
+  }
+  return sanitizeStays(stops);
+}
+
+// `?route=key~start~len_…` — readable fallback format.
+export function encodeRoute(stays) {
+  return stays.map((s) => `${s.key}~${s.start}~${s.len}`).join('_');
+}
+
+export function decodeRoute(str) {
+  if (!str) return [];
+  return sanitizeStays(
+    str.split('_').map((part) => {
+      const [key, startRaw, lenRaw] = part.split('~');
+      return { key, start: Number(startRaw), len: Number(lenRaw) };
+    })
+  );
+}
+
+// Shared by both decoders: drop stays with an unknown city or out-of-range
+// values, and skip any whose months collide with one already placed
+// (monthOccupancy is last-wins on overlap), so a hand-edited or stale link can't
+// produce a broken board.
+function sanitizeStays(stops) {
+  const occ = Array(12).fill(false);
+  const out = [];
+  for (const { key, start, len } of stops) {
+    if (!key || !cityByKey.has(key)) continue;
+    if (!Number.isInteger(start) || start < 0 || start > 11) continue;
+    if (!Number.isInteger(len) || len < 1 || len > 12) continue;
+    const months = Array.from({ length: len }, (_, i) => (start + i) % 12);
+    if (months.some((m) => occ[m])) continue;
+    months.forEach((m) => (occ[m] = true));
+    out.push({ key, start, len });
+  }
+  return out;
+}
+
+// A clean share URL: drop any existing query (?city=, a previous ?route=) and set
+// just the params we want, so links are minimal and don't leak the sharer's state.
+export function shareUrl(params) {
+  const u = new URL(location.origin + location.pathname);
+  for (const [k, v] of Object.entries(params)) u.searchParams.set(k, v);
+  return u.toString();
+}
+
+// Clipboard with a legacy execCommand fallback for non-secure contexts.
+export async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      ta.remove();
+      return ok;
+    } catch {
+      return false;
+    }
+  }
 }
