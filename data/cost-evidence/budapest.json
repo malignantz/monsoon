@@ -1,0 +1,27 @@
+{
+  "city": "Budapest",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 750, "party": "shared",              "source": "expatlife.ai/hungary/budapest / remoteworkeurope.eu", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in districts V, VI, VII nomad area; €670–€900"},
+    "utilities": {"usd": 130, "party": "shared",              "source": "numbeo.com Budapest", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet; heating significant in winter"},
+    "groceries": {"usd": 220, "party": "perPerson",           "source": "wise.com Budapest / nomads.com", "asOf": "2026-04", "confidence": "high", "note": "home cooking; supermarkets well-stocked"},
+    "diningOut": {"usd": 180, "party": "perPerson",           "source": "remoteworkeurope.eu", "asOf": "2026-06", "confidence": "high", "note": "ruin bars and restaurants; good value"},
+    "transit":   {"usd": 24,  "party": "perPerson",           "source": "nomads.com Budapest", "asOf": "2026-04", "confidence": "high", "note": "monthly unlimited public transport ~22 EUR"},
+    "coworking": {"usd": 170, "party": "perPersonDiscounted", "source": "remoteworkeurope.eu", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; growing scene in central districts"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "remoteworkeurope.eu", "asOf": "2026-06", "confidence": "high", "note": "Hungarian SIM; affordable data plans"},
+    "misc":      {"usd": 130, "party": "perPersonDiscounted", "source": "expatlife.ai", "asOf": "2026-06", "confidence": "med", "note": "thermal baths, gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Peak tourist months get higher multipliers.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.10, 1.15, 1.20, 1.20, 1.10, 1.00, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "1BR central districts €670–€900/mo; rents rising due to remote worker influx", "quote": "the cost of living in Budapest for an expat in 2026 averages €670–€900 per month for rent in central districts (V, VI, VII)", "source": "expatlife.ai", "url": "https://expatlife.ai/hungary/cities/budapest/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "monthly transport pass ~€22; groceries €200–€350/mo", "quote": "Groceries cost €200–€350 per month, and a monthly public transport pass for unlimited travel costs approximately €22", "source": "nomads.com Budapest", "url": "https://nomads.com/cost-of-living/in/budapest", "date": "2026-04", "confidence": "high"},
+    {"claim": "comfortable nomad budget €1,200–€2,000/mo depending on lifestyle", "quote": "you can live in Budapest comfortably on a budget of about €1,200-€2,000 a month, depending on your lifestyle", "source": "remoteworkeurope.eu", "url": "https://remoteworkeurope.eu/insights/budapest-digital-nomads-guide-2026/", "date": "2026-06", "confidence": "high"},
+    {"claim": "outer districts rent €380–€550; rents pushed up by foreign remote workers", "quote": "In outer districts (XIII and beyond), rent ranges from €380–€550", "source": "expatlife.ai", "url": "https://expatlife.ai/hungary/cities/budapest/cost-of-living", "date": "2026-06", "confidence": "med"}
+  ]
+}

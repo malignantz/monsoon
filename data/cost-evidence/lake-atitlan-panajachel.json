@@ -1,0 +1,27 @@
+{
+  "city": "Lake Atitlán (Panajachel)",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 550, "party": "shared",              "source": "sababaresort.com / livinginguatemala.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR or private room in Panajachel; range $300–$800"},
+    "utilities": {"usd": 50,  "party": "shared",              "source": "sababaresort.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet (25–80 Mbps at coworking); lake climate, no A/C needed"},
+    "groceries": {"usd": 130, "party": "perPerson",           "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; local market produce very cheap"},
+    "diningOut": {"usd": 120, "party": "perPerson",           "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "local comedores $2–4; Western spots $6–12"},
+    "transit":   {"usd": 25,  "party": "perPerson",           "source": "sababaresort.com", "asOf": "2026-06", "confidence": "high", "note": "lanchas between villages + tuk-tuks in Panajachel"},
+    "coworking": {"usd": 80,  "party": "perPersonDiscounted", "source": "sababaresort.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly $50–$150; Sababa Resort coworking notable option"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "high", "note": "Claro/Tigo 30-day plan; coverage decent in Panajachel"},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "goatsontheroad.com", "asOf": "2026-06", "confidence": "low", "note": "gym, toiletries, entertainment, kayaking, excursions, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [1.05, 1.05, 1.0, 1.0, 0.97, 0.97, 1.0, 1.0, 0.97, 0.97, 1.0, 1.05]
+  },
+  "evidence": [
+    {"claim": "comfortable nomad life at $800–$1,200/month all-in", "quote": "Most digital nomads find they can live comfortably on $800 to $1,200 USD per month", "source": "foodtravelexplore.com", "url": "https://foodtravelexplore.com/central-america/guatemala/digital-nomad-guide-guatemala/", "date": "2026-06", "confidence": "high"},
+    {"claim": "accommodation $300–$800/month for private room or apartment", "quote": "Accommodation ranges from $300-$800/month for a private room or apartment", "source": "sababaresort.com", "url": "https://sababaresort.com/digital-nomad-guide-lake-atitlan-remote-work-coworking-2026/", "date": "2026-06", "confidence": "med"},
+    {"claim": "coworking $50–$150/month; internet 25–80 Mbps", "quote": "Coworking costs $50-$150/month for a dedicated desk. Internet speeds are 25-80 Mbps at coworking spaces and many cafes", "source": "sababaresort.com", "url": "https://sababaresort.com/digital-nomad-guide-lake-atitlan-remote-work-coworking-2026/", "date": "2026-06", "confidence": "med"},
+    {"claim": "Panajachel most connected town on the lake but pricier than other villages", "quote": "Panajachel is the largest and most connected town, with ATMs, supermarkets, and the best internet infrastructure on the lake. However, it tends to be more expensive than other lake villages", "source": "livinginguatemala.com", "url": "https://livinginguatemala.com/guides/cost-of-living-guatemala/", "date": "2026-06", "confidence": "high"}
+  ]
+}

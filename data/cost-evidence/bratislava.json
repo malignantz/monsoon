@@ -1,0 +1,27 @@
+{
+  "city": "Bratislava",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 880, "party": "shared",              "source": "expatlife.ai/slovakia/bratislava / numbeo.com Bratislava", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR city centre; avg £827 (~$1,040); comfortable budget €650–€850"},
+    "utilities": {"usd": 180, "party": "shared",              "source": "numbeo.com Bratislava", "asOf": "2026-04", "confidence": "high", "note": "electric + heating + water + internet; avg £183/mo for 85m2"},
+    "groceries": {"usd": 220, "party": "perPerson",           "source": "expatlife.ai/slovakia/bratislava", "asOf": "2026-06", "confidence": "high", "note": "home cooking; €200–€300 range"},
+    "diningOut": {"usd": 190, "party": "perPerson",           "source": "wise.com/slovakia/bratislava", "asOf": "2026-06", "confidence": "high", "note": "Old Town restaurants and cafes; tourist premium"},
+    "transit":   {"usd": 25,  "party": "perPerson",           "source": "nomads.com Bratislava", "asOf": "2026-06", "confidence": "high", "note": "monthly bus/tram pass; good network"},
+    "coworking": {"usd": 280, "party": "perPersonDiscounted", "source": "expatlife.ai/slovakia/bratislava", "asOf": "2026-06", "confidence": "high", "note": "hot-desk at The Spot or Connect avg €262/mo; higher end for Slovakia"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "rewireabroad.com/bratislava", "asOf": "2026-06", "confidence": "high", "note": "Slovak SIM; Orange or Telekom; reasonable rates"},
+    "misc":      {"usd": 150, "party": "perPersonDiscounted", "source": "expatlife.ai/slovakia/bratislava", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Central European capital; moderate peak.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.05, 1.10, 1.15, 1.15, 1.05, 1.00, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "1BR city centre avg £827 (~$1,040); comfortable tier $1,680–$1,880/mo", "quote": "Renting a 1-bedroom apartment in the city centre costs an additional £827 on average. Comfortable Tier: Budget $1,680–$1,880 for a central apartment, regular dining out, and a dedicated coworking membership", "source": "expatlife.ai Slovakia", "url": "https://www.expatlife.ai/slovakia/cities/bratislava/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "coworking hot-desk avg €262/mo at The Spot or Connect", "quote": "A hot desk at popular spots like The Spot or Connect averages €262 per month", "source": "expatlife.ai Slovakia", "url": "https://www.expatlife.ai/slovakia/cities/bratislava/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "utilities avg £183/mo for 85m2; total expat spend €1,250–€1,800/mo", "quote": "the cost of living in Bratislava, Slovakia for an expat in 2026 averages €1,250–€1,800 per month for total. Basic utilities average £183 per month", "source": "numbeo.com / expatlife.ai", "url": "https://www.numbeo.com/cost-of-living/in/Bratislava", "date": "2026-04", "confidence": "high"},
+    {"claim": "budget tier $1,430–$1,530; Bratislava pricier within Slovakia", "quote": "Budget Tier: Expect to spend $1,430–$1,530 inclusive of rent", "source": "expatlife.ai Slovakia", "url": "https://www.expatlife.ai/slovakia/cities/bratislava/cost-of-living", "date": "2026-06", "confidence": "med"}
+  ]
+}

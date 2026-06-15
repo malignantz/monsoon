@@ -1,0 +1,27 @@
+{
+  "city": "Split",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 800, "party": "shared",              "source": "bookiscout.com/split-digital-nomads / croatiawise.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Varoš or Lučac; €750–€1,000 off-season base"},
+    "utilities": {"usd": 100, "party": "shared",              "source": "inspiredbycroatia.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet ~30 EUR"},
+    "groceries": {"usd": 220, "party": "perPerson",           "source": "inspiredbycroatia.com / wizelyfinance.com", "asOf": "2026-06", "confidence": "high", "note": "home cooking; €200–€350 range"},
+    "diningOut": {"usd": 200, "party": "perPerson",           "source": "bookiscout.com", "asOf": "2026-06", "confidence": "high", "note": "Dalmatian cuisine; tourist premium in peak season"},
+    "transit":   {"usd": 30,  "party": "perPerson",           "source": "remoteworkeurope.eu Croatia", "asOf": "2026-06", "confidence": "med", "note": "city bus; many areas walkable"},
+    "coworking": {"usd": 170, "party": "perPersonDiscounted", "source": "bookiscout.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; growing coworking scene in Split"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "ling-app.com Croatia", "asOf": "2026-06", "confidence": "high", "note": "Croatian SIM; T-Mobile or A1 prepaid"},
+    "misc":      {"usd": 130, "party": "perPersonDiscounted", "source": "bookiscout.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, beach activities, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Coastal city peaks strongly Jun–Aug.",
+    "values": [0.75, 0.75, 0.80, 0.90, 1.00, 1.25, 1.50, 1.50, 1.20, 0.90, 0.80, 0.75]
+  },
+  "evidence": [
+    {"claim": "1BR Split city centre €750–€1,400 depending on area; 20-30% higher Jul–Aug", "quote": "Split runs €800 to €1,400 in central areas. Varoš & Lučac: €750 - €1,000/month. Expect prices to be 20-30% higher in the peak tourist months of July and August", "source": "bookiscout.com", "url": "https://bookiscout.com/guides/split-digital-nomads", "date": "2026-06", "confidence": "high"},
+    {"claim": "realistic solo nomad budget €1,600–€1,900/mo in Split", "quote": "For a single person renting in a major city like Split, the realistic cost of living in 2026 is between €1,600 – €1,900 per month for a comfortable, yet moderate lifestyle", "source": "croatiawise.com", "url": "https://croatiawise.com/croatia-cost-of-living-zagreb-dubrovnik-split-etc.html", "date": "2026-06", "confidence": "high"},
+    {"claim": "monthly grocery budget €200–€350; internet ~30 EUR/mo", "quote": "Beyond rent, a monthly grocery budget for one person runs approximately €200 to €350, and internet costs about 30 EUR per month in Croatia", "source": "inspiredbycroatia.com", "url": "https://www.inspiredbycroatia.com/blog/cost-of-living-in-croatia/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Split digital nomad monthly costs $1,500–2,000 range", "quote": "monthly costs of $1,500–2,000 for Split", "source": "remoteworkeurope.eu", "url": "https://remoteworkeurope.eu/insights/croatia-remote-work-locations-2026/", "date": "2026-06", "confidence": "med"}
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "city": "Tokyo",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1200, "party": "shared",              "source": "rentremote.com / searchspot.ai", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area (Shinjuku, Shibuya, Shimokitazawa, Koenji); central 1BR ~JPY 140,000-180,000 (~$1,000-1,300); serviced apts ~JPY 200,000 ($1,500)"},
+    "utilities": {"usd": 110,  "party": "shared",              "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; Japan internet excellent ~JPY 5,000/mo; AC/heating costs add up"},
+    "groceries": {"usd": 280,  "party": "perPerson",           "source": "pacificprime.com / weave-living.com", "asOf": "2026-06", "confidence": "high", "note": "home cooking; supermarkets affordable for Japanese staples; JPY 30,000-40,000/mo"},
+    "diningOut": {"usd": 350,  "party": "perPerson",           "source": "rentremote.com / nomads.com", "asOf": "2026-06", "confidence": "high", "note": "Tokyo dining exceptional value at low end (ramen JPY 800-1,200); mid-range JPY 2,000-4,000/meal; convenient stores cheap"},
+    "transit":   {"usd": 100,  "party": "perPerson",           "source": "belongingjapan.com", "asOf": "2026-06", "confidence": "high", "note": "1-month commuter pass ~JPY 12,000-15,000 (~$80-100) depending on route; JR East fare revision +7.8% March 2026"},
+    "coworking": {"usd": 300,  "party": "perPersonDiscounted", "source": "localnomad.club / nomads.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly JPY 30,000-50,000 premium locations; day pass JPY 1,200-2,200; mid estimate ~JPY 35,000"},
+    "simData":   {"usd": 25,   "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (IIJmio/Mineo/NTT Docomo sub-brands); unlimited data ~JPY 2,500-3,500/mo"},
+    "misc":      {"usd": 240,  "party": "perPersonDiscounted", "source": "worldcostofliving.com", "asOf": "2026-06", "confidence": "med", "note": "gym (~JPY 6,000), toiletries, entertainment, temples/shrines/culture, konbini runs, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Tokyo furnished lets are fairly stable; slight spring premium (cherry blossom) for short stays, not affecting monthly rentals.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Tokyo remote worker monthly budget range", "quote": "For remote workers wanting comfort with a furnished apartment, regular eating out and occasional coworking, expect JPY 320,000 to JPY 450,000 per month", "source": "rentremote.com", "url": "https://rentremote.com/travel-guide/tokyo/activities/tokyo-for-remote-workers-in-2026-cost-comfort-and-daily-life", "date": "2026-06", "confidence": "med"},
+    {"claim": "Tokyo 1BR furnished rent range", "quote": "A one-bedroom apartment in the city center costs $1,000–$1,200; serviced apartments average around 200,000 yen per month (roughly $1,500)", "source": "searchspot.ai", "url": "https://www.searchspot.ai/blog/cost-of-living-in-tokyo-remote-workers-2026", "date": "2026-06", "confidence": "high"},
+    {"claim": "Tokyo digital nomad monthly total", "quote": "digital nomads should plan for approximately $2,485/month covering coworking, accommodation, food, and local transport", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/tokyo", "date": "2026-06", "confidence": "med"},
+    {"claim": "Tokyo commuter pass monthly cost after 2026 fare revision", "quote": "A 1-month commuter pass for the Tokyo to Kichijoji route costs 12,290 yen; JR East implemented a fare revision on March 14, 2026, with regular passenger fares rising by approximately 7.8%", "source": "belongingjapan.com", "url": "https://www.belongingjapan.com/how-to-guide/transportation/commuter-pass-japan/", "date": "2026-06", "confidence": "high"}
+  ]
+}

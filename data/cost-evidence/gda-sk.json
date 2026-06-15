@@ -1,0 +1,27 @@
+{
+  "city": "Gdańsk",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 780, "party": "shared",              "source": "wise.com/poland/gdansk / nomads.com/gdansk", "asOf": "2026-05", "confidence": "high", "note": "furnished 1BR city centre avg £726 (~$915); outside centre £573 (~$720); ~$780 midrange"},
+    "utilities": {"usd": 200, "party": "shared",              "source": "wise.com/poland/gdansk", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet; avg £243 (~$305) for 85m2; heating significant"},
+    "groceries": {"usd": 170, "party": "perPerson",           "source": "livingcost.org/gdansk", "asOf": "2026-06", "confidence": "high", "note": "home cooking; ~$214 avg"},
+    "diningOut": {"usd": 200, "party": "perPerson",           "source": "nomad.watch/gdansk", "asOf": "2026-06", "confidence": "high", "note": "Old Town tourist premium; ~$283 avg dining"},
+    "transit":   {"usd": 35,  "party": "perPerson",           "source": "domkaspot.com/gdansk-2026", "asOf": "2026-06", "confidence": "high", "note": "monthly tram/bus pass; also SKM commuter rail"},
+    "coworking": {"usd": 170, "party": "perPersonDiscounted", "source": "expatlife.ai/poland", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; growing Tri-City tech scene"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "freenance.io/poland-2026", "asOf": "2026-06", "confidence": "high", "note": "Polish SIM; unlimited data plans cheap"},
+    "misc":      {"usd": 130, "party": "perPersonDiscounted", "source": "pacificprime.com/poland", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, Baltic beach activities, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Baltic coast city; summer tourist peak.",
+    "values": [0.85, 0.85, 0.90, 0.95, 1.05, 1.15, 1.30, 1.30, 1.10, 1.00, 0.90, 0.85]
+  },
+  "evidence": [
+    {"claim": "1BR city centre avg £726 (~$915); outside centre £573 (~$720)", "quote": "The average monthly rent for a 1-bedroom apartment in the city centre is £726, compared to £573 outside the centre", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/poland/gdansk", "date": "2026-06", "confidence": "high"},
+    {"claim": "nomad cost ~$1,668/mo; single person estimate ~$1,859/mo", "quote": "the cost of living in Gdansk is $1668 per month for digital nomads. A single person costs $1,859 per month", "source": "nomad.watch", "url": "https://nomad.watch/cities/PL/gdansk/costs", "date": "2026-06", "confidence": "high"},
+    {"claim": "groceries $214/mo; dining out $283/mo; utilities £243 for 85m2", "quote": "Monthly groceries cost $214, while dining out averages $283. Basic utilities in Gdańsk cost an average of £243 per month", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/poland/gdansk", "date": "2026-06", "confidence": "high"},
+    {"claim": "Gdańsk top city for expats; affordable while maintaining good infrastructure", "quote": "Gdańsk is positioned as one of the top cities in Europe for expats, digital nomads and entrepreneurs, offering affordable living costs while maintaining good infrastructure", "source": "domkaspot.com", "url": "https://domkaspot.com/blog/cost-of-living-gdansk-2026", "date": "2026-06", "confidence": "med"}
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "city": "Santiago",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 800, "party": "shared",              "source": "expatlife.ai / ellaoffline.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Providencia/Ñuñoa; range $550–$950"},
+    "utilities": {"usd": 100, "party": "shared",              "source": "ellaoffline.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet $20–25 (100+ Mbps); total ~$100"},
+    "groceries": {"usd": 280, "party": "perPerson",           "source": "expatlife.ai", "asOf": "2026-06", "confidence": "med", "note": "home cooking; $250–$350 range; supermarkets well-stocked"},
+    "diningOut": {"usd": 220, "party": "perPerson",           "source": "ellaoffline.com", "asOf": "2026-06", "confidence": "med", "note": "diverse restaurant scene; pricier than most LATAM cities"},
+    "transit":   {"usd": 50,  "party": "perPerson",           "source": "howdy.com", "asOf": "2026-06", "confidence": "high", "note": "Metro + Transantiago bus; good public transit coverage"},
+    "coworking": {"usd": 150, "party": "perPersonDiscounted", "source": "visadb.io", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; strong professional coworking ecosystem"},
+    "simData":   {"usd": 15,  "party": "perPerson",           "source": "ellaoffline.com", "asOf": "2026-06", "confidence": "high", "note": "Entel/Movistar/Claro 30-day plan; internet $20–25 (fast)"},
+    "misc":      {"usd": 150, "party": "perPersonDiscounted", "source": "ellaoffline.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, Andes weekend trips, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Southern hemisphere; slight summer demand from internal migration.",
+    "values": [1.03, 1.03, 1.0, 1.0, 0.97, 0.97, 0.97, 0.97, 1.0, 1.0, 1.0, 1.02]
+  },
+  "evidence": [
+    {"claim": "nomad budget $1,350–$1,600/month; $1,300–$1,700 overall range", "quote": "For a digital nomad looking for a studio or one-bedroom apartment, average monthly expenses would be $1,350–1,600; budget around $1,300 to $1,700 USD per month", "source": "expatlife.ai", "url": "https://expatlife.ai/chile/cities/santiago/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "furnished 1BR Providencia $600–$950; Las Condes $800–$1,300", "quote": "In Providencia, furnished one-bedroom apartments cost $600–950 per month, while in Las Condes they range $800–1,300", "source": "ellaoffline.com", "url": "https://ellaoffline.com/cost-of-living-in-santiago-chile/", "date": "2026-06", "confidence": "high"},
+    {"claim": "groceries $250–$350/month; internet $20–25/month (fast)", "quote": "Groceries run $250 to $350 per month. Internet is fast and cheap at $20 to $25 per month for 100+ Mbps", "source": "ellaoffline.com", "url": "https://ellaoffline.com/cost-of-living-in-santiago-chile/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Santiago pricier than Buenos Aires/Lima but offers high quality + stability", "quote": "Santiago is not the most affordable destination in the region, and it tends to be more expensive than cities like Buenos Aires or Lima. However, it offers a high quality of life and solid legal stability", "source": "visadb.io", "url": "https://visadb.io/blog/chile-for-digital-nomads-guide-2026-64b98e08d8dcd3fcf4b6529f", "date": "2026-06", "confidence": "high"}
+  ]
+}

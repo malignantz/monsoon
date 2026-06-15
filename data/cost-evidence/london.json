@@ -1,0 +1,27 @@
+{
+  "city": "London",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1900, "party": "shared",              "source": "nomads.com / wise.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area (Shoreditch, Dalston, Brixton); city-center avg £2,218 (~$2,800); Zone 2 ~£1,500-1,700"},
+    "utilities": {"usd": 170,  "party": "shared",              "source": "wise.com / citycost.org", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; UK energy bills elevated; internet ~£35/mo"},
+    "groceries": {"usd": 310,  "party": "perPerson",           "source": "nomads.com / citycost.org", "asOf": "2026-06", "confidence": "high", "note": "home cooking; Tesco/Sainsbury's/Lidl; £250-300/mo realistic"},
+    "diningOut": {"usd": 360,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "pub lunch ~£12-16, dinner £20-35; London dining is expensive"},
+    "transit":   {"usd": 205,  "party": "perPerson",           "source": "londondrum.com / toptiplondon.com", "asOf": "2026-06", "confidence": "high", "note": "Zone 1-2 monthly Travelcard ~£163.80 (~$205); bus-only pass £94.90"},
+    "coworking": {"usd": 310,  "party": "perPersonDiscounted", "source": "coworkingmag.com / cityflex.co.uk", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; Zone 2 spaces from £210, central £400-600; mid £250-280"},
+    "simData":   {"usd": 22,   "party": "perPerson",           "source": "uswitch.com / acolyteliving.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (Three/Vodafone); unlimited data plans ~£15-25/mo"},
+    "misc":      {"usd": 270,  "party": "perPersonDiscounted", "source": "citycost.org", "asOf": "2026-06", "confidence": "med", "note": "gym (~£40), toiletries, entertainment, pubs, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. London furnished lets are stable year-round for medium-term rentals.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "London 1BR rent city center avg", "quote": "average monthly rent for a 1-bedroom apartment in the city centre is £2,218, compared to £1,678 outside the centre", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/united-kingdom/london", "date": "2026-06", "confidence": "high"},
+    {"claim": "London node-living furnished studio start price", "quote": "Fully furnished apartments through Node Living start at £1,650/month for studios and apartments", "source": "node-living.com", "url": "https://node-living.com/apartments/london/monthly-rentals/", "date": "2026-06", "confidence": "med"},
+    {"claim": "London Zone 1-2 monthly Travelcard cost", "quote": "London TfL (Zone 1-2) monthly costs are estimated at £163.80 via contactless cap", "source": "londondrum.com", "url": "https://londondrum.com/transport/travelcards.php", "date": "2026-06", "confidence": "high"},
+    {"claim": "London coworking monthly hot desk range", "quote": "Hot desk/coworking memberships range from £210/month in Zone 2 locations (Stratford, Earlsfield), rising to £400-£600/month for quality spaces in central and inner London", "source": "cityflex.co.uk", "url": "https://www.cityflex.co.uk/article/best-coworking-spaces-london-2026/", "date": "2026-06", "confidence": "high"}
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "city": "Osaka",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 800, "party": "shared",              "source": "citycost.org / wise.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area (Namba, Shinsaibashi, Tennoji); central 1BR ~JPY 80,000-120,000 ($560-840); significantly cheaper than Tokyo"},
+    "utilities": {"usd": 100,  "party": "shared",              "source": "nomads.com / citycost.org", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; Japan internet excellent ~JPY 5,000/mo; seasonal AC/heating costs"},
+    "groceries": {"usd": 260,  "party": "perPerson",           "source": "psimonmyway.com / weave-living.com", "asOf": "2026-06", "confidence": "high", "note": "home cooking; Osaka is Japan's kitchen — very affordable local food; JPY 25,000-35,000/mo"},
+    "diningOut": {"usd": 280,  "party": "perPerson",           "source": "nomads.com / psimonmyway.com", "asOf": "2026-06", "confidence": "high", "note": "Osaka street food paradise — takoyaki/okonomiyaki ~JPY 600-800; mid restaurant JPY 1,500-3,000; cheaper than Tokyo"},
+    "transit":   {"usd": 55,   "party": "perPerson",           "source": "citycost.org / novad.app", "asOf": "2026-06", "confidence": "high", "note": "Osaka metro monthly ~JPY 6,600-8,000 (~$45-55); compact city, walkable areas"},
+    "coworking": {"usd": 220,  "party": "perPersonDiscounted", "source": "novad.app", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; smaller coworking market than Tokyo; expect JPY 20,000-35,000/mo"},
+    "simData":   {"usd": 25,   "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (IIJmio/Mineo/OCN); unlimited data ~JPY 2,500-3,500/mo; same as Tokyo"},
+    "misc":      {"usd": 200,  "party": "perPersonDiscounted", "source": "citycost.org", "asOf": "2026-06", "confidence": "med", "note": "gym (~JPY 5,000), toiletries, entertainment, street food, cultural outings, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Osaka furnished lets are stable year-round for monthly rentals.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Osaka monthly living cost", "quote": "monthly living costs in Osaka come to around $1,352 including rent, or roughly $751 excluding it", "source": "citycost.org", "url": "https://citycost.org/osaka/", "date": "2026-04", "confidence": "low"},
+    {"claim": "Osaka 1BR rent range", "quote": "Expect to pay about $733 for a central one-bedroom, or $467 outside the center; rent can range from ¥40,000 to ¥120,000 (approximately $350-$1,100 USD) per month", "source": "nomadlio.com", "url": "https://nomadlio.com/osaka/cost-of-living/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Osaka grocery monthly budget", "quote": "Expect to spend about $300 monthly on groceries; single person spends $200–$400/month on groceries", "source": "novad.app", "url": "https://novad.app/japan/osaka", "date": "2026-06", "confidence": "med"},
+    {"claim": "Osaka street food costs and dining", "quote": "Osaka's street food (takoyaki, okonomiyaki) costs $6–$8; dining out at a mid-range restaurant costs roughly $35.00 for two", "source": "psimonmyway.com", "url": "https://www.psimonmyway.com/cost-of-living-in-osaka-digital-nomad-japan/", "date": "2026-06", "confidence": "high"}
+  ]
+}

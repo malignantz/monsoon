@@ -1,0 +1,27 @@
+{
+  "city": "Lisbon",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1500, "party": "shared",              "source": "searchspot.ai / globalcitizensolutions.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Príncipe Real or Mouraria; €1,100–1,400/mo"},
+    "utilities": {"usd": 155,  "party": "shared",              "source": "wise.com",                                   "asOf": "2026-05", "confidence": "high", "note": "electric + water + internet (~€135/mo)"},
+    "groceries": {"usd": 270,  "party": "perPerson",           "source": "searchspot.ai",                              "asOf": "2026-06", "confidence": "med",  "note": "home cooking; Pingo Doce / Continente"},
+    "diningOut": {"usd": 280,  "party": "perPerson",           "source": "searchspot.ai",                              "asOf": "2026-06", "confidence": "med",  "note": "restaurants and cafes; value eroding"},
+    "transit":   {"usd": 42,   "party": "perPerson",           "source": "wise.com",                                   "asOf": "2026-05", "confidence": "high", "note": "monthly Navegante pass ~€35"},
+    "coworking": {"usd": 215,  "party": "perPersonDiscounted", "source": "searchspot.ai",                              "asOf": "2026-06", "confidence": "med",  "note": "hot-desk monthly €150–250"},
+    "simData":   {"usd": 18,   "party": "perPerson",           "source": "estimated",                                  "asOf": "2026-06", "confidence": "high", "note": "Portuguese SIM ~€15–20/mo"},
+    "misc":      {"usd": 185,  "party": "perPersonDiscounted", "source": "estimated",                                  "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [0.92, 0.92, 0.95, 1.0, 1.05, 1.12, 1.2, 1.2, 1.1, 1.02, 0.95, 0.9]
+  },
+  "evidence": [
+    {"claim": "Lisbon comfortable nomad budget €2,200–3,200/mo", "quote": "For a comfortable lifestyle, budget realistically for €2,200–3,200/month—private room or studio apartment (€900–1,400), food (€400–600), coworking (€150–250), transport (€40)", "source": "searchspot.ai", "url": "https://blog.searchspot.ai/cost-of-living-in-lisbon-for-digital-nomads-is-it-still-worth-it-in-2026/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Lisbon rent ~$1,450 for typical nomad accommodation", "quote": "Monthly rent costs around $1,450 (for typical nomad accommodation)", "source": "searchspot.ai", "url": "https://www.searchspot.ai/blog/lisbon-cost-of-living-for-digital-nomads-in-2026-the-numbers-that-matter-before-you-move", "date": "2026-06", "confidence": "high"},
+    {"claim": "Lisbon no longer cheap; housing costs risen sharply", "quote": "Lisbon is no longer a place you should call cheap, and the value no longer comes from bargain rent. Housing costs have increased significantly due to high demand from digital nomads and tourists", "source": "midlifenomads.com", "url": "https://www.midlifenomads.com/p/cost-of-living-in-lisbon-portugal", "date": "2026-05", "confidence": "high"},
+    {"claim": "Public transport monthly pass ~€35", "quote": "A monthly pass for public transport is typically priced at £35", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/portugal/lisbon", "date": "2026-05", "confidence": "high"}
+  ]
+}

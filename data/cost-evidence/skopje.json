@@ -1,0 +1,27 @@
+{
+  "city": "Skopje",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 330, "party": "shared",              "source": "nomads.com/skopje / getwherenext.com/North-Macedonia", "asOf": "2026-05", "confidence": "high", "note": "furnished 1BR city centre; avg ~15,000 MKD (~$240–$350); $330 midpoint"},
+    "utilities": {"usd": 80,  "party": "shared",              "source": "nomadoffshoreacademy.com/North-Macedonia", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; low utility costs"},
+    "groceries": {"usd": 150, "party": "perPerson",           "source": "nomad.watch/Skopje", "asOf": "2026-06", "confidence": "med", "note": "home cooking; North Macedonia cheap for food"},
+    "diningOut": {"usd": 120, "party": "perPerson",           "source": "rewireabroad.com/North-Macedonia", "asOf": "2026-06", "confidence": "med", "note": "local restaurants; very affordable"},
+    "transit":   {"usd": 20,  "party": "perPerson",           "source": "expatlife.ai/north-macedonia", "asOf": "2026-06", "confidence": "med", "note": "city bus monthly pass; reasonable network"},
+    "coworking": {"usd": 120, "party": "perPersonDiscounted", "source": "nomadglory.com/Skopje", "asOf": "2026-06", "confidence": "low", "note": "limited but growing; café work common; ~$120 estimate"},
+    "simData":   {"usd": 8,   "party": "perPerson",           "source": "rewireabroad.com/North-Macedonia", "asOf": "2026-06", "confidence": "med", "note": "Macedonian SIM; T-Mobile or A1; cheap plans"},
+    "misc":      {"usd": 90,  "party": "perPersonDiscounted", "source": "getwherenext.com/North-Macedonia", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Inland Balkans capital; mild seasonality.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.05, 1.05, 1.10, 1.10, 1.05, 1.00, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "1BR city centre ~$240–$350/mo; nomad budget $600–$1,000/mo comfortable", "quote": "Rent for a one-bedroom apartment in the city center averages around 15,000 MKD (€240) per month. A single person can live comfortably in Skopje for $600 to $1,000 per month", "source": "getwherenext.com", "url": "https://getwherenext.com/blog/complete-guide-to-moving-to-north-macedonia", "date": "2026-06", "confidence": "high"},
+    {"claim": "nomad total $1,142/mo; single person $801/mo all-in", "quote": "A single person costs $801 per month, while the cost of living in Skopje is $1142 per month for digital nomads", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/skopje", "date": "2026-05", "confidence": "high"},
+    {"claim": "North Macedonia DNV requires proof of €1,500/mo income; 10% flat tax", "quote": "The country introduced a digital nomad visa pathway requiring proof of €1,500 monthly income", "source": "nomadoffshoreacademy.com", "url": "https://nomadoffshoreacademy.com/cost-living-north-macedonia/", "date": "2026-06", "confidence": "med"},
+    {"claim": "comfortable single-person budget starts €600–800/mo across North Macedonia", "quote": "a comfortable single-person budget starts at just €600–800 per month across North Macedonia", "source": "rewireabroad.com", "url": "https://rewireabroad.com/country/north-macedonia", "date": "2026-06", "confidence": "med"}
+  ]
+}

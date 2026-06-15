@@ -1,0 +1,27 @@
+{
+  "city": "Prague",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 950, "party": "shared",              "source": "nomadicmick.com / nomadranker.com Prague", "asOf": "2026-02", "confidence": "high", "note": "furnished 1BR city centre €800–€1,200; ~$950 midpoint"},
+    "utilities": {"usd": 130, "party": "shared",              "source": "nomads.com Prague", "asOf": "2026-02", "confidence": "high", "note": "electric + water + internet; ~€120 avg"},
+    "groceries": {"usd": 220, "party": "perPerson",           "source": "enoughmoney.ai/prague", "asOf": "2026-06", "confidence": "high", "note": "home cooking; Czech supermarkets good value"},
+    "diningOut": {"usd": 220, "party": "perPerson",           "source": "digitalnomads.world/prague", "asOf": "2026-06", "confidence": "high", "note": "central Prague tourist premium; local pubs cheaper"},
+    "transit":   {"usd": 28,  "party": "perPerson",           "source": "nomads.com Prague", "asOf": "2026-02", "confidence": "high", "note": "monthly metro/tram/bus pass; excellent network"},
+    "coworking": {"usd": 175, "party": "perPersonDiscounted", "source": "nomadicmick.com", "asOf": "2026-02", "confidence": "high", "note": "hot-desk monthly €160–€200; many options in Prague 1/2"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "digitalnomads.world/prague", "asOf": "2026-06", "confidence": "high", "note": "Czech SIM; T-Mobile or O2; unlimited data plans"},
+    "misc":      {"usd": 140, "party": "perPersonDiscounted", "source": "enoughmoney.ai/prague", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, Czech beer budget, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. CEE capital peaks May–Sep.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.10, 1.15, 1.20, 1.20, 1.10, 1.00, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "1BR city centre €800–€1,200/mo; nomad with coworking ~$1,883/mo", "quote": "One-bedroom apartments: €800-€1,200 a month. A digital nomad with coliving and coworking spends around $1,883 per month", "source": "nomadicmick.com", "url": "https://www.nomadicmick.com/digital-nomad-prague/", "date": "2026-02", "confidence": "high"},
+    {"claim": "coworking €160–€200/mo; some unlimited 24/7 at $183", "quote": "Coworking space membership costs between €160 and €200 per month, with some spaces offering unlimited monthly access 24/7 for $183 USD", "source": "nomadranker.com", "url": "https://nomadranker.com/cities/prague/cost-of-living/", "date": "2026-06", "confidence": "high"},
+    {"claim": "housing 43% of nomad budget (~$810); food 36% (~$676)", "quote": "For the typical digital nomad budget, housing absorbs about 43% ($810) and food about 36% ($676)", "source": "nomadranker.com", "url": "https://nomadranker.com/cities/prague/cost-of-living/", "date": "2026-06", "confidence": "med"},
+    {"claim": "outside centre 1BR avg ~$630; inside centre avg $1,260", "quote": "A one-bedroom in the city center averages $1,260/month, while the same apartment outside the center costs about $630", "source": "worldcostofliving.com", "url": "https://www.worldcostofliving.com/city/prague-czechia", "date": "2026-06", "confidence": "high"}
+  ]
+}

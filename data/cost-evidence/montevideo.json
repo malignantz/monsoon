@@ -1,0 +1,27 @@
+{
+  "city": "Montevideo",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 850, "party": "shared",              "source": "nomads.com / enoughmoney.ai", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Pocitos/Punta Carretas; range $700–$1,000"},
+    "utilities": {"usd": 130, "party": "shared",              "source": "enoughmoney.ai", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; utilities notably higher than Buenos Aires"},
+    "groceries": {"usd": 220, "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; food prices 30–40% higher than Buenos Aires"},
+    "diningOut": {"usd": 200, "party": "perPerson",           "source": "holafly.com", "asOf": "2026-06", "confidence": "med", "note": "strong chivito and parrilla culture; restaurants mid-range by LATAM standards"},
+    "transit":   {"usd": 45,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "bus network extensive; taxis/rideshare also available"},
+    "coworking": {"usd": 130, "party": "perPersonDiscounted", "source": "expatlife.ai", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; growing startup/nomad ecosystem"},
+    "simData":   {"usd": 15,  "party": "perPerson",           "source": "holafly.com", "asOf": "2026-06", "confidence": "high", "note": "Antel/Claro 30-day plan; 150 Mbps average speeds"},
+    "misc":      {"usd": 130, "party": "perPersonDiscounted", "source": "enoughmoney.ai", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer; stable political environment"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Southern hemisphere; slight summer peak (Dec-Feb) for coastal districts.",
+    "values": [1.08, 1.05, 1.0, 1.0, 0.97, 0.97, 0.97, 0.97, 1.0, 1.0, 1.0, 1.05]
+  },
+  "evidence": [
+    {"claim": "comfortable nomad budget $1,500–$2,000/month", "quote": "Remote workers can comfortably cover living expenses on a monthly budget of around USD $1,500–$2,000. A comfortable lifestyle typically requires USD $1,500 to $2,000 per month", "source": "enoughmoney.ai", "url": "https://enoughmoney.ai/blog/montevideo", "date": "2026-06", "confidence": "high"},
+    {"claim": "1BR in Pocitos/Punta Carretas/Carrasco $700–$1,000/month", "quote": "monthly rent for a one-bedroom apartment in central neighborhoods typically ranges from USD $700 to $1,000, with higher prices in coastal areas such as Pocitos, Punta Carretas, and Carrasco", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/montevideo", "date": "2026-05", "confidence": "high"},
+    {"claim": "Montevideo 30–40% pricier than Buenos Aires/Asunción", "quote": "Montevideo's cost of living is estimated to be 30 to 40 percent higher than cities such as Buenos Aires or Asunción, largely due to higher prices for food, utilities, and services", "source": "expatlife.ai", "url": "https://www.expatlife.ai/uruguay/cities/montevideo", "date": "2026-06", "confidence": "high"},
+    {"claim": "internet avg 150 Mbps; health insurance $80–$150/month optional", "quote": "Average internet speed in Montevideo is 150 Mbps, which is excellent for remote work. Basic health insurance plans range from around $80–150 per month", "source": "nomads.com", "url": "https://nomads.com/digital-nomad-guide/montevideo", "date": "2026-06", "confidence": "high"}
+  ]
+}

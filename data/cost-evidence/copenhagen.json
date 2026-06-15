@@ -1,0 +1,27 @@
+{
+  "city": "Copenhagen",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1750, "party": "shared",              "source": "citycost.org / expatlife.ai", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area (Nørrebro, Frederiksberg); DKK 12,000-18,000/mo center (~$1,700-2,500); non-central ~DKK 10,000"},
+    "utilities": {"usd": 160,  "party": "shared",              "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; Danish heating costs; internet ~DKK 250/mo"},
+    "groceries": {"usd": 420,  "party": "perPerson",           "source": "citycost.org / wise.com", "asOf": "2026-06", "confidence": "high", "note": "home cooking; Netto/Lidl/Fakta; DKK 2,500-3,800/mo (~$425) reported"},
+    "diningOut": {"usd": 380,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "Copenhagen very expensive for dining; lunch ~DKK 120-150, dinner DKK 200-350"},
+    "transit":   {"usd": 115,  "party": "perPerson",           "source": "wise.com", "asOf": "2026-06", "confidence": "high", "note": "Copenhagen metro/bus monthly pass ~DKK 790 (~$115); bikeable city"},
+    "coworking": {"usd": 280,  "party": "perPersonDiscounted", "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; Copenhagen coworking market ~DKK 1,800-2,500/mo"},
+    "simData":   {"usd": 22,   "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (YouSee/3 DK/Oister); unlimited data ~DKK 150/mo"},
+    "misc":      {"usd": 280,  "party": "perPersonDiscounted", "source": "citycost.org", "asOf": "2026-06", "confidence": "med", "note": "gym (~DKK 300), toiletries, entertainment, design culture buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Copenhagen medium-term furnished lets are stable year-round.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Copenhagen solo digital nomad monthly budget", "quote": "digital nomads should plan for approximately $4,506/month in Copenhagen, covering coworking, accommodation, food, and local transport", "source": "citycost.org", "url": "https://citycost.org/copenhagen/", "date": "2026-05", "confidence": "low"},
+    {"claim": "Copenhagen 1BR rent city center", "quote": "Rent for a 1-bedroom apartment in the city center averages DKK 12,000–18,000 per month, which translates to approximately $2,000/month", "source": "expatlife.ai", "url": "https://expatlife.ai/denmark/cities/copenhagen/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "Copenhagen monthly grocery spend", "quote": "Groceries for a single person average 2,500–3,800 DKK per month (roughly $425)", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/denmark/copenhagen", "date": "2026-06", "confidence": "high"},
+    {"claim": "Copenhagen comfortable monthly budget range", "quote": "a comfortable solo lifestyle costs approximately $2,745-4,392/month for a single person, covering housing in the city center, groceries, healthcare, utilities, and transport", "source": "expatlife.ai", "url": "https://expatlife.ai/denmark/cities/copenhagen/cost-of-living", "date": "2026-06", "confidence": "med"}
+  ]
+}

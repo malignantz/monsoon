@@ -1,0 +1,27 @@
+{
+  "city": "Mendoza",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 450, "party": "shared",              "source": "novad.app / citycost.org", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR in Ciudad/Godoy Cruz; range $350–$600 USD; peso-pricing favors USD holders"},
+    "utilities": {"usd": 60,  "party": "shared",              "source": "theworldtravelindex.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; budget $30–$80; hot summers need A/C but winters cold"},
+    "groceries": {"usd": 200, "party": "perPerson",           "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; excellent local produce + wine at very low USD prices"},
+    "diningOut": {"usd": 180, "party": "perPerson",           "source": "novad.app", "asOf": "2026-06", "confidence": "med", "note": "parrillas + local eateries; wine culture makes dining rich and affordable for USD holders"},
+    "transit":   {"usd": 20,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "buses $0.50–$1/trip; taxis cheap in USD; city bikeable"},
+    "coworking": {"usd": 90,  "party": "perPersonDiscounted", "source": "novad.app", "asOf": "2026-06", "confidence": "low", "note": "hot-desk monthly; limited formal coworking; growing slowly"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "theworldtravelindex.com", "asOf": "2026-06", "confidence": "high", "note": "Claro/Personal/Movistar 30-day; buy in pesos at favorable rate"},
+    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "novad.app", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, winery visits, Andes hiking, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Southern hemisphere; harvest/wine season (Feb-Apr) can attract visitors.",
+    "values": [1.0, 1.05, 1.05, 1.0, 1.0, 0.97, 0.97, 0.97, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "avg monthly cost ~$1,111–$1,300 for nomad; short-term at $1,300", "quote": "For a short-term stay (1-3 months), digital nomads can expect average monthly living costs of around $1,300 USD; Monthly costs land around $1,111 depending on your setup", "source": "novad.app", "url": "https://novad.app/argentina/mendoza", "date": "2026-06", "confidence": "high"},
+    {"claim": "1BR rent $350–$600/month USD", "quote": "One-bedroom apartments in Mendoza range from $350-600 monthly", "source": "citycost.org", "url": "https://citycost.org/mendoza/", "date": "2026-04", "confidence": "high"},
+    {"claim": "buses $0.50–$1/trip; Argentina peso devaluation benefits USD nomads", "quote": "Public transportation costs around $0.50-$1 USD per one-way ticket", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/mendoza", "date": "2026-04", "confidence": "high"},
+    {"claim": "longer stays reduce costs; monthly budget $795 at minimum for single person", "quote": "If you stay longer in Mendoza, you can reduce your monthly living costs, mainly through longer-term rental contracts. A single person costs $795 per month", "source": "theworldtravelindex.com", "url": "https://theworldtravelindex.com/en/south-america/argentina/mendoza/is-mendoza-expensive", "date": "2026-04", "confidence": "med"}
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "city": "Buenos Aires",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 600, "party": "shared",              "source": "wanderwallet.io / citycost.org", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Palermo/Recoleta; USD blue-market pricing; range $400–$800"},
+    "utilities": {"usd": 75,  "party": "shared",              "source": "midlifenomads.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; $50–$100 range at blue-rate USD equivalent"},
+    "groceries": {"usd": 180, "party": "perPerson",           "source": "casabasilico.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; supermarkets well-stocked; pricing in USD favorable at blue rate"},
+    "diningOut": {"usd": 200, "party": "perPerson",           "source": "wanderwallet.io", "asOf": "2026-06", "confidence": "med", "note": "excellent restaurant scene; USD holders get ~2x purchasing power vs peso official rate"},
+    "transit":   {"usd": 30,  "party": "perPerson",           "source": "citycost.org", "asOf": "2026-06", "confidence": "high", "note": "subte + colectivos; very cheap at USD blue rate"},
+    "coworking": {"usd": 100, "party": "perPersonDiscounted", "source": "nomad-labs.com", "asOf": "2026-03", "confidence": "med", "note": "hot-desk monthly; peso pricing at blue rate = strong value for USD holders"},
+    "simData":   {"usd": 15,  "party": "perPerson",           "source": "wanderwallet.io", "asOf": "2026-06", "confidence": "high", "note": "Claro/Personal/Movistar 30-day plan; buy in pesos at blue rate for best value"},
+    "misc":      {"usd": 150, "party": "perPersonDiscounted", "source": "midlifenomads.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, tango lessons, dining culture; buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "solo nomad $900–$1,800/month depending on lifestyle; $1,412 comfortable average", "quote": "Monthly costs in Buenos Aires for a solo nomad currently run between $900 and $1,500, depending on lifestyle and neighborhood; most digital nomads can expect to spend $900 to $1,800 per month", "source": "citycost.org", "url": "https://citycost.org/buenos-aires/", "date": "2026-06", "confidence": "high"},
+    {"claim": "1BR in Palermo/Recoleta $400–$800 USD at blue-market equivalent", "quote": "Expect $400-800 USD/month for a one-bedroom in popular neighborhoods like Palermo or Recoleta", "source": "wanderwallet.io", "url": "https://wanderwallet.io/guides/wanderwallet/cost-of-living-in-buenos-aires-in-2026/", "date": "2026-06", "confidence": "high"},
+    {"claim": "peso devaluation means USD holders live exceptionally well", "quote": "The peso's ongoing devaluation means that anyone paid in dollars, euros, or pounds can live exceptionally well in Buenos Aires for a fraction of what the same lifestyle would cost elsewhere in South America", "source": "nomad-labs.com", "url": "https://nomad-labs.com/2026/03/02/buenos-aires-digital-nomad-moment/", "date": "2026-03", "confidence": "high"},
+    {"claim": "utilities $50–$100/month at blue-rate USD", "quote": "Utilities generally cost 50 to 100 USD monthly", "source": "midlifenomads.com", "url": "https://www.midlifenomads.com/p/cost-of-living-in-buenos-aires-argentina", "date": "2026-06", "confidence": "med"}
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "city": "Puebla",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 600, "party": "shared",              "source": "getwherenext.com / outtathecomfortzone.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in central nomad-friendly neighborhood; range $450–$800"},
+    "utilities": {"usd": 60,  "party": "shared",              "source": "getwherenext.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + fiber internet; mild highland climate keeps bills low"},
+    "groceries": {"usd": 160, "party": "perPerson",           "source": "outtathecomfortzone.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; large mercados + Walmart/Costco present"},
+    "diningOut": {"usd": 160, "party": "perPerson",           "source": "getwherenext.com", "asOf": "2026-06", "confidence": "med", "note": "diverse food scene; cemitas and mole affordable"},
+    "transit":   {"usd": 25,  "party": "perPerson",           "source": "outtathecomfortzone.com", "asOf": "2026-06", "confidence": "high", "note": "buses/combis + Uber; direct bus to CDMX 2hr"},
+    "coworking": {"usd": 100, "party": "perPersonDiscounted", "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; growing coworking and university city culture"},
+    "simData":   {"usd": 15,  "party": "perPerson",           "source": "getwherenext.com", "asOf": "2026-06", "confidence": "high", "note": "Telcel 30-day plan"},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "outtathecomfortzone.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "nomad budget $1,000–$1,500/month; $1,200 comfortable solo budget", "quote": "Puebla is among the lowest-cost nomad cities with consistently workable Wi-Fi, realistic monthly budgets of $1,000–$1,500 USD. A 'cheap-but-comfortable' solo nomad budget of $1,200/month includes rent of $450–$750", "source": "getwherenext.com", "url": "https://getwherenext.com/blog/cost-of-living-mexico-2026", "date": "2026-06", "confidence": "high"},
+    {"claim": "living costs 30–35% below CDMX; frugal at ~$900/month", "quote": "Living costs in Puebla are 30%–35% lower than in the capital. For those seeking the lowest costs, Puebla comes in at roughly $900/month for a single person", "source": "outtathecomfortzone.com", "url": "https://www.outtathecomfortzone.com/cheapest-places-mexico-digital-nomads/", "date": "2026-06", "confidence": "med"},
+    {"claim": "1BR 8,000–14,000 pesos/month (~$460–$800 USD) in safe central neighborhoods", "quote": "In Puebla, one-bedroom apartments often fall into the 8,000 to 14,000 peso monthly range in reasonably central, safe neighborhoods", "source": "outtathecomfortzone.com", "url": "https://www.outtathecomfortzone.com/cheapest-places-mexico-digital-nomads/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Puebla digital nomad overview on nomads.com", "quote": "Puebla is a great city for digital nomads looking for affordable living with strong urban infrastructure", "source": "nomads.com", "url": "https://nomads.com/reviews/puebla", "date": "2026-06", "confidence": "med"}
+  ]
+}

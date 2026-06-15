@@ -1,0 +1,27 @@
+{
+  "city": "Stockholm",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1550, "party": "shared",              "source": "nomads.com / expatlife.ai", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area (Södermalm, Vasastan); SEK 12,000-18,000/mo; avg $1,499 reported; market tight, rents up 5-6% YoY into 2026"},
+    "utilities": {"usd": 145,  "party": "shared",              "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; Swedish heating costs; internet ~SEK 350/mo"},
+    "groceries": {"usd": 340,  "party": "perPerson",           "source": "nomads.com / numbeo.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; ICA/Lidl/Coop; Sweden groceries moderate-high by European standards"},
+    "diningOut": {"usd": 340,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "Stockholm dining expensive; lunch ~SEK 120-160, dinner SEK 200-400; lunch deals common"},
+    "transit":   {"usd": 100,  "party": "perPerson",           "source": "nomads.com / relocate.me", "asOf": "2026-06", "confidence": "high", "note": "SL monthly pass SEK 990 (~$95); excellent metro/bus network"},
+    "coworking": {"usd": 220,  "party": "perPersonDiscounted", "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly from SEK 1,995 (~$190); good selection in Södermalm/Norrmalm"},
+    "simData":   {"usd": 20,   "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (Comviq/Hallon/Tele2); unlimited data ~SEK 200/mo; competitive market"},
+    "misc":      {"usd": 250,  "party": "perPersonDiscounted", "source": "expatriate.com / citycost.org", "asOf": "2026-06", "confidence": "med", "note": "gym (~SEK 350), toiletries, entertainment, fika culture, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Stockholm medium-term furnished lets are stable year-round.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Stockholm solo nomad monthly cost", "quote": "a single person in Stockholm should plan on about $2,505 per month with rent, or $1,355 without housing", "source": "citycost.org", "url": "https://citycost.org/stockholm/", "date": "2026-06", "confidence": "med"},
+    {"claim": "Stockholm 1BR avg monthly rent", "quote": "A 1-bedroom apartment in Stockholm costs $1,499.00/month on average; 1-bedroom rent ranges from SEK 12,000–18,000", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/stockholm", "date": "2026-01", "confidence": "high"},
+    {"claim": "Stockholm coworking monthly cost", "quote": "5+ coworking spaces available, from SEK 1,995/month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/stockholm", "date": "2026-01", "confidence": "med"},
+    {"claim": "Stockholm rent market trend", "quote": "The Stockholm rental market continues to face supply constraints, with rents rising roughly 5–6% year-over-year into 2026", "source": "expatlife.ai", "url": "https://expatlife.ai/sweden/cities/stockholm", "date": "2026-06", "confidence": "med"}
+  ]
+}

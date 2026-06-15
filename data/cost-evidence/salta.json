@@ -1,0 +1,27 @@
+{
+  "city": "Salta",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 350, "party": "shared",              "source": "novad.app / expatsargentina.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR; ARS 18,000–35,000/mo = ~$270–$525 USD; smaller city keeps rents lower"},
+    "utilities": {"usd": 50,  "party": "shared",              "source": "expatsargentina.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; peso-denominated = very cheap for USD holders"},
+    "groceries": {"usd": 175, "party": "perPerson",           "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; excellent locro and empanada culture; local markets cheap"},
+    "diningOut": {"usd": 160, "party": "perPerson",           "source": "novad.app", "asOf": "2026-06", "confidence": "med", "note": "local parrillas and regional cuisine; very affordable in USD"},
+    "transit":   {"usd": 20,  "party": "perPerson",           "source": "novad.app", "asOf": "2026-06", "confidence": "high", "note": "buses + taxis; city center compact and walkable"},
+    "coworking": {"usd": 80,  "party": "perPersonDiscounted", "source": "novad.app", "asOf": "2026-06", "confidence": "low", "note": "hot-desk monthly; limited formal coworking; cafes fill the gap"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "expatsargentina.com", "asOf": "2026-06", "confidence": "high", "note": "Personal/Claro 30-day; internet 86 Mbps avg per Novad data"},
+    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "novad.app", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, Andes/Quebrada day trips, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Salta tourist season peaks Jul–Sep (dry, cool Andean winter).",
+    "values": [0.97, 0.97, 1.0, 1.0, 1.0, 1.0, 1.05, 1.05, 1.05, 1.0, 1.0, 0.97]
+  },
+  "evidence": [
+    {"claim": "Salta monthly cost ~$967–$1,236; internet 86 Mbps avg", "quote": "Salta has a monthly cost of living around $1,236 with average internet speeds of 86 Mbps", "source": "novad.app", "url": "https://novad.app/argentina/salta", "date": "2026-06", "confidence": "high"},
+    {"claim": "1BR rent ARS 18,000–35,000 (~$270–$525 USD equivalent)", "quote": "A one-bedroom apartment can cost anywhere from ARS 18,000 to 35,000 (USD 270 - 525) per month, depending on the neighborhood and amenities", "source": "expatsargentina.com", "url": "https://expatsargentina.com/cost-of-living/", "date": "2026-06", "confidence": "high"},
+    {"claim": "smaller cities like Salta 20–40% cheaper than Buenos Aires", "quote": "Smaller cities like Córdoba or Salta are even more budget-friendly compared to Buenos Aires; smaller cities in Argentina are 20–40% cheaper than Buenos Aires", "source": "wanderwallet.io", "url": "https://wanderwallet.io/guides/wanderwallet/cost-of-living-in-buenos-aires-in-2026/", "date": "2026-06", "confidence": "high"},
+    {"claim": "authentic charm and low cost; not most polished for nomads but improving", "quote": "Salta may not be the most polished destination for digital nomads, but its authentic charm and low cost of living make it an attractive option for those looking to experience the real Argentina", "source": "nomads.com", "url": "https://nomads.com/salta", "date": "2026-06", "confidence": "med"}
+  ]
+}

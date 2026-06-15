@@ -1,0 +1,27 @@
+{
+  "city": "Barcelona",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1400, "party": "shared",              "source": "midlifenomads.com / migaku.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Eixample or Poble Sec; €900–1,500/mo; vacancy rate <2%"},
+    "utilities": {"usd": 140,  "party": "shared",              "source": "casabasilico.com",               "asOf": "2026-05", "confidence": "med",  "note": "electric + water + internet (~€130)"},
+    "groceries": {"usd": 260,  "party": "perPerson",           "source": "migaku.com",                     "asOf": "2026-06", "confidence": "med",  "note": "home cooking; €200–300/mo"},
+    "diningOut": {"usd": 290,  "party": "perPerson",           "source": "midlifenomads.com",              "asOf": "2026-06", "confidence": "med",  "note": "restaurants, cafes, tapas bars; significant social spend"},
+    "transit":   {"usd": 55,   "party": "perPerson",           "source": "migaku.com",                     "asOf": "2026-06", "confidence": "high", "note": "30-day unlimited T-Casual pass ~$45–55"},
+    "coworking": {"usd": 185,  "party": "perPersonDiscounted", "source": "midlifenomads.com",              "asOf": "2026-06", "confidence": "high", "note": "flex hot-desk from €150/mo; dedicated desk €250–330/mo"},
+    "simData":   {"usd": 18,   "party": "perPerson",           "source": "casabasilico.com",               "asOf": "2026-06", "confidence": "high", "note": "Spanish SIM ~€15–20/mo"},
+    "misc":      {"usd": 200,  "party": "perPersonDiscounted", "source": "estimated",                      "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, nightlife, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [0.9, 0.9, 0.95, 1.0, 1.05, 1.12, 1.2, 1.2, 1.08, 1.0, 0.92, 0.88]
+  },
+  "evidence": [
+    {"claim": "Barcelona lean nomad budget $2,800–3,500/mo", "quote": "A lean but comfortable solo budget usually starts around $2,800–$3,500 per month", "source": "midlifenomads.com", "url": "https://www.midlifenomads.com/p/cost-of-living-in-barcelona-spain", "date": "2026-06", "confidence": "high"},
+    {"claim": "Barcelona 1BR city centre €900–1,500/mo", "quote": "In Barcelona, expect to pay between €900 to €1,500 for a one-bedroom apartment in the city center", "source": "migaku.com", "url": "https://migaku.com/blog/language-fun/cost-of-living-in-barcelona-for-digital-nomads-in-2026", "date": "2026-06", "confidence": "high"},
+    {"claim": "Rental vacancy rate <2% in 2026; market extremely tight", "quote": "Barcelona's rental vacancy rate in early 2026 sits at 1%–2% citywide, and under 1% in Eixample and Gràcia", "source": "midlifenomads.com", "url": "https://www.midlifenomads.com/p/cost-of-living-in-barcelona-spain", "date": "2026-06", "confidence": "high"},
+    {"claim": "Coworking flex/hot-desk from €150/mo", "quote": "Flex/hot desk entry tier costs around €150/month", "source": "midlifenomads.com", "url": "https://www.midlifenomads.com/p/cost-of-living-in-barcelona-spain", "date": "2026-06", "confidence": "high"}
+  ]
+}

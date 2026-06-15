@@ -1,0 +1,27 @@
+{
+  "city": "Ljubljana",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1000, "party": "shared",              "source": "myglobal.si / expatlife.ai", "asOf": "2026-04", "confidence": "high", "note": "furnished 1BR in Center or Trnovo; €800–1,300/mo"},
+    "utilities": {"usd": 175,  "party": "shared",              "source": "myglobal.si",               "asOf": "2026-04", "confidence": "med",  "note": "electric + water + internet; heating costs in winter"},
+    "groceries": {"usd": 240,  "party": "perPerson",           "source": "expatden.com",               "asOf": "2026-04", "confidence": "med",  "note": "home cooking; slightly above S European avg"},
+    "diningOut": {"usd": 235,  "party": "perPerson",           "source": "expatlife.ai",               "asOf": "2026-04", "confidence": "med",  "note": "restaurants and cafes; Central European pricing"},
+    "transit":   {"usd": 45,   "party": "perPerson",           "source": "myglobal.si",               "asOf": "2026-04", "confidence": "high", "note": "monthly bus pass ~€35; city is walkable"},
+    "coworking": {"usd": 170,  "party": "perPersonDiscounted", "source": "founderbounty.com",          "asOf": "2026-03", "confidence": "med",  "note": "hot-desk monthly; good coworking scene for its size"},
+    "simData":   {"usd": 18,   "party": "perPerson",           "source": "estimated",                  "asOf": "2026-06", "confidence": "high", "note": "Slovenian SIM ~€15–20/mo"},
+    "misc":      {"usd": 165,  "party": "perPersonDiscounted", "source": "estimated",                  "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [0.92, 0.92, 0.95, 1.0, 1.05, 1.1, 1.2, 1.2, 1.05, 1.0, 0.95, 0.9]
+  },
+  "evidence": [
+    {"claim": "Ljubljana average monthly cost single person ~€1,682 incl rent", "quote": "As of early 2026, the average monthly living cost for a single person in Slovenia is approximately €1,682, including rent", "source": "myglobal.si", "url": "https://www.myglobal.si/blog/how-expensive-to-live-in-the-capital-of-slovenia/", "date": "2026-04", "confidence": "high"},
+    {"claim": "Ljubljana 1BR centre €800–1,300/mo", "quote": "A one-bedroom apartment in the center of Ljubljana typically ranges from €800 to €1,300", "source": "myglobal.si", "url": "https://www.myglobal.si/blog/the-complete-2026-guide-to-the-slovenia-living-cost-and-expat-life/", "date": "2026-04", "confidence": "high"},
+    {"claim": "Ljubljana rents 30–50% higher than other Slovenian cities", "quote": "Rents in Ljubljana being 30% to 50% higher than in cities like Maribor or Celje", "source": "myglobal.si", "url": "https://www.myglobal.si/blog/the-complete-2026-guide-to-the-slovenia-living-cost-and-expat-life/", "date": "2026-04", "confidence": "high"},
+    {"claim": "Comfortable lifestyle €1,800–2,500/mo", "quote": "You can live comfortably on €1,800 to €2,500 per month if you want a simple lifestyle", "source": "investra.io", "url": "https://investra.io/sr/mediji/blogovi/slovenia-cost-of-living-2026-a-complete-breakdown-for-expats-investors-and-digital-nomads", "date": "2026-03", "confidence": "med"}
+  ]
+}

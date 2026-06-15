@@ -1,0 +1,27 @@
+{
+  "city": "Sarajevo",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 420, "party": "shared",              "source": "expatlife.ai/sarajevo / getwherenext.com/Bosnia", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR city centre €300–€500; avg ~$420"},
+    "utilities": {"usd": 90,  "party": "shared",              "source": "wise.com/Bosnia/sarajevo", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; reasonable for Balkans"},
+    "groceries": {"usd": 160, "party": "perPerson",           "source": "nomadranker.com/sarajevo", "asOf": "2026-06", "confidence": "med", "note": "home cooking; groceries €150–€200/mo"},
+    "diningOut": {"usd": 120, "party": "perPerson",           "source": "getwherenext.com/Bosnia", "asOf": "2026-06", "confidence": "med", "note": "cheap restaurants $5/meal; cappuccino $2; excellent value"},
+    "transit":   {"usd": 30,  "party": "perPerson",           "source": "nomadranker.com/sarajevo", "asOf": "2026-06", "confidence": "med", "note": "tram + bus monthly ~$32; limited network"},
+    "coworking": {"usd": 100, "party": "perPersonDiscounted", "source": "voyeglobal.com/Bosnia", "asOf": "2026-06", "confidence": "low", "note": "limited coworking options; work from cafes common"},
+    "simData":   {"usd": 8,   "party": "perPerson",           "source": "visaboards.com/Bosnia", "asOf": "2026-06", "confidence": "med", "note": "BH Telecom or m:tel SIM; cheap data plans"},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "getwherenext.com/Bosnia", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Inland Balkan capital; mild seasonality.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.05, 1.10, 1.10, 1.10, 1.05, 1.00, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "1BR city centre €300–€500/mo; avg $536; budget nomad $850/mo possible", "quote": "For a 1-bedroom apartment in the city center, rent ranges from €300–€500 per month. Budget nomads can live in Sarajevo for $850/month by renting outside the centre ($542)", "source": "expatlife.ai / nomadranker.com", "url": "https://expatlife.ai/bosnia-herzegovina/cities/sarajevo/cost-of-living", "date": "2026-06", "confidence": "med"},
+    {"claim": "cheap restaurant meal $5; cappuccino $2; comfortable nomad €800–€1,200/mo", "quote": "A cheap restaurant meal costs $5, while a mid-range dinner for two runs about $11, and coffee culture is incredibly cheap at $2 per cappuccino. Sarajevo costs €800–€1,200/month for a single expat", "source": "getwherenext.com", "url": "https://getwherenext.com/blog/complete-guide-to-moving-to-bosnia-and-herzegovina", "date": "2026-06", "confidence": "med"},
+    {"claim": "groceries €150–€200/mo; Sarajevo one of Europe's most affordable capitals", "quote": "Groceries cost €150–€200 per month. Sarajevo is positioned as one of Europe's most affordable capitals for digital nomads in 2026", "source": "nomadranker.com", "url": "https://nomadranker.com/cities/sarajevo/cost-of-living/", "date": "2026-06", "confidence": "med"},
+    {"claim": "Bosnia 10% flat tax; digital nomad guide including coworking options", "quote": "Moving to Bosnia 2026: $800-$1,500/mo, 10% Flat Tax", "source": "getwherenext.com", "url": "https://getwherenext.com/blog/complete-guide-to-moving-to-bosnia-and-herzegovina", "date": "2026-06", "confidence": "med"}
+  ]
+}

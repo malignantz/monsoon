@@ -1,0 +1,27 @@
+{
+  "city": "Florianópolis",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 850, "party": "shared",              "source": "vibelobby.com / riotimesonline.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad beach neighborhoods (Lagoa, Ingleses, Barra); R$4,200–7,000/mo (~$750–$1,250)"},
+    "utilities": {"usd": 100, "party": "shared",              "source": "riotimesonline.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; beach areas can spike electric in summer"},
+    "groceries": {"usd": 200, "party": "perPerson",           "source": "nomads.com", "asOf": "2026-03", "confidence": "med", "note": "home cooking; Brazilian supermarkets well-stocked; BRL favorable to USD"},
+    "diningOut": {"usd": 200, "party": "perPerson",           "source": "vibelobby.com", "asOf": "2026-06", "confidence": "med", "note": "mix of prato feito (cheap) and beach restaurants (mid-range)"},
+    "transit":   {"usd": 40,  "party": "perPerson",           "source": "riotimesonline.com", "asOf": "2026-06", "confidence": "med", "note": "buses + occasional rideshare; car/moto helpful in beach suburbs"},
+    "coworking": {"usd": 120, "party": "perPersonDiscounted", "source": "vibelobby.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; strong coworking growth driven by nomad boom"},
+    "simData":   {"usd": 15,  "party": "perPerson",           "source": "getbrazilvisa.com", "asOf": "2026-06", "confidence": "high", "note": "TIM/Claro/Vivo 30-day plan"},
+    "misc":      {"usd": 150, "party": "perPersonDiscounted", "source": "vibelobby.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, surf lessons, beach lifestyle, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. S. hemisphere summer (Dec-Feb) peaks for beach destinations.",
+    "values": [1.35, 1.35, 1.10, 1.0, 0.92, 0.90, 0.90, 0.90, 0.95, 1.0, 1.05, 1.30]
+  },
+  "evidence": [
+    {"claim": "comfortable nomad budget ~$1,150–$1,500/month; day-to-day beyond rent $520–$620", "quote": "A comfortable month for one person runs roughly US$1,150; day-to-day living beyond rent runs just US$520 to US$620 a month, putting a comfortable all-in nomad budget around US$1,250 to US$2,000", "source": "riotimesonline.com", "url": "https://www.riotimesonline.com/florianopolis-nomad-boom-2026/", "date": "2026-06", "confidence": "high"},
+    {"claim": "furnished apartments R$3,500–7,000/month (~$700–$1,400 USD)", "quote": "furnished apartments and houses in the popular neighbourhoods rent for 3,500 to 7,000 reais ($700 to $1,400); average rents near R$60/sq meter — making a 70 sqm apartment roughly R$4,200/month", "source": "riotimesonline.com", "url": "https://www.riotimesonline.com/living-in-florianopolis-expat-guide-2026/", "date": "2026-06", "confidence": "high"},
+    {"claim": "nomad boom driving growth and rising prices", "quote": "Florianópolis: a Nomad Boom and Its Rising Bill", "source": "riotimesonline.com", "url": "https://www.riotimesonline.com/florianopolis-nomad-boom-2026/", "date": "2026-06", "confidence": "high"},
+    {"claim": "comfortable solo lifestyle R$9,000–12,000/month (~$1,670–$2,220)", "quote": "a comfortable solo lifestyle there runs R$9,000–12,000/month (~$1,670–$2,220), comfortably within the digital nomad visa income threshold", "source": "riotimesonline.com", "url": "https://www.riotimesonline.com/brazil-immigration-visa-guide-2026/", "date": "2026-06", "confidence": "med"}
+  ]
+}

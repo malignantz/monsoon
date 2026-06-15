@@ -1,0 +1,27 @@
+{
+  "city": "Sofia",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 580, "party": "shared",              "source": "innovires.com Sofia cost", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in centre; €450–€600 range"},
+    "utilities": {"usd": 110, "party": "shared",              "source": "nomads.com Sofia", "asOf": "2026-01", "confidence": "high", "note": "electric + water + internet; heating in winter"},
+    "groceries": {"usd": 170, "party": "perPerson",           "source": "worldcostofliving.com/sofia", "asOf": "2026-06", "confidence": "high", "note": "home cooking; Bulgarian markets affordable"},
+    "diningOut": {"usd": 150, "party": "perPerson",           "source": "digiwander.com Sofia", "asOf": "2026-06", "confidence": "med", "note": "local restaurants and cafes; good value"},
+    "transit":   {"usd": 20,  "party": "perPerson",           "source": "nomads.com Sofia", "asOf": "2026-01", "confidence": "high", "note": "metro + bus monthly pass very cheap"},
+    "coworking": {"usd": 160, "party": "perPersonDiscounted", "source": "innovires.com Sofia", "asOf": "2026-06", "confidence": "high", "note": "hot-desk monthly €130–€200; good supply"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "digiwander.com Sofia", "asOf": "2026-06", "confidence": "high", "note": "Bulgarian SIM; cheap data plans"},
+    "misc":      {"usd": 110, "party": "perPersonDiscounted", "source": "innovires.com Sofia", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Peak tourist months get higher multipliers.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.05, 1.10, 1.10, 1.10, 1.05, 1.00, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "1BR city centre €450–€600/mo; digital nomad budget ~$1,171/mo", "quote": "Plan for approximately $1,171/month as a digital nomad in Sofia, covering coworking, accommodation, food, and local transport", "source": "innovires.com", "url": "https://innovires.com/tax-residency/blog/cost-of-living-sofia-expats.html", "date": "2026-06", "confidence": "high"},
+    {"claim": "coworking €130–€200/mo; fast internet and growing nomad community", "quote": "Coworking memberships cost €130-200 monthly, and Sofia offers reliable high-speed internet and numerous coworking spaces", "source": "innovires.com", "url": "https://innovires.com/tax-residency/blog/cost-of-living-sofia-expats.html", "date": "2026-06", "confidence": "high"},
+    {"claim": "most digital nomads live comfortably on €1,200–1,400/mo all-in", "quote": "most digital nomads live comfortably on €1,200-1,400 monthly in Sofia, including accommodation, food, coworking, and entertainment", "source": "innovires.com", "url": "https://innovires.com/tax-residency/blog/best-cities-bulgaria-expats-2026.html", "date": "2026-06", "confidence": "high"},
+    {"claim": "Sofia 74% cheaper than NYC; flat 10% income tax", "quote": "Sofia is 74% cheaper than New York City, and Sofia provides reliable coworking spaces, fast internet", "source": "worldcostofliving.com", "url": "https://www.worldcostofliving.com/city/sofia-bulgaria", "date": "2026-06", "confidence": "med"}
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "_doc": "Per-city cost evidence. One file per city: data/cost-evidence/<slug>.json (gitignored). This file (_schema.json) and _example.json are tracked so the structure lives in git without committing the raw research. scripts/build_costs.py reads every file here and writes rent/util/var/solo/couple + monthly cost1/cost2 into data/travel-data.json. The number in git is therefore a function of sourced evidence kept here.",
+
+  "_anchor": "Every estimate is anchored to ONE persona: a solo nomad living mid-range — furnished 1BR in a nomad-popular neighborhood, cooks some + eats out some, uses a coworking space. Party size scales up from this via each component's `party` rule.",
+
+  "city": "Exact city name as it appears in travel-data.json (used to match). Required.",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "YYYY-MM — month this estimate reflects.",
+  "provenance": "legacy-seed | researched. legacy-seed = migrated from the old hand-seeded numbers (low confidence, carries monthlyOverride so the build is byte-identical to before). researched = real sourced components; builder computes the monthly numbers.",
+
+  "components": {
+    "_doc": "Monthly USD for the solo anchor. solo = sum of all .usd. Each component: usd, party, source, asOf, confidence (low|med|high), note.",
+    "rent":      {"usd": 0, "party": "shared",              "source": "", "asOf": "", "confidence": "low", "note": "furnished 1BR in a nomad area"},
+    "utilities": {"usd": 0, "party": "shared",              "source": "", "asOf": "", "confidence": "low", "note": "electric + water + home internet"},
+    "groceries": {"usd": 0, "party": "perPerson",           "source": "", "asOf": "", "confidence": "low", "note": "home cooking"},
+    "diningOut": {"usd": 0, "party": "perPerson",           "source": "", "asOf": "", "confidence": "low", "note": "eating out / cafes"},
+    "transit":   {"usd": 0, "party": "perPerson",           "source": "", "asOf": "", "confidence": "low", "note": "local transport, scooter/grab/metro"},
+    "coworking": {"usd": 0, "party": "perPersonDiscounted", "source": "", "asOf": "", "confidence": "low", "note": "hot-desk membership"},
+    "simData":   {"usd": 0, "party": "perPerson",           "source": "", "asOf": "", "confidence": "low", "note": "mobile SIM / data"},
+    "misc":      {"usd": 0, "party": "perPersonDiscounted", "source": "", "asOf": "", "confidence": "low", "note": "gym, toiletries, entertainment, buffer"}
+  },
+
+  "_partyRules": "shared = +15% for a second person (×1.15). perPerson = ×1.90 (a couple shares some but not all). perPersonDiscounted = ×1.60. Tunable as PARTY_MULT in scripts/build_costs.py. couple = sum of each component scaled by its party rule.",
+
+  "accomSeasonality": {
+    "_doc": "12 multipliers (Jan..Dec) applied to RENT ONLY (food/transit don't swing with tourist season). Default all 1.0. Used only when monthlyOverride is absent.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+
+  "monthlyOverride": {
+    "_doc": "OPTIONAL. If present, builder uses these 12-length arrays verbatim and ignores components/seasonality for the monthly numbers (solo/couple still come from components). Legacy-seed files carry this so migration is behavior-preserving. Delete it once a city is genuinely researched, and the builder will compute from components instead.",
+    "cost1": [],
+    "cost2": []
+  },
+
+  "evidence": [
+    {
+      "_doc": "Free-form qualitative receipts — the bespoke part. Reddit/forum quotes, blog figures, Numbeo snapshots. Not read by the builder; this is the audit trail behind the component numbers.",
+      "claim": "what this supports, e.g. '1BR furnished Nimman ~12-15k THB/mo'",
+      "quote": "verbatim snippet",
+      "source": "Numbeo | NomadList | r/digitalnomad | blog name",
+      "url": "https://...",
+      "date": "YYYY-MM",
+      "confidence": "low|med|high"
+    }
+  ]
+}

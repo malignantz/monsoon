@@ -1,0 +1,27 @@
+{
+  "city": "Thessaloniki",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 580,  "party": "shared",              "source": "numbeo.com / iland.co.com", "asOf": "2026-04", "confidence": "high", "note": "furnished 1BR in city centre; €400–700/mo; sea-view areas higher"},
+    "utilities": {"usd": 145,  "party": "shared",              "source": "novad.app",                 "asOf": "2026-04", "confidence": "med",  "note": "electric + water + internet; €150–300/mo heating in winter"},
+    "groceries": {"usd": 200,  "party": "perPerson",           "source": "getwherenext.com",          "asOf": "2026-04", "confidence": "med",  "note": "home cooking; excellent local markets"},
+    "diningOut": {"usd": 195,  "party": "perPerson",           "source": "iland.co.com",              "asOf": "2026-04", "confidence": "med",  "note": "tavernas and cafes; great food culture, affordable"},
+    "transit":   {"usd": 35,   "party": "perPerson",           "source": "numbeo.com",                "asOf": "2026-04", "confidence": "high", "note": "monthly bus pass ~€30"},
+    "coworking": {"usd": 140,  "party": "perPersonDiscounted", "source": "novad.app",                 "asOf": "2026-04", "confidence": "med",  "note": "hot-desk monthly; growing tech scene"},
+    "simData":   {"usd": 18,   "party": "perPerson",           "source": "estimated",                 "asOf": "2026-06", "confidence": "high", "note": "Greek SIM €10–20/mo"},
+    "misc":      {"usd": 140,  "party": "perPersonDiscounted", "source": "estimated",                 "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [0.9, 0.9, 0.95, 1.0, 1.05, 1.1, 1.2, 1.2, 1.08, 1.0, 0.92, 0.88]
+  },
+  "evidence": [
+    {"claim": "Thessaloniki comfortable monthly €1,400–1,700", "quote": "A single person needs €1,400-1,700 monthly for comfortable living in Thessaloniki, including a decent one-bedroom apartment, regular dining out, and entertainment", "source": "novad.app", "url": "https://novad.app/greece/thessaloniki", "date": "2026-04", "confidence": "high"},
+    {"claim": "Thessaloniki 1BR centre €400–700/mo", "quote": "In Thessaloniki, you pay €400-700 for a one-bedroom apartment in the city center", "source": "numbeo.com", "url": "https://www.numbeo.com/cost-of-living/in/Thessaloniki", "date": "2026-04", "confidence": "high"},
+    {"claim": "Thessaloniki 15–30% cheaper than Athens", "quote": "Thessaloniki is around 15–30% lower in prices when surveyed against Greece's major cities costs", "source": "iland.co.com", "url": "https://www.iland.co.com/news/cost-of-living-in-thessaloniki", "date": "2025-12", "confidence": "high"},
+    {"claim": "Monthly transit pass ~€30", "quote": "A monthly public transport pass costs around €30", "source": "getwherenext.com", "url": "https://getwherenext.com/blog/cost-of-living-greece-2026", "date": "2026-04", "confidence": "high"}
+  ]
+}

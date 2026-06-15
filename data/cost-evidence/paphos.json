@@ -1,0 +1,27 @@
+{
+  "city": "Paphos",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1000, "party": "shared",              "source": "cyprustaxlife.com / wise.com",  "asOf": "2026-05", "confidence": "high", "note": "furnished 1BR in Paphos centre or Kato Paphos; €850–1,100/mo"},
+    "utilities": {"usd": 215,  "party": "shared",              "source": "cyprustaxlife.com",             "asOf": "2026-05", "confidence": "med",  "note": "electric + water + internet; A/C runs high in summer (€150–280)"},
+    "groceries": {"usd": 310,  "party": "perPerson",           "source": "cyprustaxlife.com",             "asOf": "2026-05", "confidence": "med",  "note": "home cooking; €300–450/mo"},
+    "diningOut": {"usd": 220,  "party": "perPerson",           "source": "cyprusmove.com",                "asOf": "2026-04", "confidence": "med",  "note": "restaurants and tavernas; tourist town pricing"},
+    "transit":   {"usd": 65,   "party": "perPerson",           "source": "cyprustaxlife.com",             "asOf": "2026-05", "confidence": "med",  "note": "monthly bus pass ~$58; car often needed"},
+    "coworking": {"usd": 200,  "party": "perPersonDiscounted", "source": "cyprusmove.com",                "asOf": "2026-04", "confidence": "med",  "note": "hot-desk monthly €150–300"},
+    "simData":   {"usd": 22,   "party": "perPerson",           "source": "cyprustaxlife.com",             "asOf": "2026-05", "confidence": "high", "note": "Cypriot SIM €15–30/mo unlimited data"},
+    "misc":      {"usd": 165,  "party": "perPersonDiscounted", "source": "estimated",                     "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [0.78, 0.78, 0.88, 0.98, 1.1, 1.25, 1.4, 1.4, 1.2, 1.0, 0.85, 0.78]
+  },
+  "evidence": [
+    {"claim": "Paphos 1BR city centre €850–1,100/mo", "quote": "A 1-bedroom apartment in the city center costs €850–€1,100 per month", "source": "wise.com", "url": "https://wise.com/us/cost-of-living/cyprus/paphos", "date": "2026-05", "confidence": "high"},
+    {"claim": "Lean nomad in Paphos €1,500–2,000/mo", "quote": "A lean nomad sharing in Paphos may spend €1,500–€2,000 monthly", "source": "cyprusmove.com", "url": "https://cyprusmove.com/the-digital-nomad-lifestyle-in-cyprus-2026-guide/", "date": "2026-04", "confidence": "high"},
+    {"claim": "Utilities including A/C €150–280/mo", "quote": "Electricity & Water costs €150–€280 per month for a standard apartment", "source": "cyprustaxlife.com", "url": "https://www.cyprustaxlife.com/blog/cost-of-living-cyprus-2026", "date": "2026-05", "confidence": "med"},
+    {"claim": "Groceries €300–450/mo for single person", "quote": "A single person should budget roughly €300–€450 per month for groceries", "source": "cyprustaxlife.com", "url": "https://www.cyprustaxlife.com/blog/cost-of-living-cyprus-2026", "date": "2026-05", "confidence": "med"}
+  ]
+}

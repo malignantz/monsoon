@@ -1,0 +1,27 @@
+{
+  "city": "Novi Sad",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 450, "party": "shared",              "source": "wise.com/Serbia/novi-sad / numbeo.com Novi Sad", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR city centre avg £410 (~$515); outside centre £329 (~$415)"},
+    "utilities": {"usd": 100, "party": "shared",              "source": "relocationserbia.com", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet; similar to Belgrade"},
+    "groceries": {"usd": 160, "party": "perPerson",           "source": "numbeo.com Novi Sad", "asOf": "2026-06", "confidence": "high", "note": "home cooking; ~$216 avg groceries"},
+    "diningOut": {"usd": 160, "party": "perPerson",           "source": "numbeo.com Novi Sad", "asOf": "2026-06", "confidence": "high", "note": "~$233 avg dining out; Novi Sad cafe culture"},
+    "transit":   {"usd": 22,  "party": "perPerson",           "source": "wise.com/Serbia/novi-sad", "asOf": "2026-06", "confidence": "high", "note": "monthly bus pass ~£19; city walkable"},
+    "coworking": {"usd": 100, "party": "perPersonDiscounted", "source": "relocationserbia.com", "asOf": "2026-06", "confidence": "low", "note": "smaller scene than Belgrade; ~25-35% cheaper"},
+    "simData":   {"usd": 8,   "party": "perPerson",           "source": "relocationserbia.com", "asOf": "2026-06", "confidence": "high", "note": "Serbian SIM; mt:s or Telenor; cheap plans"},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "eurovistatrips.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. EXIT festival city; mild July spike.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.05, 1.05, 1.15, 1.10, 1.00, 1.00, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "1BR city centre avg £410 (~$515); single person cost ~$1,339/mo for nomads", "quote": "The average monthly rent for a 1-bedroom apartment in the city centre is £410. The cost of living in Novi Sad is $1,339 per month for digital nomads", "source": "wise.com / nomadlio.com", "url": "https://wise.com/gb/cost-of-living/serbia/novi-sad", "date": "2026-06", "confidence": "high"},
+    {"claim": "Novi Sad 25-35% cheaper than Belgrade across housing, food, daily expenses", "quote": "Novi Sad is roughly 25% cheaper than Belgrade. Novi Sad is 25 to 35% cheaper across housing, food, and daily expenses compared to Belgrade", "source": "relocationserbia.com", "url": "https://www.relocationserbia.com/best-cities-for-expats-relocating-to-serbia", "date": "2026-06", "confidence": "high"},
+    {"claim": "groceries avg $216; dining out $233; transit pass ~£19", "quote": "Monthly groceries cost $216, while dining out averages $233. A monthly pass is typically priced at £19", "source": "numbeo.com", "url": "https://www.numbeo.com/cost-of-living/in/Novi-Sad", "date": "2026-06", "confidence": "high"},
+    {"claim": "comfortable nomad living on €700–€900/mo; one of cheapest Serbian cities", "quote": "For those seeking a comfortable lifestyle, a nomad can live on €700–€900 per month comfortably", "source": "eurovistatrips.com", "url": "https://eurovistatrips.com/cheapest-cities-in-serbia/", "date": "2026-06", "confidence": "med"}
+  ]
+}

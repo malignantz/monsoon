@@ -1,0 +1,27 @@
+{
+  "city": "Vienna",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1200, "party": "shared",              "source": "freenance.io / nomads.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area (Neubau, Mariahilf); €900-1,200 city-center avg"},
+    "utilities": {"usd": 130,  "party": "shared",              "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; total utilities 85m² avg €200-340 but 1BR lower"},
+    "groceries": {"usd": 280,  "party": "perPerson",           "source": "freenance.io / wise.com", "asOf": "2026-06", "confidence": "high", "note": "home cooking; Hofer/Billa; weekly ~€50 → €200-300/mo"},
+    "diningOut": {"usd": 280,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "Vienna cafes / Würstelstand; lunch ~€10-14, dinner €20-30"},
+    "transit":   {"usd": 65,   "party": "perPerson",           "source": "freenance.io", "asOf": "2026-06", "confidence": "high", "note": "Wiener Linien monthly pass €51; excellent transit network"},
+    "coworking": {"usd": 200,  "party": "perPersonDiscounted", "source": "nomadranker.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly from €160-370; mid estimate ~€180"},
+    "simData":   {"usd": 18,   "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (A1/Magenta) unlimited data ~€15-20/mo"},
+    "misc":      {"usd": 200,  "party": "perPersonDiscounted", "source": "freenance.io", "asOf": "2026-06", "confidence": "med", "note": "gym (~€30), toiletries, entertainment, museum passes, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Vienna medium-term furnished lets are stable year-round.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Vienna solo nomad monthly cost", "quote": "A single person's total monthly costs are approximately $2,801 per month", "source": "nomadranker.com", "url": "https://nomadranker.com/cities/vienna/cost-of-living/", "date": "2026-06", "confidence": "med"},
+    {"claim": "Vienna 1BR rent in city center", "quote": "accommodation ranges from €600–€1,200/month for a one-bedroom stay in Vienna, with rent for a one-bedroom apartment in the city center averaging €900 per month", "source": "freenance.io", "url": "https://freenance.io/cost-of-living/cost-of-living-vienna/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Vienna transit monthly pass", "quote": "monthly public transport passes are €51", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/vienna", "date": "2026-06", "confidence": "high"},
+    {"claim": "Vienna coworking monthly cost", "quote": "Average coworking per month near the city center costs $160–$370", "source": "nomadranker.com", "url": "https://nomadranker.com/cities/vienna/cost-of-living/", "date": "2026-06", "confidence": "med"}
+  ]
+}

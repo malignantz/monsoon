@@ -1,0 +1,27 @@
+{
+  "city": "Melbourne",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1600, "party": "shared",              "source": "citycost.org / wise.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area (Fitzroy, Collingwood, South Yarra); center avg ~$2,500 but furnished non-central ~AUD 1,800-2,200 (~$1,200-1,500)"},
+    "utilities": {"usd": 155,  "party": "shared",              "source": "wise.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; Australian energy costs moderate; internet ~AUD 80/mo"},
+    "groceries": {"usd": 360,  "party": "perPerson",           "source": "worldcostofliving.com / holafly.com", "asOf": "2026-06", "confidence": "high", "note": "home cooking; Woolworths/Coles/Aldi; AUD $356/mo reported monthly avg"},
+    "diningOut": {"usd": 350,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "Melbourne cafe culture; excellent coffee scene; lunch ~AUD 15-20, dinner AUD 30-55"},
+    "transit":   {"usd": 120,  "party": "perPerson",           "source": "citycost.org", "asOf": "2026-06", "confidence": "high", "note": "Myki monthly ~AUD 160 (~$105); good tram network in inner city"},
+    "coworking": {"usd": 200,  "party": "perPersonDiscounted", "source": "digitalnomads.world", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly from AUD 75 (budget) to AUD $667 (premium); mid estimate ~AUD 280 (~$190)"},
+    "simData":   {"usd": 28,   "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (Belong/Amaysim/Boost); unlimited data ~AUD 35-45/mo; competitive market"},
+    "misc":      {"usd": 250,  "party": "perPersonDiscounted", "source": "enoughmoney.ai", "asOf": "2026-06", "confidence": "med", "note": "gym (~AUD 50), toiletries, entertainment, arts/culture scene, beach trips buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Melbourne is Southern Hemisphere — summer Dec-Feb. Medium-term furnished lets fairly stable.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Melbourne digital nomad monthly budget range", "quote": "Living in Melbourne as a digital nomad means budgeting between $2,500 and $3,500 per month for rent, food, leisure, transport and internet access", "source": "holafly.com", "url": "https://esim.holafly.com/finance/cost-living-melbourne/", "date": "2026-06", "confidence": "med"},
+    {"claim": "Melbourne center 1BR rent avg", "quote": "Rent for a 1-bedroom in the center averages $2,500/month", "source": "citycost.org", "url": "https://citycost.org/melbourne/", "date": "2026-05", "confidence": "med"},
+    {"claim": "Melbourne monthly grocery spend", "quote": "Expect to spend about $356 monthly on groceries", "source": "worldcostofliving.com", "url": "https://www.worldcostofliving.com/city/melbourne-australia", "date": "2026-06", "confidence": "high"},
+    {"claim": "Melbourne public transport monthly", "quote": "Public transport is priced at around $121 per month", "source": "citycost.org", "url": "https://citycost.org/melbourne/", "date": "2026-05", "confidence": "high"}
+  ]
+}

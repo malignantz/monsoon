@@ -112,7 +112,7 @@ def main():
                   + qw[3] * new["seasonScore"] + qw[4] * new["eventScore"])
             new["qolBase"] = round(qb, 1)
             new["qol"] = round(floor * qb, 1)
-            new["value"] = round(new["qol"] / (m["cost2"] / 1000), 2)
+            new["value"] = round(new["qol"] / (m["cost2"] / 1000) ** 0.65, 2)
 
             for k, v in new.items():
                 if k in diffs and abs(m[k] - v) > 0.051:

@@ -1,0 +1,27 @@
+{
+  "city": "San José",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 750, "party": "shared",              "source": "worldcostofliving.com / digitalnomadlifestyle.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR near Escazú or Barrio Escalante; avg $683, range $500–$1,000"},
+    "utilities": {"usd": 110, "party": "shared",              "source": "citycost.org", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet $65 avg; broadband well developed"},
+    "groceries": {"usd": 220, "party": "perPerson",           "source": "senderos-cr.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; imported goods expensive, local produce affordable"},
+    "diningOut": {"usd": 200, "party": "perPerson",           "source": "alittleadrift.com", "asOf": "2026-06", "confidence": "med", "note": "sodas (local diners) affordable; restaurants mid-range"},
+    "transit":   {"usd": 30,  "party": "perPerson",           "source": "worldcostofliving.com", "asOf": "2026-06", "confidence": "high", "note": "public transport $13–$30/month; very affordable by global standards"},
+    "coworking": {"usd": 150, "party": "perPersonDiscounted", "source": "digitalnomadlifestyle.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; strong coworking scene in Escazú/San Pedro"},
+    "simData":   {"usd": 15,  "party": "perPerson",           "source": "senderos-cr.com", "asOf": "2026-06", "confidence": "high", "note": "Kolbi/Claro 30-day plan"},
+    "misc":      {"usd": 150, "party": "perPersonDiscounted", "source": "alittleadrift.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, weekend beach/nature trips, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.03]
+  },
+  "evidence": [
+    {"claim": "comfortable nomad budget $1,500–$2,000/month; San José at $1,565 overall", "quote": "San Jose sits at $1,565 for overall monthly costs, making it one of the pricier cities in Costa Rica", "source": "worldcostofliving.com", "url": "https://www.worldcostofliving.com/city/san-jose-costa-rica", "date": "2026-06", "confidence": "high"},
+    {"claim": "avg 1BR $683/month; city center $500–$1,000", "quote": "The average 1-bedroom apartment in San José costs $683.00/month, while apartment prices near the city center range from $500 to $1000 per month", "source": "worldcostofliving.com", "url": "https://www.worldcostofliving.com/city/san-jose-costa-rica", "date": "2026-06", "confidence": "high"},
+    {"claim": "broadband internet $65/month avg", "quote": "Broadband internet in San José averages $65 monthly", "source": "citycost.org", "url": "https://citycost.org/costa-rica/", "date": "2026-06", "confidence": "high"},
+    {"claim": "public transport 61% below global median (~$13/month)", "quote": "Public transport ($13.00) is 61% below the global median, making it very affordable", "source": "worldcostofliving.com", "url": "https://www.worldcostofliving.com/city/san-jose-costa-rica", "date": "2026-06", "confidence": "high"}
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "city": "Marrakech",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 500, "party": "shared",              "source": "lovinmorocco.com Marrakech rents 2026 / nomadpointe.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR in Gueliz (modern district); studio 300-600 USD/mo; 1BR Gueliz $500"},
+    "utilities": {"usd": 60,  "party": "shared",              "source": "megaport.hu Morocco cost 2026", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; $40-80 USD range; Maroc Telecom fiber available"},
+    "groceries": {"usd": 130, "party": "perPerson",           "source": "moroccodreamliving.com Morocco cost 2026", "asOf": "2026-06", "confidence": "med", "note": "Marjane hypermarkets + Djemaa el-Fna souks; affordable fresh produce and spices"},
+    "diningOut": {"usd": 160, "party": "perPerson",           "source": "nomadpointe.com Marrakech digital nomad 2026", "asOf": "2026-06", "confidence": "med", "note": "tajine + couscous $3-8; tourist-area restaurants pricier; Gueliz has good cafes"},
+    "transit":   {"usd": 50,  "party": "perPerson",           "source": "visitagafaydesert.com Morocco cost 2026", "asOf": "2026-06", "confidence": "med", "note": "petits taxis + Careem; bus available; $50-100/mo range"},
+    "coworking": {"usd": 120, "party": "perPersonDiscounted", "source": "nomadpointe.com Marrakech digital nomad 2026", "asOf": "2026-06", "confidence": "med", "note": "Goworking/Fraktal Coworking in Gueliz; ~150 USD/mo; Regus from MAD 2,590/mo"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "megaport.hu Morocco cost 2026", "asOf": "2026-06", "confidence": "med", "note": "Maroc Telecom/Orange MA unlimited data; ~100 MAD/mo (~$10)"},
+    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "nomadpointe.com Marrakech digital nomad 2026", "asOf": "2026-06", "confidence": "med", "note": "hammam ($3-10), entertainment, souks, personal care, day trips to Atlas Mountains"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers applied to RENT ONLY (Jan..Dec). 1.0 = base. Raise for peak tourist/weather months, lower for off-peak.",
+    "values": [1.05, 1.0, 1.1, 1.15, 1.1, 0.9, 0.8, 0.8, 0.9, 1.1, 1.1, 1.05]
+  },
+  "evidence": [
+    {"claim": "Marrakech monthly cost $1,200 total: accommodation $500, food $300, transport $100, coworking $150, entertainment $150", "quote": "For Marrakech specifically, the monthly cost of living is estimated at $1,200. a typical monthly budget breaks down as follows: Accommodation: $500, Food: $300, Transport: $100, Coworking: $150, Entertainment: $150", "source": "nomadpointe.com", "url": "https://nomadpointe.com/cities/digital-nomad-guide-marrakech", "date": "2026-06", "confidence": "med"},
+    {"claim": "Marrakech furnished apartments MAD 3,000-8,000/month; 2BR furnished MAD 7,500-12,000", "quote": "Average prices range from 3,000-8,000 MAD monthly for furnished apartments in central areas. Two-bedroom furnished apartments cost 7,500–12,000 MAD (€720–€1,150)", "source": "lovinmorocco.com", "url": "https://lovinmorocco.com/renting-apartment-marrakech-guide/", "date": "2026-06", "confidence": "med"},
+    {"claim": "Marrakech utilities $40-80 USD/month including electricity, water, internet", "quote": "Utilities such as electricity, water, and internet usually cost between 40 and 80 USD per month", "source": "megaport.hu", "url": "https://megaport.hu/blog/cost-of-living-in-morocco-2026-full-expat-digital-nomad-guide/", "date": "2026-06", "confidence": "med"},
+    {"claim": "Regus Marrakech private office from MAD 2,590/person/month; Goworking in Gueliz center", "quote": "private offices at Regus start from MAD 2,590 per person per month. Goworking, a cozy co-working space located in the center of Marrakesh Gueliz", "source": "workin.space / regus.com", "url": "https://workin.space/en/coworking/morocco/marrakech-safi/marrakech", "date": "2026-06", "confidence": "med"}
+  ]
+}

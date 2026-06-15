@@ -1,0 +1,27 @@
+{
+  "city": "Seville",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 870,  "party": "shared",              "source": "casabasilico.com / migrun.tech", "asOf": "2026-05", "confidence": "high", "note": "furnished 1BR in Triana or Centro; €700–1,100/mo"},
+    "utilities": {"usd": 130,  "party": "shared",              "source": "casabasilico.com",               "asOf": "2026-05", "confidence": "med",  "note": "electric + water + internet (~€120)"},
+    "groceries": {"usd": 230,  "party": "perPerson",           "source": "migrun.tech",                    "asOf": "2026-05", "confidence": "med",  "note": "home cooking; €250–350/mo range"},
+    "diningOut": {"usd": 230,  "party": "perPerson",           "source": "casabasilico.com",               "asOf": "2026-05", "confidence": "med",  "note": "tapas bars, menú del día; €200–400/mo range"},
+    "transit":   {"usd": 42,   "party": "perPerson",           "source": "migrun.tech",                    "asOf": "2026-05", "confidence": "high", "note": "monthly transit pass €30–50"},
+    "coworking": {"usd": 175,  "party": "perPersonDiscounted", "source": "casabasilico.com",               "asOf": "2026-06", "confidence": "med",  "note": "hot-desk monthly €150–250"},
+    "simData":   {"usd": 18,   "party": "perPerson",           "source": "casabasilico.com",               "asOf": "2026-06", "confidence": "high", "note": "Spanish SIM ~€15–20/mo"},
+    "misc":      {"usd": 160,  "party": "perPersonDiscounted", "source": "estimated",                      "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [0.88, 0.88, 0.95, 1.05, 1.1, 1.2, 1.35, 1.35, 1.1, 1.0, 0.9, 0.85]
+  },
+  "evidence": [
+    {"claim": "Seville solo nomad monthly budget €1,500–2,500", "quote": "A comfortable monthly budget for a solo digital nomad in a mid-sized city like Valencia or Seville ranges from €1,500 to €2,500", "source": "casabasilico.com", "url": "https://casabasilico.com/guides-resources/cost-of-living-spain", "date": "2026-05", "confidence": "high"},
+    {"claim": "Seville rent and utilities breakdown", "quote": "Accommodation: €700–€1,100 (one-bedroom apartment), Utilities (Internet, electricity, water): €100–€150", "source": "casabasilico.com", "url": "https://casabasilico.com/guides-resources/cost-of-living-spain", "date": "2026-05", "confidence": "high"},
+    {"claim": "Seville dining and coworking monthly costs", "quote": "Dining Out & Socializing: €200–€400, Coworking Space: €150–€250", "source": "casabasilico.com", "url": "https://casabasilico.com/guides-resources/cost-of-living-spain", "date": "2026-05", "confidence": "med"},
+    {"claim": "Seville cheaper than Madrid and Barcelona", "quote": "Seville offers more affordable housing and daily expenses compared to cities like Madrid and Barcelona", "source": "tripmerge.com", "url": "https://blog.tripmerge.com/digital-nomad-spain-real-costs/", "date": "2026-04", "confidence": "high"}
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "city": "Kotor",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 600, "party": "shared",              "source": "montenegrodigitalnomad.com / portomontenegro.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR off-season base; Kavač area €500–€700"},
+    "utilities": {"usd": 110, "party": "shared",              "source": "numbeo.com Kotor", "asOf": "2026-04", "confidence": "med", "note": "electric + water + internet"},
+    "groceries": {"usd": 190, "party": "perPerson",           "source": "montenegrodigitalnomad.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; Montenegro food costs mid-range"},
+    "diningOut": {"usd": 180, "party": "perPerson",           "source": "gigigriffis.com Kotor", "asOf": "2026-06", "confidence": "med", "note": "restaurants along waterfront; tourist premium in season"},
+    "transit":   {"usd": 40,  "party": "perPerson",           "source": "montenegrodigitalnomad.com", "asOf": "2026-06", "confidence": "low", "note": "limited local bus; may need scooter/car"},
+    "coworking": {"usd": 150, "party": "perPersonDiscounted", "source": "montenegrodigitalnomad.com", "asOf": "2026-06", "confidence": "low", "note": "limited coworking; coliving spaces €555–€830/mo incl. workspace"},
+    "simData":   {"usd": 15,  "party": "perPerson",           "source": "esim.holafly.com Montenegro", "asOf": "2026-06", "confidence": "med", "note": "Telenor or T-Mobile Montenegro SIM"},
+    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "montenegrodigitalnomad.com", "asOf": "2026-06", "confidence": "low", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Coastal city peaks strongly Jun–Aug.",
+    "values": [0.75, 0.75, 0.80, 0.90, 1.00, 1.30, 1.60, 1.60, 1.20, 0.90, 0.80, 0.75]
+  },
+  "evidence": [
+    {"claim": "1BR Kotor area from €600/mo; coliving spaces €555–€830 incl. utilities and workspace", "quote": "Private rooms in coliving spaces range from €555-830 ($600-900) per month, including utilities, fast internet, and shared workspaces", "source": "montenegrodigitalnomad.com", "url": "https://montenegrodigitalnomad.com/montenegro-blog/cost-of-living-in-montenegro/", "date": "2026-06", "confidence": "med"},
+    {"claim": "coastal towns like Kotor cost 20–40% more in summer; rents can double in high season", "quote": "In coastal cities like Budva or Kotor, rents can double in high season. Coastal towns like Budva and Kotor cost 20–40% more in summer", "source": "montenegrodigitalnomad.com", "url": "https://montenegrodigitalnomad.com/montenegro-blog/cost-of-living-in-montenegro/", "date": "2026-06", "confidence": "high"},
+    {"claim": "comfortable single person budget €1,400–€1,800/mo in Kotor/Budva area", "quote": "In Budva or Kotor, budget €1,400–€1,800 for a single person living comfortably", "source": "liveandinvestoverseas.com", "url": "https://www.liveandinvestoverseas.com/country-hub/europe/montenegro/kotor/", "date": "2026-06", "confidence": "med"},
+    {"claim": "long-term rental listings Kotor: Kavač €500/mo, sea view Škaljari €700/mo", "quote": "Long-term rental listings for 1-bedroom apartments in Kotor range from €500 to €700 per month", "source": "realitica.com", "url": "https://www.realitica.com/long-term-rental/apartments/kotor/Montenegro/", "date": "2026-06", "confidence": "med"}
+  ]
+}

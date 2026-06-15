@@ -1,0 +1,27 @@
+{
+  "city": "Nice",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1300, "party": "shared",              "source": "numbeo.com / worldcostofliving.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Vieux-Nice or Jean-Médecin; ~€840 avg centre; £1,123 (higher estimates)"},
+    "utilities": {"usd": 145,  "party": "shared",              "source": "wise.com",                          "asOf": "2026-06", "confidence": "med",  "note": "electric + water + internet; fiber €29.50/mo"},
+    "groceries": {"usd": 280,  "party": "perPerson",           "source": "numbeo.com",                        "asOf": "2026-06", "confidence": "med",  "note": "home cooking; French supermarkets; local market cheaper"},
+    "diningOut": {"usd": 290,  "party": "perPerson",           "source": "wiggmap.com",                       "asOf": "2026-06", "confidence": "med",  "note": "restaurants and brasseries; Riviera prices premium"},
+    "transit":   {"usd": 38,   "party": "perPerson",           "source": "wiggmap.com",                       "asOf": "2026-06", "confidence": "high", "note": "monthly tram/bus pass ~$33"},
+    "coworking": {"usd": 200,  "party": "perPersonDiscounted", "source": "piccavey.com",                      "asOf": "2026-06", "confidence": "med",  "note": "hot-desk monthly; Vieux-Nice and Port area have options"},
+    "simData":   {"usd": 25,   "party": "perPerson",           "source": "wise.com",                          "asOf": "2026-06", "confidence": "high", "note": "French SIM plan ~€20–25/mo"},
+    "misc":      {"usd": 195,  "party": "perPersonDiscounted", "source": "estimated",                         "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, entertainment, Riviera lifestyle buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Strong summer peak; also MIPIM/Cannes film season creates spring pressure.",
+    "values": [0.88, 0.9, 0.95, 1.0, 1.05, 1.15, 1.4, 1.4, 1.15, 1.0, 0.9, 0.88]
+  },
+  "evidence": [
+    {"claim": "Nice nomad monthly cost ~$2,537", "quote": "A digital nomad should plan for approximately $2,537/month in Nice, covering coworking, accommodation, food, and local transport", "source": "worldcostofliving.com", "url": "https://www.worldcostofliving.com/city/nice-france", "date": "2026-06", "confidence": "high"},
+    {"claim": "Nice 1BR centre avg ~£840 (~€975)", "quote": "A 1-bedroom apartment in the city centre costs an additional £840 on average", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/france/nice", "date": "2026-06", "confidence": "med"},
+    {"claim": "Nice monthly expenses excl rent ~£929 (~€1,080)", "quote": "The estimated monthly cost of living in Nice for a single person is £929, excluding rent", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/france/nice", "date": "2026-06", "confidence": "med"},
+    {"claim": "Monthly transit pass ~$33; fiber internet €29.50/mo", "quote": "A monthly public transport pass costs ~$33. A high-speed internet plan averages €29.50/month", "source": "wiggmap.com", "url": "https://wiggmap.com/chronicles/villes/chronicle-nice-france-en.html", "date": "2026-06", "confidence": "high"}
+  ]
+}

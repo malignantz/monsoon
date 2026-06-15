@@ -1,0 +1,27 @@
+{
+  "city": "Ho Chi Minh City",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 500, "party": "shared",              "source": "expatlife.ai HCMC cost 2026 / worldcostofliving.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in District 1/2 or Thao Dien; avg $420; D1 premium ~$500-600"},
+    "utilities": {"usd": 80,  "party": "shared",              "source": "livinginvietnam.com HCMC cost 2026", "asOf": "2026-06", "confidence": "high", "note": "electric + water + fiber internet; hot city, A/C runs hard"},
+    "groceries": {"usd": 130, "party": "perPerson",           "source": "digitalnomadlifestyle.com HCMC guide 2026", "asOf": "2026-06", "confidence": "med", "note": "Ben Thanh market + Co.opmart; range $100-200/mo"},
+    "diningOut": {"usd": 200, "party": "perPerson",           "source": "expatlife.ai HCMC cost 2026", "asOf": "2026-06", "confidence": "high", "note": "GrabBike $0.50-1.50 rides; pho $1-2; banh mi $0.50; mix of local + cafe"},
+    "transit":   {"usd": 55,  "party": "perPerson",           "source": "nomads.com HCMC 2026", "asOf": "2026-06", "confidence": "high", "note": "Grab bike/car dominates; 5km ride $1.80; monthly budget"},
+    "coworking": {"usd": 130, "party": "perPersonDiscounted", "source": "livinginvietnam.com HCMC cost 2026", "asOf": "2026-06", "confidence": "med", "note": "robust coworking scene; Toong, Base, The Hive all popular; ~$100-180/mo"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "thevietnamyield.com digital nomad Vietnam 2026", "asOf": "2026-06", "confidence": "high", "note": "Viettel/Vietnamobile unlimited data ~200,000 VND/mo"},
+    "misc":      {"usd": 110, "party": "perPersonDiscounted", "source": "expatlife.ai HCMC cost 2026", "asOf": "2026-06", "confidence": "med", "note": "gym, rooftop bars, coworking events, personal care, weekend trips, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers applied to RENT ONLY (Jan..Dec). 1.0 = base. Raise for peak tourist/weather months, lower for off-peak.",
+    "values": [1.1, 1.15, 1.05, 0.95, 0.9, 0.9, 0.9, 0.9, 0.95, 1.0, 1.05, 1.15]
+  },
+  "evidence": [
+    {"claim": "HCMC average 1BR apartment $420/month; District 1/Thao Dien 20-40% more", "quote": "The average 1-bedroom apartment costs $420.00/month, which is below the global average. Western-style districts (District 1, District 2, Thao Dien) cost 20–40% more", "source": "expatlife.ai", "url": "https://expatlife.ai/blog/cost-of-living-in-ho-chi-minh-city-2026-monthly-budget-for-single-expats-couples", "date": "2026-06", "confidence": "high"},
+    {"claim": "HCMC nomad budget $1,200-1,400/month; local expat $850-950", "quote": "Digital nomads should budget $1,200-1,400 USD per month, while local expats can live on $850-950 USD", "source": "expatlife.ai", "url": "https://expatlife.ai/blog/cost-of-living-in-ho-chi-minh-city-2026-monthly-budget-for-single-expats-couples", "date": "2026-06", "confidence": "high"},
+    {"claim": "GrabBike $0.50-1.50 short trips; 5km ride $1.80", "quote": "Motorbike rides (GrabBike) cost $0.50–$1.50 for short trips, and a 5km Uber ride costs $1.80", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/ho-chi-minh-city", "date": "2026-06", "confidence": "high"},
+    {"claim": "HCMC comfortable single expat $900-1,400/month depending on neighborhood", "quote": "A single expat can live in Ho Chi Minh City very comfortably on $900–$1,400 per month, depending on neighborhood and lifestyle", "source": "livinginvietnam.com", "url": "https://www.livinginvietnam.com/cost-of-living-ho-chi-minh-city-expats-2026/", "date": "2026-06", "confidence": "high"}
+  ]
+}

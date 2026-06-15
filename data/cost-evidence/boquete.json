@@ -1,0 +1,27 @@
+{
+  "city": "Boquete",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 700, "party": "shared",              "source": "expatlife.ai / citycost.org", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR; range $500–$800; whole house rental $600–$1,200"},
+    "utilities": {"usd": 95,  "party": "shared",              "source": "expatlife.ai / citycost.org", "asOf": "2026-06", "confidence": "high", "note": "electric ~$54 + internet ~$43; cool highland climate means no A/C"},
+    "groceries": {"usd": 260, "party": "perPerson",           "source": "expatlife.ai", "asOf": "2026-06", "confidence": "med", "note": "groceries $200–$350; mix of local markets and supermarkets; USD is local currency"},
+    "diningOut": {"usd": 150, "party": "perPerson",           "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "local fondas + expat cafes; restaurant scene growing"},
+    "transit":   {"usd": 80,  "party": "perPerson",           "source": "expatlife.ai", "asOf": "2026-06", "confidence": "med", "note": "car strongly recommended; $100–$200 with car; taxis otherwise ~$80"},
+    "coworking": {"usd": 80,  "party": "perPersonDiscounted", "source": "citycost.org", "asOf": "2026-06", "confidence": "low", "note": "hot-desk monthly; limited formal coworking; cafes fill the gap"},
+    "simData":   {"usd": 15,  "party": "perPerson",           "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "high", "note": "Cable & Wireless/Claro 30-day plan; USD-based so no FX issues"},
+    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "expatlife.ai", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, hiking gear, nature activities, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.05]
+  },
+  "evidence": [
+    {"claim": "overall monthly cost ~$1,360 including rent", "quote": "Everyday life in Boquete is moderately priced at about $1,360 per month, rent included", "source": "expatlife.ai", "url": "https://expatlife.ai/panama/cities/boquete/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "1BR rent $640–$764; whole house $600–$1,200", "quote": "rents for a 1-bedroom flat in Boquete range from $640 to $764, depending on location and condition. In Boquete you can rent a whole house for US$600 to US$1,200, or a one-bedroom for US$500 to US$800", "source": "citycost.org", "url": "https://citycost.org/boquete/", "date": "2026-04", "confidence": "high"},
+    {"claim": "electric ~$54, internet ~$43/month; no A/C needed in highlands", "quote": "Electricity, water, cooling, heating, and garbage services: around $54 per month; High-speed internet (60 Mbps or more, unlimited data): around $43 per month", "source": "expatlife.ai", "url": "https://expatlife.ai/panama/cities/boquete/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "car ownership strongly recommended; groceries $200–$350", "quote": "Groceries (mix of local markets + supermarket) ($200–$350), transport (car ownership strongly recommended) ($100–$200)", "source": "expatlife.ai", "url": "https://expatlife.ai/panama/cities/boquete/cost-of-living", "date": "2026-06", "confidence": "med"}
+  ]
+}

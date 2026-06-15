@@ -1,0 +1,27 @@
+{
+  "city": "Valletta",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1200, "party": "shared",              "source": "immigrantinvest.com / globalcitizensolutions.com", "asOf": "2026-05", "confidence": "high", "note": "furnished 1BR in Valletta or adjacent Sliema/Gzira; €1,100–1,600 premium areas"},
+    "utilities": {"usd": 130,  "party": "shared",              "source": "visaboards.com",                                  "asOf": "2026-05", "confidence": "med",  "note": "electric + water + internet; island pricing"},
+    "groceries": {"usd": 250,  "party": "perPerson",           "source": "immigrantinvest.com",                             "asOf": "2026-05", "confidence": "med",  "note": "home cooking; imported goods push prices up"},
+    "diningOut": {"usd": 240,  "party": "perPerson",           "source": "nomados.ai",                                      "asOf": "2026-05", "confidence": "med",  "note": "restaurants and cafes; tourist areas pricier"},
+    "transit":   {"usd": 50,   "party": "perPerson",           "source": "globalcitizensolutions.com",                      "asOf": "2026-04", "confidence": "med",  "note": "monthly bus pass; good network across island"},
+    "coworking": {"usd": 180,  "party": "perPersonDiscounted", "source": "nomados.ai",                                      "asOf": "2026-05", "confidence": "med",  "note": "hot-desk monthly; growing nomad infrastructure"},
+    "simData":   {"usd": 22,   "party": "perPerson",           "source": "visaboards.com",                                  "asOf": "2026-05", "confidence": "med",  "note": "Maltese SIM ~€20/mo"},
+    "misc":      {"usd": 165,  "party": "perPersonDiscounted", "source": "estimated",                                       "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [0.88, 0.88, 0.92, 1.0, 1.05, 1.15, 1.3, 1.3, 1.1, 1.0, 0.92, 0.88]
+  },
+  "evidence": [
+    {"claim": "Valletta/Malta nomad budget ~$2,242/mo", "quote": "For a digital nomad in Valletta, expect about $2,242 per month", "source": "nomadlio.com", "url": "https://nomadlio.com/valletta/cost-of-living/", "date": "2026-05", "confidence": "med"},
+    {"claim": "Malta premium areas Sliema/St. Julian's/Valletta €1,100–1,600", "quote": "In premium coastal areas such as Sliema, St. Julian's, and Valletta, prices range from €1,100 to €1,600", "source": "immigrantinvest.com", "url": "https://immigrantinvest.com/blog/cost-of-living-in-malta/", "date": "2026-05", "confidence": "high"},
+    {"claim": "Malta living expenses excl rent ~€760/mo", "quote": "Monthly living expenses are estimated at approximately €760 per person", "source": "globalcitizensolutions.com", "url": "https://www.globalcitizensolutions.com/cost-of-living-in-malta/", "date": "2026-04", "confidence": "med"},
+    {"claim": "Malta nomad budget €1,100–2,000/mo for essentials", "quote": "As a digital nomad, you should budget between €1,100 and €2,000 per month to cover essentials like rent, groceries, transportation, and utilities", "source": "nomados.ai", "url": "https://nomados.ai/malta-for-digital-nomads-visas-cities-costs-mediterranean-remote-work/", "date": "2026-05", "confidence": "med"}
+  ]
+}

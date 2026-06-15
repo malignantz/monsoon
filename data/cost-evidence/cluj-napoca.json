@@ -1,0 +1,27 @@
+{
+  "city": "Cluj-Napoca",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 580, "party": "shared",              "source": "numbeo.com Cluj-napoca / wise.com/romania/cluj-napoca", "asOf": "2026-05", "confidence": "high", "note": "furnished 1BR city centre; avg £531 (~$670); outside centre avg £417 (~$525)"},
+    "utilities": {"usd": 130, "party": "shared",              "source": "numbeo.com Cluj-napoca", "asOf": "2026-05", "confidence": "high", "note": "electric + heating + water + internet; avg £119 (~$150) for 85m2"},
+    "groceries": {"usd": 180, "party": "perPerson",           "source": "livingcost.org/cluj-napoca", "asOf": "2026-06", "confidence": "high", "note": "home cooking; Cluj affordable for food"},
+    "diningOut": {"usd": 160, "party": "perPerson",           "source": "andysto.com Cluj nomad", "asOf": "2026-06", "confidence": "high", "note": "student city vibe; lots of cheap options"},
+    "transit":   {"usd": 20,  "party": "perPerson",           "source": "expatistan.com/cluj-napoca", "asOf": "2026-02", "confidence": "high", "note": "bus/tram monthly pass; walkable old town"},
+    "coworking": {"usd": 150, "party": "perPersonDiscounted", "source": "digitalnomadsromania.com/cluj", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; growing IT hub with several spaces"},
+    "simData":   {"usd": 8,   "party": "perPerson",           "source": "expatistan.com/cluj-napoca", "asOf": "2026-02", "confidence": "high", "note": "Romanian SIM; Digi cheapest; fast LTE"},
+    "misc":      {"usd": 110, "party": "perPersonDiscounted", "source": "andysto.com Cluj nomad", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. University city; slight summer dip.",
+    "values": [1.00, 1.00, 1.00, 1.00, 1.05, 1.05, 0.95, 0.95, 1.00, 1.00, 1.00, 1.00]
+  },
+  "evidence": [
+    {"claim": "1BR city centre avg £531 (~$670); outside centre avg £417 (~$525)", "quote": "Renting a 1-bedroom apartment in the city centre costs an additional £531 on average. Outside the Centre: The average monthly rent for a 1-bedroom apartment outside the centre is £417", "source": "numbeo.com", "url": "https://www.numbeo.com/cost-of-living/in/Cluj-napoca", "date": "2026-05", "confidence": "high"},
+    {"claim": "overall monthly costs ~£1,107 (~$1,400) per person; utilities avg £119 for 85m2", "quote": "You can expect to spend around £1,107 per month for 1 person. Basic utilities in Cluj-Napoca cost an average of £119 per month", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/romania/cluj-napoca", "date": "2026-06", "confidence": "high"},
+    {"claim": "nomad budget $1,000–$1,800/mo typical; Cluj is growing IT hub", "quote": "for digital nomads in Cluj-Napoca, a monthly budget of around $1,000 to $1,800 is typical", "source": "livingcost.org", "url": "https://livingcost.org/cost/romania/cluj-napoca", "date": "2026-06", "confidence": "high"},
+    {"claim": "Cluj digital nomad guide: vibrant community, good internet, affordable vs. Bucharest", "quote": "digital nomads in Cluj-Napoca: your ultimate guide", "source": "digitalnomadsromania.com", "url": "https://digitalnomadsromania.com/digital-nomads-in-cluj-napoca-your-ultimate-guide/", "date": "2026-06", "confidence": "med"}
+  ]
+}

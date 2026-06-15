@@ -1,0 +1,27 @@
+{
+  "city": "Catania (Sicily)",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 680,  "party": "shared",              "source": "nomads.com / numbeo.com",  "asOf": "2026-05", "confidence": "high", "note": "furnished 1BR in Centro or Picanello; €500–750/mo"},
+    "utilities": {"usd": 145,  "party": "shared",              "source": "wavydestination.com",      "asOf": "2026-04", "confidence": "med",  "note": "electric + water + internet; Sicily A/C costs add up"},
+    "groceries": {"usd": 240,  "party": "perPerson",           "source": "nomads.com",               "asOf": "2026-05", "confidence": "med",  "note": "home cooking; Sicilian markets very affordable"},
+    "diningOut": {"usd": 200,  "party": "perPerson",           "source": "numbeo.com",               "asOf": "2026-05", "confidence": "med",  "note": "mid-range restaurant €15–25; local trattoria cheaper"},
+    "transit":   {"usd": 40,   "party": "perPerson",           "source": "wavydestination.com",      "asOf": "2026-04", "confidence": "high", "note": "monthly bus pass ~€30–40"},
+    "coworking": {"usd": 150,  "party": "perPersonDiscounted", "source": "nomadlio.com",             "asOf": "2026-05", "confidence": "low",  "note": "hot-desk monthly; fewer options than mainland Italy"},
+    "simData":   {"usd": 18,   "party": "perPerson",           "source": "estimated",                "asOf": "2026-06", "confidence": "high", "note": "Italian SIM ~€10–20/mo"},
+    "misc":      {"usd": 160,  "party": "perPersonDiscounted", "source": "estimated",                "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [0.85, 0.85, 0.9, 0.95, 1.0, 1.1, 1.4, 1.45, 1.2, 1.0, 0.9, 0.82]
+  },
+  "evidence": [
+    {"claim": "Catania 1BR rent €500–800/mo by neighborhood", "quote": "City Center ranges €600-€800, Picanello €500-€700, and San Giovanni Galermo €400-€600", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/catania", "date": "2026-05", "confidence": "high"},
+    {"claim": "Catania nomad monthly cost ~$2,508", "quote": "The cost of living in Catania is $2,508 per month for digital nomads", "source": "nomadlio.com", "url": "https://nomadlio.com/catania/cost-of-living/", "date": "2026-05", "confidence": "med"},
+    {"claim": "Sicily rents 40–60% lower than Milan", "quote": "Southern Italy (Sicily, Calabria, Puglia) offers rents 40-60% lower than Milan", "source": "wavydestination.com", "url": "https://wavydestination.com/cost-of-living-in-sicily-2026-real-monthly-expenses-rent-food-budget-guide/", "date": "2026-04", "confidence": "high"},
+    {"claim": "Monthly groceries $251, dining out $348", "quote": "Monthly groceries cost $251, while dining out averages $348", "source": "numbeo.com", "url": "https://www.numbeo.com/cost-of-living/in/Catania", "date": "2026-05", "confidence": "med"}
+  ]
+}

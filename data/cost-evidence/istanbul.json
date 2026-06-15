@@ -1,0 +1,27 @@
+{
+  "city": "Istanbul",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 700, "party": "shared",              "source": "istanbeautiful.com Istanbul cost 2026 / beforeturkey.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1+1 in Kadikoy/Sisli/Beyoglu; 30,000-55,000 TL ($900-1,650); mid-point nomad area"},
+    "utilities": {"usd": 80,  "party": "shared",              "source": "binaainvestment.com Istanbul cost 2026", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet; utilities $50-100; internet $10-15 separately"},
+    "groceries": {"usd": 180, "party": "perPerson",           "source": "globalcitizensolutions.com Istanbul cost 2026", "asOf": "2026-06", "confidence": "med", "note": "Migros/BIM + local pazars; groceries $150-250/mo range; inflation elevated"},
+    "diningOut": {"usd": 180, "party": "perPerson",           "source": "beforeturkey.com Istanbul cost 2026", "asOf": "2026-06", "confidence": "med", "note": "simit $0.30, lokantas $4-8, quality mezes; eating out very affordable vs Western cities"},
+    "transit":   {"usd": 40,  "party": "perPerson",           "source": "istanbeautiful.com Istanbul cost 2026", "asOf": "2026-06", "confidence": "high", "note": "Istanbul Card monthly pass ~$40; excellent metro/tram/ferry network"},
+    "coworking": {"usd": 120, "party": "perPersonDiscounted", "source": "istanbul-tourist-information.com coworking 2026", "asOf": "2026-06", "confidence": "med", "note": "Impact Hub, IDEA Kadikoy; solid coworking scene; $100-200/mo range"},
+    "simData":   {"usd": 15,  "party": "perPerson",           "source": "nomads.com Istanbul Feb 2026", "asOf": "2026-02", "confidence": "med", "note": "Turkcell/Vodafone TR tourist SIMs; resident plan competitive"},
+    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "explorewithlora.com Istanbul digital nomad", "asOf": "2026-06", "confidence": "med", "note": "hammam, museums, Bosphorus ferries, gym, entertainment; rich cultural scene"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers applied to RENT ONLY (Jan..Dec). 1.0 = base. Raise for peak tourist/weather months, lower for off-peak.",
+    "values": [0.85, 0.85, 0.9, 1.0, 1.1, 1.15, 1.2, 1.2, 1.1, 1.0, 0.9, 0.9]
+  },
+  "evidence": [
+    {"claim": "Istanbul 1+1 apt 30,000-55,000 TL/mo ($900-1,650); city center 1BR ~$900", "quote": "A 1+1 or small 2+1 apartment typically costs between 30,000 and 55,000 TL per month (approximately 900–1,650 USD). One-bedroom apartments in the city center rent for $900/month", "source": "istanbeautiful.com", "url": "https://istanbeautiful.com/cost-of-living-in-istanbul/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Istanbul digital nomad ~$1,366/month; comfortable lifestyle $1,500-2,500", "quote": "A digital nomad should plan for approximately $1,366/month in Istanbul. the average monthly budget for a single person seeking a comfortable but not luxurious lifestyle should be approximately $1,500 to $2,500 USD", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/istanbul", "date": "2026-02", "confidence": "med"},
+    {"claim": "Istanbul groceries $150-250; monthly public transport ~$40; utilities $50-100", "quote": "Groceries cost $150–$250 and a monthly public transport pass costs around $40. Utilities cost between $50–$100 monthly for an average apartment, with internet adding another $10–$15", "source": "beforeturkey.com", "url": "https://beforeturkey.com/cost-of-living-istanbul-2026/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Many live in Istanbul on $1,000/month by renting outside center and cooking at home", "quote": "Many people live in Istanbul on $1,000/month by renting outside the city center, using public transport, and managing dining expenses", "source": "binaainvestment.com", "url": "https://www.binaainvestment.com/en/blog/cost-of-living-in-istanbul", "date": "2026-06", "confidence": "med"}
+  ]
+}

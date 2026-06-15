@@ -1,0 +1,27 @@
+{
+  "city": "Ohrid",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 280, "party": "shared",              "source": "nomadlio.com/ohrid / citycost.org/ohrid", "asOf": "2026-05", "confidence": "low", "note": "furnished 1BR; centre ~$234; lakeside from €300; summer prices spike significantly"},
+    "utilities": {"usd": 70,  "party": "shared",              "source": "citycost.org/North-Macedonia", "asOf": "2026-03", "confidence": "low", "note": "electric + water + internet; basic"},
+    "groceries": {"usd": 140, "party": "perPerson",           "source": "danroundtheworld.com/ohrid", "asOf": "2026-06", "confidence": "low", "note": "home cooking; local market produce cheap"},
+    "diningOut": {"usd": 120, "party": "perPerson",           "source": "danroundtheworld.com/ohrid", "asOf": "2026-06", "confidence": "low", "note": "local tavernas cheap; tourist premium near lake in summer"},
+    "transit":   {"usd": 20,  "party": "perPerson",           "source": "citycost.org/ohrid", "asOf": "2026-05", "confidence": "low", "note": "limited local buses; walking or scooter more practical"},
+    "coworking": {"usd": 80,  "party": "perPersonDiscounted", "source": "danroundtheworld.com/ohrid", "asOf": "2026-06", "confidence": "low", "note": "virtually no dedicated coworking; cafés with WiFi main option"},
+    "simData":   {"usd": 8,   "party": "perPerson",           "source": "citycost.org/North-Macedonia", "asOf": "2026-03", "confidence": "low", "note": "Macedonian SIM; T-Mobile MK; reasonable coverage"},
+    "misc":      {"usd": 80,  "party": "perPersonDiscounted", "source": "danroundtheworld.com/ohrid", "asOf": "2026-06", "confidence": "low", "note": "gym nonexistent, toiletries, activities, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Lakeside tourist town; extreme summer peak.",
+    "values": [0.65, 0.65, 0.70, 0.80, 1.00, 1.30, 2.00, 2.00, 1.40, 0.90, 0.70, 0.65]
+  },
+  "evidence": [
+    {"claim": "1BR centre ~$234; further out ~$168; lakeside from €300/mo", "quote": "In Ohrid's center, a one-bedroom apartment runs about $234 per month, with prices dropping to around $168 further out. Ohrid offers lakeside living from €300 per month", "source": "nomadlio.com / citycost.org", "url": "https://nomadlio.com/ohrid/cost-of-living/", "date": "2026-05", "confidence": "low"},
+    {"claim": "total monthly costs with rent ~$932 for digital nomads; under €1,000/mo easy if cooking", "quote": "Total monthly costs with rent usually land around $932 for digital nomads. It would be very easy to live for under €1000 per month if cooking for yourself most nights", "source": "danroundtheworld.com", "url": "https://danroundtheworld.com/ohrid-digital-nomad-guide/", "date": "2026-06", "confidence": "low"},
+    {"claim": "North Macedonia single-person budget €600–800/mo; Ohrid popular summer destination", "quote": "a comfortable single-person budget starts at just €600–800 per month across North Macedonia", "source": "expatlife.ai", "url": "https://expatlife.ai/north-macedonia", "date": "2026-06", "confidence": "low"},
+    {"claim": "Ohrid digital nomad guide noting sparse WiFi and limited infrastructure vs. Skopje", "quote": "Ohrid for Digital Nomads", "source": "nomadlio.com", "url": "https://nomadlio.com/ohrid/", "date": "2026-06", "confidence": "low"}
+  ]
+}

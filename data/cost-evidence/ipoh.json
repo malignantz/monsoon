@@ -1,0 +1,27 @@
+{
+  "city": "Ipoh",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 310, "party": "shared",              "source": "mudah.my Ipoh rental listings Jun 2026 / mylifeelsewhere.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR/condo in Ipoh; MYR 550-1,600 range; RM 1,300-1,600 for modern units"},
+    "utilities": {"usd": 55,  "party": "shared",              "source": "pacificprime.com Malaysia cost 2026", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; Malaysia utilities cheap; ~RM 163 + RM 99 internet"},
+    "groceries": {"usd": 110, "party": "perPerson",           "source": "liveandinvestoverseas.com Ipoh 2026", "asOf": "2026-06", "confidence": "med", "note": "Ipoh famous for food culture; local markets very affordable"},
+    "diningOut": {"usd": 130, "party": "perPerson",           "source": "liveandinvestoverseas.com Ipoh 2026", "asOf": "2026-06", "confidence": "med", "note": "Ipoh white coffee, dim sum, hawker food; $1-3 meals common; excellent food city"},
+    "transit":   {"usd": 40,  "party": "perPerson",           "source": "nomads.com Ipoh digital nomad guide 2026", "asOf": "2026-06", "confidence": "med", "note": "Grab + local taxis; smaller city, less traffic than KL"},
+    "coworking": {"usd": 80,  "party": "perPersonDiscounted", "source": "nomads.com Ipoh digital nomad guide 2026", "asOf": "2026-06", "confidence": "low", "note": "limited coworking; cafes serve as de-facto workspace; smaller nomad community"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "pacificprime.com Malaysia cost 2026", "asOf": "2026-06", "confidence": "high", "note": "Celcom/Maxis/Digi unlimited data RM 50-60/mo"},
+    "misc":      {"usd": 90,  "party": "perPersonDiscounted", "source": "liveandinvestoverseas.com Ipoh 2026", "asOf": "2026-06", "confidence": "med", "note": "Ipoh slower pace; lower entertainment spend vs KL; gym, personal care, day trips"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers applied to RENT ONLY (Jan..Dec). 1.0 = base. Raise for peak tourist/weather months, lower for off-peak.",
+    "values": [1.05, 1.05, 1.0, 0.98, 0.95, 0.95, 0.98, 1.0, 1.0, 0.98, 0.98, 1.05]
+  },
+  "evidence": [
+    {"claim": "Ipoh costs $1,465/month for digital nomad; one of lowest cost Malaysian cities", "quote": "Ipoh costs $1,465 per month to live and work remotely with 15 mbps internet speed", "source": "nomads.com", "url": "https://nomads.com/ipoh", "date": "2026-06", "confidence": "med"},
+    {"claim": "Ipoh 30-40% cheaper than KL for comparable lifestyle; retired couple under $1,000/mo", "quote": "smaller cities like Ipoh, Malacca, and Kuching can be 30-40% cheaper than KL for comparable lifestyles. a retired couple could live comfortably here on less than US$1,000 per month", "source": "liveandinvestoverseas.com", "url": "https://www.liveandinvestoverseas.com/country-hub/malaysia/ipoh/", "date": "2026-06", "confidence": "med"},
+    {"claim": "Ipoh furnished condos RM 550-1,600/month; Anderson Condo from RM 1,300", "quote": "Furnished apartments in Ipoh are available at various price points, ranging from RM 550 to RM 1,600 per month. 2-bedroom, 2-bathroom fully furnished units at Anderson Condo start at RM 1,300 per month", "source": "propertyguru.com.my", "url": "https://www.propertyguru.com.my/condo-for-rent/in-ipoh-nnv3d/fully-furnished", "date": "2026-06", "confidence": "med"},
+    {"claim": "Malaysia utilities ~$41-89 for two; internet $25-33/month", "quote": "utilities (such as gas and electricity) cost about USD$41-$89 for two people for one month, while Internet costs about USD$25-$33 per month", "source": "pacificprime.com", "url": "https://www.pacificprime.com/blog/cost-of-living-in-malaysia.html", "date": "2026-06", "confidence": "high"}
+  ]
+}

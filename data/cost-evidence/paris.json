@@ -1,0 +1,27 @@
+{
+  "city": "Paris",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1600, "party": "shared",              "source": "relocation-in-paris.fr / citycost.org", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area (10th-11th arr.); Bastille/Canal Saint-Martin €1,200-1,600; central 1st-8th €1,600-2,500"},
+    "utilities": {"usd": 120,  "party": "shared",              "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; Paris utilities moderate; internet ~€35/mo"},
+    "groceries": {"usd": 300,  "party": "perPerson",           "source": "citycost.org / relocation-in-paris.fr", "asOf": "2026-06", "confidence": "high", "note": "home cooking; Monoprix / Franprix / Lidl; local markets affordable for produce"},
+    "diningOut": {"usd": 330,  "party": "perPerson",           "source": "relocation-in-paris.fr", "asOf": "2026-06", "confidence": "med", "note": "lunch formule ~€12-16; bistro dinner €20-30; cafes €4-6/coffee"},
+    "transit":   {"usd": 90,   "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "Navigo monthly pass ~€75 covers all Paris metro/bus/RER zones"},
+    "coworking": {"usd": 240,  "party": "perPersonDiscounted", "source": "relocation-in-paris.fr", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly €150-350; mid estimate ~€220"},
+    "simData":   {"usd": 18,   "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (Free/Orange/Bouygues) unlimited data; France has competitive mobile pricing"},
+    "misc":      {"usd": 240,  "party": "perPersonDiscounted", "source": "citycost.org", "asOf": "2026-06", "confidence": "med", "note": "gym (~€35), toiletries, entertainment, museum passes, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Paris medium-term furnished lets stable year-round; summer tourist pressure minor for long-term.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Paris digital nomad monthly budget range", "quote": "Digital nomads should budget between €2,300 and €3,800 per month to live comfortably in Paris in 2026", "source": "relocation-in-paris.fr", "url": "https://relocation-in-paris.fr/en/blog/living-in-paris-as-a-digital-nomad", "date": "2026-06", "confidence": "med"},
+    {"claim": "Paris furnished 1BR rent by arrondissement", "quote": "Central Paris (1st to 8th arrondissements) ranges from €1,600 to €2,500 per month for a furnished one-bedroom, while the Canal Saint-Martin and Bastille areas (10th to 11th arrondissements) are €1,200 to €1,600", "source": "relocation-in-paris.fr", "url": "https://relocation-in-paris.fr/en/blog/living-in-paris-as-a-digital-nomad", "date": "2026-06", "confidence": "high"},
+    {"claim": "Paris metro monthly pass", "quote": "A metro pass in Paris costs around €75 per month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/paris", "date": "2026-05", "confidence": "high"},
+    {"claim": "Paris coworking monthly range", "quote": "Coworking spaces or hot desks cost €150 to €350 per month", "source": "relocation-in-paris.fr", "url": "https://relocation-in-paris.fr/en/blog/living-in-paris-as-a-digital-nomad", "date": "2026-06", "confidence": "med"}
+  ]
+}

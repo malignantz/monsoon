@@ -1,0 +1,27 @@
+{
+  "city": "Hanoi",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 420, "party": "shared",              "source": "worldcostofliving.com Hanoi 2026 / nomads.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Tay Ho or Ba Dinh nomad area; $365-525 range"},
+    "utilities": {"usd": 65,  "party": "shared",              "source": "novad.app Hanoi nomad guide 2026", "asOf": "2026-06", "confidence": "med", "note": "electric + water + fiber internet; hot summers mean higher A/C bills"},
+    "groceries": {"usd": 110, "party": "perPerson",           "source": "thebrokebackpacker.com Vietnam cost 2026", "asOf": "2026-06", "confidence": "med", "note": "local wet markets; fresh produce very cheap"},
+    "diningOut": {"usd": 160, "party": "perPerson",           "source": "nomads.com Hanoi cost of living 2026", "asOf": "2026-06", "confidence": "med", "note": "street pho $1-2, mid-range $3-8; mix of local + expat cafes"},
+    "transit":   {"usd": 45,  "party": "perPerson",           "source": "novad.app Hanoi nomad guide 2026", "asOf": "2026-06", "confidence": "high", "note": "Grab bike/car; 5km ride ~$1.70; monthly Grab budget"},
+    "coworking": {"usd": 100, "party": "perPersonDiscounted", "source": "visadb.io Vietnam digital nomad 2026", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; growing coworking scene in Tay Ho area"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "thevietnamyield.com digital nomad Vietnam 2026", "asOf": "2026-06", "confidence": "high", "note": "Viettel unlimited 4G SIM ~200,000 VND/mo"},
+    "misc":      {"usd": 90,  "party": "perPersonDiscounted", "source": "nomads.com Hanoi cost of living 2026", "asOf": "2026-06", "confidence": "med", "note": "gym, entertainment, personal care, cultural activities, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers applied to RENT ONLY (Jan..Dec). 1.0 = base. Raise for peak tourist/weather months, lower for off-peak.",
+    "values": [1.05, 1.05, 1.1, 1.05, 1.0, 0.95, 0.95, 0.95, 1.0, 1.05, 1.1, 1.1]
+  },
+  "evidence": [
+    {"claim": "Hanoi 1BR apartment average $399/month; modern serviced apt $440-525", "quote": "Average rent is $399.00/month for a 1-bedroom apartment. 10-12 million dong ($440–$525) will get you a spacious and modern serviced one-bedroom apartment in a prime location", "source": "worldcostofliving.com", "url": "https://www.worldcostofliving.com/city/hanoi-vietnam", "date": "2026-06", "confidence": "high"},
+    {"claim": "Hanoi digital nomad total monthly ~$944-$1,068", "quote": "Plan for approximately $944/month as a digital nomad in Hanoi, covering coworking, accommodation, food, and local transport", "source": "novad.app", "url": "https://novad.app/vietnam/hanoi", "date": "2026-06", "confidence": "med"},
+    {"claim": "Grab 5km ride $1.70; Big Mac $3.20; Starbucks latte $1.90", "quote": "A Big Mac costs $3.20 and a Starbucks latte goes for $1.90 in Hanoi. A 5km Uber ride costs $1.70", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/hanoi", "date": "2026-06", "confidence": "high"},
+    {"claim": "Tay Ho 1BR rent 5-10 million VND ($220-$440/mo)", "quote": "Rent for a one-bedroom apartment in Tay Ho can range from 5-10 million VND (approximately $220-$440 USD) per month", "source": "worldcostofliving.com", "url": "https://www.worldcostofliving.com/city/hanoi-vietnam", "date": "2026-06", "confidence": "high"}
+  ]
+}

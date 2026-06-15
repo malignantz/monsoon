@@ -1,0 +1,27 @@
+{
+  "city": "Málaga",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1000, "party": "shared",              "source": "welcome-malaga.com / expatlife.ai", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Soho or Pedregalejo; €850–1,300 historic centre"},
+    "utilities": {"usd": 125,  "party": "shared",              "source": "casabasilico.com",                 "asOf": "2026-05", "confidence": "med",  "note": "electric + water + internet"},
+    "groceries": {"usd": 235,  "party": "perPerson",           "source": "nomads.com",                       "asOf": "2026-06", "confidence": "med",  "note": "home cooking; non-tourist markets affordable"},
+    "diningOut": {"usd": 235,  "party": "perPerson",           "source": "sunwaverelocation.com",            "asOf": "2026-05", "confidence": "med",  "note": "menú del día; beach bars; tapas circuit"},
+    "transit":   {"usd": 42,   "party": "perPerson",           "source": "migaku.com",                       "asOf": "2026-06", "confidence": "high", "note": "monthly bus/metro pass ~€35–40"},
+    "coworking": {"usd": 175,  "party": "perPersonDiscounted", "source": "migaku.com",                       "asOf": "2026-06", "confidence": "med",  "note": "hot-desk monthly; booming nomad scene"},
+    "simData":   {"usd": 18,   "party": "perPerson",           "source": "casabasilico.com",                 "asOf": "2026-06", "confidence": "high", "note": "Spanish SIM ~€15–20/mo"},
+    "misc":      {"usd": 165,  "party": "perPersonDiscounted", "source": "estimated",                        "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, beach activities, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [0.85, 0.85, 0.92, 1.0, 1.08, 1.2, 1.4, 1.4, 1.15, 1.0, 0.9, 0.85]
+  },
+  "evidence": [
+    {"claim": "Málaga 1BR city centre €850–1,300/mo", "quote": "1-bedroom apartments in the city center (Centro Histórico, Soho, La Malagueta) cost €850–€1,300/month", "source": "expatlife.ai", "url": "https://expatlife.ai/spain/cities/malaga/cost-of-living", "date": "2026-05", "confidence": "high"},
+    {"claim": "Málaga digital nomad monthly budget €1,300–2,000", "quote": "The cost of living for a digital nomad in Málaga typically ranges between €1,300 and €2,000 per month for a moderate lifestyle", "source": "welcome-malaga.com", "url": "https://www.welcome-malaga.com/en/post/how-much-does-it-cost-to-live-in-m%C3%A1laga-as-a-digital-nomad-in-2026", "date": "2026-05", "confidence": "high"},
+    {"claim": "Rents risen 30–40% since 2022 due to nomad demand", "quote": "Rents have risen 30-40% since 2022 due to digital nomad demand, but the city is still 20-30% cheaper than Marbella", "source": "waypointsur.com", "url": "https://guides.waypointsur.com/cost-of-living-malaga/", "date": "2026-05", "confidence": "high"},
+    {"claim": "Short-term summer rentals €1,400+ in Málaga centre", "quote": "Short-term furnished rentals aimed at nomads run higher, often €1,400+ in summer", "source": "expatlife.ai", "url": "https://expatlife.ai/spain/cities/malaga/cost-of-living", "date": "2026-05", "confidence": "high"}
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "city": "Cuenca",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 500, "party": "shared",              "source": "expatecuador.com / ecuapass.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in expat-popular neighborhood; range $350–$650"},
+    "utilities": {"usd": 70,  "party": "shared",              "source": "expatecuador.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; USD-dollarized economy; mild highland climate"},
+    "groceries": {"usd": 160, "party": "perPerson",           "source": "ecuapass.com", "asOf": "2026-06", "confidence": "high", "note": "home cooking; mercados exceptional value; USD pricing = predictable"},
+    "diningOut": {"usd": 120, "party": "perPerson",           "source": "thenest.blog / cuencaexpat.com", "asOf": "2026-06", "confidence": "high", "note": "almuerzos $2.50–$3.50 for 3-course lunch; best value in Ecuador"},
+    "transit":   {"usd": 20,  "party": "perPerson",           "source": "expatecuador.com", "asOf": "2026-06", "confidence": "high", "note": "buses + taxis; city walkable; very low transport costs"},
+    "coworking": {"usd": 80,  "party": "perPersonDiscounted", "source": "novad.app", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; established expat/nomad scene"},
+    "simData":   {"usd": 15,  "party": "perPerson",           "source": "ecuapass.com", "asOf": "2026-06", "confidence": "high", "note": "Claro/Movistar 30-day plan; USD = no FX risk"},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "cuencaexpat.com", "asOf": "2026-06", "confidence": "med", "note": "gym (~$25), toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Cuenca is very flat seasonally.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "single nomad $1,000–$1,500/month; avg ~$1,060/month", "quote": "A single person costs $1,060 per month; for a single expat, Cuenca costs $1,000–1,500/month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/cuenca", "date": "2026-02", "confidence": "high"},
+    {"claim": "furnished 1BR $350–$650; 2BR $650–$900", "quote": "Rent ranges from $350–550 for a 1-bedroom furnished apartment. A furnished 2-bedroom costs $650-900", "source": "expatecuador.com", "url": "https://www.expatecuador.com/guides/cost-of-living-cuenca-ecuador", "date": "2026-06", "confidence": "high"},
+    {"claim": "3-course almuerzo $2.50–$3.50; best food deal in Ecuador", "quote": "A full three-course lunch — soup, main plate with protein, rice, salad, and juice — costs $2.50-$3.50 at local restaurants, and this is the best deal in the entire country", "source": "cuencaexpat.com", "url": "https://cuencaexpat.com/articles/cuenca-cost-of-living-2026-affordable-prices-rising", "date": "2026-06", "confidence": "high"},
+    {"claim": "one expat living on $750/month in Cuenca with full breakdown", "quote": "Cost of Living in Ecuador 2026: I Spend $750/mo in Cuenca (Full Breakdown)", "source": "ecuapass.com", "url": "https://ecuapass.com/blog/cost-of-living-in-ecuador-2026", "date": "2026-06", "confidence": "med"}
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "city": "Cusco",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 480, "party": "shared",              "source": "digitalnomads.world / foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR in San Blas/Wanchaq; range $350–$600; altitude limits supply"},
+    "utilities": {"usd": 110, "party": "shared",              "source": "digitalnomads.world", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; $120–$200 range; heating required at 3,400m altitude"},
+    "groceries": {"usd": 150, "party": "perPerson",           "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; local markets (San Pedro) very affordable"},
+    "diningOut": {"usd": 160, "party": "perPerson",           "source": "digitalnomads.world", "asOf": "2026-06", "confidence": "med", "note": "local menus $2–4; tourist restaurants $10–20; mix essential"},
+    "transit":   {"usd": 25,  "party": "perPerson",           "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "high", "note": "combis + taxis; historic center walkable"},
+    "coworking": {"usd": 80,  "party": "perPersonDiscounted", "source": "digitalnomads.world", "asOf": "2026-06", "confidence": "low", "note": "hot-desk monthly; growing scene; several hostels offer work spaces"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "high", "note": "Claro/Movistar 30-day plan; coverage good in city"},
+    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "digitalnomads.world", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, treks, excursions to ruins, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Dry season (May–Oct) is tourist high season; rainy season lower demand.",
+    "values": [0.97, 0.97, 1.0, 1.0, 1.05, 1.08, 1.08, 1.05, 1.02, 1.0, 0.97, 0.97]
+  },
+  "evidence": [
+    {"claim": "monthly costs $1,000–$1,400/month for nomad lifestyle in Cusco", "quote": "In Cusco, digital nomads can expect monthly costs of $1,000-1,400/month for a similar lifestyle", "source": "foodtravelexplore.com", "url": "https://foodtravelexplore.com/south-america/peru/cost-of-living-peru/", "date": "2026-06", "confidence": "high"},
+    {"claim": "rent $350–$600/month; utilities $120–$200 due to heating needs at altitude", "quote": "Rent in Cusco is relatively cheaper, ranging from $350-600 per month. Bills in Cusco are $120-$200 a month due to the higher altitude and cold nights requiring heating", "source": "digitalnomads.world", "url": "https://digitalnomads.world/city-guide/cusco/", "date": "2026-06", "confidence": "high"},
+    {"claim": "low-end budget ~$798/month with hostel accommodation including coworking", "quote": "a low-end budget in Cusco should expect around $798 USD per month total, with accommodation at $248 USD (in the Nomad Hideout, which includes coworking access)", "source": "digitalnomads.world", "url": "https://digitalnomads.world/city-guide/cusco/", "date": "2026-06", "confidence": "med"},
+    {"claim": "food $300/month cooking + street food; transport $50/month", "quote": "$10 USD per day ($300 USD a month) for food, assuming street food, cooking, and local market purchases; $50 USD for transport", "source": "digitalnomads.world", "url": "https://digitalnomads.world/city-guide/cusco/", "date": "2026-06", "confidence": "med"}
+  ]
+}

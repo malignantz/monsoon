@@ -1,0 +1,27 @@
+{
+  "city": "Bangkok",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 650, "party": "shared",              "source": "Bamboo Routes / Bangkok-Housing.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area (Sukhumvit/Silom); avg ~28,000 THB/mo"},
+    "utilities": {"usd": 70,  "party": "shared",              "source": "mynomadspace.com Bangkok nomad guide 2026", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet; A/C heavy in hot months"},
+    "groceries": {"usd": 150, "party": "perPerson",           "source": "curioussparrowtravel.com Bangkok budget 2026", "asOf": "2026-06", "confidence": "med", "note": "home cooking; local markets vs. international supermarkets"},
+    "diningOut": {"usd": 200, "party": "perPerson",           "source": "nomads.com Bangkok cost of living 2026", "asOf": "2026-06", "confidence": "high", "note": "mix of street food, local restaurants, occasional Western cafe"},
+    "transit":   {"usd": 60,  "party": "perPerson",           "source": "go2-thailand.com digital nomad guide 2026", "asOf": "2026-06", "confidence": "high", "note": "BTS/MRT pass + Grab; $1.70 for 5km ride"},
+    "coworking": {"usd": 130, "party": "perPersonDiscounted", "source": "blog.nomavaa.com Bangkok coworking prices 2025-2026", "asOf": "2026-06", "confidence": "high", "note": "hot-desk monthly; Hubba ~$150-200, JustCo ~$100-250 range"},
+    "simData":   {"usd": 15,  "party": "perPerson",           "source": "megaport.hu Thailand cost of living 2026", "asOf": "2026-06", "confidence": "high", "note": "AIS/DTAC unlimited data SIM"},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "curioussparrowtravel.com Bangkok budget 2026", "asOf": "2026-06", "confidence": "med", "note": "gym, massages (~$8-12), entertainment, personal care, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers applied to RENT ONLY (Jan..Dec). 1.0 = base. Raise for peak tourist/weather months, lower for off-peak.",
+    "values": [1.1, 1.05, 1.0, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 1.0, 1.05, 1.1]
+  },
+  "evidence": [
+    {"claim": "Average monthly rent for 1BR in Bangkok ~28,000 THB (~$800); Sukhumvit/Silom runs 30,000-70,000 THB", "quote": "the average monthly rent for a 1-bedroom apartment in Bangkok is around 28,000 baht, which translates to approximately $800", "source": "Bamboo Routes", "url": "https://bambooroutes.com/blogs/news/bangkok-rents", "date": "2026-06", "confidence": "high"},
+    {"claim": "Bangkok solo nomad comfortable budget $1,220-$2,200/month", "quote": "Total monthly budget for Bangkok is 44,500–80,000 THB (USD $1,220–$2,200) for a comfortable lifestyle in a central location", "source": "megaport.hu", "url": "https://megaport.hu/blog/cost-of-living-in-thailand-2026/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Bangkok coworking hot desks: Hubba $120-200/mo, JustCo $100-250/mo, The Hive $150-250/mo", "quote": "The majority of Bangkok's coworking spaces fall into the mid-range category, with day passes ranging from 350-500 THB and monthly rates from 4,000-6,000 THB", "source": "Nomavaa Blog", "url": "https://blog.nomavaa.com/2025/11/25/bangkok-coworking-prices-a-2025-guide-to-day-passes-and-monthly-rates/", "date": "2026-01", "confidence": "high"},
+    {"claim": "Bangkok utilities $50-90/mo including A/C, internet", "quote": "Utilities—including electricity, water, and building fees—typically add $50–90 per month, depending on air-conditioning use", "source": "mynomadspace.com", "url": "https://www.mynomadspace.com/articles/bangkok-for-digital-nomads-expert-guide/", "date": "2026-06", "confidence": "high"}
+  ]
+}

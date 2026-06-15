@@ -1,0 +1,27 @@
+{
+  "city": "Mexico City",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 850, "party": "shared",              "source": "midlifenomads.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Roma Norte / Condesa nomad belt; budget end $600, prime $1,200+"},
+    "utilities": {"usd": 65,  "party": "shared",              "source": "earthsims.com", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet (fiber ~$40 + utilities ~$25)"},
+    "groceries": {"usd": 180, "party": "perPerson",           "source": "outtathecomfortzone.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking, mix of markets and supermarkets"},
+    "diningOut": {"usd": 200, "party": "perPerson",           "source": "shareuhack.com", "asOf": "2026-06", "confidence": "med", "note": "tacos, fondas, corridas + occasional mid-range restaurant"},
+    "transit":   {"usd": 30,  "party": "perPerson",           "source": "midlifenomads.com", "asOf": "2026-06", "confidence": "high", "note": "Metro + occasional Uber/Cabify"},
+    "coworking": {"usd": 120, "party": "perPersonDiscounted", "source": "wandrly.app", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; strong coworking scene in Roma/Condesa"},
+    "simData":   {"usd": 15,  "party": "perPerson",           "source": "earthsims.com", "asOf": "2026-06", "confidence": "high", "note": "Telcel/AT&T 30-day unlimited plan"},
+    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "midlifenomads.com", "asOf": "2026-06", "confidence": "med", "note": "gym (~$30), toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [1.05, 1.0, 1.0, 0.97, 0.97, 0.97, 1.0, 1.0, 1.0, 1.0, 1.0, 1.05]
+  },
+  "evidence": [
+    {"claim": "overall monthly budget $1,600–$2,400 for comfortable nomad lifestyle in 2026", "quote": "The average digital nomad spends about $1,600–$2,400 per month living comfortably in Mexico City in 2026", "source": "midlifenomads.com", "url": "https://www.midlifenomads.com/p/cost-of-living-in-mexico-city-for", "date": "2026-06", "confidence": "high"},
+    {"claim": "rent Roma Norte $1,100–$1,500; budget end $600–$1,200", "quote": "Rent for a modern one-bedroom apartment in a prime area like Roma Norte typically ranges between $1,100 and $1,500. For more budget-conscious options, rent typically ranges from $600-$1,200 monthly", "source": "midlifenomads.com", "url": "https://www.midlifenomads.com/p/cost-of-living-in-mexico-city-for", "date": "2026-06", "confidence": "high"},
+    {"claim": "utilities and internet average $45 for single person", "quote": "Utilities and internet are generally inexpensive, with the average bill for a single person hovering around $45", "source": "earthsims.com", "url": "https://www.earthsims.com/country/mexico-city-digital-nomad-guide/", "date": "2026-06", "confidence": "med"},
+    {"claim": "street food + fondas $8/day; tacos ubiquitous value", "quote": "You can eat extraordinarily well for $8/day at taco stands, market fondas, and corridas", "source": "shareuhack.com", "url": "https://www.shareuhack.com/en/posts/mexico-city-digital-nomad-guide-2026", "date": "2026-06", "confidence": "high"}
+  ]
+}

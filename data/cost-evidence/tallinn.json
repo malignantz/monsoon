@@ -1,0 +1,27 @@
+{
+  "city": "Tallinn",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 780, "party": "shared",              "source": "nomads.com Tallinn / worldcostofliving.com Tallinn", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR city centre €600–€800; avg ~$780"},
+    "utilities": {"usd": 140, "party": "shared",              "source": "casabasilico.com Estonia nomad", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet; €100–€150 heating significant"},
+    "groceries": {"usd": 270, "party": "perPerson",           "source": "casabasilico.com / nomads.com Tallinn", "asOf": "2026-06", "confidence": "high", "note": "home cooking; €300–€400 range; Estonia slightly pricier Baltic"},
+    "diningOut": {"usd": 200, "party": "perPerson",           "source": "wise.com/estonia/tallinn", "asOf": "2026-06", "confidence": "high", "note": "Old Town tourist premium; local spots cheaper"},
+    "transit":   {"usd": 0,   "party": "perPerson",           "source": "nomads.com Tallinn", "asOf": "2026-06", "confidence": "high", "note": "Tallinn public transport FREE for registered residents; budget $30 as non-resident"},
+    "coworking": {"usd": 170, "party": "perPersonDiscounted", "source": "globalcostdata.com/tallinn", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; strong startup/tech ecosystem"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "casabasilico.com", "asOf": "2026-06", "confidence": "high", "note": "Estonian SIM; Tele2 or Elisa; fast LTE"},
+    "misc":      {"usd": 160, "party": "perPersonDiscounted", "source": "casabasilico.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, e-residency perks, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Baltic capital peaks Jun–Aug.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.05, 1.15, 1.20, 1.20, 1.10, 1.00, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "nomad budget ~$1,565/mo; comfortable €1,200–€1,500 solo", "quote": "Digital nomads can plan for approximately $1,565/month in Tallinn, covering coworking, accommodation, food, and local transport", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/tallinn", "date": "2026-06", "confidence": "high"},
+    {"claim": "1BR centre avg ~$615/mo (£604); outside centre ~$435", "quote": "Monthly rent costs average $615 per month. The average monthly rent for a 1-bedroom apartment in the city centre is £604", "source": "worldcostofliving.com", "url": "https://www.worldcostofliving.com/city/tallinn-estonia", "date": "2026-06", "confidence": "high"},
+    {"claim": "public transport FREE for registered residents; groceries €300–€400; utilities €100–€150", "quote": "€0 transport (Tallinn public transport is FREE for residents). €300-400 groceries. €100-150 utilities", "source": "casabasilico.com", "url": "https://casabasilico.com/digital-nomad-guide/digital-nomad-guide-countries/estonia-digital-nomad-guide", "date": "2026-06", "confidence": "high"},
+    {"claim": "Tallinn 66% cheaper than NYC; e-residency hub for EU access", "quote": "Tallinn is 66% cheaper than New York City, making it an attractive destination for digital nomads", "source": "globalcostdata.com", "url": "https://globalcostdata.com/cities/tallinn/", "date": "2026-06", "confidence": "med"}
+  ]
+}

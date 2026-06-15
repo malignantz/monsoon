@@ -1,0 +1,27 @@
+{
+  "city": "Medellín",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 700, "party": "shared",              "source": "midlifenomads.com / colombiamove.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in El Poblado or Laureles; range $500–$1,200"},
+    "utilities": {"usd": 130, "party": "shared",              "source": "rentremote.com", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet; $90–$180 range, spring weather keeps A/C moderate"},
+    "groceries": {"usd": 220, "party": "perPerson",           "source": "midlifenomads.com", "asOf": "2026-06", "confidence": "high", "note": "home cooking; groceries $200–$280/month for one"},
+    "diningOut": {"usd": 160, "party": "perPerson",           "source": "two.travel", "asOf": "2026-06", "confidence": "med", "note": "mix of local spots and nomad cafes; set lunches $3–6"},
+    "transit":   {"usd": 35,  "party": "perPerson",           "source": "midlifenomads.com", "asOf": "2026-06", "confidence": "high", "note": "Metro + cable car system ~$35/month"},
+    "coworking": {"usd": 130, "party": "perPersonDiscounted", "source": "rentremote.com", "asOf": "2026-06", "confidence": "high", "note": "hot-desk monthly $90–$180; Poblado has dense coworking scene"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "colombiamove.com", "asOf": "2026-06", "confidence": "high", "note": "Claro/Movistar 30-day plan"},
+    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "midlifenomads.com", "asOf": "2026-06", "confidence": "med", "note": "gym (~$25), toiletries, entertainment, nightlife buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.02]
+  },
+  "evidence": [
+    {"claim": "mid-range nomad budget $1,200–$1,800/month", "quote": "A mid-range lifestyle costs $1,200–$1,800 with popular safe areas, mix of cooking and eating out", "source": "midlifenomads.com", "url": "https://www.midlifenomads.com/p/cost-of-living-in-medellin-colombia", "date": "2026-06", "confidence": "high"},
+    {"claim": "1BR in El Poblado or Laureles $500–$1,200; suburban areas $300–$700", "quote": "For a typical one-bedroom, expect about $500–1,200/month in central neighborhoods like El Poblado or Laureles, while moving 15–30 minutes out (Envigado, Sabaneta, parts of Belén) can drop prices to $300–700/month", "source": "midlifenomads.com", "url": "https://www.midlifenomads.com/p/cost-of-living-in-medellin-colombia", "date": "2026-06", "confidence": "high"},
+    {"claim": "utilities + internet $90–$180/month without A/C", "quote": "Utilities plus internet typically sit at $90–$180/month without A/C, with A/C adding $40–$120/month", "source": "rentremote.com", "url": "https://rentremote.com/travel-guide/medellin/activities/cost-of-living-medellin-what-youll-actually-spend-in-2026", "date": "2026-06", "confidence": "high"},
+    {"claim": "metro + cable car ~$35/month; coworking $90–$180", "quote": "Medellin's metro plus cable car system costs $35/month; Coworking is a predictable $90–$180/month for standard memberships", "source": "midlifenomads.com", "url": "https://www.midlifenomads.com/p/cost-of-living-in-medellin-colombia", "date": "2026-06", "confidence": "high"}
+  ]
+}

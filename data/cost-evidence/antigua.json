@@ -1,0 +1,27 @@
+{
+  "city": "Antigua",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 550, "party": "shared",              "source": "livinginguatemala.com / expatlife.ai", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in central Antigua; range $400–$700"},
+    "utilities": {"usd": 55,  "party": "shared",              "source": "expatlife.ai", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; mild climate, minimal A/C needed"},
+    "groceries": {"usd": 150, "party": "perPerson",           "source": "livinginguatemala.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; mercado central very affordable"},
+    "diningOut": {"usd": 150, "party": "perPerson",           "source": "sonomad.com", "asOf": "2026-06", "confidence": "med", "note": "local comedores affordable; tourist restaurants mid-range"},
+    "transit":   {"usd": 25,  "party": "perPerson",           "source": "livinginguatemala.com", "asOf": "2026-06", "confidence": "high", "note": "walking + chicken buses + occasional taxi/Uber to Guatemala City"},
+    "coworking": {"usd": 90,  "party": "perPersonDiscounted", "source": "sonomad.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; several cafes double as work spots"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "twoticketsanywhere.com", "asOf": "2026-06", "confidence": "high", "note": "Claro/Tigo 30-day plan"},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "livinginguatemala.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, Spanish lessons, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [1.05, 1.05, 1.0, 1.0, 1.0, 0.97, 0.97, 0.97, 0.97, 1.0, 1.0, 1.05]
+  },
+  "evidence": [
+    {"claim": "comfortable nomad budget $1,200–$1,700/month", "quote": "Comfortable tier ($1,200–$1,700): Private 1-bedroom apartment with a courtyard, eating out 3–4 times a week, good internet for remote work", "source": "livinginguatemala.com", "url": "https://livinginguatemala.com/guides/cost-of-living-antigua-guatemala/", "date": "2026-06", "confidence": "high"},
+    {"claim": "1BR apartments $400–$700/month in central area", "quote": "One-bedroom apartments in the central area cost $400–$700 per month", "source": "expatlife.ai", "url": "https://expatlife.ai/guatemala/cities/antigua/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "groceries $150–$250/month", "quote": "Groceries average $150–$250 per month", "source": "livinginguatemala.com", "url": "https://livinginguatemala.com/guides/cost-of-living-antigua-guatemala/", "date": "2026-06", "confidence": "med"},
+    {"claim": "Antigua most expensive in Guatemala but still globally affordable", "quote": "Antigua is the most expensive place in Guatemala, though it's still very affordable by most global standards", "source": "livinginguatemala.com", "url": "https://livinginguatemala.com/guides/cost-of-living-antigua-guatemala/", "date": "2026-06", "confidence": "high"}
+  ]
+}

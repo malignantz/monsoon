@@ -1,0 +1,27 @@
+{
+  "city": "Madrid",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1250, "party": "shared",              "source": "rentremote.com / worldcostofliving.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Malasaña or Chueca; €900–1,500/mo city centre"},
+    "utilities": {"usd": 130,  "party": "shared",              "source": "casabasilico.com",                      "asOf": "2026-05", "confidence": "med",  "note": "electric + water + internet (~€120)"},
+    "groceries": {"usd": 245,  "party": "perPerson",           "source": "casabasilico.com",                      "asOf": "2026-05", "confidence": "med",  "note": "home cooking; Mercadona + markets"},
+    "diningOut": {"usd": 255,  "party": "perPerson",           "source": "rentremote.com",                        "asOf": "2026-06", "confidence": "med",  "note": "bars, restaurants, menú del día; active social scene"},
+    "transit":   {"usd": 55,   "party": "perPerson",           "source": "spainexpat.com",                        "asOf": "2026-05", "confidence": "high", "note": "monthly Abono pass ~€54"},
+    "coworking": {"usd": 175,  "party": "perPersonDiscounted", "source": "casabasilico.com",                      "asOf": "2026-06", "confidence": "med",  "note": "hot-desk monthly €150–250; abundant options"},
+    "simData":   {"usd": 18,   "party": "perPerson",           "source": "casabasilico.com",                      "asOf": "2026-06", "confidence": "high", "note": "Spanish SIM ~€15–20/mo"},
+    "misc":      {"usd": 185,  "party": "perPersonDiscounted", "source": "estimated",                             "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [0.92, 0.92, 0.95, 1.0, 1.02, 1.05, 1.12, 1.12, 1.02, 1.0, 0.95, 0.9]
+  },
+  "evidence": [
+    {"claim": "Madrid monthly costs $2,808 for digital nomad", "quote": "Digital nomads should plan for approximately $2,808/month in Madrid, covering coworking, accommodation, food, and local transport", "source": "worldcostofliving.com", "url": "https://www.worldcostofliving.com/city/madrid-spain", "date": "2026-05", "confidence": "high"},
+    {"claim": "Madrid 1BR city centre €900–1,500/mo", "quote": "In Madrid or Barcelona, expect to pay between €900 to €1,500 for a one-bedroom apartment in the city center", "source": "rentremote.com", "url": "https://rentremote.com/travel-guide/madrid/activities/cost-of-living-in-madrid-a-complete-budget-guide-for-2026", "date": "2026-06", "confidence": "high"},
+    {"claim": "Average 1BR Madrid $1,155/mo", "quote": "The average 1-bedroom apartment in Madrid costs $1,155.00/month", "source": "worldcostofliving.com", "url": "https://www.worldcostofliving.com/city/madrid-spain", "date": "2026-05", "confidence": "med"},
+    {"claim": "Madrid 41% cheaper than London or Paris", "quote": "For a single person in Madrid, estimated monthly costs range from €1,400 to €2,000, which is roughly 41% cheaper than London or Paris", "source": "spainexpat.com", "url": "https://spainexpat.com/information/cost-of-living-in-spain-2026", "date": "2026-05", "confidence": "med"}
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "city": "Mérida",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 750, "party": "shared",              "source": "lifeinmerida.com / casaloltun.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Centro/Santa Ana; range $600–$1,100 as of 2026"},
+    "utilities": {"usd": 90,  "party": "shared",              "source": "lifeinmerida.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; A/C heavy in summer inflates electric bill"},
+    "groceries": {"usd": 160, "party": "perPerson",           "source": "getwherenext.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; local mercados offer very low produce prices"},
+    "diningOut": {"usd": 160, "party": "perPerson",           "source": "casaloltun.com", "asOf": "2026-06", "confidence": "med", "note": "cocinas economicas + mid-range restaurants"},
+    "transit":   {"usd": 25,  "party": "perPerson",           "source": "getwherenext.com", "asOf": "2026-06", "confidence": "high", "note": "combis/buses + Uber; city bikeable but hot"},
+    "coworking": {"usd": 100, "party": "perPersonDiscounted", "source": "casaloltun.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; growing coworking scene"},
+    "simData":   {"usd": 15,  "party": "perPerson",           "source": "getwherenext.com", "asOf": "2026-06", "confidence": "high", "note": "Telcel 30-day plan"},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "lifeinmerida.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 0.97, 0.97, 0.97, 0.97, 1.0, 1.0, 1.02]
+  },
+  "evidence": [
+    {"claim": "comfortable nomad budget $1,200–$1,500/month including rent", "quote": "Expats can live comfortably on $1,200–$1,500 per month, including rent", "source": "getwherenext.com", "url": "https://getwherenext.com/blog/cost-of-living-mexico-2026", "date": "2026-06", "confidence": "high"},
+    {"claim": "1BR in Centro $700–$1,100; exchange rate ~17.3–17.5 pesos/USD in 2026", "quote": "as of May 2026, the exchange rate is hovering around 17.3 to 17.5 pesos to the dollar, meaning your American income now buys about 12–15% less than it did three years ago", "source": "lifeinmerida.com", "url": "https://lifeinmerida.com/merida-mexico-cost-of-living/", "date": "2026-05", "confidence": "high"},
+    {"claim": "1BR in quieter colonia $400–$700; Centro/Santa Ana $700–$1,100", "quote": "Studio or 1-bedroom in a quieter colonia (outside Centro) costs $400–$700/month, while Studio or 1-bedroom in Centro, Santa Ana, or Santiago runs $700–$1,100/month", "source": "casaloltun.com", "url": "https://www.casaloltun.com/expats-in-merida-mexico", "date": "2026-06", "confidence": "high"},
+    {"claim": "many expats rent 1BR in Centro for ~$600–$800", "quote": "Many expats rent modern one-bedroom apartments in Centro for around $600–$800 USD", "source": "lifeinmerida.com", "url": "https://lifeinmerida.com/merida-mexico-cost-of-living/", "date": "2026-05", "confidence": "med"}
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "city": "Valencia",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 950,  "party": "shared",              "source": "nomads.com / yournewbase.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Ruzafa or El Carmen; €900–1,100 typical"},
+    "utilities": {"usd": 135,  "party": "shared",              "source": "casabasilico.com",             "asOf": "2026-05", "confidence": "med",  "note": "electric + water + fiber internet"},
+    "groceries": {"usd": 235,  "party": "perPerson",           "source": "casabasilico.com",             "asOf": "2026-05", "confidence": "med",  "note": "home cooking; €250–350/mo range"},
+    "diningOut": {"usd": 215,  "party": "perPerson",           "source": "yournewbase.com",              "asOf": "2026-05", "confidence": "high", "note": "menú del día €10–15; cafes and restaurants"},
+    "transit":   {"usd": 40,   "party": "perPerson",           "source": "casabasilico.com",             "asOf": "2026-05", "confidence": "high", "note": "monthly transit pass ~€35"},
+    "coworking": {"usd": 180,  "party": "perPersonDiscounted", "source": "casabasilico.com",             "asOf": "2026-06", "confidence": "med",  "note": "hot-desk monthly €150–200"},
+    "simData":   {"usd": 18,   "party": "perPerson",           "source": "casabasilico.com",             "asOf": "2026-06", "confidence": "high", "note": "Spanish SIM ~€15–20/mo"},
+    "misc":      {"usd": 155,  "party": "perPersonDiscounted", "source": "estimated",                    "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [0.9, 0.9, 0.95, 1.0, 1.05, 1.15, 1.3, 1.3, 1.1, 1.0, 0.92, 0.88]
+  },
+  "evidence": [
+    {"claim": "Valencia rent risen 12–15% YoY; typical 1BR €900–1,800", "quote": "Expect €900 to €1,800 for a 2-bedroom flat, depending on district. Valencia remains 15 to 20 percent cheaper than Madrid or Barcelona, but rent has risen 12 to 15 percent year-on-year", "source": "yournewbase.com", "url": "https://www.yournewbase.com/guides/valencia/", "date": "2026-05", "confidence": "high"},
+    {"claim": "Valencia monthly cost $1,300–$2,100 for solo nomad", "quote": "For a solo digital nomad, the average monthly cost is €1,200–1,900 ($1,300–$2,100)", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/valencia", "date": "2026-06", "confidence": "high"},
+    {"claim": "Menú del día best value in Europe at €10–15", "quote": "Menu del Día lunch specials offer 3 courses for €10–€15, representing the best value in Europe", "source": "yournewbase.com", "url": "https://www.yournewbase.com/guides/valencia/", "date": "2026-05", "confidence": "high"},
+    {"claim": "Digital Nomad Visa income minimum aligns with comfortable living", "quote": "The Spain Digital Nomad Visa requires a minimum of approximately €2,160/month ($2,350), which aligns with comfortable living expenses for a single person", "source": "delaguialuzon.com", "url": "https://delaguialuzon.com/en/blog/valencia-cost-of-living/", "date": "2026-04", "confidence": "med"}
+  ]
+}

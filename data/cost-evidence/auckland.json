@@ -1,0 +1,27 @@
+{
+  "city": "Auckland",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1550, "party": "shared",              "source": "expatlife.ai / citycost.org", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area (Ponsonby, Newmarket, Grey Lynn); city center NZD 2,600/mo (~$1,560); outer suburbs 20-30% less"},
+    "utilities": {"usd": 160,  "party": "shared",              "source": "wise.com / citycost.org", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; NZ energy costs moderate; internet ~NZD 85/mo"},
+    "groceries": {"usd": 360,  "party": "perPerson",           "source": "expatlife.ai", "asOf": "2026-06", "confidence": "high", "note": "home cooking; Countdown/Pak'nSave/New World; NZD 400-600/mo ($240-360); mid estimate"},
+    "diningOut": {"usd": 340,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "Auckland dining pricey; lunch ~NZD 18-25, dinner NZD 30-50; excellent café scene"},
+    "transit":   {"usd": 105,  "party": "perPerson",           "source": "nomads.com / expatlife.ai", "asOf": "2026-06", "confidence": "med", "note": "AT HOP monthly ~NZD 170 (~$100); transit less comprehensive than AU/EU cities"},
+    "coworking": {"usd": 220,  "party": "perPersonDiscounted", "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; Auckland coworking ~NZD 350-450/mo; good selection in CBD"},
+    "simData":   {"usd": 28,   "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (Skinny/2degrees/Spark); unlimited data ~NZD 30-45/mo"},
+    "misc":      {"usd": 250,  "party": "perPersonDiscounted", "source": "enoughmoney.ai", "asOf": "2026-06", "confidence": "med", "note": "gym (~NZD 50), toiletries, entertainment, outdoor recreation, beach trips buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Auckland is Southern Hemisphere — summer Dec-Feb. Medium-term furnished lets fairly stable.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Auckland nomad monthly cost", "quote": "digital nomads should plan for approximately $4,261/month in Auckland, covering coworking, accommodation, food, and local transport", "source": "citycost.org", "url": "https://citycost.org/auckland/", "date": "2026-05", "confidence": "low"},
+    {"claim": "Auckland 1BR rent city center", "quote": "Rent averages from NZD $2,600 for a one-bedroom apartment in the city centre, though outer suburbs like Takapuna, Henderson, and Manukau offer more affordable options with rents 20–30% lower", "source": "expatlife.ai", "url": "https://expatlife.ai/new-zealand/cities/auckland/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "Auckland monthly grocery spend", "quote": "Groceries average NZD $600, though groceries for a single person can range from NZD 400–600 per month", "source": "expatlife.ai", "url": "https://expatlife.ai/new-zealand/cities/auckland/cost-of-living", "date": "2026-06", "confidence": "med"},
+    {"claim": "Auckland key dining costs", "quote": "Key costs include dining out (NZD $400)", "source": "enoughmoney.ai", "url": "https://enoughmoney.ai/blog/auckland", "date": "2026-06", "confidence": "med"}
+  ]
+}

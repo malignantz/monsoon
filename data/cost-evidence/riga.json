@@ -1,0 +1,27 @@
+{
+  "city": "Riga",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 700, "party": "shared",              "source": "expatlife.ai/latvia/riga / worldcostofliving.com Riga", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR city centre €600–€800; ~$700 midpoint"},
+    "utilities": {"usd": 140, "party": "shared",              "source": "holafly.com/latvia", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet; heating significant in winter"},
+    "groceries": {"usd": 220, "party": "perPerson",           "source": "nomads.com Riga", "asOf": "2026-05", "confidence": "high", "note": "home cooking; Central Market great for cheap produce"},
+    "diningOut": {"usd": 180, "party": "perPerson",           "source": "novad.app/latvia/riga", "asOf": "2026-06", "confidence": "high", "note": "Old Town and Centrs; mix of prices"},
+    "transit":   {"usd": 30,  "party": "perPerson",           "source": "costofliving.no/latvia/riga", "asOf": "2026-06", "confidence": "high", "note": "monthly tram/bus/trolley pass; good network"},
+    "coworking": {"usd": 150, "party": "perPersonDiscounted", "source": "novad.app/latvia/riga", "asOf": "2026-06", "confidence": "high", "note": "hot-desk monthly from €100 (TechChill) to €150+"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "holafly.com/latvia", "asOf": "2026-06", "confidence": "high", "note": "Latvian SIM; LMT or Bite; cheap data"},
+    "misc":      {"usd": 140, "party": "perPersonDiscounted", "source": "expatlife.ai/latvia/riga", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Baltic capital peaks Jun–Aug.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.05, 1.10, 1.15, 1.15, 1.05, 1.00, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "1BR city centre €600–€800/mo; outside centre €400–€600", "quote": "Rent for a one-bedroom apartment in the city centre averages €600–€800 per month, while outside the city centre, rent ranges from €400–€600", "source": "expatlife.ai Latvia", "url": "https://expatlife.ai/latvia/cities/riga/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "comfortable lifestyle €1,200–€1,600/mo; Riga 70% cheaper than NYC", "quote": "a comfortable lifestyle costs €1,200–€1,600/month for a single expat. Riga is 70% cheaper than New York City", "source": "worldcostofliving.com", "url": "https://www.worldcostofliving.com/city/riga-latvia", "date": "2026-06", "confidence": "high"},
+    {"claim": "coworking from €100 at TechChill; 4+ spaces available", "quote": "More than 4 coworking spaces are available, starting from €150/month. TechChill membership starting from around 100 EUR ($110 USD) per month", "source": "novad.app/latvia/riga", "url": "https://novad.app/latvia/riga", "date": "2026-06", "confidence": "high"},
+    {"claim": "30-50% cheaper than Western Europe; strong digital nomad infrastructure", "quote": "the cost of living in Riga is around 30-50% lower than in Western European cities", "source": "deel.com/latvia", "url": "https://www.deel.com/blog/moving-to-latvia-for-expats/", "date": "2026-06", "confidence": "med"}
+  ]
+}

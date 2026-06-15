@@ -1,0 +1,27 @@
+{
+  "city": "George Town (Penang)",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 430, "party": "shared",              "source": "numbeo.com George Town May 2026 / nomads.com Penang", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in city center George Town; avg MYR 1,500-3,000 ($335-670); midpoint"},
+    "utilities": {"usd": 65,  "party": "shared",              "source": "rumavi.com Penang cost of living 2026", "asOf": "2026-06", "confidence": "high", "note": "electric ~163 RM + internet RM 99-150; ~$60-70 total"},
+    "groceries": {"usd": 130, "party": "perPerson",           "source": "expatlife.ai Penang 2026", "asOf": "2026-06", "confidence": "med", "note": "Penang famous for hawker food; mix of wet market + Giant/Tesco"},
+    "diningOut": {"usd": 160, "party": "perPerson",           "source": "nomadnumbers.com Penang cost of nomad living", "asOf": "2026-06", "confidence": "med", "note": "legendary hawker food $1-3/meal; Penang is Southeast Asia's food capital"},
+    "transit":   {"usd": 45,  "party": "perPerson",           "source": "rumavi.com Penang cost of living 2026", "asOf": "2026-06", "confidence": "med", "note": "Grab + local bus; affordable transport options"},
+    "coworking": {"usd": 100, "party": "perPersonDiscounted", "source": "expatlife.ai Penang 2026", "asOf": "2026-06", "confidence": "med", "note": "growing coworking scene in George Town; ~RM 400-500/mo"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "pacificprime.com Malaysia cost 2026", "asOf": "2026-06", "confidence": "high", "note": "Celcom/Maxis/Digi unlimited data RM 50-60/mo"},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "nomadnumbers.com Penang cost of nomad living", "asOf": "2026-06", "confidence": "med", "note": "gym, entertainment, personal care, cultural activities, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers applied to RENT ONLY (Jan..Dec). 1.0 = base. Raise for peak tourist/weather months, lower for off-peak.",
+    "values": [1.1, 1.1, 1.0, 0.95, 0.95, 0.95, 1.0, 1.0, 0.95, 1.0, 1.05, 1.1]
+  },
+  "evidence": [
+    {"claim": "Penang 1BR city center MYR 1,500-3,000 ($335-670); avg $427", "quote": "One-bedroom apartments in the city center rent for MYR 1,500–3,000/month. Average rent prices for a one-bedroom apartment in the center of Penang cost USD $427", "source": "rumavi.com", "url": "https://rumavi.com/en/property-guides/cost-of-living-in-penang-malaysia-for-expats-in-2026-healthcare-food-transport-housing", "date": "2026-06", "confidence": "high"},
+    {"claim": "Penang comfortable monthly MYR 3,500-6,000 including all expenses", "quote": "A comfortable monthly budget in Penang is MYR 3,500–6,000, which includes rent, groceries, transport, utilities, dining out, and entertainment", "source": "expatlife.ai", "url": "https://expatlife.ai/malaysia/cities/penang", "date": "2026-06", "confidence": "high"},
+    {"claim": "Penang utilities ~163 RM/mo; internet RM 99-150", "quote": "basic utilities for expats typically cost around 163 RM monthly for an 85-square-meter apartment, while reliable internet and mobile services range from 40-125 RM per month", "source": "rumavi.com", "url": "https://rumavi.com/en/property-guides/cost-of-living-in-penang-malaysia-for-expats-in-2026-healthcare-food-transport-housing", "date": "2026-06", "confidence": "high"},
+    {"claim": "Single person Penang $845/month; digital nomad $1,176/month", "quote": "a single person costs $845 per month, while a single traveler costs $1,176 per month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/penang", "date": "2026-06", "confidence": "med"}
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "city": "Oslo",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1700, "party": "shared",              "source": "expatlife.ai / nomads.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area (Grünerløkka, Frogner); city center NOK 15,000-22,000 (~$1,400-2,050); outside NOK 10,000-14,000"},
+    "utilities": {"usd": 200,  "party": "shared",              "source": "nomads.com / expatlife.ai", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; Norway electricity costs variable; internet ~NOK 450/mo"},
+    "groceries": {"usd": 450,  "party": "perPerson",           "source": "nomads.com / expatlife.ai", "asOf": "2026-06", "confidence": "high", "note": "home cooking; Kiwi/Rema 1000; NOK 3,500-5,000/mo (~$330-470); Norway groceries expensive"},
+    "diningOut": {"usd": 480,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "Oslo very expensive for dining; mid-range restaurant meal NOK 200-300; food absorbs 40% of nomad budgets"},
+    "transit":   {"usd": 110,  "party": "perPerson",           "source": "novad.app / rewireabroad.com", "asOf": "2026-06", "confidence": "high", "note": "Ruter monthly pass ~NOK 950 (~$90-110); covers metro/bus/ferry"},
+    "coworking": {"usd": 280,  "party": "perPersonDiscounted", "source": "novad.app / findyourstay.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; Oslo coworking ~NOK 2,500-4,000/mo; smaller market"},
+    "simData":   {"usd": 30,   "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (Telia NO/Telenor/Chilimobil); Norway mobile costs elevated ~NOK 280/mo"},
+    "misc":      {"usd": 290,  "party": "perPersonDiscounted", "source": "citycost.org", "asOf": "2026-06", "confidence": "med", "note": "gym (~NOK 400), toiletries, entertainment, outdoor gear, cultural activities buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Oslo medium-term furnished lets are stable year-round.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Oslo city center 1BR rent range", "quote": "In the city center, a 1-bedroom apartment costs NOK 15,000–22,000 per month, while outside the center costs NOK 10,000–14,000", "source": "expatlife.ai", "url": "https://www.expatlife.ai/norway/cities/oslo/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "Oslo monthly grocery spend", "quote": "Groceries at major chains like Kiwi and Rema 1000 cost NOK 3,500–5,000 per month", "source": "expatlife.ai", "url": "https://www.expatlife.ai/norway/cities/oslo/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "Oslo nomad coliving total monthly cost", "quote": "a digital nomad with coliving and coworking spends around $4,722 per month, with housing absorbing about 34% ($1,620) and food about 40% ($1,904)", "source": "novad.app", "url": "https://novad.app/norway/oslo", "date": "2026-06", "confidence": "med"},
+    {"claim": "Oslo fastest way to cut costs", "quote": "The fastest way to cut costs in Oslo is on accommodation — the other categories offer far less room to economize", "source": "citycost.org", "url": "https://citycost.org/oslo/", "date": "2026-06", "confidence": "med"}
+  ]
+}

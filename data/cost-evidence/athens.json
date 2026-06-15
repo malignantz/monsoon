@@ -1,0 +1,27 @@
+{
+  "city": "Athens",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 870,  "party": "shared",              "source": "twoticketsanywhere.com / johnnyafrica.com", "asOf": "2026-03", "confidence": "high", "note": "furnished 1BR in Koukaki or Monastiraki; €700–900 typical"},
+    "utilities": {"usd": 130,  "party": "shared",              "source": "globalcitizensolutions.com",               "asOf": "2026-04", "confidence": "med",  "note": "electric + water + internet; A/C adds cost in summer"},
+    "groceries": {"usd": 210,  "party": "perPerson",           "source": "getwherenext.com",                         "asOf": "2026-04", "confidence": "med",  "note": "home cooking; €180–300/mo"},
+    "diningOut": {"usd": 200,  "party": "perPerson",           "source": "johnnyafrica.com",                         "asOf": "2026-03", "confidence": "high", "note": "taverna meals €8–15; cafes and souvlaki"},
+    "transit":   {"usd": 38,   "party": "perPerson",           "source": "getwherenext.com",                         "asOf": "2026-04", "confidence": "high", "note": "monthly transit pass ~€30"},
+    "coworking": {"usd": 160,  "party": "perPersonDiscounted", "source": "estimated",                                "asOf": "2026-06", "confidence": "med",  "note": "hot-desk monthly; Athens growing nomad scene"},
+    "simData":   {"usd": 18,   "party": "perPerson",           "source": "estimated",                                "asOf": "2026-06", "confidence": "high", "note": "Greek SIM ~€15–20/mo"},
+    "misc":      {"usd": 155,  "party": "perPersonDiscounted", "source": "estimated",                                "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [0.88, 0.88, 0.92, 1.0, 1.05, 1.12, 1.25, 1.25, 1.1, 1.0, 0.92, 0.88]
+  },
+  "evidence": [
+    {"claim": "Athens rent €500–900 for a 1BR in a nice area", "quote": "Athens rent runs €500-900, while a 1 bedroom apartment in a nice area costs $800 USD per month", "source": "twoticketsanywhere.com", "url": "https://www.twoticketsanywhere.com/cost-of-living-in-athens/", "date": "2026-03", "confidence": "high"},
+    {"claim": "Without housing, basic expenses ~€650; with apartment €1,400–1,800", "quote": "Without housing, basic expenses run around €650 monthly, and adding a quality apartment brings you to €1,400-1,800 depending on location and lifestyle", "source": "getwherenext.com", "url": "https://getwherenext.com/blog/cost-of-living-greece-2026", "date": "2026-04", "confidence": "high"},
+    {"claim": "Greece rent up to 70% lower than US and Northern Europe", "quote": "Housing in Greece remains affordable compared to much of Western Europe, with rent in Greece up to 70% lower than in cities in the US and Northern Europe", "source": "globalcitizensolutions.com", "url": "https://www.globalcitizensolutions.com/cost-of-living-in-greece/", "date": "2026-04", "confidence": "med"},
+    {"claim": "Taverna meals start at €8–15", "quote": "taverna meals start at €8-15", "source": "getwherenext.com", "url": "https://getwherenext.com/blog/cost-of-living-greece-2026", "date": "2026-04", "confidence": "high"}
+  ]
+}

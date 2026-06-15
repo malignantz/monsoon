@@ -1,0 +1,27 @@
+{
+  "city": "Bucharest",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 550, "party": "shared",              "source": "expatlife.ai/romania/bucharest / numbeo.com Bucharest", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in city centre; $350–$550 range; District 1 up to €900"},
+    "utilities": {"usd": 120, "party": "shared",              "source": "wise.com/romania/bucharest", "asOf": "2026-06", "confidence": "high", "note": "electric + heating + water + internet; ~£151 avg for 85m2"},
+    "groceries": {"usd": 170, "party": "perPerson",           "source": "expatlife.ai/romania/bucharest", "asOf": "2026-06", "confidence": "high", "note": "home cooking; $170 typical"},
+    "diningOut": {"usd": 150, "party": "perPerson",           "source": "enoughmoney.ai/bucharest", "asOf": "2026-06", "confidence": "high", "note": "Floreasca and Dorobanți cafes; good value"},
+    "transit":   {"usd": 22,  "party": "perPerson",           "source": "expatlife.ai/romania/bucharest", "asOf": "2026-06", "confidence": "high", "note": "metro + bus monthly pass ~$20; excellent metro"},
+    "coworking": {"usd": 150, "party": "perPersonDiscounted", "source": "stampednomad.com/romania", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; Bucharest strong tech/startup scene"},
+    "simData":   {"usd": 8,   "party": "perPerson",           "source": "etravelsim.com Romania", "asOf": "2026-06", "confidence": "high", "note": "Romanian SIM; Digi/Orange; cheapest mobile in EU"},
+    "misc":      {"usd": 110, "party": "perPersonDiscounted", "source": "enoughmoney.ai/bucharest", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. CEE capital; mild seasonality.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.05, 1.10, 1.10, 1.10, 1.05, 1.00, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "1BR city centre $350–$550; nomad can live well on €740–€1,100/mo", "quote": "most solo nomads find they can live quite well on a monthly budget between €740 and €1,100, covering a private apartment, utilities, groceries, and plenty of social outings", "source": "expatlife.ai Romania", "url": "https://www.expatlife.ai/romania/cities/bucharest/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "1BR centre avg £489 ($615); rent $550 city centre in nomad estimate", "quote": "Rent in Bucharest ranges from $350/month (outside city center) to $550/month (city center) for a one-bedroom apartment", "source": "nomads.com Bucharest", "url": "https://nomads.com/cost-of-living/in/bucharest", "date": "2026-05", "confidence": "high"},
+    {"claim": "utilities avg £151/mo for 85m2; transit pass $20; groceries $170", "quote": "rent ($550 for a 1BR in city center), groceries ($170), utilities ($120), and a monthly transit pass ($20)", "source": "city-cost-pseo-site.vercel.app", "url": "https://city-cost-pseo-site.vercel.app/cities/bucharest", "date": "2026-06", "confidence": "high"},
+    {"claim": "Bucharest hidden gem for nomads: super-fast internet, Romania DNV valid 12 months", "quote": "Bucharest is a hidden gem for digital nomads with super-fast internet and very low costs, and Romania offers a digital nomad visa valid for 12 months", "source": "stampednomad.com", "url": "https://www.stampednomad.com/guides/romania", "date": "2026-06", "confidence": "med"}
+  ]
+}

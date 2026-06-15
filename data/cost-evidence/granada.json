@@ -1,0 +1,27 @@
+{
+  "city": "Granada",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 720,  "party": "shared",              "source": "piccavey.com / globalcitizensolutions.com", "asOf": "2026-05", "confidence": "high", "note": "furnished 1BR in Realejo or Centro; €600–800/mo"},
+    "utilities": {"usd": 130,  "party": "shared",              "source": "casabasilico.com",                         "asOf": "2026-05", "confidence": "med",  "note": "electric + water + internet (~€120)"},
+    "groceries": {"usd": 220,  "party": "perPerson",           "source": "piccavey.com",                             "asOf": "2026-05", "confidence": "med",  "note": "home cooking, Mercadona staples"},
+    "diningOut": {"usd": 185,  "party": "perPerson",           "source": "piccavey.com",                             "asOf": "2026-05", "confidence": "high", "note": "menú del día ~€12, free tapas with drinks"},
+    "transit":   {"usd": 40,   "party": "perPerson",           "source": "casabasilico.com",                         "asOf": "2026-05", "confidence": "high", "note": "bus pass + occasional taxi"},
+    "coworking": {"usd": 155,  "party": "perPersonDiscounted", "source": "casabasilico.com",                         "asOf": "2026-06", "confidence": "med",  "note": "hot-desk monthly; several spaces in Centro"},
+    "simData":   {"usd": 18,   "party": "perPerson",           "source": "casabasilico.com",                         "asOf": "2026-06", "confidence": "high", "note": "Spanish SIM ~€15–20/mo unlimited data"},
+    "misc":      {"usd": 150,  "party": "perPersonDiscounted", "source": "estimated",                                "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [0.88, 0.88, 0.95, 1.0, 1.05, 1.15, 1.3, 1.3, 1.1, 1.0, 0.9, 0.85]
+  },
+  "evidence": [
+    {"claim": "Granada solo total ~€1,410/mo", "quote": "Granada is a budget-friendly city that's favored by many expats, with total monthly costs around €1,410 (USD $1,667) for individuals", "source": "globalcitizensolutions.com", "url": "https://www.globalcitizensolutions.com/spain-cost-of-living/", "date": "2026-05", "confidence": "high"},
+    {"claim": "Rent from €600+ for a Granada apartment", "quote": "If you rent a place in Granada the price can be from 600 euros upwards per month depending on the location and size of the apartment", "source": "piccavey.com", "url": "https://piccavey.com/cost-of-living-granada/", "date": "2026-05", "confidence": "high"},
+    {"claim": "Dining is extremely cheap with free tapas", "quote": "A menu del dia will cost around €12.00 and that includes a three course meal with a drink. Additionally, you get a free snack when you order a wine or beer", "source": "piccavey.com", "url": "https://piccavey.com/cost-of-living-granada/", "date": "2026-05", "confidence": "high"},
+    {"claim": "Spain nomad budget includes coworking and utilities", "quote": "Accommodation: €700–€1,100, Utilities: €100–€150, Coworking Space: €150–€250", "source": "casabasilico.com", "url": "https://casabasilico.com/guides-resources/cost-of-living-spain", "date": "2026-05", "confidence": "med"}
+  ]
+}

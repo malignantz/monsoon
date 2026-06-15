@@ -1,0 +1,27 @@
+{
+  "city": "Belgrade",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 580, "party": "shared",              "source": "nomadnotmad.com / wise.com Belgrade", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in city centre; €521/mo avg"},
+    "utilities": {"usd": 130, "party": "shared",              "source": "wise.com Belgrade", "asOf": "2026-06", "confidence": "high", "note": "electric + heating + water + internet; ~£171/mo"},
+    "groceries": {"usd": 190, "party": "perPerson",           "source": "novad.app/serbia/belgrade", "asOf": "2026-06", "confidence": "high", "note": "home cooking; local markets and supermarkets"},
+    "diningOut": {"usd": 160, "party": "perPerson",           "source": "relocationserbia.com", "asOf": "2026-06", "confidence": "high", "note": "Belgrade nightlife and restaurants; good value"},
+    "transit":   {"usd": 30,  "party": "perPerson",           "source": "wheretoemigrate.io/serbia", "asOf": "2026-06", "confidence": "high", "note": "bus/tram monthly pass; affordable"},
+    "coworking": {"usd": 130, "party": "perPersonDiscounted", "source": "novad.app/serbia/belgrade", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; growing coworking scene"},
+    "simData":   {"usd": 8,   "party": "perPerson",           "source": "nomadnotmad.com", "asOf": "2026-06", "confidence": "high", "note": "prepaid SIM with 10GB+ often under $10"},
+    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "relocationserbia.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Peak tourist months get higher multipliers.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.05, 1.10, 1.10, 1.10, 1.05, 1.00, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "realistic nomad budget €1,200–€1,500/mo; 1BR centre avg €521", "quote": "A realistic monthly budget for a single person living comfortably in Belgrade — including rent, food, transport, coworking, and a social life — sits in the €1,200 to €1,500 range", "source": "nomadnotmad.com", "url": "https://nomadnotmad.com/real-cost-of-living-in-belgrade-serbia/", "date": "2026-06", "confidence": "high"},
+    {"claim": "1BR city centre avg ~€521/mo; utilities ~£171 for 85m2 flat", "quote": "A one-bedroom apartment in a Belgrade city centre location costs approximately €521 per month", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/serbia/belgrade", "date": "2026-06", "confidence": "high"},
+    {"claim": "prepaid SIM with 10GB+ often under $10", "quote": "You can get a prepaid SIM card with massive data packages – often 10GB or more – for under $10", "source": "nomadnotmad.com", "url": "https://nomadnotmad.com/real-cost-of-living-in-belgrade-serbia/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Serbia top destination for digital nomads; baseline $1,300/mo", "quote": "A baseline budget is around $1,300 per month (or around 1,100 Euros)", "source": "relocationserbia.com", "url": "https://www.relocationserbia.com/why-serbia-is-the-top-destination-for-digital-nomads", "date": "2026-06", "confidence": "med"}
+  ]
+}

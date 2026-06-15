@@ -1,0 +1,27 @@
+{
+  "city": "Tirana",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 420, "party": "shared",              "source": "expatlife.ai/albania/cities/tirana / traveltourister.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Blloku or Vake; 40,000–60,000 lek (~$350–$520)"},
+    "utilities": {"usd": 90,  "party": "shared",              "source": "wise.com/albania/tirana", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet; reasonable"},
+    "groceries": {"usd": 160, "party": "perPerson",           "source": "expatlife.ai/albania/finance", "asOf": "2026-06", "confidence": "high", "note": "home cooking; fresh produce very cheap"},
+    "diningOut": {"usd": 150, "party": "perPerson",           "source": "mynomadspace.com Albania", "asOf": "2026-06", "confidence": "high", "note": "Blloku district cafes and restaurants; good value"},
+    "transit":   {"usd": 20,  "party": "perPerson",           "source": "novad.app/albania/tirana", "asOf": "2026-06", "confidence": "high", "note": "bus and taxi; cheap fares"},
+    "coworking": {"usd": 140, "party": "perPersonDiscounted", "source": "traveltourister.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; Tirana has a growing coworking scene"},
+    "simData":   {"usd": 8,   "party": "perPerson",           "source": "mynomadspace.com", "asOf": "2026-06", "confidence": "high", "note": "Albanian SIM; One or Vodafone; very cheap"},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "expatlife.ai/albania", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Inland capital; moderate seasonality.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.05, 1.05, 1.10, 1.10, 1.05, 1.00, 0.95, 0.90]
+  },
+  "evidence": [
+    {"claim": "1BR Blloku/Vake $350–$520/mo; comfortable expat lifestyle $700–$900/mo", "quote": "Rent prices in Blloku are around 40,000-60,000 lek ($350-$520 USD) per month for a one-bedroom apartment", "source": "expatlife.ai", "url": "https://expatlife.ai/albania/cities/tirana", "date": "2026-06", "confidence": "high"},
+    {"claim": "solo nomad $900–$1,500/mo all-in comfortable; budget possible at $700", "quote": "A single expat can live comfortably in Tirana for $900–$1,500/month", "source": "expatlife.ai", "url": "https://expatlife.ai/albania/finance", "date": "2026-06", "confidence": "high"},
+    {"claim": "Tirana notably affordable; monthly expenses ex-rent £520–£620 ($700–$800)", "quote": "A single person's monthly expenses, excluding rent, fall between £520 ($700) and £620 ($800), which includes groceries, utilities, transport, and dining", "source": "mynomadspace.com", "url": "https://www.mynomadspace.com/albania/albania-digital-nomad-guide-2026/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Tirana digital nomad guide 2026 confirms affordable rents and growing coworking", "quote": "Tirana Digital Nomad Guide 2026: Costs & Neighborhoods", "source": "traveltourister.com", "url": "https://www.traveltourister.com/articles/tirana-digital-nomad-guide-2026/", "date": "2026-06", "confidence": "med"}
+  ]
+}

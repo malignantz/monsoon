@@ -1,0 +1,27 @@
+{
+  "city": "Amsterdam",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1650, "party": "shared",              "source": "citycost.org / thebrokebackpacker.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area (De Pijp, Jordaan); central avg ~$2000 but non-central furnished lets ~$1500-1700"},
+    "utilities": {"usd": 130,  "party": "shared",              "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; internet ~€35 included"},
+    "groceries": {"usd": 360,  "party": "perPerson",           "source": "thebrokebackpacker.com", "asOf": "2026-06", "confidence": "high", "note": "home cooking; Albert Heijn / Lidl; €300-400/mo reported"},
+    "diningOut": {"usd": 340,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "mix of cafes, weekday lunches, occasional dinner; lunch €10-15, dinner €20-35"},
+    "transit":   {"usd": 100,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "OV-chipkaart monthly pass ~€90; city is very bikeable"},
+    "coworking": {"usd": 210,  "party": "perPersonDiscounted", "source": "onecoworking.com / digitalnomads.world", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly from €150-300; mid estimate €190"},
+    "simData":   {"usd": 20,   "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (KPN/T-Mobile NL) unlimited data ~€15-25/mo"},
+    "misc":      {"usd": 250,  "party": "perPersonDiscounted", "source": "citycost.org", "asOf": "2026-06", "confidence": "med", "note": "gym (~€35), toiletries, entertainment, museum card, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Amsterdam medium-term furnished lets are fairly stable year-round.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Amsterdam solo monthly cost with rent", "quote": "a single person in Amsterdam should plan on about $3,516 per month with rent, or $1,254 without housing", "source": "citycost.org", "url": "https://citycost.org/amsterdam/", "date": "2026-06", "confidence": "med"},
+    {"claim": "Amsterdam furnished 1BR rent range", "quote": "short-term rentals in central locations range from €2,500-4,000 per month for a one-bedroom, while shared accommodations can bring this down to €1,000-1,500 per month", "source": "thebrokebackpacker.com", "url": "https://www.thebrokebackpacker.com/cost-of-living-in-amsterdam-netherlands/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Amsterdam grocery costs monthly", "quote": "Cooking at home costs around €300-400 per month for groceries", "source": "thebrokebackpacker.com", "url": "https://www.thebrokebackpacker.com/cost-of-living-in-amsterdam-netherlands/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Amsterdam coworking monthly cost", "quote": "desk rentals run around 150 euros per month and up with a wide range of packages and services", "source": "digitalnomads.world", "url": "https://digitalnomads.world/city-guide/amsterdam/", "date": "2026-05", "confidence": "med"}
+  ]
+}

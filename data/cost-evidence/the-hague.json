@@ -1,0 +1,27 @@
+{
+  "city": "The Hague",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1400, "party": "shared",              "source": "nomadranker.com / numbeo.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area; city center avg $1,178; broader furnished furnished market ~€1,100-1,400"},
+    "utilities": {"usd": 175,  "party": "shared",              "source": "nomadranker.com / housinganywhere.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; avg €269/mo utility bills reported; internet ~€35"},
+    "groceries": {"usd": 280,  "party": "perPerson",           "source": "nomadranker.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; Albert Heijn/Lidl; €200-300/mo reported range"},
+    "diningOut": {"usd": 270,  "party": "perPerson",           "source": "nomadranker.com", "asOf": "2026-06", "confidence": "med", "note": "The Hague affordable vs Amsterdam; cheap meal ~€7-10, mid-range dinner ~€25 for two"},
+    "transit":   {"usd": 100,  "party": "perPerson",           "source": "nomadranker.com", "asOf": "2026-06", "confidence": "high", "note": "OV-chipkaart monthly ~€88; good tram network; connects to Amsterdam/Rotterdam"},
+    "coworking": {"usd": 230,  "party": "perPersonDiscounted", "source": "nomadranker.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; smaller market than Amsterdam; expect €180-280/mo"},
+    "simData":   {"usd": 20,   "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (KPN/T-Mobile NL/Ben); unlimited data ~€15-25/mo"},
+    "misc":      {"usd": 200,  "party": "perPersonDiscounted", "source": "nomadranker.com", "asOf": "2026-06", "confidence": "med", "note": "gym (~€30), toiletries, entertainment, beach visits (Scheveningen nearby), buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. The Hague medium-term furnished lets are stable year-round.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "The Hague comfortable monthly budget", "quote": "A comfortable monthly budget in The Hague is around $1,840, which includes city centre rent ($1,178/month), mid-range dining, transport ($88/month), and utilities", "source": "nomadranker.com", "url": "https://nomadranker.com/cities/the-hague/cost-of-living/", "date": "2026-06", "confidence": "med"},
+    {"claim": "The Hague 1BR rent city center", "quote": "A 1-bedroom apartment in the city centre averages $1,178/month. Moving outside the centre saves approximately $325/month, bringing rent to $853", "source": "nomadranker.com", "url": "https://nomadranker.com/cities/the-hague/cost-of-living/", "date": "2026-06", "confidence": "high"},
+    {"claim": "The Hague utility bills monthly", "quote": "Utility bills average around €269 per month in The Hague", "source": "housinganywhere.com", "url": "https://housinganywhere.com/The-Hague--Netherlands/cost-of-living-the-hague-den-haag", "date": "2026-06", "confidence": "med"},
+    {"claim": "The Hague grocery budget monthly", "quote": "The average monthly cost of groceries is €200–€300 per person, including shopping at local markets and cheap grocery stores", "source": "nomadranker.com", "url": "https://nomadranker.com/cities/the-hague/cost-of-living/", "date": "2026-06", "confidence": "med"}
+  ]
+}

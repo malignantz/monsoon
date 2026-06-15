@@ -1,0 +1,27 @@
+{
+  "city": "Siem Reap",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 370, "party": "shared",              "source": "morethantemples.com Siem Reap cost 2026 / nomads.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR in central Siem Reap; avg $374/mo; $250-400 range"},
+    "utilities": {"usd": 60,  "party": "shared",              "source": "visittocambodia.com Siem Reap cost 2026", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; Cambodia USD-based economy"},
+    "groceries": {"usd": 100, "party": "perPerson",           "source": "moveabroadiq.com Siem Reap nomad guide 2026", "asOf": "2026-06", "confidence": "med", "note": "Psah Chas market; local food extremely affordable"},
+    "diningOut": {"usd": 130, "party": "perPerson",           "source": "visittocambodia.com Siem Reap cost 2026", "asOf": "2026-06", "confidence": "med", "note": "street food under $3; mid-range restaurant $2.50-5; Pub Street area"},
+    "transit":   {"usd": 50,  "party": "perPerson",           "source": "moveabroadiq.com Siem Reap nomad guide 2026", "asOf": "2026-06", "confidence": "med", "note": "tuk-tuk $0.50-1.25/ride; monthly budget for local transport"},
+    "coworking": {"usd": 70,  "party": "perPersonDiscounted", "source": "morethantemples.com Level Up Siem Reap coworking 2026", "asOf": "2026-06", "confidence": "high", "note": "Level Up Siem Reap $60/mo; AngkorHUB ~$100-150/mo range"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "freakingnomads.com Siem Reap digital nomad guide", "asOf": "2026-06", "confidence": "high", "note": "Smart/Cellcard unlimited data SIM; cheap and effective"},
+    "misc":      {"usd": 80,  "party": "perPersonDiscounted", "source": "visittocambodia.com Siem Reap cost 2026", "asOf": "2026-06", "confidence": "med", "note": "gym, Angkor temple passes, entertainment, personal care, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers applied to RENT ONLY (Jan..Dec). 1.0 = base. Raise for peak tourist/weather months, lower for off-peak.",
+    "values": [1.2, 1.2, 1.1, 1.0, 0.85, 0.75, 0.75, 0.75, 0.85, 1.0, 1.1, 1.2]
+  },
+  "evidence": [
+    {"claim": "Siem Reap average rent $374/month; total monthly costs ~$715-$853", "quote": "Monthly rent costs average $374 per month. A single person's monthly costs are approximately $853", "source": "visittocambodia.com", "url": "https://www.visittocambodia.com/2026/03/cost-of-living-in-siem-reap-for-digital.html", "date": "2026-03", "confidence": "med"},
+    {"claim": "Level Up Siem Reap coworking $60/month with coffee/drinks included", "quote": "Level Up Siem Reap offers a monthly membership for $60 USD as of January 2026, with basic passes including unlimited tea, coffee, drinks from their soda fountain", "source": "morethantemples.com", "url": "https://morethantemples.com/level-up-siem-reap-coworking-cambodia/", "date": "2026-01", "confidence": "high"},
+    {"claim": "Street food under $3; mid-range restaurant $2.50-5", "quote": "Street food meals cost under $3, with mid-range restaurant meals ranging from $2.50 - $5 USD per meal", "source": "visittocambodia.com", "url": "https://www.visittocambodia.com/2026/03/cost-of-living-in-siem-reap-for-digital.html", "date": "2026-03", "confidence": "high"},
+    {"claim": "Siem Reap monthly living costs often under $1,000 for nomads", "quote": "monthly living costs are often under $1,000", "source": "moveabroadiq.com", "url": "https://moveabroadiq.com/digital-nomad/siem-reap", "date": "2026-06", "confidence": "med"}
+  ]
+}

@@ -5,3 +5,6 @@ dist/
 .impeccable/
 *.md
 data/*.backup.json
+
+# Cost-evidence store (data/cost-evidence/*.json) is the sourced provenance behind
+# the catalog's cost fields and IS tracked in git, alongside data/safety-inputs-v3.json.

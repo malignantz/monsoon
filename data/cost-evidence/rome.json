@@ -1,0 +1,27 @@
+{
+  "city": "Rome",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1400, "party": "shared",              "source": "expatlife.ai / nomads.com",  "asOf": "2026-05", "confidence": "high", "note": "furnished 1BR in Trastevere or Prati; €1,200–1,700 city centre"},
+    "utilities": {"usd": 155,  "party": "shared",              "source": "globalcitizensolutions.com", "asOf": "2026-04", "confidence": "med",  "note": "electric + water + internet; older buildings less efficient"},
+    "groceries": {"usd": 280,  "party": "perPerson",           "source": "movingto.com",              "asOf": "2026-04", "confidence": "med",  "note": "home cooking; €250–350/mo"},
+    "diningOut": {"usd": 280,  "party": "perPerson",           "source": "worldcostofliving.com",     "asOf": "2026-05", "confidence": "med",  "note": "trattorias, cafes; tourist areas inflate prices"},
+    "transit":   {"usd": 55,   "party": "perPerson",           "source": "getwherenext.com",          "asOf": "2026-04", "confidence": "high", "note": "monthly ATAC pass ~€35–50"},
+    "coworking": {"usd": 200,  "party": "perPersonDiscounted", "source": "jetpacglobal.com",          "asOf": "2026-04", "confidence": "med",  "note": "hot-desk monthly; many options in Prati and Ostiense"},
+    "simData":   {"usd": 18,   "party": "perPerson",           "source": "estimated",                 "asOf": "2026-06", "confidence": "high", "note": "Italian SIM ~€10–20/mo"},
+    "misc":      {"usd": 185,  "party": "perPersonDiscounted", "source": "estimated",                 "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, culture, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [0.88, 0.88, 0.92, 1.0, 1.05, 1.12, 1.25, 1.25, 1.1, 1.0, 0.9, 0.85]
+  },
+  "evidence": [
+    {"claim": "Rome nomad monthly cost ~$2,993", "quote": "Digital nomads should plan for approximately $2,993/month in Rome, covering coworking, accommodation, food, and local transport", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/rome", "date": "2026-05", "confidence": "high"},
+    {"claim": "Rome 1BR city centre €1,200–1,700/mo", "quote": "Rent ranges from €1,200–€1,700 for a 1-bedroom apartment in the city center", "source": "expatlife.ai", "url": "https://expatlife.ai/italy/cities/rome/cost-of-living", "date": "2026-05", "confidence": "high"},
+    {"claim": "Rome costs €2,200–3,000/mo comfortable", "quote": "Rome costs €2,200–€3,000/month for a single expat", "source": "movingto.com", "url": "https://movingto.com/it/cost-of-living-italy", "date": "2026-04", "confidence": "high"},
+    {"claim": "Groceries €250–350/mo in Rome", "quote": "Groceries cost €250–€350", "source": "globalcitizensolutions.com", "url": "https://www.globalcitizensolutions.com/cost-of-living-in-italy/", "date": "2026-04", "confidence": "med"}
+  ]
+}

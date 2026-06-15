@@ -1,0 +1,27 @@
+{
+  "city": "Kraków",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 650, "party": "shared",              "source": "expatlife.ai/poland/cities/krakow", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in city centre; €500–€800 range"},
+    "utilities": {"usd": 140, "party": "shared",              "source": "luggage24.pl", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet; higher in winter"},
+    "groceries": {"usd": 180, "party": "perPerson",           "source": "luggage24.pl / nomads.com", "asOf": "2026-03", "confidence": "high", "note": "home cooking; affordable supermarkets"},
+    "diningOut": {"usd": 160, "party": "perPerson",           "source": "nomads.com Krakow", "asOf": "2026-03", "confidence": "high", "note": "cafes and restaurants; coffee ~$1.60"},
+    "transit":   {"usd": 30,  "party": "perPerson",           "source": "luggage24.pl", "asOf": "2026-06", "confidence": "high", "note": "monthly tram/bus pass ~28 USD"},
+    "coworking": {"usd": 160, "party": "perPersonDiscounted", "source": "worldcostofliving.com/krakow", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; good supply of spaces"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "luggage24.pl", "asOf": "2026-06", "confidence": "high", "note": "Polish SIM; unlimited data plans cheap"},
+    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "expatlife.ai", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Peak tourist months get higher multipliers.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.10, 1.15, 1.20, 1.20, 1.10, 1.00, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "nomad spends ~$1,403/mo; rent $400–$600 depending on location", "quote": "a digital nomad can expect to spend around $1,403/month total depending on lifestyle choices", "source": "expatlife.ai", "url": "https://www.expatlife.ai/poland/cities/krakow/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "1BR city centre €500–€800/mo; outside center $400", "quote": "Rent averages €500–€800 per month for a 1-bedroom in the centre", "source": "luggage24.pl", "url": "https://luggage24.pl/en/blog-en/costs-of-living-in-krakow/", "date": "2026-06", "confidence": "high"},
+    {"claim": "groceries ~$180, utilities $140, transit pass $28", "quote": "Groceries cost approximately $180, utilities $140, and a monthly transit pass $28", "source": "luggage24.pl / nomads.com", "url": "https://nomads.com/cost-of-living/in/krakow", "date": "2026-03", "confidence": "high"},
+    {"claim": "Krakow 65% cheaper than NYC; internet 150 Mbps average", "quote": "Kraków is 65% cheaper than New York City, making it an excellent budget-friendly destination for remote workers", "source": "expatlife.ai", "url": "https://expatlife.ai/blog/cost-of-living-in-krakow-2026-rent-food-transport-real-expat-budgets", "date": "2026-06", "confidence": "med"}
+  ]
+}

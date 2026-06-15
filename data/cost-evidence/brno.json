@@ -1,0 +1,27 @@
+{
+  "city": "Brno",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 750, "party": "shared",              "source": "wise.com/czech-republic/brno / expatistan.com/brno", "asOf": "2026-05", "confidence": "high", "note": "furnished 1BR city centre avg ~$973; mid-range ~$750 midpoint with options"},
+    "utilities": {"usd": 130, "party": "shared",              "source": "numbeo.com Brno", "asOf": "2026-05", "confidence": "high", "note": "electric + water + internet; reasonable Czech utilities"},
+    "groceries": {"usd": 180, "party": "perPerson",           "source": "wise.com/czech-republic/brno", "asOf": "2026-06", "confidence": "high", "note": "home cooking; 16% of expenses per source breakdown"},
+    "diningOut": {"usd": 160, "party": "perPerson",           "source": "digitalnomadexchange.com/Brno", "asOf": "2026-06", "confidence": "high", "note": "student city; cheaper than Prague; good Czech pubs"},
+    "transit":   {"usd": 28,  "party": "perPerson",           "source": "numbeo.com Brno", "asOf": "2026-05", "confidence": "high", "note": "monthly tram/bus pass ~$26; compact city"},
+    "coworking": {"usd": 160, "party": "perPersonDiscounted", "source": "wheretonomad.com/czech-republic", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; growing tech scene second to Prague"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "koronapay.com/czech-republic", "asOf": "2026-06", "confidence": "high", "note": "Czech SIM; T-Mobile or O2; unlimited data plans"},
+    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "digitalnomadexchange.com/Brno", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, cultural events, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. University city; slight summer dip when students leave.",
+    "values": [1.00, 1.00, 1.00, 1.00, 1.05, 1.05, 0.95, 0.95, 1.00, 1.00, 1.00, 1.00]
+  },
+  "evidence": [
+    {"claim": "1BR city centre avg ~$973; sharing own room in flat 10-13k CZK (~$430–$560)", "quote": "Renting a 1-bedroom apartment in the city centre costs an additional $973 on average. Having your own room in a shared flat is around 10-13,000 CZK monthly (approximately $430-560 USD)", "source": "wise.com / expatistan.com", "url": "https://wise.com/us/cost-of-living/czech-republic/brno", "date": "2026-05", "confidence": "high"},
+    {"claim": "expenses: housing 55%, groceries 16%, utilities 15%; transit pass $26", "quote": "The distribution of expenses shows property takes 55%, groceries 16%, eating out 8%, transportation 2%, utilities 15%, and leisure 4%. A monthly public transport pass is typically priced at $26", "source": "expatistan.com", "url": "https://www.expatistan.com/cost-of-living/brno", "date": "2026-05", "confidence": "high"},
+    {"claim": "total ~$1,915/mo single person; ex-rent $941/mo", "quote": "You can expect to spend around $1,915 per month for 1 person. On average, a single person needs $941 per month without rent", "source": "numbeo.com", "url": "https://www.numbeo.com/cost-of-living/in/Brno", "date": "2026-05", "confidence": "high"},
+    {"claim": "Brno lower cost than Prague; cultural events and green spaces; good for nomads", "quote": "Brno's lower cost of living, cultural events, and access to green spaces provide a balanced lifestyle for digital nomads who want both productivity and quality of life", "source": "digitalnomadexchange.com", "url": "https://www.digitalnomadexchange.com/gdc/2/36/4617/Czech-rep/Brno", "date": "2026-06", "confidence": "med"}
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "city": "Chiang Mai",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 400, "party": "shared",              "source": "iamkohchang.com; casabasilico; cmlocals", "asOf": "2026-05", "confidence": "med",  "note": "furnished 1BR Nimman/Santitham w/ pool+gym, ~12-14k THB"},
+    "utilities": {"usd": 70,  "party": "shared",              "source": "casabasilico; backpackthailand",          "asOf": "2026-05", "confidence": "low",  "note": "electric (AC) + water + home fibre internet"},
+    "groceries": {"usd": 100, "party": "perPerson",           "source": "backpackthailand; midlifenomads",         "asOf": "2026-05", "confidence": "low",  "note": "markets + some home cooking (food total ~$270 split)"},
+    "diningOut": {"usd": 170, "party": "perPerson",           "source": "novo-monde; asiapicks",                   "asOf": "2026-05", "confidence": "med",  "note": "street food daily + occasional restaurants; meals $1-7"},
+    "transit":   {"usd": 70,  "party": "perPerson",           "source": "asiapicks; backpackthailand",             "asOf": "2026-05", "confidence": "med",  "note": "monthly scooter rental ($50-80)"},
+    "coworking": {"usd": 110, "party": "perPersonDiscounted", "source": "casabasilico (Punspace $120; Yellow $80)", "asOf": "2026-05", "confidence": "high", "note": "hot-desk membership, mid of $80-120 range"},
+    "simData":   {"usd": 18,  "party": "perPerson",           "source": "general Thai SIM pricing",                "asOf": "2026-05", "confidence": "low",  "note": "AIS/TrueMove monthly data"},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "casabasilico example budget",             "asOf": "2026-05", "confidence": "low",  "note": "gym, entertainment, toiletries, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "Rent-only multipliers. CM peak = cool/dry Nov-Feb; troughs = burning season Mar-Apr (low demand) and green/rainy Jun-Sep.",
+    "values": [1.15, 1.15, 0.90, 0.90, 1.00, 0.92, 0.92, 0.92, 0.92, 1.00, 1.10, 1.15]
+  },
+  "evidence": [
+    {"claim": "Furnished 1BR Nimman with pool/gym ~12k THB ($335); range $350-600", "quote": "a sleek one-bedroom with a pool, gym, and 24-hour security costs 12,000 baht ($335) per month", "source": "iamkohchang.com", "url": "https://iamkohchang.com/blog/how-much-does-it-cost-to-live-in-chiang-mai.html", "date": "2026-05", "confidence": "med"},
+    {"claim": "Newer Nimman serviced apartments 10-16k THB (~$285-460)", "quote": "newer serviced apartments in Nimman with facilities run 10,000 to 16,000 THB", "source": "casabasilico", "url": "https://casabasilico.com/guides/cities/chiang-mai", "date": "2026-05", "confidence": "med"},
+    {"claim": "Coworking $70-120/mo (Punspace $120, Yellow/others $80-100)", "quote": "coworking at Punspace costs $120 ... Yellow and Punspace typically charge around THB 3,000-4,000 / USD 80-100/month", "source": "casabasilico", "url": "https://casabasilico.com/guides/cities/chiang-mai", "date": "2026-05", "confidence": "high"},
+    {"claim": "Food ~$250/mo street + occasional restaurants; meals $1-7", "quote": "food costs for market breakfasts, street food dinners, and occasional restaurant meals run approximately $250", "source": "backpackthailand", "url": "https://backpackthailand.com/guides/chiang-mai-cost-of-living-guide", "date": "2026-05", "confidence": "med"},
+    {"claim": "Worked mid-range example totals ~$900: studio $350, coworking $120, food $250, scooter $80, misc $100", "quote": "a private studio with AC near Nimman at $350, coworking membership at $120, food at $250, scooter rental at $80, and miscellaneous expenses at $100, totaling ~$900", "source": "asiapicks", "url": "https://www.asiapicks.com/blog/chiang-mai-digital-nomad", "date": "2026-05", "confidence": "med"},
+    {"claim": "Average nomad spend ~$1,257/mo; lean all-in ~$869", "quote": "Total monthly costs with housing come to just $869, while digital nomads spend around $1,257 per month on average", "source": "citycost.org", "url": "https://citycost.org/chiang-mai/", "date": "2026-05", "confidence": "low"}
+  ]
+}

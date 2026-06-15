@@ -1,0 +1,27 @@
+{
+  "city": "Vancouver",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1850, "party": "shared",              "source": "nomads.com / 2727coworking.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area (Gastown, Mt. Pleasant, Kits); center CA$2,750/mo; Gastown CA$1,800-2,500; mid ~CA$2,400 (~$1,750 USD)"},
+    "utilities": {"usd": 130,  "party": "shared",              "source": "costofliving.io", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; BC Hydro moderate; internet CA$70-80/mo"},
+    "groceries": {"usd": 340,  "party": "perPerson",           "source": "nomads.com / megaport.hu", "asOf": "2026-06", "confidence": "high", "note": "home cooking; Superstore/Save-On/T&T; CA$355/mo reported; Vancouver grocery costs elevated"},
+    "diningOut": {"usd": 360,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "Vancouver excellent food scene; lunch ~CA$15-20, dinner CA$25-45; ramen/sushi affordable"},
+    "transit":   {"usd": 110,  "party": "perPerson",           "source": "novad.app", "asOf": "2026-06", "confidence": "high", "note": "TransLink monthly Compass Card ~CA$115 (~$85); good Skytrain network"},
+    "coworking": {"usd": 180,  "party": "perPersonDiscounted", "source": "nomadlio.com / novad.app", "asOf": "2026-06", "confidence": "high", "note": "hot-desk monthly; budget options from CA$50 (FreeSpace); L'atelier unlimited $200 USD; mid ~CA$250"},
+    "simData":   {"usd": 45,   "party": "perPerson",           "source": "novad.app", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (Koodo/Public Mobile/Lucky); Canada mobile notoriously expensive; unlimited ~CA$45-60/mo"},
+    "misc":      {"usd": 280,  "party": "perPersonDiscounted", "source": "costofliving.io", "asOf": "2026-06", "confidence": "med", "note": "gym (~CA$50), toiletries, entertainment, outdoor recreation (hiking, skiing), buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Vancouver medium-term furnished lets are fairly stable year-round.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Vancouver 1BR rent city center vs Gastown", "quote": "A one-bedroom apartment in Vancouver's city center costs around CA$2,750 per month; in Gastown, rent for a one-bedroom apartment can range from $1,800 to $2,500 CAD ($1,400 to $1,900 USD) per month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/vancouver", "date": "2026-04", "confidence": "high"},
+    {"claim": "Vancouver monthly grocery spend", "quote": "you should expect to spend about $355 monthly on groceries", "source": "2727coworking.com", "url": "https://2727coworking.com/articles/cost-of-living-montreal-toronto-vancouver-2026", "date": "2026-06", "confidence": "high"},
+    {"claim": "Vancouver coworking budget options", "quote": "FreeSpace is only $49.99 per month; L'atelier Vancouver monthly unlimited access to hot desk for 200 USD", "source": "nomadlio.com", "url": "https://nomadlio.com/vancouver/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Vancouver full monthly budget range", "quote": "a full monthly budget (housing + food/transport) runs roughly C$3,000–4,200 in Vancouver", "source": "megaport.hu", "url": "https://megaport.hu/blog/cost-of-living-in-canada-2026-full-expat-digital-nomad-guide/", "date": "2026-06", "confidence": "med"}
+  ]
+}

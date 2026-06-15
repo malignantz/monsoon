@@ -1,0 +1,27 @@
+{
+  "city": "Warsaw",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 850, "party": "shared",              "source": "expatlife.ai/poland/warsaw / nomads.com Warsaw", "asOf": "2026-05", "confidence": "high", "note": "furnished 1BR city centre; €700–€1,100 range"},
+    "utilities": {"usd": 150, "party": "shared",              "source": "expatlife.ai/poland/warsaw", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet; €100–€180"},
+    "groceries": {"usd": 170, "party": "perPerson",           "source": "luggage24.pl Warsaw", "asOf": "2026-06", "confidence": "high", "note": "home cooking; €130–€200 range"},
+    "diningOut": {"usd": 180, "party": "perPerson",           "source": "nomads.com Warsaw", "asOf": "2026-05", "confidence": "high", "note": "Warsaw restaurant scene; mix of local and international"},
+    "transit":   {"usd": 35,  "party": "perPerson",           "source": "domkaspot.com Warsaw 2026", "asOf": "2026-06", "confidence": "high", "note": "monthly metro + bus/tram pass; good network"},
+    "coworking": {"usd": 180, "party": "perPersonDiscounted", "source": "expatlife.ai/poland/warsaw", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; many spaces in city centre"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "luggage24.pl", "asOf": "2026-06", "confidence": "high", "note": "Polish SIM; unlimited plans from major carriers"},
+    "misc":      {"usd": 150, "party": "perPersonDiscounted", "source": "enoughmoney.ai/warsaw", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. CEE capital; moderate seasonality.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.05, 1.10, 1.10, 1.10, 1.05, 1.00, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "nomad budget ~$1,646/mo; comfortable €1,400–€2,300 all-in", "quote": "a digital nomad can expect to spend around $1,646/month total in Warsaw. Comfortable monthly budget in Warsaw is €1,400–€2,300", "source": "expatlife.ai", "url": "https://expatlife.ai/poland/cities/warsaw/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "1BR city centre €700–€1,100/mo; outside centre 1,500–2,500 PLN (€340–€570)", "quote": "One-bedroom apartments in the city center rent for €700–€1,100/month. Outside the center, the same apartment might cost 1500-2500 PLN (€340-570)", "source": "expatlife.ai Warsaw", "url": "https://expatlife.ai/poland/cities/warsaw", "date": "2026-06", "confidence": "high"},
+    {"claim": "utilities + internet €100–€180; groceries €130–€200", "quote": "Utilities + internet: €100–€180. Groceries: €130–€200", "source": "expatlife.ai Warsaw", "url": "https://expatlife.ai/poland/cities/warsaw/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "Warsaw 56% cheaper than NYC; good balance for budget nomads", "quote": "Warsaw is 56% cheaper than New York City, and Warsaw tends to offer a favorable balance for budget-conscious travelers and remote workers", "source": "worldcostofliving.com Warsaw", "url": "https://www.worldcostofliving.com/city/warsaw-poland", "date": "2026-06", "confidence": "med"}
+  ]
+}

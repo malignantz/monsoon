@@ -1,0 +1,27 @@
+{
+  "city": "Taipei",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 800, "party": "shared",              "source": "nomads.com / nomadranker.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area (Da'an, Xinyi, Zhongzheng); Da'an ~NT$18,000-28,000 ($560-870); center avg $828 reported; notably cheaper than other cities in batch"},
+    "utilities": {"usd": 120,  "party": "shared",              "source": "nomads.com / localnomad.club", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet; electricity $120/mo (AC heavy in summer); internet NT$840/mo (~$28)"},
+    "groceries": {"usd": 220,  "party": "perPerson",           "source": "psimonmyway.com / nomads.com", "asOf": "2026-06", "confidence": "high", "note": "home cooking; PX Mart/Carrefour/markets; Taiwan groceries very affordable; NT$5,000-7,000/mo"},
+    "diningOut": {"usd": 250,  "party": "perPerson",           "source": "psimonmyway.com / nomads.com", "asOf": "2026-06", "confidence": "high", "note": "eating out 80% of time ~$250-500; night market meals NT$60-150 (~$2-5); very affordable dining"},
+    "transit":   {"usd": 40,   "party": "perPerson",           "source": "nomads.com / localnomad.club", "asOf": "2026-06", "confidence": "high", "note": "TPASS monthly NT$1,200 (~$38) unlimited MRT + bus; one of cheapest transit systems in this batch"},
+    "coworking": {"usd": 140,  "party": "perPersonDiscounted", "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "hot-desk monthly; FutureWard from NT$3,950 (~$123); market range $100-180/mo"},
+    "simData":   {"usd": 18,   "party": "perPerson",           "source": "taiwanderers.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (Chunghwa Telecom/Taiwan Mobile); unlimited data NT$499/mo (~$16); excellent 5G coverage"},
+    "misc":      {"usd": 180,  "party": "perPersonDiscounted", "source": "nomadranker.com", "asOf": "2026-06", "confidence": "med", "note": "gym (~NT$1,200), toiletries, entertainment, night market outings, cultural activities, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Taipei medium-term furnished lets are stable year-round.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Taipei total nomad monthly budget", "quote": "digital nomads should plan for approximately $2,045/month in Taipei, covering coworking, accommodation, food, and local transport; A comfortable monthly budget in Taipei is approximately $1,456, including city centre rent ($828)", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/taipei", "date": "2026-06", "confidence": "med"},
+    {"claim": "Taipei furnished studio rent by neighborhood", "quote": "Furnished studios range from $500-900 in most neighborhoods, with Da'an (central, social) running $600-900 and Nangang (up-and-coming) dropping to $450-650", "source": "nomadranker.com", "url": "https://nomadranker.com/cities/taipei/cost-of-living/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Taipei TPASS monthly transit cost", "quote": "The TPASS monthly pass costs NT$1,200 (~$38) for unlimited MRT + bus access in Taipei", "source": "localnomad.club", "url": "https://localnomad.club/en/blog/guides/taiwan-ultimate-digital-nomad-guide", "date": "2026-06", "confidence": "high"},
+    {"claim": "Taipei coworking monthly cost", "quote": "Coworking spaces cost $100-180/month, with FutureWard starting at NT$3,950", "source": "nomads.com", "url": "https://nomads.com/digital-nomad-guide/taipei", "date": "2026-06", "confidence": "high"}
+  ]
+}

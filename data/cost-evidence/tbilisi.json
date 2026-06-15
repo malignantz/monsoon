@@ -1,0 +1,27 @@
+{
+  "city": "Tbilisi",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 520, "party": "shared",              "source": "nomad-labs.com", "asOf": "2026-02", "confidence": "high", "note": "furnished 1BR in Vera or Vake nomad area"},
+    "utilities": {"usd": 90,  "party": "shared",              "source": "nomads.com", "asOf": "2026-05", "confidence": "high", "note": "electric + water + internet (~21 USD for fiber)"},
+    "groceries": {"usd": 180, "party": "perPerson",           "source": "enoughmoney.ai", "asOf": "2026-06", "confidence": "med", "note": "home cooking; local markets affordable"},
+    "diningOut": {"usd": 150, "party": "perPerson",           "source": "tbilisi-expat.com", "asOf": "2026-02", "confidence": "med", "note": "mix of local restaurants and cafes"},
+    "transit":   {"usd": 25,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-05", "confidence": "high", "note": "metro + minibus; very cheap"},
+    "coworking": {"usd": 130, "party": "perPersonDiscounted", "source": "redfedoradiary.com / tbilisi-expat.com", "asOf": "2026-06", "confidence": "high", "note": "hot-desk monthly at Terminal or Impact Hub"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "nomad-labs.com", "asOf": "2026-02", "confidence": "high", "note": "Magti or Geocell SIM with generous data"},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "tbilisi-expat.com", "asOf": "2026-02", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Peak tourist months get higher multipliers.",
+    "values": [0.85, 0.85, 0.90, 1.00, 1.10, 1.15, 1.20, 1.20, 1.15, 1.10, 0.90, 0.85]
+  },
+  "evidence": [
+    {"claim": "furnished 1BR in Vera/Vake $400–600/mo; overall nomad budget $800–$1,200/mo", "quote": "a furnished one-bedroom apartment in a central neighborhood like Vera or Vake for $400-600, groceries and eating out for $200-350, coworking for $80-150", "source": "nomad-labs.com", "url": "https://nomad-labs.com/2026/02/24/tbilisi-digital-nomads-cost-of-living-coworking/", "date": "2026-02", "confidence": "high"},
+    {"claim": "coworking monthly: Terminal unlimited flex $145 USD, unlimited fixed $185 USD", "quote": "unlimited flex for 145 USD (410 GEL), and unlimited fixed for 185 USD (525 GEL)", "source": "tbilisi-expat.com", "url": "https://tbilisi-expat.com/blog/best-coworking-spaces-tbilisi", "date": "2026-06", "confidence": "high"},
+    {"claim": "utilities ~$85/mo, internet $21/mo", "quote": "Utilities (electricity, water, heating/cooling) average $85/month, and internet runs $21/month for a home connection", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/tbilisi", "date": "2026-05", "confidence": "high"},
+    {"claim": "rents climbing 20-30% since 2023 in popular nomad neighborhoods", "quote": "Tbilisi is getting more expensive, with rents in popular neighborhoods climbing 20-30% since 2023", "source": "nomad-labs.com", "url": "https://nomad-labs.com/2026/02/24/tbilisi-digital-nomads-cost-of-living-coworking/", "date": "2026-02", "confidence": "med"}
+  ]
+}

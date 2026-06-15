@@ -1,0 +1,27 @@
+{
+  "city": "Yerevan",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 700, "party": "shared",              "source": "evncoworking.com / moveabroadiq.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Kentron district; $700–$1,100 range for central"},
+    "utilities": {"usd": 110, "party": "shared",              "source": "evncoworking.com", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet; $70–$150 depending on season"},
+    "groceries": {"usd": 220, "party": "perPerson",           "source": "evncoworking.com / numbeo.com Yerevan", "asOf": "2026-05", "confidence": "high", "note": "home cooking; $200–$350 range"},
+    "diningOut": {"usd": 180, "party": "perPerson",           "source": "evncoworking.com", "asOf": "2026-06", "confidence": "high", "note": "cafes $2–4; casual meals $8–15; mid-range $20–35"},
+    "transit":   {"usd": 20,  "party": "perPerson",           "source": "numbeo.com Yerevan", "asOf": "2026-05", "confidence": "high", "note": "metro + minibus; cheap fares"},
+    "coworking": {"usd": 150, "party": "perPersonDiscounted", "source": "evncoworking.com", "asOf": "2026-06", "confidence": "high", "note": "hot-desk monthly; EVN Coworking and others available"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "moveabroadiq.com", "asOf": "2026-06", "confidence": "high", "note": "Armenian SIM; VivaCell-MTS or Beeline; cheap data"},
+    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "evncoworking.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Yerevan peaks Apr–Oct tourist season.",
+    "values": [0.85, 0.85, 0.90, 1.05, 1.10, 1.15, 1.20, 1.20, 1.15, 1.10, 0.90, 0.85]
+  },
+  "evidence": [
+    {"claim": "1BR Kentron central $700–$1,100/mo; outside centre $450–$750", "quote": "In central Yerevan (Kentron district), a 1-bedroom apartment ranges from $700–1,100 per month, with modern or newly renovated apartments at the higher end", "source": "evncoworking.com", "url": "https://evncoworking.com/cost-of-living-in-yerevan-for-digital-nomads-2026-breakdown/", "date": "2026-06", "confidence": "high"},
+    {"claim": "utilities $70–$150/mo; groceries $200–$350 cooking regularly", "quote": "Utilities: Estimated at $70–150 per month, depending on season. Groceries: $200–350 monthly if cooking regularly", "source": "evncoworking.com", "url": "https://evncoworking.com/cost-of-living-in-yerevan-for-digital-nomads-2026-breakdown/", "date": "2026-06", "confidence": "high"},
+    {"claim": "overall digital nomad cost ~$1,487–$1,826/mo depending on lifestyle", "quote": "A single person's overall cost of living is approximately $1,487 per month. For digital nomads specifically, the cost of living is $1,826 per month", "source": "numbeo.com / globalcostdata.com", "url": "https://www.numbeo.com/cost-of-living/in/Yerevan", "date": "2026-05", "confidence": "med"},
+    {"claim": "Yerevan 71% cheaper than NYC; budget living from $827/mo incl. rent", "quote": "Yerevan is notably affordable for digital nomads, with the city being 71% cheaper than New York City. Baseline monthly expenses range from $827.00 for a single person, including rent", "source": "moveabroadiq.com", "url": "https://moveabroadiq.com/cost-of-living-in/armenia", "date": "2026-06", "confidence": "med"}
+  ]
+}

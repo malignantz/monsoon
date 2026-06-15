@@ -1,0 +1,27 @@
+{
+  "city": "Wrocław",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 680, "party": "shared",              "source": "nomads.com/wroclaw / wise.com/poland/wroclaw", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR city centre avg £668 (~$840); midrange ~$680 accounting for options"},
+    "utilities": {"usd": 140, "party": "shared",              "source": "freenance.io/poland-2026", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet; Polish utility rates"},
+    "groceries": {"usd": 170, "party": "perPerson",           "source": "wise.com/poland/wroclaw", "asOf": "2026-06", "confidence": "high", "note": "home cooking; similar to Warsaw pricing"},
+    "diningOut": {"usd": 160, "party": "perPerson",           "source": "enoughmoney.ai/wroclaw", "asOf": "2026-06", "confidence": "high", "note": "Market Square area; great restaurant scene"},
+    "transit":   {"usd": 30,  "party": "perPerson",           "source": "freenance.io/poland-2026", "asOf": "2026-06", "confidence": "high", "note": "monthly tram/bus pass; excellent network in Wrocław"},
+    "coworking": {"usd": 170, "party": "perPersonDiscounted", "source": "expatlife.ai/poland/wroclaw", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; growing IT hub with good supply"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "navthemes.com/poland-2026", "asOf": "2026-06", "confidence": "high", "note": "Polish SIM; unlimited data plans cheap"},
+    "misc":      {"usd": 130, "party": "perPersonDiscounted", "source": "enoughmoney.ai/wroclaw", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Polish city; mild tourist season.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.05, 1.10, 1.10, 1.10, 1.05, 1.00, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "1BR centre avg £668 (~$840); nomad budget €950–€1,600/mo comfortable", "quote": "The average monthly rent for a 1-bedroom apartment in the city centre is £668. A comfortable monthly budget in Wroclaw is €950–€1,600", "source": "wise.com / expatlife.ai", "url": "https://wise.com/gb/cost-of-living/poland/wroclaw", "date": "2026-06", "confidence": "high"},
+    {"claim": "single person costs ~$1,730/mo; 1BR centre $630 in some sources", "quote": "A single person costs approximately $1,730 per month. Rent for a 1-bedroom in the center averages $630/month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/wroclaw", "date": "2026-06", "confidence": "high"},
+    {"claim": "Wrocław 75% cheaper than NYC; internet avg 258 Mbps; strong for remote work", "quote": "Wrocław is 75% cheaper than New York City. Average internet speed in Wroclaw of 258 Mbps, which is excellent for remote work", "source": "enoughmoney.ai", "url": "https://enoughmoney.ai/blog/wroclaw", "date": "2026-06", "confidence": "med"},
+    {"claim": "Poland city-by-city: Wrocław mid-tier between Warsaw and Kraków in costs", "quote": "Cost of Living in Poland 2026: City-by-City Breakdown (€940–€2,800/mo)", "source": "freenance.io", "url": "https://freenance.io/cost-of-living/cost-of-living-poland-2026-complete-guide/", "date": "2026-06", "confidence": "med"}
+  ]
+}

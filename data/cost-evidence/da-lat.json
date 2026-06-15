@@ -1,0 +1,27 @@
+{
+  "city": "Da Lat",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 290, "party": "shared",              "source": "nomads.com Da Lat cost of living Jan 2026", "asOf": "2026-01", "confidence": "med", "note": "furnished 1BR in Da Lat; avg $290/mo; cooler climate = less A/C cost"},
+    "utilities": {"usd": 50,  "party": "shared",              "source": "geronimo-ai.com Da Lat coworking 2026", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; Da Lat's cool climate (15-25C) cuts A/C bills"},
+    "groceries": {"usd": 100, "party": "perPerson",           "source": "thevietnamyield.com cost of living Vietnam 2026", "asOf": "2026-06", "confidence": "med", "note": "local Cho Da Lat market; vegetables/produce especially cheap as agricultural hub"},
+    "diningOut": {"usd": 130, "party": "perPerson",           "source": "dalat.app coworking cafes guide", "asOf": "2026-06", "confidence": "med", "note": "small-town prices; cafe culture strong; hot drinks popular in cool weather"},
+    "transit":   {"usd": 40,  "party": "perPerson",           "source": "thevietnamyield.com digital nomad Vietnam 2026", "asOf": "2026-06", "confidence": "med", "note": "motorbike rental + Grab; Da Lat hilly but manageable"},
+    "coworking": {"usd": 60,  "party": "perPersonDiscounted", "source": "geronimo-ai.com Da Lat coworking 2026", "asOf": "2026-06", "confidence": "med", "note": "café coworking free with purchase; One More Cafe coworking above; limited formal spaces"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "thevietnamyield.com digital nomad Vietnam 2026", "asOf": "2026-06", "confidence": "high", "note": "Viettel unlimited data ~200,000 VND/mo; 50+ Mbps average"},
+    "misc":      {"usd": 80,  "party": "perPersonDiscounted", "source": "dalat.app guides", "asOf": "2026-06", "confidence": "low", "note": "outdoor activities, entertainment, personal care, weekend trips; smaller city fewer options"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers applied to RENT ONLY (Jan..Dec). 1.0 = base. Raise for peak tourist/weather months, lower for off-peak.",
+    "values": [1.2, 1.15, 1.0, 0.95, 0.9, 0.85, 0.85, 0.9, 0.95, 1.0, 1.1, 1.2]
+  },
+  "evidence": [
+    {"claim": "Da Lat monthly rent approximately $290/month", "quote": "Monthly rent costs approximately $290 per month in Da Lat (as of January 2026)", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/da-lat", "date": "2026-01", "confidence": "med"},
+    {"claim": "Da Lat single person total monthly costs ~$679-1,083; 40% cheaper than HCMC", "quote": "A single person's total monthly cost is around $679, while a single traveler costs approximately $1,083 per month. Da Lat's cost of living is 40% lower than Ho Chi Minh City", "source": "nomads.com / geronimo-ai.com", "url": "https://nomads.com/cost-of-living/in/da-lat", "date": "2026-01", "confidence": "med"},
+    {"claim": "Da Lat cafe coworking free with purchase; One More Cafe has dedicated coworking above", "quote": "Da Lat's most established coworking space is located above One More Cafe and is free to use with a food or drink purchase", "source": "geronimo-ai.com", "url": "https://geronimo-ai.com/best-coworking/da-lat", "date": "2026-06", "confidence": "med"},
+    {"claim": "Da Lat year-round 15-25C climate; 50+ Mbps internet; 87% cheaper than NYC", "quote": "Da Lat is 87% cheaper than New York City. year-round temperatures between 15-25°C and stable internet speeds averaging 50+ Mbps", "source": "geronimo-ai.com", "url": "https://geronimo-ai.com/best-coworking/da-lat", "date": "2026-06", "confidence": "med"}
+  ]
+}

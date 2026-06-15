@@ -1,0 +1,27 @@
+{
+  "city": "Zurich",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 2100, "party": "shared",              "source": "nomads.com / citycost.org", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area; outside center avg $1,531; center $2,057; CHF is strong"},
+    "utilities": {"usd": 200,  "party": "shared",              "source": "nomads.com / citycost.org", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; Zurich utilities avg $185/mo + CHF internet ~$60"},
+    "groceries": {"usd": 420,  "party": "perPerson",           "source": "nomads.com / holafly.com", "asOf": "2026-06", "confidence": "high", "note": "home cooking; Migros/Coop; expensive by European standards; Aldi cheaper option"},
+    "diningOut": {"usd": 400,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "cheap restaurant ~$22/meal; mid-range dinner for two ~$100; very expensive eating out"},
+    "transit":   {"usd": 125,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "ZVV monthly pass CHF ~$119; excellent tram/bus/train network"},
+    "coworking": {"usd": 280,  "party": "perPersonDiscounted", "source": "nomadranker.com / nomadlio.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; TomoDomo coliving option from CHF ~€1,577; budget hot desk ~CHF 250"},
+    "simData":   {"usd": 35,   "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (Salt/Yallo) unlimited data; Switzerland mobile costs elevated"},
+    "misc":      {"usd": 300,  "party": "perPersonDiscounted", "source": "citycost.org", "asOf": "2026-06", "confidence": "med", "note": "gym (~$80), toiletries, entertainment, health insurance buffer (mandatory in CH)"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Zurich long-term furnished lets are stable year-round.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Zurich solo monthly cost with rent", "quote": "A single person costs $4,756 per month", "source": "citycost.org", "url": "https://citycost.org/zurich/", "date": "2026-06", "confidence": "med"},
+    {"claim": "Zurich 1BR rent center vs outside", "quote": "A 1-bedroom apartment in the city centre averages $2,057/month; Moving outside the centre saves approximately $526/month, bringing rent to $1,531", "source": "nomadranker.com", "url": "https://nomadranker.com/cities/zurich/cost-of-living/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Zurich transit monthly pass", "quote": "monthly public transport in Zurich costs $119, and utilities average $185/month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/zurich", "date": "2026-04", "confidence": "high"},
+    {"claim": "Zurich budget nomad minimum cost", "quote": "Budget nomads can live in Zurich for $2,958/month by renting outside the centre ($1,531), eating at cheap restaurants ($22/meal), using public transport ($119/month)", "source": "nomadranker.com", "url": "https://nomadranker.com/cities/zurich/cost-of-living/", "date": "2026-06", "confidence": "med"}
+  ]
+}

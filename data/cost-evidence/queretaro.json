@@ -1,0 +1,27 @@
+{
+  "city": "Querétaro",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 650, "party": "shared",              "source": "nomads.com / getwherenext.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Centro Histórico or Juriquilla; range $500–$900"},
+    "utilities": {"usd": 65,  "party": "shared",              "source": "getwherenext.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + fiber internet; mild climate keeps A/C moderate"},
+    "groceries": {"usd": 165, "party": "perPerson",           "source": "getwherenext.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; mercados + Walmart/Costco present as industrial city"},
+    "diningOut": {"usd": 165, "party": "perPerson",           "source": "outtathecomfortzone.com", "asOf": "2026-06", "confidence": "med", "note": "comidas corridas + nice restaurants; dining scene growing"},
+    "transit":   {"usd": 25,  "party": "perPerson",           "source": "getwherenext.com", "asOf": "2026-06", "confidence": "high", "note": "buses + Uber; good connections to CDMX/Bajío"},
+    "coworking": {"usd": 100, "party": "perPersonDiscounted", "source": "outtathecomfortzone.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; tech/industrial city has solid coworking options"},
+    "simData":   {"usd": 15,  "party": "perPerson",           "source": "getwherenext.com", "asOf": "2026-06", "confidence": "high", "note": "Telcel 30-day plan"},
+    "misc":      {"usd": 110, "party": "perPersonDiscounted", "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "monthly costs ~$1,145–$1,600 for single nomad", "quote": "A single person's costs total approximately $1,145 per month, while monthly budgets average $1,300–$1,600", "source": "getwherenext.com", "url": "https://getwherenext.com/blog/cost-of-living-mexico-2026", "date": "2026-06", "confidence": "high"},
+    {"claim": "avg rent ~$538/month; 1BR $500–$900 in popular expat areas", "quote": "Monthly rent costs approximately $538 per month, though a one-bedroom apartment in popular expat cities like Querétaro typically runs $500 to $900 USD", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/queretaro", "date": "2026-01", "confidence": "high"},
+    {"claim": "25–30% cheaper than CDMX; fast-growing tech hub", "quote": "Querétaro is a fast-growing industrial and tech hub with costs 25%–30% lower than Mexico City, making it an attractive destination for remote workers", "source": "outtathecomfortzone.com", "url": "https://www.outtathecomfortzone.com/cheapest-places-mexico-digital-nomads/", "date": "2026-06", "confidence": "med"},
+    {"claim": "realistic nomad budget $1,000–$1,500 with strong urban services", "quote": "Querétaro offers the best value for many nomads, with realistic monthly budgets of $1,000–$1,500 USD and strong urban services plus direct bus access to Mexico City", "source": "getwherenext.com", "url": "https://getwherenext.com/blog/cost-of-living-mexico-2026", "date": "2026-06", "confidence": "high"}
+  ]
+}

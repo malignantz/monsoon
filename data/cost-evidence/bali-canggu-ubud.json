@@ -1,0 +1,27 @@
+{
+  "city": "Bali (Canggu/Ubud)",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 650, "party": "shared",              "source": "bali.com cost of living 2026 / visa-indonesia.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR villa/apt in Canggu or Ubud; Canggu 12M-18M IDR, Ubud 8M-14M IDR; midpoint"},
+    "utilities": {"usd": 80,  "party": "shared",              "source": "investlandbali.com cost of living 2026", "asOf": "2026-06", "confidence": "med", "note": "electric (A/C heavy) + water + internet; Bali electric can be expensive"},
+    "groceries": {"usd": 130, "party": "perPerson",           "source": "johnnyafrica.com cost of living Bali 2026", "asOf": "2026-06", "confidence": "med", "note": "local warungs + Pepito/Bintang markets; warungs $250/mo vs Western $700/mo"},
+    "diningOut": {"usd": 200, "party": "perPerson",           "source": "bali.com cost of living 2026", "asOf": "2026-06", "confidence": "med", "note": "mix of warung ($2-4/meal) + nomad-friendly cafes in Canggu"},
+    "transit":   {"usd": 60,  "party": "perPerson",           "source": "investlandbali.com digital nomad Bali 2026", "asOf": "2026-06", "confidence": "med", "note": "scooter rental ~$50-80/mo or Grab; Canggu requires transport"},
+    "coworking": {"usd": 120, "party": "perPersonDiscounted", "source": "sunshineseeker.com Canggu coworking 2026", "asOf": "2026-06", "confidence": "high", "note": "hot-desk monthly; Puco Rooftop $154/mo, range $100-200/mo"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "investlandbali.com digital nomad Bali 2026", "asOf": "2026-06", "confidence": "high", "note": "Telkomsel/XL Axiata unlimited data SIM ~150,000-200,000 IDR/mo"},
+    "misc":      {"usd": 110, "party": "perPersonDiscounted", "source": "bali.com cost of living 2026", "asOf": "2026-06", "confidence": "med", "note": "gym, Bali-specific health ins, yoga, entertainment, massage, personal care"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers applied to RENT ONLY (Jan..Dec). 1.0 = base. Raise for peak tourist/weather months, lower for off-peak.",
+    "values": [0.85, 0.85, 0.9, 1.0, 1.0, 1.0, 1.25, 1.25, 1.1, 1.05, 1.0, 0.85]
+  },
+  "evidence": [
+    {"claim": "Canggu 1BR villa 12M-18M IDR ($750-1,125); Ubud 8M-14M IDR ($500-875)", "quote": "Canggu saw 2026 asking rents hit 12 million to 18 million rupiah for a one-bedroom villa with pool. Ubud's jungle calm costs 8 million to 14 million for similar square footage", "source": "bali.com", "url": "https://bali.com/guide-to-moving-and-living-in-bali/cost-of-living-in-bali/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Bali nomad total monthly $900-1,500 most spend; $1,500 budget to $3,500 premium", "quote": "Most digital nomads spend USD 900–1,500 per month, though monthly costs range from $1,500 for a budget lifestyle to $3,500+ for premium living", "source": "asialifestylemagazine.com", "url": "https://www.asialifestylemagazine.com/digital-nomad-cost-of-living-bali-2026/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Puco Rooftop Canggu coworking $154/month", "quote": "Puco Rooftop in Canggu is one of the most affordable options at $154 per month", "source": "sunshineseeker.com", "url": "https://www.sunshineseeker.com/destinations/coworking-spaces-canggu/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Eating mostly at warungs costs $250/month vs $700+ at Western restaurants", "quote": "Eating mostly at warungs costs $250/month versus $700+ at Western restaurants", "source": "bali.com", "url": "https://bali.com/guide-to-moving-and-living-in-bali/cost-of-living-in-bali/", "date": "2026-06", "confidence": "high"}
+  ]
+}

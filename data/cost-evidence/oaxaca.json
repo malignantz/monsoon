@@ -1,0 +1,27 @@
+{
+  "city": "Oaxaca",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 700, "party": "shared",              "source": "outtathecomfortzone.com / casabasilico.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Reforma/Jalatlaco; range $500–$1,000"},
+    "utilities": {"usd": 55,  "party": "shared",              "source": "outtathecomfortzone.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + fiber internet (~$30); mild climate reduces A/C use"},
+    "groceries": {"usd": 150, "party": "perPerson",           "source": "nomads.com", "asOf": "2026-03", "confidence": "med", "note": "home cooking; local market produce very affordable"},
+    "diningOut": {"usd": 150, "party": "perPerson",           "source": "outtathecomfortzone.com", "asOf": "2026-06", "confidence": "med", "note": "comedores $2–4/meal; mid-range restaurant $10–15/person"},
+    "transit":   {"usd": 20,  "party": "perPerson",           "source": "casabasilico.com", "asOf": "2026-06", "confidence": "high", "note": "collectivos + occasional taxi; city very walkable"},
+    "coworking": {"usd": 80,  "party": "perPersonDiscounted", "source": "casabasilico.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; day passes rarely break $10"},
+    "simData":   {"usd": 15,  "party": "perPerson",           "source": "outtathecomfortzone.com", "asOf": "2026-06", "confidence": "high", "note": "Telcel 30-day data plan"},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "outtathecomfortzone.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, mezcal tastings, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [1.05, 1.0, 1.0, 0.97, 0.97, 0.97, 1.0, 1.02, 1.02, 1.0, 1.0, 1.05]
+  },
+  "evidence": [
+    {"claim": "overall nomad budget $950–$1,400/month all-in", "quote": "Digital nomads can enjoy an affordable cost of living around $950–$1,400/month all-in", "source": "outtathecomfortzone.com", "url": "https://www.outtathecomfortzone.com/oaxaca-cost-of-living-digital-nomads/", "date": "2026-06", "confidence": "high"},
+    {"claim": "furnished 1BR in Reforma $700–$1,200/month", "quote": "Furnished 1-bedroom apartments in the Reforma neighborhood range from $700–$1,200/month, while Centro and Jalatlaco typically run $900–$1,600/month", "source": "outtathecomfortzone.com", "url": "https://www.outtathecomfortzone.com/oaxaca-cost-of-living-digital-nomads/", "date": "2026-06", "confidence": "high"},
+    {"claim": "internet $25–40/month; high-speed fiber available", "quote": "High-speed fiber internet costs about $25 to $40 USD monthly", "source": "casabasilico.com", "url": "https://casabasilico.com/guides/cities/oaxaca-city", "date": "2026-06", "confidence": "high"},
+    {"claim": "Oaxaca 35–40% cheaper than Mexico City", "quote": "Oaxaca offers living costs 35%–40% lower than Mexico City, making it an attractive option for digital nomads seeking affordability without sacrificing quality of life", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/oaxaca", "date": "2026-03", "confidence": "med"}
+  ]
+}

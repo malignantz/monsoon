@@ -1,0 +1,27 @@
+{
+  "city": "Dublin",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1950, "party": "shared",              "source": "nomadranker.com / citycost.org", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area; city center avg $3,140 is extreme — non-central furnished ~€1,800-2,000 ($1,950-2,100)"},
+    "utilities": {"usd": 170,  "party": "shared",              "source": "wise.com / citycost.org", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; basic utilities 85m² avg €188 + internet ~€50"},
+    "groceries": {"usd": 330,  "party": "perPerson",           "source": "nomads.com / citycost.org", "asOf": "2026-06", "confidence": "high", "note": "home cooking; Tesco/Lidl/Aldi; $324 reported monthly avg"},
+    "diningOut": {"usd": 400,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "Dublin dining expensive; cheap meal ~$15, mid-range dinner for two ~$60; pubs add up"},
+    "transit":   {"usd": 100,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "Dublin Bus/DART monthly ~€91 Leap card; city not as transit-dense as London"},
+    "coworking": {"usd": 280,  "party": "perPersonDiscounted", "source": "nomadranker.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; Dublin coworking market tight — expect €250-350"},
+    "simData":   {"usd": 22,   "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (Three/Vodafone IE/48); unlimited data plans ~€20/mo"},
+    "misc":      {"usd": 260,  "party": "perPersonDiscounted", "source": "citycost.org", "asOf": "2026-06", "confidence": "med", "note": "gym (~€40), toiletries, entertainment, pub culture budget, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Dublin furnished lets are stable year-round.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Dublin mid-range nomad monthly budget", "quote": "a mid-range lifestyle with a private studio and regular cafe visits runs 2,800-3,400 EUR ($2,910-3,540)", "source": "nomadranker.com", "url": "https://nomadranker.com/cities/dublin/cost-of-living/", "date": "2026-06", "confidence": "med"},
+    {"claim": "Dublin city-center 1BR rent avg", "quote": "A 1-bedroom apartment in the city centre averages $3,140/month. Moving outside the centre saves approximately $1,652/month, bringing rent to $1,488", "source": "nomadranker.com", "url": "https://nomadranker.com/cities/dublin/cost-of-living/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Dublin monthly grocery spend", "quote": "Monthly groceries cost $324", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/dublin", "date": "2026-06", "confidence": "high"},
+    {"claim": "Dublin utilities monthly", "quote": "Basic utilities in Dublin (including electricity, heating, cooling, water, and garbage for an 85m² apartment) cost an average of £188 per month", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/ireland/dublin", "date": "2026-06", "confidence": "med"}
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "city": "Florence",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1250, "party": "shared",              "source": "getwherenext.com / citycost.org", "asOf": "2026-04", "confidence": "high", "note": "furnished 1BR in Oltrarno or Campo di Marte; €900–1,400 typical; Duomo area much higher"},
+    "utilities": {"usd": 155,  "party": "shared",              "source": "expatica.com",                   "asOf": "2026-04", "confidence": "med",  "note": "electric + water + internet; older stone buildings"},
+    "groceries": {"usd": 260,  "party": "perPerson",           "source": "nomad.watch",                    "asOf": "2026-04", "confidence": "med",  "note": "home cooking; markets and supermarkets"},
+    "diningOut": {"usd": 265,  "party": "perPerson",           "source": "nomad.watch",                    "asOf": "2026-04", "confidence": "med",  "note": "trattorias and wine bars; tourist inflation near Duomo"},
+    "transit":   {"usd": 45,   "party": "perPerson",           "source": "getwherenext.com",               "asOf": "2026-04", "confidence": "high", "note": "monthly bus pass ~€35; city is walkable"},
+    "coworking": {"usd": 185,  "party": "perPersonDiscounted", "source": "jetpacglobal.com",               "asOf": "2026-04", "confidence": "med",  "note": "hot-desk monthly; growing supply vs demand"},
+    "simData":   {"usd": 18,   "party": "perPerson",           "source": "estimated",                      "asOf": "2026-06", "confidence": "high", "note": "Italian SIM ~€10–20/mo"},
+    "misc":      {"usd": 190,  "party": "perPersonDiscounted", "source": "estimated",                      "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, museums, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [0.88, 0.88, 0.92, 1.0, 1.05, 1.12, 1.3, 1.3, 1.12, 1.0, 0.9, 0.85]
+  },
+  "evidence": [
+    {"claim": "Florence solo nomad monthly ~$2,150 incl rent", "quote": "For a solo digital nomad in Florence, estimated monthly costs are $1,050 (excluding rent), and $2,150 including rent", "source": "nomad.watch", "url": "https://nomad.watch/cities/IT/florence/costs", "date": "2026-04", "confidence": "med"},
+    {"claim": "Florence 1BR central €700–1,000/mo", "quote": "A centrally located one-bedroom in Florence typically ranges from €700–1,000 per month", "source": "getwherenext.com", "url": "https://getwherenext.com/blog/cost-of-living-italy-2026", "date": "2026-04", "confidence": "high"},
+    {"claim": "Florence historic centre more expensive; Oltrarno better value", "quote": "Florence offers good value compared with Milan or Rome, but can feel pricey in the historic center. Housing and dining costs are higher near the Duomo and Ponte Vecchio, with more affordable options in the Oltrarno", "source": "getwherenext.com", "url": "https://getwherenext.com/blog/cost-of-living-italy-2026", "date": "2026-04", "confidence": "high"},
+    {"claim": "1BR average in Florence ~$1,790/mo", "quote": "Florence has high rental costs, with one-bedroom apartments averaging $1,790", "source": "citycost.org", "url": "https://citycost.org/florence/", "date": "2026-04", "confidence": "low"}
+  ]
+}

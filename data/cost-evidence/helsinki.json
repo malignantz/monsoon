@@ -1,0 +1,27 @@
+{
+  "city": "Helsinki",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1200, "party": "shared",              "source": "nomads.com / wise.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area (Kallio, Punavuori); city center €1,049-1,300; outside center €800-1,000"},
+    "utilities": {"usd": 130,  "party": "shared",              "source": "wise.com / citycost.org", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; basic utilities 85m² avg €90 reported + heating extra; internet ~€30"},
+    "groceries": {"usd": 320,  "party": "perPerson",           "source": "nomads.com / wise.com", "asOf": "2026-06", "confidence": "high", "note": "home cooking; K-Market/S-Group/Lidl; €300-350/mo reported; Finland groceries moderately expensive"},
+    "diningOut": {"usd": 310,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "Helsinki dining expensive esp. alcohol; lunch ~€12-16, dinner €25-40; lunch sets common"},
+    "transit":   {"usd": 75,   "party": "perPerson",           "source": "wise.com", "asOf": "2026-06", "confidence": "high", "note": "HSL monthly pass ~€62 (~$68); excellent metro/tram network"},
+    "coworking": {"usd": 220,  "party": "perPersonDiscounted", "source": "nomads.com / finlandflag.fi", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; Helsinki coworking ~€180-300/mo; smaller market than Stockholm"},
+    "simData":   {"usd": 20,   "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (DNA/Elisa/Telia FI); unlimited data ~€15-25/mo; competitive market"},
+    "misc":      {"usd": 230,  "party": "perPersonDiscounted", "source": "citycost.org", "asOf": "2026-06", "confidence": "med", "note": "gym (~€35), toiletries, entertainment, sauna culture, seasonal clothing buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Helsinki medium-term furnished lets are stable year-round.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Helsinki 1BR rent range city center vs outside", "quote": "Helsinki city center: €1,049–1,300 for a one-bedroom apartment, while outside the center: €800–1,000", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/finland/helsinki", "date": "2026-06", "confidence": "high"},
+    {"claim": "Helsinki monthly transit pass cost", "quote": "A monthly public transport pass is typically priced at £62", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/finland/helsinki", "date": "2026-06", "confidence": "high"},
+    {"claim": "Helsinki grocery monthly budget", "quote": "you should budget around $270–430 a month for groceries and the occasional meal out", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/helsinki", "date": "2026-03", "confidence": "med"},
+    {"claim": "Helsinki solo monthly cost", "quote": "A single traveler costs approximately $3,487 per month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/helsinki", "date": "2026-03", "confidence": "low"}
+  ]
+}

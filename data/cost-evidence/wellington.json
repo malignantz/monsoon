@@ -1,0 +1,27 @@
+{
+  "city": "Wellington",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1300, "party": "shared",              "source": "wise.com / nomadranker.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in nomad area (Te Aro, Mount Victoria); city center NZD 2,300/mo (~$1,380 USD); outside ~NZD 1,650 (~$990)"},
+    "utilities": {"usd": 155,  "party": "shared",              "source": "nomadranker.com / wise.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; avg $151 utilities + internet $50 reported; Wellington windy = higher heating"},
+    "groceries": {"usd": 310,  "party": "perPerson",           "source": "nomads.com / movingchamps.co.nz", "asOf": "2026-06", "confidence": "med", "note": "home cooking; Countdown/Pak'nSave; NZD $280-400/mo reported range"},
+    "diningOut": {"usd": 290,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "Wellington excellent cafe/restaurant scene; lunch ~NZD 18-22, dinner NZD 30-45"},
+    "transit":   {"usd": 90,   "party": "perPerson",           "source": "nomadranker.com", "asOf": "2026-06", "confidence": "med", "note": "Snapper card monthly ~NZD 60-100 ($36-60) depending on zone; Wellington compact, walkable"},
+    "coworking": {"usd": 200,  "party": "perPersonDiscounted", "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; Wellington tech hub; ~NZD 280-400/mo; government/tech sector anchor"},
+    "simData":   {"usd": 26,   "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "SIM-only plan (Skinny/2degrees/Spark); unlimited data ~NZD 30-45/mo"},
+    "misc":      {"usd": 220,  "party": "perPersonDiscounted", "source": "geronimo-ai.com", "asOf": "2026-06", "confidence": "med", "note": "gym (~NZD 45), toiletries, entertainment, vibrant arts scene, weather gear buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Wellington Southern Hemisphere; medium-term furnished lets fairly stable.",
+    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Wellington comfortable monthly budget", "quote": "A comfortable monthly budget in Wellington is NZD $4,180, which includes rent, groceries, transport, utilities, dining out, and entertainment", "source": "enoughmoney.ai", "url": "https://enoughmoney.ai/blog/wellington", "date": "2026-06", "confidence": "med"},
+    {"claim": "Wellington 1BR rent city center", "quote": "One-bedroom apartments in the city center rent for NZD $2,300/month; A 1-bedroom apartment in the city centre averages $1,197/month (USD), with rent outside the centre costing approximately $993", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/new-zealand/wellington", "date": "2026-06", "confidence": "high"},
+    {"claim": "Wellington grocery and utilities costs", "quote": "Groceries ($280–$400), utilities ($100–$170), transport ($60–$100), and dining/entertainment ($150–$300)", "source": "nomadranker.com", "url": "https://nomadranker.com/cities/wellington/cost-of-living/", "date": "2026-06", "confidence": "med"},
+    {"claim": "Wellington remote worker monthly spend range", "quote": "A single remote worker can expect total monthly expenses of $1,800–$2,400 depending on lifestyle choices, with accommodation consuming roughly 50–60% of total spend", "source": "geronimo-ai.com", "url": "https://geronimo-ai.com/cost-of-living/wellington", "date": "2026-06", "confidence": "med"}
+  ]
+}

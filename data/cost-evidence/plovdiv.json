@@ -1,0 +1,27 @@
+{
+  "city": "Plovdiv",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 420, "party": "shared",              "source": "wise.com/bulgaria/plovdiv / worldcostofliving.com Plovdiv", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR city centre avg £389 (~$490); outside centre £282 (~$355)"},
+    "utilities": {"usd": 85,  "party": "shared",              "source": "wise.com/bulgaria/plovdiv", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet; avg £74 (~$93) for 85m2"},
+    "groceries": {"usd": 160, "party": "perPerson",           "source": "costliving.net/bulgaria", "asOf": "2026-06", "confidence": "high", "note": "home cooking; Bulgaria very cheap for food"},
+    "diningOut": {"usd": 130, "party": "perPerson",           "source": "nomads.com/plovdiv", "asOf": "2026-06", "confidence": "high", "note": "Old Town cafes; Bulgarian restaurants cheap"},
+    "transit":   {"usd": 20,  "party": "perPerson",           "source": "wise.com/bulgaria/plovdiv", "asOf": "2026-06", "confidence": "high", "note": "monthly bus pass ~£18 (~$23); one-way £0.44"},
+    "coworking": {"usd": 130, "party": "perPersonDiscounted", "source": "digiwander.com/sofia-plovdiv", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; smaller scene than Sofia but growing"},
+    "simData":   {"usd": 8,   "party": "perPerson",           "source": "nomads-in-bulgaria.com", "asOf": "2026-06", "confidence": "high", "note": "Bulgarian SIM; A1 or Yettel; cheap unlimited"},
+    "misc":      {"usd": 90,  "party": "perPersonDiscounted", "source": "wheretoemigrate.io/bulgaria", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Inland second city; mild seasonality.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.05, 1.05, 1.10, 1.10, 1.05, 1.00, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "total monthly spend ~£919 (~$1,160); single person ex-rent £530 (~$670)", "quote": "You can expect to spend around £919 per month for 1 person. On average, a single person needs £530 per month without rent", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/bulgaria/plovdiv", "date": "2026-06", "confidence": "high"},
+    {"claim": "1BR city centre avg £389 (~$490); outside centre £282 (~$355)", "quote": "The average monthly rent for a 1-bedroom apartment in the city centre is £389, compared to £282 outside the centre", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/bulgaria/plovdiv", "date": "2026-06", "confidence": "high"},
+    {"claim": "utilities for 85m2 avg £74; monthly bus pass £18; one-way £0.44", "quote": "Basic utilities in Plovdiv cost an average of £74 per month. A monthly pass is typically priced at £18", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/bulgaria/plovdiv", "date": "2026-06", "confidence": "high"},
+    {"claim": "Bulgaria 10% flat tax; Plovdiv cheaper than Sofia and popular for expats", "quote": "Bulgaria is increasingly seen as a practical and accessible base for digital nomads in Europe. With its flat 10% income tax rate and affordable lifestyle", "source": "innovires.com", "url": "https://innovires.com/tax-residency/blog/best-cities-bulgaria-expats-2026.html", "date": "2026-06", "confidence": "med"}
+  ]
+}

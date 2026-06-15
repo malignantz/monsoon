@@ -1,0 +1,27 @@
+{
+  "city": "San Miguel de Allende",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 950, "party": "shared",              "source": "nomads.com / thelatinvestor.com", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR in Centro/Guadiana; avg MXN 16,500 (~$940) in early 2026"},
+    "utilities": {"usd": 90,  "party": "shared",              "source": "filodaria.com", "asOf": "2026-06", "confidence": "med", "note": "electric $60–$150 + water/gas $30–$50 + internet $30–$50"},
+    "groceries": {"usd": 180, "party": "perPerson",           "source": "expatistan.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; mix of mercado and supermarket (Mega/Walmart present)"},
+    "diningOut": {"usd": 200, "party": "perPerson",           "source": "filodaria.com", "asOf": "2026-06", "confidence": "med", "note": "strong restaurant scene; touristic area raises prices vs other MX cities"},
+    "transit":   {"usd": 25,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "city walkable; occasional taxi or bus to Querétaro/CDMX"},
+    "coworking": {"usd": 120, "party": "perPersonDiscounted", "source": "filodaria.com", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; boutique coworking spaces cater to expat community"},
+    "simData":   {"usd": 15,  "party": "perPerson",           "source": "filodaria.com", "asOf": "2026-06", "confidence": "high", "note": "Telcel 30-day plan"},
+    "misc":      {"usd": 150, "party": "perPersonDiscounted", "source": "bhhscolonialhomessanmiguel.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, art events, spa; upscale expat scene inflates misc"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
+    "values": [1.03, 1.0, 1.0, 1.0, 1.0, 0.97, 0.97, 0.97, 0.97, 1.0, 1.03, 1.05]
+  },
+  "evidence": [
+    {"claim": "avg 1BR rent MXN 16,500 (~$940 USD) in early 2026; range $630–$1,370", "quote": "As of early 2026, the average monthly rent for a 1-bedroom apartment is around MXN 16,500 (approximately USD 940). Most 1-bedrooms rent between MXN 11,000 and MXN 24,000 per month (roughly USD 630 to USD 1,370)", "source": "thelatinvestor.com", "url": "https://thelatinvestor.com/blogs/news/san-miguel-de-allende-rents", "date": "2026-04", "confidence": "high"},
+    {"claim": "internet $30–$50; electricity $60–$150; water + gas $30–$50", "quote": "High-speed internet costs about $30 to $50 USD monthly. Electricity averages between $60 and $150 USD per month. Water and gas combined usually fall between $30 and $50 USD", "source": "filodaria.com", "url": "https://www.filodaria.com/digital-nomad/san-miguel-de-allende", "date": "2026-06", "confidence": "high"},
+    {"claim": "SMA 64% cheaper than New York City", "quote": "San Miguel de Allende is 64% cheaper than New York City", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/san-miguel-de-allende", "date": "2026-04", "confidence": "med"},
+    {"claim": "single traveler monthly cost ~$3,500 on high end; mid-range much lower", "quote": "For a single traveler, the monthly cost is approximately $3,509", "source": "expatistan.com", "url": "https://www.expatistan.com/cost-of-living/san-miguel-de-allende", "date": "2026-05", "confidence": "low"}
+  ]
+}

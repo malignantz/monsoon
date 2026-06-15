@@ -1,0 +1,27 @@
+{
+  "city": "Vilnius",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 780, "party": "shared",              "source": "geronimo-ai.com/vilnius / wise.com/lithuania/vilnius", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR central; $710–$985 range"},
+    "utilities": {"usd": 150, "party": "shared",              "source": "expatlife.ai/lithuania/vilnius", "asOf": "2026-06", "confidence": "high", "note": "electric + water + internet; €120–€180 heating significant"},
+    "groceries": {"usd": 230, "party": "perPerson",           "source": "wise.com/lithuania/vilnius", "asOf": "2026-06", "confidence": "high", "note": "home cooking; €200–€300 range"},
+    "diningOut": {"usd": 180, "party": "perPerson",           "source": "nomadlio.com/vilnius", "asOf": "2026-06", "confidence": "high", "note": "Old Town cafes and restaurants; good variety"},
+    "transit":   {"usd": 36,  "party": "perPerson",           "source": "wise.com/lithuania/vilnius", "asOf": "2026-06", "confidence": "high", "note": "monthly pass ~£33; good bus network"},
+    "coworking": {"usd": 180, "party": "perPersonDiscounted", "source": "geronimo-ai.com/vilnius", "asOf": "2026-06", "confidence": "med", "note": "hot-desk monthly; growing tech ecosystem"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "holafly.com/lithuania", "asOf": "2026-06", "confidence": "high", "note": "Lithuanian SIM; Tele2 or Telia; cheap unlimited"},
+    "misc":      {"usd": 140, "party": "perPersonDiscounted", "source": "expatlife.ai/lithuania/vilnius", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Baltic capital; summer peak.",
+    "values": [0.90, 0.90, 0.95, 1.00, 1.05, 1.10, 1.15, 1.15, 1.05, 1.00, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "1BR central $710–$985/mo; coliving $550–$770 incl. WiFi", "quote": "a one bedroom apartment in a central or well connected area typically costs between $710 and $985 per month. A well equipped coliving space usually runs between $550 and $770 per month", "source": "geronimo-ai.com", "url": "https://geronimo-ai.com/cost-of-living/vilnius", "date": "2026-06", "confidence": "high"},
+    {"claim": "comfortable nomad budget $1,100–$1,800/mo; Vilnius €1,500–2,000 for single expat", "quote": "A comfortable monthly budget for a single remote worker ranges from $1,100 to $1,800. Vilnius costs €1,500–2,000/month for a single expat", "source": "expatlife.ai Lithuania", "url": "https://expatlife.ai/lithuania/cities/vilnius/cost-of-living", "date": "2026-06", "confidence": "high"},
+    {"claim": "groceries €200–€300; utilities €120–€180; transit pass ~£33", "quote": "Groceries: €200–300. Utilities and Internet: €120–€180. A monthly pass is typically priced at £33", "source": "wise.com Lithuania / citycost.org", "url": "https://wise.com/gb/cost-of-living/lithuania/vilnius", "date": "2026-06", "confidence": "high"},
+    {"claim": "Vilnius 40-50% cheaper than Berlin/Amsterdam; top-value destination in Europe", "quote": "The city consistently ranks among the best-value destinations on the continent, with costs roughly 40-50% lower than Berlin or Amsterdam", "source": "lawhill.lt", "url": "https://lawhill.lt/blog/lithuania-cost-of-living/", "date": "2026-06", "confidence": "med"}
+  ]
+}

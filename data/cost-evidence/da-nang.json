@@ -1,0 +1,27 @@
+{
+  "city": "Da Nang",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-06",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 420, "party": "shared",              "source": "nomadexpenses.com Da Nang cost of living 2026", "asOf": "2026-06", "confidence": "high", "note": "furnished 1BR near My Khe beach or nomad area; $350-500 range"},
+    "utilities": {"usd": 65,  "party": "shared",              "source": "mvpvietnam.com Da Nang cost 2026", "asOf": "2026-06", "confidence": "high", "note": "electric + water + fiber internet; A/C usage moderate"},
+    "groceries": {"usd": 120, "party": "perPerson",           "source": "hitchhive.app Da Nang digital nomad 2026", "asOf": "2026-06", "confidence": "high", "note": "local wet markets + Han Market; affordable fresh produce"},
+    "diningOut": {"usd": 180, "party": "perPerson",           "source": "nomadexpenses.com Da Nang cost of living 2026", "asOf": "2026-06", "confidence": "high", "note": "mix of Vietnamese street food + Western beach cafes; $250-350/mo range"},
+    "transit":   {"usd": 55,  "party": "perPerson",           "source": "hitchhive.app Da Nang digital nomad 2026", "asOf": "2026-06", "confidence": "high", "note": "scooter rental ~$40-60/mo or Grab; $50-80 range"},
+    "coworking": {"usd": 100, "party": "perPersonDiscounted", "source": "nomadexpenses.com Da Nang cost of living 2026", "asOf": "2026-06", "confidence": "high", "note": "hot-desk monthly; $80-120 range; solid coworking scene"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "thevietnamyield.com digital nomad Vietnam 2026", "asOf": "2026-06", "confidence": "high", "note": "Viettel unlimited data ~200,000 VND/mo"},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "nomadexpenses.com Da Nang cost of living 2026", "asOf": "2026-06", "confidence": "med", "note": "gym, massages, entertainment, personal care; $150-250/mo lifestyle range"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers applied to RENT ONLY (Jan..Dec). 1.0 = base. Raise for peak tourist/weather months, lower for off-peak.",
+    "values": [0.95, 0.95, 1.0, 1.05, 1.15, 1.15, 1.1, 1.1, 0.95, 0.8, 0.85, 0.95]
+  },
+  "evidence": [
+    {"claim": "Da Nang comfortable solo beach nomad budget $1,000-1,300/month; rent $350-500", "quote": "Comfortable solo beach lifestyle: about $1,000–1,300 USD. Rent: $350–500 USD for a modern one bedroom near My Khe", "source": "nomadexpenses.com", "url": "https://nomadexpenses.com/blog/digital-nomad-cost-of-living-in-da-nang-vietnam-in-2026/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Da Nang food/coffee $250-350, coworking $80-120, transport $50-80, lifestyle $150-250", "quote": "Food & coffee: $250–350 USD for a mix of Vietnamese eats, Western cafes, and weekly brunches. Coworking: $80–120 USD. Transport: $50–80 USD", "source": "nomadexpenses.com", "url": "https://nomadexpenses.com/blog/digital-nomad-cost-of-living-in-da-nang-vietnam-in-2026/", "date": "2026-06", "confidence": "high"},
+    {"claim": "Forbes named Da Nang one of top 8 digital nomad cities for 2026", "quote": "Forbes named Da Nang one of the world's top 8 digital nomad cities for 2026", "source": "shareuhack.com", "url": "https://www.shareuhack.com/en/posts/da-nang-digital-nomad-guide-2026", "date": "2026-06", "confidence": "high"},
+    {"claim": "Lean Da Nang solo nomad budget $750-900; comfortable $1,000-1,300", "quote": "Lean solo nomad: roughly $750–900 USD; Comfortable solo beach lifestyle: about $1,000–1,300 USD", "source": "hitchhive.app", "url": "https://hitchhive.app/da-nang-cost-of-living-digital-nomads/", "date": "2026-06", "confidence": "high"}
+  ]
+}
