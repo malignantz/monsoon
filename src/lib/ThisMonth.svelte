@@ -2,9 +2,19 @@
   import CityCard from './CityCard.svelte';
   import CityTable from './CityTable.svelte';
   import Legend from './Legend.svelte';
-  import { cities, regions, qolFor, valueFor, swimNow, cityCost, partyWord, MONTHS, favorites } from './data.svelte.js';
+  import RegionMenu from './RegionMenu.svelte';
+  import { cities, regions, qolFor, valueFor, swimNow, cityCost, partyWord, MONTHS, MONTH_LETTERS, favorites } from './data.svelte.js';
 
-  let { month, preset, mode, valueModel, density = $bindable('cards'), onopen, onmodel } = $props();
+  let {
+    month = $bindable(0),
+    preset,
+    mode = $bindable('quality'),
+    currentMonth,
+    valueModel,
+    density = $bindable('cards'),
+    onopen,
+    onmodel
+  } = $props();
 
   let activeRegions = $state(new Set());
   let nonSchengenOnly = $state(false);
@@ -14,6 +24,20 @@
   let minQol = $state('');
   let showMore = $state(false);
   let showAll = $state(false);
+
+  // Once the hero scrolls away, a compact bar re-exposes month + rank — exactly
+  // what the old sticky toolbar carried, nothing more.
+  let stuck = $state(false);
+  let sentinel = $state();
+
+  $effect(() => {
+    if (!sentinel) return;
+    const io = new IntersectionObserver(([e]) => (stuck = !e.isIntersecting), {
+      rootMargin: '-4px 0px 0px 0px'
+    });
+    io.observe(sentinel);
+    return () => io.disconnect();
+  });
 
   const CAP = 48;
 
@@ -67,49 +91,113 @@
 </script>
 
 <section>
-  <header class="view-head">
-    <div>
-      <p class="kicker">Where should I be in</p>
-      <h1>{MONTHS[month]}<span class="dot">.</span></h1>
-      <p class="dek">The good months, ranked — clean air, mild weather, no typhoons, festivals on.</p>
-    </div>
-    <div class="head-right">
-      <div class="seg density" role="group" aria-label="View as">
-        <button type="button" class:on={density === 'cards'} onclick={() => (density = 'cards')}>Cards</button>
-        <button type="button" class:on={density === 'table'} onclick={() => (density = 'table')}>Table</button>
-      </div>
-      <div class="filters">
-        {#if activeRegions.size > 0 || nonSchengenOnly || favOnly || moreActive}
-          <button type="button" class="chip clearchip" onclick={resetFilters}>✕ Clear</button>
-        {/if}
-        <button
-          type="button"
-          class="chip fav"
-          class:on={favOnly}
-          title="Show only saved cities"
-          onclick={() => (favOnly = !favOnly)}
-        >
-          {favOnly ? '♥' : '♡'} Favorites{favorites.size ? ` · ${favorites.size}` : ''}
-        </button>
-        {#each regions as r}
-          <button type="button" class="chip" class:on={activeRegions.has(r)} onclick={() => toggleRegion(r)}>
-            {r}
+  <div class="stickbar" class:show={stuck} aria-hidden={!stuck}>
+    <div class="stickbar-inner">
+      <span class="stick-now">{MONTHS[month]}</span>
+      <div class="monthsel compact" role="group" aria-label="Choose month">
+        {#each MONTH_LETTERS as l, i}
+          <button
+            type="button"
+            class="mbtn"
+            class:on={i === month}
+            class:now={i === currentMonth}
+            title={MONTHS[i]}
+            aria-label={MONTHS[i]}
+            tabindex={stuck ? 0 : -1}
+            onclick={() => (month = i)}
+          >
+            {i === month ? MONTHS[i] : l}
           </button>
         {/each}
-        <button
-          type="button"
-          class="chip schengen"
-          class:on={nonSchengenOnly}
-          onclick={() => (nonSchengenOnly = !nonSchengenOnly)}
-        >
-          ◆ non-Schengen only
-        </button>
-        <button type="button" class="chip more" class:on={showMore || moreActive} onclick={() => (showMore = !showMore)}>
-          More filters{moreActive ? ' ·' : ''}{showMore ? ' ▴' : ' ▾'}
-        </button>
+      </div>
+      {#if density !== 'table'}
+        <div class="seg" role="group" aria-label="Rank by">
+          <button type="button" class:on={mode === 'quality'} tabindex={stuck ? 0 : -1} onclick={() => (mode = 'quality')}>Top Pick</button>
+          <button type="button" class:on={mode === 'value'} tabindex={stuck ? 0 : -1} onclick={() => (mode = 'value')}>Best Value</button>
+        </div>
+      {/if}
+    </div>
+  </div>
+
+  <header class="view-head">
+    <p class="kicker">Where should I be in</p>
+    <div class="title-row">
+      <h1>{MONTHS[month]}<span class="dot">.</span></h1>
+      <div class="monthsel" role="group" aria-label="Choose month">
+        {#each MONTH_LETTERS as l, i}
+          <button
+            type="button"
+            class="mbtn"
+            class:on={i === month}
+            class:now={i === currentMonth}
+            title="{MONTHS[i]}{i === currentMonth ? ' (current month)' : ''}"
+            aria-label={MONTHS[i]}
+            aria-pressed={i === month}
+            onclick={() => (month = i)}
+          >
+            {i === month ? MONTHS[i] : l}
+          </button>
+        {/each}
       </div>
     </div>
+    <p class="dek">The good months, ranked — clean air, mild weather, no typhoons, festivals on.</p>
   </header>
+
+  <div class="controls">
+    <div class="ctl-row">
+      {#if density !== 'table'}
+        <div class="ctl-group">
+          <span class="ctl-lbl" aria-hidden="true">Rank by</span>
+          <div class="seg" role="group" aria-label="Rank by">
+            <button type="button" class:on={mode === 'quality'} onclick={() => (mode = 'quality')}>Top Pick</button>
+            <button type="button" class:on={mode === 'value'} onclick={() => (mode = 'value')}>Best Value</button>
+          </div>
+        </div>
+      {/if}
+      <div class="ctl-group end">
+        <span class="ctl-lbl" aria-hidden="true">View as</span>
+        <div class="seg density" role="group" aria-label="View as">
+          <button type="button" class:on={density === 'cards'} onclick={() => (density = 'cards')}>Cards</button>
+          <button type="button" class:on={density === 'table'} onclick={() => (density = 'table')}>Table</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="filters">
+      {#if activeRegions.size > 0 || nonSchengenOnly || favOnly || moreActive}
+        <button type="button" class="chip clearchip" onclick={resetFilters}>✕ Clear</button>
+      {/if}
+      <button
+        type="button"
+        class="chip fav"
+        class:on={favOnly}
+        title="Show only saved cities"
+        onclick={() => (favOnly = !favOnly)}
+      >
+        {favOnly ? '♥' : '♡'} Favorites{favorites.size ? ` · ${favorites.size}` : ''}
+      </button>
+      <RegionMenu {regions} active={activeRegions} ontoggle={toggleRegion} onclear={() => (activeRegions = new Set())} />
+      <button
+        type="button"
+        class="chip schengen"
+        class:on={nonSchengenOnly}
+        onclick={() => (nonSchengenOnly = !nonSchengenOnly)}
+      >
+        ◆ non-Schengen only
+      </button>
+      <button
+        type="button"
+        class="chip more"
+        class:on={showMore || moreActive}
+        aria-expanded={showMore}
+        onclick={() => (showMore = !showMore)}
+      >
+        Refine{moreActive ? ' ·' : ''}{showMore ? ' ▴' : ' ▾'}
+      </button>
+    </div>
+  </div>
+
+  <div class="stick-sentinel" bind:this={sentinel} aria-hidden="true"></div>
 
   {#if showMore}
     <div class="morebar">
@@ -192,17 +280,108 @@
     line-height: 1.35;
   }
 
-  .head-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
+  /* Hero is a vertical lockup; override the shared row layout from app.css. */
+  .view-head {
+    display: block;
+    margin: 26px 0 18px;
   }
 
+  .title-row {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin-top: 6px;
+  }
+
+  /* The month picker sits flush under the headline word — title and control
+     read as one object. The big word is the current selection. */
+  .monthsel {
+    display: flex;
+    align-items: center;
+    height: 34px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    overflow: hidden;
+    background: var(--card);
+    margin-bottom: 7px;
+  }
+
+  .mbtn {
+    position: relative;
+    border: none;
+    background: none;
+    width: 27px;
+    height: 100%;
+    padding: 0;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-3);
+    transition: color 0.15s ease;
+  }
+
+  .mbtn:hover { color: var(--ink); }
+
+  .mbtn.now::after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--terra);
+  }
+
+  .mbtn.on {
+    width: auto;
+    padding: 0 11px;
+    background: var(--terra);
+    color: #fdf3ec;
+  }
+
+  .mbtn.on.now::after { background: #fdf3ec; }
+
+  .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .ctl-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px 16px;
+  }
+
+  .ctl-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ctl-group.end {
+    margin-left: auto;
+    align-items: flex-end;
+  }
+
+  .ctl-lbl {
+    font-size: 9.5px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    line-height: 1;
+  }
+
+  .seg,
   .seg.density {
     display: flex;
     align-items: center;
-    height: 30px;
+    height: 32px;
     border: 1px solid var(--line);
     border-radius: 999px;
     overflow: hidden;
@@ -210,7 +389,7 @@
     flex-shrink: 0;
   }
 
-  .seg.density button {
+  .seg button {
     border: none;
     background: none;
     font-size: 12.5px;
@@ -218,9 +397,12 @@
     color: var(--ink-3);
     padding: 0 14px;
     height: 100%;
+    transition: color 0.15s ease;
   }
 
-  .seg.density button.on {
+  .seg button:hover { color: var(--ink); }
+
+  .seg button.on {
     background: var(--ink);
     color: var(--paper);
   }
@@ -230,8 +412,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 6px;
-    max-width: 560px;
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
 
   .clearchip { color: var(--terra-deep); white-space: nowrap; }
@@ -245,11 +426,13 @@
   }
 
   @media (max-width: 700px) {
-    .head-right { align-items: stretch; width: 100%; }
+    .title-row { gap: 10px 14px; }
+    .monthsel { width: 100%; height: 38px; }
+    .mbtn { width: auto; flex: 1; }
+
     .filters {
       flex-wrap: nowrap;
       overflow-x: auto;
-      justify-content: flex-start;
       max-width: 100%;
       width: 100%;
       -webkit-overflow-scrolling: touch;
@@ -261,6 +444,81 @@
 
     .filters::-webkit-scrollbar { display: none; }
     .filters .chip { white-space: nowrap; flex-shrink: 0; }
+  }
+
+  .stick-sentinel {
+    height: 0;
+    margin: 0;
+  }
+
+  .stickbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 45;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 6px 16px -12px rgba(33, 36, 30, 0.4);
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.18s ease;
+  }
+
+  .stickbar.show {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .stickbar-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 9px 26px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .stick-now {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    min-width: 0;
+  }
+
+  .monthsel.compact {
+    height: 30px;
+  }
+
+  .monthsel.compact .mbtn {
+    width: 24px;
+    font-size: 10.5px;
+  }
+
+  .monthsel.compact .mbtn.on {
+    width: auto;
+    padding: 0 9px;
+  }
+
+  .stickbar .seg {
+    height: 30px;
+    margin-left: auto;
+  }
+
+  @media (max-width: 700px) {
+    .stickbar-inner { padding: 8px 16px; gap: 8px; }
+    .stick-now { display: none; }
+    .monthsel.compact { flex: 1; }
+    .monthsel.compact .mbtn { flex: 1; width: auto; }
+    .stickbar .seg { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stickbar { transition: opacity 0.18s ease; transform: none; }
   }
 
   .morebar {

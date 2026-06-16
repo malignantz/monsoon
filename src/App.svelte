@@ -5,7 +5,7 @@
   import Settings from './lib/Settings.svelte';
   import Methodology from './lib/Methodology.svelte';
   import About from './lib/About.svelte';
-  import { cities, cityByKey, qolFor, valueFor, MONTHS, MONTH_LETTERS, onboarded, decodeRouteCompact, decodeRoute, normalizePresetKey } from './lib/data.svelte.js';
+  import { cities, cityByKey, qolFor, valueFor, onboarded, decodeRouteCompact, decodeRoute, normalizePresetKey } from './lib/data.svelte.js';
 
   const PREFS = 'atlas.prefs.v1';
 
@@ -155,42 +155,9 @@
 
   </header>
 
-  {#if view !== 'year'}
-    <div class="toolbar">
-      <div class="ctl-group monthgroup">
-        <span class="ctl-lbl" aria-hidden="true">Viewing</span>
-        <div class="monthsel" role="group" aria-label="Month">
-          {#each MONTH_LETTERS as l, i}
-            <button
-              type="button"
-              class="mbtn"
-              class:on={i === month}
-              class:now={i === currentMonth}
-              title="{MONTHS[i]}{i === currentMonth ? ' (current month)' : ''}"
-              onclick={() => (month = i)}
-            >
-              {i === month ? MONTHS[i] : l}
-            </button>
-          {/each}
-        </div>
-      </div>
-
-      {#if density !== 'table'}
-        <div class="ctl-group">
-          <span class="ctl-lbl" aria-hidden="true">Rank by</span>
-          <div class="seg" role="group" aria-label="Rank by">
-            <button type="button" class:on={mode === 'quality'} onclick={() => (mode = 'quality')}>Top Pick</button>
-            <button type="button" class:on={mode === 'value'} onclick={() => (mode = 'value')}>Best Value</button>
-          </div>
-        </div>
-      {/if}
-
-    </div>
-  {/if}
-
   <main>
     {#if view === 'month'}
-      <ThisMonth {month} {preset} {mode} {valueModel} bind:density onopen={openSheet} onmodel={(m) => (valueModel = m)} />
+      <ThisMonth bind:month bind:mode {currentMonth} {preset} {valueModel} bind:density onopen={openSheet} onmodel={(m) => (valueModel = m)} />
     {:else}
       <MyYear bind:preset {sharedRoute} onsharedresolved={resolveShared} onopen={openSheet} />
     {/if}
@@ -362,111 +329,6 @@
 
   @media (prefers-reduced-motion: reduce) {
     .gear.pulse { animation: none; }
-  }
-
-  .toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    gap: 10px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--line);
-    position: sticky;
-    top: 0;
-    z-index: 40;
-    background: var(--paper);
-    box-shadow: 0 6px 14px -12px rgba(33, 36, 30, 0.35);
-  }
-
-  .ctl-group {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .ctl-lbl {
-    font-size: 9.5px;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    font-family: var(--sans);
-    line-height: 1;
-  }
-
-  .monthsel {
-    display: flex;
-    align-items: center;
-    height: 32px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    overflow: hidden;
-    background: var(--card);
-  }
-
-  .mbtn {
-    position: relative;
-    border: none;
-    background: none;
-    width: 26px;
-    height: 100%;
-    padding: 0;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--ink-3);
-  }
-
-  .mbtn.now::after {
-    content: '';
-    position: absolute;
-    bottom: 2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 3px;
-    height: 3px;
-    border-radius: 50%;
-    background: var(--terra);
-  }
-
-  .mbtn.on.now::after { background: #fdf3ec; }
-
-  .mbtn.on { width: auto; padding: 0 10px; }
-
-  @media (max-width: 700px) {
-    .monthgroup { width: 100%; }
-    .monthsel { width: 100%; height: 36px; }
-    .mbtn { width: auto; flex: 1; }
-  }
-
-  .mbtn:hover { color: var(--ink); }
-
-  .mbtn.on {
-    background: var(--terra);
-    color: #fdf3ec;
-  }
-
-  .seg {
-    display: flex;
-    align-items: center;
-    height: 32px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    overflow: hidden;
-    background: var(--card);
-  }
-
-  .seg button {
-    border: none;
-    background: none;
-    font-size: 12.5px;
-    font-weight: 600;
-    color: var(--ink-3);
-    padding: 0 14px;
-    height: 100%;
-  }
-
-  .seg button.on {
-    background: var(--ink);
-    color: var(--paper);
   }
 
   .basefoot {
