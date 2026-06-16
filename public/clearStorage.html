@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Resetting Monsoon…</title>
+    <!-- Standalone storage-reset escape hatch. Cloudflare Pages serves this file
+         at the clean URL /clearStorage (200, no redirect), independent of the
+         SPA. The clear runs in <head> before anything else, then we bounce home
+         for a true first-run state. -->
+    <script>
+      try {
+        localStorage.clear();
+        sessionStorage.clear();
+      } catch (e) {
+        // Storage can be unavailable (private mode, blocked) — nothing to clear.
+      }
+      location.replace('/');
+    </script>
+  </head>
+  <body>Resetting local data…</body>
+</html>
