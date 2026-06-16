@@ -2,9 +2,14 @@
   import MonthStrip from './MonthStrip.svelte';
   import { stripCells, qolFor, valueFor, whyNow, fmtMoney, cityCost, partyWord, isFavorite, toggleFavorite } from './data.svelte.js';
 
-  let { city, month, preset, mode, valueModel, onopen } = $props();
+  let { city, month, preset, mode, valueModel, heroKey = null, openKey = null, onopen } = $props();
 
   const faved = $derived(isFavorite(city.key));
+
+  // Wear the shared `city-hero` name only while this card is the one morphing to
+  // or from the sheet, and only in the snapshot where the sheet isn't its match
+  // — so the card title and the sheet title are never both tagged at once.
+  const hero = $derived(heroKey === city.key && openKey !== city.key);
 
   const cells = $derived(stripCells(city, preset));
   const score = $derived(
@@ -28,7 +33,7 @@
   <button type="button" class="card" onclick={() => onopen(city.key)}>
     <div class="top">
       <div class="names">
-        <h3>{city.name}</h3>
+        <h3 style:view-transition-name={hero ? 'city-hero' : undefined}>{city.name}</h3>
         <span class="country">{city.country}</span>
       </div>
       <div class="score {mode === 'value' ? 'neutral' : `band-${cells[month].band}`}">

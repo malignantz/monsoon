@@ -1,11 +1,13 @@
 <script>
+  import { tick } from 'svelte';
   import ThisMonth from './lib/ThisMonth.svelte';
   import MyYear from './lib/MyYear.svelte';
   import CitySheet from './lib/CitySheet.svelte';
   import Settings from './lib/Settings.svelte';
   import Methodology from './lib/Methodology.svelte';
   import About from './lib/About.svelte';
-  import { cities, cityByKey, qolFor, valueFor, onboarded, decodeRouteCompact, decodeRoute, normalizePresetKey } from './lib/data.svelte.js';
+  import HowTo from './lib/HowTo.svelte';
+  import { cities, cityByKey, qolFor, valueFor, onboarded, saveSettings, decodeRouteCompact, decodeRoute, normalizePresetKey } from './lib/data.svelte.js';
 
   const PREFS = 'atlas.prefs.v1';
 
@@ -27,6 +29,9 @@
   const compact = decodeRouteCompact(shareParams.get('i'));
   const initialRoute = compact.length ? compact : decodeRoute(shareParams.get('route'));
   let sharedRoute = $state(initialRoute.length ? initialRoute : null);
+  // Decorative trip name carried alongside the route; decoded independently so a
+  // missing or malformed name never affects the itinerary itself.
+  const sharedName = initialRoute.length ? (shareParams.get('n') ?? '').slice(0, 60) : '';
 
   // 'explore' merged into 'month' as a card/table density toggle; fall back for saved prefs.
   let view = $state(initialRoute.length ? 'year' : p.view === 'explore' ? 'month' : (p.view ?? 'month'));
@@ -36,29 +41,52 @@
   let valueModel = $state(p.valueModel ?? 'adjusted');
   let density = $state(p.density === 'table' ? 'table' : 'cards');
   let cityKey = $state(new URLSearchParams(location.search).get('city'));
+  // The city whose card should wear the shared `city-hero` name during a
+  // card↔sheet view transition. Held only across the transition, then cleared.
+  let transitioningKey = $state(null);
 
-  // First run (no saved settings) shows onboarding; the gear re-opens the same
-  // panel in "settings" mode. onboarded.done flips once settings are saved.
-  let settingsOpen = $state(!onboarded.done);
-  let settingsMode = $state(onboarded.done ? 'settings' : 'onboarding');
+  // No first-run gate: everyone lands straight in the app. The settings panel is
+  // always re-openable from the gear (mode is always "settings" now).
+  let settingsOpen = $state(false);
   let aboutOpen = $state(false);
   let methodOpen = $state(false);
-  // Brief highlight on the gear after onboarding collapses into it, so the new
-  // user clocks where their settings landed.
-  let gearPulse = $state(false);
+  let howToOpen = $state(false);
+
+  // First-visit nudge (no saved settings yet): a non-blocking hint plus a one-time
+  // pulse on the top-right utilities, so people discover personalization and the
+  // guide without being gated by a modal.
+  let showNudge = $state(!onboarded.done);
+  let utilPulse = $state(false);
+  let didPulse = false;
+
+  $effect(() => {
+    if (!showNudge || didPulse) return;
+    didPulse = true;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    utilPulse = true;
+    setTimeout(() => (utilPulse = false), 1100);
+  });
+
+  // Any first-run engagement (or an explicit dismiss) retires the nudge for good:
+  // saveSettings() persists the current (default) prefs so it won't return.
+  function dismissNudge() {
+    if (!showNudge) return;
+    showNudge = false;
+    saveSettings();
+  }
 
   function openSettings() {
-    settingsMode = 'settings';
     settingsOpen = true;
+    dismissNudge();
+  }
+
+  function openHowTo() {
+    howToOpen = true;
+    dismissNudge();
   }
 
   function closeSettings() {
-    const fromOnboarding = settingsMode === 'onboarding';
     settingsOpen = false;
-    if (fromOnboarding) {
-      gearPulse = true;
-      setTimeout(() => (gearPulse = false), 1100);
-    }
   }
 
   $effect(() => {
@@ -79,7 +107,14 @@
       .map((x) => x.key)
   );
 
-  function openSheet(key, { replace = false, month: sheetMonth } = {}) {
+  // Skip view transitions when unsupported or when the user prefers reduced
+  // motion — the underlying state change still happens, just without the morph.
+  const canAnimate = () =>
+    typeof document !== 'undefined' &&
+    typeof document.startViewTransition === 'function' &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function applyOpen(key, { replace = false, month: sheetMonth } = {}) {
     if (Number.isInteger(sheetMonth) && sheetMonth >= 0 && sheetMonth < 12) month = sheetMonth;
     cityKey = key;
     const u = new URL(location.href);
@@ -87,17 +122,56 @@
     replace ? history.replaceState({}, '', u) : history.pushState({}, '', u);
   }
 
-  function stepCity(dir) {
-    const i = rankedKeys.indexOf(cityKey);
-    if (i < 0) return;
-    openSheet(rankedKeys[(i + dir + rankedKeys.length) % rankedKeys.length], { replace: true });
-  }
-
-  function closeSheet() {
+  function applyClose() {
     cityKey = null;
     const u = new URL(location.href);
     u.searchParams.delete('city');
     history.pushState({}, '', u);
+  }
+
+  // Card → sheet: tag the clicked card with the hero name in the outgoing
+  // snapshot, then let the same name on the sheet's title morph into place.
+  async function openSheet(key, opts = {}) {
+    if (!canAnimate()) {
+      applyOpen(key, opts);
+      return;
+    }
+    transitioningKey = key;
+    await tick();
+    const vt = document.startViewTransition(async () => {
+      applyOpen(key, opts);
+      await tick();
+    });
+    vt.finished.finally(() => (transitioningKey = null));
+  }
+
+  // Sheet → card: hold the hero name on the closing city so it flies back to
+  // its card, which reappears as the sheet unmounts.
+  async function closeSheet() {
+    if (!canAnimate()) {
+      applyClose();
+      return;
+    }
+    transitioningKey = cityKey;
+    await tick();
+    const vt = document.startViewTransition(async () => {
+      applyClose();
+      await tick();
+    });
+    vt.finished.finally(() => (transitioningKey = null));
+  }
+
+  // ←/→ stepping swaps cities within the open sheet: a plain crossfade (no card
+  // hero) lets the title morph from one city to the next.
+  function stepCity(dir) {
+    const i = rankedKeys.indexOf(cityKey);
+    if (i < 0) return;
+    const next = rankedKeys[(i + dir + rankedKeys.length) % rankedKeys.length];
+    if (!canAnimate()) {
+      applyOpen(next, { replace: true });
+      return;
+    }
+    document.startViewTransition(() => applyOpen(next, { replace: true }));
   }
 
   $effect(() => {
@@ -150,16 +224,28 @@
           {n.label}
         </button>
       {/each}
-      <button type="button" class="gear" class:pulse={gearPulse} onclick={openSettings} aria-label="Settings" title="Settings">⚙</button>
+      <button type="button" class="util" class:pulse={utilPulse} onclick={openHowTo} aria-label="How to use Monsoon" title="How to use Monsoon">?</button>
+      <button type="button" class="gear util" class:pulse={utilPulse} onclick={openSettings} aria-label="Settings" title="Settings">⚙</button>
     </nav>
 
   </header>
 
+  {#if showNudge}
+    <div class="nudge" role="note">
+      <span class="nudge-txt">
+        New here? <button type="button" class="nudge-link" onclick={openSettings}>Tune your atlas</button>
+        or <button type="button" class="nudge-link" onclick={openHowTo}>see how it works</button>
+        — anytime from <span class="gly" aria-hidden="true">⚙</span> and <span class="gly" aria-hidden="true">?</span> up top.
+      </span>
+      <button type="button" class="nudge-x" onclick={dismissNudge} aria-label="Dismiss this tip">×</button>
+    </div>
+  {/if}
+
   <main>
     {#if view === 'month'}
-      <ThisMonth bind:month bind:mode {currentMonth} {preset} {valueModel} bind:density onopen={openSheet} onmodel={(m) => (valueModel = m)} />
+      <ThisMonth bind:month bind:mode {currentMonth} {preset} {valueModel} bind:density heroKey={transitioningKey} openKey={cityKey} onopen={openSheet} onmodel={(m) => (valueModel = m)} />
     {:else}
-      <MyYear bind:preset {sharedRoute} onsharedresolved={resolveShared} onopen={openSheet} />
+      <MyYear bind:preset {sharedRoute} {sharedName} onsharedresolved={resolveShared} onopen={openSheet} />
     {/if}
   </main>
 
@@ -168,7 +254,7 @@
     <span class="footlinks">
       <button type="button" class="num footlink" onclick={() => (aboutOpen = true)}>about</button>
       <span aria-hidden="true">·</span>
-      <button type="button" class="num footlink" onclick={() => (methodOpen = true)}>methodology v5 · 2026</button>
+      <button type="button" class="num footlink" onclick={() => (methodOpen = true)}>methodology · 2026</button>
     </span>
   </footer>
 </div>
@@ -178,7 +264,7 @@
 {/if}
 
 {#if settingsOpen}
-  <Settings mode={settingsMode} bind:preset onclose={closeSettings} />
+  <Settings bind:preset onclose={closeSettings} />
 {/if}
 
 {#if aboutOpen}
@@ -187,6 +273,10 @@
 
 {#if methodOpen}
   <Methodology onclose={() => (methodOpen = false)} />
+{/if}
+
+{#if howToOpen}
+  <HowTo onclose={() => (howToOpen = false)} />
 {/if}
 
 <style>
@@ -301,7 +391,7 @@
     color: var(--paper);
   }
 
-  .gear {
+  .util {
     background: none;
     border: none;
     font-size: 17px;
@@ -312,10 +402,19 @@
     line-height: 1;
   }
 
-  .gear:hover { color: var(--ink); }
+  .util:hover { color: var(--ink); }
 
-  /* Lands the onboarding collapse: a quick pop + terracotta flash on the gear. */
-  .gear.pulse {
+  /* The "?" is a glyph in the body font, not an icon — nudge it to optically
+     match the gear's weight and size. */
+  .util:not(.gear) {
+    font-size: 15px;
+    font-weight: 700;
+    width: 31px;
+  }
+
+  /* First-visit cue: a quick pop + terracotta flash on the ? and gear, so a new
+     user clocks where personalization and help live. */
+  .util.pulse {
     animation: gearpop 0.95s ease;
     color: var(--terra);
   }
@@ -328,8 +427,56 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .gear.pulse { animation: none; }
+    .util.pulse { animation: none; }
   }
+
+  .nudge {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 12px 0 0;
+    padding: 9px 8px 9px 16px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+
+  .nudge-txt { flex: 1; line-height: 1.4; }
+
+  .nudge-link {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    font-weight: 600;
+    color: var(--terra-deep);
+    border-bottom: 1px dotted var(--terra);
+    cursor: pointer;
+  }
+
+  .nudge-link:hover { color: var(--terra); }
+
+  .gly {
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .nudge-x {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    border: none;
+    border-radius: 999px;
+    background: none;
+    color: var(--ink-3);
+    font-size: 17px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .nudge-x:hover { color: var(--ink); background: var(--paper-3); }
 
   .basefoot {
     display: flex;

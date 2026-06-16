@@ -20,7 +20,7 @@
     partyWord,
     encodeRouteCompact,
     shareUrl,
-    copyText
+    shareOrCopy
   } from './data.svelte.js';
   import {
     defaultFilters,
@@ -34,17 +34,24 @@
     RAIN_OPTIONS
   } from './planner.js';
 
-  let { preset = $bindable(), onopen, sharedRoute = null, onsharedresolved } = $props();
+  let { preset = $bindable(), onopen, sharedRoute = null, sharedName = '', onsharedresolved } = $props();
 
   const STORE = 'atlas.route.v1';
   const STORE_F = 'atlas.route.filters.v1';
+  const DEFAULT_NAME = 'My Monsoon year';
 
+  // Storage is `{ name, stays }`. Older builds saved a bare stays array; treat
+  // that as an unnamed route so existing saved years keep loading.
   function load() {
     try {
-      const s = JSON.parse(localStorage.getItem(STORE));
-      if (Array.isArray(s) && s.every((x) => cityByKey.has(x.key))) return s;
+      const raw = JSON.parse(localStorage.getItem(STORE));
+      const stays = Array.isArray(raw) ? raw : raw?.stays;
+      const name = !Array.isArray(raw) && typeof raw?.name === 'string' ? raw.name : '';
+      if (Array.isArray(stays) && stays.every((x) => cityByKey.has(x.key))) {
+        return { stays, name };
+      }
     } catch {}
-    return [];
+    return { stays: [], name: '' };
   }
 
   function loadFilters() {
@@ -68,7 +75,9 @@
     return normalizeFilters(base, partyWord());
   }
 
-  let stays = $state(load());
+  const loaded = load();
+  let stays = $state(loaded.stays);
+  let routeName = $state(loaded.name);
   let selStart = $state(-1);
   let dur = $state(2);
   let query = $state('');
@@ -82,6 +91,7 @@
 
   function adoptShared() {
     stays = (sharedRoute ?? []).map((s) => ({ ...s }));
+    if (sharedName) routeName = sharedName;
     selStart = -1;
     previewing = false;
     onsharedresolved?.();
@@ -92,13 +102,23 @@
     onsharedresolved?.();
   }
 
-  // Copy a link that encodes the current route into the URL — no backend.
+  // Share a link that encodes the current route into the URL — no backend.
+  // Native share sheet on mobile, clipboard copy elsewhere.
   let copied = $state(false);
   let copyTimer;
   async function shareRoute() {
     if (!stays.length) return;
-    const ok = await copyText(shareUrl({ i: encodeRouteCompact(stays) }));
-    if (!ok) return;
+    // Route lives in `i`; the trip name rides along as a decorative `n` that
+    // decoding ignores, so links stay valid even if the name is dropped.
+    const name = routeName.trim();
+    const params = { i: encodeRouteCompact(stays) };
+    if (name) params.n = name;
+    const result = await shareOrCopy({
+      url: shareUrl(params),
+      title: name || DEFAULT_NAME,
+      text: name || 'My Monsoon travel year'
+    });
+    if (result !== 'copied') return;
     copied = true;
     clearTimeout(copyTimer);
     copyTimer = setTimeout(() => (copied = false), 1800);
@@ -130,7 +150,7 @@
   }
 
   $effect(() => {
-    localStorage.setItem(STORE, JSON.stringify(stays));
+    localStorage.setItem(STORE, JSON.stringify({ name: routeName, stays }));
   });
 
   $effect(() => {
@@ -301,6 +321,28 @@
     <div>
       <p class="kicker">Build the year</p>
       <h1>My year<span class="dot">.</span></h1>
+      {#if previewing}
+        {#if sharedName}<p class="trip-name-static">{sharedName}</p>{/if}
+      {:else if stays.length > 0}
+        <!-- Inline-editable trip name. The sizer span mirrors the value so the
+             input (and its underline) hugs the text instead of trailing into
+             empty space. The dotted underline stays visible at rest so the
+             field reads as editable on touch, where there is no hover. -->
+        <span class="trip-name-field" data-value={routeName || DEFAULT_NAME}>
+          <input
+            class="trip-name"
+            type="text"
+            bind:value={routeName}
+            placeholder={DEFAULT_NAME}
+            aria-label="Trip name"
+            size="1"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+            maxlength="60"
+          />
+        </span>
+      {/if}
     </div>
     <div class="head-right">
       {#if !previewing && stays.length > 0}
@@ -419,7 +461,7 @@
       </div>
       <div class="tot">
         <span class="num tv">{stats.months ? fmtMoney(stats.totalCost) : '—'}</span>
-        <span class="tk">{stats.months}-month total</span>
+        <span class="tk">{stats.months ? `${stats.months}-month total` : 'trip total'}</span>
       </div>
       <div class="tot">
         <span class="num tv">{stats.festivals}</span>
@@ -610,6 +652,55 @@
   .preview-sub { font-size: 12.5px; color: var(--ink-2); }
 
   .preview-act { display: flex; gap: 8px; flex-shrink: 0; }
+
+  /* Editable trip name sits under the headline. An always-on dotted underline
+     signals it's editable (a hover-only cue would vanish on touch).
+     Sizer: the ::after mirrors the value and the input overlays it, so the
+     field auto-grows to its content. Both must share font + padding box. */
+  .trip-name-field {
+    display: inline-grid;
+    min-width: 1ch;
+    max-width: 60vw;
+    margin-top: 7px;
+  }
+  .trip-name-field::after {
+    content: attr(data-value);
+    visibility: hidden;
+    white-space: pre;
+  }
+  .trip-name,
+  .trip-name-field::after {
+    grid-area: 1 / 1;
+    padding: 1px 1px 2px;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: inherit;
+  }
+  /* The sizer (::after) takes its width from the text; the input fills it. */
+  .trip-name {
+    width: 100%;
+    min-width: 0;
+    border: none;
+    border-bottom: 1px dotted var(--ink-3);
+    border-radius: 0;
+    background: transparent;
+    color: var(--ink-1);
+    transition: border-bottom-color 0.15s;
+  }
+  .trip-name::placeholder { color: var(--ink-3); font-weight: 400; }
+  .trip-name:hover { border-bottom-color: var(--ink-2); }
+  .trip-name:focus {
+    outline: none;
+    border-bottom: 1px solid var(--terra);
+  }
+
+  .trip-name-static {
+    margin-top: 7px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink-1);
+  }
 
   .chip.adopt {
     background: var(--ink);

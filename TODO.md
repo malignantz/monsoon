@@ -1,27 +1,20 @@
 # Monsoon TODO
 
-Last consolidated: 2026-06-15.
+Last consolidated: 2026-06-15 (sharing + itinerary-naming pass).
 
 ## Itinerary Saving And Sharing
 
-- [ ] Add names to saved itineraries in local storage.
-  - Store a route name alongside `atlas.route.v1`, with migration from the current bare stays array.
-  - Show an editable trip-name field in My year.
-  - Use a sensible default like "My Monsoon year" until named.
-- [ ] Add itinerary names to shared links.
-  - Emit a decorative `n` query param alongside `?i=...`.
-  - Decode and display the shared name in read-only preview.
-  - Keep route decoding independent of the name so old links still work.
-- [ ] Add mobile native sharing.
-  - Use `navigator.share({ title, text, url })` when available and fall back to clipboard copy.
-  - Reuse current city and itinerary URL builders.
 - [ ] Add export options for a planned year.
   - Copyable text summary.
   - Print stylesheet for the itinerary board.
 
 ## My Year And Planning Flow
 
-- [ ] Build an "Add to my year" bridge from browse/city sheet into My year.
+- [ ] Build an "Add to my year" bridge from browse/city sheet into My year. **(Priority — completeness gap.)**
+  - Today browse and plan are two islands: the city sheet has Save + Share but no way to
+    add the city to My year, so a user who finds a great city must switch tabs, find the
+    month, and re-search for it by hand. This seam is the app's most "prototype, not
+    product" moment and should be closed before further feature work.
   - Add the viewed city at the viewed month with a sensible default duration.
   - Reuse My year's existing stay shape: `{ key, start, len }`.
   - On overlap, place what can be placed or route the user to My year to resolve the collision.
@@ -42,8 +35,10 @@ Last consolidated: 2026-06-15.
   - Use them for share cards, SEO pages, and zero-input discovery.
 - [ ] Add a compare tray.
   - Let users pick 2-3 cities and compare month strips and key bars side by side.
-- [ ] Add card-to-sheet continuity polish.
-  - Try a progressive `view-transition-name` treatment for city names or hero elements.
+- [x] Add card-to-sheet continuity polish.
+  - Shared-element view transition: the city title morphs card → sheet (and back),
+    with the scrim/page crossfading behind it. ←/→ stepping crossfades the title
+    between cities. Gated on `startViewTransition` support and reduced-motion.
 
 ## Data And Scoring
 
@@ -70,6 +65,9 @@ Last consolidated: 2026-06-15.
 
 ## Done Or Consumed
 
+- [x] Mobile native sharing — `shareOrCopy()` uses `navigator.share` when available and falls back to clipboard copy; wired into both the city sheet and My year route share.
+- [x] Named saved itineraries — `atlas.route.v1` stores `{ name, stays }` and migrates the legacy bare array as unnamed; inline-editable trip-name field under the My year headline (auto-sizing input, always-on dotted-underline affordance, autofill disabled).
+- [x] Itinerary names in shared links — share link carries a decorative `n` param alongside `?i=...`; read-only preview displays the name and "Save a copy" adopts it; route decoding ignores `n` so old links still resolve.
 - [x] Compact shareable itinerary links with frozen v1 city IDs.
 - [x] Read-only shared-route preview with Save a copy and Dismiss.
 - [x] City deep links with `?city=<key>`.

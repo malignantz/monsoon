@@ -12,6 +12,8 @@
     currentMonth,
     valueModel,
     density = $bindable('cards'),
+    heroKey = null,
+    openKey = null,
     onopen,
     onmodel
   } = $props();
@@ -212,24 +214,19 @@
     </div>
   {/if}
 
-  <details class="explainer">
-    <summary>How Monsoon works</summary>
-    <div class="exbody">
-      <p>Every city is scored <em>month by month</em> — the colored strip on each card is its year, green where the weather, air and season line up and red where they don't.</p>
-      <p>Sort by <strong>Best Value</strong> to surface hidden gems: an unfamiliar place at the right time of year often beats the famous one you'd default to, for far less.</p>
-    </div>
-  </details>
-
   {#if density === 'cards'}
     <div class="strip-key">
-      <span class="key-unit">
-        <span class="key-label">Top Pick by month:</span>
-        <span class="kswatch kgreat">great</span>
-        <span class="kswatch kgood">good</span>
-        <span class="kswatch kok">ok</span>
-        <span class="kswatch kbad">avoid</span>
-      </span>
-      <Legend />
+      <p class="key-intro">Each colored strip is the city's whole year — green months are great to be there, red months aren't.</p>
+      <div class="key-row">
+        <span class="key-unit">
+          <span class="key-label">Top Pick by month:</span>
+          <span class="kswatch kgreat">great</span>
+          <span class="kswatch kgood">good</span>
+          <span class="kswatch kok">ok</span>
+          <span class="kswatch kbad">avoid</span>
+        </span>
+        <Legend />
+      </div>
     </div>
   {/if}
 
@@ -248,7 +245,7 @@
   {:else}
     <div class="grid">
       {#each ranked.slice(0, showAll ? ranked.length : CAP) as city (city.key)}
-        <CityCard {city} {month} {preset} {mode} {valueModel} {onopen} />
+        <CityCard {city} {month} {preset} {mode} {valueModel} {heroKey} {openKey} {onopen} />
       {/each}
     </div>
 
@@ -553,43 +550,25 @@
     color: var(--ink-2);
   }
 
-  .explainer {
-    margin-bottom: 18px;
-    font-size: 13px;
-  }
-
-  .explainer summary {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    color: var(--ink-2);
-    font-size: 12.5px;
-    list-style: none;
-  }
-
-  .explainer summary::-webkit-details-marker { display: none; }
-  .explainer summary::before { content: '⌄'; font-size: 13px; color: var(--ink-3); }
-  .explainer[open] summary::before { content: '⌃'; }
-  .explainer summary:hover { color: var(--ink); }
-
-  .exbody {
-    max-width: 64ch;
-    padding: 10px 0 2px;
-  }
-
-  .exbody p {
-    margin: 0 0 8px;
-    color: var(--ink-2);
-    line-height: 1.5;
-  }
-
   .strip-key {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 18px;
+  }
+
+  .key-intro {
+    margin: 0;
+    max-width: 64ch;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+
+  .key-row {
     display: flex;
     align-items: center;
     gap: 6px 16px;
-    margin-bottom: 18px;
     flex-wrap: wrap;
   }
 

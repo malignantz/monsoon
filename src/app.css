@@ -157,3 +157,16 @@ input:focus {
     animation: none !important;
   }
 }
+
+/* Card ↔ sheet shared-element transition (the city title morphs; the scrim and
+   page crossfade behind it). Tuned slightly slower than the default with an
+   ease-out curve so the title settles rather than snaps. */
+::view-transition-group(city-hero) {
+  animation-duration: 0.34s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.26s;
+}

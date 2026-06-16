@@ -442,6 +442,23 @@ export function shareUrl(params) {
   return u.toString();
 }
 
+// Share a link via the native share sheet when available (mobile), otherwise
+// fall back to copying. Returns 'shared' | 'copied' | false so callers can show
+// the right feedback ("Shared" vs "Copied"). A user-cancelled share sheet
+// (AbortError) returns false without falling back to copy.
+export async function shareOrCopy({ url, title, text }) {
+  if (navigator.share) {
+    try {
+      await navigator.share({ url, title, text });
+      return 'shared';
+    } catch (e) {
+      if (e && e.name === 'AbortError') return false;
+      // Any other failure (e.g. share not permitted) falls through to copy.
+    }
+  }
+  return (await copyText(url)) ? 'copied' : false;
+}
+
 // Clipboard with a legacy execCommand fallback for non-secure contexts.
 export async function copyText(text) {
   try {

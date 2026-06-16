@@ -1,7 +1,7 @@
 <script>
   // A read-only companion to Settings.svelte — same scrim/card shell and visual
   // language, but a scrollable sources-and-methods write-up instead of controls.
-  // Opened from the footer's "methodology v5" link.
+  // Opened from the footer's "methodology" link.
   let { onclose } = $props();
 
   let cardEl = $state(null);

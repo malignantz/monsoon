@@ -1,59 +1,23 @@
 <script>
-  // Doubles as first-run onboarding (mode="onboarding") and the re-openable
-  // settings panel (mode="settings"). Both write the same shared `prefs` store
-  // and persist on close, so nothing here is a one-way door.
+  // The re-openable settings panel. Writes the shared `prefs` store and persists
+  // on close, so nothing here is a one-way door.
   import { PRESETS, prefs, saveSettings } from './data.svelte.js';
 
-  let { mode = 'settings', preset = $bindable('balanced'), onclose } = $props();
+  let { preset = $bindable('balanced'), onclose } = $props();
 
   let cardEl = $state(null);
-  let collapsing = $state(false);
 
   // The signature month strip, reused as the brand mark (Bali's twelve months).
   const BRAND_BANDS = ['ok', 'ok', 'good', 'good', 'good', 'great', 'great', 'good', 'good', 'good', 'ok', 'ok'];
 
-  const reducedMotion = () =>
-    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
   function done() {
     saveSettings();
-    // First run: shrink the panel into the gear so a new user sees where these
-    // controls now live. Everywhere else (and for reduced-motion) just close.
-    if (onboarding && !collapsing && !reducedMotion() && collapseToGear()) return;
     onclose();
-  }
-
-  // FLIP-style collapse: measure the gear, translate + scale the card so its
-  // center lands on the gear, then unmount. Pure transform/opacity, so it runs
-  // smoothly and degrades safely across browsers. Returns false if it can't run.
-  function collapseToGear() {
-    const gear = document.querySelector('.gear');
-    if (!gear || !cardEl) return false;
-    const g = gear.getBoundingClientRect();
-    const c = cardEl.getBoundingClientRect();
-    const dx = g.left + g.width / 2 - (c.left + c.width / 2);
-    const dy = g.top + g.height / 2 - (c.top + c.height / 2);
-    const scale = Math.max(g.width / c.width, 0.06);
-    cardEl.style.setProperty('--dx', `${dx}px`);
-    cardEl.style.setProperty('--dy', `${dy}px`);
-    cardEl.style.setProperty('--s', scale);
-    collapsing = true;
-    let finished = false;
-    const finish = () => {
-      if (finished) return;
-      finished = true;
-      onclose();
-    };
-    cardEl.addEventListener('transitionend', finish, { once: true });
-    // Fallback in case transitionend never fires (interrupted, hidden tab, etc.).
-    setTimeout(finish, 600);
-    return true;
   }
 
   $effect(() => {
     const onkey = (e) => {
-      // Onboarding has no dismiss-without-choosing; defaults are sensible, so
-      // Escape still just saves and closes.
+      // Defaults are sensible, so Escape just saves and closes.
       if (e.key === 'Escape') done();
     };
     window.addEventListener('keydown', onkey);
@@ -65,28 +29,28 @@
       document.body.style.overflow = prevOverflow;
     };
   });
-
-  const onboarding = $derived(mode === 'onboarding');
 </script>
 
-<div class="scrim" class:collapsing>
+<div class="scrim">
   <button type="button" class="scrim-back" aria-label="Close settings" onclick={done}></button>
-  <div class="card" class:collapsing role="dialog" aria-modal="true" aria-label="Settings" tabindex="-1" bind:this={cardEl}>
+  <div class="card" role="dialog" aria-modal="true" aria-label="Settings" tabindex="-1" bind:this={cardEl}>
     <header class="head">
       <span class="mark" aria-hidden="true">
         {#each BRAND_BANDS as b}<span class="bcell band-{b}"></span>{/each}
       </span>
-      {#if onboarding}
-        <p class="kicker">Monsoon<span class="tld">.fyi</span></p>
-        <h1>Let's tune your atlas</h1>
-        <p class="lede">Three quick choices set the lens for every city: what good means,
-          whose costs to show, and the safety signal that matters to you.</p>
-      {:else}
-        <p class="kicker">Settings</p>
-        <h1>Your atlas</h1>
-        <p class="lede">These shape ranking, pricing, and safety across every view.</p>
-      {/if}
+      <p class="kicker">Settings</p>
+      <h1>Your atlas</h1>
+      <p class="lede">These shape ranking, pricing, and safety across every view.</p>
     </header>
+
+    <section class="q">
+      <span class="qlabel">Who's traveling?</span>
+      <div class="seg" role="group" aria-label="Party size">
+        <button type="button" class:on={prefs.party === 'solo'} onclick={() => (prefs.party = 'solo')}>Solo</button>
+        <button type="button" class:on={prefs.party === 'couple'} onclick={() => (prefs.party = 'couple')}>Couple</button>
+      </div>
+      <p class="qhint">We'll show a single {prefs.party} cost-of-living figure everywhere instead of two.</p>
+    </section>
 
     <section class="q">
       <span class="qlabel">Optimize for</span>
@@ -108,15 +72,6 @@
     </section>
 
     <section class="q">
-      <span class="qlabel">Who's traveling?</span>
-      <div class="seg" role="group" aria-label="Party size">
-        <button type="button" class:on={prefs.party === 'solo'} onclick={() => (prefs.party = 'solo')}>Solo</button>
-        <button type="button" class:on={prefs.party === 'couple'} onclick={() => (prefs.party = 'couple')}>Couple</button>
-      </div>
-      <p class="qhint">We'll show a single {prefs.party} cost-of-living figure everywhere instead of two.</p>
-    </section>
-
-    <section class="q">
       <button
         type="button"
         class="switchrow"
@@ -134,9 +89,7 @@
     </section>
 
     <footer class="foot">
-      <button type="button" class="cta" onclick={done}>
-        {onboarding ? 'Start exploring →' : 'Done'}
-      </button>
+      <button type="button" class="cta" onclick={done}>Done</button>
     </footer>
   </div>
 </div>
@@ -149,13 +102,6 @@
     z-index: 60;
     overflow-y: auto;
     padding: 4vh 16px;
-  }
-
-  /* First-run dismissal: fade the backdrop and let the card fly to the gear. */
-  .scrim.collapsing {
-    background: rgba(33, 36, 30, 0);
-    pointer-events: none;
-    transition: background 0.42s ease;
   }
 
   .scrim-back {
@@ -180,15 +126,6 @@
     outline: none;
   }
 
-  .card.collapsing {
-    transform: translate(var(--dx, 0), var(--dy, 0)) scale(var(--s, 0.1));
-    transform-origin: center center;
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 0.5s cubic-bezier(0.5, 0, 0.2, 1), opacity 0.45s ease;
-    will-change: transform, opacity;
-  }
-
   .head { margin-bottom: 18px; }
 
   .mark {
@@ -208,13 +145,6 @@
   .bcell.band-good { background: var(--band-good); }
   .bcell.band-ok { background: var(--band-ok); }
   .bcell.band-bad { background: var(--band-bad); }
-
-  .tld {
-    color: var(--terra);
-    font-family: var(--mono);
-    font-weight: 500;
-    font-size: 0.82em;
-  }
 
   h1 {
     font-size: clamp(26px, 5vw, 34px);

@@ -1,7 +1,7 @@
 <script>
   import MonthStrip from './MonthStrip.svelte';
   import ScoreInfo from './ScoreInfo.svelte';
-  import { stripCells, qolFor, fmtMoney, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, copyText } from './data.svelte.js';
+  import { stripCells, qolFor, fmtMoney, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, shareOrCopy } from './data.svelte.js';
 
   let { city, month, preset, onclose, onmonth, onstep } = $props();
 
@@ -9,13 +9,18 @@
 
   const faved = $derived(isFavorite(city.key));
 
-  // Copy a deep link straight to this city's sheet (?city=key). Brief "Copied"
+  // Share a deep link straight to this city's sheet (?city=key). Native share
+  // sheet on mobile, clipboard copy elsewhere with a brief "Copied"
   // confirmation, reset on city change so a stepped-to city starts fresh.
   let copied = $state(false);
   let copyTimer;
   async function shareCity() {
-    const ok = await copyText(shareUrl({ city: city.key }));
-    if (!ok) return;
+    const result = await shareOrCopy({
+      url: shareUrl({ city: city.key }),
+      title: `${city.name} on Monsoon`,
+      text: `${city.name} on Monsoon`
+    });
+    if (result !== 'copied') return;
     copied = true;
     clearTimeout(copyTimer);
     copyTimer = setTimeout(() => (copied = false), 1800);
@@ -128,7 +133,7 @@
       </div>
       <div class="title">
         <p class="kicker">{city.region} · {city.country} · {city.timezone ?? ''}</p>
-        <h1>{city.name}</h1>
+        <h1 class="hero-title">{city.name}</h1>
         <p class="vibe">{city.vibe}</p>
       </div>
       <div class="snap">
@@ -397,6 +402,10 @@
   }
 
   h1 { font-size: clamp(30px, 6vw, 44px); font-weight: 600; }
+
+  /* Shared element for the card → sheet view transition. The matching card
+     title carries the same name only during the morph (see CityCard). */
+  .hero-title { view-transition-name: city-hero; }
 
   .vibe {
     font-family: var(--display);
