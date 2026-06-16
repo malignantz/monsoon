@@ -1,0 +1,4 @@
+# Serve the app shell for the storage-reset escape hatch so main.js can run its
+# clear-and-redirect. Scoped to just this path — every other unknown route still
+# 404s as before. (Cloudflare Pages: only applies when no static asset matches.)
+/clearStorage /index.html 200

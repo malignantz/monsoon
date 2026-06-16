@@ -8,6 +8,7 @@
   import About from './lib/About.svelte';
   import HowTo from './lib/HowTo.svelte';
   import { cities, cityByKey, qolFor, valueFor, onboarded, saveSettings, decodeRouteCompact, decodeRoute, normalizePresetKey } from './lib/data.svelte.js';
+  import { track } from './lib/analytics.js';
 
   const PREFS = 'atlas.prefs.v1';
 
@@ -93,6 +94,16 @@
     localStorage.setItem(PREFS, JSON.stringify({ view, mode, preset, valueModel, density }));
   });
 
+  // Surface view: fires on load and on every This month ↔ My year switch, so we
+  // can see which surface people land on and whether they discover the second.
+  $effect(() => {
+    track('surface_view', { surface: view === 'year' ? 'my_year' : 'this_month' });
+  });
+
+  // Dwell timing for the city sheet: how long a detail view holds attention is a
+  // proxy for whether the detail actually delivered.
+  let sheetOpenedAt = 0;
+
   const openCity = $derived(cityKey ? cityByKey.get(cityKey) : null);
 
   // Same ranking the views use (unfiltered), so ←/→ in the sheet flips
@@ -117,12 +128,18 @@
   function applyOpen(key, { replace = false, month: sheetMonth } = {}) {
     if (Number.isInteger(sheetMonth) && sheetMonth >= 0 && sheetMonth < 12) month = sheetMonth;
     cityKey = key;
+    sheetOpenedAt = Date.now();
+    track('city_sheet_open', { city: key, month, from: view === 'year' ? 'my_year' : 'this_month' });
     const u = new URL(location.href);
     u.searchParams.set('city', key);
     replace ? history.replaceState({}, '', u) : history.pushState({}, '', u);
   }
 
   function applyClose() {
+    if (sheetOpenedAt) {
+      track('city_sheet_close', { city: cityKey, dwell_ms: Date.now() - sheetOpenedAt });
+      sheetOpenedAt = 0;
+    }
     cityKey = null;
     const u = new URL(location.href);
     u.searchParams.delete('city');

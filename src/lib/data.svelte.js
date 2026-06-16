@@ -6,6 +6,7 @@ import { SvelteSet } from 'svelte/reactivity';
 import core from '../generated/travel-core.json';
 import detailUrl from '../generated/travel-detail.json?url';
 import { CITY_IDS_V1 } from './cityIds.v1.js';
+import { track } from './analytics.js';
 
 export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 export const MONTH_LETTERS = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
@@ -42,11 +43,19 @@ export const prefs = $state({
 
 export function saveSettings() {
   if (typeof localStorage === 'undefined') return;
+  // First save = onboarding complete (the highest-friction moment). Later saves
+  // are ordinary settings changes — tracked separately so the activation funnel
+  // stays clean.
+  const firstTime = !onboarded.done;
   localStorage.setItem(
     SETTINGS_KEY,
     JSON.stringify({ party: prefs.party, womensSafety: prefs.womensSafety, passport: prefs.passport })
   );
   onboarded.done = true;
+  track(firstTime ? 'onboarding_complete' : 'settings_save', {
+    party: prefs.party,
+    womensSafety: prefs.womensSafety
+  });
 }
 
 // ---- Favorites: a lightweight saved shortlist, persisted as a list of keys ----
