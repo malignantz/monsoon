@@ -47,7 +47,7 @@
     activeRegions = next;
   }
 
-  const moreActive = $derived(maxCost !== '' || minQol !== '' || swimOnly);
+  const moreActive = $derived(maxCost !== '' || minQol !== '' || swimOnly || nonSchengenOnly);
 
   function resetFilters() {
     activeRegions = new Set();
@@ -179,14 +179,6 @@
       <RegionMenu {regions} active={activeRegions} ontoggle={toggleRegion} onclear={() => (activeRegions = new Set())} />
       <button
         type="button"
-        class="chip schengen"
-        class:on={nonSchengenOnly}
-        onclick={() => (nonSchengenOnly = !nonSchengenOnly)}
-      >
-        ◆ non-Schengen only
-      </button>
-      <button
-        type="button"
         class="chip more"
         class:on={showMore || moreActive}
         aria-expanded={showMore}
@@ -212,6 +204,10 @@
       <label class="ff cb">
         <input type="checkbox" bind:checked={swimOnly} />
         <span>≋ swimmable in {MONTHS[month]}</span>
+      </label>
+      <label class="ff cb">
+        <input type="checkbox" bind:checked={nonSchengenOnly} />
+        <span>◆ non-Schengen only</span>
       </label>
     </div>
   {/if}
