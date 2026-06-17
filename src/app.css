@@ -137,6 +137,31 @@ button {
   color: var(--paper);
 }
 
+/* ── Touch-target floors ──
+   On phone-width viewports every shared pill/field meets the 44px tap floor
+   (--tap, Apple HIG). Desktop keeps the compact resting sizes defined above;
+   real phones are always <700px, so this is where the floor needs to land. */
+@media (max-width: 700px) {
+  .chip {
+    min-height: var(--tap);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .refine-toggle {
+    min-height: var(--tap);
+  }
+
+  .refine-select select,
+  select,
+  input[type='text'],
+  input[type='number'],
+  input[type='search'] {
+    min-height: var(--tap);
+  }
+}
+
 select,
 input[type='text'],
 input[type='number'],

@@ -529,6 +529,25 @@
     .footlinks {
       align-self: flex-start;
     }
+
+    .footlink {
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    /* Header controls meet the 44px tap floor on touch. */
+    .navbtn,
+    .howto {
+      min-height: var(--tap);
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .util {
+      min-height: var(--tap);
+      min-width: var(--tap);
+    }
   }
 
   /* Add-to-year confirmation. Sits above every sheet (city sheet is z70, the My
@@ -607,6 +626,17 @@
       right: 12px;
       transform: none;
       max-width: none;
+    }
+
+    .toast-act {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .toast-x {
+      width: 40px;
+      height: 40px;
     }
   }
 

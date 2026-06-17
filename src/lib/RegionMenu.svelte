@@ -160,6 +160,12 @@
     flex-shrink: 0;
   }
 
+  /* Region checkboxes and the Clear control meet the tap floor on touch. */
+  @media (max-width: 700px) {
+    .opt { min-height: var(--tap); }
+    .pop-clear { min-height: 36px; padding: 0 6px; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .pop {
       transition: none;

@@ -159,16 +159,15 @@
 
   <div class="controls">
     <div class="toolbar">
-      <div class="toolbar-lead">
-        <p class="result-count num">{filtered.length} {filtered.length === 1 ? 'city' : 'cities'}</p>
+      <p class="result-count num">{filtered.length} {filtered.length === 1 ? 'city' : 'cities'}</p>
+      <div class="segs">
         {#if density !== 'table'}
           <div class="seg" role="group" aria-label="Sort by">
             <button type="button" class:on={mode === 'quality'} onclick={() => (mode = 'quality')}>Highest Score</button>
             <button type="button" class:on={mode === 'value'} onclick={() => (mode = 'value')}>Best Value</button>
           </div>
         {/if}
-      </div>
-      <div class="seg density" role="group" aria-label="View as">
+        <div class="seg density" role="group" aria-label="View as">
           <button type="button" class:on={density === 'cards'} aria-pressed={density === 'cards'} onclick={() => (density = 'cards')}>
             <svg class="vicon" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
               <rect x="2" y="2" width="5" height="5" rx="1" /><rect x="9" y="2" width="5" height="5" rx="1" /><rect x="2" y="9" width="5" height="5" rx="1" /><rect x="9" y="9" width="5" height="5" rx="1" />
@@ -181,6 +180,7 @@
             </svg>
             Table
           </button>
+        </div>
       </div>
     </div>
 
@@ -376,17 +376,16 @@
     margin-bottom: 18px;
   }
 
-  /* Content toolbar, split by what each control acts on: the data lives on the
-     left (count + the Highest Score/Best Value ranking), the presentation on the
-     right (the Cards/Table view switcher, sitting just above the grid it draws).
-     Opposite ends keep the two pill controls from reading as one group, and the
-     count anchors the left even in table view where the sort segment drops away. */
+  /* Content toolbar: the result count reads as a quiet caption, and the two pill
+     controls (Highest Score/Best Value + Cards/Table) sit together beneath it as
+     one left-aligned group, wrapping side-by-side → stacked as width allows. They
+     look alike, so grouping them — rather than splitting them to opposite ends —
+     keeps them from reading as misaligned. */
   .toolbar {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 9px;
   }
 
   .result-count {
@@ -395,11 +394,11 @@
     color: var(--ink-3);
   }
 
-  .toolbar-lead {
+  .segs {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px 14px;
+    gap: 8px 10px;
   }
 
   .seg,
@@ -465,8 +464,12 @@
 
   @media (max-width: 700px) {
     .title-row { gap: 10px 14px; }
-    .monthsel { width: 100%; height: 38px; }
+    .monthsel { width: 100%; height: var(--tap); }
     .mbtn { width: auto; flex: 1; }
+
+    /* Sort + Cards/Table segmented controls meet the tap floor on touch. */
+    .seg,
+    .seg.density { height: var(--tap); }
 
     .filters {
       flex-wrap: nowrap;

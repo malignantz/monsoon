@@ -36,6 +36,7 @@
   .wrap { position: relative; display: inline-block; vertical-align: 1px; }
 
   .dot {
+    position: relative;
     width: 15px;
     height: 15px;
     border-radius: 50%;
@@ -51,6 +52,17 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+  }
+
+  /* The dot stays a 15px glyph, but on touch an invisible overlay extends its
+     hit area to ~37px so the info disclosure is tappable without bloating the
+     inline row it sits in. */
+  @media (max-width: 700px) {
+    .dot::after {
+      content: '';
+      position: absolute;
+      inset: -11px;
+    }
   }
 
   .dot:hover,

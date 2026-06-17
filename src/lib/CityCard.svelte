@@ -101,10 +101,10 @@
   @media (hover: none) and (pointer: coarse) {
     .fav {
       opacity: 1;
-      width: 40px;
-      height: 40px;
-      top: 8px;
-      right: 8px;
+      width: var(--tap);
+      height: var(--tap);
+      top: 6px;
+      right: 6px;
     }
   }
 

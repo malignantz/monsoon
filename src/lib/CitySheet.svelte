@@ -124,7 +124,15 @@
           class:on={copied}
           onclick={shareCity}
           title="Copy a link to {city.name}"
-        >{copied ? '✓ Copied' : '↗ Share'}</button>
+        >
+          {#if copied}
+            <svg class="shareicon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
+            Copied
+          {:else}
+            <svg class="shareicon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /><polyline points="16 6 12 2 8 6" /><line x1="12" y1="2" x2="12" y2="15" /></svg>
+            Share
+          {/if}
+        </button>
         {#if onaddtoyear}
           <button
             type="button"
@@ -405,6 +413,16 @@
 
   .save:hover { border-color: var(--terra); color: var(--terra-deep); }
 
+  /* Icon + label sit on one baseline; the icon is the standard share glyph
+     (tray + up arrow), swapping to a check on copy. */
+  .save.share {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .shareicon { flex: none; }
+
   .save.on {
     color: var(--terra-deep);
     border-color: var(--terra);
@@ -643,15 +661,15 @@
     }
 
     .hero-ctl .save {
-      min-height: 40px;
+      min-height: var(--tap);
       display: inline-flex;
       align-items: center;
     }
 
     .step,
     .close {
-      min-width: 44px;
-      min-height: 40px;
+      min-width: var(--tap);
+      min-height: var(--tap);
       display: inline-flex;
       align-items: center;
       justify-content: center;

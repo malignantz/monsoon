@@ -372,6 +372,33 @@
     if (selStart < 0) closePicker();
   }
 
+  // Months the prospective stay would occupy — highlights the window on the
+  // sheet's calendar bar so "Fill Jan–Feb" and the bar read as one.
+  const prospectMonths = $derived.by(() => {
+    const s = new Set();
+    if (prospect) for (let i = 0; i < prospect.len; i++) s.add((prospect.start + i) % 12);
+    return s;
+  });
+
+  // Calendar bar: tap an open month to aim the picker there.
+  function pickMonth(m) {
+    if (occ[m] !== null) return;
+    selStart = m;
+  }
+
+  // Arrows walk to the previous/next open month (wrapping), so they always land
+  // on something fillable rather than stalling on an occupied month.
+  function stepMonth(dir) {
+    const cur = prospect ? prospect.start : selStart >= 0 ? selStart : 0;
+    for (let i = 1; i <= 12; i++) {
+      const m = (cur + dir * i + 144) % 12;
+      if (occ[m] === null) {
+        selStart = m;
+        return;
+      }
+    }
+  }
+
   // "Jan" for a one-month stay, "Jan–Mar" for a run (handles the Dec→Jan wrap).
   function rangeLabel(start, len) {
     if (len <= 1) return MONTHS[start];
@@ -432,7 +459,13 @@
     <div class="head-right">
       {#if !previewing && route.stays.length > 0}
         <button type="button" class="chip share" class:on={copied} onclick={shareRoute}>
-          {copied ? '✓ Link copied' : '↗ Share'}
+          {#if copied}
+            <svg class="shareicon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
+            Link copied
+          {:else}
+            <svg class="shareicon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /><polyline points="16 6 12 2 8 6" /><line x1="12" y1="2" x2="12" y2="15" /></svg>
+            Share
+          {/if}
         </button>
         <button type="button" class="chip clear" onclick={clearRoute}>Clear route</button>
       {/if}
@@ -793,6 +826,27 @@
             </strong>
             <button type="button" class="picker-done" onclick={closePicker}>Done</button>
           </div>
+          {#if emptyMonths.length}
+            <div class="pickcal" role="group" aria-label="Choose which month to fill">
+              <button type="button" class="pickcal-nav" aria-label="Previous open month" onclick={() => stepMonth(-1)}>‹</button>
+              <div class="pickcal-months">
+                {#each occ as o, m}
+                  <button
+                    type="button"
+                    class="pcell"
+                    class:filled={o !== null}
+                    class:inwin={prospectMonths.has(m)}
+                    class:start={prospect && prospect.start === m}
+                    disabled={o !== null}
+                    aria-label="{MONTHS[m]}{o !== null ? ' — taken' : ''}"
+                    aria-pressed={prospect && prospect.start === m}
+                    onclick={() => pickMonth(m)}
+                  >{MONTH_LETTERS[m]}</button>
+                {/each}
+              </div>
+              <button type="button" class="pickcal-nav" aria-label="Next open month" onclick={() => stepMonth(1)}>›</button>
+            </div>
+          {/if}
           <div class="picker-body">
             {@render pickerBody()}
           </div>
@@ -815,6 +869,16 @@
   }
 
   .chip.clear { color: var(--terra-deep); }
+
+  /* Standard share glyph (tray + up arrow) sits inline with the label, swapping
+     to a check on copy. */
+  .chip.share {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .shareicon { flex: none; }
 
   .chip.share.on {
     background: var(--teal, #2f6f5e);
@@ -1102,10 +1166,18 @@
   .dur-btn:hover:not(:disabled) { background: rgba(33, 36, 30, 0.1); color: var(--ink); }
   .dur-btn:disabled { opacity: 0.25; cursor: default; }
 
-  /* Roomier tap targets on touch, where there's no hover to enlarge intent. */
+  /* Roomier tap targets on touch, where there's no hover to enlarge intent.
+     These are dense, overlapping the compact stay card, so they land at 36px —
+     comfortably past the WCAG 2.5.8 floor — rather than the full 44px tap target,
+     which would steal taps from the stay name behind them. */
   @media (hover: none) {
-    .dur-btn { min-width: 30px; min-height: 30px; }
-    .x { min-width: 30px; min-height: 30px; }
+    .dur-btn { min-width: 36px; min-height: 36px; }
+    .x { min-width: 36px; min-height: 36px; }
+  }
+
+  @media (max-width: 700px) {
+    .dur-btn { min-width: 36px; min-height: 36px; }
+    .x { min-width: 36px; min-height: 36px; }
   }
 
   .cont { font-size: 11px; color: var(--ink-2); white-space: nowrap; }
@@ -1341,6 +1413,12 @@
     .segbtn { min-width: 32px; min-height: 30px; }
   }
 
+  /* Sort + stay-length segments meet the tap floor on phone-width viewports. */
+  @media (max-width: 700px) {
+    .segbtn { min-width: 40px; min-height: var(--tap); }
+    .sortseg { height: var(--tap); }
+  }
+
   /* The Sort control matches This month's pill segmented control exactly — same
      32px height, rounded ends, and ink fill — so the two surfaces read as one.
      The Stay stepper above keeps the squarer .seg look that suits a number row. */
@@ -1482,7 +1560,7 @@
   }
 
   .ovcell {
-    height: 34px;
+    height: 40px;
     border: 1px dashed var(--line);
     border-radius: 6px;
     background: transparent;
@@ -1506,6 +1584,7 @@
   .mstats {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 8px;
     margin-bottom: 16px;
   }
@@ -1526,7 +1605,10 @@
 
   .mstat strong { font-size: 14px; font-weight: 600; color: var(--ink); text-transform: none; letter-spacing: 0; }
 
-  .mstat.sch { color: var(--schengen); border-color: var(--schengen); cursor: pointer; }
+  /* The Schengen pill is the only actionable stat (opens the picker), so it meets
+     the full tap floor; the read-only score/cost pills stay sized to content and
+     center-align beside it. */
+  .mstat.sch { color: var(--schengen); border-color: var(--schengen); cursor: pointer; min-height: var(--tap); }
   .mstat.sch strong { color: var(--schengen); }
   .mstat.sch.tight { color: var(--band-ok); border-color: var(--band-ok); }
   .mstat.sch.tight strong { color: var(--band-ok); }
@@ -1564,6 +1646,7 @@
   .mopen { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
 
   .mname {
+    position: relative;
     background: none;
     border: none;
     padding: 0;
@@ -1573,6 +1656,14 @@
     font-weight: 580;
     color: var(--ink);
     line-height: 1.15;
+  }
+
+  /* The 18px title is the open-city target; an invisible overlay extends its tap
+     area to ~42px tall without shifting the row's baseline layout. */
+  .mname::after {
+    content: '';
+    position: absolute;
+    inset: -12px 0;
   }
 
   .mname .dia { color: var(--schengen); }
@@ -1692,7 +1783,7 @@
   .picker-title { font-family: var(--display); font-size: 18px; font-weight: 580; color: var(--ink); }
 
   .picker-done {
-    min-height: 40px;
+    min-height: var(--tap);
     padding: 0 16px;
     border: 1px solid var(--line);
     border-radius: 999px;
@@ -1702,6 +1793,71 @@
     color: var(--ink);
     flex-shrink: 0;
   }
+
+  /* Pinned month bar: reinforces which month the picker is aimed at and lets you
+     jump around or step ahead without closing the sheet. Sits below the title. */
+  .pickcal {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px var(--pad-x) 10px;
+    border-bottom: 1px solid var(--line-soft);
+    flex-shrink: 0;
+  }
+
+  .pickcal-months {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 3px;
+  }
+
+  .pcell {
+    height: 38px;
+    border: 1px dashed var(--line);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--ink-3);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 0;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+  }
+
+  /* Occupied months read as quiet, taken slots — not selectable. */
+  .pcell.filled {
+    border-style: solid;
+    background: var(--paper-2);
+    opacity: 0.55;
+  }
+
+  /* The window the next stay will fill, with its first month as the anchor. */
+  .pcell.inwin {
+    border-style: solid;
+    border-color: var(--terra);
+    background: rgba(193, 79, 43, 0.12);
+    color: var(--terra-deep);
+  }
+
+  .pcell.start {
+    background: var(--terra);
+    border-color: var(--terra);
+    color: var(--paper);
+  }
+
+  .pickcal-nav {
+    flex-shrink: 0;
+    min-width: 34px;
+    height: 38px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--ink-2);
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .pickcal-nav:active { background: var(--paper-2); }
 
   .picker-body {
     flex: 1 1 auto;
@@ -1716,6 +1872,9 @@
   .picker-body :global(.picker) { margin-top: 16px; }
   /* The pinned sheet header already shows the "Fill …" title — drop the dupe. */
   .picker-body :global(.pickhead h2) { display: none; }
+  /* The legend (◆ Schengen ≋ swimmable …) gives up its row to the month bar;
+     the same glyphs read in context on each city's strip. */
+  .picker-body :global(.legendrow) { display: none; }
   .picker-body :global(.pickhead) { flex-direction: column; align-items: stretch; gap: 10px; }
   .picker-body :global(.pickctl) { flex-wrap: wrap; gap: 12px; }
   .picker-body :global(.pickctl input) { width: 100%; flex: 1 1 100%; min-height: 40px; }
