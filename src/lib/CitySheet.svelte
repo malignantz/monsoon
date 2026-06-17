@@ -319,7 +319,9 @@
     position: fixed;
     inset: 0;
     background: rgba(33, 36, 30, 0.45);
-    z-index: 50;
+    /* Above the My year picker sheet (z 60) so a city opened from a picker row
+       sits on top, and closing it returns to the still-open picker. */
+    z-index: 70;
     overflow-y: auto;
     padding: 4vh 16px;
   }

@@ -11,6 +11,8 @@
     stripCells,
     qolFor,
     valueFor,
+    band,
+    cityCost,
     fmtMoney,
     MONTHS,
     MONTH_LETTERS,
@@ -23,6 +25,8 @@
     shareUrl,
     shareOrCopy
   } from './data.svelte.js';
+  import { screen } from './mobile.svelte.js';
+  import { lockScroll } from './sheet.js';
   import {
     defaultFilters,
     filtersActive,
@@ -349,6 +353,73 @@
             : false
       }));
   });
+
+  // ───────────────────── Mobile layout ─────────────────────
+  // Below 700px the desktop 12-column board (which has to be panned sideways) is
+  // replaced by a vertical list of months and a bottom-sheet city picker. All
+  // the planning logic above is reused untouched — only the presentation forks.
+
+  // The city picker opens as a bottom sheet, scoped to a tapped month.
+  let pickerOpen = $state(false);
+
+  function openPicker(month) {
+    selStart = month;
+    pickerOpen = true;
+  }
+
+  function closePicker() {
+    pickerOpen = false;
+  }
+
+  // Lock the page behind the open picker sheet and close it on Escape.
+  $effect(() => {
+    if (!pickerOpen) return;
+    const unlock = lockScroll();
+    const onkey = (e) => {
+      if (e.key === 'Escape') closePicker();
+    };
+    window.addEventListener('keydown', onkey);
+    return () => {
+      window.removeEventListener('keydown', onkey);
+      unlock();
+    };
+  });
+
+  // Adding from the sheet advances to the next open month automatically (addStay
+  // already parks selStart on the next gap), keeping a fill rhythm without
+  // reopening. When the year fills up, close the sheet so the full list shows.
+  function addFromPicker(key) {
+    addStay(key);
+    if (selStart < 0) closePicker();
+  }
+
+  // "Jan" for a one-month stay, "Jan–Mar" for a run (handles the Dec→Jan wrap).
+  function rangeLabel(start, len) {
+    if (len <= 1) return MONTHS[start];
+    return `${MONTHS[start]}–${MONTHS[(start + len - 1) % 12]}`;
+  }
+
+  // Average monthly cost across the months a stay occupies, for the stay card.
+  function stayCostAvg(stay) {
+    const c = cityByKey.get(stay.key);
+    const ms = stayMonths(stay);
+    return ms.reduce((a, m) => a + cityCost(c.months[m]), 0) / ms.length;
+  }
+
+  // 12-cell year overview for the mobile mini-strip: filled cells carry the
+  // stay's band colour for that month; tapping any cell scrolls to its card.
+  const overview = $derived(
+    occ.map((o, m) => {
+      if (!o) return { m, filled: false, band: 'none', schengen: false, start: false };
+      const c = cityByKey.get(o.key);
+      return { m, filled: true, band: band(qolFor(c, m, preset)), schengen: c.schengen, start: o.start === m };
+    })
+  );
+
+  function scrollToMonth(m) {
+    const el = typeof document !== 'undefined' && document.getElementById(`myr-m-${m}`);
+    el?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'center' });
+  }
 </script>
 
 <section class="wrap">
@@ -402,6 +473,7 @@
     </div>
   {/if}
 
+  {#if !screen.mobile}
   <div class="board" class:flash bind:this={boardEl}>
     <div class="boardscroll-wrap" class:more={canScrollRight}>
     <div class="boardscroll" bind:this={scrollEl} onscroll={updateScroll}>
@@ -504,8 +576,75 @@
       </div>
     </div>
   </div>
+  {:else}
+  <!-- Mobile: a vertical month list replaces the panned 12-column board. -->
+  <div class="myr-m">
+    <div class="ov" role="group" aria-label="Year overview — tap a month to jump to it">
+      {#each overview as cell}
+        <button
+          type="button"
+          class="ovcell band-{cell.band}"
+          class:filled={cell.filled}
+          class:sel={cell.m === selStart}
+          aria-label="{MONTHS[cell.m]}{cell.filled ? '' : ' — open'}"
+          onclick={() => scrollToMonth(cell.m)}
+        ><span class="ovl">{MONTH_LETTERS[cell.m]}</span></button>
+      {/each}
+    </div>
+
+    <div class="mstats">
+      <span class="mstat"><strong class="num">{Math.round(stats.avgQol) || '—'}</strong> avg score</span>
+      <span class="mstat"><strong class="num">{stats.months ? fmtMoney(stats.avgCost) : '—'}</strong> /mo {partyWord()}</span>
+      {#if sch.anySchengen}
+        <button type="button" class="mstat sch" class:bad={!sch.ok} class:tight={sch.ok && sch.atLimit} onclick={() => { pickerOpen = true; flagNonSchengen(); }}>
+          <strong class="num">◆ {sch.ok ? `${sch.remaining}/90` : `${sch.over} over`}</strong> Schengen
+        </button>
+      {/if}
+    </div>
+
+    <ul class="mlist">
+      {#each occ as o, m}
+        {#if o === null}
+          <li class="mrow empty" id="myr-m-{m}">
+            <div class="mrow-head"><span class="mmonth">{MONTHS[m]}</span><span class="mopen">open</span></div>
+            {#if !previewing}
+              <button type="button" class="madd" onclick={() => openPicker(m)}><span class="plus" aria-hidden="true">+</span> Add a city</button>
+            {/if}
+          </li>
+        {:else if o.start === m}
+          {@const c = cityByKey.get(o.key)}
+          <li class="mrow stay" class:schengen={c.schengen} class:hazard={stayHazard(o)} id="myr-m-{m}">
+            <div class="mrow-head">
+              <button type="button" class="mname" onclick={() => onopen(c.key, { month: o.start })}>{c.name}{#if c.schengen}<span class="dia"> ◆</span>{/if}</button>
+              <span class="mscore num">{Math.round(stayAvg(o))}</span>
+            </div>
+            <p class="mmeta num">{rangeLabel(o.start, o.len)} · {o.len}mo · ~{fmtMoney(stayCostAvg(o))}/mo</p>
+            <div class="mstrip">
+              <MonthStrip cells={stripCells(c, preset)} frameFrom={o.start} frameLen={o.len} />
+            </div>
+            {#if !previewing}
+              <div class="mrow-act">
+                <div class="durm" role="group" aria-label="Stay length in months">
+                  <button type="button" class="durb" aria-label="Shorter" onclick={() => resizeStay(o, o.len - 1)} disabled={o.len <= 1}>−</button>
+                  <span class="durv num">{o.len} mo</span>
+                  <button type="button" class="durb" aria-label="Longer" onclick={() => resizeStay(o, o.len + 1)}>+</button>
+                </div>
+                <button type="button" class="mremove" onclick={() => removeStay(o)}>Remove</button>
+              </div>
+            {/if}
+          </li>
+        {/if}
+      {/each}
+    </ul>
+
+    {#if !previewing && stays.length === 0}
+      <p class="board-hint">Tap a month's “Add a city” to start building your year.</p>
+    {/if}
+  </div>
+  {/if}
 
   {#if !previewing}
+  {#snippet pickerBody()}
   <div class="controls">
     <div class="ctl-row">
       <div class="ctl-group">
@@ -650,7 +789,7 @@
             type="button"
             class="add"
             class:warn={breach}
-            onclick={() => addStay(c.key)}
+            onclick={() => addFromPicker(c.key)}
             disabled={!emptyMonths.length}
             title={breach ? 'Will exceed the Schengen 90/180 limit' : `Add ${c.name}`}
             aria-label="Add {c.name}"
@@ -661,6 +800,29 @@
       {/each}
     </ul>
   </div>
+  {/snippet}
+
+  {#if screen.mobile}
+    {#if pickerOpen}
+      <div class="picker-scrim">
+        <button type="button" class="picker-scrim-back" aria-label="Close picker" onclick={closePicker}></button>
+        <div class="picker-sheet" role="dialog" aria-modal="true" aria-label="Add a city to your year">
+          <div class="picker-grab" aria-hidden="true"></div>
+          <div class="picker-top">
+            <strong class="picker-title">
+              {#if selStart >= 0}Fill {windowLabel}{:else if emptyMonths.length}Best for your open months{:else}Year is full{/if}
+            </strong>
+            <button type="button" class="picker-done" onclick={closePicker}>Done</button>
+          </div>
+          <div class="picker-body">
+            {@render pickerBody()}
+          </div>
+        </div>
+      </div>
+    {/if}
+  {:else}
+    {@render pickerBody()}
+  {/if}
   {/if}
 </section>
 
@@ -1326,5 +1488,257 @@
     padding-bottom: 1px;
     line-height: 1.1;
   }
+
+  /* ───────────────────── Mobile My year ─────────────────────
+     A vertical month list + a bottom-sheet picker. These elements only render
+     when screen.mobile is true, so the rules never touch the desktop board. */
+  .myr-m { margin-top: 16px; }
+
+  /* Year overview: 12 read-only cells for orientation; tap scrolls to a month. */
+  .ov {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 3px;
+    margin-bottom: 14px;
+  }
+
+  .ovcell {
+    height: 34px;
+    border: 1px dashed var(--line);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--ink-3);
+    font-size: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .ovcell.filled { border-style: solid; border-color: transparent; }
+  .ovcell.filled.band-great { background: var(--band-great); color: var(--band-great-ink); }
+  .ovcell.filled.band-good { background: var(--band-good); color: var(--band-good-ink); }
+  .ovcell.filled.band-ok { background: var(--band-ok); color: var(--band-ok-ink); }
+  .ovcell.filled.band-bad { background: var(--band-bad); color: var(--band-bad-ink); }
+  .ovcell.sel { outline: 2px solid var(--terra); outline-offset: 1px; }
+
+  /* Route stats as a compact pill row (replaces the desktop .totals on mobile). */
+  .mstats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .mstat {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .mstat strong { font-size: 14px; font-weight: 600; color: var(--ink); text-transform: none; letter-spacing: 0; }
+
+  .mstat.sch { color: var(--schengen); border-color: var(--schengen); cursor: pointer; }
+  .mstat.sch strong { color: var(--schengen); }
+  .mstat.sch.tight { color: var(--band-ok); border-color: var(--band-ok); }
+  .mstat.sch.tight strong { color: var(--band-ok); }
+  .mstat.sch.bad { color: var(--band-bad); border-color: var(--band-bad); }
+  .mstat.sch.bad strong { color: var(--band-bad); }
+
+  /* The month list. */
+  .mlist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+
+  .mrow {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 13px 15px;
+    background: var(--card);
+    scroll-margin-top: 80px;
+  }
+
+  .mrow.empty {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-style: dashed;
+    background: transparent;
+    flex-wrap: wrap;
+  }
+
+  .mrow.stay { background: #dcebe2; border-color: var(--teal); }
+  .mrow.stay.schengen { background: var(--schengen-soft); border-color: var(--schengen); }
+  .mrow.stay.hazard { box-shadow: inset 0 0 0 2px rgba(193, 79, 43, 0.4); }
+
+  .mrow-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+
+  .mmonth { font-family: var(--display); font-size: 18px; font-weight: 580; color: var(--ink); }
+  .mopen { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+
+  .mname {
+    background: none;
+    border: none;
+    padding: 0;
+    text-align: left;
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 580;
+    color: var(--ink);
+    line-height: 1.15;
+  }
+
+  .mname .dia { color: var(--schengen); }
+  .mscore { font-size: 15px; font-weight: 600; color: var(--ink); flex-shrink: 0; }
+
+  .mmeta { margin: 5px 0 10px; font-size: 12px; color: var(--ink-2); }
+  .mstrip { margin-bottom: 12px; }
+
+  .mrow-act { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+
+  /* Stay-length stepper: full-size touch targets, always visible (no hover). */
+  .durm {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    padding: 2px;
+  }
+
+  .durb {
+    min-width: 40px;
+    min-height: 40px;
+    border: none;
+    background: none;
+    border-radius: 999px;
+    font-size: 19px;
+    line-height: 1;
+    color: var(--ink-2);
+  }
+
+  .durb:disabled { opacity: 0.3; }
+  .durv { min-width: 44px; text-align: center; font-size: 13px; color: var(--ink); }
+
+  .mremove {
+    min-height: 40px;
+    padding: 0 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--terra-deep);
+  }
+
+  /* Empty-month primary action: full-width, comfortable. */
+  .madd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+
+  .madd .plus { font-size: 18px; line-height: 1; margin-top: -1px; }
+  .mrow.empty .madd { flex: 0 0 auto; }
+
+  /* ── City picker as a bottom sheet ── */
+  .picker-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    align-items: flex-end;
+    background: rgba(33, 36, 30, 0.45);
+  }
+
+  .picker-scrim-back {
+    position: fixed;
+    inset: 0;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: default;
+  }
+
+  .picker-sheet {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: var(--sheet-max-h);
+    background: var(--paper);
+    border-radius: 18px 18px 0 0;
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -10px 30px -16px rgba(33, 36, 30, 0.5);
+  }
+
+  .picker-grab {
+    width: 40px;
+    height: 4px;
+    margin: 8px auto 0;
+    border-radius: 999px;
+    background: var(--line);
+    flex-shrink: 0;
+  }
+
+  .picker-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px var(--pad-x);
+    border-bottom: 1px solid var(--line-soft);
+    flex-shrink: 0;
+  }
+
+  .picker-title { font-family: var(--display); font-size: 18px; font-weight: 580; color: var(--ink); }
+
+  .picker-done {
+    min-height: 40px;
+    padding: 0 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  .picker-body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 var(--pad-x) calc(18px + var(--safe-b));
+  }
+
+  /* Tighten the reused desktop control markup for the sheet, and finally kill
+     the fixed-width search that caused the original horizontal overflow. */
+  .picker-body :global(.controls) { margin-top: 12px; }
+  .picker-body :global(.picker) { margin-top: 16px; }
+  .picker-body :global(.pickhead) { flex-direction: column; align-items: stretch; gap: 10px; }
+  .picker-body :global(.pickctl) { flex-wrap: wrap; gap: 12px; }
+  .picker-body :global(.pickctl input) { width: 100%; flex: 1 1 100%; min-height: 40px; }
+  .picker-body :global(.add) { min-height: 40px; }
+  .picker-body :global(.rows li) { padding: 13px 0; }
 
 </style>
