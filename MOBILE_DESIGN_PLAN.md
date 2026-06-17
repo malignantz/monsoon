@@ -28,11 +28,20 @@ Last updated: 2026-06-17
   untouched. City sheet raised to z70 so cities opened from a picker row layer
   on top. Verified: build empty → filled with zero horizontal panning.
 
+**Shipped on branch `add-to-my-year` (off `mobile_ready`):**
+
+- ✅ **Phase 2 — "Add to my year" bridge** (§5). The itinerary is lifted into a
+  shared reactive store (`src/lib/route.svelte.js`, owns `stays` + `name` with
+  localStorage persistence); `MyYear` now reads/writes it. The city sheet has a
+  primary **"+ Add to year"** button that places the viewed city at the viewed
+  month (bumping to the first open month if taken); `App` shows a toast with
+  **Undo** + **View year**. Verified in-browser: add, persist, reactive My-year
+  update (incl. Schengen pill), Undo, bumped-month, and full-year warn.
+  Remaining sub-item: an add affordance on browse **cards** when a route exists
+  (deliberately omitted to keep browse calm — revisit if wanted).
+
 **Not yet done (follow-ups, in priority order):**
 
-- ⏳ **Phase 2 — "Add to my year" bridge** (§5). Deliberately deferred: needs the
-  route store lifted out of `MyYear` into a shared module so the city sheet/cards
-  can write to it. Clean standalone task.
 - ⏳ **Phase 1 remainder** — bump This-month segmented controls to 44px on touch
   (currently 32px; meets WCAG AA but below the 44px target).
 - ⏳ **Phase 5** — fold Settings/About/Methodology/HowTo into one shared `Sheet`

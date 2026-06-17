@@ -22,27 +22,13 @@ Last consolidated: 2026-06-15 (sharing + itinerary-naming pass).
   - Show why each favorite belongs in a given month, including score drivers, season, events, cost, and visa pressure.
   - Offer multiple route styles: best quality, best value, festival-heavy, slow/low-travel, and non-Schengen-first.
   - Make it easy to lock favorite stays, fill gaps, and compare generated routes before adopting one.
-- [ ] Build an "Add to my year" bridge from browse/city sheet into My year. **(Priority — completeness gap.)**
-  - Today browse and plan are two islands: the city sheet has Save + Share but no way to
-    add the city to My year, so a user who finds a great city must switch tabs, find the
-    month, and re-search for it by hand. This seam is the app's most "prototype, not
-    product" moment and should be closed before further feature work.
-  - Add a first-class "Add to my year" / "Add to plan" action in the city detail view,
-    especially for mobile but likely on desktop too. The natural mobile loop is:
-    select a month, browse ranked cities, open details, add that city to the plan.
-  - Add the viewed city at the viewed month with a sensible default duration.
-  - Decide the month semantics before implementation:
-    - Default should probably be the currently viewed month because that matches the
-      browse context and keeps the action one-tap.
-    - If the user wants another month, consider an "Add for..." confirmation sheet with
-      month + duration controls instead of silently changing context.
-    - After a successful add, decide whether to advance the browse/current month to the
-      next open month. This could be helpful in a guided builder, but confusing if the
-      user is still comparing cities for the same month.
-    - On mobile, prefer showing "Added for June" with quick actions like "Change month"
-      and "View plan" over immediately teleporting the user away.
-  - Reuse My year's existing stay shape: `{ key, start, len }`.
-  - On overlap, place what can be placed or route the user to My year to resolve the collision.
+- [~] Build an "Add to my year" bridge from browse/city sheet into My year. **(Priority — completeness gap.)**
+  - City sheet → My year done (branch `add-to-my-year`): the itinerary now lives in a
+    shared store (`src/lib/route.svelte.js`); the city sheet has a "+ Add to year" button
+    that places the viewed city at the viewed month, with a toast (Undo / View year).
+  - On overlap it bumps to the first open month; a full year shows a "remove a stay" notice.
+  - Remaining: an add affordance on browse **cards** (only when a route exists, to keep
+    browse calm) — not yet built.
 - [ ] Improve the automatic itinerary picker.
   - Account for realistic routing and travel burden beyond straight-line distance.
   - Support fixed anchors such as "I must be in Europe in June."
