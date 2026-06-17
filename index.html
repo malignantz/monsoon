@@ -30,12 +30,8 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
-
-    <!-- Layer 1 — Cloudflare Web Analytics (cookieless, no consent banner).
-         Geo, device/UA, referrers, pageviews, Web Vitals. Replace TOKEN with the
-         site token from Cloudflare dashboard → Web Analytics → Add a site (it
-         issues a JS snippet for monsoon.fyi). Until then this no-ops harmlessly. -->
-    <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
-      data-cf-beacon='{"token": "REPLACE_WITH_CLOUDFLARE_WEB_ANALYTICS_TOKEN"}'></script>
+    <!-- Web Analytics (Layer 1) is enabled on the Cloudflare Pages project and
+         auto-injected at the edge — no manual beacon snippet here, so there's no
+         token to maintain and no duplicate beacon. -->
   </body>
 </html>
