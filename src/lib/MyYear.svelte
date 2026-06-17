@@ -613,7 +613,7 @@
           </li>
         {:else if o.start === m}
           {@const c = cityByKey.get(o.key)}
-          <li class="mrow stay" class:schengen={c.schengen} class:hazard={stayHazard(o)} id="myr-m-{m}">
+          <li class="mrow filled" class:schengen={c.schengen} class:hazard={stayHazard(o)} id="myr-m-{m}">
             <div class="mrow-head">
               <button type="button" class="mname" onclick={() => onopen(c.key, { month: o.start })}>{c.name}{#if c.schengen}<span class="dia"> ◆</span>{/if}</button>
               <span class="mscore num">{Math.round(stayAvg(o))}</span>
@@ -1575,9 +1575,9 @@
     flex-wrap: wrap;
   }
 
-  .mrow.stay { background: #dcebe2; border-color: var(--teal); }
-  .mrow.stay.schengen { background: var(--schengen-soft); border-color: var(--schengen); }
-  .mrow.stay.hazard { box-shadow: inset 0 0 0 2px rgba(193, 79, 43, 0.4); }
+  .mrow.filled { background: #dcebe2; border-color: var(--teal); }
+  .mrow.filled.schengen { background: var(--schengen-soft); border-color: var(--schengen); }
+  .mrow.filled.hazard { box-shadow: inset 0 0 0 2px rgba(193, 79, 43, 0.4); }
 
   .mrow-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 
@@ -1735,6 +1735,8 @@
      the fixed-width search that caused the original horizontal overflow. */
   .picker-body :global(.controls) { margin-top: 12px; }
   .picker-body :global(.picker) { margin-top: 16px; }
+  /* The pinned sheet header already shows the "Fill …" title — drop the dupe. */
+  .picker-body :global(.pickhead h2) { display: none; }
   .picker-body :global(.pickhead) { flex-direction: column; align-items: stretch; gap: 10px; }
   .picker-body :global(.pickctl) { flex-wrap: wrap; gap: 12px; }
   .picker-body :global(.pickctl input) { width: 100%; flex: 1 1 100%; min-height: 40px; }
