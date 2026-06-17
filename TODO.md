@@ -4,12 +4,24 @@ Last consolidated: 2026-06-15 (sharing + itinerary-naming pass).
 
 ## Itinerary Saving And Sharing
 
+- [ ] Redesign first-time shared itinerary landing.
+  - If a visitor opens a shared itinerary with no local itinerary yet, treat the shared route as their starting state instead of requiring an immediate "Save a copy" click.
+  - Add light intro copy that explains they are viewing someone's shared year and can edit it as their own.
+  - Keep a clear distinction between read-only preview for returning users and auto-adopt/onboarding for first-time users.
+  - Decide whether the primary action should be "Start with this trip", "Customize this trip", or silent adoption with an undo/dismiss affordance.
 - [ ] Add export options for a planned year.
   - Copyable text summary.
   - Print stylesheet for the itinerary board.
 
 ## My Year And Planning Flow
 
+- [ ] Build a favorites-based itinerary builder.
+  - Let users turn their saved cities into a year plan without starting from a blank board.
+  - Use favorites as the candidate pool for automatic route generation, month-by-month ranking, and swap suggestions.
+  - Support constraints like region balance, Schengen limits, budget, weather minimums, event preference, and stay length.
+  - Show why each favorite belongs in a given month, including score drivers, season, events, cost, and visa pressure.
+  - Offer multiple route styles: best quality, best value, festival-heavy, slow/low-travel, and non-Schengen-first.
+  - Make it easy to lock favorite stays, fill gaps, and compare generated routes before adopting one.
 - [ ] Build an "Add to my year" bridge from browse/city sheet into My year. **(Priority — completeness gap.)**
   - Today browse and plan are two islands: the city sheet has Save + Share but no way to
     add the city to My year, so a user who finds a great city must switch tabs, find the
