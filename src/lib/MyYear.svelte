@@ -3,6 +3,7 @@
   import MonthStrip from './MonthStrip.svelte';
   import ScoreInfo from './ScoreInfo.svelte';
   import Legend from './Legend.svelte';
+  import RegionMenu from './RegionMenu.svelte';
   import {
     cities,
     cityByKey,
@@ -126,6 +127,36 @@
 
   let filters = $state(loadFilters());
 
+  // Region selection mirrors This month's convention: an empty set means "all
+  // regions" (filtering to zero would show nothing, so empty reads as no filter).
+  // This lets My year drive the same shared Regions ▾ menu. The saved/derived
+  // `filters.regions` stays the canonical allow-list that cityPasses() reads.
+  function initialRegionSet() {
+    const saved = filters.regions;
+    if (!Array.isArray(saved) || saved.length === 0 || saved.length === regions.length) return new Set();
+    return new Set(saved);
+  }
+  let regionSel = $state(initialRegionSet());
+
+  // Keep the allow-list in sync with the menu selection (empty → all).
+  $effect(() => {
+    filters.regions = regionSel.size ? regions.filter((r) => regionSel.has(r)) : [...regions];
+  });
+
+  // Collapsed by default so the city list is the first thing in view. Mirrors
+  // This month's Refine ▾ disclosure.
+  let showMore = $state(false);
+
+  // Whether any non-region, non-sort filter is set — drives the Refine ▾ dot.
+  const refineActive = $derived(
+    (filters.maxCost ?? '') !== '' ||
+      (filters.minSafety ?? '') !== '' ||
+      (filters.minAir ?? '') !== '' ||
+      (filters.maxRain ?? '') !== '' ||
+      filters.englishOk ||
+      filters.nonSchengen
+  );
+
   // Budget caps offered in the Max $/mo dropdown, scaled to the party-size cost
   // figure we actually display (couple runs ~1.4× solo). Spans roughly the 25th
   // to 95th percentile of the dataset so each step prunes a meaningful slice.
@@ -159,6 +190,7 @@
 
   function resetFilters() {
     filters = defaultFilters();
+    regionSel = new Set();
   }
 
   // Clicking a row's "over 90/180" warning points the user at the fix: scroll
@@ -166,21 +198,24 @@
   let nonSchengenEl = $state(null);
   let nonSchengenFlash = $state(false);
   function flagNonSchengen() {
-    nonSchengenEl?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'center' });
-    nonSchengenEl?.querySelector('input')?.focus({ preventScroll: true });
-    nonSchengenFlash = false;
+    // The non-Schengen toggle now lives in the collapsed Refine panel; open it
+    // first, then scroll/focus/flash once it's rendered.
+    showMore = true;
     requestAnimationFrame(() => {
-      nonSchengenFlash = true;
-      setTimeout(() => (nonSchengenFlash = false), 1400);
+      nonSchengenEl?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'center' });
+      nonSchengenEl?.querySelector('input')?.focus({ preventScroll: true });
+      nonSchengenFlash = false;
+      requestAnimationFrame(() => {
+        nonSchengenFlash = true;
+        setTimeout(() => (nonSchengenFlash = false), 1400);
+      });
     });
   }
 
-  // Keep the selection in canonical `regions` order so equal selections
-  // always serialize identically (the proposal-staleness signature relies on it).
   function toggleRegion(r) {
-    const on = new Set(filters.regions);
-    on.has(r) ? on.delete(r) : on.add(r);
-    filters.regions = regions.filter((x) => on.has(x));
+    const next = new Set(regionSel);
+    next.has(r) ? next.delete(r) : next.add(r);
+    regionSel = next;
   }
 
   const occ = $derived(monthOccupancy(boardStays));
@@ -453,7 +488,7 @@
     <div class="totals">
       <div class="tot">
         <span class="num tv">{Math.round(stats.avgQol) || '—'}</span>
-        <span class="tk">avg Top Pick</span>
+        <span class="tk">avg score</span>
       </div>
       <div class="tot">
         <span class="num tv">{stats.months ? fmtMoney(stats.avgCost) : '—'}</span>
@@ -471,65 +506,87 @@
   </div>
 
   {#if !previewing}
-  <div class="plan">
-    <div class="planrow">
-      <span class="plabel">Regions</span>
-      <div class="fctl">
-        {#each regions as r}
-          <button type="button" class="chip" class:on={filters.regions.includes(r)} onclick={() => toggleRegion(r)}>
-            {r}
-          </button>
-        {/each}
-      </div>
-    </div>
-    <div class="planrow">
-      <span class="plabel">Filter cities</span>
-      <div class="fctl">
-        <label class="filt">
-          <span class="filt-lbl">Max $/mo</span>
-          <select bind:value={filters.maxCost} aria-label="Max monthly budget, {partyWord()}">
-            <option value="">Any</option>
-            {#each costOptions as v}<option value={v}>{fmtMoney(v)}</option>{/each}
-          </select>
-        </label>
-        <label class="filt">
-          <span class="filt-lbl">Min safety</span>
-          <select bind:value={filters.minSafety} aria-label="Minimum safety score">
-            <option value="">Any</option>
-            {#each SAFETY_OPTIONS as o}<option value={o.v}>{o.label}</option>{/each}
-          </select>
-        </label>
-        <label class="filt">
-          <span class="filt-lbl">Min air</span>
-          <select bind:value={filters.minAir} aria-label="Minimum air quality">
-            <option value="">Any</option>
-            {#each AIR_OPTIONS as o}<option value={o.v}>{o.label}</option>{/each}
-          </select>
-        </label>
-        <select bind:value={filters.maxRain} aria-label="Rain tolerance">
-          <option value="">Any rain</option>
-          {#each RAIN_OPTIONS as o}<option value={o.v}>{o.label}</option>{/each}
-        </select>
-        <div class="fctl-cbs">
-          <label class="cb" title="Keep only cities where English works day-to-day — skips spots where you'd need translation outside tourist zones"><input type="checkbox" bind:checked={filters.englishOk} /> English-friendly</label>
-          <label class="cb" class:flash={nonSchengenFlash} bind:this={nonSchengenEl}><input type="checkbox" bind:checked={filters.nonSchengen} /> non-Schengen</label>
-            {#if filtersActive(filters)}
-            <button type="button" class="chip clear" onclick={resetFilters}>Reset</button>
-          {/if}
-        </div>
-      </div>
-    </div>
-    <div class="planrow">
-      <span class="plabel">Sort by</span>
-      <div class="fctl">
-        <div class="seg" role="group" aria-label="Sort city list by">
-          <button type="button" class="segbtn" class:on={sortMode === 'qol'} aria-pressed={sortMode === 'qol'} onclick={() => (sortMode = 'qol')}>Top Pick</button>
+  <div class="controls">
+    <div class="ctl-row">
+      <div class="ctl-group">
+        <span class="ctl-lbl" aria-hidden="true">Sort by</span>
+        <div class="seg sortseg" role="group" aria-label="Sort city list by">
+          <button type="button" class="segbtn" class:on={sortMode === 'qol'} aria-pressed={sortMode === 'qol'} onclick={() => (sortMode = 'qol')}>Highest Score</button>
           <button type="button" class="segbtn" class:on={sortMode === 'value'} aria-pressed={sortMode === 'value'} onclick={() => (sortMode = 'value')}>Best Value</button>
         </div>
-        <span class="fcount num">{filteredCities.length} of {cities.length} cities pass</span>
       </div>
+      <span class="fcount num">{filteredCities.length} of {cities.length} cities pass</span>
+    </div>
+
+    <div class="filters">
+      {#if filtersActive(filters)}
+        <button type="button" class="chip clearchip" onclick={resetFilters}>✕ Clear</button>
+      {/if}
+      <RegionMenu {regions} active={regionSel} ontoggle={toggleRegion} onclear={() => (regionSel = new Set())} />
+      <button
+        type="button"
+        class="chip more"
+        class:on={showMore || refineActive}
+        aria-expanded={showMore}
+        onclick={() => (showMore = !showMore)}
+      >
+        Refine{refineActive ? ' ·' : ''}{showMore ? ' ▴' : ' ▾'}
+      </button>
     </div>
   </div>
+
+  {#if showMore}
+    <div class="refine">
+      <div class="refine-fields">
+        <label class="refine-field">
+          <span class="refine-field-lbl">Max $/mo {partyWord()}</span>
+          <div class="refine-select">
+            <select bind:value={filters.maxCost} aria-label="Max monthly budget, {partyWord()}">
+              <option value="">Any</option>
+              {#each costOptions as v}<option value={v}>{fmtMoney(v)}</option>{/each}
+            </select>
+          </div>
+        </label>
+        <label class="refine-field">
+          <span class="refine-field-lbl">Min safety</span>
+          <div class="refine-select">
+            <select bind:value={filters.minSafety} aria-label="Minimum safety score">
+              <option value="">Any</option>
+              {#each SAFETY_OPTIONS as o}<option value={o.v}>{o.label}</option>{/each}
+            </select>
+          </div>
+        </label>
+        <label class="refine-field">
+          <span class="refine-field-lbl">Min air</span>
+          <div class="refine-select">
+            <select bind:value={filters.minAir} aria-label="Minimum air quality">
+              <option value="">Any</option>
+              {#each AIR_OPTIONS as o}<option value={o.v}>{o.label}</option>{/each}
+            </select>
+          </div>
+        </label>
+        <label class="refine-field">
+          <span class="refine-field-lbl">Rain</span>
+          <div class="refine-select">
+            <select bind:value={filters.maxRain} aria-label="Rain tolerance">
+              <option value="">Any rain</option>
+              {#each RAIN_OPTIONS as o}<option value={o.v}>{o.label}</option>{/each}
+            </select>
+          </div>
+        </label>
+      </div>
+      <div class="refine-toggles">
+        <label class="refine-toggle" title="Keep only cities where English works day-to-day — skips spots where you'd need translation outside tourist zones">
+          <input type="checkbox" bind:checked={filters.englishOk} />
+          <span>English-friendly</span>
+        </label>
+        <label class="refine-toggle" class:flash={nonSchengenFlash} bind:this={nonSchengenEl}>
+          <input type="checkbox" bind:checked={filters.nonSchengen} />
+          <span>◆ Non-Schengen</span>
+        </label>
+      </div>
+    </div>
+  {/if}
 
   <div class="picker">
     <div class="pickhead">
@@ -577,7 +634,7 @@
                 {#if breach}
                   <button type="button" class="rowwarn" onclick={flagNonSchengen} title="Adding this Schengen stay breaks the 90/180 cap — filter to non-Schengen cities">◆ over 90/180</button>
                 {/if}
-                <span class="num rowq" title={sortMode === 'value' ? "Average Best Value across the months you'd book" : "Average Top Pick across the months you'd book"}>{Math.round(s)}</span>
+                <span class="num rowq" title={sortMode === 'value' ? "Average Best Value across the months you'd book" : "Average score across the months you'd book"}>{Math.round(s)}</span>
               </div>
             </div>
             <div class="rowstrip">
@@ -971,80 +1028,63 @@
   .tv { font-size: 19px; font-weight: 600; }
   .tk { font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); }
 
-  .plan {
-    margin-top: 16px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 14px 20px;
-  }
-
-  .planrow {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 0;
-  }
-
-  .planrow + .planrow { border-top: 1px solid var(--line-soft); }
-
-  .plabel {
-    width: 90px;
-    flex-shrink: 0;
-    font-size: 10.5px;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-  }
-
-  .fctl {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    gap: 8px;
-    flex: 1;
-  }
-
-  /* The checkbox cluster breaks to its own line under the dropdowns. */
-  .fctl-cbs {
-    flex-basis: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .filt {
+  /* Compact control bar — mirrors This month's Sort + Regions ▾ / Refine ▾ row
+     so both surfaces filter the same way. Filters collapse by default, keeping
+     the city list the first thing in view. */
+  .controls {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 12px;
+    margin-top: 20px;
   }
 
-  .filt-lbl {
-    font-size: 9px;
-    letter-spacing: 0.06em;
+  .ctl-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 16px;
+  }
+
+  .ctl-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ctl-lbl {
+    font-size: 9.5px;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
     color: var(--ink-3);
     line-height: 1;
   }
 
-  .cb {
+  .filters {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 5px;
-    font-size: 12.5px;
-    color: var(--ink-2);
-    border-radius: 6px;
+    gap: 6px;
   }
 
-  /* Flash drawn when a row's 90/180 warning sends the user here. */
-  .cb.flash { animation: cbflash 1.4s ease; }
+  .clearchip { color: var(--terra-deep); white-space: nowrap; }
+  .chip.more { white-space: nowrap; }
 
-  @keyframes cbflash {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(193, 79, 43, 0); background: transparent; }
-    15% { box-shadow: 0 0 0 5px rgba(193, 79, 43, 0.22); background: rgba(193, 79, 43, 0.12); }
-    65% { box-shadow: 0 0 0 5px rgba(193, 79, 43, 0.16); background: rgba(193, 79, 43, 0.08); }
+  @media (max-width: 700px) {
+    .filters {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      max-width: 100%;
+      width: 100%;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent);
+      mask-image: linear-gradient(90deg, #000 92%, transparent);
+      padding-bottom: 2px;
+    }
+
+    .filters::-webkit-scrollbar { display: none; }
+    .filters .chip { white-space: nowrap; flex-shrink: 0; }
   }
 
   .add {
@@ -1158,6 +1198,34 @@
 
   @media (hover: none) {
     .segbtn { min-width: 32px; min-height: 30px; }
+  }
+
+  /* The Sort control matches This month's pill segmented control exactly — same
+     32px height, rounded ends, and ink fill — so the two surfaces read as one.
+     The Stay stepper above keeps the squarer .seg look that suits a number row. */
+  .sortseg {
+    height: 32px;
+    align-items: center;
+    border-radius: 999px;
+    background: var(--card);
+  }
+
+  .sortseg .segbtn {
+    height: 100%;
+    padding: 0 14px;
+    font-weight: 600;
+    border-left: none;
+  }
+
+  /* Scope the resting gray to the unselected button so it can't override the
+     white-on-ink of the selected one (same specificity as .segbtn.on). */
+  .sortseg .segbtn:not(.on) {
+    color: var(--ink-3);
+  }
+
+  .sortseg .segbtn:hover:not(.on) {
+    background: transparent;
+    color: var(--ink);
   }
 
   .picker-empty {

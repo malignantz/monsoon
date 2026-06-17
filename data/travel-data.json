@@ -31899,7 +31899,7 @@
           "riskNote": "",
           "season": "Peak",
           "evtTier": 3,
-          "events": "UNTOLD Festival",
+          "events": "Electric Castle Festival",
           "weather": 88.7,
           "air": 100.0,
           "seasonScore": 100,
@@ -31923,17 +31923,17 @@
           "risk": 0,
           "riskNote": "",
           "season": "Peak",
-          "evtTier": 1,
-          "events": "Electric Castle Festival",
+          "evtTier": 3,
+          "events": "UNTOLD Festival",
           "weather": 90.5,
           "air": 100.0,
           "seasonScore": 100,
-          "eventScore": 66.7,
-          "qol": 90.5,
+          "eventScore": 100.0,
+          "qol": 93.8,
           "cost1": 1309,
           "cost2": 1899,
-          "value": 67.81,
-          "qolBase": 90.5
+          "value": 70.29,
+          "qolBase": 93.8
         },
         {
           "mo": "Sep",
@@ -32107,6 +32107,14 @@
         }
       },
       "events": [
+        {
+          "name": "Electric Castle Festival",
+          "months": [
+            7
+          ],
+          "tier": 3,
+          "blurb": "major July music festival at Banffy Castle near Cluj"
+        },
         {
           "name": "Untold Festival",
           "months": [

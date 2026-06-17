@@ -38,7 +38,7 @@
       </div>
       <div class="score {mode === 'value' ? 'neutral' : `band-${cells[month].band}`}">
         <span class="num big">{Math.round(score)}</span>
-        <span class="lbl">{mode === 'value' ? 'best value' : 'top pick'}</span>
+        <span class="lbl">{mode === 'value' ? 'best value' : 'score'}</span>
       </div>
     </div>
 

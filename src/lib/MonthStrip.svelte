@@ -24,7 +24,7 @@
       class:dim={frameFrom >= 0 && (i - frameFrom + 12) % 12 >= frameLen}
       disabled={!onselect}
       onclick={() => onselect?.(i)}
-      title={`${MONTHS[i]}: ${Math.round(c.q)} Top Pick\nWeather: ${Math.round(c.weather)}${c.airCat ? ` · Air: ${c.airCat}` : ''}${c.seasonPhase ? ` · Season: ${c.seasonPhase}` : ''} · Events: ${Math.round(c.events)}${c.fest ? ' ★' : ''}`}
+      title={`${MONTHS[i]}: ${Math.round(c.q)} Score\nWeather: ${Math.round(c.weather)}${c.airCat ? ` · Air: ${c.airCat}` : ''}${c.seasonPhase ? ` · Season: ${c.seasonPhase}` : ''} · Events: ${Math.round(c.events)}${c.fest ? ' ★' : ''}`}
     >
       {#if labels}<span class="ml">{MONTH_LETTERS[i]}</span>{/if}
       {#if size === 'lg'}<span class="q num">{Math.round(c.q)}</span>{/if}

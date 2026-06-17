@@ -10,6 +10,7 @@
   --line-soft: #e6dfcb;
   --terra: #c14f2b;
   --terra-deep: #93371a;
+  --terra-soft: #f6e3d8;
   --teal: #156b4f;
   --schengen: #34548a;
   --schengen-soft: #e3e9f3;
@@ -143,6 +144,162 @@ input[type='search'] {
 select:focus,
 input:focus {
   border-color: var(--terra);
+}
+
+/* ───────── Refine panel ─────────
+   Shared filter disclosure for This month and My year. One control vocabulary
+   across both surfaces: dropdowns in a responsive grid, then boolean filters as
+   pill toggles in the terracotta "filter-applied" accent (the same language the
+   Favorites chip already speaks). Structure is identical on both pages so the
+   surfaces never drift apart. */
+.refine {
+  margin-bottom: 16px;
+  padding: 15px 16px 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 12px 26px -20px rgba(33, 36, 30, 0.55);
+  animation: refine-in 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes refine-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.refine-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px 14px;
+}
+
+.refine-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.refine-field-lbl {
+  font-size: 9.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink-3);
+  line-height: 1;
+}
+
+/* Native select dressed with a custom chevron, so the control reads the same
+   in every browser and matches the toggle row beneath it. */
+.refine-select {
+  position: relative;
+  display: flex;
+}
+
+.refine-select select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 7px 30px 7px 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.refine-select::after {
+  content: '';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin-top: -5px;
+  border-right: 1.5px solid var(--ink-3);
+  border-bottom: 1.5px solid var(--ink-3);
+  transform: rotate(45deg);
+  pointer-events: none;
+  transition: border-color 0.15s ease;
+}
+
+.refine-select:hover select {
+  border-color: var(--ink-2);
+}
+
+.refine-select:hover::after {
+  border-color: var(--ink);
+}
+
+/* Boolean filters live below a hairline divider as pill toggles. Off reads as a
+   quiet outlined chip; on fills with the terracotta filter accent. */
+.refine-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.refine-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink-2);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.refine-toggle:hover {
+  border-color: var(--ink-2);
+  color: var(--ink);
+}
+
+/* The pill itself is the affordance; the checkbox stays for semantics only. */
+.refine-toggle input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.refine-toggle:has(input:checked) {
+  background: var(--terra-soft);
+  border-color: var(--terra);
+  color: var(--terra-deep);
+  font-weight: 600;
+}
+
+.refine-toggle:has(input:focus-visible) {
+  outline: 2px solid var(--terra);
+  outline-offset: 2px;
+}
+
+/* Pulse drawn when a row's 90/180 warning sends the user to the toggle. */
+.refine-toggle.flash {
+  animation: refine-flash 1.4s ease;
+}
+
+@keyframes refine-flash {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(193, 79, 43, 0);
+  }
+  15% {
+    box-shadow: 0 0 0 5px rgba(193, 79, 43, 0.24);
+  }
+  65% {
+    box-shadow: 0 0 0 5px rgba(193, 79, 43, 0.16);
+  }
 }
 
 ::selection {

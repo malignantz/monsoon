@@ -7,7 +7,7 @@
 
   const MOMENTS = [
     { label: 'Monthly', text: 'A city can be brilliant in May and miserable in August.' },
-    { label: 'Personal', text: 'Rank for Top Pick, daily livability, high season, or Best Value.' },
+    { label: 'Personal', text: 'Rank for Score, daily livability, high season, or Best Value.' },
     { label: 'Practical', text: 'Costs, Schengen math, air quality, hazards, and safety stay in the frame.' }
   ];
 

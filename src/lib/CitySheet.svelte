@@ -139,7 +139,7 @@
       <div class="snap">
         <div class="snapcell">
           <span class="num v">{Math.round(qol)}</span>
-          <span class="k">top pick · {MONTHS[month]}</span>
+          <span class="k">score · {MONTHS[month]}</span>
         </div>
         <div class="snapcell">
           <span class="num v">{saf.score ?? '—'}</span>
@@ -194,7 +194,7 @@
     <div class="cols">
       <section class="block">
         <h2>{city.name} in {monthName}
-          <ScoreInfo title="Top Pick score">
+          <ScoreInfo title="Score">
             <p>Five 0–100 sub-scores, weighted by your preset ({activePreset.label}):
               weather {pct(pw.weather)}%, safety {pct(pw.safety)}%, air {pct(pw.air)}%,
               season {pct(pw.season)}%, events {pct(pw.events)}%.{peakPenaltyText}</p>

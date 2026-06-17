@@ -7,7 +7,7 @@
   import Methodology from './lib/Methodology.svelte';
   import About from './lib/About.svelte';
   import HowTo from './lib/HowTo.svelte';
-  import { cities, cityByKey, qolFor, valueFor, onboarded, saveSettings, decodeRouteCompact, decodeRoute, normalizePresetKey } from './lib/data.svelte.js';
+  import { cities, cityByKey, qolFor, valueFor, decodeRouteCompact, decodeRoute, normalizePresetKey } from './lib/data.svelte.js';
   import { track } from './lib/analytics.js';
 
   const PREFS = 'atlas.prefs.v1';
@@ -53,37 +53,16 @@
   let methodOpen = $state(false);
   let howToOpen = $state(false);
 
-  // First-visit nudge (no saved settings yet): a non-blocking hint plus a one-time
-  // pulse on the top-right utilities, so people discover personalization and the
-  // guide without being gated by a modal.
-  let showNudge = $state(!onboarded.done);
-  let utilPulse = $state(false);
-  let didPulse = false;
-
-  $effect(() => {
-    if (!showNudge || didPulse) return;
-    didPulse = true;
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
-    utilPulse = true;
-    setTimeout(() => (utilPulse = false), 1100);
-  });
-
-  // Any first-run engagement (or an explicit dismiss) retires the nudge for good:
-  // saveSettings() persists the current (default) prefs so it won't return.
-  function dismissNudge() {
-    if (!showNudge) return;
-    showNudge = false;
-    saveSettings();
-  }
-
+  // No first-run banner or glow cues. Discovery rides on the controls themselves:
+  // a labelled, warm-tinted "How it works" button is the brightest thing in an
+  // otherwise neutral bar, so the eye lands there without us pushing instruction
+  // (NN/g: a labelled control out-discovers any bare icon + decoration).
   function openSettings() {
     settingsOpen = true;
-    dismissNudge();
   }
 
   function openHowTo() {
     howToOpen = true;
-    dismissNudge();
   }
 
   function closeSettings() {
@@ -241,22 +220,16 @@
           {n.label}
         </button>
       {/each}
-      <button type="button" class="util" class:pulse={utilPulse} onclick={openHowTo} aria-label="How to use Monsoon" title="How to use Monsoon">?</button>
-      <button type="button" class="gear util" class:pulse={utilPulse} onclick={openSettings} aria-label="Settings" title="Settings">⚙</button>
+      <button type="button" class="howto" onclick={openHowTo} aria-label="How to use Monsoon">How it works</button>
+      <button type="button" class="gear util" onclick={openSettings} aria-label="Settings" title="Settings">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="3" />
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+        </svg>
+      </button>
     </nav>
 
   </header>
-
-  {#if showNudge}
-    <div class="nudge" role="note">
-      <span class="nudge-txt">
-        New here? <button type="button" class="nudge-link" onclick={openSettings}>Tune your atlas</button>
-        or <button type="button" class="nudge-link" onclick={openHowTo}>see how it works</button>
-        — anytime from <span class="gly" aria-hidden="true">⚙</span> and <span class="gly" aria-hidden="true">?</span> up top.
-      </span>
-      <button type="button" class="nudge-x" onclick={dismissNudge} aria-label="Dismiss this tip">×</button>
-    </div>
-  {/if}
 
   <main>
     {#if view === 'month'}
@@ -409,11 +382,14 @@
   }
 
   .util {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: none;
     border: none;
-    font-size: 17px;
     color: var(--ink-3);
-    padding: 7px 8px;
+    padding: 9px;
     margin-left: 2px;
     border-radius: 999px;
     line-height: 1;
@@ -421,79 +397,28 @@
 
   .util:hover { color: var(--ink); }
 
-  /* The "?" is a glyph in the body font, not an icon — nudge it to optically
-     match the gear's weight and size. */
-  .util:not(.gear) {
-    font-size: 15px;
-    font-weight: 700;
-    width: 31px;
-  }
-
-  /* First-visit cue: a quick pop + terracotta flash on the ? and gear, so a new
-     user clocks where personalization and help live. */
-  .util.pulse {
-    animation: gearpop 0.95s ease;
-    color: var(--terra);
-  }
-
-  @keyframes gearpop {
-    0% { transform: scale(0.7); }
-    35% { transform: scale(1.3); }
-    60% { transform: scale(0.96); }
-    100% { transform: scale(1); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .util.pulse { animation: none; }
-  }
-
-  .nudge {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin: 12px 0 0;
-    padding: 9px 8px 9px 16px;
-    background: var(--paper-2);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    font-size: 13px;
-    color: var(--ink-2);
-  }
-
-  .nudge-txt { flex: 1; line-height: 1.4; }
-
-  .nudge-link {
+  /* The help control carries a word, not a glyph: a warm-tinted "How it works"
+     button is the brightest element in an otherwise neutral bar, so the eye finds
+     it without a banner or a glow ring. */
+  .howto {
     background: none;
     border: none;
-    padding: 0;
-    font: inherit;
+    font-size: 14px;
     font-weight: 600;
     color: var(--terra-deep);
-    border-bottom: 1px dotted var(--terra);
-    cursor: pointer;
-  }
-
-  .nudge-link:hover { color: var(--terra); }
-
-  .gly {
-    font-weight: 700;
-    color: var(--ink);
-  }
-
-  .nudge-x {
-    flex: none;
-    width: 24px;
-    height: 24px;
-    border: none;
+    padding: 7px 13px;
+    margin-left: 2px;
     border-radius: 999px;
-    background: none;
-    color: var(--ink-3);
-    font-size: 17px;
-    line-height: 1;
     cursor: pointer;
+    white-space: nowrap;
   }
 
-  .nudge-x:hover { color: var(--ink); background: var(--paper-3); }
+  .howto:hover { color: var(--terra); background: var(--paper-2); }
+
+  .howto:focus-visible {
+    outline: 2px solid var(--terra);
+    outline-offset: 2px;
+  }
 
   .basefoot {
     display: flex;

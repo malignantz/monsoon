@@ -2001,6 +2001,14 @@
   },
   "events": [
    {
+    "name": "Electric Castle Festival",
+    "months": [
+     7
+    ],
+    "tier": 3,
+    "blurb": "major July music festival at Banffy Castle near Cluj"
+   },
+   {
     "name": "Untold Festival",
     "months": [
      8

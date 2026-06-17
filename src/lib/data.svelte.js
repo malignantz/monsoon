@@ -36,7 +36,7 @@ const storedSettings = loadSettings();
 export const onboarded = $state({ done: storedSettings != null });
 
 export const prefs = $state({
-  party: storedSettings?.party ?? 'couple', // 'solo' | 'couple' — picks which cost field is shown everywhere
+  party: storedSettings?.party ?? 'solo', // 'solo' | 'couple' — picks which cost field is shown everywhere
   womensSafety: storedSettings?.womensSafety ?? false, // blend the women's-safety signal into safety, orthogonal to any preset
   passport: storedSettings?.passport ?? null // TODO: visa data — would drive per-passport visa-free windows
 });
@@ -174,7 +174,7 @@ export function safetyFloor(safety) {
   return FLOOR_MIN + (1 - FLOOR_MIN) * (safety / FLOOR_T);
 }
 
-// Recompute the Top Pick score client-side from stored component scores (methodology §6).
+// Recompute the headline Score client-side from stored component scores (methodology §6).
 export function qolFor(city, mIdx, presetKey = 'balanced') {
   const m = city.months[mIdx];
   const preset = PRESETS[normalizePresetKey(presetKey)];
@@ -202,7 +202,7 @@ export function band(qol) {
 
 // Strip cells for a city under a preset:
 // [{q, band, risk, fest, weather, air, season, events, airCat, seasonPhase}]
-// Carries every month-varying component of the Top Pick score (safety is the
+// Carries every month-varying component of the headline Score (safety is the
 // one static input) so tooltips can break down what drives each month.
 export function stripCells(city, presetKey = 'balanced') {
   return city.months.map((m, i) => {

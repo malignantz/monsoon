@@ -3,7 +3,8 @@
   import CityTable from './CityTable.svelte';
   import Legend from './Legend.svelte';
   import RegionMenu from './RegionMenu.svelte';
-  import { cities, regions, qolFor, valueFor, swimNow, cityCost, partyWord, MONTHS, MONTH_LETTERS, favorites } from './data.svelte.js';
+  import { cities, regions, qolFor, valueFor, swimNow, cityCost, partyWord, fmtMoney, MONTHS, MONTH_LETTERS, favorites } from './data.svelte.js';
+  import { COST_OPTIONS } from './planner.js';
 
   let {
     month = $bindable(0),
@@ -43,6 +44,17 @@
 
   const CAP = 48;
 
+  // Budget caps scale with party size, mirroring My year's Max $/mo dropdown so
+  // the two surfaces offer the same choices in the same control.
+  const costOptions = $derived(COST_OPTIONS[partyWord()] ?? COST_OPTIONS.solo);
+
+  // Discrete Score floors, styled like My year's Min safety / Min air options.
+  const QOL_OPTIONS = [
+    { v: 70, label: 'Good (70+)' },
+    { v: 80, label: 'Great (80+)' },
+    { v: 90, label: 'Excellent (90+)' }
+  ];
+
   function toggleRegion(r) {
     const next = new Set(activeRegions);
     next.has(r) ? next.delete(r) : next.add(r);
@@ -61,7 +73,7 @@
   }
 
   // One filter pass, shared by both densities. Cards re-rank it by the toolbar's
-  // Top Pick/Best Value mode; the table column-sorts it itself.
+  // Highest Score/Best Value mode; the table column-sorts it itself.
   const filtered = $derived.by(() => {
     let list = cities;
     if (favOnly) list = list.filter((c) => favorites.has(c.key));
@@ -113,8 +125,8 @@
         {/each}
       </div>
       {#if density !== 'table'}
-        <div class="seg" role="group" aria-label="Rank by">
-          <button type="button" class:on={mode === 'quality'} tabindex={stuck ? 0 : -1} onclick={() => (mode = 'quality')}>Top Pick</button>
+        <div class="seg" role="group" aria-label="Sort by">
+          <button type="button" class:on={mode === 'quality'} tabindex={stuck ? 0 : -1} onclick={() => (mode = 'quality')}>Highest Score</button>
           <button type="button" class:on={mode === 'value'} tabindex={stuck ? 0 : -1} onclick={() => (mode = 'value')}>Best Value</button>
         </div>
       {/if}
@@ -146,22 +158,29 @@
   </header>
 
   <div class="controls">
-    <div class="ctl-row">
-      {#if density !== 'table'}
-        <div class="ctl-group">
-          <span class="ctl-lbl" aria-hidden="true">Rank by</span>
-          <div class="seg" role="group" aria-label="Rank by">
-            <button type="button" class:on={mode === 'quality'} onclick={() => (mode = 'quality')}>Top Pick</button>
+    <div class="toolbar">
+      <div class="toolbar-lead">
+        <p class="result-count num">{filtered.length} {filtered.length === 1 ? 'city' : 'cities'}</p>
+        {#if density !== 'table'}
+          <div class="seg" role="group" aria-label="Sort by">
+            <button type="button" class:on={mode === 'quality'} onclick={() => (mode = 'quality')}>Highest Score</button>
             <button type="button" class:on={mode === 'value'} onclick={() => (mode = 'value')}>Best Value</button>
           </div>
-        </div>
-      {/if}
-      <div class="ctl-group end">
-        <span class="ctl-lbl" aria-hidden="true">View as</span>
-        <div class="seg density" role="group" aria-label="View as">
-          <button type="button" class:on={density === 'cards'} onclick={() => (density = 'cards')}>Cards</button>
-          <button type="button" class:on={density === 'table'} onclick={() => (density = 'table')}>Table</button>
-        </div>
+        {/if}
+      </div>
+      <div class="seg density" role="group" aria-label="View as">
+          <button type="button" class:on={density === 'cards'} aria-pressed={density === 'cards'} onclick={() => (density = 'cards')}>
+            <svg class="vicon" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <rect x="2" y="2" width="5" height="5" rx="1" /><rect x="9" y="2" width="5" height="5" rx="1" /><rect x="2" y="9" width="5" height="5" rx="1" /><rect x="9" y="9" width="5" height="5" rx="1" />
+            </svg>
+            Cards
+          </button>
+          <button type="button" class:on={density === 'table'} aria-pressed={density === 'table'} onclick={() => (density = 'table')}>
+            <svg class="vicon" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+              <line x1="2.5" y1="4" x2="13.5" y2="4" /><line x1="2.5" y1="8" x2="13.5" y2="8" /><line x1="2.5" y1="12" x2="13.5" y2="12" />
+            </svg>
+            Table
+          </button>
       </div>
     </div>
 
@@ -194,23 +213,37 @@
   <div class="stick-sentinel" bind:this={sentinel} aria-hidden="true"></div>
 
   {#if showMore}
-    <div class="morebar">
-      <label class="ff">
-        <span class="ff-lbl">Max $/mo {partyWord()}</span>
-        <input type="number" placeholder="any" aria-label="Max {partyWord()} $/mo" bind:value={maxCost} />
-      </label>
-      <label class="ff">
-        <span class="ff-lbl">Min Top Pick</span>
-        <input type="number" placeholder="any" aria-label="Min Top Pick score" bind:value={minQol} />
-      </label>
-      <label class="ff cb">
-        <input type="checkbox" bind:checked={swimOnly} />
-        <span>≋ swimmable in {MONTHS[month]}</span>
-      </label>
-      <label class="ff cb">
-        <input type="checkbox" bind:checked={nonSchengenOnly} />
-        <span>◆ non-Schengen only</span>
-      </label>
+    <div class="refine">
+      <div class="refine-fields">
+        <label class="refine-field">
+          <span class="refine-field-lbl">Max $/mo {partyWord()}</span>
+          <div class="refine-select">
+            <select bind:value={maxCost} aria-label="Max monthly budget, {partyWord()}">
+              <option value="">Any</option>
+              {#each costOptions as v}<option value={v}>{fmtMoney(v)}</option>{/each}
+            </select>
+          </div>
+        </label>
+        <label class="refine-field">
+          <span class="refine-field-lbl">Min score</span>
+          <div class="refine-select">
+            <select bind:value={minQol} aria-label="Minimum score">
+              <option value="">Any</option>
+              {#each QOL_OPTIONS as o}<option value={o.v}>{o.label}</option>{/each}
+            </select>
+          </div>
+        </label>
+      </div>
+      <div class="refine-toggles">
+        <label class="refine-toggle">
+          <input type="checkbox" bind:checked={swimOnly} />
+          <span>≋ Swimmable in {MONTHS[month]}</span>
+        </label>
+        <label class="refine-toggle">
+          <input type="checkbox" bind:checked={nonSchengenOnly} />
+          <span>◆ Non-Schengen</span>
+        </label>
+      </div>
     </div>
   {/if}
 
@@ -219,7 +252,7 @@
       <p class="key-intro">Each colored strip is the city's whole year — green months are great to be there, red months aren't.</p>
       <div class="key-row">
         <span class="key-unit">
-          <span class="key-label">Top Pick by month:</span>
+          <span class="key-label">Score by month:</span>
           <span class="kswatch kgreat">great</span>
           <span class="kswatch kgood">good</span>
           <span class="kswatch kok">ok</span>
@@ -343,31 +376,30 @@
     margin-bottom: 18px;
   }
 
-  .ctl-row {
+  /* Content toolbar, split by what each control acts on: the data lives on the
+     left (count + the Highest Score/Best Value ranking), the presentation on the
+     right (the Cards/Table view switcher, sitting just above the grid it draws).
+     Opposite ends keep the two pill controls from reading as one group, and the
+     count anchors the left even in table view where the sort segment drops away. */
+  .toolbar {
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
-    gap: 12px 16px;
+    gap: 10px 16px;
   }
 
-  .ctl-group {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .ctl-group.end {
-    margin-left: auto;
-    align-items: flex-end;
-  }
-
-  .ctl-lbl {
-    font-size: 9.5px;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
+  .result-count {
+    margin: 0;
+    font-size: 12.5px;
     color: var(--ink-3);
-    line-height: 1;
+  }
+
+  .toolbar-lead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 14px;
   }
 
   .seg,
@@ -383,6 +415,9 @@
   }
 
   .seg button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     border: none;
     background: none;
     font-size: 12.5px;
@@ -399,6 +434,16 @@
     background: var(--ink);
     color: var(--paper);
   }
+
+  /* Grid / rows glyphs read as a view switcher at a glance; dimmed on the
+     inactive segment so only the active mode's icon carries full weight. */
+  .vicon {
+    flex: none;
+    opacity: 0.85;
+  }
+
+  .seg.density button.on .vicon { opacity: 1; }
+  .seg.density button:not(.on) .vicon { opacity: 0.6; }
 
   .filters {
     display: flex;
@@ -512,42 +557,6 @@
 
   @media (prefers-reduced-motion: reduce) {
     .stickbar { transition: opacity 0.18s ease; transform: none; }
-  }
-
-  .morebar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    gap: 14px;
-    margin-bottom: 16px;
-    padding: 12px 14px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-  }
-
-  .ff {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .ff-lbl {
-    font-size: 9.5px;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    line-height: 1;
-  }
-
-  .morebar input[type='number'] { width: 120px; }
-
-  .ff.cb {
-    flex-direction: row;
-    align-items: center;
-    gap: 6px;
-    font-size: 12.5px;
-    color: var(--ink-2);
   }
 
   .strip-key {

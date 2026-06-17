@@ -5,39 +5,37 @@
   // lives near the top where people look for help — distinct from About (what
   // Monsoon is) and Methodology (how the scores are built).
   //
-  // Structure follows JTBD: the idea (mental model) → the two jobs (browse a
-  // month / build a year) → the payoff worth knowing. Lead with value, name a
-  // payoff for each item, and surface the discovery-arbitrage "aha" up front
-  // rather than burying it in a flat step list. See [[explainer-ia-direction]].
+  // Structure: lead with the benefit (find livable cities where money stretches),
+  // then four scannable sections — what it's for → the two views (This month /
+  // My year) → the two rankings (Highest Score / Best Value) → how settings move
+  // the scores. Audience is implied, not named; the discovery-arbitrage "aha"
+  // stays generic (no specific city pairs). See [[explainer-ia-direction]],
+  // [[score-naming]], [[positioning-and-scoring-direction]].
   let { onclose } = $props();
 
   let cardEl = $state(null);
 
   const BRAND_BANDS = ['ok', 'ok', 'good', 'good', 'good', 'great', 'great', 'good', 'good', 'good', 'ok', 'ok'];
 
-  const USES = [
+  const VIEWS = [
     {
-      label: 'Browse a month',
-      text: 'Pick a month and see every city ranked for it — “where should I be in June?” Open any card for the full year: safety, monthly cost, swimmable months, and the festivals worth planning around.'
+      label: 'This month',
+      text: 'Pick a month and see every city ranked for it — “where should I be in June?” Open any card for the full year: safety, monthly cost, swimmable months and the festivals worth planning around.'
     },
     {
-      label: 'Build a year',
-      text: 'In <strong>My year</strong>, chain stays into a route. Monsoon tallies your average score, monthly cost, festivals and Schengen days as you go — then save or share the itinerary.'
+      label: 'My year',
+      text: 'Chain stays into a route. Monsoon tallies your average score, monthly cost, festivals and Schengen days as you go — then save or share the itinerary.'
     }
   ];
 
-  const TRICKS = [
+  const SORTS = [
     {
-      label: 'Sort by Best Value',
-      text: 'The payoff the app is built for: an unfamiliar city at the right time often beats the famous one for a fraction of the price. <em>Plovdiv can feel like Barcelona for half off.</em>'
+      label: 'Highest Score',
+      text: 'The best places overall for that month, on one shared yardstick — weather, safety, air, season and events.'
     },
     {
-      label: 'Let the month lead',
-      text: 'Each city’s colored strip is its whole year — green months line up, red ones don’t. <em>When</em> you go matters as much as <em>where</em>.'
-    },
-    {
-      label: 'Tune the lens',
-      text: 'The ⚙ reweights what “best” means (livability, high season, who’s traveling); ♡ saves cities; filters narrow by region, safety, air, cost and Schengen.'
+      label: 'Best Value',
+      text: 'This is where the hidden gems surface. Find a city where the weather’s gorgeous and the cost of living is low — settle in, then move on when the season turns. Keep chasing the good months and your runway stretches for years.'
     }
   ];
 
@@ -67,40 +65,47 @@
       </span>
       <p class="kicker">Guide</p>
       <h1>How to use Monsoon</h1>
-      <p class="lede">Quality of life is seasonal. Here’s the idea, the two ways people use it,
-        and the trick worth knowing.</p>
+      <p class="lede">Find amazing, livable cities where your money stretches further —
+        and the right month to be in each one.</p>
     </header>
 
     <section class="q">
-      <span class="qlabel">The idea</span>
-      <p class="qhint">A city that’s glorious in May can be brutal in August. Monsoon scores all 111
-        cities for <em>every</em> month on one shared yardstick — weather, air, safety, cost, season
-        and events — so the numbers are a way to <strong>compare cities honestly</strong>, not grades
-        to obsess over. The whole job: find where you’d actually want to be, and when.</p>
+      <span class="qlabel">What it’s for</span>
+      <p class="qhint">Quality of life is seasonal — a city that’s glorious in May can be brutal in
+        August. Monsoon scores all 111 cities for <em>every</em> month, so you can find somewhere
+        genuinely great to settle for less, and know exactly <strong>where to be and when</strong>.</p>
     </section>
 
     <section class="q">
-      <span class="qlabel">Two ways to use it</span>
+      <span class="qlabel">This month vs. My year</span>
       <div class="uses">
-        {#each USES as u}
+        {#each VIEWS as v}
           <article>
-            <span class="usetitle">{u.label}</span>
-            <p>{@html u.text}</p>
+            <span class="usetitle">{v.label}</span>
+            <p>{@html v.text}</p>
           </article>
         {/each}
       </div>
     </section>
 
     <section class="q">
-      <span class="qlabel">The trick worth knowing</span>
-      <ul class="tips">
-        {#each TRICKS as t}
-          <li>
-            <span class="tiplead">{t.label}</span>
-            <span class="tiptext">{@html t.text}</span>
-          </li>
+      <span class="qlabel">Highest Score vs. Best Value</span>
+      <p class="qhint">One toggle, two ways to rank the list.</p>
+      <div class="uses">
+        {#each SORTS as s}
+          <article>
+            <span class="usetitle">{s.label}</span>
+            <p>{@html s.text}</p>
+          </article>
         {/each}
-      </ul>
+      </div>
+    </section>
+
+    <section class="q">
+      <span class="qlabel">Your settings shape the scores</span>
+      <p class="qhint">The ⚙ sets your party size and how much women’s street-safety counts, then
+        switches what “best” means — <em>Balanced</em>, <em>Livability</em> or <em>High season</em>.
+        ♡ saves cities; filters narrow by region, safety, air, cost and Schengen.</p>
     </section>
 
     <footer class="foot">
@@ -245,34 +250,6 @@
     font-size: 12.5px;
     color: var(--ink-2);
     line-height: 1.5;
-  }
-
-  .tips {
-    list-style: none;
-    margin: 12px 0 0;
-    padding: 0;
-  }
-
-  .tips li {
-    padding: 9px 0;
-    font-size: 13px;
-    line-height: 1.55;
-    color: var(--ink-2);
-  }
-
-  .tips li + li {
-    border-top: 1px solid var(--line-soft);
-  }
-
-  .tiplead {
-    font-weight: 700;
-    color: var(--ink);
-  }
-
-  .tiplead::after {
-    content: ' — ';
-    color: var(--ink-3);
-    font-weight: 400;
   }
 
   .foot {

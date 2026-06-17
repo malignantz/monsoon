@@ -41,7 +41,7 @@ def main():
                   + qw[3] * checks["seasonScore"] + qw[4] * round(checks["eventScore"], 1))
             checks["qolBase"] = qb
             checks["qol"] = floor * qb
-            checks["value"] = round(floor * qb, 1) / (m["cost2"] / 1000)
+            checks["value"] = round(floor * qb, 1) / (m["cost2"] / 1000) ** s["value_cost_exponent"]
             for k, want in checks.items():
                 if abs(m[k] - want) > (0.06 if k != "value" else 0.06):
                     print(f"DRIFT  {c['name']} {m['mo']} {k}: stored {m[k]} != {round(want,2)}")

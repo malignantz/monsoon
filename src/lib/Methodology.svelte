@@ -8,7 +8,7 @@
 
   const BRAND_BANDS = ['ok', 'ok', 'good', 'good', 'good', 'great', 'great', 'good', 'good', 'good', 'ok', 'ok'];
 
-  // The headline Top Pick weights (Top Pick preset · METHODOLOGY §6).
+  // The headline Score weights (Balanced preset · METHODOLOGY §6).
   const WEIGHTS = [
     { label: 'Weather', pct: 35 },
     { label: 'Safety', pct: 24 },
@@ -44,12 +44,12 @@
       <p class="kicker">Methodology<span class="tld"> · v5</span></p>
       <h1>How a month is scored</h1>
       <p class="lede">Every city is scored independently for all twelve months. One headline
-        <strong>Top Pick</strong> number blends five measures — each computed from sourced data,
+        <strong>Score</strong> blends five measures — each computed from sourced data,
         not vibes. Here's exactly what goes in.</p>
     </header>
 
     <section class="q">
-      <span class="qlabel">The headline: Top Pick</span>
+      <span class="qlabel">The headline: Score</span>
       <p class="qhint">A weighted blend of five 0–100 sub-scores, then knocked down by a
         low-safety floor so a beautiful month in a dangerous place can't ride the weather to the top.</p>
       <div class="weights">
@@ -61,7 +61,7 @@
           </div>
         {/each}
       </div>
-      <p class="qnote">Top Pick defaults. Livability and High season re-weight the same
+      <p class="qnote">Score defaults. Livability and High season re-weight the same
         sub-scores live; Livability ignores events and only subtracts a small peak-season
         crowding penalty. The safety floor always applies.</p>
     </section>
@@ -110,7 +110,7 @@
       <span class="qlabel">Cost &amp; Best Value</span>
       <p class="qhint">Each city's monthly cost is built from eight itemized, dated, sourced components for
         one anchor persona (a solo nomad living mid-range), then scaled for a couple and adjusted for
-        accommodation seasonality. <strong>Best Value</strong> is the only place the Top Pick score meets cost — Top Pick
+        accommodation seasonality. <strong>Best Value</strong> is the only place the Score meets cost — the Score
         divided by a damped cost, so "best value" rewards cheap-<em>and</em>-nice, not merely cheap.</p>
       <p class="src">Source · per-city cost-evidence store (rent, utilities, food, transit, coworking, …) with receipts &amp; dates</p>
     </section>

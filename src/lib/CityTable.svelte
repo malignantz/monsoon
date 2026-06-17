@@ -12,8 +12,8 @@
 
   const COLS = $derived([
     { k: 'name',  label: 'City',      num: false },
-    { k: 'qol',   label: 'Top Pick',   num: true, tip: 'Best month money aside: weather, safety, air quality, seasonality & events · 0-100' },
-    { k: 'value', label: 'Best Value', num: true, tip: 'Top Pick score relative to cost (cost is damped so "best value" = cheap-and-nice, not merely cheap) · unitless index, compare cities only' },
+    { k: 'qol',   label: 'Score',      num: true, tip: 'Best month money aside: weather, safety, air quality, seasonality & events · 0-100' },
+    { k: 'value', label: 'Best Value', num: true, tip: 'Score relative to cost (cost is damped so "best value" = cheap-and-nice, not merely cheap) · unitless index, compare cities only' },
     { k: 'weather', label: 'Weather', num: true, tip: 'Temperature & sunshine comfort · 0–100' },
     { k: 'air',   label: 'Air',       num: true, tip: 'Air quality (PM2.5) · 100 = cleanest in dataset' },
     { k: 'safety', label: 'Safety',   num: true, tip: 'Crime & personal safety index · 100 = safest' },
@@ -72,10 +72,10 @@
 <div class="tablecap">
   <Legend />
   <ScoreInfo title="Best Value index" align="right">
-    <p>Top Pick divided by cost — but cost is damped
+    <p>Score divided by cost — but cost is damped
       (cost<sup>{settings.value_cost_exponent ?? 0.55}</sup>) so "best value" rewards
       cheap-<em>and</em>-nice, not merely cheap.</p>
-    <p>Tick "classic Best Value" for plain Top Pick ÷ cost per $1k, where cheapness dominates.</p>
+    <p>Tick "classic Best Value" for plain Score ÷ cost per $1k, where cheapness dominates.</p>
     <label class="cb pop-toggle">
       <input
         type="checkbox"
