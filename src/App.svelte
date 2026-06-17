@@ -273,7 +273,7 @@
   .shell {
     max-width: 1240px;
     margin: 0 auto;
-    padding: 18px 26px 0;
+    padding: calc(18px + var(--safe-t)) var(--pad-x) 0;
   }
 
   .bar {

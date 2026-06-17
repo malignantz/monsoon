@@ -30,6 +30,16 @@
   --display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
   --sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --mono: ui-monospace, 'SFMono-Regular', 'SF Mono', Consolas, monospace;
+
+  /* ── Mobile ergonomics ──
+     One vocabulary for touch sizing, page gutters, and sheet geometry so every
+     component sizes the same way instead of hand-rolling per-file numbers. */
+  --tap: 44px;        /* primary tap-target floor (Apple HIG) */
+  --tap-lg: 48px;     /* comfortable target */
+  --pad-x: clamp(16px, 4.5vw, 26px);  /* page gutter: 16px on small phones → 26px desktop */
+  --sheet-max-h: 92dvh;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
 }
 
 * {
