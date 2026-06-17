@@ -27,7 +27,20 @@ Last consolidated: 2026-06-15 (sharing + itinerary-naming pass).
     add the city to My year, so a user who finds a great city must switch tabs, find the
     month, and re-search for it by hand. This seam is the app's most "prototype, not
     product" moment and should be closed before further feature work.
+  - Add a first-class "Add to my year" / "Add to plan" action in the city detail view,
+    especially for mobile but likely on desktop too. The natural mobile loop is:
+    select a month, browse ranked cities, open details, add that city to the plan.
   - Add the viewed city at the viewed month with a sensible default duration.
+  - Decide the month semantics before implementation:
+    - Default should probably be the currently viewed month because that matches the
+      browse context and keeps the action one-tap.
+    - If the user wants another month, consider an "Add for..." confirmation sheet with
+      month + duration controls instead of silently changing context.
+    - After a successful add, decide whether to advance the browse/current month to the
+      next open month. This could be helpful in a guided builder, but confusing if the
+      user is still comparing cities for the same month.
+    - On mobile, prefer showing "Added for June" with quick actions like "Change month"
+      and "View plan" over immediately teleporting the user away.
   - Reuse My year's existing stay shape: `{ key, start, len }`.
   - On overlap, place what can be placed or route the user to My year to resolve the collision.
 - [ ] Improve the automatic itinerary picker.
