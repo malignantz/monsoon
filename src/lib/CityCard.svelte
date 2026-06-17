@@ -33,7 +33,7 @@
   <button type="button" class="card" onclick={() => onopen(city.key)}>
     <div class="top">
       <div class="names">
-        <h3 style:view-transition-name={hero ? 'city-hero' : undefined}>{city.name}</h3>
+        <span class="city-name" style:view-transition-name={hero ? 'city-hero' : undefined}>{city.name}</span>
         <span class="country">{city.country}</span>
       </div>
       <div class="score {mode === 'value' ? 'neutral' : `band-${cells[month].band}`}">
@@ -124,9 +124,12 @@
     padding-right: 30px;
   }
 
-  h3 {
+  .city-name {
+    display: block;
+    font-family: var(--display);
     font-size: 21px;
     font-weight: 580;
+    line-height: 1.15;
   }
 
   .country {
