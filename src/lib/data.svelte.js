@@ -337,6 +337,47 @@ export function routeStats(stays, presetKey = 'balanced') {
   };
 }
 
+// A deterministic, season-following sample year, used to warm up the empty
+// planner: a new visitor sees what a *full* year looks like — four great stays,
+// real scores and cost — instead of a field of blank months (the blank-canvas
+// problem). It's rendered faintly as a "ghost" they can adopt in one tap or
+// dismiss to start from scratch, so it onboards without taking over.
+//
+// Greedy and pure (no randomness), so everyone sees the same curated example and
+// it stays stable across re-renders: walk the year in three-month blocks and, for
+// each block, take the highest-scoring city that keeps the route Schengen-legal
+// and adds geographic variety (a small penalty for reusing a region spreads the
+// example across the map rather than parking it in one place).
+export function exampleRoute(presetKey = 'balanced') {
+  const LEN = 3;
+  const stays = [];
+  const usedRegions = new Set();
+  const usedKeys = new Set();
+  for (let start = 0; start < 12; start += LEN) {
+    const months = [];
+    for (let i = 0; i < LEN; i++) months.push((start + i) % 12);
+    let best = null;
+    let bestScore = -Infinity;
+    for (const c of cities) {
+      if (usedKeys.has(c.key)) continue;
+      // Keep the example honest: never show a Schengen city that would breach the
+      // 90/180 cap the tool warns about everywhere else.
+      if (c.schengen && !schengenCheck([...stays, { key: c.key, start, len: LEN }]).ok) continue;
+      let s = months.reduce((a, m) => a + qolFor(c, m, presetKey), 0) / LEN;
+      if (usedRegions.has(c.region)) s -= 6;
+      if (s > bestScore) {
+        bestScore = s;
+        best = c;
+      }
+    }
+    if (!best) continue;
+    stays.push({ key: best.key, start, len: LEN });
+    usedRegions.add(best.region);
+    usedKeys.add(best.key);
+  }
+  return stays;
+}
+
 // ---- Shareable routes: the whole itinerary lives in the URL, no backend ----
 //
 // Two formats, both decoded on load:

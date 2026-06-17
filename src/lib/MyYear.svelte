@@ -18,6 +18,7 @@
     MONTH_LETTERS,
     monthOccupancy,
     routeStats,
+    exampleRoute,
     stayMonths,
     schengenCheck,
     partyWord,
@@ -205,6 +206,30 @@
   const stats = $derived(routeStats(boardStays, preset));
   const sch = $derived(stats.schengen);
   const schState = $derived(!sch.ok ? 'Over limit' : sch.atLimit ? 'At the limit' : 'Within limits');
+
+  // Ghost example: when the year is empty (and not previewing a shared link), the
+  // board shows a faint, curated sample year instead of a wall of blank months.
+  // The visitor can adopt it in one tap or "Start from scratch" to reveal the
+  // normal empty board. Dismissal is per-session only (not persisted) — someone
+  // who clears their route later still gets the warm start.
+  let ghostDismissed = $state(false);
+  const ghostMode = $derived(!previewing && route.stays.length === 0 && !ghostDismissed);
+  const example = $derived(ghostMode ? exampleRoute(preset) : []);
+  const exampleOcc = $derived(monthOccupancy(example));
+  const exampleStats = $derived(ghostMode ? routeStats(example, preset) : null);
+  // What the totals row shows: real route stats normally, the example's payoff
+  // (avg score, $/mo, festivals) while the ghost is up — so the first impression
+  // is a value preview, not a row of em-dashes.
+  const shownStats = $derived(ghostMode ? exampleStats : stats);
+
+  function useExample() {
+    route.stays = example.map((s) => ({ ...s }));
+    selStart = -1;
+  }
+
+  function startBlank() {
+    ghostDismissed = true;
+  }
 
   // Recheck the scroll affordance whenever the route's width could change.
   $effect(() => {
@@ -415,7 +440,7 @@
   // 12-cell year overview for the mobile mini-strip: filled cells carry the
   // stay's band colour for that month; tapping any cell scrolls to its card.
   const overview = $derived(
-    occ.map((o, m) => {
+    (ghostMode ? exampleOcc : occ).map((o, m) => {
       if (!o) return { m, filled: false, band: 'none', schengen: false, start: false };
       const c = cityByKey.get(o.key);
       return { m, filled: true, band: band(qolFor(c, m, preset)), schengen: c.schengen, start: o.start === m };
@@ -485,8 +510,21 @@
     </div>
   {/if}
 
+  {#if ghostMode}
+    <div class="seedstrip">
+      <div class="seed-copy">
+        <p class="seed-head">Build your year, month by month.</p>
+        <p class="seed-sub">Pick where you'll be and we'll score each stay for weather, cost, and visa rules. Here's an example to start from — yours to keep or clear.</p>
+      </div>
+      <div class="seed-act">
+        <button type="button" class="chip use-example" onclick={useExample}>Use this example</button>
+        <button type="button" class="chip start-blank" onclick={startBlank}>Start from scratch</button>
+      </div>
+    </div>
+  {/if}
+
   {#if !screen.mobile}
-  <div class="board" class:flash bind:this={boardEl}>
+  <div class="board" class:flash class:ghost={ghostMode} bind:this={boardEl}>
     <div class="boardscroll-wrap" class:more={canScrollRight}>
     <div class="boardscroll" bind:this={scrollEl} onscroll={updateScroll}>
     <div class="months num">
@@ -497,7 +535,7 @@
 
     <div class="timeline">
       {#each occ as o, i}
-        {#if o === null && !previewing}
+        {#if o === null && !previewing && !ghostMode}
           <button
             type="button"
             class="gap"
@@ -506,10 +544,30 @@
             onclick={() => (selStart = selStart === i ? -1 : i)}
             title="Plan {MONTHS[i]}"
           >+</button>
-        {:else if o === null}
+        {:else if o === null && !ghostMode}
           <div class="gap empty" style="grid-column: {i + 1} / span 1" aria-hidden="true"></div>
         {/if}
       {/each}
+      {#if ghostMode}
+        {#each example as stay (stay.key)}
+          {@const c = cityByKey.get(stay.key)}
+          {#each segments(stay) as seg}
+            <div
+              class="stay ghost"
+              class:schengen={c.schengen}
+              style="grid-column: {seg.from + 1} / span {seg.len}"
+              aria-hidden="true"
+            >
+              {#if seg.head}
+                <span class="stayname">{c.name}</span>
+                <span class="stayq num">{Math.round(stayAvg(stay))}</span>
+              {:else}
+                <span class="cont">↪ {c.name}</span>
+              {/if}
+            </div>
+          {/each}
+        {/each}
+      {/if}
       {#each boardStays as stay (stay)}
         {@const c = cityByKey.get(stay.key)}
         {#each segments(stay) as seg}
@@ -542,7 +600,7 @@
     </div>
     </div>
 
-    {#if !previewing && route.stays.length === 0}
+    {#if !previewing && route.stays.length === 0 && !ghostMode}
       <p class="board-hint">Click any month above to mark a starting point, then choose a city from the list below.</p>
     {/if}
 
@@ -569,21 +627,22 @@
       </div>
     {/if}
 
-    <div class="totals">
+    <div class="totals" class:ghost={ghostMode}>
+      {#if ghostMode}<span class="ghost-tag">Example year</span>{/if}
       <div class="tot">
-        <span class="num tv">{Math.round(stats.avgQol) || '—'}</span>
+        <span class="num tv">{Math.round(shownStats.avgQol) || '—'}</span>
         <span class="tk">avg score</span>
       </div>
       <div class="tot">
-        <span class="num tv">{stats.months ? fmtMoney(stats.avgCost) : '—'}</span>
+        <span class="num tv">{shownStats.months ? fmtMoney(shownStats.avgCost) : '—'}</span>
         <span class="tk">avg /mo {partyWord()}</span>
       </div>
       <div class="tot">
-        <span class="num tv">{stats.months ? fmtMoney(stats.totalCost) : '—'}</span>
-        <span class="tk">{stats.months ? `${stats.months}-month total` : 'trip total'}</span>
+        <span class="num tv">{shownStats.months ? fmtMoney(shownStats.totalCost) : '—'}</span>
+        <span class="tk">{shownStats.months ? `${shownStats.months}-month total` : 'trip total'}</span>
       </div>
       <div class="tot">
-        <span class="num tv">{stats.festivals}</span>
+        <span class="num tv">{shownStats.festivals}</span>
         <span class="tk">major festivals</span>
       </div>
     </div>
@@ -604,9 +663,10 @@
       {/each}
     </div>
 
-    <div class="mstats">
-      <span class="mstat"><strong class="num">{Math.round(stats.avgQol) || '—'}</strong> avg score</span>
-      <span class="mstat"><strong class="num">{stats.months ? fmtMoney(stats.avgCost) : '—'}</strong> /mo {partyWord()}</span>
+    <div class="mstats" class:ghost={ghostMode}>
+      {#if ghostMode}<span class="ghost-tag">Example year</span>{/if}
+      <span class="mstat"><strong class="num">{Math.round(shownStats.avgQol) || '—'}</strong> avg score</span>
+      <span class="mstat"><strong class="num">{shownStats.months ? fmtMoney(shownStats.avgCost) : '—'}</strong> /mo {partyWord()}</span>
       {#if sch.anySchengen}
         <button type="button" class="mstat sch" class:bad={!sch.ok} class:tight={sch.ok && sch.atLimit} onclick={() => { pickerOpen = true; flagNonSchengen(); }}>
           <strong class="num">◆ {sch.ok ? `${sch.remaining}/90` : `${sch.over} over`}</strong> Schengen
@@ -615,6 +675,21 @@
     </div>
 
     <ul class="mlist">
+      {#if ghostMode}
+        {#each example as stay (stay.key)}
+          {@const c = cityByKey.get(stay.key)}
+          <li class="mrow filled ghost" class:schengen={c.schengen} id="myr-m-{stay.start}" aria-hidden="true">
+            <div class="mrow-head">
+              <span class="mname">{c.name}{#if c.schengen}<span class="dia"> ◆</span>{/if}</span>
+              <span class="mscore num">{Math.round(stayAvg(stay))}</span>
+            </div>
+            <p class="mmeta num">{rangeLabel(stay.start, stay.len)} · {stay.len}mo · ~{fmtMoney(stayCostAvg(stay))}/mo</p>
+            <div class="mstrip">
+              <MonthStrip cells={stripCells(c, preset)} frameFrom={stay.start} frameLen={stay.len} />
+            </div>
+          </li>
+        {/each}
+      {:else}
       {#each occ as o, m}
         {#if o === null}
           <li class="mrow empty" id="myr-m-{m}">
@@ -647,9 +722,10 @@
           </li>
         {/if}
       {/each}
+      {/if}
     </ul>
 
-    {#if !previewing && route.stays.length === 0}
+    {#if !previewing && route.stays.length === 0 && !ghostMode}
       <p class="board-hint">Tap a month's “Add a city” to start building your year.</p>
     {/if}
   </div>
@@ -869,6 +945,74 @@
   }
 
   .chip.clear { color: var(--terra-deep); }
+
+  /* ── Seed strip + ghost example ──
+     The empty planner opens to a faint, curated sample year instead of a wall of
+     blank months. The strip explains the tool in one breath and offers the two
+     paths: adopt the example, or start from scratch. A warm tint keeps it
+     inviting and native to the paper palette. */
+  .seedstrip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin: 16px 0 14px;
+    padding: 14px 18px;
+    background: linear-gradient(180deg, rgba(193, 79, 43, 0.07), rgba(193, 79, 43, 0.03));
+    border: 1px solid var(--line);
+    border-radius: 14px;
+  }
+
+  .seed-copy { flex: 1 1 280px; min-width: 0; }
+
+  .seed-head {
+    margin: 0 0 3px;
+    font-family: var(--display);
+    font-size: 17px;
+    font-weight: 580;
+    color: var(--ink-1);
+  }
+
+  .seed-sub { margin: 0; font-size: 12.5px; line-height: 1.45; color: var(--ink-2); }
+
+  .seed-act { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: wrap; }
+
+  .chip.use-example {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+    font-weight: 600;
+  }
+
+  .chip.use-example:hover { background: var(--terra); border-color: var(--terra); }
+  .chip.start-blank { color: var(--ink-2); }
+
+  /* The ghost timeline/cards read as a preview, not live data: dimmed, slightly
+     desaturated, and inert. */
+  .stay.ghost {
+    opacity: 0.5;
+    filter: saturate(0.7);
+    pointer-events: none;
+  }
+
+  /* Totals/stats show the example's payoff while the ghost is up; a small tag
+     marks them as illustrative so the numbers aren't mistaken for a saved year. */
+  .totals.ghost, .mstats.ghost { opacity: 0.72; }
+
+  .ghost-tag {
+    align-self: center;
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--terra-deep);
+    background: rgba(193, 79, 43, 0.1);
+    border-radius: 999px;
+    padding: 3px 9px;
+  }
+
+  .mrow.filled.ghost { opacity: 0.6; filter: saturate(0.7); pointer-events: none; }
 
   /* Standard share glyph (tray + up arrow) sits inline with the label, swapping
      to a check on copy. */
