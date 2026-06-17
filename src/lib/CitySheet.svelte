@@ -572,4 +572,83 @@
     font-size: 11.5px;
     color: var(--ink-3);
   }
+
+  /* ───────── Mobile: the sheet becomes a true bottom sheet ─────────
+     Anchored to the bottom edge, full width, scrolling internally and clearing
+     the home indicator. The header action cluster un-anchors into a wrapping
+     row with comfortable targets, and the dense event grid stacks to two lines
+     so blurbs and the "major" badge stop spilling past the right edge. */
+  @media (max-width: 600px) {
+    .scrim {
+      padding: 0;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .sheet {
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      border-radius: 18px 18px 0 0;
+      max-height: var(--sheet-max-h);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 16px var(--pad-x) calc(20px + var(--safe-b));
+    }
+
+    /* A grab handle so the bottom-sheet affordance reads at a glance. */
+    .sheet::before {
+      content: '';
+      position: sticky;
+      top: 0;
+      display: block;
+      width: 40px;
+      height: 4px;
+      margin: -4px auto 10px;
+      border-radius: 999px;
+      background: var(--line);
+    }
+
+    .hero-ctl {
+      position: static;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 6px 0 4px;
+    }
+
+    .hero-ctl .save {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .step,
+    .close {
+      min-width: 44px;
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+    /* Push prev/next/close to the right so save/share lead the row. */
+    .step:first-of-type { margin-left: auto; }
+  }
+
+  @media (max-width: 720px) {
+    .events li {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 4px 8px;
+    }
+
+    .emo { order: 0; }
+    .ename { order: 1; }
+    .etier { order: 2; margin-left: auto; }
+    .eblurb { order: 3; flex-basis: 100%; }
+  }
 </style>

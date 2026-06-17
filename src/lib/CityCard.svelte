@@ -94,6 +94,20 @@
 
   .fav.on { color: var(--terra); }
 
+  /* Touch has no hover, so the discover-on-hover heart would be invisible and
+     unreachable. On coarse pointers it's always shown and given a roomier hit
+     area (saving is also available full-size in the city sheet, so this stays a
+     secondary target). */
+  @media (hover: none) and (pointer: coarse) {
+    .fav {
+      opacity: 1;
+      width: 40px;
+      height: 40px;
+      top: 8px;
+      right: 8px;
+    }
+  }
+
   .card {
     display: flex;
     flex-direction: column;
