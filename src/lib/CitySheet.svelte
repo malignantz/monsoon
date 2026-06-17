@@ -3,7 +3,7 @@
   import ScoreInfo from './ScoreInfo.svelte';
   import { stripCells, qolFor, fmtMoney, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, shareOrCopy } from './data.svelte.js';
 
-  let { city, month, preset, onclose, onmonth, onstep } = $props();
+  let { city, month, preset, onclose, onmonth, onstep, onaddtoyear } = $props();
 
   let sheetEl = $state(null);
 
@@ -125,6 +125,14 @@
           onclick={shareCity}
           title="Copy a link to {city.name}"
         >{copied ? '✓ Copied' : '↗ Share'}</button>
+        {#if onaddtoyear}
+          <button
+            type="button"
+            class="save addyear"
+            onclick={() => onaddtoyear(city.key, month)}
+            title="Add {city.name} to your year, starting {MONTHS[month]}"
+          >+ Add to year</button>
+        {/if}
         {#if onstep}
           <button type="button" class="back step" onclick={() => onstep(-1)} aria-label="Previous city" title="Previous city (←)">‹</button>
           <button type="button" class="back step" onclick={() => onstep(1)} aria-label="Next city" title="Next city (→)">›</button>
@@ -401,6 +409,20 @@
     color: var(--terra-deep);
     border-color: var(--terra);
     background: var(--terra-soft, #f6e3d8);
+  }
+
+  /* The new browse→plan action leads the cluster: filled ink so it reads as the
+     primary thing to do with a city you like. */
+  .save.addyear {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+
+  .save.addyear:hover {
+    background: var(--terra);
+    border-color: var(--terra);
+    color: var(--paper);
   }
 
   h1 { font-size: clamp(30px, 6vw, 44px); font-weight: 600; }

@@ -7,7 +7,8 @@
   import Methodology from './lib/Methodology.svelte';
   import About from './lib/About.svelte';
   import HowTo from './lib/HowTo.svelte';
-  import { cities, cityByKey, qolFor, valueFor, decodeRouteCompact, decodeRoute, normalizePresetKey } from './lib/data.svelte.js';
+  import { cities, cityByKey, qolFor, valueFor, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS } from './lib/data.svelte.js';
+  import { addCity, removeStayRef } from './lib/route.svelte.js';
   import { track } from './lib/analytics.js';
 
   const PREFS = 'atlas.prefs.v1';
@@ -200,6 +201,50 @@
     if (cityKey) closeSheet();
     view = 'month';
   }
+
+  // ── Add to my year ──
+  // The bridge that closes the browse↔plan seam: any surface can drop the viewed
+  // city into the itinerary at the viewed month, and a toast confirms it with an
+  // Undo and a jump into My year. The route store does the placement (bumping to
+  // the first open month if the viewed one is taken) and reports what it did.
+  let toast = $state(null);
+  let toastTimer;
+
+  function showToast(t) {
+    toast = t;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => (toast = null), 5500);
+  }
+
+  function addToYear(key, m) {
+    const res = addCity(key, { start: m, len: 2 });
+    const name = cityByKey.get(key)?.name ?? 'City';
+    if (!res.ok) {
+      showToast({
+        kind: 'warn',
+        text: res.reason === 'full' ? 'Your year is full — remove a stay to make room.' : `Couldn't add ${name}.`
+      });
+      return;
+    }
+    track('add_to_year', { city: key, month: res.start, from: view === 'year' ? 'my_year' : 'this_month' });
+    const range =
+      res.len > 1 ? `${MONTHS[res.start]}–${MONTHS[(res.start + res.len - 1) % 12]}` : MONTHS[res.start];
+    const bumped = res.bumped ? ` · ${MONTHS[m]} was taken` : '';
+    const added = res.stay;
+    showToast({
+      kind: 'ok',
+      text: `Added ${name} to ${range}${bumped}`,
+      undo: () => {
+        removeStayRef(added);
+        toast = null;
+      },
+      view: () => {
+        toast = null;
+        if (cityKey) closeSheet();
+        view = 'year';
+      }
+    });
+  }
 </script>
 
 <div class="shell">
@@ -250,7 +295,16 @@
 </div>
 
 {#if openCity}
-  <CitySheet city={openCity} {month} {preset} onclose={closeSheet} onmonth={(i) => (month = i)} onstep={stepCity} />
+  <CitySheet city={openCity} {month} {preset} onclose={closeSheet} onmonth={(i) => (month = i)} onstep={stepCity} onaddtoyear={addToYear} />
+{/if}
+
+{#if toast}
+  <div class="toast" class:warn={toast.kind === 'warn'} role="status" aria-live="polite">
+    <span class="toast-msg">{toast.text}</span>
+    {#if toast.undo}<button type="button" class="toast-act" onclick={toast.undo}>Undo</button>{/if}
+    {#if toast.view}<button type="button" class="toast-act primary" onclick={toast.view}>View year</button>{/if}
+    <button type="button" class="toast-x" aria-label="Dismiss" onclick={() => (toast = null)}>×</button>
+  </div>
 {/if}
 
 {#if settingsOpen}
@@ -475,5 +529,88 @@
     .footlinks {
       align-self: flex-start;
     }
+  }
+
+  /* Add-to-year confirmation. Sits above every sheet (city sheet is z70, the My
+     year picker z60) and clears the iOS home indicator. */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: min(520px, calc(100vw - 24px));
+    padding: 10px 10px 10px 16px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 999px;
+    box-shadow: 0 14px 34px -12px rgba(33, 36, 30, 0.55);
+    animation: toast-in 0.22s ease;
+  }
+
+  .toast.warn { background: var(--terra-deep); }
+
+  /* Opacity-only so it never fights the transform used to centre the pill. */
+  @keyframes toast-in {
+    from { opacity: 0; }
+  }
+
+  .toast-msg {
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.3;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .toast-act {
+    flex-shrink: 0;
+    border: 1px solid rgba(246, 241, 230, 0.4);
+    background: transparent;
+    color: var(--paper);
+    border-radius: 999px;
+    padding: 6px 13px;
+    font-size: 12.5px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .toast-act:hover { border-color: var(--paper); }
+
+  .toast-act.primary {
+    background: var(--paper);
+    border-color: var(--paper);
+    color: var(--ink);
+  }
+
+  .toast-x {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: transparent;
+    color: var(--paper);
+    font-size: 18px;
+    line-height: 1;
+    border-radius: 999px;
+    opacity: 0.7;
+  }
+
+  .toast-x:hover { opacity: 1; }
+
+  @media (max-width: 700px) {
+    .toast {
+      left: 12px;
+      right: 12px;
+      transform: none;
+      max-width: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toast { animation: none; }
   }
 </style>

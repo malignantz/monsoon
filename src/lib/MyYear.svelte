@@ -27,6 +27,7 @@
   } from './data.svelte.js';
   import { screen } from './mobile.svelte.js';
   import { lockScroll } from './sheet.js';
+  import { route } from './route.svelte.js';
   import {
     defaultFilters,
     filtersActive,
@@ -41,23 +42,8 @@
 
   let { preset = $bindable(), onopen, sharedRoute = null, sharedName = '', onsharedresolved } = $props();
 
-  const STORE = 'atlas.route.v1';
   const STORE_F = 'atlas.route.filters.v1';
   const DEFAULT_NAME = 'My Monsoon year';
-
-  // Storage is `{ name, stays }`. Older builds saved a bare stays array; treat
-  // that as an unnamed route so existing saved years keep loading.
-  function load() {
-    try {
-      const raw = JSON.parse(localStorage.getItem(STORE));
-      const stays = Array.isArray(raw) ? raw : raw?.stays;
-      const name = !Array.isArray(raw) && typeof raw?.name === 'string' ? raw.name : '';
-      if (Array.isArray(stays) && stays.every((x) => cityByKey.has(x.key))) {
-        return { stays, name };
-      }
-    } catch {}
-    return { stays: [], name: '' };
-  }
 
   function loadFilters() {
     const base = defaultFilters();
@@ -80,9 +66,6 @@
     return normalizeFilters(base, partyWord());
   }
 
-  const loaded = load();
-  let stays = $state(loaded.stays);
-  let routeName = $state(loaded.name);
   let selStart = $state(-1);
   let dur = $state(2);
   let query = $state('');
@@ -92,11 +75,11 @@
   // ("Save a copy") or dismiss it back to their own route.
   const startsWithSharedRoute = untrack(() => sharedRoute != null);
   let previewing = $state(startsWithSharedRoute);
-  const boardStays = $derived(previewing ? (sharedRoute ?? []) : stays);
+  const boardStays = $derived(previewing ? (sharedRoute ?? []) : route.stays);
 
   function adoptShared() {
-    stays = (sharedRoute ?? []).map((s) => ({ ...s }));
-    if (sharedName) routeName = sharedName;
+    route.stays = (sharedRoute ?? []).map((s) => ({ ...s }));
+    if (sharedName) route.name = sharedName;
     selStart = -1;
     previewing = false;
     onsharedresolved?.();
@@ -112,11 +95,11 @@
   let copied = $state(false);
   let copyTimer;
   async function shareRoute() {
-    if (!stays.length) return;
+    if (!route.stays.length) return;
     // Route lives in `i`; the trip name rides along as a decorative `n` that
     // decoding ignores, so links stay valid even if the name is dropped.
-    const name = routeName.trim();
-    const params = { i: encodeRouteCompact(stays) };
+    const name = route.name.trim();
+    const params = { i: encodeRouteCompact(route.stays) };
     if (name) params.n = name;
     const result = await shareOrCopy({
       url: shareUrl(params),
@@ -185,10 +168,6 @@
   }
 
   $effect(() => {
-    localStorage.setItem(STORE, JSON.stringify({ name: routeName, stays }));
-  });
-
-  $effect(() => {
     localStorage.setItem(STORE_F, JSON.stringify(filters));
   });
 
@@ -239,7 +218,7 @@
   });
 
   function clearRoute() {
-    stays = [];
+    route.stays = [];
     selStart = -1;
   }
 
@@ -250,11 +229,11 @@
       newLen = Math.min(newLen, maxExtend, 12);
     }
     if (newLen === stay.len) return;
-    stays = stays.map((s) => (s === stay ? { ...s, len: newLen } : s));
+    route.stays = route.stays.map((s) => (s === stay ? { ...s, len: newLen } : s));
   }
 
   function removeStay(stay) {
-    stays = stays.filter((s) => s !== stay);
+    route.stays = route.stays.filter((s) => s !== stay);
   }
 
   function freeRun(from) {
@@ -268,7 +247,7 @@
     if (start < 0 || occ[start] !== null) start = occ.findIndex((x) => x === null);
     if (start < 0) return;
     const len = Math.max(1, Math.min(dur, freeRun(start)));
-    stays = [...stays, { key, start, len }];
+    route.stays = [...route.stays, { key, start, len }];
     const next = (start + len) % 12;
     selStart = occ[next] === null && freeRun(next) > 0 ? next : -1;
   }
@@ -349,7 +328,7 @@
         // place it pushes the rolling 90/180 window over the cap.
         breach:
           c.schengen && prospect
-            ? !schengenCheck([...stays, { key: c.key, start: prospect.start, len: prospect.len }]).ok
+            ? !schengenCheck([...route.stays, { key: c.key, start: prospect.start, len: prospect.len }]).ok
             : false
       }));
   });
@@ -429,16 +408,16 @@
       <h1>My year<span class="dot">.</span></h1>
       {#if previewing}
         {#if sharedName}<p class="trip-name-static">{sharedName}</p>{/if}
-      {:else if stays.length > 0}
+      {:else if route.stays.length > 0}
         <!-- Inline-editable trip name. The sizer span mirrors the value so the
              input (and its underline) hugs the text instead of trailing into
              empty space. The dotted underline stays visible at rest so the
              field reads as editable on touch, where there is no hover. -->
-        <span class="trip-name-field" data-value={routeName || DEFAULT_NAME}>
+        <span class="trip-name-field" data-value={route.name || DEFAULT_NAME}>
           <input
             class="trip-name"
             type="text"
-            bind:value={routeName}
+            bind:value={route.name}
             placeholder={DEFAULT_NAME}
             aria-label="Trip name"
             size="1"
@@ -451,7 +430,7 @@
       {/if}
     </div>
     <div class="head-right">
-      {#if !previewing && stays.length > 0}
+      {#if !previewing && route.stays.length > 0}
         <button type="button" class="chip share" class:on={copied} onclick={shareRoute}>
           {copied ? '✓ Link copied' : '↗ Share'}
         </button>
@@ -530,7 +509,7 @@
     </div>
     </div>
 
-    {#if !previewing && stays.length === 0}
+    {#if !previewing && route.stays.length === 0}
       <p class="board-hint">Click any month above to mark a starting point, then choose a city from the list below.</p>
     {/if}
 
@@ -637,7 +616,7 @@
       {/each}
     </ul>
 
-    {#if !previewing && stays.length === 0}
+    {#if !previewing && route.stays.length === 0}
       <p class="board-hint">Tap a month's “Add a city” to start building your year.</p>
     {/if}
   </div>
