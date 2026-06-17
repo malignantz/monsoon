@@ -337,45 +337,74 @@ export function routeStats(stays, presetKey = 'balanced') {
   };
 }
 
-// A deterministic, season-following sample year, used to warm up the empty
-// planner: a new visitor sees what a *full* year looks like — four great stays,
-// real scores and cost — instead of a field of blank months (the blank-canvas
-// problem). It's rendered faintly as a "ghost" they can adopt in one tap or
-// dismiss to start from scratch, so it onboards without taking over.
+// Seed-route generator: turns the dataset into a ready-made year so the planner
+// never opens on a blank canvas. Used two ways — as the faint "ghost" example on
+// the empty board (adopt in one tap or dismiss), and behind the "Build me a year"
+// chooser, where each STYLE re-seeds the preview live before the user commits.
 //
-// Greedy and pure (no randomness), so everyone sees the same curated example and
-// it stays stable across re-renders: walk the year in three-month blocks and, for
-// each block, take the highest-scoring city that keeps the route Schengen-legal
-// and adds geographic variety (a small penalty for reusing a region spreads the
-// example across the map rather than parking it in one place).
-export function exampleRoute(presetKey = 'balanced') {
-  const LEN = 3;
+// Greedy and pure (no randomness): walk the year in three-month blocks and, for
+// each block, take the best-scoring candidate that keeps the route Schengen-legal
+// and adds geographic variety (a multiplicative nudge — scale-independent across
+// the quality/value score ranges — spreads the year across the map instead of
+// parking it in one region). Deterministic input → identical route every render.
+//
+// Styles:
+//   'quality'      max average Score for each block (the default ghost)
+//   'value'        max Best-Value (livability per dollar)
+//   'festival'     Score, boosted toward blocks that land a major festival
+//   'nonschengen'  Score, but only non-Schengen cities (sidesteps the 90/180 cap)
+//   'favorites'    Score, drawn only from the user's saved cities
+//
+// A pool too small to fill all four blocks (e.g. few favorites) just yields a
+// shorter route — callers surface that honestly rather than padding it.
+const SEED_LEN = 3;
+
+export function generateRoute(style = 'quality', presetKey = 'balanced') {
+  let pool = cities;
+  if (style === 'nonschengen') pool = cities.filter((c) => !c.schengen);
+  else if (style === 'favorites') pool = cities.filter((c) => favorites.has(c.key));
+
+  const blockScore = (c, months) => {
+    if (style === 'value') return months.reduce((a, m) => a + valueFor(c, m, presetKey), 0) / months.length;
+    let s = months.reduce((a, m) => a + qolFor(c, m, presetKey), 0) / months.length;
+    if (style === 'festival') {
+      const fests = months.reduce((a, m) => a + (c.months[m].evtTier >= 3 ? 1 : 0), 0);
+      s += fests * 8; // pull a real festival into the block when it's close on Score
+    }
+    return s;
+  };
+
   const stays = [];
   const usedRegions = new Set();
   const usedKeys = new Set();
-  for (let start = 0; start < 12; start += LEN) {
+  for (let start = 0; start < 12; start += SEED_LEN) {
     const months = [];
-    for (let i = 0; i < LEN; i++) months.push((start + i) % 12);
+    for (let i = 0; i < SEED_LEN; i++) months.push((start + i) % 12);
     let best = null;
     let bestScore = -Infinity;
-    for (const c of cities) {
+    for (const c of pool) {
       if (usedKeys.has(c.key)) continue;
-      // Keep the example honest: never show a Schengen city that would breach the
+      // Keep every seed honest: never place a Schengen city that would breach the
       // 90/180 cap the tool warns about everywhere else.
-      if (c.schengen && !schengenCheck([...stays, { key: c.key, start, len: LEN }]).ok) continue;
-      let s = months.reduce((a, m) => a + qolFor(c, m, presetKey), 0) / LEN;
-      if (usedRegions.has(c.region)) s -= 6;
+      if (c.schengen && !schengenCheck([...stays, { key: c.key, start, len: SEED_LEN }]).ok) continue;
+      let s = blockScore(c, months);
+      if (usedRegions.has(c.region)) s *= 0.93;
       if (s > bestScore) {
         bestScore = s;
         best = c;
       }
     }
     if (!best) continue;
-    stays.push({ key: best.key, start, len: LEN });
+    stays.push({ key: best.key, start, len: SEED_LEN });
     usedRegions.add(best.region);
     usedKeys.add(best.key);
   }
   return stays;
+}
+
+// The default ghost example is the quality seed.
+export function exampleRoute(presetKey = 'balanced') {
+  return generateRoute('quality', presetKey);
 }
 
 // ---- Shareable routes: the whole itinerary lives in the URL, no backend ----

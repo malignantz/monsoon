@@ -18,7 +18,8 @@
     MONTH_LETTERS,
     monthOccupancy,
     routeStats,
-    exampleRoute,
+    generateRoute,
+    favorites,
     stayMonths,
     schengenCheck,
     partyWord,
@@ -213,14 +214,34 @@
   // normal empty board. Dismissal is per-session only (not persisted) — someone
   // who clears their route later still gets the warm start.
   let ghostDismissed = $state(false);
+  // "Build me a year" style, also the seed behind the ghost preview. Changing it
+  // re-seeds the faint example live, so the user sees each starter on the board
+  // before committing with "Use this year".
+  let seedStyle = $state('quality');
   const ghostMode = $derived(!previewing && route.stays.length === 0 && !ghostDismissed);
-  const example = $derived(ghostMode ? exampleRoute(preset) : []);
+
+  // Starter styles offered on the empty board. "From favorites" only appears once
+  // the user has saved cities to draw from (favorites is a reactive set).
+  const seedStyles = $derived([
+    { id: 'quality', label: 'Best quality' },
+    { id: 'value', label: 'Best value' },
+    { id: 'festival', label: 'Festival year' },
+    { id: 'nonschengen', label: 'Non-Schengen' },
+    ...(favorites.size ? [{ id: 'favorites', label: 'From favorites' }] : [])
+  ]);
+
+  const example = $derived(ghostMode ? generateRoute(seedStyle, preset) : []);
   const exampleOcc = $derived(monthOccupancy(example));
   const exampleStats = $derived(ghostMode ? routeStats(example, preset) : null);
   // What the totals row shows: real route stats normally, the example's payoff
   // (avg score, $/mo, festivals) while the ghost is up — so the first impression
   // is a value preview, not a row of em-dashes.
   const shownStats = $derived(ghostMode ? exampleStats : stats);
+
+  // Progress + milestone payoff for a real (non-preview) route: months filled out
+  // of 12, with a "complete" state once the year is full (goal-gradient).
+  const monthsPlanned = $derived(previewing ? 0 : occ.filter((x) => x !== null).length);
+  const yearComplete = $derived(monthsPlanned === 12);
 
   function useExample() {
     route.stays = example.map((s) => ({ ...s }));
@@ -513,11 +534,22 @@
   {#if ghostMode}
     <div class="seedstrip">
       <div class="seed-copy">
-        <p class="seed-head">Build your year, month by month.</p>
-        <p class="seed-sub">Pick where you'll be and we'll score each stay for weather, cost, and visa rules. Here's an example to start from — yours to keep or clear.</p>
+        <p class="seed-head">Build your year in one tap.</p>
+        <p class="seed-sub">Pick a starting point — we'll lay out a season-following, visa-legal year you can adjust or clear anytime.</p>
+      </div>
+      <div class="seed-styles" role="group" aria-label="Choose a starter year">
+        {#each seedStyles as st}
+          <button
+            type="button"
+            class="seedchip"
+            class:on={seedStyle === st.id}
+            aria-pressed={seedStyle === st.id}
+            onclick={() => (seedStyle = st.id)}
+          >{st.label}</button>
+        {/each}
       </div>
       <div class="seed-act">
-        <button type="button" class="chip use-example" onclick={useExample}>Use this example</button>
+        <button type="button" class="chip use-example" onclick={useExample}>Use this year</button>
         <button type="button" class="chip start-blank" onclick={startBlank}>Start from scratch</button>
       </div>
     </div>
@@ -627,6 +659,17 @@
       </div>
     {/if}
 
+    {#if !previewing && route.stays.length > 0}
+      <div class="progress" class:done={yearComplete}>
+        {#if yearComplete}
+          <span class="progress-done">✓ Your year is complete{#if stats.festivals}&nbsp;— {stats.festivals} major festival{stats.festivals > 1 ? 's' : ''} along the way{/if}</span>
+        {:else}
+          <div class="progress-track"><span class="progress-fill" style="width: {(monthsPlanned / 12) * 100}%"></span></div>
+          <span class="progress-label num">{monthsPlanned} of 12 months planned</span>
+        {/if}
+      </div>
+    {/if}
+
     <div class="totals" class:ghost={ghostMode}>
       {#if ghostMode}<span class="ghost-tag">Example year</span>{/if}
       <div class="tot">
@@ -673,6 +716,17 @@
         </button>
       {/if}
     </div>
+
+    {#if !previewing && route.stays.length > 0}
+      <div class="progress mprogress" class:done={yearComplete}>
+        {#if yearComplete}
+          <span class="progress-done">✓ Your year is complete{#if stats.festivals}&nbsp;— {stats.festivals} festival{stats.festivals > 1 ? 's' : ''}{/if}</span>
+        {:else}
+          <div class="progress-track"><span class="progress-fill" style="width: {(monthsPlanned / 12) * 100}%"></span></div>
+          <span class="progress-label num">{monthsPlanned} of 12 months planned</span>
+        {/if}
+      </div>
+    {/if}
 
     <ul class="mlist">
       {#if ghostMode}
@@ -978,6 +1032,40 @@
 
   .seed-act { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: wrap; }
 
+  /* Starter-style chooser: each chip re-seeds the ghost preview live. Full-width
+     row so the styles sit between the copy and the commit/clear actions. */
+  .seed-styles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    flex: 1 1 100%;
+    order: 2;
+  }
+
+  .seed-copy { order: 1; }
+  .seed-act { order: 3; }
+
+  .seedchip {
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--ink-2);
+    border-radius: 999px;
+    padding: 5px 13px;
+    font-size: 12.5px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.13s ease;
+  }
+
+  .seedchip:hover:not(.on) { border-color: var(--ink-3); color: var(--ink); }
+
+  .seedchip.on {
+    background: var(--terra);
+    border-color: var(--terra);
+    color: var(--paper);
+    font-weight: 600;
+  }
+
   .chip.use-example {
     background: var(--ink);
     border-color: var(--ink);
@@ -1013,6 +1101,48 @@
   }
 
   .mrow.filled.ghost { opacity: 0.6; filter: saturate(0.7); pointer-events: none; }
+
+  /* ── Progress + milestone ──
+     A filling bar (goal-gradient) while the year is partial; a quiet celebratory
+     line once all 12 months are placed. */
+  .progress {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--line-soft, rgba(33, 36, 30, 0.1));
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--teal, #2f6f5e);
+    transition: width 0.3s ease;
+  }
+
+  .progress-label {
+    flex-shrink: 0;
+    font-size: 11.5px;
+    color: var(--ink-3);
+    white-space: nowrap;
+  }
+
+  .progress-done {
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 580;
+    color: var(--teal, #2f6f5e);
+  }
+
+  .mprogress { margin: 0 0 16px; }
 
   /* Standard share glyph (tray + up arrow) sits inline with the label, swapping
      to a check on copy. */

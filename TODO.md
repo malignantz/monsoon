@@ -30,18 +30,20 @@ slices; the audit has the "why" and the citations.
   - Insight: keeping the board and warming it in place beats swapping in an explainer
     panel (avoids the read-it-then-go-find-the-real-thing double step). Dismissal is
     per-session, so clearing a real route later still gets the warm start.
-  - Remaining: a **progress indicator** ("5 of 12 months planned" + filling bar,
-    goal-gradient) and a **milestone/celebration** state when the year is full or a
-    festival lands in a stay (replace the static stats with a "you did it" moment).
-- [ ] Build "Build me a year" — seed *choices*, not just one example. **(Audit §3.1.)**
-  - `exampleRoute()` already gives a single greedy "best quality"-ish route; generalize it
-    into a one-tap chooser: **best quality / best value (livability-per-dollar) / festival /
-    non-Schengen / start from my favorites**. The ghost example is the zero-effort default;
-    this is the one-tap upgrade to a real, editable route.
-  - Surface *why* each leg was picked in the picker rows ("fills Mar–Apr · São João festival ·
-    €420 cheaper than your Feb stay") — we compute all of this; just expose it.
-  - Overlaps with the favorites-based builder and the automatic-picker items below; treat
-    `exampleRoute()` as the shared seed engine.
+  - Done: **progress indicator** ("N of 12 months planned" + filling bar, goal-gradient)
+    and a **completion milestone** ("✓ Your year is complete — N major festivals along the
+    way") on the real route, desktop + mobile.
+- [x] Build "Build me a year" — seed *choices*, not just one example. **(Audit §3.1.)**
+  - Done: `generateRoute(style, preset)` in `data.svelte.js` generalizes the seed engine into
+    five styles — **best quality / best value (livability-per-dollar) / festival / non-Schengen /
+    from favorites** (the last only when favorites exist). Each is deterministic, Schengen-legal,
+    and uses a scale-independent (multiplicative) region-variety nudge. The seed strip now has a
+    style chooser that re-seeds the ghost preview *live*; "Use this year" adopts the previewed
+    style into an editable route.
+  - Remaining (smaller follow-up): surface *why* each leg was picked in the picker rows
+    ("fills Mar–Apr · São João festival · €420 cheaper than your Feb stay") — we compute all of
+    this; just expose it. The favorites-based builder and automatic-picker items below can now
+    build on `generateRoute()` as the shared seed engine.
 - [ ] Build a favorites-based itinerary builder.
   - Let users turn their saved cities into a year plan without starting from a blank board.
   - Use favorites as the candidate pool for automatic route generation, month-by-month ranking, and swap suggestions.
