@@ -74,7 +74,7 @@ const COORDS = {
   'Valletta':                    { lat: 35.8989, lng: 14.5146  },
   'Thessaloniki':                { lat: 40.6401, lng: 22.9444  },
   'Funchal (Madeira)':           { lat: 32.6669, lng: -16.9241 },
-  'Las Palmas (Gran Canaria)':   { lat: 28.1235, lng: -15.4363 },
+  'Las Palmas':                  { lat: 28.1235, lng: -15.4363 },
   'Nice':                        { lat: 43.7102, lng: 7.2620   },
   'Prague':                      { lat: 50.0755, lng: 14.4378  },
   'Warsaw':                      { lat: 52.2297, lng: 21.0122  },

@@ -424,8 +424,10 @@ const ROUTE_VERSION = 1;
 const ID_BY_SLUG_V1 = new Map(CITY_IDS_V1.map((slug, id) => [slug, id]));
 
 // Old encoded slug → current key, for cities renamed since v1. Lets old links
-// keep resolving without ever editing the frozen table. (None yet.)
-const SLUG_ALIASES = {};
+// keep resolving without ever editing the frozen table.
+const SLUG_ALIASES = {
+  'las-palmas-gran-canaria': 'las-palmas'
+};
 
 if (import.meta.env?.DEV) {
   const missing = cities.filter((c) => !ID_BY_SLUG_V1.has(c.key)).map((c) => c.key);

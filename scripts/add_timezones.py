@@ -42,7 +42,7 @@ COUNTRY_TZ = {
 }
 
 CITY_TZ = {
-    "Las Palmas (Gran Canaria)": "UTC+0 (DST +1)",  # Canaries, not mainland Spain
+    "Las Palmas": "UTC+0 (DST +1)",  # Canaries, not mainland Spain
     "Funchal (Madeira)": "UTC+0 (DST +1)",          # same zone as Lisbon, kept explicit
     "Mérida": "UTC-5",                              # Yucatán left DST/central in 2015
 }

@@ -128,4 +128,5 @@ export const CITY_IDS_V1 = [
   "queretaro", // 108
   "guanajuato", // 109
   "joao-pessoa", // 110
+  "las-palmas", // 111
 ];

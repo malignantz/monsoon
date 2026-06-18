@@ -114,7 +114,7 @@ add("Seville", 70, 70, "Some pickpocketing at festivals/center; calm overall", "
 add("Valencia", 70, 70, "Beach and center petty theft; calm overall", "Generally safe")
 add("Málaga", 70, 70, "Tourist-zone pickpocketing; calm overall", "Generally safe")
 add("Granada", 70, 70, "Modest pickpocketing in tourist areas", "Generally safe")
-add("Las Palmas (Gran Canaria)", 65, 64, "Resort and port petty theft", "Generally safe", T=["petty-theft"])
+add("Las Palmas", 65, 64, "Resort and port petty theft", "Generally safe", T=["petty-theft"])
 add("Rome", 52, 56, "Heavy pickpocketing/bag-snatching at sights and on transit", "Harassment reported near stations", T=["bag-snatching","petty-theft"])
 add("Florence", 62, 64, "Tourist-zone pickpocketing", "Generally safe", T=["petty-theft"])
 add("Bologna", 60, 62, "Station-area petty theft and some drug-market nuisance", "Generally safe", T=["petty-theft"])

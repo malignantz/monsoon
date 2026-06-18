@@ -58,7 +58,7 @@ TITLE_OVERRIDES = {
     "Chania (Crete)": "Chania",
     "Lake Atitlán (Panajachel)": "Lake Atitlán",
     "Funchal (Madeira)": "Funchal",
-    "Las Palmas (Gran Canaria)": "Las Palmas",
+    "Las Palmas": "Las Palmas",
     "Split": "Split, Croatia",
     "Mérida": "Mérida, Yucatán",
     "Cuenca": "Cuenca, Ecuador",

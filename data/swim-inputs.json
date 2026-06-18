@@ -42,7 +42,7 @@
   "Chania (Crete)": { "body": "sea", "name": "Cretan Sea (city + Falassarna)", "months": [6, 7, 8, 9, 10], "note": "Late May and November are often still fine" },
   "Funchal (Madeira)": { "body": "sea", "name": "Atlantic lidos (Barreirinha)", "months": [6, 7, 8, 9, 10], "note": "Lidos open year-round; winter sea ~19°C" },
   "Lagos (Algarve)": { "body": "sea", "name": "Atlantic (Algarve coves)", "months": [6, 7, 8, 9], "note": "Atlantic a touch brisk (20–22°C); October often fine" },
-  "Las Palmas (Gran Canaria)": { "body": "sea", "name": "Las Canteras", "months": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "note": "Late-winter water 19–20°C — fine for most" },
+  "Las Palmas": { "body": "sea", "name": "Las Canteras", "months": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "note": "Late-winter water 19–20°C — fine for most" },
   "Lisbon": { "body": "sea", "name": "Atlantic at Caparica / Cascais (30 min)", "months": [7, 8, 9], "note": "Atlantic upwelling keeps it 17–19°C even in summer", "review": true },
   "Málaga": { "body": "sea", "name": "Mediterranean (La Malagueta)", "months": [6, 7, 8, 9, 10] },
   "Nice": { "body": "sea", "name": "Mediterranean (Baie des Anges)", "months": [6, 7, 8, 9], "note": "October is marginal (~19°C)" },
