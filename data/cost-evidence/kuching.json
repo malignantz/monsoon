@@ -5,18 +5,18 @@
   "asOf": "2026-06",
   "provenance": "researched",
   "components": {
-    "rent":      {"usd": 350, "party": "shared",              "source": "mudah.my Kuching listings Jun 2026 / liveandinvestoverseas.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR in Kuching; RM 700-3,900 range; mid-range ~RM 1,500 ($335)"},
-    "utilities": {"usd": 60,  "party": "shared",              "source": "pacificprime.com Malaysia cost 2026", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; Sarawak electricity slightly cheaper than Peninsular"},
-    "groceries": {"usd": 110, "party": "perPerson",           "source": "liveandinvestoverseas.com Kuching 2026", "asOf": "2026-06", "confidence": "med", "note": "Pasar Satok weekend market; local food very affordable; Sarawak laksa and kolo mee"},
-    "diningOut": {"usd": 140, "party": "perPerson",           "source": "liveandinvestoverseas.com Kuching 2026", "asOf": "2026-06", "confidence": "med", "note": "Kuching known for food scene; hawker prices very low; $1-3 meals common"},
-    "transit":   {"usd": 45,  "party": "perPerson",           "source": "mylifeelsewhere.com Kuching 2026", "asOf": "2026-06", "confidence": "med", "note": "Grab + some need car; Kuching is spread out; lower traffic vs KL"},
-    "coworking": {"usd": 90,  "party": "perPersonDiscounted", "source": "malaysia4u.com cost guide 2026", "asOf": "2026-06", "confidence": "low", "note": "limited coworking options in Kuching; cafes used as workspace; growing slowly"},
-    "simData":   {"usd": 12,  "party": "perPerson",           "source": "pacificprime.com Malaysia cost 2026", "asOf": "2026-06", "confidence": "high", "note": "Celcom/Unifi Mobile; Sarawak coverage good in city; RM 50-60/mo"},
-    "misc":      {"usd": 90,  "party": "perPersonDiscounted", "source": "liveandinvestoverseas.com Kuching 2026", "asOf": "2026-06", "confidence": "med", "note": "nature activities (Bako NP, Semenggoh orangutans), entertainment, personal care"}
+    "rent": {"usd": 350, "party": "shared", "source": "mudah.my Kuching listings Jun 2026 / liveandinvestoverseas.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR in Kuching; RM 700-3,900 range; mid-range ~RM 1,500 ($335)"},
+    "utilities": {"usd": 60, "party": "shared", "source": "pacificprime.com Malaysia cost 2026", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; Sarawak electricity slightly cheaper than Peninsular"},
+    "groceries": {"usd": 110, "party": "perPerson", "source": "liveandinvestoverseas.com Kuching 2026", "asOf": "2026-06", "confidence": "med", "note": "Pasar Satok weekend market; local food very affordable; Sarawak laksa and kolo mee"},
+    "diningOut": {"usd": 140, "party": "perPerson", "source": "liveandinvestoverseas.com Kuching 2026", "asOf": "2026-06", "confidence": "med", "note": "Kuching known for food scene; hawker prices very low; $1-3 meals common"},
+    "transit": {"usd": 45, "party": "perPerson", "source": "mylifeelsewhere.com Kuching 2026", "asOf": "2026-06", "confidence": "med", "note": "Grab + some need car; Kuching is spread out; lower traffic vs KL"},
+    "coworking": {"usd": 90, "party": "perPersonDiscounted", "source": "malaysia4u.com cost guide / local coworking listings", "asOf": "2026-06", "confidence": "med", "note": "limited coworking options in Kuching; cafes used as workspace; growing slowly"},
+    "simData": {"usd": 12, "party": "perPerson", "source": "pacificprime.com Malaysia cost 2026", "asOf": "2026-06", "confidence": "high", "note": "Celcom/Unifi Mobile; Sarawak coverage good in city; RM 50-60/mo"},
+    "misc": {"usd": 90, "party": "perPersonDiscounted", "source": "liveandinvestoverseas.com Kuching 2026", "asOf": "2026-06", "confidence": "med", "note": "nature activities (Bako NP, Semenggoh orangutans), entertainment, personal care"}
   },
   "accomSeasonality": {
     "_doc": "12 monthly multipliers applied to RENT ONLY (Jan..Dec). 1.0 = base. Raise for peak tourist/weather months, lower for off-peak.",
-    "values": [0.95, 0.95, 1.0, 1.0, 1.0, 1.05, 1.1, 1.1, 1.0, 1.0, 0.95, 0.95]
+    "values": [0.95,0.95,1,1,1,1.05,1.1,1.1,1,1,0.95,0.95]
   },
   "evidence": [
     {"claim": "Kuching cost of living very low; couple can live on under $600/month home-owning", "quote": "The cost of living is very low, less than US$600 a month for a home-owning couple. Prices in Kuching are inexpensive, even when compared with other Malaysian destinations", "source": "liveandinvestoverseas.com", "url": "https://www.liveandinvestoverseas.com/country-hub/malaysia/kuching/", "date": "2026-06", "confidence": "med"},

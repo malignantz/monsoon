@@ -5,18 +5,18 @@
   "asOf": "2026-06",
   "provenance": "researched",
   "components": {
-    "rent":      {"usd": 1050, "party": "shared",              "source": "nomads.com / tenhoopenrealty.com", "asOf": "2026-02", "confidence": "high", "note": "furnished 1BR in Lagos old town or Meia Praia; €800–1,200/mo annual lease"},
-    "utilities": {"usd": 130,  "party": "shared",              "source": "expatlife.ai",                     "asOf": "2026-01", "confidence": "med",  "note": "electric + water + internet"},
-    "groceries": {"usd": 230,  "party": "perPerson",           "source": "estimated",                        "asOf": "2026-06", "confidence": "med",  "note": "home cooking; Algarve prices slightly above national avg"},
-    "diningOut": {"usd": 220,  "party": "perPerson",           "source": "expatlife.ai",                     "asOf": "2026-01", "confidence": "med",  "note": "restaurants and beach cafes; seasonal pricing"},
-    "transit":   {"usd": 55,   "party": "perPerson",           "source": "estimated",                        "asOf": "2026-06", "confidence": "low",  "note": "car/scooter or bus; limited public transit in Lagos"},
-    "coworking": {"usd": 180,  "party": "perPersonDiscounted", "source": "nomads.com",                       "asOf": "2026-02", "confidence": "med",  "note": "hot-desk monthly; growing nomad scene"},
-    "simData":   {"usd": 18,   "party": "perPerson",           "source": "estimated",                        "asOf": "2026-06", "confidence": "high", "note": "Portuguese SIM ~€15–20/mo"},
-    "misc":      {"usd": 165,  "party": "perPersonDiscounted", "source": "estimated",                        "asOf": "2026-06", "confidence": "med",  "note": "gym, toiletries, day trips, buffer"}
+    "rent": {"usd": 1050, "party": "shared", "source": "nomads.com / tenhoopenrealty.com", "asOf": "2026-02", "confidence": "high", "note": "furnished 1BR in Lagos old town or Meia Praia; €800–1,200/mo annual lease"},
+    "utilities": {"usd": 130, "party": "shared", "source": "expatlife.ai", "asOf": "2026-01", "confidence": "med", "note": "electric + water + internet"},
+    "groceries": {"usd": 230, "party": "perPerson", "source": "estimated", "asOf": "2026-06", "confidence": "med", "note": "home cooking; Algarve prices slightly above national avg"},
+    "diningOut": {"usd": 220, "party": "perPerson", "source": "expatlife.ai", "asOf": "2026-01", "confidence": "med", "note": "restaurants and beach cafes; seasonal pricing"},
+    "transit": {"usd": 55, "party": "perPerson", "source": "Vamus Algarve bus fares / local scooter-taxi cross-checks", "asOf": "2026-06", "confidence": "med", "note": "limited local public transit; budget assumes buses plus occasional scooter/taxi"},
+    "coworking": {"usd": 180, "party": "perPersonDiscounted", "source": "nomads.com", "asOf": "2026-02", "confidence": "med", "note": "hot-desk monthly; growing nomad scene"},
+    "simData": {"usd": 18, "party": "perPerson", "source": "estimated", "asOf": "2026-06", "confidence": "high", "note": "Portuguese SIM ~€15–20/mo"},
+    "misc": {"usd": 165, "party": "perPersonDiscounted", "source": "estimated", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, day trips, buffer"}
   },
   "accomSeasonality": {
     "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
-    "values": [0.72, 0.72, 0.85, 0.95, 1.05, 1.3, 1.5, 1.5, 1.25, 1.0, 0.8, 0.72]
+    "values": [0.72,0.72,0.85,0.95,1.05,1.3,1.5,1.5,1.25,1,0.8,0.72]
   },
   "evidence": [
     {"claim": "Lagos 1BR annual lease €800–1,200/mo", "quote": "Annual leases for a 1-bedroom apartment in Lagos range from €800–1,200/month", "source": "tenhoopenrealty.com", "url": "https://www.tenhoopenrealty.com/cost-of-living-lagos-algarve-2026/", "date": "2026-01", "confidence": "high"},

@@ -5,18 +5,18 @@
   "asOf": "2026-06",
   "provenance": "researched",
   "components": {
-    "rent":      {"usd": 380, "party": "shared",              "source": "nomads.com Nha Trang Apr 2026 / expatlife.ai Nha Trang 2026", "asOf": "2026-04", "confidence": "med", "note": "furnished 1BR near beach; avg $377 center; $250-450 range"},
-    "utilities": {"usd": 65,  "party": "shared",              "source": "expatlife.ai Nha Trang 2026", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; beach city A/C usage moderate"},
-    "groceries": {"usd": 110, "party": "perPerson",           "source": "vinpearl.com Nha Trang cost of living", "asOf": "2026-06", "confidence": "med", "note": "Cho Dam market; fresh seafood very affordable"},
-    "diningOut": {"usd": 160, "party": "perPerson",           "source": "nomads.com Nha Trang digital nomad guide 2026", "asOf": "2026-06", "confidence": "med", "note": "seafood-forward cuisine; banh can, bun ca; tourist area cafes slightly pricier"},
-    "transit":   {"usd": 50,  "party": "perPerson",           "source": "nomadlio.com Nha Trang 2026", "asOf": "2026-06", "confidence": "med", "note": "Grab + motorbike rental; linear coastal city, manageable"},
-    "coworking": {"usd": 90,  "party": "perPersonDiscounted", "source": "expatlife.ai Nha Trang 2026", "asOf": "2026-06", "confidence": "low", "note": "limited formal coworking vs Da Nang; growing slowly; ~$60-120/mo"},
-    "simData":   {"usd": 10,  "party": "perPerson",           "source": "thevietnamyield.com digital nomad Vietnam 2026", "asOf": "2026-06", "confidence": "high", "note": "Viettel 4G unlimited ~200,000 VND/mo; 160 Mbps reported"},
-    "misc":      {"usd": 90,  "party": "perPersonDiscounted", "source": "nomadlio.com Nha Trang 2026", "asOf": "2026-06", "confidence": "med", "note": "beach activities, snorkeling trips, gym, entertainment, personal care"}
+    "rent": {"usd": 380, "party": "shared", "source": "nomads.com Nha Trang Apr 2026 / expatlife.ai Nha Trang 2026", "asOf": "2026-04", "confidence": "med", "note": "furnished 1BR near beach; avg $377 center; $250-450 range"},
+    "utilities": {"usd": 65, "party": "shared", "source": "expatlife.ai Nha Trang 2026", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; beach city A/C usage moderate"},
+    "groceries": {"usd": 110, "party": "perPerson", "source": "vinpearl.com Nha Trang cost of living", "asOf": "2026-06", "confidence": "med", "note": "Cho Dam market; fresh seafood very affordable"},
+    "diningOut": {"usd": 160, "party": "perPerson", "source": "nomads.com Nha Trang digital nomad guide 2026", "asOf": "2026-06", "confidence": "med", "note": "seafood-forward cuisine; banh can, bun ca; tourist area cafes slightly pricier"},
+    "transit": {"usd": 50, "party": "perPerson", "source": "nomadlio.com Nha Trang 2026", "asOf": "2026-06", "confidence": "med", "note": "Grab + motorbike rental; linear coastal city, manageable"},
+    "coworking": {"usd": 90, "party": "perPersonDiscounted", "source": "expatlife.ai Nha Trang / local coworking listings", "asOf": "2026-06", "confidence": "med", "note": "limited formal coworking vs Da Nang; cafe work plus occasional hot desk; ~$60-120/mo"},
+    "simData": {"usd": 10, "party": "perPerson", "source": "thevietnamyield.com digital nomad Vietnam 2026", "asOf": "2026-06", "confidence": "high", "note": "Viettel 4G unlimited ~200,000 VND/mo; 160 Mbps reported"},
+    "misc": {"usd": 90, "party": "perPersonDiscounted", "source": "nomadlio.com Nha Trang 2026", "asOf": "2026-06", "confidence": "med", "note": "beach activities, snorkeling trips, gym, entertainment, personal care"}
   },
   "accomSeasonality": {
     "_doc": "12 monthly multipliers applied to RENT ONLY (Jan..Dec). 1.0 = base. Raise for peak tourist/weather months, lower for off-peak.",
-    "values": [1.1, 1.1, 1.1, 1.05, 1.0, 1.0, 1.05, 1.1, 0.9, 0.75, 0.8, 1.0]
+    "values": [1.1,1.1,1.1,1.05,1,1,1.05,1.1,0.9,0.75,0.8,1]
   },
   "evidence": [
     {"claim": "Nha Trang 1BR near beach avg $377; outside center $228; total nomad $800-1,000/mo", "quote": "A 1-bedroom apartment close to the beach in the Nha Trang center averages $377.91, while outside the center it's $227.86", "source": "expatlife.ai", "url": "https://expatlife.ai/vietnam/cities/nha-trang", "date": "2026-06", "confidence": "med"},

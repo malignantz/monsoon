@@ -6837,11 +6837,11 @@
           "note": "Visa-free 90 days per 180."
         }
       },
-      "rent": 380,
-      "util": 80,
-      "var": 528,
-      "solo": 988,
-      "couple": 1472,
+      "rent": 430,
+      "util": 85,
+      "var": 498,
+      "solo": 1013,
+      "couple": 1489,
       "months": [
         {
           "mo": "Jan",
@@ -6863,7 +6863,7 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 71.0,
-          "cost1": 874,
+          "cost1": 884,
           "cost2": 1341,
           "value": 62.22,
           "qolBase": 71.0
@@ -6888,7 +6888,7 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 72.1,
-          "cost1": 874,
+          "cost1": 884,
           "cost2": 1341,
           "value": 63.18,
           "qolBase": 72.1
@@ -6913,9 +6913,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 74.1,
-          "cost1": 893,
-          "cost2": 1363,
-          "value": 64.46,
+          "cost1": 906,
+          "cost2": 1365,
+          "value": 64.42,
           "qolBase": 74.1
         },
         {
@@ -6938,9 +6938,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 76.4,
-          "cost1": 931,
-          "cost2": 1406,
-          "value": 65.54,
+          "cost1": 948,
+          "cost2": 1415,
+          "value": 65.35,
           "qolBase": 76.4
         },
         {
@@ -6963,9 +6963,9 @@
           "seasonScore": 70,
           "eventScore": 50.0,
           "qol": 83.2,
-          "cost1": 988,
-          "cost2": 1472,
-          "value": 69.91,
+          "cost1": 1013,
+          "cost2": 1489,
+          "value": 69.55,
           "qolBase": 83.2
         },
         {
@@ -6988,9 +6988,9 @@
           "seasonScore": 100,
           "eventScore": 66.7,
           "qol": 90.0,
-          "cost1": 1140,
-          "cost2": 1647,
-          "value": 71.9,
+          "cost1": 1185,
+          "cost2": 1687,
+          "value": 71.13,
           "qolBase": 90.0
         },
         {
@@ -7013,9 +7013,9 @@
           "seasonScore": 100,
           "eventScore": 66.7,
           "qol": 82.8,
-          "cost1": 1292,
-          "cost2": 1822,
-          "value": 63.21,
+          "cost1": 1357,
+          "cost2": 1885,
+          "value": 62.25,
           "qolBase": 82.8
         },
         {
@@ -7038,9 +7038,9 @@
           "seasonScore": 100,
           "eventScore": 66.7,
           "qol": 82.3,
-          "cost1": 1292,
-          "cost2": 1822,
-          "value": 62.83,
+          "cost1": 1357,
+          "cost2": 1885,
+          "value": 61.87,
           "qolBase": 82.3
         },
         {
@@ -7063,9 +7063,9 @@
           "seasonScore": 100,
           "eventScore": 66.7,
           "qol": 89.4,
-          "cost1": 1102,
-          "cost2": 1603,
-          "value": 72.3,
+          "cost1": 1142,
+          "cost2": 1637,
+          "value": 71.62,
           "qolBase": 89.4
         },
         {
@@ -7088,9 +7088,9 @@
           "seasonScore": 70,
           "eventScore": 50.0,
           "qol": 80.9,
-          "cost1": 950,
-          "cost2": 1428,
-          "value": 68.92,
+          "cost1": 970,
+          "cost2": 1440,
+          "value": 68.66,
           "qolBase": 80.9
         },
         {
@@ -7113,9 +7113,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 72.0,
-          "cost1": 893,
-          "cost2": 1363,
-          "value": 62.63,
+          "cost1": 906,
+          "cost2": 1365,
+          "value": 62.59,
           "qolBase": 72.0
         },
         {
@@ -7138,7 +7138,7 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 70.3,
-          "cost1": 874,
+          "cost1": 884,
           "cost2": 1341,
           "value": 61.6,
           "qolBase": 70.3
@@ -10378,9 +10378,9 @@
       },
       "rent": 720,
       "util": 120,
-      "var": 728,
-      "solo": 1568,
-      "couple": 2264,
+      "var": 713,
+      "solo": 1553,
+      "couple": 2240,
       "months": [
         {
           "mo": "Jan",
@@ -10402,9 +10402,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 72.8,
-          "cost1": 1316,
-          "cost2": 1974,
-          "value": 53.61,
+          "cost1": 1301,
+          "cost2": 1950,
+          "value": 53.9,
           "qolBase": 72.8
         },
         {
@@ -10427,9 +10427,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 74.8,
-          "cost1": 1316,
-          "cost2": 1974,
-          "value": 55.08,
+          "cost1": 1301,
+          "cost2": 1950,
+          "value": 55.38,
           "qolBase": 74.8
         },
         {
@@ -10452,9 +10452,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 76.5,
-          "cost1": 1388,
-          "cost2": 2057,
-          "value": 55.3,
+          "cost1": 1373,
+          "cost2": 2033,
+          "value": 55.59,
           "qolBase": 76.5
         },
         {
@@ -10477,9 +10477,9 @@
           "seasonScore": 40,
           "eventScore": 83.3,
           "qol": 83.1,
-          "cost1": 1496,
-          "cost2": 2181,
-          "value": 58.51,
+          "cost1": 1481,
+          "cost2": 2157,
+          "value": 58.8,
           "qolBase": 83.1
         },
         {
@@ -10502,9 +10502,9 @@
           "seasonScore": 70,
           "eventScore": 83.3,
           "qol": 89.0,
-          "cost1": 1568,
-          "cost2": 2264,
-          "value": 61.62,
+          "cost1": 1553,
+          "cost2": 2240,
+          "value": 61.91,
           "qolBase": 89.0
         },
         {
@@ -10527,9 +10527,9 @@
           "seasonScore": 100,
           "eventScore": 50.0,
           "qol": 90.1,
-          "cost1": 1712,
-          "cost2": 2430,
-          "value": 60.42,
+          "cost1": 1697,
+          "cost2": 2406,
+          "value": 60.69,
           "qolBase": 90.1
         },
         {
@@ -10552,9 +10552,9 @@
           "seasonScore": 100,
           "eventScore": 66.7,
           "qol": 83.8,
-          "cost1": 1928,
-          "cost2": 2678,
-          "value": 53.79,
+          "cost1": 1913,
+          "cost2": 2654,
+          "value": 54.01,
           "qolBase": 83.8
         },
         {
@@ -10577,9 +10577,9 @@
           "seasonScore": 100,
           "eventScore": 66.7,
           "qol": 83.6,
-          "cost1": 1928,
-          "cost2": 2678,
-          "value": 53.67,
+          "cost1": 1913,
+          "cost2": 2654,
+          "value": 53.88,
           "qolBase": 83.6
         },
         {
@@ -10602,9 +10602,9 @@
           "seasonScore": 100,
           "eventScore": 50.0,
           "qol": 89.3,
-          "cost1": 1712,
-          "cost2": 2430,
-          "value": 59.89,
+          "cost1": 1697,
+          "cost2": 2406,
+          "value": 60.15,
           "qolBase": 89.3
         },
         {
@@ -10627,9 +10627,9 @@
           "seasonScore": 70,
           "eventScore": 50.0,
           "qol": 83.7,
-          "cost1": 1532,
-          "cost2": 2223,
-          "value": 58.43,
+          "cost1": 1517,
+          "cost2": 2199,
+          "value": 58.71,
           "qolBase": 83.7
         },
         {
@@ -10652,9 +10652,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 77.0,
-          "cost1": 1352,
-          "cost2": 2016,
-          "value": 56.17,
+          "cost1": 1337,
+          "cost2": 1992,
+          "value": 56.47,
           "qolBase": 77.0
         },
         {
@@ -10677,9 +10677,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 72.9,
-          "cost1": 1294,
-          "cost2": 1949,
-          "value": 53.99,
+          "cost1": 1279,
+          "cost2": 1925,
+          "value": 54.29,
           "qolBase": 72.9
         }
       ],
@@ -21054,9 +21054,9 @@
       },
       "rent": 700,
       "util": 95,
-      "var": 705,
-      "solo": 1500,
-      "couple": 2194,
+      "var": 680,
+      "solo": 1475,
+      "couple": 2154,
       "months": [
         {
           "mo": "Jan",
@@ -21078,9 +21078,9 @@
           "seasonScore": 100,
           "eventScore": 66.7,
           "qol": 87.9,
-          "cost1": 1500,
-          "cost2": 2194,
-          "value": 61.72,
+          "cost1": 1475,
+          "cost2": 2154,
+          "value": 62.23,
           "qolBase": 87.9
         },
         {
@@ -21103,9 +21103,9 @@
           "seasonScore": 100,
           "eventScore": 66.7,
           "qol": 88.7,
-          "cost1": 1500,
-          "cost2": 2194,
-          "value": 62.28,
+          "cost1": 1475,
+          "cost2": 2154,
+          "value": 62.8,
           "qolBase": 88.7
         },
         {
@@ -21128,9 +21128,9 @@
           "seasonScore": 90,
           "eventScore": 50.0,
           "qol": 85.7,
-          "cost1": 1500,
-          "cost2": 2194,
-          "value": 60.18,
+          "cost1": 1475,
+          "cost2": 2154,
+          "value": 60.68,
           "qolBase": 85.7
         },
         {
@@ -21153,9 +21153,9 @@
           "seasonScore": 70,
           "eventScore": 50.0,
           "qol": 80.5,
-          "cost1": 1500,
-          "cost2": 2194,
-          "value": 56.52,
+          "cost1": 1475,
+          "cost2": 2154,
+          "value": 56.99,
           "qolBase": 80.5
         },
         {
@@ -21178,9 +21178,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 68.7,
-          "cost1": 1500,
-          "cost2": 2194,
-          "value": 48.24,
+          "cost1": 1475,
+          "cost2": 2154,
+          "value": 48.64,
           "qolBase": 68.7
         },
         {
@@ -21203,9 +21203,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 65.6,
-          "cost1": 1500,
-          "cost2": 2194,
-          "value": 46.06,
+          "cost1": 1475,
+          "cost2": 2154,
+          "value": 46.45,
           "qolBase": 65.6
         },
         {
@@ -21228,9 +21228,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 67.2,
-          "cost1": 1500,
-          "cost2": 2194,
-          "value": 47.19,
+          "cost1": 1475,
+          "cost2": 2154,
+          "value": 47.58,
           "qolBase": 67.2
         },
         {
@@ -21253,9 +21253,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 66.3,
-          "cost1": 1500,
-          "cost2": 2194,
-          "value": 46.55,
+          "cost1": 1475,
+          "cost2": 2154,
+          "value": 46.94,
           "qolBase": 66.3
         },
         {
@@ -21278,9 +21278,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 65.4,
-          "cost1": 1500,
-          "cost2": 2194,
-          "value": 45.92,
+          "cost1": 1475,
+          "cost2": 2154,
+          "value": 46.3,
           "qolBase": 65.4
         },
         {
@@ -21303,9 +21303,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 61.9,
-          "cost1": 1500,
-          "cost2": 2194,
-          "value": 43.46,
+          "cost1": 1475,
+          "cost2": 2154,
+          "value": 43.83,
           "qolBase": 61.9
         },
         {
@@ -21328,9 +21328,9 @@
           "seasonScore": 70,
           "eventScore": 50.0,
           "qol": 74.4,
-          "cost1": 1500,
-          "cost2": 2194,
-          "value": 52.24,
+          "cost1": 1475,
+          "cost2": 2154,
+          "value": 52.68,
           "qolBase": 74.4
         },
         {
@@ -21353,9 +21353,9 @@
           "seasonScore": 100,
           "eventScore": 83.3,
           "qol": 87.0,
-          "cost1": 1535,
-          "cost2": 2234,
-          "value": 60.59,
+          "cost1": 1510,
+          "cost2": 2194,
+          "value": 61.09,
           "qolBase": 87.0
         }
       ],
@@ -45509,11 +45509,11 @@
           "note": "Visa-free 90 days per 180."
         }
       },
-      "rent": 280,
-      "util": 70,
-      "var": 448,
-      "solo": 798,
-      "couple": 1206,
+      "rent": 330,
+      "util": 75,
+      "var": 420,
+      "solo": 825,
+      "couple": 1225,
       "months": [
         {
           "mo": "Jan",
@@ -45535,9 +45535,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 66.3,
-          "cost1": 700,
-          "cost2": 1093,
-          "value": 63.7,
+          "cost1": 710,
+          "cost2": 1092,
+          "value": 63.73,
           "qolBase": 66.3
         },
         {
@@ -45560,9 +45560,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 69.2,
-          "cost1": 700,
-          "cost2": 1093,
-          "value": 66.49,
+          "cost1": 710,
+          "cost2": 1092,
+          "value": 66.51,
           "qolBase": 69.2
         },
         {
@@ -45585,9 +45585,9 @@
           "seasonScore": 70,
           "eventScore": 50.0,
           "qol": 76.6,
-          "cost1": 714,
-          "cost2": 1109,
-          "value": 73.12,
+          "cost1": 726,
+          "cost2": 1111,
+          "value": 73.06,
           "qolBase": 76.6
         },
         {
@@ -45610,9 +45610,9 @@
           "seasonScore": 90,
           "eventScore": 50.0,
           "qol": 82.6,
-          "cost1": 742,
-          "cost2": 1142,
-          "value": 77.81,
+          "cost1": 759,
+          "cost2": 1149,
+          "value": 77.6,
           "qolBase": 82.6
         },
         {
@@ -45635,9 +45635,9 @@
           "seasonScore": 90,
           "eventScore": 50.0,
           "qol": 85.8,
-          "cost1": 798,
-          "cost2": 1206,
-          "value": 78.86,
+          "cost1": 825,
+          "cost2": 1225,
+          "value": 78.31,
           "qolBase": 85.8
         },
         {
@@ -45660,9 +45660,9 @@
           "seasonScore": 100,
           "eventScore": 50.0,
           "qol": 89.3,
-          "cost1": 882,
-          "cost2": 1303,
-          "value": 79.27,
+          "cost1": 924,
+          "cost2": 1339,
+          "value": 78.31,
           "qolBase": 89.3
         },
         {
@@ -45685,9 +45685,9 @@
           "seasonScore": 100,
           "eventScore": 83.3,
           "qol": 91.1,
-          "cost1": 1078,
-          "cost2": 1528,
-          "value": 75.28,
+          "cost1": 1155,
+          "cost2": 1604,
+          "value": 73.65,
           "qolBase": 91.1
         },
         {
@@ -45710,9 +45710,9 @@
           "seasonScore": 100,
           "eventScore": 83.3,
           "qol": 90.9,
-          "cost1": 1078,
-          "cost2": 1528,
-          "value": 75.11,
+          "cost1": 1155,
+          "cost2": 1604,
+          "value": 73.49,
           "qolBase": 90.9
         },
         {
@@ -45735,9 +45735,9 @@
           "seasonScore": 90,
           "eventScore": 50.0,
           "qol": 87.8,
-          "cost1": 910,
-          "cost2": 1335,
-          "value": 77.1,
+          "cost1": 957,
+          "cost2": 1377,
+          "value": 76.03,
           "qolBase": 87.8
         },
         {
@@ -45760,9 +45760,9 @@
           "seasonScore": 70,
           "eventScore": 50.0,
           "qol": 81.1,
-          "cost1": 770,
-          "cost2": 1174,
-          "value": 75.45,
+          "cost1": 792,
+          "cost2": 1187,
+          "value": 75.08,
           "qolBase": 81.1
         },
         {
@@ -45785,9 +45785,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 70.9,
-          "cost1": 714,
-          "cost2": 1109,
-          "value": 67.67,
+          "cost1": 726,
+          "cost2": 1111,
+          "value": 67.62,
           "qolBase": 70.9
         },
         {
@@ -45810,9 +45810,9 @@
           "seasonScore": 40,
           "eventScore": 50.0,
           "qol": 66.2,
-          "cost1": 700,
-          "cost2": 1093,
-          "value": 63.6,
+          "cost1": 710,
+          "cost2": 1092,
+          "value": 63.63,
           "qolBase": 66.2
         }
       ],

@@ -5,18 +5,18 @@
   "asOf": "2026-06",
   "provenance": "researched",
   "components": {
-    "rent":      {"usd": 380, "party": "shared",              "source": "numbeo.com / nomads.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR in Miramar/Tambaú beachfront area; range $250–$500 USD"},
-    "utilities": {"usd": 95,  "party": "shared",              "source": "numbeo.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; $94 avg for 85m² apt; tropical, A/C increases bill"},
-    "groceries": {"usd": 170, "party": "perPerson",           "source": "wise.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; NE Brazil markets very affordable; BRL favorable for USD"},
-    "diningOut": {"usd": 160, "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "local prato feito ~$3–5; beach restaurants affordable; strong seafood scene"},
-    "transit":   {"usd": 40,  "party": "perPerson",           "source": "numbeo.com", "asOf": "2026-06", "confidence": "high", "note": "monthly bus pass ~$71 (~$40 for moderate use); $1/one-way ticket"},
-    "coworking": {"usd": 80,  "party": "perPersonDiscounted", "source": "getbrazilvisa.com", "asOf": "2026-06", "confidence": "low", "note": "hot-desk monthly; limited but growing; cafes widely used"},
-    "simData":   {"usd": 15,  "party": "perPerson",           "source": "wise.com", "asOf": "2026-06", "confidence": "high", "note": "TIM/Claro/Vivo 30-day plan"},
-    "misc":      {"usd": 130, "party": "perPersonDiscounted", "source": "nomada.co", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, beach activities, buffer"}
+    "rent": {"usd": 380, "party": "shared", "source": "numbeo.com / nomads.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR in Miramar/Tambaú beachfront area; range $250–$500 USD"},
+    "utilities": {"usd": 95, "party": "shared", "source": "numbeo.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; $94 avg for 85m² apt; tropical, A/C increases bill"},
+    "groceries": {"usd": 170, "party": "perPerson", "source": "wise.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; NE Brazil markets very affordable; BRL favorable for USD"},
+    "diningOut": {"usd": 160, "party": "perPerson", "source": "nomads.com", "asOf": "2026-06", "confidence": "med", "note": "local prato feito ~$3–5; beach restaurants affordable; strong seafood scene"},
+    "transit": {"usd": 40, "party": "perPerson", "source": "numbeo.com", "asOf": "2026-06", "confidence": "high", "note": "monthly bus pass ~$71 (~$40 for moderate use); $1/one-way ticket"},
+    "coworking": {"usd": 80, "party": "perPersonDiscounted", "source": "getbrazilvisa.com / local coworking listings", "asOf": "2026-06", "confidence": "med", "note": "limited but growing formal coworking; cafes widely used"},
+    "simData": {"usd": 15, "party": "perPerson", "source": "wise.com", "asOf": "2026-06", "confidence": "high", "note": "TIM/Claro/Vivo 30-day plan"},
+    "misc": {"usd": 130, "party": "perPersonDiscounted", "source": "nomada.co", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, beach activities, buffer"}
   },
   "accomSeasonality": {
     "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. NE Brazil beach destination; Carnival (Feb) and summer (Dec-Feb) see higher demand.",
-    "values": [1.15, 1.20, 1.05, 1.0, 1.0, 0.97, 0.97, 0.97, 0.97, 1.0, 1.0, 1.10]
+    "values": [1.15,1.2,1.05,1,1,0.97,0.97,0.97,0.97,1,1,1.1]
   },
   "evidence": [
     {"claim": "single person ~$1,075/month on common living costs as of 2026", "quote": "You can expect to spend around $1,075 per month for 1 person as of 2026, on common living costs such as housing, food, and transport", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/joao-pessoa", "date": "2026-05", "confidence": "high"},

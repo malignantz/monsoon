@@ -5,23 +5,23 @@
   "asOf": "2026-06",
   "provenance": "researched",
   "components": {
-    "rent":      {"usd": 380, "party": "shared",              "source": "wanderinghartz.com / expatlife.ai/albania", "asOf": "2026-06", "confidence": "low", "note": "furnished 1BR off-season; sea-view adds $100–$200; summer prices spike"},
-    "utilities": {"usd": 80,  "party": "shared",              "source": "albania-blog.com", "asOf": "2026-06", "confidence": "low", "note": "electric + water + internet; limited fiber outside Tirana"},
-    "groceries": {"usd": 160, "party": "perPerson",           "source": "expatlife.ai/albania/finance", "asOf": "2026-06", "confidence": "low", "note": "home cooking; fresh local produce cheap"},
-    "diningOut": {"usd": 140, "party": "perPerson",           "source": "wanderinghartz.com", "asOf": "2026-06", "confidence": "low", "note": "seafood and local tavernas; touristy in summer"},
-    "transit":   {"usd": 20,  "party": "perPerson",           "source": "albania-blog.com", "asOf": "2026-06", "confidence": "low", "note": "furgon minibus and local taxi; no formal transit"},
-    "coworking": {"usd": 100, "party": "perPersonDiscounted", "source": "nomads.com/sarande", "asOf": "2026-06", "confidence": "low", "note": "limited coworking; work from cafes mostly; ~$100 estimate"},
-    "simData":   {"usd": 8,   "party": "perPerson",           "source": "happyirishwanderers.com Albania", "asOf": "2026-06", "confidence": "med", "note": "Albanian SIM; Vodafone or One; cheap plans"},
-    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "expatlife.ai/albania", "asOf": "2026-06", "confidence": "low", "note": "gym, toiletries, beach activities, entertainment, buffer"}
+    "rent": {"usd": 430, "party": "shared", "source": "nomads.com/sarande / themobileretiree.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR off-season or shoulder season; sea-view adds $100–$200; summer prices spike sharply"},
+    "utilities": {"usd": 85, "party": "shared", "source": "themobileretiree.com / albania-blog.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + home internet; A/C use drives summer bills"},
+    "groceries": {"usd": 155, "party": "perPerson", "source": "nomadoffshoreacademy.com / happyirishwanderers.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking with local produce; imported goods costlier"},
+    "diningOut": {"usd": 145, "party": "perPerson", "source": "wanderinghartz.com / happyirishwanderers.com", "asOf": "2026-06", "confidence": "med", "note": "local tavernas and seafood; beachfront/tourist areas higher in summer"},
+    "transit": {"usd": 25, "party": "perPerson", "source": "albania-blog.com / local furgon-taxi guidance", "asOf": "2026-06", "confidence": "med", "note": "furgons, local taxis, walking; no formal monthly transit product"},
+    "coworking": {"usd": 60, "party": "perPersonDiscounted", "source": "nomads.com/sarande / digital-nomad guide cross-checks", "asOf": "2026-06", "confidence": "med", "note": "limited dedicated coworking; budget assumes cafe working plus occasional paid workspace"},
+    "simData": {"usd": 8, "party": "perPerson", "source": "happyirishwanderers.com Albania", "asOf": "2026-06", "confidence": "med", "note": "Albanian SIM; Vodafone or One; cheap plans"},
+    "misc": {"usd": 105, "party": "perPersonDiscounted", "source": "nomadoffshoreacademy.com / themobileretiree.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, beach activities, entertainment, buffer"}
   },
   "accomSeasonality": {
     "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Coastal gem peaks sharply Jun–Aug.",
-    "values": [0.70, 0.70, 0.75, 0.85, 1.00, 1.40, 1.80, 1.80, 1.30, 0.90, 0.75, 0.70]
+    "values": [0.7,0.7,0.75,0.85,1,1.4,1.8,1.8,1.3,0.9,0.75,0.7]
   },
   "evidence": [
-    {"claim": "Sarandë $891 avg cost; with sea-view add $100–$200 to Tirana base", "quote": "Sarandë's $891 average cost reflects its popularity as a coastal hotspot. On the Riviera (Sarandë) with a sea-view apartment add $100–$200 to the Tirana base budget of $900-$1,500/month", "source": "nomads.com/sarande", "url": "https://nomads.com/sarande", "date": "2026-06", "confidence": "low"},
-    {"claim": "Albania nomad budget €800–1,500/mo; comfort €1,200–1,500 with sea view and coworking", "quote": "Typical cost of living in Albania for a nomad: €800–1,500/month (comfort level €1,200–1,500 with sea view & coworking)", "source": "nomadoffshoreacademy.com", "url": "https://nomadoffshoreacademy.com/cost-living-albania/", "date": "2026-06", "confidence": "low"},
-    {"claim": "real spend in Sarandë documented by nomads; coastal charm at low base cost", "quote": "While higher than Albania's average, it remains reasonable for its scenic location. Expect higher rent during tourist seasons", "source": "themobileretiree.com", "url": "https://themobileretiree.com/cost-of-living-in-sarande-albania/", "date": "2026-06", "confidence": "low"},
-    {"claim": "living in Albania under €40/day feasible for budget nomad", "quote": "Living in Albania Under €40/Day: Digital Nomad Budget Guide", "source": "happyirishwanderers.com", "url": "https://happyirishwanderers.com/living-in-albania-under-e40-day/", "date": "2026-06", "confidence": "low"}
+    {"claim": "Sarandë average cost is below many EU beach towns, but sea-view and summer premiums matter", "quote": "Sarandë's $891 average cost reflects its popularity as a coastal hotspot. On the Riviera (Sarandë) with a sea-view apartment add $100–$200 to the Tirana base budget of $900-$1,500/month", "source": "nomads.com/sarande", "url": "https://nomads.com/sarande", "date": "2026-06", "confidence": "med"},
+    {"claim": "Albania nomad budget €800–1,500/mo; higher comfort tier includes sea view and coworking assumptions", "quote": "Typical cost of living in Albania for a nomad: €800–1,500/month (comfort level €1,200–1,500 with sea view & coworking)", "source": "nomadoffshoreacademy.com", "url": "https://nomadoffshoreacademy.com/cost-living-albania/", "date": "2026-06", "confidence": "med"},
+    {"claim": "Sarandë stays reasonable versus western Europe, but rents rise during tourist season", "quote": "While higher than Albania's average, it remains reasonable for its scenic location. Expect higher rent during tourist seasons", "source": "themobileretiree.com", "url": "https://themobileretiree.com/cost-of-living-in-sarande-albania/", "date": "2026-06", "confidence": "med"},
+    {"claim": "budget travelers can live cheaply in Albania when cooking and avoiding peak tourist spend", "quote": "Living in Albania Under €40/Day: Digital Nomad Budget Guide", "source": "happyirishwanderers.com", "url": "https://happyirishwanderers.com/living-in-albania-under-e40-day/", "date": "2026-06", "confidence": "med"}
   ]
 }

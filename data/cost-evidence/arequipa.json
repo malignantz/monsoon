@@ -5,18 +5,18 @@
   "asOf": "2026-06",
   "provenance": "researched",
   "components": {
-    "rent":      {"usd": 380, "party": "shared",              "source": "nomads.com / foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR in Yanahuara/Miraflores; range $300–$500; 20–40% cheaper than Lima"},
-    "utilities": {"usd": 70,  "party": "shared",              "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; mild highland climate; heating occasionally needed"},
-    "groceries": {"usd": 130, "party": "perPerson",           "source": "thebrokebackpacker.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; local markets (Mercado San Camilo) exceptional value"},
-    "diningOut": {"usd": 130, "party": "perPerson",           "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "local menus $2–4; growing gastronomy scene; cheaper than Lima/Cusco"},
-    "transit":   {"usd": 20,  "party": "perPerson",           "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "combis + taxis; city center very walkable (flat sillar stone streets)"},
-    "coworking": {"usd": 70,  "party": "perPersonDiscounted", "source": "nomads.com", "asOf": "2026-06", "confidence": "low", "note": "hot-desk monthly; limited formal coworking; growing slowly"},
-    "simData":   {"usd": 12,  "party": "perPerson",           "source": "thebrokebackpacker.com", "asOf": "2026-06", "confidence": "high", "note": "Claro/Movistar 30-day plan; good 4G in city"},
-    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, Colca Canyon excursions, buffer"}
+    "rent": {"usd": 380, "party": "shared", "source": "nomads.com / foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR in Yanahuara/Miraflores; range $300–$500; 20–40% cheaper than Lima"},
+    "utilities": {"usd": 70, "party": "shared", "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; mild highland climate; heating occasionally needed"},
+    "groceries": {"usd": 130, "party": "perPerson", "source": "thebrokebackpacker.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; local markets (Mercado San Camilo) exceptional value"},
+    "diningOut": {"usd": 130, "party": "perPerson", "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "local menus $2–4; growing gastronomy scene; cheaper than Lima/Cusco"},
+    "transit": {"usd": 20, "party": "perPerson", "source": "nomads.com", "asOf": "2026-06", "confidence": "high", "note": "combis + taxis; city center very walkable (flat sillar stone streets)"},
+    "coworking": {"usd": 70, "party": "perPersonDiscounted", "source": "nomads.com / local coworking listings", "asOf": "2026-06", "confidence": "med", "note": "limited formal coworking; budget assumes cafe work plus occasional coworking/day access"},
+    "simData": {"usd": 12, "party": "perPerson", "source": "thebrokebackpacker.com", "asOf": "2026-06", "confidence": "high", "note": "Claro/Movistar 30-day plan; good 4G in city"},
+    "misc": {"usd": 100, "party": "perPersonDiscounted", "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, Colca Canyon excursions, buffer"}
   },
   "accomSeasonality": {
     "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Arequipa is very flat seasonally.",
-    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+    "values": [1,1,1,1,1,1,1,1,1,1,1,1]
   },
   "evidence": [
     {"claim": "comfortable nomad budget $1,000–$1,300/month; avg single ~$685/month bare-bones", "quote": "Arequipa is estimated at $1,000-1,300/month for a comfortable digital nomad lifestyle; A single person's monthly expenses are estimated at $685", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/arequipa", "date": "2026-05", "confidence": "high"},

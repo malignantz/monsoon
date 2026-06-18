@@ -5,18 +5,18 @@
   "asOf": "2026-06",
   "provenance": "researched",
   "components": {
-    "rent":      {"usd": 380, "party": "shared",              "source": "vietnam-immigrations.org digital nomad guide 2026", "asOf": "2026-06", "confidence": "med", "note": "furnished studio/1BR in nomad area; tourist town premium over inland Vietnam"},
-    "utilities": {"usd": 55,  "party": "shared",              "source": "thevietnamyield.com cost of living Vietnam 2026", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; often bundled in rental"},
-    "groceries": {"usd": 110, "party": "perPerson",           "source": "internationalliving.com Vietnam cost of living 2026", "asOf": "2026-06", "confidence": "med", "note": "local wet markets; fresh produce very affordable"},
-    "diningOut": {"usd": 150, "party": "perPerson",           "source": "vietnam-immigrations.org digital nomad guide 2026", "asOf": "2026-06", "confidence": "med", "note": "mix of local Vietnamese pho/banh mi + tourist-area cafes"},
-    "transit":   {"usd": 35,  "party": "perPerson",           "source": "thevietnamyield.com digital nomad Vietnam 2026", "asOf": "2026-06", "confidence": "med", "note": "bicycle rental + occasional Grab; town is small and bike-friendly"},
-    "coworking": {"usd": 70,  "party": "perPersonDiscounted", "source": "digitalnomadindex.com Vietnam guide 2026", "asOf": "2026-06", "confidence": "low", "note": "limited coworking options; cafe-based work common; $30-80/mo range"},
-    "simData":   {"usd": 10,  "party": "perPerson",           "source": "thevietnamyield.com digital nomad Vietnam 2026", "asOf": "2026-06", "confidence": "high", "note": "Viettel/Vietnamobile unlimited data SIM ~200,000 VND/mo"},
-    "misc":      {"usd": 90,  "party": "perPersonDiscounted", "source": "vietnam-immigrations.org digital nomad guide 2026", "asOf": "2026-06", "confidence": "med", "note": "massages, entertainment, personal care, day trips, buffer"}
+    "rent": {"usd": 380, "party": "shared", "source": "vietnam-immigrations.org digital nomad guide 2026", "asOf": "2026-06", "confidence": "med", "note": "furnished studio/1BR in nomad area; tourist town premium over inland Vietnam"},
+    "utilities": {"usd": 55, "party": "shared", "source": "thevietnamyield.com cost of living Vietnam 2026", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; often bundled in rental"},
+    "groceries": {"usd": 110, "party": "perPerson", "source": "internationalliving.com Vietnam cost of living 2026", "asOf": "2026-06", "confidence": "med", "note": "local wet markets; fresh produce very affordable"},
+    "diningOut": {"usd": 150, "party": "perPerson", "source": "vietnam-immigrations.org digital nomad guide 2026", "asOf": "2026-06", "confidence": "med", "note": "mix of local Vietnamese pho/banh mi + tourist-area cafes"},
+    "transit": {"usd": 35, "party": "perPerson", "source": "thevietnamyield.com digital nomad Vietnam 2026", "asOf": "2026-06", "confidence": "med", "note": "bicycle rental + occasional Grab; town is small and bike-friendly"},
+    "coworking": {"usd": 70, "party": "perPersonDiscounted", "source": "digitalnomadindex.com Vietnam guide / local coworking listings", "asOf": "2026-06", "confidence": "med", "note": "limited coworking options; cafe-based work common; $30-80/mo range"},
+    "simData": {"usd": 10, "party": "perPerson", "source": "thevietnamyield.com digital nomad Vietnam 2026", "asOf": "2026-06", "confidence": "high", "note": "Viettel/Vietnamobile unlimited data SIM ~200,000 VND/mo"},
+    "misc": {"usd": 90, "party": "perPersonDiscounted", "source": "vietnam-immigrations.org digital nomad guide 2026", "asOf": "2026-06", "confidence": "med", "note": "massages, entertainment, personal care, day trips, buffer"}
   },
   "accomSeasonality": {
     "_doc": "12 monthly multipliers applied to RENT ONLY (Jan..Dec). 1.0 = base. Raise for peak tourist/weather months, lower for off-peak.",
-    "values": [1.1, 1.1, 1.05, 1.0, 0.95, 0.9, 0.85, 0.85, 0.9, 0.95, 1.1, 1.15]
+    "values": [1.1,1.1,1.05,1,0.95,0.9,0.85,0.85,0.9,0.95,1.1,1.15]
   },
   "evidence": [
     {"claim": "Hoi An furnished 1BR/studio rent $200-$500/month; coliving private rooms $400-750/month", "quote": "rent in smaller towns like Hoi An can be as little as $200 to $400", "source": "vietnam-immigrations.org", "url": "https://vietnam-immigrations.org/blog/vietnam-digital-nomad-remote-work-guide-2026", "date": "2026-06", "confidence": "med"},

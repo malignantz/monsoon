@@ -5,18 +5,18 @@
   "asOf": "2026-06",
   "provenance": "researched",
   "components": {
-    "rent":      {"usd": 480, "party": "shared",              "source": "digitalnomads.world / foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR in San Blas/Wanchaq; range $350–$600; altitude limits supply"},
-    "utilities": {"usd": 110, "party": "shared",              "source": "digitalnomads.world", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; $120–$200 range; heating required at 3,400m altitude"},
-    "groceries": {"usd": 150, "party": "perPerson",           "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; local markets (San Pedro) very affordable"},
-    "diningOut": {"usd": 160, "party": "perPerson",           "source": "digitalnomads.world", "asOf": "2026-06", "confidence": "med", "note": "local menus $2–4; tourist restaurants $10–20; mix essential"},
-    "transit":   {"usd": 25,  "party": "perPerson",           "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "high", "note": "combis + taxis; historic center walkable"},
-    "coworking": {"usd": 80,  "party": "perPersonDiscounted", "source": "digitalnomads.world", "asOf": "2026-06", "confidence": "low", "note": "hot-desk monthly; growing scene; several hostels offer work spaces"},
-    "simData":   {"usd": 12,  "party": "perPerson",           "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "high", "note": "Claro/Movistar 30-day plan; coverage good in city"},
-    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "digitalnomads.world", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, treks, excursions to ruins, buffer"}
+    "rent": {"usd": 480, "party": "shared", "source": "digitalnomads.world / foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR in San Blas/Wanchaq; range $350–$600; altitude limits supply"},
+    "utilities": {"usd": 110, "party": "shared", "source": "digitalnomads.world", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; $120–$200 range; heating required at 3,400m altitude"},
+    "groceries": {"usd": 150, "party": "perPerson", "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; local markets (San Pedro) very affordable"},
+    "diningOut": {"usd": 160, "party": "perPerson", "source": "digitalnomads.world", "asOf": "2026-06", "confidence": "med", "note": "local menus $2–4; tourist restaurants $10–20; mix essential"},
+    "transit": {"usd": 25, "party": "perPerson", "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "high", "note": "combis + taxis; historic center walkable"},
+    "coworking": {"usd": 80, "party": "perPersonDiscounted", "source": "digitalnomads.world / local coworking listings", "asOf": "2026-06", "confidence": "med", "note": "growing but still small scene; several hostels/cafes offer work spaces"},
+    "simData": {"usd": 12, "party": "perPerson", "source": "foodtravelexplore.com", "asOf": "2026-06", "confidence": "high", "note": "Claro/Movistar 30-day plan; coverage good in city"},
+    "misc": {"usd": 120, "party": "perPersonDiscounted", "source": "digitalnomads.world", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, treks, excursions to ruins, buffer"}
   },
   "accomSeasonality": {
     "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Dry season (May–Oct) is tourist high season; rainy season lower demand.",
-    "values": [0.97, 0.97, 1.0, 1.0, 1.05, 1.08, 1.08, 1.05, 1.02, 1.0, 0.97, 0.97]
+    "values": [0.97,0.97,1,1,1.05,1.08,1.08,1.05,1.02,1,0.97,0.97]
   },
   "evidence": [
     {"claim": "monthly costs $1,000–$1,400/month for nomad lifestyle in Cusco", "quote": "In Cusco, digital nomads can expect monthly costs of $1,000-1,400/month for a similar lifestyle", "source": "foodtravelexplore.com", "url": "https://foodtravelexplore.com/south-america/peru/cost-of-living-peru/", "date": "2026-06", "confidence": "high"},

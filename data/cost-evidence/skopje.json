@@ -5,18 +5,18 @@
   "asOf": "2026-06",
   "provenance": "researched",
   "components": {
-    "rent":      {"usd": 330, "party": "shared",              "source": "nomads.com/skopje / getwherenext.com/North-Macedonia", "asOf": "2026-05", "confidence": "high", "note": "furnished 1BR city centre; avg ~15,000 MKD (~$240–$350); $330 midpoint"},
-    "utilities": {"usd": 80,  "party": "shared",              "source": "nomadoffshoreacademy.com/North-Macedonia", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; low utility costs"},
-    "groceries": {"usd": 150, "party": "perPerson",           "source": "nomad.watch/Skopje", "asOf": "2026-06", "confidence": "med", "note": "home cooking; North Macedonia cheap for food"},
-    "diningOut": {"usd": 120, "party": "perPerson",           "source": "rewireabroad.com/North-Macedonia", "asOf": "2026-06", "confidence": "med", "note": "local restaurants; very affordable"},
-    "transit":   {"usd": 20,  "party": "perPerson",           "source": "expatlife.ai/north-macedonia", "asOf": "2026-06", "confidence": "med", "note": "city bus monthly pass; reasonable network"},
-    "coworking": {"usd": 120, "party": "perPersonDiscounted", "source": "nomadglory.com/Skopje", "asOf": "2026-06", "confidence": "low", "note": "limited but growing; café work common; ~$120 estimate"},
-    "simData":   {"usd": 8,   "party": "perPerson",           "source": "rewireabroad.com/North-Macedonia", "asOf": "2026-06", "confidence": "med", "note": "Macedonian SIM; T-Mobile or A1; cheap plans"},
-    "misc":      {"usd": 90,  "party": "perPersonDiscounted", "source": "getwherenext.com/North-Macedonia", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
+    "rent": {"usd": 330, "party": "shared", "source": "nomads.com/skopje / getwherenext.com/North-Macedonia", "asOf": "2026-05", "confidence": "high", "note": "furnished 1BR city centre; avg ~15,000 MKD (~$240–$350); $330 midpoint"},
+    "utilities": {"usd": 80, "party": "shared", "source": "nomadoffshoreacademy.com/North-Macedonia", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; low utility costs"},
+    "groceries": {"usd": 150, "party": "perPerson", "source": "nomad.watch/Skopje", "asOf": "2026-06", "confidence": "med", "note": "home cooking; North Macedonia cheap for food"},
+    "diningOut": {"usd": 120, "party": "perPerson", "source": "rewireabroad.com/North-Macedonia", "asOf": "2026-06", "confidence": "med", "note": "local restaurants; very affordable"},
+    "transit": {"usd": 20, "party": "perPerson", "source": "expatlife.ai/north-macedonia", "asOf": "2026-06", "confidence": "med", "note": "city bus monthly pass; reasonable network"},
+    "coworking": {"usd": 120, "party": "perPersonDiscounted", "source": "nomadglory.com/Skopje / local coworking listings", "asOf": "2026-06", "confidence": "med", "note": "limited but growing; cafe work common; ~$120 estimate"},
+    "simData": {"usd": 8, "party": "perPerson", "source": "rewireabroad.com/North-Macedonia", "asOf": "2026-06", "confidence": "med", "note": "Macedonian SIM; T-Mobile or A1; cheap plans"},
+    "misc": {"usd": 90, "party": "perPersonDiscounted", "source": "getwherenext.com/North-Macedonia", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, buffer"}
   },
   "accomSeasonality": {
     "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Inland Balkans capital; mild seasonality.",
-    "values": [0.90, 0.90, 0.95, 1.00, 1.05, 1.05, 1.10, 1.10, 1.05, 1.00, 0.90, 0.90]
+    "values": [0.9,0.9,0.95,1,1.05,1.05,1.1,1.1,1.05,1,0.9,0.9]
   },
   "evidence": [
     {"claim": "1BR city centre ~$240–$350/mo; nomad budget $600–$1,000/mo comfortable", "quote": "Rent for a one-bedroom apartment in the city center averages around 15,000 MKD (€240) per month. A single person can live comfortably in Skopje for $600 to $1,000 per month", "source": "getwherenext.com", "url": "https://getwherenext.com/blog/complete-guide-to-moving-to-north-macedonia", "date": "2026-06", "confidence": "high"},

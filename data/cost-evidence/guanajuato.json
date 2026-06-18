@@ -5,18 +5,18 @@
   "asOf": "2026-06",
   "provenance": "researched",
   "components": {
-    "rent":      {"usd": 600, "party": "shared",              "source": "expatexchange.com / psimonmyway.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR; range $400–$800; hilly city limits apartment supply"},
-    "utilities": {"usd": 60,  "party": "shared",              "source": "outtathecomfortzone.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + fiber internet ~$30; mild highland climate"},
-    "groceries": {"usd": 155, "party": "perPerson",           "source": "psimonmyway.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; local markets cheap, some import goods pricier"},
-    "diningOut": {"usd": 160, "party": "perPerson",           "source": "expatexchange.com", "asOf": "2026-06", "confidence": "med", "note": "dinner mid-range restaurant $10–15/person; student city keeps prices down"},
-    "transit":   {"usd": 20,  "party": "perPerson",           "source": "psimonmyway.com", "asOf": "2026-06", "confidence": "high", "note": "city very walkable (compact colonial centro); combis + taxis"},
-    "coworking": {"usd": 90,  "party": "perPersonDiscounted", "source": "nomads.com", "asOf": "2026-06", "confidence": "low", "note": "hot-desk monthly; limited formal coworking; cafes popular work spots"},
-    "simData":   {"usd": 15,  "party": "perPerson",           "source": "outtathecomfortzone.com", "asOf": "2026-06", "confidence": "high", "note": "Telcel 30-day plan"},
-    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "psimonmyway.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, festivals, buffer"}
+    "rent": {"usd": 600, "party": "shared", "source": "expatexchange.com / psimonmyway.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR; range $400–$800; hilly city limits apartment supply"},
+    "utilities": {"usd": 60, "party": "shared", "source": "outtathecomfortzone.com", "asOf": "2026-06", "confidence": "med", "note": "electric + water + fiber internet ~$30; mild highland climate"},
+    "groceries": {"usd": 155, "party": "perPerson", "source": "psimonmyway.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; local markets cheap, some import goods pricier"},
+    "diningOut": {"usd": 160, "party": "perPerson", "source": "expatexchange.com", "asOf": "2026-06", "confidence": "med", "note": "dinner mid-range restaurant $10–15/person; student city keeps prices down"},
+    "transit": {"usd": 20, "party": "perPerson", "source": "psimonmyway.com", "asOf": "2026-06", "confidence": "high", "note": "city very walkable (compact colonial centro); combis + taxis"},
+    "coworking": {"usd": 90, "party": "perPersonDiscounted", "source": "nomads.com / local coworking listings", "asOf": "2026-06", "confidence": "med", "note": "limited formal coworking; cafes are popular work spots"},
+    "simData": {"usd": 15, "party": "perPerson", "source": "outtathecomfortzone.com", "asOf": "2026-06", "confidence": "high", "note": "Telcel 30-day plan"},
+    "misc": {"usd": 100, "party": "perPersonDiscounted", "source": "psimonmyway.com", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, festivals, buffer"}
   },
   "accomSeasonality": {
     "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base.",
-    "values": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.05, 1.05, 1.05]
+    "values": [1,1,1,1,1,1,1,1,1,1.05,1.05,1.05]
   },
   "evidence": [
     {"claim": "nice 1BR $400–$600; 2BR $500–$800 per month", "quote": "a nice 1 bedroom apartment can cost anywhere from $400 to $600 USD per month, while a nice 2 bedroom apartment can cost anywhere from $500 to $800 USD per month", "source": "expatexchange.com", "url": "https://www.expatexchange.com/gdc/8/77/5019/Mexico/Cost-of-Living-in-Guanajuato", "date": "2026-06", "confidence": "high"},

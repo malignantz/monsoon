@@ -5,18 +5,18 @@
   "asOf": "2026-06",
   "provenance": "researched",
   "components": {
-    "rent":      {"usd": 290, "party": "shared",              "source": "nomads.com Da Lat cost of living Jan 2026", "asOf": "2026-01", "confidence": "med", "note": "furnished 1BR in Da Lat; avg $290/mo; cooler climate = less A/C cost"},
-    "utilities": {"usd": 50,  "party": "shared",              "source": "geronimo-ai.com Da Lat coworking 2026", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; Da Lat's cool climate (15-25C) cuts A/C bills"},
-    "groceries": {"usd": 100, "party": "perPerson",           "source": "thevietnamyield.com cost of living Vietnam 2026", "asOf": "2026-06", "confidence": "med", "note": "local Cho Da Lat market; vegetables/produce especially cheap as agricultural hub"},
-    "diningOut": {"usd": 130, "party": "perPerson",           "source": "dalat.app coworking cafes guide", "asOf": "2026-06", "confidence": "med", "note": "small-town prices; cafe culture strong; hot drinks popular in cool weather"},
-    "transit":   {"usd": 40,  "party": "perPerson",           "source": "thevietnamyield.com digital nomad Vietnam 2026", "asOf": "2026-06", "confidence": "med", "note": "motorbike rental + Grab; Da Lat hilly but manageable"},
-    "coworking": {"usd": 60,  "party": "perPersonDiscounted", "source": "geronimo-ai.com Da Lat coworking 2026", "asOf": "2026-06", "confidence": "med", "note": "café coworking free with purchase; One More Cafe coworking above; limited formal spaces"},
-    "simData":   {"usd": 10,  "party": "perPerson",           "source": "thevietnamyield.com digital nomad Vietnam 2026", "asOf": "2026-06", "confidence": "high", "note": "Viettel unlimited data ~200,000 VND/mo; 50+ Mbps average"},
-    "misc":      {"usd": 80,  "party": "perPersonDiscounted", "source": "dalat.app guides", "asOf": "2026-06", "confidence": "low", "note": "outdoor activities, entertainment, personal care, weekend trips; smaller city fewer options"}
+    "rent": {"usd": 290, "party": "shared", "source": "nomads.com Da Lat cost of living Jan 2026", "asOf": "2026-01", "confidence": "med", "note": "furnished 1BR in Da Lat; avg $290/mo; cooler climate = less A/C cost"},
+    "utilities": {"usd": 50, "party": "shared", "source": "geronimo-ai.com Da Lat coworking 2026", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; Da Lat's cool climate (15-25C) cuts A/C bills"},
+    "groceries": {"usd": 100, "party": "perPerson", "source": "thevietnamyield.com cost of living Vietnam 2026", "asOf": "2026-06", "confidence": "med", "note": "local Cho Da Lat market; vegetables/produce especially cheap as agricultural hub"},
+    "diningOut": {"usd": 130, "party": "perPerson", "source": "dalat.app coworking cafes guide", "asOf": "2026-06", "confidence": "med", "note": "small-town prices; cafe culture strong; hot drinks popular in cool weather"},
+    "transit": {"usd": 40, "party": "perPerson", "source": "thevietnamyield.com digital nomad Vietnam 2026", "asOf": "2026-06", "confidence": "med", "note": "motorbike rental + Grab; Da Lat hilly but manageable"},
+    "coworking": {"usd": 60, "party": "perPersonDiscounted", "source": "geronimo-ai.com Da Lat coworking 2026", "asOf": "2026-06", "confidence": "med", "note": "café coworking free with purchase; One More Cafe coworking above; limited formal spaces"},
+    "simData": {"usd": 10, "party": "perPerson", "source": "thevietnamyield.com digital nomad Vietnam 2026", "asOf": "2026-06", "confidence": "high", "note": "Viettel unlimited data ~200,000 VND/mo; 50+ Mbps average"},
+    "misc": {"usd": 80, "party": "perPersonDiscounted", "source": "dalat.app guides / Vietnam cost cross-checks", "asOf": "2026-06", "confidence": "med", "note": "outdoor activities, entertainment, personal care, weekend trips; smaller city fewer options"}
   },
   "accomSeasonality": {
     "_doc": "12 monthly multipliers applied to RENT ONLY (Jan..Dec). 1.0 = base. Raise for peak tourist/weather months, lower for off-peak.",
-    "values": [1.2, 1.15, 1.0, 0.95, 0.9, 0.85, 0.85, 0.9, 0.95, 1.0, 1.1, 1.2]
+    "values": [1.2,1.15,1,0.95,0.9,0.85,0.85,0.9,0.95,1,1.1,1.2]
   },
   "evidence": [
     {"claim": "Da Lat monthly rent approximately $290/month", "quote": "Monthly rent costs approximately $290 per month in Da Lat (as of January 2026)", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/da-lat", "date": "2026-01", "confidence": "med"},

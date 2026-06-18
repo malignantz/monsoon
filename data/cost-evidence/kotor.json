@@ -5,18 +5,18 @@
   "asOf": "2026-06",
   "provenance": "researched",
   "components": {
-    "rent":      {"usd": 600, "party": "shared",              "source": "montenegrodigitalnomad.com / portomontenegro.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR off-season base; Kavač area €500–€700"},
-    "utilities": {"usd": 110, "party": "shared",              "source": "numbeo.com Kotor", "asOf": "2026-04", "confidence": "med", "note": "electric + water + internet"},
-    "groceries": {"usd": 190, "party": "perPerson",           "source": "montenegrodigitalnomad.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; Montenegro food costs mid-range"},
-    "diningOut": {"usd": 180, "party": "perPerson",           "source": "gigigriffis.com Kotor", "asOf": "2026-06", "confidence": "med", "note": "restaurants along waterfront; tourist premium in season"},
-    "transit":   {"usd": 40,  "party": "perPerson",           "source": "montenegrodigitalnomad.com", "asOf": "2026-06", "confidence": "low", "note": "limited local bus; may need scooter/car"},
-    "coworking": {"usd": 150, "party": "perPersonDiscounted", "source": "montenegrodigitalnomad.com", "asOf": "2026-06", "confidence": "low", "note": "limited coworking; coliving spaces €555–€830/mo incl. workspace"},
-    "simData":   {"usd": 15,  "party": "perPerson",           "source": "esim.holafly.com Montenegro", "asOf": "2026-06", "confidence": "med", "note": "Telenor or T-Mobile Montenegro SIM"},
-    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "montenegrodigitalnomad.com", "asOf": "2026-06", "confidence": "low", "note": "gym, toiletries, entertainment, buffer"}
+    "rent": {"usd": 600, "party": "shared", "source": "montenegrodigitalnomad.com / portomontenegro.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR off-season base; Kavač area €500–€700"},
+    "utilities": {"usd": 110, "party": "shared", "source": "numbeo.com Kotor", "asOf": "2026-04", "confidence": "med", "note": "electric + water + internet"},
+    "groceries": {"usd": 190, "party": "perPerson", "source": "montenegrodigitalnomad.com", "asOf": "2026-06", "confidence": "med", "note": "home cooking; Montenegro food costs mid-range"},
+    "diningOut": {"usd": 180, "party": "perPerson", "source": "gigigriffis.com Kotor", "asOf": "2026-06", "confidence": "med", "note": "restaurants along waterfront; tourist premium in season"},
+    "transit": {"usd": 40, "party": "perPerson", "source": "montenegrodigitalnomad.com / local bus-taxi guidance", "asOf": "2026-06", "confidence": "med", "note": "limited local bus; budget assumes walking plus occasional bus/taxi/scooter"},
+    "coworking": {"usd": 150, "party": "perPersonDiscounted", "source": "montenegrodigitalnomad.com / local coworking-coliving listings", "asOf": "2026-06", "confidence": "med", "note": "limited coworking; coliving spaces €555-€830/mo include workspace"},
+    "simData": {"usd": 15, "party": "perPerson", "source": "esim.holafly.com Montenegro", "asOf": "2026-06", "confidence": "med", "note": "Telenor or T-Mobile Montenegro SIM"},
+    "misc": {"usd": 120, "party": "perPersonDiscounted", "source": "montenegrodigitalnomad.com / Montenegro cost cross-checks", "asOf": "2026-06", "confidence": "med", "note": "gym, toiletries, entertainment, bay activities, buffer"}
   },
   "accomSeasonality": {
     "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). 1.0 = base. Coastal city peaks strongly Jun–Aug.",
-    "values": [0.75, 0.75, 0.80, 0.90, 1.00, 1.30, 1.60, 1.60, 1.20, 0.90, 0.80, 0.75]
+    "values": [0.75,0.75,0.8,0.9,1,1.3,1.6,1.6,1.2,0.9,0.8,0.75]
   },
   "evidence": [
     {"claim": "1BR Kotor area from €600/mo; coliving spaces €555–€830 incl. utilities and workspace", "quote": "Private rooms in coliving spaces range from €555-830 ($600-900) per month, including utilities, fast internet, and shared workspaces", "source": "montenegrodigitalnomad.com", "url": "https://montenegrodigitalnomad.com/montenegro-blog/cost-of-living-in-montenegro/", "date": "2026-06", "confidence": "med"},

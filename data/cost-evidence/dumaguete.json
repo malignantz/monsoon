@@ -5,18 +5,18 @@
   "asOf": "2026-06",
   "provenance": "researched",
   "components": {
-    "rent":      {"usd": 380, "party": "shared",              "source": "liveandinvestoverseas.com Dumaguete 2026 / numbeo.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR in city center; avg $240 center / $213 outside; $400-500 for comfortable modern unit"},
-    "utilities": {"usd": 80,  "party": "shared",              "source": "numbeo.com Dumaguete May 2026", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; basic utilities avg $68/mo for 85sqm; internet extra"},
-    "groceries": {"usd": 120, "party": "perPerson",           "source": "wise.com Dumaguete cost 2026", "asOf": "2026-06", "confidence": "med", "note": "Lee Plaza + Robinsons + local markets; Philippines food generally affordable"},
-    "diningOut": {"usd": 160, "party": "perPerson",           "source": "expatexchange.com Dumaguete cost", "asOf": "2026-06", "confidence": "med", "note": "boulevard food stalls, local carinderias ($1-2/meal), some expat-oriented restaurants"},
-    "transit":   {"usd": 35,  "party": "perPerson",           "source": "numbeo.com Dumaguete May 2026", "asOf": "2026-06", "confidence": "high", "note": "tricycles $0.25-0.50; monthly bus pass $8; very cheap local transport"},
-    "coworking": {"usd": 90,  "party": "perPersonDiscounted", "source": "coworker.com Dumaguete 2026", "asOf": "2026-06", "confidence": "low", "note": "limited coworking spaces; student city + professionals; cafes serve as workspace"},
-    "simData":   {"usd": 12,  "party": "perPerson",           "source": "ocarramedia.com Philippines digital nomad 2026", "asOf": "2026-06", "confidence": "high", "note": "Globe/Smart unlimited data; Philippines SIM rates $10-15/mo"},
-    "misc":      {"usd": 90,  "party": "perPersonDiscounted", "source": "liveandinvestoverseas.com Dumaguete 2026", "asOf": "2026-06", "confidence": "med", "note": "diving, island day trips, gym, personal care, entertainment; slow-paced city"}
+    "rent": {"usd": 380, "party": "shared", "source": "liveandinvestoverseas.com Dumaguete 2026 / numbeo.com", "asOf": "2026-06", "confidence": "med", "note": "furnished 1BR in city center; avg $240 center / $213 outside; $400-500 for comfortable modern unit"},
+    "utilities": {"usd": 80, "party": "shared", "source": "numbeo.com Dumaguete May 2026", "asOf": "2026-06", "confidence": "med", "note": "electric + water + internet; basic utilities avg $68/mo for 85sqm; internet extra"},
+    "groceries": {"usd": 120, "party": "perPerson", "source": "wise.com Dumaguete cost 2026", "asOf": "2026-06", "confidence": "med", "note": "Lee Plaza + Robinsons + local markets; Philippines food generally affordable"},
+    "diningOut": {"usd": 160, "party": "perPerson", "source": "expatexchange.com Dumaguete cost", "asOf": "2026-06", "confidence": "med", "note": "boulevard food stalls, local carinderias ($1-2/meal), some expat-oriented restaurants"},
+    "transit": {"usd": 35, "party": "perPerson", "source": "numbeo.com Dumaguete May 2026", "asOf": "2026-06", "confidence": "high", "note": "tricycles $0.25-0.50; monthly bus pass $8; very cheap local transport"},
+    "coworking": {"usd": 90, "party": "perPersonDiscounted", "source": "coworker.com Dumaguete / local cafe-work listings", "asOf": "2026-06", "confidence": "med", "note": "limited coworking spaces; student city + professionals; cafes serve as workspace"},
+    "simData": {"usd": 12, "party": "perPerson", "source": "ocarramedia.com Philippines digital nomad 2026", "asOf": "2026-06", "confidence": "high", "note": "Globe/Smart unlimited data; Philippines SIM rates $10-15/mo"},
+    "misc": {"usd": 90, "party": "perPersonDiscounted", "source": "liveandinvestoverseas.com Dumaguete 2026", "asOf": "2026-06", "confidence": "med", "note": "diving, island day trips, gym, personal care, entertainment; slow-paced city"}
   },
   "accomSeasonality": {
     "_doc": "12 monthly multipliers applied to RENT ONLY (Jan..Dec). 1.0 = base. Raise for peak tourist/weather months, lower for off-peak.",
-    "values": [1.1, 1.1, 1.05, 1.0, 0.95, 0.9, 0.85, 0.85, 0.9, 1.0, 1.05, 1.1]
+    "values": [1.1,1.1,1.05,1,0.95,0.9,0.85,0.85,0.9,1,1.05,1.1]
   },
   "evidence": [
     {"claim": "Dumaguete 1BR city center avg $240; $553/mo without rent; total ~$793/mo", "quote": "the average monthly rent for a 1-bedroom apartment in the city centre is $240. A single person needs $553 per month without rent", "source": "numbeo.com", "url": "https://www.numbeo.com/cost-of-living/in/Dumaguete", "date": "2026-05", "confidence": "med"},
