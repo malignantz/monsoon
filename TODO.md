@@ -1,6 +1,11 @@
 # Monsoon TODO
 
-Last consolidated: 2026-06-15 (sharing + itinerary-naming pass).
+Last consolidated: 2026-06-17 (UX/SEO/retention research audit + My year ghost-example seed).
+
+See `UX_RESEARCH_AUDIT.md` for the full research-backed audit (usability, the
+"boring" My year problem, trust/freshness, retention loops, programmatic SEO),
+its source list, and a prioritized roadmap. The items below are the actionable
+slices; the audit has the "why" and the citations.
 
 ## Itinerary Saving And Sharing
 
@@ -15,6 +20,30 @@ Last consolidated: 2026-06-15 (sharing + itinerary-naming pass).
 
 ## My Year And Planning Flow
 
+- [~] Warm the empty My year board (kill the blank-canvas "boring" feel). **(Audit §3.)**
+  - Done: a faint, dismissible **ghost example year** now renders on the empty board
+    (desktop + mobile) with a seed strip ("Use this example" / "Start from scratch"),
+    and the totals/overview preview the example's real payoff (avg score, $/mo, festivals)
+    tagged "Example year" instead of em-dashes. Generator: `exampleRoute()` in
+    `data.svelte.js` — deterministic, season-following, Schengen-legal, greedy-by-score
+    with a region-variety nudge so it's stable and spans the map.
+  - Insight: keeping the board and warming it in place beats swapping in an explainer
+    panel (avoids the read-it-then-go-find-the-real-thing double step). Dismissal is
+    per-session, so clearing a real route later still gets the warm start.
+  - Done: **progress indicator** ("N of 12 months planned" + filling bar, goal-gradient)
+    and a **completion milestone** ("✓ Your year is complete — N major festivals along the
+    way") on the real route, desktop + mobile.
+- [x] Build "Build me a year" — seed *choices*, not just one example. **(Audit §3.1.)**
+  - Done: `generateRoute(style, preset)` in `data.svelte.js` generalizes the seed engine into
+    five styles — **best quality / best value (livability-per-dollar) / festival / non-Schengen /
+    from favorites** (the last only when favorites exist). Each is deterministic, Schengen-legal,
+    and uses a scale-independent (multiplicative) region-variety nudge. The seed strip now has a
+    style chooser that re-seeds the ghost preview *live*; "Use this year" adopts the previewed
+    style into an editable route.
+  - Remaining (smaller follow-up): surface *why* each leg was picked in the picker rows
+    ("fills Mar–Apr · São João festival · €420 cheaper than your Feb stay") — we compute all of
+    this; just expose it. The favorites-based builder and automatic-picker items below can now
+    build on `generateRoute()` as the shared seed engine.
 - [ ] Build a favorites-based itinerary builder.
   - Let users turn their saved cities into a year plan without starting from a blank board.
   - Use favorites as the candidate pool for automatic route generation, month-by-month ranking, and swap suggestions.
@@ -38,6 +67,46 @@ Last consolidated: 2026-06-15 (sharing + itinerary-naming pass).
   - User settings already store `passport`; city sheets already show visa rows.
   - My year should flag or prevent stays beyond passport-specific visa-free windows.
   - Keep Schengen as a special rolling-window rule.
+
+## Growth, Trust & Retention (from the UX audit)
+
+These are the big cross-cutting levers the audit surfaced. None are started yet.
+Full rationale + sources in `UX_RESEARCH_AUDIT.md`.
+
+- [ ] **Prerender + programmatic SEO pages.** **(Audit §6 — largest growth lever.)**
+  - Today: pure CSR Svelte SPA, one crawlable URL, bare `robots.txt`, no sitemap — so
+    111 cities × 12 months of computed data is invisible to Google, AI crawlers
+    (ClaudeBot/GPTBot/Perplexity don't run JS), and social link previews.
+  - Move to SvelteKit `adapter-static` (or a build-time prerender) — keeps no-backend,
+    deploys to Cloudflare Pages, hydrates the interactive tool as a client island.
+  - Build the page matrix from the dataset: `/city/<slug>`, `/best/where-to-go-in-<month>`,
+    `/best/<attribute>-in-<region>`, `/compare/<a>-vs-<b>` (cap to relevant pairs).
+  - Bake per-route `<title>`/meta/canonical + JSON-LD (`ItemList`, `Place`, `Dataset`) +
+    OG tags into the prerendered HTML; split sitemaps by template; hub-and-spoke linking;
+    `noindex` thin combinatorial variants. Pairs with the gem×anchor comparison objects below.
+- [ ] **Per-page dynamic share images.** **(Audit §6.5.)**
+  - Generate an OG card per city / comparison / planned year ("My Monsoon Year — avg 89,
+    6 stays") at build time or via a Cloudflare Worker. Turns every share into a re-entry loop;
+    feeds the gem×anchor share cards.
+- [ ] **Lower first-contact density on This month.** **(Audit §2 — the "overwhelming" worry.)**
+  - Collapse the two legend blocks into one dismissible line (persist in `atlas.prefs.v1`).
+  - Add a one-line "#1 answer" anchor under the headline ("Top for June: Split, 94").
+  - On mobile, lift the first city card above the fold (let `stickbar` carry the controls).
+  - Surface the active lens as an on-surface pill ("Ranked for: Livability ▾") — a hidden
+    control that reorders everything is a trust-eroder; label Best-Value wins inline.
+- [ ] **Data trust & freshness signals.** **(Audit §4.)**
+  - Add a quiet "scored from 2026 data" / last-refreshed stamp near the scores (not just the
+    footer); make methodology reachable *from* the score, not only the footer.
+  - Surface the sources already in `data/` (World Bank, FCDO, WPS, cost-evidence) on the
+    methodology page.
+- [ ] **No-login retention loops.** **(Audit §5.)**
+  - Greet returning users with their saved value ("Your year: 5 stays · avg 89 · resume ▸")
+    instead of a blank ranking.
+  - Tasteful, value-framed email capture ("Email me my year" / "Email me November's rankings")
+    — passwordless, never a wall; Cloudflare Worker + KV + a transactional email service.
+  - Lean into periodicity: a monthly "where to be in <next month>" refresh doubles as a pSEO
+    page and a re-engagement trigger; win-back cadence ~9–10 months after last activity;
+    data-update nudges ("a city you watch dropped in price").
 
 ## Browse And Discovery
 
