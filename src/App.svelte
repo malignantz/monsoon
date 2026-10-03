@@ -409,7 +409,7 @@
 </div>
 
 {#if openCity}
-  <CitySheet city={openCity} {month} {preset} onclose={closeSheet} onmonth={(i) => (month = i)} onstep={stepCity} onaddtoyear={addToYear} />
+  <CitySheet city={openCity} {month} {preset} onclose={closeSheet} onmonth={(i) => (month = i)} onstep={stepCity} onaddtoyear={addToYear} onmethod={() => (methodOpen = true)} />
 {/if}
 
 {#if toast}
