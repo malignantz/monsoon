@@ -1,7 +1,8 @@
-// Two-tier data load (methodology §9): travel-core.json is bundled and covers
-// every list surface; travel-detail.json (full safety breakdown, narratives,
-// climate-table fields) is fetched once the browser is idle and merged into
-// the same reactive city objects, so any open CitySheet fills in live.
+// Two-tier data load: travel-core.json is bundled and covers every list
+// surface; travel-detail.json (full safety breakdown, narratives, climate-table
+// fields, provenance) is fetched on first intent (a card or row hovered,
+// focused or touched, or a sheet/comparison opening) and merged into the same
+// reactive city objects, so any open CitySheet fills in live.
 import { SvelteSet } from 'svelte/reactivity';
 import core from '../generated/travel-core.json';
 import detailUrl from '../generated/travel-detail.json?url';
@@ -135,7 +136,6 @@ async function loadDetail() {
     const c = cities[i];
     if (d.safety) c.safety = d.safety;
     if (d.drawDetail) c.drawDetail = d.drawDetail;
-    if (d.media) c.media = d.media;
     if (d.prov) c.prov = d.prov;
     if (d.costProv) c.costProv = d.costProv;
     d.months?.forEach((dm, j) => Object.assign(c.months[j], dm));
@@ -157,8 +157,12 @@ export function retryDetail() {
     .finally(() => (detailStatus.loading = false));
 }
 
-if (typeof window !== 'undefined') {
-  'requestIdleCallback' in window ? requestIdleCallback(retryDetail) : setTimeout(retryDetail, 1);
+// Intent-driven prefetch (card hover/focus/touch, a sheet or comparison
+// opening). Never re-fires after a failure: the sheet's Retry owns that, so a
+// flaky network isn't hammered by every hover.
+export function prefetchDetail() {
+  if (typeof window === 'undefined' || detailStatus.failed) return;
+  retryDetail();
 }
 
 // ---- "Optimize for" lenses: weights over stored component scores (methodology §6) ----

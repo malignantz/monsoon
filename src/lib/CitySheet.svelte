@@ -1,9 +1,10 @@
 <script>
+  import { untrack } from 'svelte';
   import MonthStrip from './MonthStrip.svelte';
   import ScoreInfo from './ScoreInfo.svelte';
   import Sources from './Sources.svelte';
   import { cityShareUrl } from './urlState.js';
-  import { stripCells, qolFor, fmtMoney, fmtTemp, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, retryDetail, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, shareOrCopy, settings, sources, dataAsOf } from './data.svelte.js';
+  import { stripCells, qolFor, fmtMoney, fmtTemp, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, retryDetail, prefetchDetail, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, shareOrCopy, settings, sources, dataAsOf } from './data.svelte.js';
   import { monthRows, safetyRows, costRows, cityDataDates, reportUrl, fmtDate, CHIP_LABEL, normConfidence } from './provenance.js';
 
   // oncompare is only passed where a comparison can be built (over This month,
@@ -53,6 +54,12 @@
       document.body.style.overflow = prevOverflow;
       prevFocus?.focus?.();
     };
+  });
+
+  // The detail layer loads on first intent; a sheet opened straight from a
+  // link (or by keyboard before any hover) asks for it here.
+  $effect(() => {
+    untrack(prefetchDetail);
   });
 
   // Placeholder for detail-layer cells: an ellipsis while loading, a dash once

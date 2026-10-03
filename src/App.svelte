@@ -1,19 +1,25 @@
 <script>
   import { tick, untrack } from 'svelte';
   import ThisMonth from './lib/ThisMonth.svelte';
-  import MyYear from './lib/MyYear.svelte';
-  import CitySheet from './lib/CitySheet.svelte';
-  import Settings from './lib/Settings.svelte';
-  import Methodology from './lib/Methodology.svelte';
-  import About from './lib/About.svelte';
-  import HowTo from './lib/HowTo.svelte';
   import CompareTray from './lib/CompareTray.svelte';
-  import CompareSheet from './lib/CompareSheet.svelte';
-  import { cities, cityByKey, regions, qolFor, valueFor, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS } from './lib/data.svelte.js';
+  import { lazy } from './lib/lazy.svelte.js';
+  import { cities, cityByKey, regions, qolFor, valueFor, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS, prefetchDetail } from './lib/data.svelte.js';
   import { addCity, removeStayRef } from './lib/route.svelte.js';
   import { track } from './lib/analytics.js';
   import { readUrlState, buildUrl } from './lib/urlState.js';
   import { MAX_COMPARE, sanitizeCompare, loadCompare, saveCompare } from './lib/compare.js';
+
+  // Code-split: This month is the landing surface and ships in the entry
+  // chunk; My year and every dialog/sheet load on first use (or on intent —
+  // see prefetch below), each with a small loading/reload fallback.
+  const MyYearL = lazy(() => import('./lib/MyYear.svelte'));
+  const CitySheetL = lazy(() => import('./lib/CitySheet.svelte'));
+  const CompareSheetL = lazy(() => import('./lib/CompareSheet.svelte'));
+  const SettingsL = lazy(() => import('./lib/Settings.svelte'));
+  const MethodologyL = lazy(() => import('./lib/Methodology.svelte'));
+  const AboutL = lazy(() => import('./lib/About.svelte'));
+  const HowToL = lazy(() => import('./lib/HowTo.svelte'));
+  const quiet = (p) => p.catch(() => {}); // the fallback shows the error
 
   const PREFS = 'atlas.prefs.v1';
 
@@ -130,6 +136,66 @@
 
   const openCity = $derived(cityKey ? cityByKey.get(cityKey) : null);
 
+  // ── Lazy surfaces: load on demand, prefetch on intent ──
+  // Each surface starts loading the moment it is asked for; the template shows
+  // a small fallback until it arrives. Hovering, focusing or touching a city
+  // (card, table row, #1 answer, a stay or picker row) fetches the sheet chunk
+  // and the detail data ahead of the click; the header and footer buttons that
+  // open a dialog prefetch it the same way (data-prefetch).
+  $effect(() => {
+    if (view === 'year') quiet(MyYearL.load());
+  });
+  $effect(() => {
+    if (openCity) quiet(CitySheetL.load());
+  });
+  $effect(() => {
+    // With two picks the comparison is one tap away; once it is open, any of
+    // its cities is one tap from a sheet.
+    if (comparing && compareKeys.length >= 2) quiet(CompareSheetL.load());
+    if (compareOpen) quiet(CitySheetL.load());
+  });
+  $effect(() => {
+    if (settingsOpen) quiet(SettingsL.load());
+  });
+  $effect(() => {
+    if (aboutOpen) quiet(AboutL.load());
+  });
+  $effect(() => {
+    if (howToOpen) quiet(HowToL.load());
+  });
+  $effect(() => {
+    if (!methodOpen) return;
+    quiet(MethodologyL.load());
+    prefetchDetail(); // its coverage line counts per-city provenance
+  });
+
+  const PREFETCH = { year: MyYearL, settings: SettingsL, about: AboutL, method: MethodologyL, howto: HowToL };
+  const CITY_TARGETS = '.cardwrap, .tablewrap tbody tr, .answer-btn, .stayname, .rowname, .mname';
+
+  function prefetchCity() {
+    prefetchDetail();
+    quiet(CitySheetL.load());
+  }
+
+  $effect(() => {
+    const onIntent = (e) => {
+      const t = e.target;
+      if (!(t instanceof Element)) return;
+      const named = t.closest('[data-prefetch]');
+      if (named) {
+        const l = PREFETCH[named.getAttribute('data-prefetch')];
+        if (l) quiet(l.load());
+      } else if (t.closest(CITY_TARGETS)) {
+        prefetchCity();
+      }
+    };
+    const types = ['pointerover', 'focusin', 'touchstart'];
+    for (const type of types) document.addEventListener(type, onIntent, { passive: true });
+    return () => {
+      for (const type of types) document.removeEventListener(type, onIntent);
+    };
+  });
+
   // ── URL state ──
   // view / month / sort / layout / region (+ the open city) live in the query
   // string so any state is shareable and bookmarkable. Filter tweaks replace the
@@ -215,6 +281,11 @@
   // Card → sheet: tag the clicked card with the hero name in the outgoing
   // snapshot, then let the same name on the sheet's title morph into place.
   async function openSheet(key, opts = {}) {
+    // The morph needs the sheet in the new snapshot, so wait for its chunk
+    // (usually already prefetched on hover/focus). A failed load still opens:
+    // the fallback offers a reload.
+    prefetchDetail();
+    await CitySheetL.load().catch(() => {});
     if (!canAnimate()) {
       applyOpen(key, opts);
       return;
@@ -357,7 +428,8 @@
 
   // A city from the comparison opens its sheet on top (crossfade, no card
   // morph — the card is under the comparison). Closing it returns here.
-  function openFromCompare(key) {
+  async function openFromCompare(key) {
+    await CitySheetL.load().catch(() => {});
     if (!canAnimate()) applyOpen(key);
     else document.startViewTransition(() => applyOpen(key));
   }
@@ -456,16 +528,16 @@
 
     <nav>
       {#each NAV as n}
-        <button type="button" class="navbtn" class:on={view === n.id} onclick={() => (view = n.id)}>
+        <button type="button" class="navbtn" class:on={view === n.id} data-prefetch={n.id === 'year' ? 'year' : undefined} onclick={() => (view = n.id)}>
           {n.label}
         </button>
       {/each}
-      <button type="button" class="howto" onclick={openHowTo} aria-label="How to use Monsoon"><span class="howto-long">How it works</span><span class="howto-short">Guide</span></button>
+      <button type="button" class="howto" data-prefetch="howto" onclick={openHowTo} aria-label="How to use Monsoon"><span class="howto-long">How it works</span><span class="howto-short">Guide</span></button>
     </nav>
 
     <!-- The gear sits outside <nav> so on phones it can ride up beside the logo,
          leaving the nav row to the three labelled buttons (no label wrapping). -->
-    <button type="button" class="gear util" onclick={openSettings} aria-label="Settings" title="Settings">
+    <button type="button" class="gear util" data-prefetch="settings" onclick={openSettings} aria-label="Settings" title="Settings">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="12" cy="12" r="3" />
         <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
@@ -496,8 +568,10 @@
         onsettings={openSettings}
         onresume={() => (view = 'year')}
       />
+    {:else if MyYearL.C}
+      <MyYearL.C bind:preset {valueModel} {sharedRoute} {sharedName} onsharedresolved={resolveShared} onopen={openSheet} />
     {:else}
-      <MyYear bind:preset {valueModel} {sharedRoute} {sharedName} onsharedresolved={resolveShared} onopen={openSheet} />
+      {@render lazyWait(MyYearL, null, 'Loading your year…')}
     {/if}
   </main>
 
@@ -506,9 +580,9 @@
     <span class="footlinks">
       <a class="num footlink" href="/cities/">all cities</a>
       <span aria-hidden="true">·</span>
-      <button type="button" class="num footlink" onclick={() => (aboutOpen = true)}>about</button>
+      <button type="button" class="num footlink" data-prefetch="about" onclick={() => (aboutOpen = true)}>about</button>
       <span aria-hidden="true">·</span>
-      <button type="button" class="num footlink" onclick={() => (methodOpen = true)}>methodology · 2026</button>
+      <button type="button" class="num footlink" data-prefetch="method" onclick={() => (methodOpen = true)}>methodology · 2026</button>
     </span>
   </footer>
   {#if trayVisible}<div class="trayspace" aria-hidden="true"></div>{/if}
@@ -518,8 +592,10 @@
   <CompareTray keys={compareKeys} onremove={toggleCompare} onclear={clearCompare} onopen={openCompare} />
 {/if}
 
-{#if compareOpen && compareKeys.length >= 2}
-  <CompareSheet
+{#if compareOpen && compareKeys.length >= 2 && !CompareSheetL.C}
+  {@render lazyWait(CompareSheetL, closeCompare)}
+{:else if compareOpen && compareKeys.length >= 2}
+  <CompareSheetL.C
     keys={compareKeys}
     {month}
     {preset}
@@ -533,8 +609,10 @@
   />
 {/if}
 
-{#if openCity}
-  <CitySheet
+{#if openCity && !CitySheetL.C}
+  {@render lazyWait(CitySheetL, closeSheet)}
+{:else if openCity}
+  <CitySheetL.C
     city={openCity}
     {month}
     {preset}
@@ -559,20 +637,35 @@
 {/if}
 
 {#if settingsOpen}
-  <Settings bind:preset onclose={closeSettings} />
+  {#if SettingsL.C}<SettingsL.C bind:preset onclose={closeSettings} />{:else}{@render lazyWait(SettingsL, closeSettings)}{/if}
 {/if}
 
 {#if aboutOpen}
-  <About onclose={() => (aboutOpen = false)} />
+  {#if AboutL.C}<AboutL.C onclose={() => (aboutOpen = false)} />{:else}{@render lazyWait(AboutL, () => (aboutOpen = false))}{/if}
 {/if}
 
 {#if methodOpen}
-  <Methodology onclose={() => (methodOpen = false)} />
+  {#if MethodologyL.C}<MethodologyL.C onclose={() => (methodOpen = false)} />{:else}{@render lazyWait(MethodologyL, () => (methodOpen = false))}{/if}
 {/if}
 
 {#if howToOpen}
-  <HowTo onclose={() => (howToOpen = false)} />
+  {#if HowToL.C}<HowToL.C onclose={() => (howToOpen = false)} />{:else}{@render lazyWait(HowToL, () => (howToOpen = false))}{/if}
 {/if}
+
+<!-- Fallback while a code-split surface loads: invisible for the first 300ms
+     (most loads finish sooner), then a quiet pill; on failure (typically a
+     deploy replaced the chunk under an open tab) a Reload. -->
+{#snippet lazyWait(l, onclose, label = 'Loading…')}
+  <div class="lazywait" class:inline={!onclose} class:failed={l.error} role="status">
+    {#if l.error}
+      <span>Couldn't load this part of Monsoon.</span>
+      <button type="button" class="lazy-act" onclick={() => location.reload()}>Reload</button>
+      {#if onclose}<button type="button" class="lazy-x" aria-label="Close" onclick={onclose}>×</button>{/if}
+    {:else}
+      <span>{label}</span>
+    {/if}
+  </div>
+{/snippet}
 
 <style>
   .shell {
@@ -838,6 +931,62 @@
   @media (max-width: 340px) {
     .howto-long { display: none; }
     .howto-short { display: inline; }
+  }
+
+  .lazywait {
+    position: fixed;
+    left: 50%;
+    top: 40%;
+    transform: translateX(-50%);
+    z-index: var(--z-sheet);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 16px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: 0 14px 34px -14px rgba(33, 36, 30, 0.4);
+    font-size: 13.5px;
+    color: var(--ink-2);
+    animation: lazy-in 0.2s ease 0.3s both;
+  }
+
+  .lazywait.inline {
+    position: static;
+    transform: none;
+    width: max-content;
+    margin: 48px auto;
+    box-shadow: none;
+  }
+
+  .lazywait.failed { animation: none; }
+
+  @keyframes lazy-in {
+    from { opacity: 0; }
+  }
+
+  .lazy-act {
+    border: 1px solid var(--line);
+    background: var(--card);
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .lazy-x {
+    border: none;
+    background: none;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--ink-3);
+    padding: 4px 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lazywait { animation: none; }
   }
 
   /* Add-to-year confirmation. Sits above every sheet (city sheet is z70, the My

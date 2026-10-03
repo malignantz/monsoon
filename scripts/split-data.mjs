@@ -1,4 +1,4 @@
-// Split data/travel-data.json into a two-tier payload (methodology §9):
+// Split data/travel-data.json into a two-tier payload:
 //   src/generated/travel-core.json   — bundled; everything the list surfaces
 //                                      render on first paint
 //   src/generated/travel-detail.json — fetched in the background after mount;
@@ -6,7 +6,8 @@
 //                                      breakdown, narrative, climate table)
 // Detail entries align with core entries by array index — both are emitted
 // from the same source in the same pass. Fields the app never reads
-// (stored qol/qolBase/value, airColor, mo/moNum) are dropped from both files;
+// (stored qol/qolBase/value, airColor, mo/moNum; visa, which no surface shows
+// yet; media, since no photos ship) are dropped from both files;
 // data/travel-data.json stays the source of truth for the bake scripts.
 //
 // Provenance ("where this number comes from", city sheet + methodology):
@@ -29,7 +30,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 const CORE_CITY = [
   'name', 'country', 'region', 'timezone', 'schengen', 'solo', 'couple',
-  'rent', 'var', 'util', 'vibe', 'draw', 'english', 'visa', 'swim', 'events',
+  'rent', 'var', 'util', 'vibe', 'draw', 'english', 'swim', 'events',
   'lat', 'lng'
 ];
 // rain (avg rainy days/mo) is core, not detail: the My Year rain filter and the
@@ -175,7 +176,6 @@ export function splitTravelData() {
     cities: raw.cities.map((c) => ({
       safety: c.safety,
       drawDetail: c.drawDetail,
-      media: c.media,
       ...(c.prov ? { prov: c.prov } : {}),
       ...(costProv.has(c.name) ? { costProv: costProv.get(c.name) } : {}),
       months: c.months.map((m) => ({
