@@ -29,7 +29,7 @@
   } from './data.svelte.js';
   import { screen } from './mobile.svelte.js';
   import { lockScroll } from './sheet.js';
-  import { route } from './route.svelte.js';
+  import { route, nextOpenMonth } from './route.svelte.js';
   import {
     defaultFilters,
     filtersActive,
@@ -88,12 +88,31 @@
   let previewing = $state(startsWithSharedRoute);
   const boardStays = $derived(previewing ? (sharedRoute ?? []) : route.stays);
 
+  // Adopting replaces the visitor's own year, so when they had one we keep it
+  // for an Undo bar (same banner treatment as the preview bar). It stays up until
+  // Undo, dismissal, or the first edit to the adopted route — after which an
+  // Undo would silently throw that edit away.
+  let replaced = $state.raw(null);
+
   function adoptShared() {
+    const prev = route.stays.length ? { stays: route.stays.map((s) => ({ ...s })), name: route.name } : null;
     route.stays = (sharedRoute ?? []).map((s) => ({ ...s }));
     if (sharedName) route.name = sharedName;
+    // Hold the stored proxy (not the literal) so the identity check below works.
+    replaced = prev ? { ...prev, adopted: route.stays } : null;
     selStart = -1;
     previewing = false;
     onsharedresolved?.();
+  }
+
+  const showRestore = $derived(replaced != null && route.stays === replaced.adopted);
+
+  function undoAdopt() {
+    if (!replaced) return;
+    route.stays = replaced.stays;
+    route.name = replaced.name;
+    replaced = null;
+    selStart = -1;
   }
 
   function dismissShared() {
@@ -124,6 +143,17 @@
   }
 
   let filters = $state(loadFilters());
+
+  // Budget caps are per party size (couple's list has no 1500), so a Solo ↔
+  // Couple switch re-snaps the saved cap — otherwise the filter keeps applying
+  // while the dropdown shows blank.
+  $effect(() => {
+    const party = partyWord();
+    untrack(() => {
+      const next = normalizeFilters(filters, party);
+      if (next.maxCost !== filters.maxCost) filters.maxCost = next.maxCost;
+    });
+  });
 
   // Region selection mirrors This month's convention: an empty set means "all
   // regions" (filtering to zero would show nothing, so empty reads as no filter).
@@ -301,9 +331,11 @@
     return n;
   }
 
+  // A taken (stale) selStart moves forward to the next open month, matching
+  // addCity in route.svelte.js.
   function addStay(key) {
     let start = selStart;
-    if (start < 0 || occ[start] !== null) start = occ.findIndex((x) => x === null);
+    if (start < 0 || occ[start] !== null) start = nextOpenMonth(start, occ);
     if (start < 0) return;
     const len = Math.max(1, Math.min(dur, freeRun(start)));
     route.stays = [...route.stays, { key, start, len }];
@@ -335,7 +367,7 @@
   // Where addStay would drop the next stay (mirrors addStay exactly): drives
   // both the month-dependent filtering and the Schengen breach preview.
   const prospect = $derived.by(() => {
-    const start = selStart >= 0 && occ[selStart] === null ? selStart : occ.findIndex((x) => x === null);
+    const start = selStart >= 0 && occ[selStart] === null ? selStart : nextOpenMonth(selStart, occ);
     if (start < 0) return null;
     return { start, len: Math.max(1, Math.min(dur, freeRun(start))) };
   });
@@ -408,6 +440,13 @@
   function closePicker() {
     pickerOpen = false;
   }
+
+  // The sheet only exists in the mobile layout. Rotating or resizing past the
+  // breakpoint unmounts it without running closePicker, which would otherwise
+  // leave pickerOpen (and the scroll lock below) stuck on.
+  $effect(() => {
+    if (!screen.mobile) pickerOpen = false;
+  });
 
   // Lock the page behind the open picker sheet and close it on Escape.
   $effect(() => {
@@ -540,6 +579,20 @@
       <div class="preview-act">
         <button type="button" class="chip adopt" onclick={adoptShared}>Save a copy</button>
         <button type="button" class="chip" onclick={dismissShared}>Dismiss</button>
+      </div>
+    </div>
+  {:else if showRestore}
+    <div class="previewbar" role="status">
+      <div class="preview-msg">
+        <span class="preview-eyebrow">Saved as your year</span>
+        <span class="preview-sub">
+          This replaced your previous year{replaced.name ? ` “${replaced.name}”` : ''} ({replaced.stays.length}
+          {replaced.stays.length === 1 ? 'stay' : 'stays'}).
+        </span>
+      </div>
+      <div class="preview-act">
+        <button type="button" class="chip adopt" onclick={undoAdopt}>Undo</button>
+        <button type="button" class="chip" onclick={() => (replaced = null)}>Keep this year</button>
       </div>
     </div>
   {/if}

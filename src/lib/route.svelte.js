@@ -55,6 +55,17 @@ if (typeof window !== 'undefined') {
   });
 }
 
+// First open month at or after `from`, walking forward and wrapping Dec→Jan;
+// -1 when the year is full. `from` outside 0-11 starts the search at Jan.
+export function nextOpenMonth(from, occ = monthOccupancy(route.stays)) {
+  const base = from >= 0 && from <= 11 ? from : 0;
+  for (let i = 0; i < 12; i++) {
+    const m = (base + i) % 12;
+    if (occ[m] === null) return m;
+  }
+  return -1;
+}
+
 // Length of the open run of months starting at `from` (wraps Dec→Jan).
 export function freeRun(from, occ = monthOccupancy(route.stays)) {
   let n = 0;
@@ -63,9 +74,10 @@ export function freeRun(from, occ = monthOccupancy(route.stays)) {
 }
 
 // Add a city to the year. Tries to place it at `start` for `len` months; if that
-// month is taken (or unspecified), falls back to the first open month and fits
-// the stay into the available run. Returns a result describing what happened so
-// callers can confirm with an accurate message and offer Undo.
+// month is taken, moves forward to the next open month after it (the first open
+// month of the year when unspecified) and fits the stay into the available run.
+// Returns a result describing what happened so callers can confirm with an
+// accurate message and offer Undo.
 //
 //   { ok: true, stay, start, len, bumped }   placed (bumped: requested month was taken)
 //   { ok: false, reason: 'full' | 'unknown' } nothing changed
@@ -74,9 +86,7 @@ export function addCity(key, { start = -1, len = 2 } = {}) {
   const occ = monthOccupancy(route.stays);
   let s = start;
   const requested = start;
-  if (s < 0 || s > 11 || occ[s] !== null) {
-    s = occ.findIndex((x) => x === null);
-  }
+  if (s < 0 || s > 11 || occ[s] !== null) s = nextOpenMonth(s, occ);
   if (s < 0) return { ok: false, reason: 'full' };
   const length = Math.max(1, Math.min(len, freeRun(s, occ)));
   route.stays = [...route.stays, { key, start: s, len: length }];

@@ -60,20 +60,29 @@ const ceilTo = (v, opts) => opts.find((o) => o >= v) ?? '';
 // Largest option ≤ v (round down); '' when v is below every option.
 const floorTo = (v, opts) => opts.reduce((r, o) => (o <= v ? o : r), '');
 
+// Snap a budget cap onto the party's dropdown options, rounding UP so a snap
+// never makes the filter stricter (solo 1500 → couple 2000; a cap above every
+// option clears to '' = Any). Needed whenever party size changes: the couple
+// list doesn't contain the solo caps, so an unsnapped value would keep
+// filtering while the <select> showed blank. Cleared values pass through.
+export function snapCostCap(v, party = 'solo') {
+  const n = num(v);
+  return n == null ? v : ceilTo(n, COST_OPTIONS[party] ?? COST_OPTIONS.solo);
+}
+
 // Snap saved filter values onto the current dropdown options. A free-typed cap
 // like 2350 (from the old number inputs) would otherwise leave the <select>
 // blank, so we migrate it to a real option. Direction is chosen to never make a
 // saved filter stricter than intended: the budget cap rounds UP to the next
 // available cap (2350 → 2500, 1950 → 2000), while min-safety/air round DOWN to
-// the nearest floor. Already-valid values and cleared ones pass through.
+// the nearest floor. Already-valid values and cleared ones pass through. Re-run
+// it when party size changes (see snapCostCap).
 export function normalizeFilters(f, party = 'solo') {
   const out = { ...f };
-  const costOpts = COST_OPTIONS[party] ?? COST_OPTIONS.solo;
   const safetyOpts = SAFETY_OPTIONS.map((o) => o.v);
   const airOpts = AIR_OPTIONS.map((o) => o.v);
   const rainOpts = RAIN_OPTIONS.map((o) => o.v).sort((a, b) => a - b);
-  const cost = num(f.maxCost);
-  if (cost != null) out.maxCost = ceilTo(cost, costOpts);
+  out.maxCost = snapCostCap(f.maxCost, party);
   const rain = num(f.maxRain);
   if (rain != null) out.maxRain = ceilTo(rain, rainOpts);
   const saf = num(f.minSafety);
