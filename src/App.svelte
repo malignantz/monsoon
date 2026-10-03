@@ -665,6 +665,7 @@
         {compareKeys}
         oncompare={toggleCompare}
         oncomparemode={toggleCompareMode}
+        onaddtoyear={addToYear}
         onmodel={(m) => (valueModel = m)}
         onsettings={openSettings}
         onresume={() => (view = 'year')}

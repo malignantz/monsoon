@@ -1,13 +1,16 @@
 <script>
   import MonthStrip from './MonthStrip.svelte';
-  import { stripCells, qolFor, valueFor, whyNow, fmtMoney, cityCost, partyWord, isFavorite, toggleFavorite } from './data.svelte.js';
+  import { stripCells, qolFor, valueFor, whyNow, fmtMoney, cityCost, partyWord, isFavorite, toggleFavorite, MONTHS } from './data.svelte.js';
   import { stripSummary } from './stripSummary.js';
 
   // compare: null outside compare mode; { on, full } while picking. The
   // control lives *outside* the card's button (no nested interactive) as a
   // labelled strip attached under it, so it only exists while the user has
   // asked to compare — browse stays exactly as calm as before.
-  let { city, month, preset, mode, valueModel, heroKey = null, openKey = null, onopen, compare = null, oncompare } = $props();
+  // onaddtoyear: null unless the parent wants the "+ Year" shortcut shown;
+  // finding: a plain-words line (e.g. the Best Value win) that replaces the
+  // usual one-line finding when there is one.
+  let { city, month, preset, mode, valueModel, heroKey = null, openKey = null, onopen, compare = null, oncompare, onaddtoyear = null, finding = null } = $props();
 
   const faved = $derived(isFavorite(city.key));
 
@@ -37,7 +40,7 @@
     onclick={() => toggleFavorite(city.key)}
   >{faved ? '♥' : '♡'}</button>
 
-  <button type="button" class="card" onclick={() => onopen(city.key)}>
+  <button type="button" class="card" class:withadd={!!onaddtoyear} onclick={() => onopen(city.key)}>
     <div class="top">
       <div class="names">
         <span class="city-name" style:view-transition-name={hero ? 'city-hero' : undefined}>{city.name}</span>
@@ -52,7 +55,7 @@
     <MonthStrip {cells} selected={month} />
     <span class="sr-only">{yearSummary}</span>
 
-    <p class="why">{why || city.draw}</p>
+    <p class="why">{finding ?? (why || city.draw)}</p>
 
     <div class="meta">
       <span class="num cost">{fmtMoney(cityCost(m))}<em>/mo {partyWord()}</em></span>
@@ -63,6 +66,16 @@
       </span>
     </div>
   </button>
+
+  {#if onaddtoyear}
+    <button
+      type="button"
+      class="addyear"
+      aria-label="Add {city.name} to my year, from {MONTHS[month]}"
+      title="Add to my year from {MONTHS[month]}"
+      onclick={() => onaddtoyear(city.key, month)}
+    >+ Year</button>
+  {/if}
 
   {#if compare}
     <label class="cmp" class:on={compare.on} class:off={compare.full && !compare.on} title={compare.full && !compare.on ? 'Three cities picked — remove one to add another' : undefined}>
@@ -127,6 +140,84 @@
       height: var(--tap);
       top: 6px;
       right: 6px;
+    }
+  }
+
+  /* "+ Year": a quiet pill on the meta row's right edge, outside the card's
+     button (no nested interactive) like the heart. Position: the card is 1px
+     border + 14px bottom padding; the meta row is ~21px tall, so its centre sits
+     ~25px up from the wrapper's bottom — a 24px pill at bottom: 13px is centred
+     on it, and right: 12px puts it just inside the card's 16px text gutter. */
+  .addyear {
+    position: absolute;
+    right: 12px;
+    bottom: 13px;
+    z-index: var(--z-raised);
+    height: 24px;
+    padding: 0 9px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--ink-2);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  /* Like the heart: discoverable on hover/focus, so browse stays calm. */
+  .cardwrap:hover .addyear,
+  .addyear:focus-visible {
+    opacity: 1;
+  }
+
+  .addyear:hover,
+  .addyear:focus-visible {
+    border-color: var(--terra);
+    color: var(--terra-deep);
+  }
+
+  /* Ride along with the card's 3px hover lift so the pill stays on its row, and
+     keep the card lifted while the pointer is on the pill (it sits outside the
+     card's button, so moving onto it would otherwise drop the card under it). */
+  .cardwrap:has(.card:hover, .addyear:hover) .addyear { transform: translateY(-3px); }
+
+  .cardwrap:not(.comparing):has(.addyear:hover) .card {
+    transform: translateY(-3px);
+    border-color: var(--ink-3);
+    box-shadow: 0 10px 24px -14px rgba(33, 36, 30, 0.35);
+  }
+
+  /* Room for the pill (54px wide + 12px inset − 16px gutter + 8px gap ≈ 58px,
+     rounded up). The tags wrap inside what is left instead of running under it. */
+  .card.withadd .meta { padding-right: 62px; }
+
+  .card.withadd .tags {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  /* Touch has no hover: always shown, 32px tall, and a ::before stretches the
+     target to the 44px tap floor without growing the drawn pill. */
+  @media (hover: none) and (pointer: coarse) {
+    .addyear {
+      opacity: 1;
+      height: 32px;
+      padding: 0 11px;
+      right: 10px;
+      bottom: 9px;
+    }
+
+    .card.withadd .meta { padding-right: 66px; }
+
+    .addyear::before {
+      content: '';
+      position: absolute;
+      inset: -6px -4px;
     }
   }
 
@@ -328,6 +419,12 @@
   .cost {
     font-size: 14px;
     font-weight: 500;
+  }
+
+  /* With the pill present the cost keeps its line and the tags take the slack. */
+  .card.withadd .cost {
+    flex: none;
+    white-space: nowrap;
   }
 
   .cost em {

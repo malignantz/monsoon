@@ -36,17 +36,17 @@ See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring
 
 ## My Year And Planning Flow
 
-- [ ] Surface why each leg was picked in the picker rows ("fills Mar-Apr · São João festival · €420 cheaper than your Feb stay"). The seed engine already computes this; it is not shown.
-- [ ] Finish the favorites-based itinerary builder. The "from favorites" seed style exists (`generateRoute('favorites')`, only offered when favorites exist); still missing:
+- [x] Say why in the picker rows and for generated stays: picker rows get a one-line `pickWhy` ("Semana Santa in Mar · $420/mo cheaper than your Lisbon stay"), generated stays a `legWhy` line in "Why these picks" and on mobile ghost rows (`src/lib/yearPlan.js`). Costs are USD. No "fills Mar–Apr" prefix on picker rows: the heading already says it.
+- [ ] Finish the favorites-based itinerary builder. The "from favorites" seed style exists (only offered when favorites exist), and since "Fill the open months" landed it also fills around stays the user placed (pick "From favorites" in the fill panel). Still missing:
   - Swap suggestions and month-by-month ranking over the favorites pool.
-  - Constraints: region balance, budget, weather minimums, event preference, stay length.
-  - Lock favorite stays, fill gaps, and compare generated routes before adopting one.
-- [ ] Add an "Add to my year" affordance on browse cards (only when a route exists, to keep browse calm). The city sheet already has "+ Add to year" with a toast (Undo / View year).
+  - Constraints: region balance, budget, weather minimums, event preference, stay length (the generator ignores My year's filters today).
+  - Compare generated routes side by side before adopting one (today: switch style chips and watch the preview).
+- [x] "+ Year" on browse cards and table rows, only when a route exists and has an open month, never in compare mode; same add flow and toast as the city sheet.
 - [ ] Improve the automatic itinerary picker.
   - Account for realistic routing and travel burden beyond straight-line distance.
-  - Support fixed anchors such as "I must be in Europe in June."
-  - Explain why suggested routes win.
-  - Add a lock/fill interaction where the planner fills around fixed stays.
+  - [x] Fixed anchors ("Must be in Europe in Jun", up to three; Europe, Asia, Latin America or any region), with unmet anchors reported.
+  - [x] Explain why suggested routes win: the style's rule plus one line per stay (Score, festival, trim/fill, runner-up, new region). The runner-up is named without its number because the internal ranking includes the variety nudge.
+  - [x] Lock/fill: "Fill the open months" treats the user's stays as locked and fills around them (Schengen-legal and under 183 days per country when the locked year is; `check:seeds` covers it). There is no per-stay lock toggle: every placed stay is a lock, by design.
 - [ ] Make visa/passport constraints actionable in route building.
   - `prefs.passport` is a stub with no Settings control.
   - My year should flag or prevent stays beyond passport-specific visa-free windows.
@@ -57,7 +57,7 @@ See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring
 - [ ] Per-page share images. Every page still shares the same `og.png`. Generate an OG card per city, month and planned year ("My Monsoon Year: avg 89, 6 stays") at build time or via a Cloudflare Worker.
 - [ ] Gem-vs-anchor comparison pages (`/compare/<a>-vs-<b>`, capped to relevant pairs, `noindex` thin ones) generated from `gem x anchor x month` comparisons ("Plovdiv beats Barcelona in June"); reuse them for share cards and zero-input discovery. The in-app compare sheet and `src/lib/compare.js` findings are the starting point.
 - [ ] Region pages (`/best/<attribute>-in-<region>`) and a `/best/` index page; today `/best/` has only the 12 month pages and no index, and region hubs do not exist.
-- [ ] Label Best Value wins inline ("38% cheaper than Split for the same score") when Best Value is the active sort.
+- [x] Label Best Value wins inline on cards when Best Value is the sort (`src/lib/valueWin.js`). Labels are deliberately sparse (about 3-8 of 120 cities a month): a city beaten on both score and cost, or saving under 10%, keeps its usual finding. The table has no finding line, so it shows no label.
 - [ ] Mobile: check whether the first city card is above the fold on This month; the audit asked for it and it has not been verified.
 - [ ] Tasteful, value-framed email capture ("Email me my year" / "Email me November's rankings"): passwordless, never a wall; Cloudflare Worker + KV + a transactional email service.
 - [ ] Periodic re-engagement: a monthly "where to be in <next month>" send that doubles as the month page, a win-back about 9-10 months after last activity, data-update nudges. Depends on email capture.
@@ -95,6 +95,10 @@ Built and checked by reading code and running the scripts; the dev server could 
 - [ ] Compare mode on a phone (checkbox strips, tray over the toast, Back closing the comparison).
 - [ ] Dark mode on every surface (This month cards and table, city sheet, comparison, My year board, picker and mobile picker, Settings, About, How-to, Methodology, toasts): nothing reads as a light-mode leftover, band labels and the hazard hatch stay legible, focus rings show, the Settings switch knob reads off and on, and opacity-dimmed ghost or disabled text (My year ghost year and duration buttons, This month icons, the compare checkbox when off) is still readable. Then: no flash on reload in dark (System and forced Dark), System following an OS switch live, Print from dark gives the light page, the iOS status bar colour (theme-color).
 - [ ] Currency: switch to each of EUR/GBP/CAD/AUD and check cards, table, sheet (total, breakdown, line items, the conversion note), comparison, My year totals and rail, Max cost filters, Copy as text (note line at the end); the five-code control fits a 320px phone.
+- [ ] Card "+ Year": hover reveal, alignment on the meta row, tag wrapping on a narrow Schengen card with a hazard tag, always-on pill on touch; table "+" does not open the sheet; both show the add toast.
+- [ ] Best Value win labels read well and truncate cleanly to one line.
+- [ ] My year picker-row why lines (desktop and the mobile sheet).
+- [ ] Fill the open months: ghost suggestions on the desktop board (no `+` under them) and in the mobile list, anchor selects (disabled planned months, wrap at 375px), unmet note, "Why these picks", Add → Undo / Keep banner and focus, Cancel focus, print preview while filling.
 
 ## UI Polish
 
