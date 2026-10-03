@@ -59,6 +59,15 @@ export function saveSettings() {
   });
 }
 
+// Old city key → current key, for cities renamed since they were first saved or
+// shared. Applied everywhere a key comes back from outside the bundle: v1 share
+// links (which never edit the frozen ID table), the saved route, and favorites.
+export const SLUG_ALIASES = {
+  'las-palmas-gran-canaria': 'las-palmas'
+};
+
+export const canonicalKey = (key) => (Object.hasOwn(SLUG_ALIASES, key) ? SLUG_ALIASES[key] : key);
+
 // ---- Favorites: a lightweight saved shortlist, persisted as a list of keys ----
 const FAVORITES_KEY = 'atlas.favorites.v1';
 
@@ -66,7 +75,8 @@ function loadFavorites() {
   if (typeof localStorage === 'undefined') return [];
   try {
     const a = JSON.parse(localStorage.getItem(FAVORITES_KEY));
-    return Array.isArray(a) ? a : [];
+    // Renamed cities migrate in place; the Set dedupes old + new spellings.
+    return Array.isArray(a) ? a.filter((k) => typeof k === 'string').map(canonicalKey) : [];
   } catch {
     return [];
   }
@@ -478,11 +488,8 @@ const ROUTE_VERSION = 1;
 
 const ID_BY_SLUG_V1 = new Map(CITY_IDS_V1.map((slug, id) => [slug, id]));
 
-// Old encoded slug → current key, for cities renamed since v1. Lets old links
-// keep resolving without ever editing the frozen table.
-const SLUG_ALIASES = {
-  'las-palmas-gran-canaria': 'las-palmas'
-};
+// Cities renamed since v1 resolve through SLUG_ALIASES (top of file), so old
+// links keep working without ever editing the frozen table.
 
 if (import.meta.env?.DEV) {
   const missing = cities.filter((c) => !ID_BY_SLUG_V1.has(c.key)).map((c) => c.key);
@@ -530,7 +537,7 @@ export function decodeRouteCompact(str) {
   if (bytes.length < 1 || bytes[0] !== ROUTE_VERSION) return [];
   const stops = [];
   for (let i = 1; i + 1 < bytes.length; i += 2) {
-    const key = SLUG_ALIASES[CITY_IDS_V1[bytes[i]]] ?? CITY_IDS_V1[bytes[i]];
+    const key = CITY_IDS_V1[bytes[i]];
     stops.push({ key, start: (bytes[i + 1] >> 4) & 0x0f, len: (bytes[i + 1] & 0x0f) + 1 });
   }
   return sanitizeStays(stops);
@@ -551,14 +558,18 @@ export function decodeRoute(str) {
   );
 }
 
-// Shared by both decoders: drop stays with an unknown city or out-of-range
-// values, and skip any whose months collide with one already placed
-// (monthOccupancy is last-wins on overlap), so a hand-edited or stale link can't
-// produce a broken board.
-function sanitizeStays(stops) {
+// Shared by both decoders and the saved-route loader: migrate renamed city keys,
+// drop stays with an unknown city or out-of-range values, and skip any whose
+// months collide with one already placed (monthOccupancy is last-wins on
+// overlap), so a hand-edited or stale link — or one bad stored stay — can't
+// produce a broken board or take the valid stays down with it.
+export function sanitizeStays(stops) {
   const occ = Array(12).fill(false);
   const out = [];
-  for (const { key, start, len } of stops) {
+  for (const stop of stops) {
+    if (!stop || typeof stop !== 'object') continue;
+    const key = canonicalKey(stop.key);
+    const { start, len } = stop;
     if (!key || !cityByKey.has(key)) continue;
     if (!Number.isInteger(start) || start < 0 || start > 11) continue;
     if (!Number.isInteger(len) || len < 1 || len > 12) continue;
