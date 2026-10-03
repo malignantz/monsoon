@@ -226,7 +226,7 @@
     <section class="q">
       <span class="qlabel">Season &amp; Events</span>
       <p class="qhint">Season scores the month's tourism phase (peak → off). Events scores the
-        biggest event the month counts, on a 0–3 tier. Both are hand-set per city and month. Events
+        biggest event on the city’s calendar for that month, on a 0–3 tier, so the score and the calendar always agree. Season phase, event dates and tiers are hand-set. Events
         is weighted lightly, because over a multi-week stay a single festival matters less than
         breathable air and safe streets. Each city sheet names the event behind the month's score.</p>
     </section>

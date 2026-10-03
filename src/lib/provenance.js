@@ -184,7 +184,7 @@ export function monthRows(city, mIdx, { sources, settings, weights, presetLabel,
       : 'No notable event this month (tier 0)',
     sources: [],
     chip: 'editorial',
-    method: `${s.event_base ?? 50} + ${s.event_per_tier ?? 16.67} per tier. Event and tier are hand-set per city and month.`
+    method: `${s.event_base ?? 50} + ${s.event_per_tier ?? 16.67} per tier. The month scores the biggest event on this city’s calendar; event dates and tiers are hand-set.`
   });
 
   return rows;

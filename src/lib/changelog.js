@@ -6,6 +6,18 @@ export const METHOD_VERSION = 'v6';
 export const CHANGELOG = [
   {
     date: '2026-10-03',
+    title: 'Event scores now come from the visible event calendar',
+    body:
+      'The Events score used to read a separate month-by-month list that could disagree with the ' +
+      'calendar on each city sheet (Zurich’s Street Parade was scored in July but listed in August). ' +
+      'Each month now scores the biggest event the calendar shows for it, so the two cannot drift ' +
+      'apart. 16 month mix-ups were checked against official or press sources and fixed, movable ' +
+      'feasts such as Tết, Carnival and Easter now count in both months they can fall in, eight ' +
+      '“major” labels were lowered and two raised, and season descriptions that were not events ' +
+      'were removed. 322 city-months changed event tier.'
+  },
+  {
+    date: '2026-10-03',
     title: 'Climate and air now come from measured and modelled data (methodology v6)',
     body:
       'Day and night temperature, humidity and rain days now come from WMO 1991–2020 weather-station ' +

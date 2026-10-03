@@ -98,7 +98,7 @@ function sourceNotes(p, year) {
       links: []
     });
   }
-  notes.push({ label: 'Season phase and event tiers', chip: CHIP_LABEL.editorial, text: 'Hand-set per city and month.', links: [] });
+  notes.push({ label: 'Season phase and event tiers', chip: CHIP_LABEL.editorial, text: 'Hand-set. Each month scores the biggest event on the city’s event calendar.', links: [] });
   const v = p.safety.violent;
   notes.push({
     label: 'Safety',
