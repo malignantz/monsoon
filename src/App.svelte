@@ -387,7 +387,7 @@
         onresume={() => (view = 'year')}
       />
     {:else}
-      <MyYear bind:preset {sharedRoute} {sharedName} onsharedresolved={resolveShared} onopen={openSheet} />
+      <MyYear bind:preset {valueModel} {sharedRoute} {sharedName} onsharedresolved={resolveShared} onopen={openSheet} />
     {/if}
   </main>
 

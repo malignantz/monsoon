@@ -1,6 +1,7 @@
 <script>
   import MonthStrip from './MonthStrip.svelte';
   import ScoreInfo from './ScoreInfo.svelte';
+  import { cityShareUrl } from './urlState.js';
   import { stripCells, qolFor, fmtMoney, fmtTemp, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, retryDetail, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, shareOrCopy } from './data.svelte.js';
 
   let { city, month, preset, onclose, onmonth, onstep, onaddtoyear } = $props();
@@ -16,7 +17,7 @@
   let copyTimer;
   async function shareCity() {
     const result = await shareOrCopy({
-      url: shareUrl({ city: city.key }),
+      url: cityShareUrl(city.key, month),
       title: `${city.name} on Monsoon`,
       text: `${city.name} on Monsoon`
     });

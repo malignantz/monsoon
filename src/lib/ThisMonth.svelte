@@ -4,7 +4,8 @@
   import Legend from './Legend.svelte';
   import RegionMenu from './RegionMenu.svelte';
   import { cities, regions, qolFor, valueFor, swimNow, cityCost, partyWord, fmtMoney, routeStats, prefs, PRESETS, normalizePresetKey, MONTHS, MONTH_LETTERS, favorites } from './data.svelte.js';
-  import { COST_OPTIONS } from './planner.js';
+  import { untrack } from 'svelte';
+  import { COST_OPTIONS, snapCostCap } from './planner.js';
   import { route } from './route.svelte.js';
 
   let {
@@ -31,6 +32,12 @@
   let favOnly = $state(false);
   let swimOnly = $state(false);
   let maxCost = $state('');
+  // Budget caps differ for solo vs couple; re-snap so a party switch never
+  // leaves a cap that no option represents.
+  $effect(() => {
+    const party = partyWord();
+    untrack(() => (maxCost = snapCostCap(maxCost, party)));
+  });
   let minQol = $state('');
   let query = $state('');
   let showMore = $state(false);
