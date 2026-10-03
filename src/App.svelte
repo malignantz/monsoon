@@ -401,6 +401,8 @@
   <footer class="basefoot">
     <span>Your ancestors moved with the seasons. {cities.length} cities, scored month by month — clean air, mild weather, no typhoons, festivals on, 90 Schengen days at a time.</span>
     <span class="footlinks">
+      <a class="num footlink" href="/cities/">all cities</a>
+      <span aria-hidden="true">·</span>
       <button type="button" class="num footlink" onclick={() => (aboutOpen = true)}>about</button>
       <span aria-hidden="true">·</span>
       <button type="button" class="num footlink" onclick={() => (methodOpen = true)}>methodology · 2026</button>
