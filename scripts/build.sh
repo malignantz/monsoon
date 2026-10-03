@@ -6,8 +6,10 @@
 # via src/lib/data.svelte.js, so dist/ should contain only index.html, assets/
 # and the public/ files (robots.txt, og.png, clearStorage.html), plus the static
 # SEO surface scripts/seo/build-seo.mjs adds after the SPA build: city/<slug>/,
-# best/where-to-be-in-<month>/ and cities/ (an index.html each), sitemap.xml
-# and llms.txt. Pages direct-upload does NOT honor .assetsignore, so after
+# best/ (the index, where-to-be-in-<month>/ and region hubs), cities/ and
+# compare/ (an index.html each), og/ (build-time .png share images), the
+# sitemap index sitemap.xml with its sitemap-<type>.xml children, and llms.txt.
+# Pages direct-upload does NOT honor .assetsignore, so after
 # building we verify that none of the private inputs (raw data files, scripts,
 # docs) leaked into the upload set, and that no private input TEXT was rendered
 # into the SEO pages (scripts/seo/leak-check.mjs).
@@ -49,7 +51,9 @@ leaks=$(find dist -type f \( \
   -name '*.xlsx' -o \
   -path 'dist/city/*' ! -name 'index.html' -o \
   -path 'dist/best/*' ! -name 'index.html' -o \
-  -path 'dist/cities/*' ! -name 'index.html' \
+  -path 'dist/cities/*' ! -name 'index.html' -o \
+  -path 'dist/compare/*' ! -name 'index.html' -o \
+  -path 'dist/og/*' ! -name '*.png' \
 \) || true)
 if [ -n "$leaks" ]; then
   echo "ERROR: private files staged into dist/ — refusing to deploy:" >&2
@@ -63,6 +67,7 @@ fi
 node scripts/seo/leak-check.mjs
 
 count() { find "$1" -name index.html 2>/dev/null | wc -l | tr -d ' '; }
+count_png() { find "$1" -name '*.png' 2>/dev/null | wc -l | tr -d ' '; }
 echo "Staged dist/ (SEO trees summarized):"
-find dist -type f -not -path 'dist/city/*' -not -path 'dist/best/*' -not -path 'dist/cities/*' | sort
-echo "dist/city/ $(count dist/city) pages · dist/best/ $(count dist/best) pages · dist/cities/ $(count dist/cities) page"
+find dist -type f -not -path 'dist/city/*' -not -path 'dist/best/*' -not -path 'dist/cities/*' -not -path 'dist/compare/*' -not -path 'dist/og/*' | sort
+echo "dist/city/ $(count dist/city) pages · dist/best/ $(count dist/best) pages · dist/cities/ $(count dist/cities) page · dist/compare/ $(count dist/compare) pages · dist/og/ $(count_png dist/og) images"

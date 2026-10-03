@@ -54,9 +54,10 @@ See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring
 
 ## Growth, Trust & Retention (from the UX audit)
 
-- [ ] Per-page share images. Every page still shares the same `og.png`. Generate an OG card per city, month and planned year ("My Monsoon Year: avg 89, 6 stays") at build time or via a Cloudflare Worker.
-- [ ] Gem-vs-anchor comparison pages (`/compare/<a>-vs-<b>`, capped to relevant pairs, `noindex` thin ones) generated from `gem x anchor x month` comparisons ("Plovdiv beats Barcelona in June"); reuse them for share cards and zero-input discovery. The in-app compare sheet and `src/lib/compare.js` findings are the starting point.
-- [ ] Region pages (`/best/<attribute>-in-<region>`) and a `/best/` index page; today `/best/` has only the 12 month pages and no index, and region hubs do not exist.
+- [ ] Share card for a planned year ("My Monsoon Year: avg 89, 6 stays"). City, month and comparison pages have build-time cards now; a year is user state, so it needs a Cloudflare Worker rendering the card from the `?i=` link (the SVG builders in `src/seo/ogCard.js` can be reused).
+- [ ] Watch the comparison pages in Search Console before adding more. Submit `sitemap.xml` (an index; `sitemap-compare.xml` is its own segment) and watch the indexed:submitted ratio for `/compare/` for 2-3 weeks (GROWTH_ENGINE_PLAN §10). Only then loosen the gate in `src/seo/pairing.js` or add per-month pages; if the ratio is low, tighten it. Read the 74 published claims once by hand (`node scripts/seo/pairing-report.mjs`, `tmp/seo/pairs.csv`).
+- [ ] Comparison pages: curated human signal for the strongest pairs (one link or video per city, `data/seo/curations.json`, GROWTH_ENGINE_PLAN §6.4) and funnel analytics (`seo_cta_click`) once analytics is on.
+- [ ] Region hubs exist only for regions with 8+ cities. N Europe, E Asia, Africa, Oceania and W Asia get none; consider merged hubs (e.g. "Northern and Western Europe") if those regions grow, and southern-hemisphere seasonal hubs for South America.
 - [x] Label Best Value wins inline on cards when Best Value is the sort (`src/lib/valueWin.js`). Labels are deliberately sparse (about 3-8 of 120 cities a month): a city beaten on both score and cost, or saving under 10%, keeps its usual finding. The table has no finding line, so it shows no label.
 - [ ] Mobile: check whether the first city card is above the fold on This month; the audit asked for it and it has not been verified.
 - [ ] Tasteful, value-framed email capture ("Email me my year" / "Email me November's rankings"): passwordless, never a wall; Cloudflare Worker + KV + a transactional email service.
@@ -107,6 +108,15 @@ Built and checked by reading code and running the scripts; the dev server could 
   - Any future coaching should be contextual, dismissible, and tied to a relevant action.
 
 ## Done Or Consumed
+
+Shipped 2026-10-03 (growth pages):
+
+- [x] `/best/` index linking the 12 month pages and the region hubs.
+- [x] Region hubs `/best/<attribute>-in-<region>/` (cheapest, safest, cleanest air, winter, summer) behind a substance gate; thin ones are not built.
+- [x] Comparison pages `/compare/<subject>-vs-<anchor>/` plus a `/compare/` index, selected by the Value Floor gate in `src/seo/pairing.js` from the anchor list in `data/seo/fame.json`, written from `compareFindings` and the month data, linking into `?compare=a,b`.
+- [x] `Dataset` JSON-LD on `/cities/`; segmented sitemaps (`sitemap.xml` is an index).
+- [x] Per-page share images for city, month and comparison pages, rendered at build time with `@resvg/resvg-js`; the default `og.png` is regenerated from data (it said 111 cities and "Top pick").
+- [x] Build guards, leak check and `check:seo` cover `compare/` and `og/`.
 
 Shipped 2026-10-03:
 

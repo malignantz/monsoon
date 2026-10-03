@@ -29,8 +29,14 @@ export function breadcrumbLd(crumbs) {
   };
 }
 
-export function documentHtml({ path, title, description, ogType = 'website', jsonLd, css, body, cityCount }) {
+// noindex adds <meta name="robots" content="noindex"> (such a page is also kept out of every sitemap);
+// ogImage is a site path (e.g. "/og/city/lisbon.png") for a per-page share image, default /og.png;
+// ogAlt is that card's alt text (og:image:alt and twitter:image:alt).
+export function documentHtml({ path, title, description, ogType = 'website', jsonLd, css, body, cityCount, noindex = false, ogImage = null, ogAlt = null }) {
   const url = SITE + path;
+  const img = SITE + (ogImage ?? '/og.png');
+  // Pages on a per-page card describe that card; the rest keep the site line.
+  const alt = ogAlt ?? `Monsoon — follow the good months. ${cityCount} cities scored month by month.`;
   const ld = jsonLd ? { '@context': 'https://schema.org', '@graph': jsonLd } : null;
   return `<!doctype html>
 <html lang="en">
@@ -41,19 +47,20 @@ export function documentHtml({ path, title, description, ogType = 'website', jso
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${esc(url)}">
 <meta name="theme-color" content="#f6f1e6">
-<meta property="og:type" content="${ogType}">
+${noindex ? '<meta name="robots" content="noindex">\n' : ''}<meta property="og:type" content="${ogType}">
 <meta property="og:site_name" content="Monsoon">
 <meta property="og:url" content="${esc(url)}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
-<meta property="og:image" content="${SITE}/og.png">
+<meta property="og:image" content="${esc(img)}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Monsoon — follow the good months. ${cityCount} cities scored month by month.">
+<meta property="og:image:alt" content="${esc(alt)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(description)}">
-<meta name="twitter:image" content="${SITE}/og.png">
+<meta name="twitter:image" content="${esc(img)}">
+<meta name="twitter:image:alt" content="${esc(alt)}">
 <link rel="icon" href="${ICON}">
 <style>${css}</style>
 ${ld ? `<script type="application/ld+json">${jsonForScript(ld)}</script>\n` : ''}</head>

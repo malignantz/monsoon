@@ -4,7 +4,7 @@
   import Shell from './Shell.svelte';
   import MonthStrip from '../lib/MonthStrip.svelte';
   import { MONTHS, fmtMoney } from '../lib/data.svelte.js';
-  import { cityPath, monthPath, regionSlug, MONTHS_LONG } from './derive.js';
+  import { cityPath, monthPath, regionSlug, MONTHS_LONG, BEST_INDEX } from './derive.js';
 
   let { groups, site, crumbs } = $props();
 </script>
@@ -23,12 +23,16 @@
   <nav aria-label="Months">
     <p class="small">Ranked by month:
       {#each MONTHS as m, i}<a href={monthPath(i)} title="Where to be in {MONTHS_LONG[i]}">{m}</a>{i < 11 ? ' · ' : ''}{/each}
+      · <a href={BEST_INDEX}>All months and regions</a>
     </p>
   </nav>
 
   {#each groups as g}
     <div class="region" id={regionSlug(g.region)}>
       <h2>{g.region}</h2>
+      {#if g.hubs.length}
+        <p class="small muted">Ranked for {g.regionName}: {#each g.hubs as h, i}<a href={h.path}>{h.label}</a>{i < g.hubs.length - 1 ? ' · ' : ''}{/each}</p>
+      {/if}
       <div class="cards">
         {#each g.cities as o}
           <a class="card" href={cityPath(o.c.key)}>

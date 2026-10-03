@@ -4,7 +4,7 @@
   import Shell from './Shell.svelte';
   import MonthStrip from '../lib/MonthStrip.svelte';
   import { fmtMoney } from '../lib/data.svelte.js';
-  import { MONTHS_LONG, monthPath, cityPath, appMonthUrl, APP_YEAR_URL } from './derive.js';
+  import { MONTHS_LONG, monthPath, cityPath, appMonthUrl, APP_YEAR_URL, BEST_INDEX } from './derive.js';
 
   let { mIdx, facts, top, rest, site, crumbs } = $props();
 
@@ -99,7 +99,7 @@
 
   <nav class="prevnext" aria-label="Adjacent months">
     <a href={monthPath(prev)}>← {MONTHS_LONG[prev]}</a>
-    <a href="/cities/">All cities</a>
+    <a href={BEST_INDEX}>All months and regions</a>
     <a href={monthPath(next)}>{MONTHS_LONG[next]} →</a>
   </nav>
 </Shell>
