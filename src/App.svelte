@@ -52,7 +52,10 @@
       (initialRoute.length ? 'year' : linksToRanking ? 'month' : p.view === 'explore' ? 'month' : (p.view ?? 'month'))
   );
   let month = $state(fromUrl.month ?? currentMonth);
-  let mode = $state(fromUrl.mode ?? p.mode ?? 'quality');
+  // A ranking link with no sort param means the default sort (that is how the
+  // sender's clean URL was built), not the recipient's last-used one.
+  const rankingLink = fromUrl.month != null || fromUrl.density || fromUrl.regions;
+  let mode = $state(fromUrl.mode ?? (rankingLink ? 'quality' : (p.mode ?? 'quality')));
   let preset = $state(normalizePresetKey(p.preset));
   let valueModel = $state(p.valueModel ?? 'adjusted');
   let density = $state(fromUrl.density ?? (p.density === 'table' ? 'table' : 'cards'));
