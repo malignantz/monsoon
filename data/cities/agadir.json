@@ -12,9 +12,9 @@
   "english": {
     "tier": 1,
     "note": "Tourist zones",
-    "rationale": "Morocco scores 492 on EF EPI (Moderate band, #68) and Agadir itself 485, slightly under the national figure; French is the main second language. English is fine in hotels, surf camps and the seafront, thinner elsewhere. Unlike Marrakech no expat-hub bump: the long-stay community is largely French-speaking.",
+    "rationale": "Morocco scores 492 on EF EPI (Low band, #68) and Agadir itself 485, slightly under the national figure; French is the main second language. English is fine in hotels, surf camps and the seafront, thinner elsewhere. Unlike Marrakech no expat-hub bump: the long-stay community is largely French-speaking.",
     "sources": [
-      {"title": "EF EPI — Morocco", "url": "https://www.ef.com/wwen/epi/regions/africa/morocco/", "accessed": "2026-10-03", "note": "Morocco 492 (#68, Moderate); Souss-Massa region 484, Agadir 485."}
+      {"title": "EF EPI — Morocco", "url": "https://www.ef.com/wwen/epi/regions/africa/morocco/", "accessed": "2026-10-03", "note": "Morocco 492 (#68, Low); Souss-Massa region 484, Agadir 485."}
     ]
   },
   "draw": "Beach / winter sun",

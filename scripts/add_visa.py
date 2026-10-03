@@ -15,10 +15,10 @@ Key dated facts baked in (verified 2026-06):
   - UK ETA mandatory from 2026-02-25 for US/EU/AU visitors.
   - EU Entry/Exit System (EES) live since Oct 2025 (biometric, no extra auth).
   - Brazil e-visa reinstated: US/AU (Apr 2025), EU (Jan 1 2026); UK still visa-free.
-  - Thailand 60-day exemption being cut to 30 days (cabinet-approved May 2026).
+  - Thailand: visa-free stay cut from 60 to 30 days from 15 Sep 2026 (re-verified 2026-10-03).
   - Bulgaria & Romania: full Schengen since Jan 1 2025.
   - Cyprus: EU but NOT yet Schengen (targeting 2026); own 90/180.
-  - Turkey: US/UK/EU visa-free 90/180; AU needs e-visa.
+  - Turkey: US/UK/EU/AU visa-free 90/180 (re-verified 2026-10-03).
 """
 import json, os, sys
 from pathlib import Path
@@ -96,14 +96,14 @@ VISA["Turkey"] = {
     "US": e(True, 90, "Visa-free 90 days per 180."),
     "UK": e(True, 90, "Visa-free 90 days per 180."),
     "EU": e(True, 90, "Visa-free 90 days per 180 (most EU nationals)."),
-    "AU": e(False, 90, "e-Visa required (evisa.gov.tr); up to 90 days per 180."),
+    "AU": e(True, 90, "Visa-free 90 days per 180 (tourism/transit)."),
 }
 VISA["Morocco"] = all_same(True, 90, "Visa-free up to 90 days.")
 VISA["South Africa"] = all_same(True, 90, "Visa-free up to 90 days.")
 
 # --- Asia ---------------------------------------------------------------------
-TH_NOTE = "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
-VISA["Thailand"] = all_same(True, 60, TH_NOTE)
+TH_NOTE = "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
+VISA["Thailand"] = all_same(True, 30, TH_NOTE)
 VISA["Vietnam"] = all_same(False, 90, "e-Visa required (single/multi-entry, up to 90 days).")
 VISA["Indonesia"] = all_same(False, 30, "e-VOA / visa on arrival, 30 days, extendable once to 60.")
 VISA["Malaysia"] = all_same(True, 90, "Visa-free up to 90 days; MDAC digital arrival card required.")

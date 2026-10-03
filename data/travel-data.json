@@ -122,23 +122,23 @@
       "visa": {
         "US": {
           "visaFree": true,
-          "days": 60,
-          "note": "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
+          "days": 30,
+          "note": "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
         },
         "UK": {
           "visaFree": true,
-          "days": 60,
-          "note": "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
+          "days": 30,
+          "note": "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
         },
         "EU": {
           "visaFree": true,
-          "days": 60,
-          "note": "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
+          "days": 30,
+          "note": "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
         },
         "AU": {
           "visaFree": true,
-          "days": 60,
-          "note": "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
+          "days": 30,
+          "note": "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
         }
       },
       "rent": 400,
@@ -605,23 +605,23 @@
       "visa": {
         "US": {
           "visaFree": true,
-          "days": 60,
-          "note": "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
+          "days": 30,
+          "note": "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
         },
         "UK": {
           "visaFree": true,
-          "days": 60,
-          "note": "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
+          "days": 30,
+          "note": "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
         },
         "EU": {
           "visaFree": true,
-          "days": 60,
-          "note": "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
+          "days": 30,
+          "note": "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
         },
         "AU": {
           "visaFree": true,
-          "days": 60,
-          "note": "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
+          "days": 30,
+          "note": "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
         }
       },
       "rent": 650,
@@ -22587,9 +22587,9 @@
           "note": "Visa-free 90 days per 180 (most EU nationals)."
         },
         "AU": {
-          "visaFree": false,
+          "visaFree": true,
           "days": 90,
-          "note": "e-Visa required (evisa.gov.tr); up to 90 days per 180."
+          "note": "Visa-free 90 days per 180 (tourism/transit)."
         }
       },
       "rent": 700,
@@ -55509,7 +55509,7 @@
       },
       "schengen": false,
       "drawDetail": {
-        "narrative": "Tree-lined avenues, Soviet-modernist landmarks and the Green Bazaar sit at the foot of the Trans-Ili Alatau, with the Medeu rink, Shymbulak's ski lifts and Big Almaty Lake all within about an hour. Late spring and September are the best months. Winter brings skiing, but also a coal-heating smog that settles in the valley.",
+        "narrative": "Tree-lined avenues, Soviet-modernist landmarks and the Green Bazaar sit at the foot of the Trans-Ili Alatau, with Shymbulak's ski lifts and Big Almaty Lake all within about an hour (the Medeu rink is closed for reconstruction until about late 2027). Late spring and September are the best months. Winter brings skiing, but also a coal-heating smog that settles in the valley.",
         "activities": {
           "adventure": 3,
           "culture": 2,
@@ -57115,23 +57115,23 @@
       "visa": {
         "US": {
           "visaFree": true,
-          "days": 60,
-          "note": "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
+          "days": 30,
+          "note": "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
         },
         "UK": {
           "visaFree": true,
-          "days": 60,
-          "note": "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
+          "days": 30,
+          "note": "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
         },
         "EU": {
           "visaFree": true,
-          "days": 60,
-          "note": "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
+          "days": 30,
+          "note": "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
         },
         "AU": {
           "visaFree": true,
-          "days": 60,
-          "note": "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
+          "days": 30,
+          "note": "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
         }
       },
       "rent": 600,
@@ -57626,9 +57626,9 @@
           "note": "Visa-free 90 days per 180 (most EU nationals)."
         },
         "AU": {
-          "visaFree": false,
+          "visaFree": true,
           "days": 90,
-          "note": "e-Visa required (evisa.gov.tr); up to 90 days per 180."
+          "note": "Visa-free 90 days per 180 (tourism/transit)."
         }
       },
       "rent": 655,
@@ -58023,7 +58023,7 @@
             7
           ],
           "tier": 2,
-          "blurb": "İKSEV's classical and jazz festival, with concerts at the Ahmed Adnan Saygun Art Center, the Agora, Ephesus's Celsus Library and Çeşme Castle"
+          "blurb": "İKSEV's classical-music festival, with concerts at the Ahmed Adnan Saygun Art Center, the Agora, Ephesus's Celsus Library and Çeşme Castle"
         },
         {
           "name": "Ramadan & Ramazan Bayramı (Eid al-Fitr)",
@@ -58114,23 +58114,23 @@
       "visa": {
         "US": {
           "visaFree": true,
-          "days": 60,
-          "note": "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
+          "days": 30,
+          "note": "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
         },
         "UK": {
           "visaFree": true,
-          "days": 60,
-          "note": "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
+          "days": 30,
+          "note": "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
         },
         "EU": {
           "visaFree": true,
-          "days": 60,
-          "note": "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
+          "days": 30,
+          "note": "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
         },
         "AU": {
           "visaFree": true,
-          "days": 60,
-          "note": "Visa-free 60 days (being cut to 30 days in 2026); Thailand Digital Arrival Card (TDAC) required."
+          "days": 30,
+          "note": "Visa-free 30 days for tourism since 15 Sep 2026 (was 60), extendable once by up to 30 days at Thai Immigration; at most two visa-exempt entries per calendar year; Thailand Digital Arrival Card (TDAC) required."
         }
       },
       "rent": 850,
