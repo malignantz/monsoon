@@ -22,6 +22,8 @@
     favorites,
     stayMonths,
     schengenCheckAdd,
+    countryCheck,
+    countryCheckAdd,
     partyWord,
     encodeRouteCompact,
     shareUrl,
@@ -41,6 +43,7 @@
     AIR_OPTIONS,
     RAIN_OPTIONS
   } from './planner.js';
+  import { RESIDENCY_DAYS } from './dayCount.js';
 
   // valueModel: the same 'adjusted' | 'classic' Best Value model the cards and
   // table use, so a city never shows two different Best Value numbers.
@@ -248,6 +251,14 @@
   );
   const schTight = $derived(sch.caution || sch.atLimit);
 
+  // Days per country — a tax-residency planning signal beside the Schengen
+  // meter. Quiet by default (just the longest country); 'near' from 150 days,
+  // 'over' at 183, when a short plain-language caution appears. Only one
+  // country can reach 183 in a 365-day year, so the caution names one.
+  const cty = $derived(countryCheck(boardStays));
+  const ctyOver = $derived(cty.over[0] ?? null);
+  let ctyOpen = $state(false);
+
   // Ghost example: when the year is empty (and not previewing a shared link), the
   // board shows a faint, curated sample year instead of a wall of blank months.
   // The visitor can adopt it in one tap or "Start from scratch" to reveal the
@@ -420,7 +431,14 @@
         // place it lands in an over-limit 90/180 window: `breach` for a real
         // overstay, `tight` for the 1–2-day whole-month rounding band.
         const v = c.schengen && prospect ? schengenCheckAdd(route.stays, { key: c.key, ...prospect }) : null;
-        return { c, s, cost, breach: !!v?.breach, tight: !!v?.caution, schDays: v?.worst ?? 0 };
+        // Same idea for days per country: note (never block) a pick that would
+        // take its country to 183+ days in the year.
+        const r = prospect ? countryCheckAdd(route.stays, { key: c.key, ...prospect }) : null;
+        return {
+          c, s, cost,
+          breach: !!v?.breach, tight: !!v?.caution, schDays: v?.worst ?? 0,
+          resOver: r?.state === 'over', resDays: r?.days ?? 0
+        };
       });
   });
 
@@ -621,6 +639,35 @@
     </div>
   {/if}
 
+  <!-- Days per country: the expandable list and the 183-day caution, shared by
+       the desktop line and the mobile pill. -->
+  {#snippet ctyCaution()}
+    {#if ctyOver}
+      <p class="cty-caution" role="note">
+        <strong>{ctyOver.country} is at <span class="num">{ctyOver.days}</span> days.</strong>
+        Many countries treat about 183 days in a year as tax residency. Rules vary: some count a
+        calendar year, some a fiscal year or any rolling 12 months, and some use other tests. A
+        planning signal, not tax advice.
+      </p>
+    {/if}
+  {/snippet}
+
+  {#snippet ctyPanel()}
+    <!-- Always in the DOM so aria-controls resolves; hidden while collapsed. -->
+    <div class="cty-panel" id="myr-cty-list" hidden={!ctyOpen}>
+      <ul class="cty-rows" aria-label="Days per country">
+        {#each cty.rows as r (r.country)}
+          <li class="cty-row" class:near={r.state === 'near'} class:over={r.state === 'over'}>
+            <span class="cty-name">{r.country}</span>
+            <span class="cty-bar" aria-hidden="true"><span class="cty-fill" style="width: {Math.min(100, (r.days / RESIDENCY_DAYS) * 100)}%"></span></span>
+            <span class="cty-days num">{r.days} days{#if r.state === 'over'}<span class="cty-flag"> · 183+</span>{:else if r.state === 'near'}<span class="cty-flag"> · near 183</span>{/if}</span>
+          </li>
+        {/each}
+      </ul>
+      <p class="cty-foot">Real days in each country across your planned year. Bars run to 183, a common tax-residency mark.</p>
+    </div>
+  {/snippet}
+
   {#if !screen.mobile}
   <div class="board" class:ghost={ghostMode}>
     <div class="boardscroll-wrap" class:more={canScrollRight}>
@@ -732,6 +779,27 @@
       </div>
     {/if}
 
+    {#if cty.top}
+      <div class="ctyline" class:near={cty.state === 'near'} class:over={cty.state === 'over'}>
+        <span class="clabel">Days per country</span>
+        {#if cty.state !== 'ok'}
+          <span class="cty-state">{cty.state === 'over' ? '183+ days' : 'Near 183'}</span>
+        {/if}
+        <span class="cty-read">
+          Longest in one country: <strong>{cty.top.country} · <span class="num">{cty.top.days}</span> days</strong>
+        </span>
+        <button
+          type="button"
+          class="cty-toggle"
+          aria-expanded={ctyOpen}
+          aria-controls="myr-cty-list"
+          onclick={() => (ctyOpen = !ctyOpen)}
+        >{ctyOpen ? 'Hide countries' : 'All countries'}<span aria-hidden="true">{ctyOpen ? ' ▴' : ' ▾'}</span></button>
+      </div>
+      {@render ctyCaution()}
+      {@render ctyPanel()}
+    {/if}
+
     {#if !previewing && route.stays.length > 0}
       <div class="progress" class:done={yearComplete}>
         {#if yearComplete}
@@ -788,7 +856,26 @@
           <strong class="num">◆ {sch.breach ? `${sch.over} over` : sch.caution ? `${sch.worst}/90 tight` : `${sch.remaining}/90`}</strong> Schengen
         </button>
       {/if}
+      {#if cty.top}
+        <button
+          type="button"
+          class="mstat cty"
+          class:near={cty.state === 'near'}
+          class:over={cty.state === 'over'}
+          aria-expanded={ctyOpen}
+          aria-controls="myr-cty-list"
+          onclick={() => (ctyOpen = !ctyOpen)}
+        >
+          <span class="sr-only">Longest in one country:</span>
+          <strong class="num">{cty.top.days}d</strong> {cty.top.country}{#if cty.state === 'near'} · near 183{:else if cty.state === 'over'} · 183+{/if}
+          <span class="mcaret" aria-hidden="true">{ctyOpen ? '▴' : '▾'}</span>
+        </button>
+      {/if}
     </div>
+    {#if cty.top}
+      {@render ctyCaution()}
+      {@render ctyPanel()}
+    {/if}
 
     {#if !previewing && route.stays.length > 0}
       <div class="progress mprogress" class:done={yearComplete}>
@@ -977,7 +1064,7 @@
       </p>
     {/if}
     <ul class="rows">
-      {#each pickerList as { c, s, cost, breach, tight, schDays } (c.key)}
+      {#each pickerList as { c, s, cost, breach, tight, schDays, resOver, resDays } (c.key)}
         <li>
           <div class="rail">
             <span class="num rowq" title={sortMode === 'value' ? "Average Best Value across the months you'd book" : "Average score across the months you'd book"}>{Math.round(s)}</span>
@@ -999,6 +1086,13 @@
                       ? `Adding ${c.name} here puts ${schDays} days in one 180-day window — show non-Schengen cities instead`
                       : `Whole months put this at ${schDays} of 90 days — leave a day or two early, or show non-Schengen cities`}
                   >· {breach ? 'over' : 'tight'} 90/180</button>
+                {/if}
+                {#if resOver}
+                  <!-- Informational only: a stay this long here reaches 183 days in the country. -->
+                  <span
+                    class="resnote"
+                    title="Adding this stay puts {resDays} days in {c.country} this year. Many countries treat about 183 days as tax residency."
+                  >· {resDays} days this year<span class="sr-only"> in {c.country}, past the 183-day tax-residency mark</span></span>
                 {/if}
               </span>
             </div>
@@ -1568,6 +1662,107 @@
   .sch-read strong { color: var(--sch-accent); font-size: 14px; white-space: nowrap; }
   .sch-sub { color: var(--ink-3); white-space: nowrap; }
 
+  /* Days per country — the Schengen line's quieter sibling. Ink-only until a
+     country nears 183 days; the state pill and the words carry the meaning,
+     colour only reinforces it. */
+  .ctyline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    --cty-accent: var(--ink-3);
+  }
+
+  .ctyline.near { --cty-accent: var(--ink-2); }
+  .ctyline.over { --cty-accent: var(--terra-deep); }
+
+  .clabel { font-size: 12px; font-weight: 600; color: var(--cty-accent); white-space: nowrap; }
+
+  .cty-state {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cty-accent);
+    border: 1px solid var(--cty-accent);
+    border-radius: 999px;
+    padding: 2px 10px;
+  }
+
+  .ctyline.near .cty-state { border-color: var(--band-ok); }
+
+  .cty-read { margin-left: auto; font-size: 12.5px; color: var(--ink-3); }
+  .cty-read strong { font-weight: 600; color: var(--ink-2); white-space: nowrap; }
+  .ctyline.over .cty-read strong { color: var(--terra-deep); }
+
+  .cty-toggle {
+    padding: 2px 0;
+    border: none;
+    background: none;
+    font: inherit;
+    font-size: 12px;
+    color: var(--ink-2);
+    text-decoration: underline dotted;
+    text-underline-offset: 2px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .cty-toggle:hover { color: var(--ink); text-decoration-style: solid; }
+
+  .cty-caution {
+    margin: 8px 0 0;
+    padding: 8px 12px;
+    border-left: 2px solid var(--terra);
+    background: var(--terra-soft);
+    border-radius: 0 6px 6px 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+
+  .cty-caution strong { color: var(--terra-deep); font-weight: 600; }
+
+  .cty-panel {
+    margin-top: 8px;
+    padding: 10px 12px;
+    border: 1px solid var(--line-soft);
+    border-radius: 8px;
+    background: var(--card);
+  }
+
+  .cty-rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+
+  .cty-row {
+    display: grid;
+    grid-template-columns: minmax(0, 9.5em) 1fr auto;
+    align-items: center;
+    gap: 10px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+  }
+
+  .cty-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* The track is 183 days long; a country at or past it fills the track. */
+  .cty-bar {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--line-soft);
+    overflow: hidden;
+  }
+
+  .cty-fill { display: block; height: 100%; border-radius: 999px; background: var(--ink-3); }
+  .cty-row.near .cty-fill { background: var(--band-ok); }
+  .cty-row.over .cty-fill { background: var(--terra); }
+
+  .cty-days { font-size: 12px; color: var(--ink-2); white-space: nowrap; text-align: right; }
+  .cty-flag { color: var(--ink-3); }
+  .cty-row.over .cty-days, .cty-row.over .cty-flag { color: var(--terra-deep); font-weight: 600; }
+
+  .cty-foot { margin: 8px 0 0; font-size: 11.5px; color: var(--ink-3); }
+
   .board-hint {
     margin: 4px 0 10px;
     text-align: center;
@@ -1881,6 +2076,9 @@
   }
 
   .breachnote.tight { color: var(--ink-2); }
+
+  /* 183-day note: informational, so plain text in the tight-note ink (no link). */
+  .resnote { margin-left: 2px; color: var(--ink-2); font-weight: 600; }
   .breachnote:hover { text-decoration-style: solid; }
 
   /* On touch the 11px cue gets an invisible overlay to the 24px WCAG 2.5.8 floor
@@ -1984,6 +2182,14 @@
   .mstat.sch.tight strong { color: var(--band-ok); }
   .mstat.sch.bad { color: var(--band-bad); border-color: var(--band-bad); }
   .mstat.sch.bad strong { color: var(--band-bad); }
+
+  /* Days-per-country pill: toggles the per-country list, so it gets the tap
+     floor too; it stays ink-quiet until a country nears 183. */
+  .mstat.cty { cursor: pointer; min-height: var(--tap); text-align: left; }
+  .mstat.cty.near { border-color: var(--band-ok); color: var(--ink-2); }
+  .mstat.cty.over { border-color: var(--terra); color: var(--terra-deep); }
+  .mstat.cty.over strong { color: var(--terra-deep); }
+  .mcaret { font-size: 10px; color: var(--ink-3); }
 
   /* The month list. */
   .mlist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
