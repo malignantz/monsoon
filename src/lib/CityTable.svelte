@@ -1,7 +1,7 @@
 <script>
   import ScoreInfo from './ScoreInfo.svelte';
   import Legend from './Legend.svelte';
-  import { qolFor, valueFor, fmtMoney, swimNow, MONTHS, settings, cityCost, partyWord } from './data.svelte.js';
+  import { qolFor, valueFor, fmtMoney, swimNow, MONTHS, settings, cityCost, partyWord, prefs } from './data.svelte.js';
 
   // Dense view of the same ranking the cards show. The parent (This month) owns
   // all filtering and hands us an already-filtered list; we only sort columns.
@@ -21,7 +21,7 @@
     { k: 'weather', label: 'Weather', num: true, tip: 'Temperature & sunshine comfort · 0–100' },
     { k: 'air',   label: 'Air',       num: true, tip: 'Air quality (PM2.5) · 100 = cleanest in dataset' },
     { k: 'safety', label: 'Safety',   num: true, tip: 'Crime & personal safety index · 100 = safest' },
-    { k: 'cost',  label: `${partyWord() === 'solo' ? 'Solo' : 'Couple'} /mo`, num: true, tip: `Estimated monthly cost of living, ${partyWord()} (USD)` }
+    { k: 'cost',  label: `${partyWord() === 'solo' ? 'Solo' : 'Couple'} /mo`, num: true, tip: `Estimated monthly cost of living, ${partyWord()} (${prefs.currency === 'USD' ? 'USD' : prefs.currency + ', converted from USD; estimate'})` }
   ]);
 
   function setSort(k) {
@@ -245,7 +245,7 @@
       right: 1px;
       width: 26px;
       border-radius: 0 14px 14px 0;
-      background: linear-gradient(90deg, transparent, rgba(33, 36, 30, 0.08));
+      background: linear-gradient(90deg, transparent, rgb(var(--shade-rgb) / 0.08));
       pointer-events: none;
     }
   }
@@ -340,9 +340,9 @@
   }
 
   .g1 { color: var(--teal); font-weight: 600; }
-  .g2 { color: #5a7a2e; }
-  .g3 { color: #a06a14; }
-  .g4 { color: var(--band-bad); }
+  .g2 { color: var(--band-good-text); }
+  .g3 { color: var(--band-ok-text); }
+  .g4 { color: var(--band-bad-text); }
 
   .count {
     font-size: 12px;

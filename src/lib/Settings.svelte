@@ -2,6 +2,8 @@
   // The re-openable settings panel. Writes the shared `prefs` store and persists
   // on close, so nothing here is a one-way door.
   import { PRESETS, prefs, saveSettings } from './data.svelte.js';
+  import { CURRENCIES, ratesAsOfLabel } from './currency.js';
+  import { THEMES, applyTheme } from './theme.js';
   import { focusTrap } from './focusTrap.js';
 
   let { preset = $bindable('balanced'), onclose } = $props();
@@ -45,6 +47,26 @@
         <button type="button" class:on={prefs.units === 'C'} aria-pressed={prefs.units === 'C'} onclick={() => (prefs.units = 'C')}>°C</button>
         <button type="button" class:on={prefs.units === 'F'} aria-pressed={prefs.units === 'F'} onclick={() => (prefs.units = 'F')}>°F</button>
       </div>
+    </section>
+
+    <section class="q">
+      <span class="qlabel">Currency</span>
+      <div class="seg seg-cur" role="group" aria-label="Currency">
+        {#each CURRENCIES as c (c.code)}
+          <button type="button" class:on={prefs.currency === c.code} aria-pressed={prefs.currency === c.code} title={c.label} aria-label={c.label} onclick={() => (prefs.currency = c.code)}>{c.code}</button>
+        {/each}
+      </div>
+      <p class="qhint">Costs are researched in US dollars. Other currencies are converted estimates at ECB reference rates of {ratesAsOfLabel()}.</p>
+    </section>
+
+    <section class="q">
+      <span class="qlabel">Appearance</span>
+      <div class="seg" role="group" aria-label="Appearance">
+        {#each THEMES as t (t.key)}
+          <button type="button" class:on={prefs.theme === t.key} aria-pressed={prefs.theme === t.key} onclick={() => { prefs.theme = t.key; applyTheme(t.key); }}>{t.label}</button>
+        {/each}
+      </div>
+      <p class="qhint">System follows your device's light or dark setting. Printing always uses the light page.</p>
     </section>
 
     <section class="q">
@@ -93,7 +115,7 @@
   .scrim {
     position: fixed;
     inset: 0;
-    background: rgba(33, 36, 30, 0.45);
+    background: var(--scrim);
     z-index: 60;
     overflow-y: auto;
     padding: 4vh 16px;
@@ -244,6 +266,8 @@
     height: 100%;
   }
 
+  .seg-cur button { padding: 0 14px; }
+
   .seg button:hover { color: var(--ink); }
 
   .seg button.on {
@@ -290,12 +314,12 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: var(--card);
-    box-shadow: 0 1px 2px rgba(33, 36, 30, 0.3);
+    background: var(--knob);
+    box-shadow: 0 1px 2px rgb(var(--shade-rgb) / 0.3);
     transition: transform 0.18s ease;
   }
 
-  .switch.on .knob { transform: translateX(20px); }
+  .switch.on .knob { transform: translateX(20px); background: var(--knob-on); }
 
   .foot {
     margin-top: 6px;
@@ -317,6 +341,13 @@
   }
 
   .cta:hover { background: var(--terra-deep); }
+
+  /* Five codes on a narrow phone: the bar spans the card and the buttons share
+     it evenly (a 320px screen leaves about 230px inside the card). */
+  @media (max-width: 400px) {
+    .seg-cur { display: flex; width: 100%; }
+    .seg-cur button { flex: 1 1 0; min-width: 0; padding: 0; }
+  }
 
   @media (max-width: 560px) {
     .preset-grid { grid-template-columns: 1fr; }

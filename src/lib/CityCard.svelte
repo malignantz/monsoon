@@ -148,7 +148,7 @@
   .card:hover {
     transform: translateY(-3px);
     border-color: var(--ink-3);
-    box-shadow: 0 10px 24px -14px rgba(33, 36, 30, 0.35);
+    box-shadow: 0 10px 24px -14px rgb(var(--shade-rgb) / 0.35);
   }
 
   /* ── Compare mode ──
@@ -231,7 +231,7 @@
     top: 1px;
     width: 4px;
     height: 8px;
-    border: solid #fdf3ec;
+    border: solid var(--on-terra);
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
   }
@@ -358,7 +358,7 @@
   }
 
   .tag.hazard {
-    color: #7d2c12;
-    background: #f3ddd2;
+    color: var(--hazard);
+    background: var(--hazard-soft);
   }
 </style>

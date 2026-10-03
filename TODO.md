@@ -77,8 +77,11 @@ See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring
 ## Display Options
 
 - [x] °C option: Settings → Temperatures, stored in `atlas.settings.v1`; defaults to °F for en-US and °C otherwise. Static pages stay °F.
-- [ ] Currency option. Costs are USD (`fmtMoney`).
-- [ ] Dark mode (nothing in `src` handles `prefers-color-scheme`).
+- [x] Currency option: Settings → Currency (USD, EUR, GBP, CAD, AUD), stored in `atlas.settings.v1`; defaults from the first browser language's region (see README). Display only, through `fmtMoney`, at checked-in ECB rates (`src/lib/fxRates.json`, refresh with `npm run update:fx`) with the date shown in Settings, the sheet's cost panel and Copy as text. Best Value and scores stay USD; static pages stay USD.
+  - [ ] Refresh the rate table now and then (`npm run update:fx`); nothing reminds anyone today. Converted Max cost filter options read as uneven amounts (e.g. €1,639) because the caps are USD steps.
+- [x] Dark mode: Settings → Appearance (System / Light / Dark), stored as `theme` in `atlas.settings.v1`; dark tokens in `src/app.css` under `@media screen` (print stays light), set before paint by `index.html`, kept live by `src/lib/theme.js`. Contrast ratios in README → Brand And UI.
+  - [ ] Static pages stay light (they lift only the light `:root` block). Adding a `prefers-color-scheme` copy of the dark tokens to `src/seo/styles.js` is cheap once the SEO work settles; its one literal (`.btn.primary:hover` white text) would need a token.
+  - [ ] The light theme's "good" and "ok" band fills are under 3:1 against paper (1.93) and equal in lightness to each other; the skyline heights carry it. Worth a deliberate look if the bands are ever retuned.
 
 ## Not Yet Seen In A Real Browser
 
@@ -90,6 +93,8 @@ Built and checked by reading code and running the scripts; the dev server could 
 - [ ] Phone rotation with the My year mobile picker open: the picker closes and the page scroll lock releases.
 - [ ] "Tight" Schengen wording on a real route (1-2 days over, e.g. three consecutive 31-day months plus a shoulder stay).
 - [ ] Compare mode on a phone (checkbox strips, tray over the toast, Back closing the comparison).
+- [ ] Dark mode on every surface (This month cards and table, city sheet, comparison, My year board, picker and mobile picker, Settings, About, How-to, Methodology, toasts): nothing reads as a light-mode leftover, band labels and the hazard hatch stay legible, focus rings show, the Settings switch knob reads off and on, and opacity-dimmed ghost or disabled text (My year ghost year and duration buttons, This month icons, the compare checkbox when off) is still readable. Then: no flash on reload in dark (System and forced Dark), System following an OS switch live, Print from dark gives the light page, the iOS status bar colour (theme-color).
+- [ ] Currency: switch to each of EUR/GBP/CAD/AUD and check cards, table, sheet (total, breakdown, line items, the conversion note), comparison, My year totals and rail, Max cost filters, Copy as text (note line at the end); the five-code control fits a 320px phone.
 
 ## UI Polish
 
