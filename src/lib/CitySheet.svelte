@@ -1,7 +1,7 @@
 <script>
   import MonthStrip from './MonthStrip.svelte';
   import ScoreInfo from './ScoreInfo.svelte';
-  import { stripCells, qolFor, fmtMoney, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, shareOrCopy } from './data.svelte.js';
+  import { stripCells, qolFor, fmtMoney, fmtTemp, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, retryDetail, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, shareOrCopy } from './data.svelte.js';
 
   let { city, month, preset, onclose, onmonth, onstep, onaddtoyear } = $props();
 
@@ -33,7 +33,8 @@
 
   $effect(() => {
     const onkey = (e) => {
-      if (e.key === 'Escape') onclose();
+      // An open info popover handles (and swallows) its own Escape first.
+      if (e.key === 'Escape' && !e.defaultPrevented) onclose();
       else if (e.key === 'ArrowLeft') onstep?.(-1);
       else if (e.key === 'ArrowRight') onstep?.(1);
     };
@@ -48,6 +49,10 @@
       prevFocus?.focus?.();
     };
   });
+
+  // Placeholder for detail-layer cells: an ellipsis while loading, a dash once
+  // the load has failed (the safety block below carries the Retry).
+  const detailPending = $derived(detailStatus.failed ? '—' : '…');
 
   const activePreset = $derived(PRESETS[preset] ?? PRESETS.balanced);
   const pw = $derived(activePreset.w);
@@ -230,9 +235,11 @@
         </div>
         <table class="climate num">
           <tbody>
-            <tr><td>Day / night</td><td>{detailStatus.ready ? `${m.high}° / ${m.low}°F` : '…'}</td></tr>
-            <tr><td>Humidity</td><td>{detailStatus.ready ? `${m.hum}%` : '…'}</td></tr>
-            <tr><td>Rain days</td><td>{detailStatus.ready ? m.rain : '…'}</td></tr>
+            <!-- High/low, humidity and PM2.5 live in the lazy detail layer; rain
+                 days and the air category are core, so they never wait on it. -->
+            <tr><td>Day / night</td><td>{detailStatus.ready ? `${fmtTemp(m.high)} / ${fmtTemp(m.low)}` : detailPending}</td></tr>
+            <tr><td>Humidity</td><td>{detailStatus.ready ? `${m.hum}%` : detailPending}</td></tr>
+            <tr><td>Rain days</td><td>{m.rain ?? '—'}</td></tr>
             <tr><td>PM2.5</td><td>{detailStatus.ready ? `${m.pm25} µg/m³ · ${m.airCat}` : m.airCat}</td></tr>
             <tr><td>Season</td><td>{m.season}</td></tr>
           </tbody>
@@ -251,7 +258,12 @@
             <p class="src">{saf.violent?.source ?? 'World Bank / UNODC'}</p>
           </ScoreInfo>
         </h2>
-        {#if !detailStatus.ready}
+        {#if detailStatus.failed}
+          <p class="loading" role="alert">
+            Couldn't load the safety breakdown.
+            <button type="button" class="retry" onclick={retryDetail}>Retry</button>
+          </p>
+        {:else if !detailStatus.ready}
           <p class="loading">Loading the safety breakdown…</p>
         {:else}
         <div class="bars">
@@ -551,6 +563,25 @@
     font-style: italic;
     color: var(--ink-3);
     margin: 0;
+  }
+
+  .retry {
+    margin-left: 6px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px 12px;
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-style: normal;
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+
+  .retry:hover { border-color: var(--ink-2); color: var(--ink); }
+
+  @media (max-width: 600px) {
+    .retry { min-height: var(--tap); padding: 0 16px; }
   }
 
   .climate {

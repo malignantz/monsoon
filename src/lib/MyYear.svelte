@@ -453,7 +453,7 @@
     if (!pickerOpen) return;
     const unlock = lockScroll();
     const onkey = (e) => {
-      if (e.key === 'Escape') closePicker();
+      if (e.key === 'Escape' && !e.defaultPrevented) closePicker();
     };
     window.addEventListener('keydown', onkey);
     return () => {

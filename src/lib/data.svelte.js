@@ -113,7 +113,9 @@ export const cities = $state(core.cities.map((c) => ({ ...c, key: slug(c.name) }
 export const cityByKey = new Map(cities.map((c) => [c.key, c]));
 export const regions = [...new Set(cities.map((c) => c.region))].sort();
 
-export const detailStatus = $state({ ready: false });
+// ready: the detail layer is merged. failed: the last attempt errored, so the
+// sheet can stop saying "Loading…" and offer retryDetail() instead.
+export const detailStatus = $state({ ready: false, failed: false, loading: false });
 
 async function loadDetail() {
   const res = await fetch(detailUrl);
@@ -131,9 +133,22 @@ async function loadDetail() {
   detailStatus.ready = true;
 }
 
+// Fetch (or re-fetch) the detail layer. Safe to call repeatedly: a load in
+// flight or an already-merged layer makes it a no-op.
+export function retryDetail() {
+  if (detailStatus.ready || detailStatus.loading) return;
+  detailStatus.loading = true;
+  detailStatus.failed = false;
+  loadDetail()
+    .catch((e) => {
+      console.error('[atlas] detail layer failed to load', e);
+      detailStatus.failed = true;
+    })
+    .finally(() => (detailStatus.loading = false));
+}
+
 if (typeof window !== 'undefined') {
-  const kick = () => loadDetail().catch((e) => console.error('[atlas] detail layer failed to load', e));
-  'requestIdleCallback' in window ? requestIdleCallback(kick) : setTimeout(kick, 1);
+  'requestIdleCallback' in window ? requestIdleCallback(retryDetail) : setTimeout(retryDetail, 1);
 }
 
 // ---- "Optimize for" lenses: weights over stored component scores (methodology §6) ----
@@ -258,6 +273,10 @@ export function whyNow(city, mIdx) {
 }
 
 export const fmtMoney = (n) => '$' + Math.round(n).toLocaleString('en-US');
+
+// Temperatures are stored in °F. Every temperature on screen goes through this
+// one formatter, always with its unit, so a °C setting only has to change here.
+export const fmtTemp = (f) => (f == null ? '—' : `${Math.round(f)}°F`);
 
 // "Jun–Oct" for a set of swim months (1-12), handling year-wrap (Dec–Mar).
 export function fmtMonthRange(months) {

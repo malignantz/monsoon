@@ -18,7 +18,7 @@
   $effect(() => {
     const onkey = (e) => {
       // Defaults are sensible, so Escape just saves and closes.
-      if (e.key === 'Escape') done();
+      if (e.key === 'Escape' && !e.defaultPrevented) done();
     };
     window.addEventListener('keydown', onkey);
     const prevOverflow = document.body.style.overflow;
