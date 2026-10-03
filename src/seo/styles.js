@@ -95,6 +95,8 @@ ul.plain,ol.plain{list-style:none;margin:0;padding:0}
 .rank .where{font-size:13px;color:var(--ink-3)}
 .rank .why{font-size:14.5px;color:var(--ink-2);margin:8px 0 0}
 .rank .right{text-align:right}
+.rank .val{display:block;font-family:var(--mono);font-size:21px;font-weight:600;line-height:1.2}
+.rank .unit{display:block;font-size:12px;color:var(--ink-3);max-width:12em;margin-left:auto}
 .rank .cost{display:block;font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-top:6px}
 .rank .strip-cell{margin-top:9px;max-width:300px}
 .rest{columns:2 220px;column-gap:28px;font-size:14.5px;margin:0;padding-left:2.4em}

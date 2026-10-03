@@ -2,7 +2,7 @@
   // Shared frame for every static page: brand bar, breadcrumbs, the twelve
   // month hubs, and a footer. Server-rendered only — no hydration, no JS.
   import { MONTHS } from '../lib/data.svelte.js';
-  import { monthPath, MONTHS_LONG } from './derive.js';
+  import { monthPath, MONTHS_LONG, BEST_INDEX } from './derive.js';
 
   let { crumbs = [], currentMonth = -1, site, children } = $props();
 </script>
@@ -12,6 +12,7 @@
     <a class="brand" href="/"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Monsoon</a>
     <nav class="nav" aria-label="Site">
       <a href="/cities/">All cities</a>
+      <a href={BEST_INDEX}>Where to be</a>
       <a href={monthPath(site.thisMonth)}>Where to be in {MONTHS_LONG[site.thisMonth]}</a>
       <a href="/">Open the app</a>
     </nav>
@@ -40,7 +41,7 @@
         {/each}
       </ul>
     </nav>
-    <p><a href="/cities/">All {site.cityCount} cities</a> · <a href="/">Plan your year in Monsoon</a> · <a href={site.feedback}>Report a number</a></p>
+    <p><a href="/cities/">All {site.cityCount} cities</a> · <a href={BEST_INDEX}>Where to be, by month and region</a> · <a href="/">Plan your year in Monsoon</a> · <a href={site.feedback}>Report a number</a></p>
     <p>Scores use methodology {site.methodVersion}{site.lastUpdated ? `, last updated ${site.lastUpdated}` : ''}. Cost data as of {site.costAsOf}; safety data as of {site.safetyAsOf}.</p>
   </footer>
 </div>

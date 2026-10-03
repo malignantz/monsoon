@@ -30,13 +30,21 @@ import {
   relatedCities,
   rankMonth,
   monthFacts,
-  hazardText
+  hazardText,
+  BEST_INDEX,
+  MIN_REGION_CITIES,
+  HUB_ATTRS,
+  regionName,
+  candidateAttrs,
+  computeHub
 } from './derive.js';
 import { BASE_CSS, minify } from './styles.js';
 import { documentHtml, breadcrumbLd } from './head.js';
 import CityPage from './CityPage.svelte';
 import MonthPage from './MonthPage.svelte';
 import CitiesPage from './CitiesPage.svelte';
+import BestIndexPage from './BestIndexPage.svelte';
+import RegionPage from './RegionPage.svelte';
 
 const TOP_N = 25;
 const pct = (x) => Math.round(x * 100);
@@ -185,17 +193,51 @@ export function buildSite({ detail, now = new Date() }) {
 
   const out = [];
   const pages = []; // {path, title} for the sitemap / llms.txt
-  const emit = (path, title, description, Component, props, jsonLd, ogType) => {
+  // opts: { noindex } keeps a page out of every sitemap and adds a robots meta;
+  // { ogImage: '/og/….png' } swaps the default share image.
+  const emit = (path, title, description, Component, props, jsonLd, ogType, opts = {}) => {
     const { body, css } = renderPage(Component, { ...props, site });
-    out.push({ path: `${path}index.html`, content: documentHtml({ path, title, description, ogType, jsonLd, css, body, cityCount: cities.length }) });
-    pages.push({ path, title, description });
+    out.push({
+      path: `${path}index.html`,
+      content: documentHtml({ path, title, description, ogType, jsonLd, css, body, cityCount: cities.length, ...opts })
+    });
+    pages.push({ path, title, description, noindex: !!opts.noindex });
   };
 
   const HOME = { name: 'Monsoon', href: '/' };
   const CITIES = { name: 'Cities', href: '/cities/' };
+  const BEST = { name: 'Best', href: BEST_INDEX };
+
+  const years = new Map(cities.map((c) => [c.key, cityYear(c)]));
+
+  // ---- Region hubs: computed first so city pages and /cities/ can link to the
+  // ones that exist. A hub that fails its substance gate is not emitted. ----
+  const skipped = []; // [{ path, reason }] — build-seo.mjs logs each with a "[seo] skip" prefix
+  const hubs = []; // emitted hubs, in region then attribute order
+  const regionCities = new Map(regions.map((r) => [r, cities.filter((c) => c.region === r)]));
+  const smallRegions = [];
+  for (const region of regions) {
+    const rc = regionCities.get(region);
+    if (rc.length < MIN_REGION_CITIES) {
+      smallRegions.push(`${region} (${rc.length})`);
+      continue;
+    }
+    const items = rc.map((c) => ({ p: P(c.key), year: years.get(c.key) }));
+    const attrs = candidateAttrs(rc);
+    for (const attr of Object.keys(HUB_ATTRS)) {
+      if (!attrs.includes(attr)) {
+        skipped.push({ path: `${attr} hub for ${region}`, reason: `fewer than 75% of its cities are in the northern hemisphere, so ${attr} is not a fixed Dec–Feb / Jun–Aug` });
+        continue;
+      }
+      const res = computeHub(attr, region, items);
+      if (res.ok) hubs.push(res.hub);
+      else skipped.push({ path: res.path, reason: res.reason });
+    }
+  }
+  if (smallRegions.length) skipped.push({ path: 'region hubs', reason: `regions under ${MIN_REGION_CITIES} cities: ${smallRegions.join(', ')}` });
+  const hubLinks = (region) => hubs.filter((h) => h.region === region).map((h) => ({ path: h.path, label: h.label }));
 
   // ---- City pages ----
-  const years = new Map(cities.map((c) => [c.key, cityYear(c)]));
   for (const city of cities) {
     const p = P(city.key);
     const year = years.get(city.key);
@@ -232,10 +274,11 @@ export function buildSite({ detail, now = new Date() }) {
       },
       breadcrumbLd(crumbs)
     ];
-    emit(cityPath(p.key), title, description, CityPage, { c: p, year, rows, related, sources: sourceNotes(p, year), safety, cost, crumbs }, jsonLd, 'article');
+    emit(cityPath(p.key), title, description, CityPage, { c: p, year, rows, related, sources: sourceNotes(p, year), safety, cost, hubs: hubLinks(city.region), regionLabel: regionName(city.region), crumbs }, jsonLd, 'article');
   }
 
   // ---- Month pages ----
+  const monthSummaries = [];
   for (let i = 0; i < 12; i++) {
     const ranked = rankMonth(cities, i);
     const facts = monthFacts(ranked, i, TOP_N);
@@ -253,7 +296,7 @@ export function buildSite({ detail, now = new Date() }) {
     const top = ranked.slice(0, TOP_N).map(pubRow);
     const rest = ranked.slice(TOP_N).map(pubRow);
     const M = MONTHS_LONG[i];
-    const crumbs = [HOME, { name: `Where to be in ${M}`, href: monthPath(i) }];
+    const crumbs = [HOME, BEST, { name: `Where to be in ${M}`, href: monthPath(i) }];
     const title = `Where to be in ${M}: ${cities.length} cities ranked | Monsoon`;
     const description =
       `Top for ${M}: ${top.slice(0, 3).map((r) => `${r.city.name} (${Math.round(r.q)})`).join(', ')}. ` +
@@ -270,16 +313,98 @@ export function buildSite({ detail, now = new Date() }) {
       breadcrumbLd(crumbs)
     ];
     emit(monthPath(i), title, description, MonthPage, { mIdx: i, facts: pubFacts, top, rest, crumbs }, jsonLd);
+    monthSummaries.push({ i, name: M, path: monthPath(i), leader: { name: pubFacts.leader.city.name, q: Math.round(facts.leader.q) }, great: facts.great, total: facts.total });
+  }
+
+  // ---- Region hub pages ----
+  for (const hub of hubs) {
+    const siblings = hubs.filter((h) => h.region === hub.region && h.attr !== hub.attr).map((h) => ({ path: h.path, label: h.label }));
+    const elsewhere = hubs.filter((h) => h.attr === hub.attr && h.region !== hub.region).map((h) => ({ path: h.path, regionName: h.regionName }));
+    const crumbs = [HOME, BEST, { name: hub.title, href: hub.path }];
+    const jsonLd = [
+      {
+        '@type': 'ItemList',
+        name: hub.title,
+        url: SITE + hub.path,
+        itemListOrder: hub.attr === 'cheapest' || hub.attr === 'air' ? 'https://schema.org/ItemListOrderAscending' : 'https://schema.org/ItemListOrderDescending',
+        numberOfItems: hub.rows.length,
+        itemListElement: hub.rows.map((r) => ({ '@type': 'ListItem', position: r.rank, name: r.p.name, url: SITE + cityPath(r.p.key) }))
+      },
+      breadcrumbLd(crumbs)
+    ];
+    emit(hub.path, `${hub.title} | Monsoon`, hub.description, RegionPage, { hub, siblings, elsewhere, crumbs }, jsonLd);
+  }
+
+  // ---- /best/ index ----
+  {
+    const regionGroups = regions
+      .filter((r) => hubs.some((h) => h.region === r))
+      .map((r) => ({ region: r, regionName: regionName(r), n: regionCities.get(r).length, hubs: hubs.filter((h) => h.region === r) }));
+    const crumbs = [HOME, BEST];
+    const title = 'Where to be, by month and by region | Monsoon';
+    const description =
+      `Where to be in every month of the year, and the cheapest, safest, cleanest-air and best-season cities in ${regionGroups.length} regions. ` +
+      `${cities.length} cities scored for each of 12 months on weather, air, safety, season and events.`;
+    const items = [
+      ...monthSummaries.map((m) => ({ name: `Where to be in ${m.name}`, path: m.path })),
+      ...hubs.map((h) => ({ name: h.title, path: h.path }))
+    ];
+    const jsonLd = [
+      {
+        '@type': 'ItemList',
+        name: 'Where to be, by month and by region',
+        url: SITE + BEST_INDEX,
+        numberOfItems: items.length,
+        itemListElement: items.map((o, k) => ({ '@type': 'ListItem', position: k + 1, name: o.name, url: SITE + o.path }))
+      },
+      breadcrumbLd(crumbs)
+    ];
+    emit(BEST_INDEX, title, description, BestIndexPage, { months: monthSummaries, regionGroups, hubCount: hubs.length, regionCount: regions.length, crumbs }, jsonLd);
   }
 
   // ---- Cities index ----
   const groups = regions.map((region) => ({
     region,
+    regionName: regionName(region),
+    hubs: hubLinks(region),
     cities: cities
       .filter((c) => c.region === region)
       .sort((a, b) => a.name.localeCompare(b.name))
       .map((c) => ({ c: P(c.key), cells: years.get(c.key).cells, summary: years.get(c.key).summary, minSolo: minCost(P(c.key)) }))
   }));
+  // Dataset node (schema.org/Dataset) describing the whole city-month table the
+  // directory lists. Counts and the variable list come from the data; no licence
+  // or download distribution is claimed.
+  const datasetLd = () => ({
+    '@type': 'Dataset',
+    '@id': `${SITE}/cities/#dataset`,
+    name: 'Monsoon city-month scores',
+    description:
+      `${cities.length} cities in ${regions.length} regions, each scored for all 12 months (${(cities.length * 12).toLocaleString('en-US')} city-months). ` +
+      `Every city-month has a 0–100 Score built from weather, air quality, safety, season and events sub-scores, alongside monthly temperature highs and lows, rain days, PM2.5 and itemized monthly cost for one person and for a couple. Methodology ${METHOD_VERSION}.`,
+    url: `${SITE}/cities/`,
+    creator: { '@type': 'Organization', name: 'Monsoon', url: SITE },
+    isAccessibleForFree: true,
+    version: METHOD_VERSION,
+    dateModified: lastUpdated,
+    keywords: ['best time to visit', 'seasonal travel', 'slow travel', 'digital nomad', 'climate by month', 'cost of living', 'air quality PM2.5', 'travel safety', 'Schengen 90/180'],
+    variableMeasured: [
+      { '@type': 'PropertyValue', name: 'Score', description: 'Headline 0–100 score for a city in a month: the default Balanced blend of the five sub-scores below, scaled down when safety is low.', minValue: 0, maxValue: 100 },
+      { '@type': 'PropertyValue', name: 'Weather sub-score', description: 'Month-level weather comfort, 0–100, from temperature, humidity and rain, reduced in hazard-flagged months.', minValue: 0, maxValue: 100 },
+      { '@type': 'PropertyValue', name: 'Air quality sub-score', description: 'Month-level air score, 0–100, from monthly PM2.5.', minValue: 0, maxValue: 100 },
+      { '@type': 'PropertyValue', name: 'Safety sub-score', description: 'Annual 0–100 safety index per city: homicide-anchored violent-crime safety, hand-set property-crime safety and a visitor-risk modifier.', minValue: 0, maxValue: 100 },
+      { '@type': 'PropertyValue', name: 'Season sub-score', description: 'Hand-set peak, shoulder or low season phase per month, scored 0–100.', minValue: 0, maxValue: 100 },
+      { '@type': 'PropertyValue', name: 'Events sub-score', description: 'Score for the biggest event on the city’s calendar in each month, 0–100.', minValue: 0, maxValue: 100 },
+      { '@type': 'PropertyValue', name: 'PM2.5', description: 'Monthly mean fine particulate matter.', unitText: 'µg/m³' },
+      { '@type': 'PropertyValue', name: 'Monthly cost, solo', description: 'Itemized cost of a month for one person, with rent adjusted by season.', unitText: 'USD per month' },
+      { '@type': 'PropertyValue', name: 'Monthly cost, couple', description: 'Itemized cost of a month for two people, sharing rent and utilities.', unitText: 'USD per month' },
+      { '@type': 'PropertyValue', name: 'Temperature, daily high and low', description: 'Monthly average daytime high and night-time low.', unitText: 'degrees Fahrenheit' },
+      { '@type': 'PropertyValue', name: 'Rain days', description: 'Days with rain in the month.', unitText: 'days' }
+    ],
+    measurementTechnique:
+      'Each city-month Score blends weather, safety, air, season and events sub-scores computed from sourced climate, PM2.5, homicide and price data plus hand-set season and event tiers; the methodology page lists every input and its source.'
+  });
+
   {
     const crumbs = [HOME, CITIES];
     const title = `All ${cities.length} cities, scored month by month | Monsoon`;
@@ -297,18 +422,48 @@ export function buildSite({ detail, now = new Date() }) {
         numberOfItems: cities.length,
         itemListElement: groups.flatMap((g) => g.cities).map((o, k) => ({ '@type': 'ListItem', position: k + 1, name: o.c.name, url: SITE + cityPath(o.c.key) }))
       },
+      datasetLd(),
       breadcrumbLd(crumbs)
     ];
     emit('/cities/', title, description, CitiesPage, { groups, crumbs }, jsonLd);
   }
 
-  // ---- sitemap.xml ----
-  const urls = ['/', ...pages.map((p) => p.path)];
-  const sitemap =
-    '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-    urls.map((u) => `  <url><loc>${SITE}${u}</loc>${lastUpdated ? `<lastmod>${lastUpdated}</lastmod>` : ''}</url>`).join('\n') +
-    '\n</urlset>\n';
-  out.push({ path: 'sitemap.xml', content: sitemap });
+  // ---- sitemaps ----
+  // sitemap.xml is an index of per-type sitemaps. A page marked noindex is in
+  // none of them. /compare/ pages already route to sitemap-compare.xml, so the
+  // compare generator only has to emit its pages through emit().
+  const sitemapOf = (path) => {
+    if (path === '/' || path === '/cities/' || path === BEST_INDEX) return 'core';
+    if (path.startsWith('/city/')) return 'city';
+    if (path.startsWith('/best/')) return 'best';
+    if (path.startsWith('/compare/')) return 'compare';
+    return 'core';
+  };
+  const SITEMAP_TYPES = ['core', 'city', 'best', 'compare']; // add a type here, plus its pages, for a new tree
+  const byType = Object.fromEntries(SITEMAP_TYPES.map((t) => [t, t === 'core' ? ['/'] : []]));
+  for (const pg of pages) if (!pg.noindex) byType[sitemapOf(pg.path)].push(pg.path);
+  // Core keeps the app root first, then the hubs in the order they were emitted.
+  const lastmod = lastUpdated ? `<lastmod>${lastUpdated}</lastmod>` : '';
+  const XML = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  const sitemapFiles = SITEMAP_TYPES.filter((t) => byType[t].length).map((t) => ({
+    type: t,
+    path: `sitemap-${t}.xml`,
+    urls: byType[t],
+    content:
+      XML +
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+      byType[t].map((u) => `  <url><loc>${SITE}${u}</loc>${lastmod}</url>`).join('\n') +
+      '\n</urlset>\n'
+  }));
+  out.push({
+    path: 'sitemap.xml',
+    content:
+      XML +
+      '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+      sitemapFiles.map((f) => `  <sitemap><loc>${SITE}/${f.path}</loc>${lastmod}</sitemap>`).join('\n') +
+      '\n</sitemapindex>\n'
+  });
+  for (const f of sitemapFiles) out.push({ path: f.path, content: f.content });
 
   // ---- llms.txt ----
   const w = PRESETS.balanced.w;
@@ -329,6 +484,7 @@ export function buildSite({ detail, now = new Date() }) {
     '',
     '## Hubs',
     '',
+    `- [Where to be, by month and region](${SITE}${BEST_INDEX}): the twelve month rankings and the region pages`,
     `- [All cities](${SITE}/cities/): every city grouped by region, with its 12-month Score strip`,
     `- [The app](${SITE}/): interactive ranking, city sheets and a year planner with a Schengen meter`,
     '',
@@ -336,6 +492,14 @@ export function buildSite({ detail, now = new Date() }) {
     '',
     ...MONTHS_LONG.map((M, i) => `- [Where to be in ${M}](${SITE}${monthPath(i)}): all ${cities.length} cities ranked for ${M}`),
     '',
+    ...(hubs.length
+      ? [
+          '## Region pages',
+          '',
+          ...hubs.map((h) => `- [${h.title}](${SITE}${h.path}): ${h.blurb}`),
+          ''
+        ]
+      : []),
     '## Cities',
     '',
     ...groups.flatMap((g) => g.cities.map((o) => `- [${o.c.name}, ${o.c.country}](${SITE}${cityPath(o.c.key)}): ${o.summary} From ${fmtMoney(o.minSolo)}/mo solo.`)),
@@ -343,5 +507,5 @@ export function buildSite({ detail, now = new Date() }) {
   ].join('\n');
   out.push({ path: 'llms.txt', content: llms });
 
-  return { files: out, pages: pages.length, months: MONTHS.length };
+  return { files: out, pages: pages.length, months: MONTHS.length, skipped, hubs: hubs.map((h) => h.path) };
 }
