@@ -3,6 +3,7 @@
   import ThisMonth from './lib/ThisMonth.svelte';
   import CompareTray from './lib/CompareTray.svelte';
   import { lazy } from './lib/lazy.svelte.js';
+  import { focusTrap, focusTopLayer } from './lib/focusTrap.js';
   import { cities, cityByKey, regions, qolFor, valueFor, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS, prefetchDetail } from './lib/data.svelte.js';
   import { addCity, removeStayRef } from './lib/route.svelte.js';
   import { track } from './lib/analytics.js';
@@ -473,14 +474,66 @@
   // city into the itinerary at the viewed month, and a toast confirms it with an
   // Undo and a jump into My year. The route store does the placement (bumping to
   // the first open month if the viewed one is taken) and reports what it did.
+  //
+  // The toast never times out while the pointer is over it or focus is inside
+  // it (its Undo must not vanish mid-reach), and focusTrap pulls it into the
+  // Tab cycle of an open sheet. Screen readers hear it through a live region
+  // that is always mounted, so the message lands in an existing region (a
+  // region inserted together with its text is often not announced).
   let toast = $state(null);
+  let announce = $state('');
   let toastTimer;
+  let announceTimer;
+  let toastHover = false;
+  let toastFocus = false;
+
+  function armToast(ms) {
+    clearTimeout(toastTimer);
+    if (toast && !toastHover && !toastFocus) toastTimer = setTimeout(() => (toast = null), ms);
+  }
 
   function showToast(t) {
     toast = t;
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => (toast = null), 5500);
+    // Clear, then set after a beat, so a repeated message is announced again.
+    announce = '';
+    clearTimeout(announceTimer);
+    announceTimer = setTimeout(() => (announce = t.text), 80);
+    armToast(6000);
   }
+
+  // Closing the toast from inside it would drop focus on <body>; hand it back
+  // to the open sheet, if any.
+  function closeToast() {
+    const hadFocus = toastFocus;
+    toast = null;
+    if (hadFocus) focusTopLayer();
+  }
+
+  $effect(() => {
+    if (toast) return;
+    toastHover = toastFocus = false;
+    clearTimeout(toastTimer);
+  });
+
+  const toastEvents = {
+    onpointerenter: () => {
+      toastHover = true;
+      armToast(0);
+    },
+    onpointerleave: () => {
+      toastHover = false;
+      armToast(4000);
+    },
+    onfocusin: () => {
+      toastFocus = true;
+      armToast(0);
+    },
+    onfocusout: (e) => {
+      if (e.currentTarget.contains(e.relatedTarget)) return;
+      toastFocus = false;
+      armToast(4000);
+    }
+  };
 
   function addToYear(key, m) {
     const res = addCity(key, { start: m, len: 2 });
@@ -502,7 +555,7 @@
       text: `Added ${name} to ${range}${bumped}`,
       undo: () => {
         removeStayRef(added);
-        toast = null;
+        closeToast();
       },
       view: async () => {
         toast = null;
@@ -627,12 +680,13 @@
   />
 {/if}
 
+<div class="sr-only" role="status" aria-live="polite" aria-atomic="true">{announce}</div>
 {#if toast}
-  <div class="toast" class:warn={toast.kind === 'warn'} class:lifted={trayVisible} role="status" aria-live="polite">
+  <div class="toast" class:warn={toast.kind === 'warn'} class:lifted={trayVisible} role="group" aria-label="Notification" data-trap-include onpointerenter={toastEvents.onpointerenter} onpointerleave={toastEvents.onpointerleave} onfocusin={toastEvents.onfocusin} onfocusout={toastEvents.onfocusout}>
     <span class="toast-msg">{toast.text}</span>
     {#if toast.undo}<button type="button" class="toast-act" onclick={toast.undo}>Undo</button>{/if}
-    {#if toast.view}<button type="button" class="toast-act primary" onclick={toast.view}>View year</button>{/if}
-    <button type="button" class="toast-x" aria-label="Dismiss" onclick={() => (toast = null)}>×</button>
+    {#if toast.view}<button type="button" class="toast-act primary" onclick={toast.view}>{toast.viewLabel ?? 'View year'}</button>{/if}
+    <button type="button" class="toast-x" aria-label="Dismiss" onclick={closeToast}>×</button>
   </div>
 {/if}
 
@@ -645,7 +699,10 @@
 {/if}
 
 {#if methodOpen}
-  {#if MethodologyL.C}<MethodologyL.C onclose={() => (methodOpen = false)} />{:else}{@render lazyWait(MethodologyL, () => (methodOpen = false))}{/if}
+  <!-- Methodology manages its own Escape (capture phase), focus and scroll
+       lock; this host only adds it to the layer stack for the Tab cycle and
+       so the sheet under it stops taking ←/→. -->
+  {#if MethodologyL.C}<div class="layer-host" use:focusTrap={{ autofocus: false, restore: false, lock: false }}><MethodologyL.C onclose={() => (methodOpen = false)} /></div>{:else}{@render lazyWait(MethodologyL, () => (methodOpen = false))}{/if}
 {/if}
 
 {#if howToOpen}
@@ -932,6 +989,8 @@
     .howto-long { display: none; }
     .howto-short { display: inline; }
   }
+
+  .layer-host { display: contents; }
 
   .lazywait {
     position: fixed;

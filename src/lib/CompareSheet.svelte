@@ -3,8 +3,8 @@
   import MonthStrip from './MonthStrip.svelte';
   import { stripSummary } from './stripSummary.js';
   import { compareShareUrl } from './urlState.js';
-  import { lockScroll } from './sheet.js';
-  import { cityByKey, stripCells, qolFor, valueFor, band, cityCost, partyWord, fmtMoney, fmtTemp, swimNow, fmtMonthRange, eventsInMonth, MONTHS, MONTH_LETTERS, PRESETS, normalizePresetKey, prefs, detailStatus, retryDetail, shareOrCopy } from './data.svelte.js';
+  import { focusTrap, isTopLayer } from './focusTrap.js';
+  import { cityByKey, stripCells, qolFor, valueFor, band, cityCost, partyWord, fmtMoney, fmtTemp, swimNow, fmtMonthRange, eventsInMonth, MONTHS, MONTH_LETTERS, PRESETS, normalizePresetKey, prefs, detailStatus, retryDetail, prefetchDetail, shareOrCopy } from './data.svelte.js';
   import { bestOf, compareFindings } from './compare.js';
 
   // The comparison: 2–3 cities side by side for one month, over This month.
@@ -27,14 +27,11 @@
 
   const step = (d) => onmonth((month + d + 12) % 12);
 
+  // Escape, focus, the Tab cycle and the scroll lock: focusTrap on the dialog.
   $effect(() => {
     const onkey = (e) => {
       // A city sheet opened from here sits on top and handles its own keys.
-      if (covered || e.defaultPrevented) return;
-      if (e.key === 'Escape') {
-        onclose();
-        return;
-      }
+      if (covered || e.defaultPrevented || !isTopLayer(sheetEl)) return;
       if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
       // Arrows step the month only from the dialog itself or the month row, so
       // they never hijack horizontal scrolling of the grid or a focused control.
@@ -44,18 +41,9 @@
       step(e.key === 'ArrowLeft' ? -1 : 1);
     };
     window.addEventListener('keydown', onkey);
-    const prevFocus = document.activeElement;
-    const unlock = lockScroll();
-    sheetEl?.focus();
-    // A comparison opened from a link may beat the idle-time detail fetch.
-    untrack(() => {
-      if (!detailStatus.ready && !detailStatus.failed) retryDetail();
-    });
-    return () => {
-      window.removeEventListener('keydown', onkey);
-      unlock();
-      prevFocus?.focus?.();
-    };
+    // The detail layer loads on first intent; a comparison may be the first.
+    untrack(prefetchDetail);
+    return () => window.removeEventListener('keydown', onkey);
   });
 
   // ---- Share (?compare=a,b&m=mon) ----
@@ -246,6 +234,7 @@
     aria-describedby="cmp-sub"
     tabindex="-1"
     bind:this={sheetEl}
+    use:focusTrap={{ onescape: onclose }}
   >
     <header class="head">
       <div class="htitle">
@@ -698,7 +687,7 @@
 
   .key {
     margin: 14px 0 0;
-    font-size: 11.5px;
+    font-size: 12px;
     color: var(--ink-3);
   }
 
@@ -839,7 +828,7 @@
 
   .grp-note {
     font-family: var(--sans);
-    font-size: 11.5px;
+    font-size: 12px;
     font-weight: 400;
     font-style: italic;
     color: var(--ink-3);
@@ -925,7 +914,7 @@
   .etier {
     display: inline-block;
     margin-left: 4px;
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--terra);
@@ -1045,7 +1034,7 @@
     .yr-lab { font-size: 12px; margin-top: 4px; }
     .mb { height: 36px; }
     .yr-strip :global(.strip.lg .cell) { height: 26px; }
-    .yr-strip :global(.strip.lg .q) { font-size: 9.5px; }
+    .yr-strip :global(.strip.lg .q) { font-size: 11px; }
 
     .grid { font-size: 13px; }
 

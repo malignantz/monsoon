@@ -1,7 +1,6 @@
 <script>
+  import { focusTrap } from './focusTrap.js';
   let { onclose } = $props();
-
-  let cardEl = $state(null);
 
   const BRAND_BANDS = ['ok', 'ok', 'good', 'good', 'good', 'great', 'great', 'good', 'good', 'good', 'ok', 'ok'];
 
@@ -11,24 +10,11 @@
     { label: 'Practical', text: 'Costs, Schengen math, air quality, hazards, and safety stay in the frame.' }
   ];
 
-  $effect(() => {
-    const onkey = (e) => {
-      if (e.key === 'Escape') onclose();
-    };
-    window.addEventListener('keydown', onkey);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    cardEl?.focus();
-    return () => {
-      window.removeEventListener('keydown', onkey);
-      document.body.style.overflow = prevOverflow;
-    };
-  });
 </script>
 
 <div class="scrim">
   <button type="button" class="scrim-back" aria-label="Close about" onclick={onclose}></button>
-  <div class="card" role="dialog" aria-modal="true" aria-label="About Monsoon" tabindex="-1" bind:this={cardEl}>
+  <div class="card" role="dialog" aria-modal="true" aria-label="About Monsoon" tabindex="-1" use:focusTrap={{ onescape: onclose }}>
     <button type="button" class="x" onclick={onclose} aria-label="Close">×</button>
 
     <header class="head">
@@ -222,7 +208,7 @@
 
   .moment-grid span {
     display: block;
-    font-size: 10.5px;
+    font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     font-weight: 700;

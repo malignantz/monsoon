@@ -296,7 +296,7 @@
   }
 
   .lbl {
-    font-size: 9px;
+    font-size: 11px;
     letter-spacing: 0;
     text-transform: uppercase;
     opacity: 0.85;
@@ -343,7 +343,7 @@
   }
 
   .tag {
-    font-size: 10.5px;
+    font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.03em;
     color: var(--ink-2);

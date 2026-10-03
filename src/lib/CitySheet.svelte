@@ -3,6 +3,7 @@
   import MonthStrip from './MonthStrip.svelte';
   import ScoreInfo from './ScoreInfo.svelte';
   import Sources from './Sources.svelte';
+  import { focusTrap, isTopLayer } from './focusTrap.js';
   import { cityShareUrl } from './urlState.js';
   import { stripCells, qolFor, fmtMoney, fmtTemp, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, retryDetail, prefetchDetail, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, shareOrCopy, settings, sources, dataAsOf } from './data.svelte.js';
   import { monthRows, safetyRows, costRows, cityDataDates, reportUrl, fmtDate, CHIP_LABEL, normConfidence } from './provenance.js';
@@ -37,23 +38,18 @@
     return () => clearTimeout(copyTimer);
   });
 
+  // Escape, focus in/out, the Tab cycle and the scroll lock come from
+  // focusTrap on the dialog below. ←/→ step cities, only while this sheet is
+  // the top layer (not under methodology) and not from a form control.
   $effect(() => {
     const onkey = (e) => {
-      // An open info popover handles (and swallows) its own Escape first.
-      if (e.key === 'Escape' && !e.defaultPrevented) onclose();
-      else if (e.key === 'ArrowLeft') onstep?.(-1);
-      else if (e.key === 'ArrowRight') onstep?.(1);
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      if (e.defaultPrevented || e.altKey || e.metaKey || e.ctrlKey || !isTopLayer(sheetEl)) return;
+      if (e.target?.closest?.('input, select, textarea')) return;
+      onstep?.(e.key === 'ArrowLeft' ? -1 : 1);
     };
     window.addEventListener('keydown', onkey);
-    const prevFocus = document.activeElement;
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    sheetEl?.focus();
-    return () => {
-      window.removeEventListener('keydown', onkey);
-      document.body.style.overflow = prevOverflow;
-      prevFocus?.focus?.();
-    };
+    return () => window.removeEventListener('keydown', onkey);
   });
 
   // The detail layer loads on first intent; a sheet opened straight from a
@@ -178,6 +174,7 @@
     aria-label="{city.name} city sheet"
     tabindex="-1"
     bind:this={sheetEl}
+    use:focusTrap={{ onescape: onclose }}
   >
     <header class="hero">
       <button type="button" class="back" onclick={onclose}>← Monsoon</button>
@@ -603,7 +600,7 @@
   .snapcell.swim .swim-dot { color: var(--teal); }
   .snapcell.swim.off .swim-dot { color: var(--ink-3); }
   .v { font-size: 19px; font-weight: 600; }
-  .k { font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+  .k { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
 
   .block { margin-top: 26px; }
 
@@ -733,7 +730,7 @@
   .eblurb { color: var(--ink-2); grid-column: 3; }
 
   .etier {
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--terra);
@@ -754,7 +751,7 @@
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 6px 20px;
-    font-size: 11.5px;
+    font-size: 12px;
     color: var(--ink-3);
   }
 
@@ -779,7 +776,7 @@
      (indented past the 104px label column + 10px gap). */
   .evtdriver {
     margin: -3px 0 0 114px;
-    font-size: 11.5px;
+    font-size: 12px;
     color: var(--ink-3);
     line-height: 1.35;
   }
@@ -818,7 +815,7 @@
 
   .srchead {
     margin: 8px 0 4px;
-    font-size: 10.5px;
+    font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-3);

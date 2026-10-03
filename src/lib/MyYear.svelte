@@ -30,7 +30,7 @@
     shareOrCopy
   } from './data.svelte.js';
   import { screen } from './mobile.svelte.js';
-  import { lockScroll } from './sheet.js';
+  import { focusTrap } from './focusTrap.js';
   import { route, nextOpenMonth } from './route.svelte.js';
   import {
     defaultFilters,
@@ -466,19 +466,10 @@
     if (!screen.mobile) pickerOpen = false;
   });
 
-  // Lock the page behind the open picker sheet and close it on Escape.
-  $effect(() => {
-    if (!pickerOpen) return;
-    const unlock = lockScroll();
-    const onkey = (e) => {
-      if (e.key === 'Escape' && !e.defaultPrevented) closePicker();
-    };
-    window.addEventListener('keydown', onkey);
-    return () => {
-      window.removeEventListener('keydown', onkey);
-      unlock();
-    };
-  });
+  // The open picker sheet locks the page, takes focus, keeps Tab inside and
+  // closes on Escape through focusTrap (on .picker-sheet below). Unmounting it
+  // by any route — Done, the scrim, Escape, a rotation past the breakpoint —
+  // releases the lock and hands focus back.
 
   // Adding from the sheet advances to the next open month automatically (addStay
   // already parks selStart on the next gap), keeping a fill rhythm without
@@ -1127,7 +1118,7 @@
     {#if pickerOpen}
       <div class="picker-scrim">
         <button type="button" class="picker-scrim-back" aria-label="Close picker" onclick={closePicker}></button>
-        <div class="picker-sheet" role="dialog" aria-modal="true" aria-label="Add a city to your year">
+        <div class="picker-sheet" role="dialog" aria-modal="true" aria-label="Add a city to your year" tabindex="-1" use:focusTrap={{ onescape: closePicker }}>
           <div class="picker-grab" aria-hidden="true"></div>
           <div class="picker-top">
             <strong class="picker-title">
@@ -1269,7 +1260,7 @@
 
   .ghost-tag {
     align-self: center;
-    font-size: 9.5px;
+    font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     font-weight: 600;
@@ -1357,7 +1348,7 @@
   .preview-msg { display: flex; flex-direction: column; gap: 2px; }
 
   .preview-eyebrow {
-    font-size: 10.5px;
+    font-size: 11px;
     letter-spacing: 0.07em;
     text-transform: uppercase;
     font-weight: 600;
@@ -1589,7 +1580,7 @@
   }
 
   .dur-val {
-    font-size: 9.5px;
+    font-size: 11px;
     color: var(--ink-2);
     padding: 0 1px;
   }
@@ -1641,7 +1632,7 @@
   .mlabel { font-size: 12px; font-weight: 600; color: var(--sch-accent); white-space: nowrap; }
 
   .sch-state {
-    font-size: 10.5px;
+    font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -1680,7 +1671,7 @@
   .clabel { font-size: 12px; font-weight: 600; color: var(--cty-accent); white-space: nowrap; }
 
   .cty-state {
-    font-size: 10.5px;
+    font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -1761,7 +1752,7 @@
   .cty-flag { color: var(--ink-3); }
   .cty-row.over .cty-days, .cty-row.over .cty-flag { color: var(--terra-deep); font-weight: 600; }
 
-  .cty-foot { margin: 8px 0 0; font-size: 11.5px; color: var(--ink-3); }
+  .cty-foot { margin: 8px 0 0; font-size: 12px; color: var(--ink-3); }
 
   .board-hint {
     margin: 4px 0 10px;
@@ -1783,7 +1774,7 @@
 
   .tot { display: flex; flex-direction: column; }
   .tv { font-size: 19px; font-weight: 600; }
-  .tk { font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); }
+  .tk { font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); }
 
   /* Compact control bar — mirrors This month's Sort + Regions ▾ / Refine ▾ row
      so both surfaces filter the same way. Filters collapse by default, keeping
@@ -1810,7 +1801,7 @@
   }
 
   .ctl-lbl {
-    font-size: 9.5px;
+    font-size: 11px;
     letter-spacing: 0.07em;
     text-transform: uppercase;
     color: var(--ink-3);
@@ -2033,7 +2024,7 @@
 
   .railcost em {
     font-style: normal;
-    font-size: 9.5px;
+    font-size: 11px;
     color: var(--ink-3);
   }
 
@@ -2133,7 +2124,7 @@
     border-radius: 6px;
     background: transparent;
     color: var(--ink-3);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -2335,6 +2326,7 @@
     border-radius: 18px 18px 0 0;
     border-top: 1px solid var(--line);
     box-shadow: 0 -10px 30px -16px rgba(33, 36, 30, 0.5);
+    outline: none;
   }
 
   .picker-grab {

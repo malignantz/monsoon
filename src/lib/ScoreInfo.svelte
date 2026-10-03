@@ -105,7 +105,7 @@
 
   .pop-title {
     display: block;
-    font-size: 10.5px;
+    font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-3);
@@ -116,5 +116,5 @@
   .pop :global(p:last-child) { margin-bottom: 0; }
   .pop :global(a) { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
   .pop :global(a:hover) { color: var(--ink); }
-  .pop :global(.src) { color: var(--ink-3); font-size: 11.5px; }
+  .pop :global(.src) { color: var(--ink-3); font-size: 12px; }
 </style>

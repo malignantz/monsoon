@@ -989,7 +989,7 @@
 
   .monthsel.compact .mbtn {
     width: 24px;
-    font-size: 10.5px;
+    font-size: 11px;
   }
 
   .monthsel.compact .mbtn.on {
@@ -1022,7 +1022,7 @@
   }
 
   .key-intro {
-    font-size: 11.5px;
+    font-size: 12px;
     color: var(--ink-2);
     white-space: nowrap;
   }

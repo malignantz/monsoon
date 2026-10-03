@@ -61,7 +61,7 @@
   }
 
   .rng {
-    font-size: 10px;
+    font-size: 11px;
     color: var(--ink-3);
   }
 

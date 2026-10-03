@@ -132,7 +132,7 @@
 
   .chip {
     flex: none;
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     border: 1px solid var(--line);
@@ -151,16 +151,16 @@
   .rinput, .rnote, .rmeta, .rmethod { margin: 2px 0 0; }
   .rnote { font-style: italic; }
   .rnlabel { font-style: normal; color: var(--ink-3); }
-  .rmeta { font-size: 11.5px; color: var(--ink-3); overflow-wrap: anywhere; }
+  .rmeta { font-size: 12px; color: var(--ink-3); overflow-wrap: anywhere; }
   .rmeta a { color: var(--ink-2); text-decoration: underline; text-underline-offset: 2px; }
   .rmeta a:hover { color: var(--ink); }
-  .rmethod { font-size: 11.5px; color: var(--ink-3); }
+  .rmethod { font-size: 12px; color: var(--ink-3); }
 
   .report {
     margin: 6px 0 0;
     padding-top: 8px;
     border-top: 1px solid var(--line-soft);
-    font-size: 11.5px;
+    font-size: 12px;
     text-align: right;
   }
 

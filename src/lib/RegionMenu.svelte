@@ -108,7 +108,7 @@
   }
 
   .pop-title {
-    font-size: 9.5px;
+    font-size: 11px;
     letter-spacing: 0.07em;
     text-transform: uppercase;
     color: var(--ink-3);
