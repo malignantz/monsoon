@@ -6,6 +6,14 @@ export const METHOD_VERSION = 'v5';
 export const CHANGELOG = [
   {
     date: '2026-10-03',
+    title: 'My year counts days per country',
+    body:
+      'Beside the Schengen meter, My year now adds up real days in each country across your planned ' +
+      'year and notes any country at 183 days or more, a common tax-residency mark (rules vary by ' +
+      'country). Starter years never cross it. It is a planning signal, not tax advice.'
+  },
+  {
+    date: '2026-10-03',
     title: 'Schengen days are counted as real days',
     body:
       'The 90/180 check used to count every month as 30 days and treated exactly 90 as compliant, ' +
