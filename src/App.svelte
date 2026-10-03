@@ -7,10 +7,13 @@
   import Methodology from './lib/Methodology.svelte';
   import About from './lib/About.svelte';
   import HowTo from './lib/HowTo.svelte';
+  import CompareTray from './lib/CompareTray.svelte';
+  import CompareSheet from './lib/CompareSheet.svelte';
   import { cities, cityByKey, regions, qolFor, valueFor, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS } from './lib/data.svelte.js';
   import { addCity, removeStayRef } from './lib/route.svelte.js';
   import { track } from './lib/analytics.js';
   import { readUrlState, buildUrl } from './lib/urlState.js';
+  import { MAX_COMPARE, sanitizeCompare, loadCompare, saveCompare } from './lib/compare.js';
 
   const PREFS = 'atlas.prefs.v1';
 
@@ -46,7 +49,7 @@
   // Any This-month param (month, sort, layout, region) is a link to the
   // ranking too, so it wins over the visitor's last-used view.
   const linksToRanking =
-    fromUrl.city || fromUrl.month != null || fromUrl.mode || fromUrl.density || fromUrl.regions;
+    fromUrl.city || fromUrl.compare || fromUrl.month != null || fromUrl.mode || fromUrl.density || fromUrl.regions;
   let view = $state(
     fromUrl.view ??
       (initialRoute.length ? 'year' : linksToRanking ? 'month' : p.view === 'explore' ? 'month' : (p.view ?? 'month'))
@@ -54,13 +57,29 @@
   let month = $state(fromUrl.month ?? currentMonth);
   // A ranking link with no sort param means the default sort (that is how the
   // sender's clean URL was built), not the recipient's last-used one.
-  const rankingLink = fromUrl.month != null || fromUrl.density || fromUrl.regions;
+  const rankingLink = fromUrl.month != null || fromUrl.density || fromUrl.regions || fromUrl.compare;
   let mode = $state(fromUrl.mode ?? (rankingLink ? 'quality' : (p.mode ?? 'quality')));
   let preset = $state(normalizePresetKey(p.preset));
   let valueModel = $state(p.valueModel ?? 'adjusted');
   let density = $state(fromUrl.density ?? (p.density === 'table' ? 'table' : 'cards'));
   let activeRegions = $state(new Set(fromUrl.regions ?? []));
   let cityKey = $state(fromUrl.city && cityByKey.has(fromUrl.city) ? fromUrl.city : null);
+
+  // ── Compare ──
+  // compareKeys is the in-progress pick (session-only, max three). A
+  // `?compare=a,b` link replaces it and opens the comparison over This month;
+  // a link with fewer than two usable cities just seeds the tray. Picking mode
+  // (checkboxes on cards/rows, the tray) is on while there are picks, or once
+  // the Compare toggle has been switched on; clearing the tray ends it.
+  const urlCompare = fromUrl.compare ? sanitizeCompare(fromUrl.compare) : null;
+  let compareKeys = $state(urlCompare?.length ? urlCompare : loadCompare());
+  let comparePicking = $state(untrack(() => compareKeys.length) > 0);
+  let compareOpen = $state(untrack(() => view) === 'month' && (urlCompare?.length ?? 0) >= 2);
+  const comparing = $derived(view === 'month' && (comparePicking || compareKeys.length > 0));
+  const trayVisible = $derived(comparing && !compareOpen);
+
+  $effect(() => saveCompare([...compareKeys]));
+
   // First-visit colour key on This month; dismissed once, it stays dismissed.
   let keyHidden = $state(p.keyHidden === true);
   // This month's list in on-screen order (filtered + sorted) for ←/→ stepping.
@@ -120,7 +139,7 @@
   const defaultView = () => (sharedRoute ? 'year' : 'month');
   const urlFor = () =>
     buildUrl(
-      { view, month, mode, density, regions: activeRegions, city: cityKey },
+      { view, month, mode, density, regions: activeRegions, city: cityKey, compare: compareOpen ? compareKeys : null },
       { defaultView: defaultView(), currentMonth }
     );
   const here = () => location.pathname + location.search + location.hash;
@@ -213,7 +232,8 @@
   // its card, which reappears as the sheet unmounts. Resolves once the close
   // has been applied, so callers can switch view *after* the history step.
   async function closeSheet() {
-    if (!canAnimate()) {
+    // Over a comparison there is no visible card to fly back to.
+    if (!canAnimate() || compareOpen) {
       applyClose();
       return;
     }
@@ -231,7 +251,12 @@
   // hero) lets the title morph from one city to the next. It follows the list
   // exactly as This month shows it (filters, search, sort, table column order).
   function stepCity(dir) {
-    const list = view === 'month' && visibleKeys.includes(cityKey) ? visibleKeys : rankedKeys();
+    const list =
+      compareOpen && compareKeys.includes(cityKey)
+        ? compareKeys
+        : view === 'month' && visibleKeys.includes(cityKey)
+          ? visibleKeys
+          : rankedKeys();
     const i = list.indexOf(cityKey);
     if (i < 0) return;
     const next = list[(i + dir + list.length) % list.length];
@@ -255,13 +280,26 @@
         else history.replaceState(history.state, '', urlFor());
         return;
       }
+      const nextCompare = s.compare ? sanitizeCompare(s.compare) : [];
       if (cityKey && !nextCity) {
         // Browser Back out of an open sheet behaves exactly like closing it.
         trackClose();
         cityKey = null;
+        // …landing on the comparison it was opened from, if that is where Back went.
+        if (nextCompare.length >= 2) compareKeys = nextCompare;
+        compareOpen = nextCompare.length >= 2;
         history.replaceState(history.state, '', urlFor());
         return;
       }
+      if (compareOpen && nextCompare.length < 2 && !nextCity) {
+        // Browser Back out of the comparison closes it, keeping the picks and
+        // any month chosen inside it.
+        compareOpen = false;
+        history.replaceState(history.state, '', urlFor());
+        return;
+      }
+      if (nextCompare.length >= 2) compareKeys = nextCompare;
+      compareOpen = nextCompare.length >= 2 && (s.view ?? defaultView()) === 'month';
       cityKey = nextCity;
       view = lastView = s.view ?? defaultView();
       month = s.month ?? currentMonth;
@@ -272,6 +310,66 @@
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
   });
+
+  // ── Compare actions ──
+  function toggleCompare(key) {
+    if (compareKeys.includes(key)) {
+      compareKeys = compareKeys.filter((k) => k !== key);
+      if (compareOpen && compareKeys.length < 2) closeCompare();
+      return;
+    }
+    if (compareKeys.length >= MAX_COMPARE) return;
+    compareKeys = [...compareKeys, key];
+    // Once you've started picking, emptying the tray keeps you in picking mode
+    // until you dismiss it.
+    comparePicking = true;
+    track('compare_add', { city: key, count: compareKeys.length });
+  }
+
+  function clearCompare() {
+    compareKeys = [];
+    comparePicking = false;
+  }
+
+  function toggleCompareMode() {
+    if (comparing) clearCompare();
+    else comparePicking = true;
+  }
+
+  // Pushes an entry marked as ours, so closing can step back (like the sheet).
+  function openCompare() {
+    if (compareKeys.length < 2) return;
+    compareOpen = true;
+    track('compare_open', { cities: compareKeys.join(','), month });
+    history.pushState({ compare: true }, '', urlFor());
+  }
+
+  function closeCompare() {
+    compareOpen = false;
+    if (history.state?.compare) {
+      pendingBack = true;
+      history.back();
+    } else {
+      // Landed directly on a ?compare= link: drop the param in place.
+      history.replaceState(history.state, '', urlFor());
+    }
+  }
+
+  // A city from the comparison opens its sheet on top (crossfade, no card
+  // morph — the card is under the comparison). Closing it returns here.
+  function openFromCompare(key) {
+    if (!canAnimate()) applyOpen(key);
+    else document.startViewTransition(() => applyOpen(key));
+  }
+
+  // Leaving for My year from inside an overlay (toast "View year"): drop the
+  // sheet and comparison in place, then let the view change push its entry.
+  function dropOverlays() {
+    if (cityKey) trackClose();
+    cityKey = null;
+    compareOpen = false;
+    history.replaceState({}, '', urlFor());
+  }
 
   const NAV = [
     { id: 'month', label: 'This month' },
@@ -336,7 +434,8 @@
       },
       view: async () => {
         toast = null;
-        if (cityKey) await closeSheet();
+        if (compareOpen) dropOverlays();
+        else if (cityKey) await closeSheet();
         view = 'year';
       }
     });
@@ -389,6 +488,10 @@
         heroKey={transitioningKey}
         openKey={cityKey}
         onopen={openSheet}
+        {comparing}
+        {compareKeys}
+        oncompare={toggleCompare}
+        oncomparemode={toggleCompareMode}
         onmodel={(m) => (valueModel = m)}
         onsettings={openSettings}
         onresume={() => (view = 'year')}
@@ -406,14 +509,46 @@
       <button type="button" class="num footlink" onclick={() => (methodOpen = true)}>methodology · 2026</button>
     </span>
   </footer>
+  {#if trayVisible}<div class="trayspace" aria-hidden="true"></div>{/if}
 </div>
 
+{#if trayVisible}
+  <CompareTray keys={compareKeys} onremove={toggleCompare} onclear={clearCompare} onopen={openCompare} />
+{/if}
+
+{#if compareOpen && compareKeys.length >= 2}
+  <CompareSheet
+    keys={compareKeys}
+    {month}
+    {preset}
+    {valueModel}
+    covered={!!openCity}
+    onmonth={(i) => (month = i)}
+    onremove={toggleCompare}
+    onclose={closeCompare}
+    onopencity={openFromCompare}
+    onaddtoyear={addToYear}
+  />
+{/if}
+
 {#if openCity}
-  <CitySheet city={openCity} {month} {preset} onclose={closeSheet} onmonth={(i) => (month = i)} onstep={stepCity} onaddtoyear={addToYear} onmethod={() => (methodOpen = true)} />
+  <CitySheet
+    city={openCity}
+    {month}
+    {preset}
+    onclose={closeSheet}
+    onmonth={(i) => (month = i)}
+    onstep={stepCity}
+    onaddtoyear={addToYear}
+    onmethod={() => (methodOpen = true)}
+    compared={compareKeys.includes(openCity.key)}
+    compareFull={compareKeys.length >= MAX_COMPARE}
+    oncompare={view === 'month' && !compareOpen ? toggleCompare : null}
+  />
 {/if}
 
 {#if toast}
-  <div class="toast" class:warn={toast.kind === 'warn'} role="status" aria-live="polite">
+  <div class="toast" class:warn={toast.kind === 'warn'} class:lifted={trayVisible} role="status" aria-live="polite">
     <span class="toast-msg">{toast.text}</span>
     {#if toast.undo}<button type="button" class="toast-act" onclick={toast.undo}>Undo</button>{/if}
     {#if toast.view}<button type="button" class="toast-act primary" onclick={toast.view}>View year</button>{/if}
@@ -724,6 +859,12 @@
   }
 
   .toast.warn { background: var(--terra-deep); }
+
+  /* Clear the compare tray when both are up. */
+  .toast.lifted { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+
+  /* Room under the footer so the fixed compare tray never covers the last row. */
+  .trayspace { height: calc(72px + var(--safe-b)); }
 
   /* Opacity-only so it never fights the transform used to centre the pill. */
   @keyframes toast-in {

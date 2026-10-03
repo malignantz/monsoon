@@ -6,7 +6,9 @@
   import { stripCells, qolFor, fmtMoney, fmtTemp, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, retryDetail, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, shareOrCopy, settings, sources, dataAsOf } from './data.svelte.js';
   import { monthRows, safetyRows, costRows, cityDataDates, reportUrl, fmtDate, CHIP_LABEL, normConfidence } from './provenance.js';
 
-  let { city, month, preset, onclose, onmonth, onstep, onaddtoyear, onmethod } = $props();
+  // oncompare is only passed where a comparison can be built (over This month,
+  // and not when this sheet was opened from the comparison itself).
+  let { city, month, preset, onclose, onmonth, onstep, onaddtoyear, onmethod, compared = false, compareFull = false, oncompare = null } = $props();
 
   let sheetEl = $state(null);
 
@@ -202,6 +204,17 @@
             onclick={() => onaddtoyear(city.key, month)}
             title="Add {city.name} to your year, starting {MONTHS[month]}"
           >+ Add to year</button>
+        {/if}
+        {#if oncompare}
+          <button
+            type="button"
+            class="save compare"
+            class:on={compared}
+            aria-pressed={compared}
+            disabled={compareFull && !compared}
+            onclick={() => oncompare(city.key)}
+            title={compared ? `Remove ${city.name} from your comparison` : compareFull ? 'Three cities picked — remove one to add another' : `Compare ${city.name} with up to two other cities`}
+          >{compared ? '✓ Comparing' : compareFull ? 'Compare full' : 'Compare'}</button>
         {/if}
         {#if onstep}
           <button type="button" class="back step" onclick={() => onstep(-1)} aria-label="Previous city" title="Previous city (←)">‹</button>
@@ -505,6 +518,13 @@
   }
 
   .save:hover { border-color: var(--terra); color: var(--terra-deep); }
+
+  .save:disabled,
+  .save:disabled:hover {
+    border-color: var(--line);
+    color: var(--ink-3);
+    cursor: default;
+  }
 
   /* Icon + label sit on one baseline; the icon is the standard share glyph
      (tray + up arrow), swapping to a check on copy. */
@@ -862,6 +882,17 @@
 
     /* Push prev/next/close to the right so save/share lead the row. */
     .step:first-of-type { margin-left: auto; }
+  }
+
+  /* With Compare in it, the action cluster is too wide to float beside
+     "← Monsoon" on small tablets; it drops to its own right-aligned row. */
+  @media (min-width: 601px) and (max-width: 760px) {
+    .hero-ctl {
+      position: static;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      margin: -6px 0 14px;
+    }
   }
 
   @media (max-width: 720px) {

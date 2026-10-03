@@ -3,7 +3,11 @@
   import { stripCells, qolFor, valueFor, whyNow, fmtMoney, cityCost, partyWord, isFavorite, toggleFavorite } from './data.svelte.js';
   import { stripSummary } from './stripSummary.js';
 
-  let { city, month, preset, mode, valueModel, heroKey = null, openKey = null, onopen } = $props();
+  // compare: null outside compare mode; { on, full } while picking. The
+  // control lives *outside* the card's button (no nested interactive) as a
+  // labelled strip attached under it, so it only exists while the user has
+  // asked to compare — browse stays exactly as calm as before.
+  let { city, month, preset, mode, valueModel, heroKey = null, openKey = null, onopen, compare = null, oncompare } = $props();
 
   const faved = $derived(isFavorite(city.key));
 
@@ -22,7 +26,7 @@
   const m = $derived(city.months[month]);
 </script>
 
-<div class="cardwrap">
+<div class="cardwrap" class:comparing={!!compare} class:picked={compare?.on}>
   <button
     type="button"
     class="fav"
@@ -59,6 +63,20 @@
       </span>
     </div>
   </button>
+
+  {#if compare}
+    <label class="cmp" class:on={compare.on} class:off={compare.full && !compare.on} title={compare.full && !compare.on ? 'Three cities picked — remove one to add another' : undefined}>
+      <input
+        type="checkbox"
+        checked={compare.on}
+        disabled={compare.full && !compare.on}
+        aria-label="Compare {city.name}"
+        onchange={() => oncompare(city.key)}
+      />
+      <span class="box" aria-hidden="true"></span>
+      <span class="cmp-l" aria-hidden="true">{compare.on ? 'Comparing' : compare.full ? 'Compare · 3 picked' : 'Compare'}</span>
+    </label>
+  {/if}
 </div>
 
 <style>
@@ -131,6 +149,102 @@
     transform: translateY(-3px);
     border-color: var(--ink-3);
     box-shadow: 0 10px 24px -14px rgba(33, 36, 30, 0.35);
+  }
+
+  /* ── Compare mode ──
+     The card and its compare strip read as one object: the card gives up its
+     bottom radius and its hover lift (which would tear it off the strip). */
+  .comparing .card {
+    border-radius: 14px 14px 0 0;
+  }
+
+  .comparing .card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .picked .card,
+  .picked .card:hover { border-color: var(--terra); }
+
+  .cmp {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    height: 38px;
+    margin-top: -1px;
+    padding: 0 16px;
+    border: 1px solid var(--line);
+    border-radius: 0 0 14px 14px;
+    background: var(--paper-2);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-2);
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .cmp:hover { color: var(--ink); border-color: var(--ink-3); }
+
+  .cmp.on {
+    background: var(--terra-soft);
+    border-color: var(--terra);
+    color: var(--terra-deep);
+  }
+
+  .cmp.off {
+    cursor: default;
+    color: var(--ink-3);
+  }
+
+  .cmp.off:hover { border-color: var(--line); color: var(--ink-3); }
+
+  /* Native checkbox for semantics and keyboard (Space); the drawn box is the
+     visual, with a tick when picked — state never rides on colour alone. */
+  .cmp input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .box {
+    position: relative;
+    flex: none;
+    width: 15px;
+    height: 15px;
+    border: 1.5px solid var(--ink-3);
+    border-radius: 4px;
+    background: var(--card);
+  }
+
+  .cmp.on .box {
+    background: var(--terra);
+    border-color: var(--terra);
+  }
+
+  .cmp.on .box::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 4px;
+    height: 8px;
+    border: solid #fdf3ec;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .cmp.off .box { opacity: 0.5; }
+
+  .cmp:has(input:focus-visible) {
+    outline: 2px solid var(--terra);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 700px) {
+    .cmp { height: var(--tap); }
   }
 
   .top {
