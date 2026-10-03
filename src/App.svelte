@@ -287,12 +287,16 @@
 
   function applyOpen(key, { replace = false, month: sheetMonth } = {}) {
     if (Number.isInteger(sheetMonth) && sheetMonth >= 0 && sheetMonth < 12) month = sheetMonth;
+    // A sheet already open on our own pushed entry (a double-click, or a second
+    // card clicked before the first open applied) is rewritten in place, so one
+    // Back still closes it.
+    const stacked = cityKey !== null && !!history.state?.sheet;
     cityKey = key;
     sheetOpenedAt = Date.now();
     track('city_sheet_open', { city: key, month, from: view === 'year' ? 'my_year' : 'this_month' });
     // Stepping (replace) keeps the entry's `sheet` flag; a fresh open pushes an
     // entry marked as ours, so closing can simply go back to the list.
-    if (replace) history.replaceState(history.state, '', urlFor());
+    if (replace || stacked) history.replaceState(history.state, '', urlFor());
     else history.pushState({ sheet: true }, '', urlFor());
   }
 
