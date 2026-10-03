@@ -1,0 +1,33 @@
+{
+  "city": "Costa Adeje (Tenerife)",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-10",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1519, "party": "shared",              "source": "idealista.com", "asOf": "2026-10", "confidence": "high", "note": "furnished 1BR in Costa Adeje (Torviscas / San Eugenio / Fañabé) ~€1,350/mo; idealista 1BR listings median ~€1,400, area index €20.8/m²; EUR->USD 1.1254"},
+    "utilities": {"usd": 107,  "party": "shared",              "source": "energias-renovables.com / digimobil.es / numbeo.com", "asOf": "2026-10", "confidence": "med", "note": "~€95: electricity ~€45 (no heating; Spanish household avg €57.50), water ~€18, fibre €30 (Digi 1 Gb); often included in seasonal lets"},
+    "groceries": {"usd": 225,  "party": "perPerson",           "source": "numbeo.com", "asOf": "2026-10", "confidence": "med", "note": "~€200/mo home cooking; Canary IGIC keeps staples near mainland prices"},
+    "diningOut": {"usd": 236,  "party": "perPerson",           "source": "numbeo.com", "asOf": "2026-10", "confidence": "med", "note": "~€210/mo: ~8 casual meals at ~€15, cafés (€2.80 cappuccino), one mid-range dinner"},
+    "transit":   {"usd": 45,   "party": "perPerson",           "source": "titsa.com", "asOf": "2026-10", "confidence": "low", "note": "~€40/mo pay-per-trip on a ten+ wallet card; the €19 Bono Residente is residents-only and the tourist card is €50/week, so non-residents pay per km"},
+    "coworking": {"usd": 225,  "party": "perPersonDiscounted", "source": "workin.space (Deskhub Tenerife)", "asOf": "2026-10", "confidence": "med", "note": "Deskhub Los Cristianos open desk €190/mo + tax ≈ €200"},
+    "simData":   {"usd": 11,   "party": "perPerson",           "source": "digimobil.es", "asOf": "2026-10", "confidence": "high", "note": "Digi prepago 50 GB €7/mo; ~€10 with top-up buffer"},
+    "misc":      {"usd": 163,  "party": "perPersonDiscounted", "source": "numbeo.com / estimated", "asOf": "2026-10", "confidence": "low", "note": "~€145: gym ~€47 (Numbeo Adeje) + toiletries, outings, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "Editorial: winter-sun peak Dec–Mar (seasonal listings ask ~35% more for late Dec–early Feb than Jul–Sep), Jul–Aug Spanish family season, lulls May–Jun and Sep.",
+    "values": [1.15, 1.15, 1.10, 1.00, 0.90, 0.90, 0.95, 1.00, 0.90, 0.95, 1.05, 1.15]
+  },
+  "evidence": [
+    {"claim": "Costa Adeje district rent index €20.8/m²/mo (Sep 2026), Adeje municipality €19.0/m²; ~55 m² 1BR ≈ €1,140 long-term", "quote": "Costa Adeje 20,8 €/m2 + 0,8 % - 1,0 % - 0,4 % 22,9 €/m2 abr 2025", "source": "idealista.com price report", "url": "https://www.idealista.com/sala-de-prensa/informes-precio-vivienda/alquiler/canarias/santa-cruz-de-tenerife-provincia/adeje/", "date": "2026-09", "confidence": "high"},
+    {"claim": "Costa Adeje 1BR listings (3 Oct 2026, ~19 visible): long-term furnished mostly €1,150–1,600; seasonal lets €1,500–2,950; median ~€1,400", "quote": "Piso en Calle Italia, 2, San Eugenio Alto, Adeje 1.300€/mes 1 hab. 54 m²", "source": "idealista.com listings", "url": "https://www.idealista.com/alquiler-viviendas/adeje/costa-adeje/con-de-un-dormitorio/", "date": "2026-10", "confidence": "high"},
+    {"claim": "Winter seasonal premium: same flat €3,400 late Dec–early Feb vs €2,500 Jul–Sep", "quote": "14 de julio – 21 de septiembre (precio 2.500 € mensuales = 30 días) 23 de diciembre – 5 de febrero (precio 3.400 €", "source": "idealista.com listings", "url": "https://www.idealista.com/alquiler-viviendas/adeje/costa-adeje/con-de-un-dormitorio/", "date": "2026-10", "confidence": "med"},
+    {"claim": "TITSA: Bono Residente Canario €19/mo is for Canary residents; tourist card €10/day, €50 for 7 days; otherwise km-based single fares", "quote": "Recarga mensual: 19€", "source": "titsa.com", "url": "https://titsa.com/index.php/tus-guaguas/billetes-y-tarifas/billetes-y-titulos-de-pago", "date": "2026-10", "confidence": "high"},
+    {"claim": "Deskhub Tenerife (Paseo Berlín, Los Cristianos) open-space desk €190/month, no minimum commitment", "quote": "€190 /month /person", "source": "workin.space", "url": "https://workin.space/en/coworking/spain/canary-islands/los-cristianos/deskhub-tenerife", "date": "2026-10", "confidence": "med"},
+    {"claim": "Digi prepaid 50 GB for €7/month, unused data rolls over (table row as rendered)", "quote": "50 GB | 50 GB | €7/month | Unlimited national calls", "source": "digimobil.es", "url": "https://www.digimobil.es/movil/", "date": "2026-10", "confidence": "high"},
+    {"claim": "Digi fibre 1 Gbps €30/month (300 Mbps €25)", "quote": "30 €/mes", "source": "digimobil.es", "url": "https://www.digimobil.es/fibra-optica", "date": "2026-10", "confidence": "high"},
+    {"claim": "Spanish households average €690/yr electricity (~€57.50/mo) and ~€218/yr water", "quote": "Los hogares españoles destinan 690 euros al año de media para pagar el recibo de la luz", "source": "energias-renovables.com", "url": "https://www.energias-renovables.com/panorama/los-hogares-espa-oles-destinan-690-euros-20260205", "date": "2026-02", "confidence": "med"},
+    {"claim": "Numbeo Adeje: inexpensive meal €15, cappuccino €2.83, utilities (85 m²) €115, internet €35.67, gym €46.67, 1BR centre €1,067", "quote": "This city had 156 entries in the past 12 months by 12 different contributors", "source": "numbeo.com", "url": "https://www.numbeo.com/cost-of-living/in/Adeje-Tenerife-Spain", "date": "2026-10", "confidence": "med"},
+    {"claim": "EUR->USD rate used: 1.1254 (mid-market, 3 Oct 2026)", "quote": "1 EUR = 1.12540445 USD", "source": "xe.com", "url": "https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=USD", "date": "2026-10", "confidence": "high"}
+  ]
+}

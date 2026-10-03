@@ -1,0 +1,36 @@
+{
+  "city": "La Paz (Baja)",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-10",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 875, "party": "shared",              "source": "numbeo.com / inmuebles.mercadolibre.com.mx / nomad.watch", "asOf": "2026-10", "confidence": "med", "note": "furnished 1BR in Centro / near the malecón ~MXN 16,000 (Numbeo 1BR centre MXN 14,667 + ~10% furnished premium; Centro listings MXN 9,000–14,000 unfurnished-ish). FX 18.21 MXN/USD"},
+    "utilities": {"usd": 95,  "party": "shared",              "source": "numbeo.com", "asOf": "2026-10", "confidence": "low", "note": "electric + water MXN ~1,117 + broadband MXN ~600 (Numbeo, 4 contributors); A/C pushes summer bills higher"},
+    "groceries": {"usd": 170, "party": "perPerson",           "source": "bucketlistbri.com", "asOf": "2025-04", "confidence": "low", "note": "home cooking; a nomad couple reported $125 (market) to $150–200 (supermarket) per month; imported goods cost more in BCS than on the mainland"},
+    "diningOut": {"usd": 185, "party": "perPerson",           "source": "numbeo.com", "asOf": "2026-10", "confidence": "low", "note": "derived: 10 cheap meals x MXN 185 + 2 mid-range meals (MXN 1,000 for two) + 8 cappuccinos x MXN 57 ≈ MXN 3,300"},
+    "transit":   {"usd": 45,  "party": "perPerson",           "source": "zetatijuana.com / nomad.watch", "asOf": "2026-08", "confidence": "med", "note": "derived: ~30 city-bus rides at MXN 12 + ~5 DiDi/Uber/taxi rides at ~MXN 100; car-centric city, Centro is walkable"},
+    "coworking": {"usd": 140, "party": "perPersonDiscounted", "source": "onecoworking.com / nomad.watch", "asOf": "2026-10", "confidence": "low", "note": "hot desk ~MXN 2,500/month; COmún Cowork day pass from €12, guides cite monthly MXN 2,500–4,500; no published monthly rate found"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "telcel.com", "asOf": "2026-10", "confidence": "high", "note": "Telcel Amigo Sin Límite prepaid, MXN 1,200 per 6 months (= MXN 200 / 30 days) incl. US/Canada use"},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "numbeo.com", "asOf": "2026-10", "confidence": "low", "note": "gym (~MXN 650), toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). Editorial: snowbird demand Dec–Mar lifts furnished monthly rents; June–September is the hot, hurricane-exposed low season when landlords discount.",
+    "values": [1.10, 1.10, 1.10, 1.05, 0.95, 0.90, 0.90, 0.90, 0.90, 0.95, 1.05, 1.10]
+  },
+  "evidence": [
+    {"claim": "Numbeo La Paz 1BR city-centre rent MXN 14,667; outside centre MXN 8,875 (Oct 2026, thin sample)", "quote": "1 Bedroom City Centre: Mex$14,666.67", "source": "numbeo.com", "url": "https://www.numbeo.com/cost-of-living/in/La-Paz-Mexico", "date": "2026-10", "confidence": "low"},
+    {"claim": "Numbeo sample size is small", "quote": "This city had 46 entries in the past 12 months by 4 different contributors", "source": "numbeo.com", "url": "https://www.numbeo.com/cost-of-living/in/La-Paz-Mexico", "date": "2026-10", "confidence": "low"},
+    {"claim": "Listing portal: 1BR 45 m² in Zona Central MXN 9,000; 1BR 40 m² in Las Arboledas MXN 14,000 (furnishing not stated)", "quote": "Renta Departamento 1 Ambiente Zona Central IAD México MXN 9,000 1 recámara 1 baño 45 m²", "source": "inmuebles.mercadolibre.com.mx", "url": "https://inmuebles.mercadolibre.com.mx/departamentos/renta/baja-california-sur/la-paz/", "date": "2026-10", "confidence": "med"},
+    {"claim": "Furnished 1BR MXN 14,000–28,000 depending on waterfront distance (guide range; likely aggregated)", "quote": "Expect furnished 1-bedroom apartments from about MXN 14,000–28,000/month", "source": "nomad.watch", "url": "https://nomad.watch/cities/MX/la-paz/guide", "date": "2026-10", "confidence": "low"},
+    {"claim": "Nomad couple paid $675 for a 1BR seven blocks from the malecón (Apr 2025)", "quote": "$675 USD (for a one-bedroom apartment 7 blocks from the seaside promenade)", "source": "bucketlistbri.com", "url": "https://bucketlistbri.com/digital-nomad-la-paz-baja/", "date": "2025-04", "confidence": "low"},
+    {"claim": "City bus fare MXN 12 per trip (operators asking for MXN 25, Aug 2026)", "quote": "12 pesos por viaje", "source": "zetatijuana.com", "url": "https://zetatijuana.com/2026/08/piden-aumento-de-13-pesos-a-transporte-publico-de-la-paz-cabildo-analiza-solicitud/", "date": "2026-08", "confidence": "high"},
+    {"claim": "Short ride inside central La Paz MXN 60–140", "quote": "A short ride inside central La Paz often costs about MXN 60–140.", "source": "nomad.watch", "url": "https://nomad.watch/cities/MX/la-paz/guide", "date": "2026-10", "confidence": "low"},
+    {"claim": "Telcel Sin Límite prepaid: MXN 1,200 for 6 months, renewing every 30 days", "quote": "un único pago anticipado de $2,400 (12 meses) o $1,200 (6 meses). Cada 30 días tu Paquete Sin limite se renovará", "source": "telcel.com", "url": "https://www.telcel.com/personas/amigo/paquetes/paquetes-amigo-sin-limite", "date": "2026-10", "confidence": "high"},
+    {"claim": "COmún Cowork (Guadalupe Victoria 640) day pass from €12; monthly not published", "quote": "from €12/day", "source": "onecoworking.com", "url": "https://www.onecoworking.com/venues/comun-cowork", "date": "2026-10", "confidence": "med"},
+    {"claim": "Coworking monthly plans MXN 2,500–4,500 (guide range, unverified venue)", "quote": "monthly plans often in the MXN 2,500–4,500 range depending on access", "source": "nomad.watch", "url": "https://nomad.watch/cities/MX/la-paz/guide", "date": "2026-10", "confidence": "low"},
+    {"claim": "Utilities MXN 1,117 + broadband MXN 600; cheap meal MXN 185; mid-range for two MXN 1,000; gym MXN 650", "quote": "Basic Utilities: Mex$1,116.67", "source": "numbeo.com", "url": "https://www.numbeo.com/cost-of-living/in/La-Paz-Mexico", "date": "2026-10", "confidence": "low"},
+    {"claim": "Nomad couple groceries $125 (farmer's market) to $150–200 (supermarket) per month", "quote": "$125/month", "source": "bucketlistbri.com", "url": "https://bucketlistbri.com/digital-nomad-la-paz-baja/", "date": "2025-04", "confidence": "low"},
+    {"claim": "FX used: 1 USD = 18.21 MXN (3 Oct 2026)", "quote": "\"MXN\":18.213944", "source": "open.er-api.com", "url": "https://open.er-api.com/v6/latest/USD", "date": "2026-10", "confidence": "high"}
+  ]
+}

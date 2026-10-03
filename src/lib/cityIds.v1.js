@@ -129,4 +129,13 @@ export const CITY_IDS_V1 = [
   "guanajuato", // 109
   "joao-pessoa", // 110
   "las-palmas", // 111
+  "agadir", // 112
+  "alicante", // 113
+  "almaty", // 114
+  "busan", // 115
+  "costa-adeje-tenerife", // 116
+  "fukuoka", // 117
+  "hua-hin", // 118
+  "izmir", // 119
+  "phuket", // 120
 ];

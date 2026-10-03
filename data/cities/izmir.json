@@ -1,0 +1,213 @@
+{
+  "name": "Izmir",
+  "country": "Turkey",
+  "iso3": "TUR",
+  "region": "W Asia",
+  "lat": 38.4237,
+  "lng": 27.1428,
+  "coordsNote": "Konak / Alsancak on the city-centre waterfront (Kordon). Long-stay areas: Alsancak, Karşıyaka and Bostanlı across the bay (ferry); Urla and Çeşme beach towns 40–80 km west.",
+  "timezone": "UTC+3",
+  "schengen": false,
+  "visa": null,
+  "english": {
+    "tier": 1,
+    "note": "Tourist zones",
+    "rationale": "Turkey scores 488 on EF EPI (#71, Low band), which would mean tier 0, but İzmir is the country's top-scoring city at 515 (Moderate band). Set at tier 1, the same as Istanbul; no expat-hub bump.",
+    "sources": [
+      {
+        "title": "EF EPI — Turkey",
+        "url": "https://www.ef.com/wwen/epi/regions/europe/turkey/",
+        "accessed": "2026-10-03",
+        "note": "Turkey 488, rank #71; İzmir is the highest-scoring Turkish city at 515."
+      }
+    ]
+  },
+  "draw": "City / Aegean coast",
+  "vibe": "Liberal Aegean port city: seafront Kordon, Kemeraltı bazaar, ferries across the bay; Ephesus and beaches nearby",
+  "narrative": "Turkey's third city faces its bay: the Kordon seafront promenade in Alsancak, the Kemeraltı bazaar and Roman Agora in Konak, cheap commuter ferries to Karşıyaka and Bostanlı, boyoz and Aegean meze, with Ephesus about an hour away by train and Urla and Çeşme for beaches and Alaçatı's windsurfing. Rents run well below Istanbul's, but the inner bay is not for swimming (the beaches are 45–80 minutes out) and July–August averages 33 °C.",
+  "activities": {
+    "adventure": 1,
+    "culture": 2,
+    "nomad": 2,
+    "wellness": 2,
+    "water": 2,
+    "food": 3,
+    "nature": 1,
+    "nightlife": 2
+  },
+  "season": {
+    "months": [
+      "Off",
+      "Off",
+      "Off",
+      "Shoulder",
+      "In",
+      "In",
+      "Peak",
+      "Peak",
+      "In",
+      "Shoulder",
+      "Off",
+      "Off"
+    ],
+    "rationale": "Editorial estimate. İzmir is a working city first; foreign arrivals peak in summer (258,961 in July 2025 against an average of ~103,000/month in January–June) and domestic beach traffic to Çeşme and Urla peaks July–August. May–June and September are warm and busy without the heat; the İzmir International Fair fills early September. November–March is quiet.",
+    "sources": [
+      {
+        "title": "Alo Maliye — Yabancı ziyaretçi istatistikleri Ocak–Temmuz 2025 (Ministry of Culture and Tourism data)",
+        "url": "https://www.alomaliye.com/2025/08/22/yabanci-ziyaretci-istatistikleri-ocak-temmuz-2025/amp/",
+        "accessed": "2026-10-03",
+        "quote": "5-İzmir %3,72 ( 258 961 )",
+        "note": "July 2025 foreign arrivals 258,961; January–July 2025 879,319, so January–June averaged ~103,000/month."
+      }
+    ]
+  },
+  "hazards": [
+    {
+      "months": [
+        7,
+        8
+      ],
+      "level": 1,
+      "note": "Summer heat",
+      "source": {
+        "title": "MGM (Turkish State Meteorological Service) — İzmir long-term statistics 1938–2025",
+        "url": "https://www.mgm.gov.tr/veridegerlendirme/il-ve-ilceler-istatistik.aspx?k=A&m=IZMIR",
+        "accessed": "2026-10-03",
+        "note": "Mean daily max 33.3 °C in July and 33.0 °C in August; record highs 43.2 °C (Jul) and 43.0 °C (Aug)."
+      }
+    }
+  ],
+  "swim": {
+    "body": "sea",
+    "name": "Aegean (Urla / Çeşme / Seferihisar beaches)",
+    "months": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "note": "The inner bay at the city is not used for swimming; beaches are 45–80 min west. Çeşme on the open coast runs cooler (about 20–22 °C).",
+    "source": {
+      "title": "seatemperature.net — İzmir Province water temperature",
+      "url": "https://seatemperature.net/country/turkey/izmir-turkey",
+      "accessed": "2026-10-03",
+      "note": "Summer (Jun–Sep) 24–28 °C, autumn (Oct–Nov) 20–24 °C, winter 14–17 °C. Cross-check at seatemperatu.re/middle-east/turkey/cesme/: Çeşme 20 °C Jun, 22 °C Jul–Aug, 21 °C Sep, 20 °C Oct."
+    }
+  },
+  "events": [
+    {
+      "name": "İzmir International Fair (İzmir Enternasyonal Fuarı)",
+      "months": [
+        9
+      ],
+      "tier": 2,
+      "blurb": "Turkey's oldest fair, held across Kültürpark with nightly concerts; the 95th edition ran 5–13 September 2026",
+      "source": {
+        "title": "DHA — İzmir Enternasyonal Fuarı 95'inci kez kapılarını açtı (5 Sep 2026)",
+        "url": "https://www.dha.com.tr/yerel-haberler/izmir/izmir-enternasyonal-fuari-95inci-kez-kapilarin-2939957",
+        "accessed": "2026-10-03",
+        "note": "2026 dates 5–13 September, Kültürpark, open 16:00–23:00. Previous edition 29 Aug–9 Sep 2025, so it can start in late August."
+      }
+    },
+    {
+      "name": "International İzmir Festival",
+      "months": [
+        6,
+        7
+      ],
+      "tier": 2,
+      "blurb": "İKSEV's classical and jazz festival, with concerts at the Ahmed Adnan Saygun Art Center, the Agora, Ephesus's Celsus Library and Çeşme Castle",
+      "source": {
+        "title": "İKSEV — 39th International İzmir Festival",
+        "url": "https://iksev.org/en/international-izmir-festival-2/",
+        "accessed": "2026-10-03",
+        "note": "2026: 4 June – 8 July."
+      }
+    },
+    {
+      "name": "Ramadan & Ramazan Bayramı (Eid al-Fitr)",
+      "months": [
+        2,
+        3
+      ],
+      "tier": 2,
+      "blurb": "Ramadan evenings followed by the three-day national holiday; dates move about 11 days earlier each year",
+      "source": {
+        "title": "CNN Türk — 2027 resmi tatiller takvimi",
+        "url": "https://www.cnnturk.com/turkiye/2027-resmi-tatiller-takvimi-dini-bayramlar-resmi-tatil-gunler-ne-zaman-2027-ramazan-ve-kurban-bayrami-tarihleri-3447415",
+        "accessed": "2026-10-03",
+        "note": "Ramazan Bayramı 2027: 9–11 March (Ramadan from early February). 2026 fell in February–March as well (not verified on a page this session)."
+      }
+    },
+    {
+      "name": "Kurban Bayramı (Eid al-Adha)",
+      "months": [
+        5
+      ],
+      "tier": 1,
+      "blurb": "four-day national holiday; Turks travel and coastal resorts fill",
+      "source": {
+        "title": "CNN Türk — 2027 resmi tatiller takvimi",
+        "url": "https://www.cnnturk.com/turkiye/2027-resmi-tatiller-takvimi-dini-bayramlar-resmi-tatil-gunler-ne-zaman-2027-ramazan-ve-kurban-bayrami-tarihleri-3447415",
+        "accessed": "2026-10-03",
+        "note": "Kurban Bayramı 2027: 16–19 May. 2026 also fell in late May (not verified on a page this session)."
+      }
+    }
+  ],
+  "safety": {
+    "propertySub": 62,
+    "propertyNote": "Some pickpocketing in Kemeraltı and on transit; calmer than Istanbul",
+    "womensAdj": 2,
+    "womensSafetyNote": "Turkey's most socially liberal big city; usual harassment caution",
+    "touristMod": 1.0,
+    "touristRationale": "",
+    "touristTags": [
+      "petty-theft"
+    ],
+    "homicideOverride": null,
+    "rationale": {
+      "property": "Editorial estimate. FCDO's Turkey street-crime warning names Istanbul's tourist areas, and İzmir has far less of the tourist-targeted bait-and-switch and taxi-scam trade that pulls Istanbul down to 58. Set a little above Istanbul and Thessaloniki (58), below the calmest Mediterranean cities.",
+      "tourist": "No sign visitors are singled out beyond ordinary pickpocketing; 1.0 like Istanbul.",
+      "womens": "Small positive delta on the Turkey Gallup baseline: İzmir is widely regarded as the country's most secular, liberal big city, and the FCDO's sexual-assault warning is about coastal resorts and hotel staff, not city life. Editorial; kept small."
+    },
+    "calibratedAgainst": [
+      "Istanbul",
+      "Thessaloniki",
+      "Athens"
+    ],
+    "consulted": [
+      {
+        "title": "U.S. State Department travel advisories RSS feed (Turkey entry)",
+        "url": "https://travel.state.gov/_res/rss/TAsTWs.xml",
+        "accessed": "2026-10-03",
+        "quote": "Exercise increased caution in Türkiye due to terrorism , armed conflict , and arbitrary detentions .",
+        "note": "Level 2, 9 Jun 2026. Only area at Level 4: within 10 km of the Syria and Iraq borders. The advisory page itself sits behind a Cloudflare bot check, so the official feed was read instead."
+      },
+      {
+        "title": "UK FCDO — Turkey: safety and security",
+        "url": "https://www.gov.uk/foreign-travel-advice/turkey/safety-and-security",
+        "accessed": "2026-10-03",
+        "quote": "Street robbery and pickpocketing are common in the major tourist areas of Istanbul.",
+        "note": "Methanol drink-spiking and resort sexual-assault warnings; nothing İzmir-specific."
+      }
+    ],
+    "advisory": {
+      "level": 2,
+      "text": "Exercise increased caution",
+      "date": "2026-06-09",
+      "url": "https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.tur.html",
+      "risks": [
+        "Terrorism",
+        "Armed conflict",
+        "Detention"
+      ],
+      "regionalLevel": 2,
+      "localLevel": 2,
+      "localArea": null
+    }
+  },
+  "selection": "Aegean Turkey's most livable big city for long stays: seafront Kordon, rents well below Istanbul's (Konak average ₺35,969, Sep 2026, Endeksa), Ephesus and Aegean beaches nearby; best in the spring and autumn shoulder months; adds a second W Asia city.",
+  "asOf": "2026-10",
+  "researchNotes": "US advisory: travel.state.gov advisory pages return HTTP 403 or a Cloudflare bot check (not bypassed). Level, date (9 Jun 2026), summary text and the Syria/Iraq border Level 4 zone come from the State Department's own RSS feed (travel.state.gov/_res/rss/TAsTWs.xml). advisory.url is the link that feed gives for the item. Risks are named as in the summary: terrorism, armed conflict, arbitrary detentions (the catalog's Istanbul lists Terrorism and Detention). İzmir is about 900 km from the border zone, so localLevel is 2. Heat: July's 33.3 °C mean max is about the same as Athens, which the catalog flags at level 2 'Heatwaves (95F+)'. I chose level 1 because the afternoon imbat sea breeze moderates the waterfront and the schema reserves 2 for 100F+; reconcile centrally. Summer wildfires happen in İzmir province (hills behind Karşıyaka, Seferihisar, Çeşme), but I did not cite a source this session, so there is no smoke flag. Eid 2026 dates not verified on a page; months [2,3] and [5] are confirmed for 2027. Not listed: 9 September Liberation Day (falls during the Fair) and the İzmir Fringe Festival (late Sept, first editions only)."
+}

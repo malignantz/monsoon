@@ -1,0 +1,35 @@
+{
+  "city": "Fukuoka",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-10",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 635, "party": "shared",              "source": "x-house.co.jp / suumo.jp", "asOf": "2026-10", "confidence": "med", "note": "furnished monthly apartment (monthly mansion) near Hakata/Tenjin ~JPY 100,000 at 157.8 JPY/USD; no deposit/key money; Wi-Fi usually included. SUUMO Chuo-ku unfurnished 1LDK average JPY 95,000 for comparison"},
+    "utilities": {"usd": 95,  "party": "shared",              "source": "financial-field.com (Statistics Bureau 2025 Family Income and Expenditure Survey)", "asOf": "2026-04", "confidence": "med", "note": "single-household fuel, light and water JPY 12,988/mo for Kyushu-Okinawa, + ~JPY 2,000 buffer for summer AC; home internet assumed included in the monthly apartment"},
+    "groceries": {"usd": 220, "party": "perPerson",           "source": "financial-field.com (Statistics Bureau 2025 FIES)", "asOf": "2026-06", "confidence": "med", "note": "single-household food JPY 44,659 minus eating out JPY 9,761 = ~JPY 34,900 (~$221) for home food"},
+    "diningOut": {"usd": 220, "party": "perPerson",           "source": "editorial estimate / nomads.com", "asOf": "2026-10", "confidence": "low", "note": "~JPY 35,000: a nomad eats out far more than the JPY 9,761 resident average; ramen/teishoku ~JPY 1,000, yatai and izakaya evenings extra"},
+    "transit":   {"usd": 60,  "party": "perPerson",           "source": "subway.city.fukuoka.lg.jp", "asOf": "2026-10", "confidence": "med", "note": "compact walkable core; ~JPY 9,500 of subway rides. Ceiling: contactless monthly fare cap / Chika Pass JPY 12,570 (~$80); 1 Day Pass JPY 640"},
+    "coworking": {"usd": 142, "party": "perPersonDiscounted", "source": "thecompany.jp", "asOf": "2026-10", "confidence": "high", "note": "The Company (Tenjin/Hakata/Daimyo, six sites) free-desk plan JPY 22,330/mo incl. tax"},
+    "simData":   {"usd": 25,  "party": "perPerson",           "source": "mobal.com", "asOf": "2026-10", "confidence": "high", "note": "visitor voice+data SIM, 10GB JPY 3,630/mo (30GB JPY 4,378); one-off SIM fee JPY 4,455 not included"},
+    "misc":      {"usd": 160, "party": "perPersonDiscounted", "source": "editorial estimate", "asOf": "2026-10", "confidence": "low", "note": "gym, toiletries, sento/onsen, outings, buffer; set below Osaka's $200"}
+  },
+  "accomSeasonality": {
+    "_doc": "Editorial: monthly-apartment rates are fairly flat; small bump in Mar-Apr (sakura + Japan's spring moving season), slight dips in the rainy June and typhoon-season September.",
+    "values": [1.0, 1.0, 1.05, 1.05, 1.0, 0.97, 1.0, 1.0, 0.97, 1.0, 1.0, 1.0]
+  },
+  "evidence": [
+    {"claim": "Monthly apartments near Hakata Station/Tenjin around JPY 100,000; Fukuoka average 70,000-120,000", "quote": "properties for around 100,000 yen in urban areas such as around Hakata Station and Tenjin", "source": "x-house.co.jp (XROSS HOUSE, furnished-rental operator)", "url": "https://x-house.co.jp/en/column/apartment/xross-2044/", "date": "2026-10", "confidence": "med"},
+    {"claim": "SUUMO average rent Fukuoka Chuo-ku: 1LDK JPY 95,000, 1R JPY 75,000 (updated 2026-07-10)", "quote": "1LDK 9.5万円 ... 2026年7月10日更新", "source": "suumo.jp", "url": "https://suumo.jp/chintai/soba/fukuoka/sc_fukuokashichuo/", "date": "2026-07", "confidence": "high"},
+    {"claim": "Monthly mansions JPY 75,000-130,000 with 30-day minimum", "quote": "monthly mansions in Fukuoka range from ¥75,000 – ¥130,000 per month", "source": "citiesinsider.com", "url": "https://citiesinsider.com/country/japan/fukuoka/short-term-accommodation/en", "date": "2026-10", "confidence": "low"},
+    {"claim": "2025 FIES single households: fuel/light/water JPY 13,333 nationally, JPY 12,988 Kyushu-Okinawa", "quote": "単身世帯における「光熱・水道費」の月平均額は1万3333円", "source": "financial-field.com citing Statistics Bureau of Japan", "url": "https://financial-field.com/household/entry-497638/2", "date": "2026-04", "confidence": "med"},
+    {"claim": "2025 FIES single households: food JPY 44,659/mo, of which eating out JPY 9,761", "quote": "4万4659円 ... 9761円", "source": "financial-field.com citing Statistics Bureau of Japan", "url": "https://financial-field.com/household/entry-505964", "date": "2026-06", "confidence": "med"},
+    {"claim": "Fukuoka subway contactless monthly fare cap JPY 12,570", "quote": "1か月最大12,570円までとします", "source": "subway.city.fukuoka.lg.jp", "url": "https://subway.city.fukuoka.lg.jp/topics/detail.php?id=2017", "date": "2024-10", "confidence": "high"},
+    {"claim": "Chika Pass (all-lines 1-month) adult JPY 12,570", "quote": "12,570円", "source": "subway.city.fukuoka.lg.jp", "url": "https://subway.city.fukuoka.lg.jp/fare/tikapass.php", "date": "2026-10", "confidence": "high"},
+    {"claim": "Subway 1 Day Pass adult JPY 640", "quote": "Adult 640yen", "source": "subway.city.fukuoka.lg.jp", "url": "https://subway.city.fukuoka.lg.jp/eng/fare/one/", "date": "2026-10", "confidence": "high"},
+    {"claim": "The Company coworking free-desk plan JPY 22,330/mo incl. tax", "quote": "月額22,330円（税込）", "source": "thecompany.jp", "url": "https://thecompany.jp/", "date": "2026-10", "confidence": "high"},
+    {"claim": "Mobal visitor SIM monthly plans: 10GB JPY 3,630, 30GB JPY 4,378", "quote": "10GB - ¥3,630 ... 30GB - ¥4,378", "source": "mobal.com", "url": "https://www.mobal.com/japan-sim-card/", "date": "2026-10", "confidence": "high"},
+    {"claim": "Aggregator snapshot: dinner $7, coworking hot desk $127/mo (its $1,593 1BR rent conflicts with SUUMO and was not used)", "quote": "Coworking hot desk: $127 / month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/fukuoka", "date": "2026-10", "confidence": "low"},
+    {"claim": "FX used", "quote": "1 USD = 157.8 JPY (open.er-api.com, 2026-10-03)", "source": "open.er-api.com", "url": "https://open.er-api.com/v6/latest/USD", "date": "2026-10", "confidence": "high"}
+  ]
+}

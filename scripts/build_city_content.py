@@ -22,11 +22,18 @@ import json
 import os
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from city_inputs import managed_names  # add_city.py bakes these cities' content
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data", "travel-data.json")
 CONTENT = os.path.join(ROOT, "data", "city-content.json")
 
-ACTIVITY_KEYS = {"food", "nature", "water", "culture", "nightlife", "wellness", "adventure", "nomad"}
+# Fixed order (the order every baked record already has). It used to come from
+# iterating a set, which depends on Python's per-process string hashing, so a
+# rerun could reorder every city's activities and rewrite the file.
+ACTIVITY_ORDER = ["adventure", "culture", "nomad", "wellness", "water", "food", "nature", "nightlife"]
+ACTIVITY_KEYS = set(ACTIVITY_ORDER)
 
 
 def main():
@@ -39,7 +46,10 @@ def main():
     content = json.load(open(CONTENT))
 
     authored, missing = [], []
+    managed = managed_names()
     for c in d["cities"]:
+        if c["name"] in managed:
+            continue
         rec = content.get(c["name"])
         if not rec:
             missing.append(c["name"])
@@ -62,7 +72,7 @@ def main():
                 raise SystemExit(f"{c['name']}: unknown activity keys {bad}")
             c["drawDetail"] = {
                 "narrative": draw.get("narrative", ""),
-                "activities": {k: int(acts.get(k, 0)) for k in ACTIVITY_KEYS},
+                "activities": {k: int(acts.get(k, 0)) for k in ACTIVITY_ORDER},
             }
 
         if rec.get("events"):
@@ -71,7 +81,7 @@ def main():
         authored.append(c["name"])
 
     with open(DATA, "w") as f:
-        f.write(json.dumps(d, indent=2, ensure_ascii=False) + "\n")
+        f.write(json.dumps(d, indent=2, ensure_ascii=False))  # same bytes as every other bake step
     if only:
         print(f"city {only} baked: {len(authored)} cities, {len(missing)} without content.")
         return

@@ -1,0 +1,31 @@
+{
+  "city": "Almaty",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-10",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 720, "party": "shared",              "source": "krisha.kz", "asOf": "2026-10", "confidence": "med", "note": "Furnished 1-room flat (living room plus separate kitchen, 30–45 m²) in central Medeu district / Golden Square / Samal. Live krisha.kz monthly asking rents run 250,000–500,000 KZT, typical 300,000–350,000. 320,000 KZT is about $720 at 444.08 KZT/USD. Utilities are usually extra, and a one-month deposit is common. City-wide average is lower (about $440, Krisha Jan 2026)."},
+    "utilities": {"usd": 60,  "party": "shared",              "source": "wise.com", "asOf": "2026-10", "confidence": "low", "note": "Electric, water, central heating and home internet. Wise gives £69 utilities plus £12 internet for an 85 m² flat (about $107 at 0.756 GBP/USD), scaled to a 35–45 m² flat. Heating is billed per m² in winter."},
+    "groceries": {"usd": 190, "party": "perPerson",           "source": "wise.com", "asOf": "2026-10", "confidence": "med", "note": "Home cooking. Wise gives £159/month per person (about $210); Green Bazaar and Magnum/Small supermarkets."},
+    "diningOut": {"usd": 160, "party": "perPerson",           "source": "wise.com / bluescreen.kz", "asOf": "2026-10", "confidence": "med", "note": "Derived: about 15 meals out at about $8 average (canteen lunches 1,500–2,500 KZT; Wise inexpensive restaurant £9) plus about 15 specialty coffees at 800–1,500 KZT."},
+    "transit":   {"usd": 38,  "party": "perPerson",           "source": "bes.media", "asOf": "2026-10", "confidence": "med", "note": "Onay monthly pass 9,900 KZT (about $22) covers bus, trolleybus and metro (120 KZT single, cashless only since 3 August 2024), plus about $16 of Yandex Go taxis."},
+    "coworking": {"usd": 100, "party": "perPersonDiscounted", "source": "bluescreen.kz", "asOf": "2026-10", "confidence": "low", "note": "Impact Hub Almaty monthly is reported at 45,000 KZT (about $101). No operator price page could be opened; one 2026 guide declines to print prices at all."},
+    "simData":   {"usd": 11,  "party": "perPerson",           "source": "tele2.kz", "asOf": "2026-10", "confidence": "high", "note": "Tele2 'Безлимит для всех' unlimited-data tariff, 4,790 KZT per 30 days. Beeline and Kcell are similar."},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "editorial estimate", "asOf": "2026-10", "confidence": "low", "note": "Gym, banya, toiletries, Medeu/Shymbulak tickets, buffer. Matches Tbilisi ($100)."}
+  },
+  "accomSeasonality": {
+    "_doc": "Editorial. The monthly rental market is mostly residents, so swings are mild. There is a small summer uplift (mountain season, regional visitors) and slightly softer rents in Nov–Mar.",
+    "values": [0.95, 0.95, 0.95, 1.0, 1.05, 1.1, 1.1, 1.1, 1.05, 1.0, 0.95, 0.95]
+  },
+  "evidence": [
+    {"claim": "Medeu district furnished 1-room monthly asking rents, Oct 2026: 270k / 280k / 300k / 320k / 350k / 370k / 400k / 500k KZT", "quote": "1-комнатная квартира · 35 м² · 3/4 этаж | 370 000 ₸ за месяц | Медеуский р-н, Шашкина 27 | меблирована полностью", "source": "krisha.kz", "url": "https://krisha.kz/arenda/kvartiry/almaty-medeuskij/?das[live.rooms]=1", "date": "2026-10", "confidence": "med"},
+    {"claim": "Monthly (short-term) lets exist in Medeu around 320,000 KZT", "quote": "1-комнатная квартира · 40 м² · 1/4 этаж | 320 000 ₸ за месяц | ... Сдается 1 комн. квартира по месячно в медеуском районе", "source": "krisha.kz", "url": "https://krisha.kz/arenda/kvartiry/almaty-medeuskij/?das[live.rooms]=1", "date": "2026-10", "confidence": "med"},
+    {"claim": "City-wide 1BR average about $440 (Krisha Jan 2026); Impact Hub 45,000 KZT/month; mobile from 3,000 KZT", "quote": "Rent (1-bedroom): $440/month according to Krisha.kz data from January 2026", "source": "bluescreen.kz", "url": "https://bluescreen.kz/digital-nomad-in-kazakhstan-2026/", "date": "2026-04", "confidence": "low"},
+    {"claim": "120 KZT fare from 3 Aug 2024, cash abolished; monthly pass 9,900 KZT", "quote": "Тариф в 120 тенге на проезд в автобусах Алматы начнёт действовать с 3 августа ... месячный – 9900 тенге", "source": "bes.media", "url": "https://bes.media/news/tarif-v-120-tenge-na-proezd-v-avtobusah-almati-nachnyot-deystvovat-s-3-avgusta-e445a9/", "date": "2024-08", "confidence": "med"},
+    {"claim": "Tele2 Kazakhstan unlimited-data tariff 4,790 KZT / 30 days", "quote": "Безлимит для всех ... 4 790 ₸ / 30 дней", "source": "tele2.kz", "url": "https://tele2.kz/new/tariffs", "date": "2026-10", "confidence": "high"},
+    {"claim": "Utilities £69 (85 m²) plus internet £12; groceries £159 per person; inexpensive meal £9; monthly pass £16", "quote": "Basic utilities: £69 per month ... Internet: £12 ... Monthly groceries per person: £159", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/kazakhstan/almaty", "date": "2026-10", "confidence": "med"},
+    {"claim": "nomads.com: 1BR centre $829, coworking $219 (crowd/model data; higher than portal listings)", "quote": "1BR studio (city center): $829/month ... Coworking hot desk: $219/month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/almaty", "date": "2026-10", "confidence": "low"},
+    {"claim": "FX used: 1 USD = 444.08 KZT; 1 USD = 0.756 GBP (2026-10-03)", "quote": "KZT 444.076115 ... GBP 0.756313 (time_last_update_utc Sat, 03 Oct 2026)", "source": "open.er-api.com", "url": "https://open.er-api.com/v6/latest/USD", "date": "2026-10", "confidence": "high"}
+  ]
+}

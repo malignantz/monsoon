@@ -7,6 +7,9 @@ data/travel-data.json. Never touches any score — this is a badge/filter layer,
 like schengen and timezone.
 """
 import json, os
+import sys as _sys
+_sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from city_inputs import managed_names  # cities owned by add_city.py are skipped (never clobbered)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data", "travel-data.json")
@@ -22,7 +25,11 @@ if unknown:
     raise SystemExit(f"swim-inputs cities not in catalog: {sorted(unknown)}")
 
 n = review = 0
+managed = managed_names()
 for c in d["cities"]:
+    if c["name"] in managed:  # swim lives in data/cities/<slug>.json (add_city.py)
+        n += bool(c.get("swim"))
+        continue
     m = inputs.get(c["name"])
     if m is None:
         c["swim"] = None

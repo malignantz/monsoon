@@ -1132,7 +1132,7 @@
           </div>
           <span class="stayctl-unit">mo</span>
         </div>
-        <input type="search" placeholder="Search 111 cities…" bind:value={query} />
+        <input type="search" placeholder={`Search ${cities.length} cities…`} bind:value={query} />
       </div>
     </div>
     {#if sch.anySchengen}

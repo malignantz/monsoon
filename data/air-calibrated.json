@@ -27,8 +27,8 @@
   },
   "generated": "2026-10-03",
   "counts": {
-   "who-scaled": 86,
-   "raw-cams": 25,
+   "who-scaled": 99,
+   "raw-cams": 28,
    "overridden-cities": 3
   }
  },
@@ -3718,6 +3718,513 @@
    "source": "cams-om",
    "confidence": "low",
    "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "agadir": {
+  "name": "Agadir",
+  "months": [
+   16.3,
+   17.4,
+   13.6,
+   16.2,
+   13.2,
+   13.5,
+   19.3,
+   21.8,
+   14.5,
+   16.9,
+   14.5,
+   12.5
+  ],
+  "prov": {
+   "camsAnnual": 19.1,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Agadir/MAR",
+   "whoDistKm": 6.5,
+   "whoYears": [
+    2023,
+    2024
+   ],
+   "whoAnnual": 15.8,
+   "whoStationTypes": "Urban (n=2)",
+   "scale": 0.83,
+   "reason": "CAMS seasonal shape scaled x0.83 to WHO AAQ annual mean 15.8 µg/m³ (Agadir/MAR, 2023, 2024)"
+  }
+ },
+ "alicante": {
+  "name": "Alicante",
+  "months": [
+   6.4,
+   8.2,
+   7.6,
+   8.2,
+   8.4,
+   10.0,
+   11.7,
+   11.2,
+   8.7,
+   8.0,
+   6.5,
+   6.6
+  ],
+  "prov": {
+   "camsAnnual": 8.4,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Alicante Alacant/ESP",
+   "whoDistKm": 1.5,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 8.4,
+   "whoStationTypes": "Background-Urban (n=1), Industrial-Suburban (n=1), Traffic-Urban (n=1)",
+   "scale": 1.01,
+   "reason": "CAMS seasonal shape scaled x1.01 to WHO AAQ annual mean 8.4 µg/m³ (Alicante Alacant/ESP, 2022, 2023, 2024)"
+  }
+ },
+ "almaty": {
+  "name": "Almaty",
+  "months": [
+   37.9,
+   34.0,
+   28.0,
+   21.5,
+   17.8,
+   15.9,
+   14.6,
+   13.8,
+   15.8,
+   19.1,
+   27.0,
+   34.8
+  ],
+  "prov": {
+   "camsAnnual": 23.1,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Almaty/KAZ",
+   "whoDistKm": 5.5,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 23.3,
+   "whoStationTypes": "NA (n=1)",
+   "scale": 1.01,
+   "reason": "CAMS seasonal shape scaled x1.01 to WHO AAQ annual mean 23.3 µg/m³ (Almaty/KAZ, 2022, 2023, 2024)"
+  }
+ },
+ "antalya": {
+  "name": "Antalya",
+  "months": [
+   27.6,
+   25.6,
+   26.3,
+   27.3,
+   28.4,
+   26.7,
+   25.2,
+   29.1,
+   21.8,
+   19.9,
+   23.7,
+   20.9
+  ],
+  "prov": {
+   "camsAnnual": 11.8,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Antalya/TUR",
+   "whoDistKm": 2.8,
+   "whoYears": [
+    2019,
+    2023
+   ],
+   "whoAnnual": 25.2,
+   "whoStationTypes": "Traffic-Urban (n=1)",
+   "scale": 2.14,
+   "reason": "CAMS seasonal shape scaled x2.14 to WHO AAQ annual mean 25.2 µg/m³ (Antalya/TUR, 2019, 2023)"
+  }
+ },
+ "busan": {
+  "name": "Busan",
+  "months": [
+   23.9,
+   24.1,
+   32.1,
+   28.2,
+   24.9,
+   24.6,
+   16.0,
+   17.6,
+   14.8,
+   17.4,
+   21.1,
+   20.0
+  ],
+  "prov": {
+   "camsAnnual": 17.8,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Busan/KOR",
+   "whoDistKm": 3.5,
+   "whoYears": [
+    2018,
+    2019
+   ],
+   "whoAnnual": 22.1,
+   "whoStationTypes": "NA (n=26)",
+   "scale": 1.24,
+   "reason": "CAMS seasonal shape scaled x1.24 to WHO AAQ annual mean 22.1 µg/m³ (Busan/KOR, 2018, 2019); fewer than 2 recent years or older data"
+  }
+ },
+ "costa-adeje-tenerife": {
+  "name": "Costa Adeje (Tenerife)",
+  "months": [
+   13.8,
+   15.6,
+   8.7,
+   11.1,
+   9.2,
+   9.2,
+   10.6,
+   13.6,
+   9.2,
+   9.8,
+   9.9,
+   13.9
+  ],
+  "prov": {
+   "camsAnnual": 8.9,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Arona/ESP",
+   "whoDistKm": 7.5,
+   "whoYears": [
+    2020,
+    2021,
+    2022
+   ],
+   "whoAnnual": 11.2,
+   "whoStationTypes": "Background-Suburban (n=1)",
+   "scale": 1.26,
+   "reason": "CAMS seasonal shape scaled x1.26 to WHO AAQ annual mean 11.2 µg/m³ (Arona/ESP, 2020, 2021, 2022)"
+  }
+ },
+ "dakar": {
+  "name": "Dakar",
+  "months": [
+   71.5,
+   87.2,
+   67.9,
+   68.8,
+   81.9,
+   65.3,
+   56.1,
+   35.2,
+   37.5,
+   56.8,
+   52.2,
+   67.6
+  ],
+  "prov": {
+   "camsAnnual": 27.1,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Dakar/SEN",
+   "whoDistKm": 5.6,
+   "whoYears": [
+    2021,
+    2022,
+    2024
+   ],
+   "whoAnnual": 62.3,
+   "whoStationTypes": "Urban industrial (n=1)",
+   "scale": 2.3,
+   "reason": "CAMS seasonal shape scaled x2.30 to WHO AAQ annual mean 62.3 µg/m³ (Dakar/SEN, 2021, 2022, 2024)"
+  }
+ },
+ "fukuoka": {
+  "name": "Fukuoka",
+  "months": [
+   13.5,
+   12.7,
+   16.4,
+   17.0,
+   16.2,
+   15.3,
+   11.5,
+   12.2,
+   10.1,
+   9.6,
+   11.8,
+   11.2
+  ],
+  "prov": {
+   "camsAnnual": 14.9,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Fukuoka/JPN",
+   "whoDistKm": 3.3,
+   "whoYears": [
+    2018,
+    2019
+   ],
+   "whoAnnual": 13.1,
+   "whoStationTypes": "Urban (n=4)",
+   "scale": 0.88,
+   "reason": "CAMS seasonal shape scaled x0.88 to WHO AAQ annual mean 13.1 µg/m³ (Fukuoka/JPN, 2018, 2019); fewer than 2 recent years or older data"
+  }
+ },
+ "galle": {
+  "name": "Galle",
+  "months": [
+   21.8,
+   20.7,
+   20.0,
+   13.7,
+   10.5,
+   10.2,
+   10.1,
+   10.3,
+   9.9,
+   11.8,
+   14.5,
+   18.4
+  ],
+  "prov": {
+   "camsAnnual": 14.3,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "hua-hin": {
+  "name": "Hua Hin",
+  "months": [
+   23.8,
+   18.1,
+   18.8,
+   19.0,
+   8.3,
+   3.8,
+   3.9,
+   3.4,
+   3.7,
+   16.1,
+   18.3,
+   19.3
+  ],
+  "prov": {
+   "camsAnnual": 13.0,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "izmir": {
+  "name": "Izmir",
+  "months": [
+   32.7,
+   26.8,
+   27.6,
+   21.4,
+   19.6,
+   16.8,
+   16.8,
+   18.5,
+   16.2,
+   19.4,
+   26.5,
+   32.4
+  ],
+  "prov": {
+   "camsAnnual": 16.7,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Izmir/TUR",
+   "whoDistKm": 0.5,
+   "whoYears": [
+    2023,
+    2024,
+    2025
+   ],
+   "whoAnnual": 22.9,
+   "whoStationTypes": "Traffic-Urban (n=1)",
+   "scale": 1.37,
+   "reason": "CAMS seasonal shape scaled x1.37 to WHO AAQ annual mean 22.9 µg/m³ (Izmir/TUR, 2023, 2024, 2025)"
+  }
+ },
+ "la-paz-baja": {
+  "name": "La Paz (Baja)",
+  "months": [
+   4.7,
+   4.7,
+   5.1,
+   5.4,
+   7.1,
+   7.2,
+   8.3,
+   7.9,
+   5.8,
+   5.5,
+   4.9,
+   4.9
+  ],
+  "prov": {
+   "camsAnnual": 6.0,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "lima": {
+  "name": "Lima",
+  "months": [
+   28.6,
+   29.7,
+   30.3,
+   26.6,
+   27.2,
+   27.0,
+   26.2,
+   24.8,
+   27.0,
+   24.1,
+   25.0,
+   26.0
+  ],
+  "prov": {
+   "camsAnnual": 13.1,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Lima/PER",
+   "whoDistKm": 10.9,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 26.9,
+   "whoStationTypes": "Urban (n=6)",
+   "scale": 2.05,
+   "reason": "CAMS seasonal shape scaled x2.05 to WHO AAQ annual mean 26.9 µg/m³ (Lima/PER, 2022, 2023, 2024); fewer than 2 recent years or older data"
+  }
+ },
+ "montreal": {
+  "name": "Montréal",
+  "months": [
+   7.1,
+   8.7,
+   7.8,
+   7.1,
+   7.2,
+   11.2,
+   9.7,
+   8.6,
+   7.8,
+   5.7,
+   5.0,
+   6.4
+  ],
+  "prov": {
+   "camsAnnual": 11.2,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Montreal/CAN",
+   "whoDistKm": 6.3,
+   "whoYears": [
+    2021,
+    2022,
+    2023
+   ],
+   "whoAnnual": 7.7,
+   "whoStationTypes": "urban-commercial (n=2), urban-industrial (n=1), urban-residential (n=5), urban-t",
+   "scale": 0.69,
+   "reason": "CAMS seasonal shape scaled x0.69 to WHO AAQ annual mean 7.7 µg/m³ (Montreal/CAN, 2021, 2022, 2023)"
+  }
+ },
+ "phuket": {
+  "name": "Phuket",
+  "months": [
+   18.1,
+   17.0,
+   19.4,
+   17.6,
+   11.8,
+   12.7,
+   15.1,
+   12.2,
+   11.7,
+   8.8,
+   11.1,
+   12.5
+  ],
+  "prov": {
+   "camsAnnual": 9.7,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Phuket/THA",
+   "whoDistKm": 0.5,
+   "whoYears": [
+    2019,
+    2021
+   ],
+   "whoAnnual": 14.0,
+   "whoStationTypes": "Urban (n=1)",
+   "scale": 1.44,
+   "reason": "CAMS seasonal shape scaled x1.44 to WHO AAQ annual mean 14.0 µg/m³ (Phuket/THA, 2019, 2021)"
+  }
+ },
+ "vina-del-mar": {
+  "name": "Viña del Mar",
+  "months": [
+   9.6,
+   14.9,
+   9.1,
+   10.0,
+   20.5,
+   23.4,
+   22.8,
+   16.5,
+   13.6,
+   10.2,
+   9.3,
+   9.3
+  ],
+  "prov": {
+   "camsAnnual": 10.9,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Vina del mar/CHL",
+   "whoDistKm": 0.5,
+   "whoYears": [
+    2019
+   ],
+   "whoAnnual": 14.1,
+   "whoStationTypes": "Urban (n=1)",
+   "scale": 1.3,
+   "reason": "CAMS seasonal shape scaled x1.30 to WHO AAQ annual mean 14.1 µg/m³ (Vina del mar/CHL, 2019); fewer than 2 recent years or older data"
   }
  }
 }

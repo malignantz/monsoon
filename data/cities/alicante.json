@@ -1,0 +1,191 @@
+{
+  "name": "Alicante",
+  "country": "Spain",
+  "iso3": "ESP",
+  "region": "S Europe",
+  "lat": 38.3452,
+  "lng": -0.481,
+  "coordsNote": "City centre (Explanada / Rambla); Playa de San Juan is ~7 km north-east by TRAM.",
+  "timezone": "UTC+1 (DST +2)",
+  "schengen": true,
+  "visa": null,
+  "english": {
+    "tier": 1,
+    "note": "Tourist zones",
+    "rationale": "Spain is in the EF EPI Moderate band (score 540) -> tier 1, same as Valencia and Málaga. Northern-European residents are concentrated in the coastal towns around the city (and Playa de San Juan) rather than the centre, so no expat-hub bump.",
+    "sources": [
+      {
+        "title": "EF EPI — Spain",
+        "url": "https://www.ef.com/wwen/epi/regions/europe/spain/",
+        "accessed": "2026-10-03",
+        "note": "Spain EF EPI score 540, rank #36 (Moderate band, 500-549)."
+      }
+    ]
+  },
+  "draw": "City / beach",
+  "vibe": "Palm-lined port city, castle-topped hill, dry mild winters, Costa Blanca by tram",
+  "narrative": "A working Spanish port city with the beach in town: the palm-lined Explanada, Santa Bárbara castle on Mount Benacantil, El Postiguet below the old town and the long Playa de San Juan a tram ride away, with rice dishes and an old-town tapas quarter (El Barrio). Winters are dry and mild and rents run about 15% under Valencia's and Málaga's, but July–August is hot and humid.",
+  "activities": {
+    "adventure": 1,
+    "culture": 2,
+    "nomad": 2,
+    "wellness": 2,
+    "water": 3,
+    "food": 2,
+    "nature": 1,
+    "nightlife": 2
+  },
+  "season": {
+    "months": [
+      "Shoulder",
+      "In",
+      "In",
+      "In",
+      "In",
+      "In",
+      "Peak",
+      "Peak",
+      "In",
+      "In",
+      "Shoulder",
+      "Shoulder"
+    ],
+    "rationale": "Editorial estimate. July–August is the beach peak. Winter is no longer dead: city hotel occupancy hit a record 59.3% in January and 80% (90% at Playa de San Juan) in February 2026, driven by northern-European winter visitors; Hogueras fills June and the Santa Faz pilgrimage April. Nov, Dec and Jan are the relative lulls.",
+    "sources": [
+      {
+        "title": "Ayuntamiento de Alicante — dato histórico del 80% de ocupación hotelera en febrero (25 Mar 2026)",
+        "url": "https://www.alicante.es/es/noticias/alicante-alcanza-dato-historico-del-80-ocupacion-hotelera-febrero",
+        "accessed": "2026-10-03",
+        "quote": "sitúan el pasado mes de febrero como el mejor de todos los tiempos en cuanto a ocupación hotelera"
+      },
+      {
+        "title": "Alicante Plaza — los hoteles de Alicante cierran enero con una ocupación del 58,6%",
+        "url": "https://alicanteplaza.es/alicanteplaza/alicante/los-hoteles-de-alicante-cierran-enero-con-una-ocupacion-del-586-el-mejor-dato-para-ese-mes",
+        "accessed": "2026-10-03",
+        "quote": "la ciudad de Alicante se ha situado por encima de la media provincial y su tasa de ocupación ha sido del 59,3%"
+      }
+    ]
+  },
+  "hazards": [
+    {
+      "months": [
+        7,
+        8
+      ],
+      "level": 1,
+      "note": "Summer heat & humidity",
+      "source": {
+        "title": "AEMET — valores climatológicos normales, Alicante/Alacant (8025), 1981-2010",
+        "url": "https://www.aemet.es/es/serviciosclimaticos/datosclimatologicos/valoresclimatologicos?l=8025&k=val",
+        "accessed": "2026-10-03",
+        "note": "Mean daily max 30.3 °C (Jul) and 30.8 °C (Aug) with 65–67% mean relative humidity; same flag as Valencia."
+      }
+    }
+  ],
+  "swim": {
+    "body": "sea",
+    "name": "Mediterranean (El Postiguet / San Juan)",
+    "months": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "note": null,
+    "source": {
+      "title": "seatemperature.org — Alicante monthly averages",
+      "url": "https://www.seatemperature.org/europe/spain/alicante.htm",
+      "accessed": "2026-10-03",
+      "note": "22.6 °C Jun, 26.2 °C Aug, 22.6 °C Oct; 19.1 °C May and 19.5 °C Nov fall short."
+    }
+  },
+  "events": [
+    {
+      "name": "Hogueras de San Juan (Fogueres)",
+      "months": [
+        6
+      ],
+      "tier": 3,
+      "blurb": "weeks of mascletàs and parades, the bonfire monuments burned on the night of 24 June after a firework palm from Mount Benacantil, then a beach fireworks contest 25–29 June",
+      "source": {
+        "title": "Alicante Turismo — The Bonfires of Saint John 2026. Programme",
+        "url": "https://alicanteturismo.com/en/events/proramacion-hogueras-san-juan-2026/",
+        "accessed": "2026-10-03",
+        "note": "2026: festival 4–24 June, plantà 19–20 June, cremà night 24 June, International Fireworks Competition 25–29 June at Postiguet."
+      }
+    },
+    {
+      "name": "Romería de la Santa Faz",
+      "months": [
+        4
+      ],
+      "tier": 2,
+      "blurb": "around 330,000 pilgrims walk the ~6 km from the old town to the Santa Faz monastery on the second Thursday after Easter",
+      "source": {
+        "title": "Ayuntamiento de Alicante — Unos 330.000 peregrinos ponen sus miradas en la Santa Faz (16 Apr 2026)",
+        "url": "https://www.alicante.es/es/noticias/unos-330000-peregrinos-ponen-sus-miradas-santa-faz-que-sera-bien-interes-cultual",
+        "accessed": "2026-10-03",
+        "quote": "Unos 330.000 peregrinos han dirigido este jueves su mirada hacia la Santa Faz",
+        "note": "2027 date = 8 April (Easter 28 Mar 2027)."
+      }
+    }
+  ],
+  "safety": {
+    "propertySub": 70,
+    "propertyNote": "Beach and old-town petty theft; calm overall",
+    "womensAdj": 0,
+    "womensSafetyNote": "Generally safe",
+    "touristMod": 1.0,
+    "touristRationale": "",
+    "touristTags": [],
+    "homicideOverride": null,
+    "rationale": {
+      "property": "Editorial estimate. FCDO's Spain advice (distraction theft, airport/luggage theft, highway pirates targeting hire cars) applies; nothing Alicante-specific. A mid-size coastal city comparable to Valencia and Málaga, so set at their 70.",
+      "tourist": "No sign visitors are targeted beyond normal pickpocketing; 1.0 like Valencia and Málaga.",
+      "womens": "No women-specific concerns beyond the national pattern; kept at the Spain Gallup baseline like Valencia and Málaga."
+    },
+    "calibratedAgainst": [
+      "Valencia",
+      "Málaga",
+      "Seville"
+    ],
+    "consulted": [
+      {
+        "title": "UK FCDO — Spain: safety and security",
+        "url": "https://www.gov.uk/foreign-travel-advice/spain/safety-and-security",
+        "accessed": "2026-10-03",
+        "quote": "Be alert to the risk of street crime. Thieves use distraction techniques and often work in teams.",
+        "note": "No Costa Blanca/Alicante-specific warnings."
+      },
+      {
+        "title": "Travel Pirates — US Spain travel advisory Level 2 (Ceuta raised to Level 3)",
+        "url": "https://www.travelpirates.com/captains-log/us-spain-travel-advisory-level-2-ceuta-us-travelers",
+        "accessed": "2026-10-03",
+        "note": "Secondary report of the 1 Aug 2026 State Department update: Spain Level 2 (terrorism, unrest); only Ceuta is Level 3."
+      },
+      {
+        "title": "U.S. State Department travel advisories RSS feed (official)",
+        "url": "https://travel.state.gov/_res/rss/TAsTWs.xml",
+        "accessed": "2026-10-03",
+        "note": "Spain: Level 2, dated 2026-08-01; destination page https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.esp.html"
+      }
+    ],
+    "advisory": {
+      "level": 2,
+      "text": "Exercise increased caution",
+      "date": "2026-08-01",
+      "url": "https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.esp.html",
+      "risks": [
+        "Terrorism",
+        "Unrest"
+      ],
+      "regionalLevel": 2,
+      "localLevel": 2,
+      "localArea": null
+    }
+  },
+  "selection": "Costa Blanca's long-stay hub for northern-European retirees and remote workers: mild dry winters, rents ~15% below Valencia and Málaga (idealista, Sep 2026).",
+  "asOf": "2026-10",
+  "researchNotes": "US advisory: travel.state.gov returned HTTP 403 / a Cloudflare bot check, so the advisory page itself could NOT be opened. Level 2, date 2026-08-01 and risks (Terrorism, Unrest) come from a web-search snippet of the State Dept page plus the Travel Pirates write-up; the catalog currently shows Spain dated 2026-06-09 (Málaga) and 2025-05-12 (Valencia) — reconcile centrally. Not flagged as a hazard: autumn DANA cloudbursts (Sept–Oct) cause occasional flash floods on this coast; Valencia carries no such flag either. Semana Santa omitted because I did not verify a source this session."
+}

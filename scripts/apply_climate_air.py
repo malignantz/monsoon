@@ -388,9 +388,18 @@ def main():
     live, clim, air, stn, ccal, acal, hb = load()
     # Baseline = live doc with the pre-pipeline climate/air inputs restored from the
     # snapshot, so held-back months get the old values and reruns are idempotent.
+    # Cities added through add_city.py are not in the snapshot: they have no previous
+    # value, so they are never restored and must never be held back.
     legacy = json.load(open(P("legacy-climate-air.json")))
     d = copy.deepcopy(live)
+    new_slugs = {city_slug(c["name"]) for c in d["cities"]} - set(legacy)
+    held_new = sorted({r["city"] for r in hb["holdbacks"] if r["city"] in new_slugs})
+    if held_new:
+        raise SystemExit(f"hold-backs on cities with no previous value: {held_new} — a held-back metric "
+                         "has no fallback for a new city; remove it from the catalog (add_city.py keeps it pending)")
     for c in d["cities"]:
+        if city_slug(c["name"]) in new_slugs:
+            continue
         for f in FIELDS:
             for i, m in enumerate(c["months"]):
                 m[f] = legacy[city_slug(c["name"])][f][i]

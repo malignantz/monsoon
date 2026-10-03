@@ -17,10 +17,14 @@ year-to-year min/max of those monthly means are kept for context.
 
 Writes data/air-climatology.json.
 
+Incremental: a city already in the committed data/air-climatology.json whose
+raw response is not cached keeps its committed entry; only cities missing from
+both are fetched (--refetch with --only forces a fresh download).
+
 Usage:
-    python3 scripts/fetch_air.py              # fetch missing, rebuild
+    python3 scripts/fetch_air.py              # fetch cities missing from the climatology, rebuild
     python3 scripts/fetch_air.py --offline
-    python3 scripts/fetch_air.py --only hanoi,skopje
+    python3 scripts/fetch_air.py --only hanoi,skopje [--refetch]
 """
 import calendar, datetime, json, os, sys, time
 from collections import defaultdict
@@ -68,12 +72,22 @@ def main():
     args = sys.argv[1:]
     offline = "--offline" in args
     only = set(args[args.index("--only") + 1].split(",")) if "--only" in args else None
+    refetch = "--refetch" in args
+    if refetch and not only:
+        raise SystemExit("--refetch needs --only <slugs> (it deletes the raw cache for those cities)")
+    prev_doc = json.load(open(OUT)) if os.path.exists(OUT) else {}
+    prev = {k: v for k, v in prev_doc.items() if k != "_meta"}
 
     out, fetched = {}, 0
     for i, c in enumerate(load_cities(), 1):
         if only and c["slug"] not in only:
             continue
         path = os.path.join(RAW, c["slug"] + ".json")
+        if refetch and os.path.exists(path):
+            os.remove(path)
+        elif not os.path.exists(path) and c["slug"] in prev:
+            out[c["slug"]] = prev[c["slug"]]   # committed derived entry; no raw cache needed
+            continue
         if offline and not os.path.exists(path):
             print(f"[{i:3}] {c['slug']}: not cached, skipped (offline)")
             continue
@@ -95,10 +109,9 @@ def main():
             "months": months,
         }
 
-    if only and os.path.exists(OUT):
-        prev = {k: v for k, v in json.load(open(OUT)).items() if k != "_meta"}
-        prev.update(out)
-        out = prev
+    merged = dict(prev)   # never drop a committed entry
+    merged.update(out)
+    out = merged
 
     doc = {"_meta": {
         "source": "Copernicus Atmosphere Monitoring Service (CAMS) global atmospheric composition forecasts, via the Open-Meteo Air Quality API (domain 'cams_global')",
@@ -108,7 +121,8 @@ def main():
         "attribution": "Air-quality data by Open-Meteo.com (CC BY 4.0); Copernicus Atmosphere Monitoring Service (CAMS)",
         "window": f"{START}..{END}",
         "windowNote": "Archive begins 2022-08-04; this is the longest span of complete 12-month years available at retrieval (4 samples per calendar month).",
-        "retrieved": datetime.date.today().isoformat(),
+        "retrieved": (datetime.date.today().isoformat() if fetched
+                      else prev_doc.get("_meta", {}).get("retrieved", datetime.date.today().isoformat())),
         "method": ("One request per city, hourly PM2.5 (µg/m³) in local time. Per calendar month: mean of the "
                    "per-year monthly means (years weighted equally; a year-month needs >= 80% hourly coverage). "
                    "yearMin/yearMax = spread of those per-year monthly means."),

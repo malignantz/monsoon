@@ -1,0 +1,30 @@
+{
+  "city": "Lima",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-10",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 960, "party": "shared",              "source": "urbania.pe", "asOf": "2026-10", "confidence": "med", "note": "furnished 1BR in Miraflores ~S/ 3,000 + ~S/ 300 building maintenance = S/ 3,300 at 3.44 PEN/USD. Urbania furnished 1-bed listings S/ 2,070-4,670 (mostly 12-month leases); a modest premium assumed for 1-3 month terms"},
+    "utilities": {"usd": 75,  "party": "shared",              "source": "win.pe / editorial estimate", "asOf": "2026-10", "confidence": "low", "note": "fibre internet S/ 99 (WIN 500 Mbps regular price) + ~S/ 160 electricity and gas; water often inside the maintenance fee; furnished lets frequently include Wi-Fi"},
+    "groceries": {"usd": 200, "party": "perPerson",           "source": "editorial estimate", "asOf": "2026-10", "confidence": "low", "note": "home cooking from markets (Surquillo) and supermarkets (Wong, Plaza Vea); no primary basket figure verified"},
+    "diningOut": {"usd": 220, "party": "perPerson",           "source": "nomads.com / editorial estimate", "asOf": "2026-10", "confidence": "low", "note": "mix of menú del día lunches (aggregator dinner $4) and Miraflores/Barranco restaurants and cafés"},
+    "transit":   {"usd": 55,  "party": "perPerson",           "source": "congreso.gob.pe / nomads.com / editorial estimate", "asOf": "2026-10", "confidence": "low", "note": "mostly app taxis (Uber/Cabify/InDrive; aggregator ~$7 per 3 km trip) plus walking; Metro Line 1 S/ 1.50 and the Metropolitano BRT are cheap but little used from Miraflores"},
+    "coworking": {"usd": 184, "party": "perPersonDiscounted", "source": "wework.com", "asOf": "2026-10", "confidence": "high", "note": "WeWork coworking membership from S/ 634/mo (promo; list S/ 745), incl. Jose Larco 1232 in Miraflores; local spaces are cheaper (aggregator median hot desk $145)"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "editorial estimate", "asOf": "2026-10", "confidence": "low", "note": "prepaid Claro/Entel/Movistar/Bitel chip registered with a passport, ~S/ 30-40 per 30 days; operator price pages would not render a phone-plan price"},
+    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "editorial estimate", "asOf": "2026-10", "confidence": "low", "note": "gym, toiletries, surf lessons/board rental, outings, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "Editorial: short-let demand peaks in Lima's sunny summer (Dec-Mar, local holidays and beach season); grey May-June and September are the softest months.",
+    "values": [1.08, 1.08, 1.05, 1.0, 0.95, 0.95, 0.98, 0.98, 0.95, 0.97, 1.0, 1.06]
+  },
+  "evidence": [
+    {"claim": "Urbania Miraflores furnished 1-bed listings: S/ 2,070 (35 m2), S/ 2,300 (38 m2), S/ 3,740 (93 m2), S/ 3,960 (60 m2), S/ 4,670 (118 m2 duplex), plus maintenance S/ 200-620", "quote": "S/ 2,070 · USD 600 S/ 200 Mantenimiento 35 m² tot. 1 dorm. ... Departamento amoblado disponible para alquiler en Miraflores", "source": "urbania.pe", "url": "https://urbania.pe/buscar/alquiler-de-departamentos-en-miraflores--lima--lima", "date": "2026-10", "confidence": "med"},
+    {"claim": "Typical urbania terms are long leases (example: 12-month minimum, 2 months' deposit)", "quote": "Contrato mínimo de 12 meses. - Modalidad 2x1 (2 meses de garantía y 1 mes de adelanto de renta)", "source": "urbania.pe", "url": "https://urbania.pe/buscar/alquiler-de-departamentos-en-miraflores--lima--lima", "date": "2026-10", "confidence": "high"},
+    {"claim": "WeWork Lima coworking membership from S/ 634/mo (list S/ 745), Miraflores location at Jose Larco 1232", "quote": "Membresía de coworking a partir de S/745/mes S/634/mes", "source": "wework.com", "url": "https://www.wework.com/es-LA/l/coworking-space/lima", "date": "2026-10", "confidence": "high"},
+    {"claim": "WIN fibre 500 Mbps S/ 99/mo; 1000 Mbps regular S/ 139", "quote": "500 Mbps: S/ 99 .00 x mes", "source": "win.pe", "url": "https://win.pe/", "date": "2026-10", "confidence": "high"},
+    {"claim": "Metro de Lima Line 1 fare stays S/ 1.50", "quote": "No hay ninguna comunicación técnica ni normativa para aumentar el pasaje.", "source": "comunicaciones.congreso.gob.pe", "url": "https://comunicaciones.congreso.gob.pe/damos-cuenta/atu-descarta-incremento-de-tarifa-en-la-linea-1-del-metro-de-lima/", "date": "2025-12", "confidence": "med"},
+    {"claim": "Aggregator snapshot: nomad budget $1,843/mo, 1BR centre $733, Airbnb median $1,916/mo, dinner $4, hot desk $145, taxi ~$7 per 3 km", "quote": "Cost of living for nomad: $1,843 / month ... Coworking hot desk: $145 / month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/lima", "date": "2026-10", "confidence": "low"},
+    {"claim": "FX used", "quote": "1 USD = 3.44 PEN (open.er-api.com, 2026-10-03)", "source": "open.er-api.com", "url": "https://open.er-api.com/v6/latest/USD", "date": "2026-10", "confidence": "high"}
+  ]
+}

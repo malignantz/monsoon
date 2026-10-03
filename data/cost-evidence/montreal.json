@@ -1,0 +1,32 @@
+{
+  "city": "Montréal",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-10",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1545, "party": "shared",              "source": "duproprio.com / rentals.ca", "asOf": "2026-09", "confidence": "med", "note": "furnished 1BR (3 1/2) on the Plateau, 31-night-minimum monthly lease ~CAD 2,200 at 1.424 CAD/USD (listing at CAD 2,150 incl. electricity and heat). City-wide unfurnished 1BR asking rent CAD 1,743 (rentals.ca, Sep 2026 report)"},
+    "utilities": {"usd": 90,   "party": "shared",              "source": "editorial estimate", "asOf": "2026-10", "confidence": "low", "note": "~CAD 130: home internet + Hydro-Québec electricity; many furnished monthly lets include heat/electricity, so this is a buffer. Could not open a Hydro-Québec tariff figure or an ISP price page"},
+    "groceries": {"usd": 295,  "party": "perPerson",           "source": "dal.ca (Canada's Food Price Report 2026)", "asOf": "2026-10", "confidence": "med", "note": "derived: family-of-four food spend CAD 17,571.79/yr = ~CAD 366 per person/mo; +15% for a single household and Quebec's above-average inflation -> ~CAD 420"},
+    "diningOut": {"usd": 300,  "party": "perPerson",           "source": "editorial estimate / nomads.com", "asOf": "2026-10", "confidence": "low", "note": "~CAD 430: about a dozen casual meals out with tax and tip plus cafés; aggregator dinner price $18"},
+    "transit":   {"usd": 77,   "party": "perPerson",           "source": "stm.info", "asOf": "2026-07", "confidence": "high", "note": "STM/ARTM Monthly All Modes A (métro, bus, REM, exo in Zone A) CAD 110, fare schedule effective 2026-07-01; BIXI bike-share is an optional summer extra"},
+    "coworking": {"usd": 193,  "party": "perPersonDiscounted", "source": "2727coworking.com", "asOf": "2026-10", "confidence": "med", "note": "Plateau hot desks ~CAD 199-275/mo (Halte 24-7 from CAD 199, ECTO ~250, Montreal Cowork ~255) as compiled by a competing operator; used CAD 275"},
+    "simData":   {"usd": 28,   "party": "perPerson",           "source": "luckymobile.ca", "asOf": "2026-10", "confidence": "high", "note": "Lucky Mobile prepaid 30GB CAD 35/mo + 14.975% GST/QST = ~CAD 40"},
+    "misc":      {"usd": 200,  "party": "perPersonDiscounted", "source": "editorial estimate", "asOf": "2026-10", "confidence": "low", "note": "gym, toiletries, festival tickets, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "Editorial: furnished short-let demand peaks with the June-August festival summer (and the July 1 moving-day churn); winter months are the cheapest to book.",
+    "values": [0.88, 0.88, 0.9, 0.95, 1.0, 1.1, 1.15, 1.15, 1.05, 1.0, 0.92, 0.92]
+  },
+  "evidence": [
+    {"claim": "Furnished Plateau 3 1/2 at CAD 2,150/mo with electricity, heating, hot water included; 31-night minimum", "quote": "$2,150 / monthly ... Electricity, heating and hot water included ... 31-night minimum, monthly renewable lease.", "source": "duproprio.com", "url": "https://duproprio.com/en/rental/montreal/le-plateau-mont-royal/3-1-2-for-rent/hab-4264-berri-1140222", "date": "2026-09", "confidence": "med"},
+    {"claim": "Plateau 3 1/2 unfurnished listings range CAD 1,245-2,300", "quote": "$1,525 / monthly ... $1,995 / monthly ... $1,245 / monthly", "source": "duproprio.com", "url": "https://duproprio.com/en/rental/montreal/le-plateau-mont-royal/3-1-2-for-rent/hab-4097-avenue-des-erables-1136076", "date": "2026-10", "confidence": "med"},
+    {"claim": "Montréal 1BR average asking rent CAD 1,743 (+1.2% y/y); all apartments CAD 1,955", "quote": "One-bedroom rents in Montreal also rose annually (+1.2% to $1,743)", "source": "rentals.ca National Rent Report (Sep 2026)", "url": "https://rentals.ca/national-rent-report", "date": "2026-09", "confidence": "high"},
+    {"claim": "Family of four food spend 2026 CAD 17,571.79", "quote": "The average family of four is expected to spend $17,571.79 on food in 2026", "source": "dal.ca (Dalhousie Agri-Food Analytics Lab)", "url": "https://www.dal.ca/sites/agri-food/research/canada-s-food-price-report-2026.html", "date": "2025-12", "confidence": "med"},
+    {"claim": "STM Monthly All Modes A CAD 110; 1 trip CAD 3.75; effective July 1, 2026", "quote": "Fare schedule Effective July 1, 2026 ... Monthly, All Modes A $110.00", "source": "stm.info", "url": "https://www.stm.info/sites/default/files/pdf/en/tarifs.pdf", "date": "2026-07", "confidence": "high"},
+    {"claim": "Plateau hot-desk prices: Halte 24-7 from CAD 199, ECTO ~250, Montreal Cowork ~255; 2727 (Griffintown) CAD 350", "quote": "Halte 24-7: from $199/month", "source": "2727coworking.com", "url": "https://2727coworking.com/guides/coworking-plateau-montreal/", "date": "2026", "confidence": "med"},
+    {"claim": "Lucky Mobile prepaid 30GB CAD 35/mo", "quote": "30 GB: $35 /mo (Best Seller)", "source": "luckymobile.ca", "url": "https://www.luckymobile.ca/plans/", "date": "2026-10", "confidence": "high"},
+    {"claim": "Aggregator snapshot: nomad budget $4,235/mo, dinner $18, hot desk $246/mo", "quote": "Cost of living for nomad: $4,235 / month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/montreal", "date": "2026-10", "confidence": "low"},
+    {"claim": "FX used", "quote": "1 USD = 1.424 CAD (open.er-api.com, 2026-10-03)", "source": "open.er-api.com", "url": "https://open.er-api.com/v6/latest/USD", "date": "2026-10", "confidence": "high"}
+  ]
+}

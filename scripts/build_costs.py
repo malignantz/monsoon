@@ -21,7 +21,7 @@ Modes:
 
 After `build`, run rebake_scores.py --write (refreshes `value`) then sanity_check.py.
 """
-import json, os, re, sys, glob
+import json, os, sys, glob
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data", "travel-data.json")
@@ -43,14 +43,13 @@ COMPONENT_ORDER = ["rent", "utilities", "groceries", "diningOut",
                    "transit", "coworking", "simData", "misc"]
 
 
-def slug(name):
-    s = name.lower()
-    s = (s.replace("ł", "l").replace("ø", "o").replace("å", "a")
-          .replace("ä", "a").replace("ö", "o").replace("ü", "u")
-          .replace("é", "e").replace("è", "e").replace("ñ", "n")
-          .replace("ç", "c").replace("ã", "a").replace("á", "a"))
-    s = re.sub(r"[^a-z0-9]+", "-", s).strip("-")
-    return s
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# One slug convention repo-wide (scripts/check-city-ids.mjs / src/lib/data.svelte.js):
+# NFD-decompose, strip accents, non-alnum -> '-'. Note 'ł' does not decompose, so
+# Wrocław is 'wroc-aw' — the frozen ID table already uses that. (Until 2026-10 this
+# file had its own transliteration, so 7 evidence files had different names; they
+# were renamed. The builder itself matches files by their "city" field.)
+from city_inputs import slug  # noqa: E402
 
 
 def store_files():
@@ -62,6 +61,9 @@ def load_store():
     by_city = {}
     for p in store_files():
         ev = json.load(open(p))
+        want = slug(ev["city"]) + ".json"
+        if os.path.basename(p) != want:
+            raise SystemExit(f"{os.path.relpath(p, ROOT)}: file name must be {want} (slug of its 'city')")
         by_city[ev["city"]] = ev
     return by_city
 

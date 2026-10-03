@@ -1,0 +1,31 @@
+{
+  "city": "Hua Hin",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-10",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 600, "party": "shared",              "source": "fazwaz.com; ddproperty.com; iamkohchang.com", "asOf": "2026-10", "confidence": "med", "note": "furnished 1BR condo near the beach/centre, ~20,000 THB at 33.56 THB/USD. FazWaz 1BR avg $630 (661 listings); blog range 15-25k THB; DDproperty's first page (new projects) 16-40k"},
+    "utilities": {"usd": 95,  "party": "shared",              "source": "iamkohchang.com", "asOf": "2026-09", "confidence": "med", "note": "electric 2,000-3,500 THB + water 300-400 + fibre 600-800 = ~3,200 THB"},
+    "groceries": {"usd": 120, "party": "perPerson",           "source": "iamkohchang.com (derived)", "asOf": "2026-09", "confidence": "low", "note": "home cooking; split from 9,000-13,000 THB/mo food budgets"},
+    "diningOut": {"usd": 180, "party": "perPerson",           "source": "iamkohchang.com", "asOf": "2026-09", "confidence": "med", "note": "street food 50-70 THB, Thai restaurant mains ~150 THB, some Western meals; food total ~$300"},
+    "transit":   {"usd": 90,  "party": "perPerson",           "source": "iamkohchang.com", "asOf": "2026-09", "confidence": "med", "note": "monthly motorbike 3,000-4,000 THB or songthaews (10-20 THB a ride) plus occasional Grab/Bolt"},
+    "coworking": {"usd": 140, "party": "perPersonDiscounted", "source": "editorial; nomads.com; digitalnomads.world", "asOf": "2026-10", "confidence": "low", "note": "few dedicated spaces and no stable published monthly price found; ~4,700 THB assumed, between Phuket's ~3,850 THB and nomads.com's $249 crowd figure"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "dtac.co.th", "asOf": "2026-10", "confidence": "med", "note": "Thai prepaid: dtac 10GB/30 days 214 THB incl. VAT; ~400 THB for a larger allowance"},
+    "misc":      {"usd": 100, "party": "perPersonDiscounted", "source": "editorial (iamkohchang.com misc 2,000-4,000 THB)", "asOf": "2026-09", "confidence": "low", "note": "gym, toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "Rent-only multipliers Jan..Dec. Snowbird high season Nov-Feb (peak Dec-Feb, into March); low season May-Oct is the time to negotiate long leases (iamkohchang.com). Milder swing than Phuket because of year-round Bangkok weekend demand.",
+    "values": [1.15, 1.15, 1.05, 1.0, 0.9, 0.9, 0.95, 0.95, 0.9, 0.9, 1.05, 1.2]
+  },
+  "evidence": [
+    {"claim": "FazWaz Hua Hin: 1BR average asking rent $630/mo (661 listings); studio $447; median for all rentals $655", "quote": "1 Bedroom (View 661 Condos) $630", "source": "fazwaz.com", "url": "https://www.fazwaz.com/condo-for-rent/thailand/prachuap-khiri-khan/hua-hin?bedrooms=1", "date": "2026-10", "confidence": "high"},
+    {"claim": "DDproperty Hua Hin 1BR listings, first page (mostly new projects such as Cabanas, Vehha, Marvest): 16,000-40,000 THB, median ~24k", "quote": "14,953 Condos for Rent - 1 Bedrooms, Hua Hin", "source": "ddproperty.com", "url": "https://www.ddproperty.com/en/condo-for-rent?freetext=Hua%20Hin&beds=1", "date": "2026-10", "confidence": "med"},
+    {"claim": "1BR condo 15,000-25,000 THB; electric 2,000-3,500; water 300-400; internet 600-800; motorbike 3,000-4,000/mo; songthaew 10-20 THB; street meal 50-70 THB", "quote": "Motorbike Rental (Monthly) | 3,000–4,000", "source": "iamkohchang.com", "url": "https://iamkohchang.com/blog/cost-to-live-in-hua-hin.html", "date": "2026-09", "confidence": "med"},
+    {"claim": "Budget nomad: rent 15,000, utilities 2,500, food 9,000, transport 3,000 THB; comfortable: utilities 3,000, food 13,000, transport 4,000", "quote": "Rent (central condo): 15,000 THB ($417)", "source": "iamkohchang.com", "url": "https://iamkohchang.com/blog/cost-to-live-in-hua-hin.html", "date": "2026-09", "confidence": "med"},
+    {"claim": "Crowd-sourced cross-check: 1BR $573, coworking $249; dedicated coworking spaces limited", "quote": "Coworking hot desk: $249/month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/hua-hin", "date": "2026-10", "confidence": "low"},
+    {"claim": "No stable published coworking price in Hua Hin (The Hub Hua Hin asks visitors to register interest)", "quote": "public page asks visitors to register interest rather than presenting a stable day-pass price", "source": "digitalnomads.world", "url": "https://digitalnomads.world/?p=43964", "date": "2026-09", "confidence": "low"},
+    {"claim": "Thai prepaid data: dtac 10GB/30 days at 200 THB (214 THB incl. VAT)", "quote": "Net 10GB 30D Get free LINE MAN coupon value 200B", "source": "dtac.co.th", "url": "https://www.dtac.co.th/en/package/prepaid/UP2U/detail/21234150", "date": "2026-10", "confidence": "med"},
+    {"claim": "Exchange rate used: 1 USD = 33.56 THB (3 Oct 2026)", "quote": "\"THB\": 33.555074", "source": "open.er-api.com", "url": "https://open.er-api.com/v6/latest/USD", "date": "2026-10", "confidence": "high"}
+  ]
+}

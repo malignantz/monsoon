@@ -1,0 +1,242 @@
+{
+  "name": "Antalya",
+  "country": "Turkey",
+  "iso3": "TUR",
+  "region": "W Asia",
+  "lat": 36.8969,
+  "lng": 30.7133,
+  "coordsNote": "Kaleiçi / city centre. Long-stay foreigners mostly live in Konyaaltı (west, pebble beach) and Lara (east, Muratpaşa district).",
+  "timezone": "UTC+3",
+  "schengen": false,
+  "visa": null,
+  "english": {
+    "tier": 1,
+    "note": "Tourist zones",
+    "rationale": "EF EPI 2025 puts Turkey at 488 (rank 71), in EF's Low band. Antalya's tourism trade and resort areas work in English (and German and Russian), but landlords, utilities and everyday shops outside the tourist strip often don't. That's the same tier as Istanbul.",
+    "sources": [
+      {
+        "title": "EF EPI 2025: Turkey",
+        "url": "https://www.ef.com/wwen/epi/regions/europe/turkey/",
+        "accessed": "2026-10-03",
+        "note": "Score 488, rank #71"
+      }
+    ]
+  },
+  "draw": "Coast / winter sun",
+  "vibe": "Turkish Riviera city: Ottoman old town, long beaches, mountains behind, large year-round expat community",
+  "narrative": "Kaleiçi's Ottoman lanes drop to the old harbour, Konyaaltı's pebble beach runs for kilometres under the Taurus Mountains, and Perge, Aspendos and the Lycian Way are day trips. Winters are mild and cheap and draw a settled foreign retiree community; July and August are hot (34 °C average highs) and packed with package tourists.",
+  "activities": {
+    "adventure": 2,
+    "culture": 2,
+    "nomad": 1,
+    "wellness": 2,
+    "water": 3,
+    "food": 2,
+    "nature": 3,
+    "nightlife": 2
+  },
+  "season": {
+    "months": [
+      "Off",
+      "Off",
+      "Off",
+      "Shoulder",
+      "In",
+      "In",
+      "Peak",
+      "Peak",
+      "In",
+      "In",
+      "Shoulder",
+      "Off"
+    ],
+    "rationale": "Editorial estimate. Antalya gets about 17.6M visitors a year, mostly European package tourists from May to October. October 2025 alone brought about 2.2M foreign visitors, against about 234k air arrivals in January 2026. July and August are the peak. Dec–Mar is the quiet season, when long-stay retirees and winter rentals dominate. April and November are shoulder months.",
+    "sources": [
+      {
+        "title": "Hurriyet Daily News: Antalya sets all-time January tourism record",
+        "url": "https://hurriyetdailynews.com/antalya-sets-all-time-january-tourism-record-218665",
+        "accessed": "2026-10-03",
+        "quote": "Antalya welcomed 234,037 tourists by air in January 2026",
+        "note": "Article 2026-02-06; also gives the 2025 annual total of 17,571,155"
+      },
+      {
+        "title": "Property Turkey: Antalya continues to attract record numbers of tourists",
+        "url": "https://www.propertyturkey.com/news/antalya-continues-to-attract-record-numbers-of-tourists",
+        "accessed": "2026-10-03",
+        "quote": "In October 2025, Antalya welcomed just over 2.2 million foreign tourists – a new record.",
+        "note": "Article 2025-12-08"
+      }
+    ]
+  },
+  "hazards": [
+    {
+      "months": [
+        7,
+        8
+      ],
+      "level": 1,
+      "note": "Summer heat & humidity",
+      "source": {
+        "title": "Turkish State Meteorological Service (MGM): Antalya long-term statistics",
+        "url": "https://www.mgm.gov.tr/veridegerlendirme/il-ve-ilceler-istatistik.aspx?k=A&m=ANTALYA",
+        "accessed": "2026-10-03",
+        "quote": "July 34,2 °C; August 34,1 °C (average maximum, 1930-2025)",
+        "note": "Record high 45.0 °C in July. Summer wildfire smoke in the province is a further occasional risk; not flagged separately."
+      }
+    }
+  ],
+  "swim": {
+    "body": "sea",
+    "name": "Mediterranean (Konyaaltı / Lara beaches)",
+    "months": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "note": "Average sea temperature is about 21 °C in May and November and 27–29 °C in Jul–Sep. December (about 19 °C) is for hardy swimmers.",
+    "source": {
+      "title": "seatemperature.org: Antalya monthly sea temperature",
+      "url": "https://www.seatemperature.org/europe/turkey/antalya.htm",
+      "accessed": "2026-10-03",
+      "quote": "The warmest water temperature is in August with an average around 83.8°F/28.8°C"
+    }
+  },
+  "events": [
+    {
+      "name": "Antalya Golden Orange Film Festival",
+      "months": [
+        10
+      ],
+      "tier": 2,
+      "blurb": "Turkey's longest-running film festival; the 2026 edition runs 24–31 October",
+      "source": {
+        "title": "Antalya Film Festival: 63rd edition announcement",
+        "url": "https://antalyaff.com/en/blog_detay/the-excitement-of-the-63rd-international-antalya-golden-orange-film-festival-october-2431/1",
+        "accessed": "2026-10-03",
+        "quote": "the 63rd International Antalya Golden Orange Film Festival will take place from October 24 to 31, 2026."
+      }
+    },
+    {
+      "name": "Aspendos International Opera and Ballet Festival",
+      "months": [
+        9
+      ],
+      "tier": 2,
+      "blurb": "Opera and ballet in the Roman theatre at Aspendos; the 2026 edition runs 12–26 September",
+      "source": {
+        "title": "Türkiye Today: Aspendos Opera and Ballet Festival to open with Verdi's Attila",
+        "url": "https://www.turkiyetoday.com/culture/aspendos-opera-and-ballet-festival-to-open-with-verdis-attila-in-september-3226015",
+        "accessed": "2026-10-03",
+        "quote": "Antalya's Aspendos Ancient Theater from Sept. 12 to 26, with six performances built around four major works"
+      }
+    },
+    {
+      "name": "Runtalya Marathon",
+      "months": [
+        4
+      ],
+      "tier": 1,
+      "blurb": "City marathon, half marathon and 10K; 3–5 April in 2026",
+      "source": {
+        "title": "Tekce: Runtalya 2026",
+        "url": "https://tekce.com/blog/lifestyle/runtalya-2026-running-excitement-begins-in-antalya",
+        "accessed": "2026-10-03",
+        "quote": "Runtalya 2026 is taking place in Antalya between 3–5 April."
+      }
+    },
+    {
+      "name": "Ramadan & Eid al-Fitr (Ramazan Bayramı)",
+      "months": [
+        2,
+        3
+      ],
+      "tier": 1,
+      "blurb": "Ramazan Bayramı falls 19–23 Mar 2026 and 9–12 Mar 2027, so Ramadan itself starts in February",
+      "source": {
+        "title": "Office Holidays: Türkiye 2026",
+        "url": "https://www.officeholidays.com/countries/turkey/2026",
+        "accessed": "2026-10-03",
+        "note": "2027 dates from https://www.officeholidays.com/countries/turkey/2027"
+      }
+    },
+    {
+      "name": "Kurban Bayramı (Eid al-Adha)",
+      "months": [
+        5
+      ],
+      "tier": 1,
+      "blurb": "National holiday, 25–30 May 2026 (extended to nine days) and 16–19 May 2027",
+      "source": {
+        "title": "Office Holidays: Türkiye 2026",
+        "url": "https://www.officeholidays.com/countries/turkey/2026",
+        "accessed": "2026-10-03",
+        "quote": "Türkiye extends Eid al-Adha holiday to 9 days from May 23 to May 31"
+      }
+    }
+  ],
+  "safety": {
+    "propertySub": 68,
+    "propertyNote": "Resort-city petty theft and tourist-strip touting; calmer than Istanbul",
+    "womensAdj": 3,
+    "womensSafetyNote": "Resort/expat city; harassment reported, mostly low-level",
+    "touristMod": 1.0,
+    "touristRationale": "",
+    "touristTags": [
+      "petty-theft",
+      "expat-haven"
+    ],
+    "homicideOverride": null,
+    "rationale": {
+      "property": "Editorial estimate. The FCDO's pickpocketing and street-robbery warnings centre on Istanbul's tourist areas. Antalya's risks are opportunistic beach and hotel theft and touting around Kaleiçi. Set at Chania's level (68), well above Istanbul (58) and below Paphos (78).",
+      "tourist": "Visitors mostly face the same low-level risks as residents, and nothing suggests a visitor-specific uplift, so the modifier stays at 1.0. The FCDO's methanol-spirits and drink-spiking warnings are national, not specific to Antalya.",
+      "womens": "+3 over the national Gallup baseline (Istanbul is 0). Antalya is a family-resort and retiree city with a large foreign community. The FCDO says reported sexual assaults on British visitors are concentrated in coastal resorts in season, often by hotel or spa staff, so the uplift is kept small."
+    },
+    "calibratedAgainst": [
+      "Istanbul",
+      "Chania (Crete)",
+      "Paphos"
+    ],
+    "consulted": [
+      {
+        "title": "UK FCDO: Turkey safety and security",
+        "url": "https://www.gov.uk/foreign-travel-advice/turkey/safety-and-security",
+        "accessed": "2026-10-03",
+        "quote": "Even small amounts of methanol can kill.",
+        "note": "Street robbery and pickpocketing flagged mainly for Istanbul tourist areas; resort sexual-assault statistics"
+      },
+      {
+        "title": "U.S. State Dept travel advisories feed (cadataapi.state.gov)",
+        "url": "https://cadataapi.state.gov/api/TravelAdvisories",
+        "accessed": "2026-10-03",
+        "note": "Official State Dept JSON feed; travel.state.gov itself served a Cloudflare bot challenge"
+      },
+      {
+        "title": "U.S. State Department travel advisories RSS feed (official)",
+        "url": "https://travel.state.gov/_res/rss/TAsTWs.xml",
+        "accessed": "2026-10-03",
+        "note": "Turkey: Level 2, dated 2026-06-09; destination page https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.tur.html"
+      }
+    ],
+    "advisory": {
+      "level": 2,
+      "text": "Exercise increased caution",
+      "date": "2026-06-09",
+      "url": "https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.tur.html",
+      "risks": [
+        "Terrorism",
+        "Armed conflict",
+        "Detention"
+      ],
+      "regionalLevel": 2,
+      "localLevel": 2,
+      "localArea": null
+    }
+  },
+  "selection": "Turkish Riviera city with a large year-round foreign retiree community; spring and autumn shoulder seasons, mild winters and seven swimmable months; adds a second W Asia city.",
+  "asOf": "2026-10",
+  "researchNotes": "Advisory: travel.state.gov served a Cloudflare 'verify you are human' challenge, which was not bypassed. Level, text, date and risks were read from the State Department's own feed (cadataapi.state.gov/api/TravelAdvisories), entry 'Turkey - Level 2: Exercise Increased Caution', Published 2026-06-08T20:00-04:00. That timestamp is midnight UTC on 2026-06-09, the date the Istanbul entry already uses. The advisory says 'due to terrorism, armed conflict, and arbitrary detentions'. The Level 4 area is only the Syria/Iraq border region; Antalya is not in it. visa=null: Turkey is in scripts/add_visa.py."
+}

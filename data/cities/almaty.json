@@ -1,0 +1,86 @@
+{
+  "name": "Almaty",
+  "country": "Kazakhstan",
+  "iso3": "KAZ",
+  "region": "Central Asia",
+  "lat": 43.2220,
+  "lng": 76.8512,
+  "coordsNote": "City centre (Medeu district / 'Golden Square'), where furnished monthly lets cluster; Samal and Dostyk avenue areas are just south.",
+  "timezone": "UTC+5",
+  "schengen": false,
+  "visa": {
+    "US": {"visaFree": true, "days": 30, "note": "Visa-free up to 30 days per entry, max 90 days in any 180-day period."},
+    "UK": {"visaFree": true, "days": 30, "note": "Visa-free up to 30 days per entry, max 90 days in any 180-day period."},
+    "EU": {"visaFree": true, "days": 30, "note": "Visa-free up to 30 days per entry, max 90 days in any 180-day period (all EU member states)."},
+    "AU": {"visaFree": true, "days": 30, "note": "Visa-free up to 30 days per entry, max 90 days in any 180-day period."}
+  },
+  "visaSources": [
+    {"title": "Consulate General of Kazakhstan in New York (gov.kz): visa information", "url": "https://www.gov.kz/memleket/entities/mfa-newyork/press/article/details/21798?lang=en", "accessed": "2026-10-03", "quote": "does not exceed thirty calendar days ... in total ninety calendar days during each period of one hundred and eighty calendar days", "note": "The list names Australia, the USA, the UK and all 27 EU member states. Page dated 2020 and updated for the January 2022 resumption; the PCR-test line is obsolete."},
+    {"title": "UK FCDO: Kazakhstan entry requirements", "url": "https://www.gov.uk/foreign-travel-advice/kazakhstan/entry-requirements", "accessed": "2026-10-03", "quote": "You must not stay more than 90 days without a visa in any 180-day period.", "note": "Confirms the current 30-day / 90-in-180 rule for UK citizens."}
+  ],
+  "english": {
+    "tier": 1,
+    "note": "Tourist zones",
+    "rationale": "EF EPI 2025 puts Kazakhstan at 417 (rank 107, Very low), but Almaty's city score is 457, in the Low band. Russian is the everyday lingua franca. English works in hotels, specialty cafés and among younger professionals, but rentals, taxis and bazaars usually need Russian or a translation app.",
+    "sources": [
+      {"title": "EF EPI 2025: Kazakhstan", "url": "https://www.ef.com/wwen/epi/regions/asia/kazakhstan/", "accessed": "2026-10-03", "note": "Country 417 (#107); Almaty 457"}
+    ]
+  },
+  "draw": "Mountains / city",
+  "vibe": "Leafy grid city under the Tian Shan: ski lifts, alpine lakes and a café scene within an hour of each other",
+  "narrative": "Tree-lined avenues, Soviet-modernist landmarks and the Green Bazaar sit at the foot of the Trans-Ili Alatau, with the Medeu rink, Shymbulak's ski lifts and Big Almaty Lake all within about an hour. Late spring and September are the best months. Winter brings skiing, but also a coal-heating smog that settles in the valley.",
+  "activities": {"adventure": 3, "culture": 2, "nomad": 2, "wellness": 1, "water": 0, "food": 2, "nature": 3, "nightlife": 2},
+  "season": {
+    "months": ["Shoulder", "Shoulder", "Off", "Shoulder", "In", "Peak", "Peak", "Peak", "In", "Shoulder", "Off", "Shoulder"],
+    "rationale": "Editorial estimate. June–August is the main visitor season, when mountain trails and lakes are open. Late May–June and September are the recommended windows. The Shymbulak ski season (roughly Dec–Mar, best mid-Jan to Feb) gives a second, mostly regional bump. March and November are the off-months: slush, short days and heating smog.",
+    "sources": [
+      {"title": "About Kazakhstan: best time to visit Almaty", "url": "https://about-kazakhstan.com/best-time-to-visit-almaty/", "accessed": "2026-10-03", "quote": "Late May and June give a first-time visitor a useful balance of mild city conditions and itinerary flexibility"},
+      {"title": "Eurasia Travel: seasonal activities in Almaty", "url": "https://eurasia.travel/kazakhstan/almaty/seasonal-activities/", "accessed": "2026-10-03", "quote": "some ski resorts open as early as November"}
+    ]
+  },
+  "hazards": [
+    {"months": [11, 12, 1, 2], "level": 1, "note": "Winter smog (heating season, inversions)", "source": {"title": "Nazarbayev University: Spatiotemporal variations and contributing factors of air pollutants in Almaty", "url": "https://nur.nu.edu.kz/items/41bbfd8f-82f0-4653-8bd7-ef0f703a8cfd", "accessed": "2026-10-03", "quote": "The maximum levels were observed in the winter, while the minimum levels in the summer.", "note": "Coal heating plus valley inversions; see also EGU26-10277 (https://meetingorganizer.copernicus.org/EGU26/EGU26-10277.html): 'the most severe pollution recorded during the heating season'."}}
+  ],
+  "swim": null,
+  "events": [
+    {"name": "Nauryz", "months": [3], "tier": 2, "blurb": "Spring-equinox new year with public holidays 21–25 March 2026; yurts, kozhe and concerts in the squares", "source": {"title": "Office Holidays: Kazakhstan 2026", "url": "https://www.officeholidays.com/countries/kazakhstan/2026", "accessed": "2026-10-03", "quote": "Nauryz: March 21-25, 2026"}},
+    {"name": "Almaty Marathon", "months": [9], "tier": 1, "blurb": "Central Asia's largest running event; 27 September 2026 (15th edition)", "source": {"title": "We Project: anniversary Almaty Marathon", "url": "https://weproject.media/en/articles/detail/anniversary-almaty-marathon-to-feature-new-courses-and-welcome-16-000-participants/?amp=y", "accessed": "2026-10-03", "quote": "On 27 September, Almaty will host the 15th Almaty Marathon, Central Asia's largest running event."}},
+    {"name": "Kurban Ait (Eid al-Adha)", "months": [5], "tier": 1, "blurb": "Public holiday; 27 May 2026, mid-May in 2027", "source": {"title": "Office Holidays: Kazakhstan 2026", "url": "https://www.officeholidays.com/countries/kazakhstan/2026", "accessed": "2026-10-03", "quote": "Kurban Ait (Feast of the Sacrifice): May 27, 2026"}}
+  ],
+  "safety": {
+    "propertySub": 70,
+    "propertyNote": "Pickpocketing on transport and in bazaars; night-time robberies near bars",
+    "womensAdj": 0,
+    "womensSafetyNote": "Generally safe by day; caution at night and in nightlife",
+    "touristMod": 1.0,
+    "touristRationale": "",
+    "touristTags": ["petty-theft", "nightlife-risk"],
+    "homicideOverride": null,
+    "rationale": {
+      "property": "Editorial estimate. The FCDO calls pickpocketing very common in markets and on public transport, with foreigners frequently targeted, and reports night-time robberies near bars and clubs in Almaty's expat areas. That puts it below Tbilisi and Yerevan (80) and near Sarajevo (72).",
+      "tourist": "The risks (unofficial taxis, nightlife robberies, card skimming) can be avoided with standard precautions and aren't markedly worse for visitors than for locals, so the modifier stays at 1.0.",
+      "womens": "No city-specific evidence that departs from the national Gallup baseline. The FCDO's drink-spiking warning applies to nightclubs nationwide, so the delta is 0."
+    },
+    "calibratedAgainst": ["Tbilisi", "Yerevan", "Sarajevo"],
+    "consulted": [
+      {"title": "UK FCDO: Kazakhstan safety and security", "url": "https://www.gov.uk/foreign-travel-advice/kazakhstan/safety-and-security", "accessed": "2026-10-03", "quote": "Pickpocketing is very common in crowded places such as markets and on public transport.", "note": "Also flags night robberies near nightclubs in Almaty, unofficial taxis, card fraud and high earthquake risk"},
+      {"title": "U.S. State Dept travel advisories feed (cadataapi.state.gov)", "url": "https://cadataapi.state.gov/api/TravelAdvisories", "accessed": "2026-10-03", "quote": "Kazakhstan is generally a safe destination for travelers.", "note": "Official State Dept JSON feed; travel.state.gov itself served a Cloudflare bot challenge"}
+    ],
+    "advisory": {
+      "level": 1,
+      "text": "Exercise normal precautions",
+      "date": "2026-08-18",
+      "url": "https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.kaz.html",
+      "risks": [],
+      "regionalLevel": 1,
+      "localLevel": 1,
+      "localArea": null
+    }
+  },
+  "climateAir": {
+    "notes": "Almaty has a well-documented winter smog season: coal heating combined with valley inversions, worst Nov–Feb (Nazarbayev University study; EGU26-10277). It is flagged under hazards. Reviewers should check that the CAMS-derived pm25 shows a clear winter peak; if the model flattens it, consider a manual hold."
+  },
+  "selection": "Central Asia's main nomad base (the catalog has no Central Asian city yet). Mountain city with strong late-spring and early-autumn months, 30-day visa-free entry for US/UK/EU/AU, and a real winter-smog caveat.",
+  "asOf": "2026-10",
+  "researchNotes": "Timezone: Kazakhstan moved to a single UTC+5 zone on 1 March 2024 and has no DST (Meduza, https://meduza.io/amp/en/news/2024/01/19/kazakhstan-to-switch-to-single-time-zone-on-march-1). Advisory: travel.state.gov served a Cloudflare challenge, which was not bypassed. Level and date were read from the State Department's cadataapi feed: 'Kazakhstan - Level 1: Exercise Normal Precautions', Published 2026-08-17T20:00-04:00, recorded as 2026-08-18 to match the existing Istanbul convention. The only hazard the advisory names is flooding. Visa: the newest official gov.kz text found is the New York consulate page (resumed 7 January 2022). The FCDO confirms the 30-day / 90-in-180 rule is current; the US and AU rules weren't checked on a 2026 page of their own governments. Earthquake risk is real (FCDO) but isn't seasonal, so it isn't flagged."
+}

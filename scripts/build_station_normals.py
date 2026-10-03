@@ -95,16 +95,28 @@ def haversine(a, b, c, d):
 
 
 def city_elevations(cities):
-    def fetch():
-        out = {}
-        for i in range(0, len(cities), 100):
-            chunk = cities[i:i + 100]
-            r = fetch_json("https://api.open-meteo.com/v1/elevation",
-                           {"latitude": ",".join(str(c["lat"]) for c in chunk),
-                            "longitude": ",".join(str(c["lng"]) for c in chunk)})
-            out.update({c["slug"]: e for c, e in zip(chunk, r["elevation"])})
-        return out
-    return cached(ELEV, fetch)[0]
+    """Open-Meteo 90 m DEM elevation per city slug, cached in data/raw/elevation.json.
+
+    Incremental: only cities missing from the cache are requested. Without the raw
+    cache, an already-matched city falls back to the cityElevation recorded in the
+    committed data/station-normals.json (same DEM value), so nothing is re-fetched.
+    """
+    have = json.load(open(ELEV)) if os.path.exists(ELEV) else {}
+    if os.path.exists(OUT):
+        for k, v in json.load(open(OUT)).items():
+            if k != "_meta" and k not in have and v.get("cityElevation") is not None:
+                have[k] = v["cityElevation"]
+    missing = [c for c in cities if c["slug"] not in have]
+    for i in range(0, len(missing), 100):
+        chunk = missing[i:i + 100]
+        r = fetch_json("https://api.open-meteo.com/v1/elevation",
+                       {"latitude": ",".join(str(c["lat"]) for c in chunk),
+                        "longitude": ",".join(str(c["lng"]) for c in chunk)})
+        have.update({c["slug"]: e for c, e in zip(chunk, r["elevation"])})
+    if missing:
+        os.makedirs(os.path.dirname(ELEV), exist_ok=True)
+        json.dump(have, open(ELEV, "w"), separators=(",", ":"))
+    return have
 
 
 # Stations that pass the distance/elevation test but are not representative of
@@ -125,7 +137,9 @@ def ranked(cands, c, z):
         if dkm <= MAX_KM and abs(dz) <= MAX_DZ:
             scored.append((dkm + abs(dz) / DZ_PER_KM, dkm, dz, st))
     out = []
-    for _, dkm, dz, st in sorted(scored, key=lambda t: t[0]):
+    # ties (co-located duplicate stations, e.g. Stockholm Observatoriekullen and _A) break on
+    # the WMO id, so the match never depends on set/hash iteration order between runs
+    for _, dkm, dz, st in sorted(scored, key=lambda t: (t[0], t[3]["id"])):
         conf = "high" if dkm <= HIGH_KM and abs(dz) <= HIGH_DZ else "medium"
         out.append({"name": st["name"], "id": st["id"], "wigos": st["wigos"], "country": st["country"],
                     "lat": st["lat"], "lon": st["lon"], "elevation": st["elev"],
@@ -241,7 +255,7 @@ def magnus_es(t):
 def main():
     comp = {e: load_composite(e) for e in ELEMS + ["PRCP"]}
     temp_ids = set(comp["TMAX"]) & set(comp["TMIN"])
-    temp_c = [comp["TMAX"][i] for i in temp_ids]
+    temp_c = [comp["TMAX"][i] for i in sorted(temp_ids)]
     rain_c = list(comp["DP01"].values())
     vp_ids = set(comp["MNVP"]) & set(comp["TAVG"])
     cities = load_cities()
@@ -292,7 +306,7 @@ def main():
                         continue
                     h = dict(strip(g), rhPct=rh, method="station RH normal (WMO param 38)")
         if h is None:
-            for g in ranked([dict(comp["MNVP"][i], _tavg=comp["TAVG"][i]["months"]) for i in vp_ids], c, z):
+            for g in ranked([dict(comp["MNVP"][i], _tavg=comp["TAVG"][i]["months"]) for i in sorted(vp_ids)], c, z):
                 st = g.pop("_st")
                 rh = [round(min(100.0, 100 * e / magnus_es(ta)), 1) for e, ta in zip(st["months"], st["_tavg"])]
                 why = qc_rh(rh, era)
@@ -308,18 +322,20 @@ def main():
               f"hum:{(h or {}).get('name','-')}")
 
     n = {g: sum(1 for v in out.values() if v[g]) for g in ("temp", "rain", "hum")}
+    prev_meta = json.load(open(OUT)).get("_meta", {}) if os.path.exists(OUT) else {}
+    accessed = prev_meta.get("retrieved") or datetime.date.today().isoformat()
     doc = {"_meta": {
         "source": "WMO Climatological Standard Normals 1991-2020 (WMO Member Nations), NCEI Accession 0253808",
         "url": BASE + "/",
         "doi": "https://doi.org/10.25921/800j-vn07",
         "citation": ("WMO Member Nations (2023). WMO Climatological Standard Normals for 1991-2020 (NCEI Accession "
                      "0253808). Primary parameters DP01/TMAX/TMIN/TAVG/MNVP + RH (param 38). NOAA National Centers "
-                     f"for Environmental Information. https://doi.org/10.25921/800j-vn07. Accessed {datetime.date.today()}."),
+                     f"for Environmental Information. https://doi.org/10.25921/800j-vn07. Accessed {accessed}."),
         "licence": ("Public access (NCEI accessLevel: public; use constraint: cite as above). Climate normals are "
                     "'core data' under the WMO Unified Data Policy (Resolution 1, Cg-Ext(2021)), exchanged free "
                     "and unrestricted; redistribute with attribution."),
         "window": "1991-01-01..2020-12-31",
-        "retrieved": datetime.date.today().isoformat(),
+        "retrieved": accessed,  # the NCEI accession is static; keep the first retrieval date
         "method": (f"Per city and element group (temp TMAX+TMIN, rain DP01 = days >= 1 mm, hum RH) pick the station "
                    f"minimising dist_km + |dz_m|/{DZ_PER_KM:g} with dist <= {MAX_KM:g} km and |dz| <= {MAX_DZ:g} m "
                    f"(city elevation = Open-Meteo 90 m DEM). confidence 'high' if dist <= {HIGH_KM:g} km and "

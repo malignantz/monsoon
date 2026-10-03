@@ -20,8 +20,11 @@ Key dated facts baked in (verified 2026-06):
   - Cyprus: EU but NOT yet Schengen (targeting 2026); own 90/180.
   - Turkey: US/UK/EU visa-free 90/180; AU needs e-visa.
 """
-import json, sys
+import json, os, sys
 from pathlib import Path
+import sys as _sys
+_sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from city_inputs import managed_names  # cities owned by add_city.py are skipped (never clobbered)
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "travel-data.json"
@@ -155,13 +158,16 @@ VISA["New Zealand"] = {
 # --- apply --------------------------------------------------------------------
 def main():
     data = json.loads(DATA.read_text())
-    missing = sorted({c["country"] for c in data["cities"]} - set(VISA))
+    managed = managed_names()
+    legacy = [c for c in data["cities"] if c["name"] not in managed]
+    missing = sorted({c["country"] for c in legacy} - set(VISA))
     if missing:
         sys.exit(f"No visa rule for: {missing}")
-    for c in data["cities"]:
+    for c in legacy:
         c["visa"] = VISA[c["country"]]
-    DATA.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n")
-    print(f"Stamped visa data on {len(data['cities'])} cities across {len(VISA)} countries.")
+    DATA.write_text(json.dumps(data, ensure_ascii=False, indent=2))
+    print(f"Stamped visa data on {len(legacy)} cities across {len(VISA)} countries "
+          f"({len(data['cities']) - len(legacy)} managed by add_city.py skipped).")
 
 if __name__ == "__main__":
     main()

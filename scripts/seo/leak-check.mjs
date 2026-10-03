@@ -7,6 +7,7 @@
 //
 //   • data/cost-evidence/*.json — component notes, evidence claims & quotes, _doc
 //   • data/safety-inputs-v3.json — property / women's / visitor rationale, audit notes
+//   • data/cities/*.json         — per-city editorial rationale, research notes, source quotes
 //   • data/travel-data.json      — the safety bake `note` string
 //
 // (The SPA's own lazy JSON bundle in dist/assets is out of scope here; the
@@ -51,6 +52,31 @@ if (existsSync(safetyPath)) {
     if (!v || typeof v !== 'object') continue;
     for (const k of ['propertyNote', 'womensSafetyNote', 'touristRationale']) add(v[k], `safety-inputs ${city}.${k}`);
     add(v._audit?.note, `safety-inputs ${city}._audit.note`);
+  }
+}
+
+// Per-city inputs for cities added through scripts/add_city.py: the editorial
+// rationale, research notes and source quotes are private like safety-inputs-v3.
+const citiesDir = join(root, 'data/cities');
+if (existsSync(citiesDir)) {
+  for (const f of readdirSync(citiesDir)) {
+    if (!f.endsWith('.json') || f.startsWith('_')) continue;
+    const j = readJson(join(citiesDir, f));
+    const sf = j.safety ?? {};
+    for (const k of ['propertyNote', 'womensSafetyNote', 'touristRationale']) add(sf[k], `cities/${f} safety.${k}`);
+    for (const [k, v] of Object.entries(sf.rationale ?? {})) add(v, `cities/${f} safety.rationale.${k}`);
+    add(j.researchNotes, `cities/${f} researchNotes`);
+    add(j.season?.rationale, `cities/${f} season.rationale`);
+    add(j.english?.rationale, `cities/${f} english.rationale`);
+    add(j.climateAir?.notes, `cities/${f} climateAir.notes`);
+    const sources = [
+      ...(sf.consulted ?? []), ...(j.visaSources ?? []), ...(j.english?.sources ?? []), ...(j.season?.sources ?? []),
+      ...(j.hazards ?? []).map((h) => h.source), ...(j.events ?? []).map((e) => e.source), j.swim?.source
+    ];
+    for (const s of sources) {
+      add(s?.quote, `cities/${f} source quote`);
+      add(s?.note, `cities/${f} source note`);
+    }
   }
 }
 

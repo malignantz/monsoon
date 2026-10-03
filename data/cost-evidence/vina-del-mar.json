@@ -1,0 +1,31 @@
+{
+  "city": "Viña del Mar",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-10",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 650, "party": "shared",              "source": "portalinmobiliario.com", "asOf": "2026-10", "confidence": "med", "note": "furnished 1BR in Plan de Viña / Libertad / Reñaca, ~CLP 640,000/mo: median asking CLP 560,000 across 47 of 114 furnished 1-dorm listings (mostly annual or Mar–Dec leases) + ~CLP 80,000 for gastos comunes / medium-term premium. USD/CLP 983.84 (dólar observado, 2 Oct 2026)"},
+    "utilities": {"usd": 110, "party": "shared",              "source": "numbeo.com", "asOf": "2026-10", "confidence": "low", "note": "~CLP 108,000: basic utilities $108.14 for 85 m² (smaller for a 1BR; winter heating) + fibre $17.41"},
+    "groceries": {"usd": 230, "party": "perPerson",           "source": "numbeo.com", "asOf": "2026-10", "confidence": "low", "note": "~CLP 226,000 home cooking; milk $1.27/L, eggs $3.56/12, chicken $2.29/lb (Chilean supermarket prices close to Santiago's)"},
+    "diningOut": {"usd": 190, "party": "perPerson",           "source": "numbeo.com", "asOf": "2026-10", "confidence": "low", "note": "~CLP 187,000: about 10 inexpensive meals ($8.07) + 2 mid-range dinners ($58 for two) + cafés ($3.48 cappuccino)"},
+    "transit":   {"usd": 30,  "party": "perPerson",           "source": "mapa-metro.com / elmostrador.cl", "asOf": "2026-10", "confidence": "med", "note": "~CLP 29,500: Metro Valparaíso zone A monthly pass CLP 20,500 (Puerto–El Salto) + ~15 micro rides at CLP 330–520. The Plan is walkable"},
+    "coworking": {"usd": 65,  "party": "perPersonDiscounted", "source": "bexcowork.cl", "asOf": "2026-10", "confidence": "high", "note": "~CLP 64,000: Bex Cowork (5 Norte) Gold plan CLP 59,990/mo, 24/7 access; few other spaces publish prices"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "entel.cl", "asOf": "2026-10", "confidence": "high", "note": "Entel prepaid Recarga Mágica CLP 10,000: 50 GB + 700 min for 30 days"},
+    "misc":      {"usd": 130, "party": "perPersonDiscounted", "source": "numbeo.com / estimated", "asOf": "2026-10", "confidence": "low", "note": "~CLP 128,000: gym $42.89 (Numbeo) + toiletries, outings, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "Editorial: January–February is the beach peak, when owners pull furnished flats off annual leases for summer rentals (hence 'March to December' leases); December rises into New Year's; the rest of the year is a soft long-lease market.",
+    "values": [1.35, 1.35, 1.05, 0.95, 0.95, 0.95, 1.0, 0.95, 1.0, 0.95, 1.0, 1.15]
+  },
+  "evidence": [
+    {"claim": "114 furnished 1-bedroom rentals in Viña; median of 47 sampled asking prices CLP 560,000 (range 340k student lofts to 775k Barrio Poniente)", "quote": "Departamento en Arriendo en Viña Del Mar, 1 dormitorio 114 resultados", "source": "portalinmobiliario.com", "url": "https://www.portalinmobiliario.com/arriendo/departamento/1-dormitorio/vina-del-mar-valparaiso/_FURNISHED_242085", "date": "2026-10", "confidence": "high"},
+    {"claim": "examples: furnished 1D1B sea view on Av. San Martín CLP 590,000; furnished 5 Poniente 45 m² CLP 700,000; furnished centre lease 'Marzo Dic 2027' CLP 550,000", "quote": "Depto 1d1b Amoblado Con Vista Al Mar Frente Playa | $ 590.000", "source": "portalinmobiliario.com", "url": "https://www.portalinmobiliario.com/arriendo/departamento/1-dormitorio/vina-del-mar-valparaiso/_FURNISHED_242085", "date": "2026-10", "confidence": "high"},
+    {"claim": "USD/CLP dólar observado 983.84 (2 Oct 2026)", "quote": "{\"fecha\":\"2026-10-02T03:00:00.000Z\",\"valor\":983.84}", "source": "mindicador.cl (Banco Central series)", "url": "https://mindicador.cl/api/dolar", "date": "2026-10", "confidence": "high"},
+    {"claim": "Metro Valparaíso monthly pass zone A (Valparaíso–Viña) CLP 20,500; 2 zones CLP 38,000", "quote": "Zona A (Puerto–El Salto): CLP 20.500", "source": "mapa-metro.com", "url": "https://mapa-metro.com/es/Chile/Valparaiso/Valparaiso-Metro-mapa.htm", "date": "2026", "confidence": "med"},
+    {"claim": "Gran Valparaíso micro adult fares from 28 Feb 2026: CLP 330–520 depending on line", "quote": "$450 adulto", "source": "elmostrador.cl", "url": "https://www.elmostrador.cl/datos-utiles/2026/03/01/valparaiso-suben-tarifas-del-transporte-publico-desde-el-28-de-febrero/", "date": "2026-03", "confidence": "med"},
+    {"claim": "Bex Cowork (5 Norte 342, Viña): Gold CLP 59,990/mo with 24/7 access; Platinum CLP 36,990 for 8 visits; Gold+Gym CLP 79,990", "quote": "Acceso 24/7 mensual sin restricciones de horario", "source": "bexcowork.cl", "url": "https://bexcowork.cl/", "date": "2026-10", "confidence": "high"},
+    {"claim": "Entel prepaid: Recarga Mágica CLP 10,000 for 50 GB + 700 min, 30 days", "quote": "50 GB + 700 minutos + Redes sociales libres", "source": "entel.cl", "url": "https://www.entel.cl/prepago/bolsas", "date": "2026-10", "confidence": "high"},
+    {"claim": "Numbeo Viña del Mar: single person ~$668/mo excl. rent; inexpensive meal $8.07; utilities 85 m² $108.14; internet $17.41; gym $42.89 (only 6 contributors)", "quote": "Single person monthly costs (excluding rent): $668.4", "source": "numbeo.com", "url": "https://www.numbeo.com/cost-of-living/in/Vina-Del-Mar?displayCurrency=USD", "date": "2026-10", "confidence": "low"}
+  ]
+}

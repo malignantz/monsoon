@@ -1,0 +1,322 @@
+{
+  "$schema": "./_schema.json",
+  "name": "Dakar",
+  "country": "Senegal",
+  "iso3": "SEN",
+  "region": "Africa",
+  "lat": 14.7167,
+  "lng": -17.4677,
+  "coordsNote": "Plateau (city centre). Long-stay visitors mostly base in Almadies, Ngor and Mermoz, 8–12 km north-west on the same peninsula; climate is near-identical.",
+  "timezone": "UTC+0",
+  "schengen": false,
+  "visa": {
+    "US": {
+      "visaFree": true,
+      "days": 90,
+      "note": "Visa-free up to 90 days; passport valid 6+ months and a yellow-fever vaccination card required."
+    },
+    "UK": {
+      "visaFree": true,
+      "days": 90,
+      "note": "Visa-free up to 3 months; may be asked for onward/return ticket and accommodation proof. Longer stays need a carte d'étranger."
+    },
+    "EU": {
+      "visaFree": true,
+      "days": 90,
+      "note": "Visa-free under 3 months (confirmed for France on 29 Sep 2026); a resident card is needed beyond that."
+    },
+    "AU": {
+      "visaFree": true,
+      "days": 90,
+      "note": "Visa-free up to 90 days per Senegal's exemption list (secondary source); Smartraveller defers to Senegal's embassy — confirm before travel."
+    }
+  },
+  "visaSources": [
+    {
+      "title": "U.S. State Dept country information — Senegal (official data feed)",
+      "url": "https://cadataapi.state.gov/api/CountryTravelInformation",
+      "accessed": "2026-10-03",
+      "quote": "U.S. citizens do not need a visa to enter Senegal for stays up to 90 days.",
+      "note": "Senegal entry last updated Dec 04, 2025; travel.state.gov page itself behind a bot check."
+    },
+    {
+      "title": "GOV.UK — Senegal entry requirements",
+      "url": "https://www.gov.uk/foreign-travel-advice/senegal/entry-requirements",
+      "accessed": "2026-10-03",
+      "quote": "You can visit Senegal without a visa for up to 3 months."
+    },
+    {
+      "title": "France Diplomatie — Sénégal, entrée / séjour",
+      "url": "https://www.diplomatie.gouv.fr/fr/information-par-pays/senegal/conseils-aux-voyageurs-entree-sejour",
+      "accessed": "2026-10-03",
+      "quote": "Pour un séjour de moins de 3 mois, les ressortissants français sont exemptés de visa.",
+      "note": "Page updated 29 Sep 2026."
+    },
+    {
+      "title": "Smartraveller — Senegal (Visas and border measures)",
+      "url": "https://www.smartraveller.gov.au/destinations/africa/senegal",
+      "accessed": "2026-10-03",
+      "quote": "Contact an Embassy or Consulate of Senegal for entry and exit details about visas",
+      "note": "No explicit AU rule on the page."
+    },
+    {
+      "title": "Wikipedia — Visa policy of Senegal",
+      "url": "https://en.wikipedia.org/wiki/Visa_policy_of_Senegal",
+      "accessed": "2026-10-03",
+      "note": "Secondary: lists Australia, US, UK and all EU states as visa-exempt for 90 days."
+    }
+  ],
+  "english": {
+    "tier": 1,
+    "note": "Tourist zones",
+    "rationale": "Senegal is in EF EPI's low band (score 442; Dakar 459). French and Wolof are the working languages; English is workable in Almadies/Ngor hotels, surf camps and expat businesses but thin elsewhere, so no expat-hub bump.",
+    "sources": [
+      {
+        "title": "EF EPI — Senegal",
+        "url": "https://www.ef.com/wwen/epi/regions/africa/senegal/",
+        "accessed": "2026-10-03",
+        "quote": "EF EPI score: 442",
+        "note": "City table lists Dakar at 459."
+      }
+    ]
+  },
+  "draw": "City / coast & surf",
+  "vibe": "Breezy Atlantic peninsula capital: surf breaks, live music, a serious art scene",
+  "narrative": "A breezy Atlantic peninsula where the Ngor and Ouakam surf breaks, Almadies seafood shacks and the ferry to Gorée Island sit beside a big live-music scene and the Dak'Art contemporary-art biennale. Dry and pleasant November–May, but it is an expensive city for expats, French or Wolof beats English, and robbery along the Corniche after dark is a real concern.",
+  "activities": {
+    "adventure": 2,
+    "culture": 3,
+    "nomad": 1,
+    "wellness": 1,
+    "water": 2,
+    "food": 2,
+    "nature": 1,
+    "nightlife": 2
+  },
+  "season": {
+    "months": [
+      "Peak",
+      "Peak",
+      "In",
+      "In",
+      "Shoulder",
+      "Shoulder",
+      "Off",
+      "Off",
+      "Off",
+      "Shoulder",
+      "In",
+      "Peak"
+    ],
+    "rationale": "Dry season runs November–May and is the tourist high season; November–February is the coolest and most popular. The rainy hivernage (roughly July–October in Dakar, heaviest August–September) is hot, humid and quiet. Much of Dakar's visitor flow is business/expat, so swings are milder than at a beach resort.",
+    "sources": [
+      {
+        "title": "Lonely Planet (FR) — quand partir au Sénégal",
+        "url": "https://www.lonelyplanet.fr/destinations/afrique/senegal/quand-partir",
+        "accessed": "2026-10-03",
+        "quote": "de novembre à février pendant la saison sèche, quand la température demeure assez fraîche"
+      },
+      {
+        "title": "Seneweb — ANACIM: les deux mois dangereux (hivernage)",
+        "url": "https://www.seneweb.com/news/Societe/inondations-les-deux-mois-dangereux-que-_n_439593.html",
+        "accessed": "2026-10-03",
+        "note": "ANACIM: August–September is the peak-rain, peak-flood phase."
+      }
+    ]
+  },
+  "hazards": [
+    {
+      "months": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "level": 1,
+      "note": "Harmattan / Saharan dust",
+      "source": {
+        "title": "Le Soleil — ANACIM alert: dust wave over Senegal incl. Dakar (Dec 2024)",
+        "url": "https://lesoleil.sn/actualites/environnement/alerte-meteo-vague-de-poussiere-et-baisse-des-temperatures-selon-lanacim/",
+        "accessed": "2026-10-03",
+        "quote": "une importante vague de poussière s'étend actuellement sur la moitié nord du pays et devrait s'intensifier sur l'ensemble du territoire",
+        "note": "Harmattan dust episodes recur in the dry season; Dakar is listed among the most affected areas in this alert."
+      }
+    },
+    {
+      "months": [
+        8,
+        9
+      ],
+      "level": 1,
+      "note": "Rainy season (flash floods)",
+      "source": {
+        "title": "Seneweb — ANACIM: August and September the most dangerous months for flooding",
+        "url": "https://www.seneweb.com/news/Societe/inondations-les-deux-mois-dangereux-que-_n_439593.html",
+        "accessed": "2026-10-03",
+        "quote": "entre août et septembre, selon Diablel Ndiaye, l'hivernage sera dans sa deuxième phase avec des niveaux de pluies dans certaines zones supérieurs à 75 mm"
+      }
+    }
+  ],
+  "swim": {
+    "body": "sea",
+    "name": "Atlantic (Ngor, Virage, N'Gor island)",
+    "months": [
+      1,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "note": "Feb–Apr ~20–21 °C with cool trade winds; strong rip currents on open beaches — Smartraveller reports rising drownings.",
+    "source": {
+      "title": "World Sea Temperatures — Dakar",
+      "url": "https://www.seatemperature.org/africa/senegal/dakar.htm",
+      "accessed": "2026-10-03",
+      "quote": "the warmest water temperature is in September with an average around 83.5°F/28.6°C",
+      "note": "Monthly means: Jan 23.2, Feb 21.2, Mar 20.4, Apr 21.1, May 22.9, Jun 26.4 … Oct 28.6, Dec 25.1 °C."
+    }
+  },
+  "events": [
+    {
+      "name": "Ramadan & Korité",
+      "months": [
+        2,
+        3
+      ],
+      "tier": 2,
+      "blurb": "the fasting month and Eid al-Fitr; Korité fell on 21 Mar 2026 and falls on 9 Mar 2027",
+      "source": {
+        "title": "Office Holidays — Senegal 2026",
+        "url": "https://www.officeholidays.com/countries/senegal/2026",
+        "accessed": "2026-10-03",
+        "note": "Korité 2026: March 21; 2027 page lists March 9, 2027."
+      }
+    },
+    {
+      "name": "Tabaski (Eid al-Adha)",
+      "months": [
+        5
+      ],
+      "tier": 2,
+      "blurb": "Senegal's biggest family feast; much of Dakar travels home and businesses close (27 May 2026, 16 May 2027)",
+      "source": {
+        "title": "Office Holidays — Senegal 2027",
+        "url": "https://www.officeholidays.com/countries/senegal/2027",
+        "accessed": "2026-10-03",
+        "note": "Tabaski 2027: Sunday, May 16; 2026 page lists May 27."
+      }
+    },
+    {
+      "name": "Dak'Art — Biennale of Contemporary African Art",
+      "months": [
+        11,
+        12
+      ],
+      "tier": 2,
+      "blurb": "biennial (even years); the 16th edition runs 19 Nov–19 Dec 2026",
+      "source": {
+        "title": "Le Soleil — Dak'Art 2026 dates",
+        "url": "https://lesoleil.sn/actualites/arts-et-culture/arts-contemporains-africains-la-biennale-prevue-a-dakar-du-19-novembre-au-19-decembre-2026/",
+        "accessed": "2026-10-03",
+        "quote": "La 16ᵉ édition de la Biennale de l'Art africain contemporain se tiendra du 19 novembre au 19 décembre 2026 à Dakar."
+      }
+    },
+    {
+      "name": "Independence Day",
+      "months": [
+        4
+      ],
+      "tier": 1,
+      "blurb": "4 April national holiday and parade",
+      "source": {
+        "title": "Office Holidays — Senegal 2026",
+        "url": "https://www.officeholidays.com/countries/senegal/2026",
+        "accessed": "2026-10-03",
+        "note": "Independence Day April 4."
+      }
+    }
+  ],
+  "safety": {
+    "propertySub": 48,
+    "propertyNote": "Street robbery (sometimes armed), bag-snatching from scooters, home burglary",
+    "womensAdj": -5,
+    "womensSafetyNote": "Sexual assault rarely prosecuted; women advised not to walk alone, incl. on beaches",
+    "touristMod": 0.95,
+    "touristRationale": "Foreigners are specifically targeted at night and on the tourist Corniche; airport extortion and bogus-taxi scams are common.",
+    "touristTags": [
+      "petty-theft",
+      "bag-snatching",
+      "scams-common",
+      "protest-unrest"
+    ],
+    "homicideOverride": null,
+    "rationale": {
+      "property": "Editorial estimate: US, UK, AU and French advisories all describe robbery/assault (sometimes armed), motorbike bag-snatching and night-time burglary as common and rising in Dakar, a more violent profile than Marrakech's scams and pickpocketing (55) but far from Cape Town (40); set at 48, near Mexico City (45).",
+      "tourist": "0.95 like Marrakech: the U.S. notes robberies on the Corniche d'Ouest, an area frequented by Westerners; Smartraveller says criminals target foreigners at night and flags airport extortion and unlicensed-taxi overcharging.",
+      "womens": "-5 on the country baseline: no advisory singles out harassment of women the way Morocco's do, but Smartraveller says sexual assault is rarely prosecuted and advises against walking alone, including on beaches."
+    },
+    "calibratedAgainst": [
+      "Marrakech",
+      "Cape Town",
+      "Mexico City"
+    ],
+    "consulted": [
+      {
+        "title": "U.S. State Dept travel advisories (official data feed) — Senegal entry",
+        "url": "https://cadataapi.state.gov/api/TravelAdvisories",
+        "accessed": "2026-10-03",
+        "quote": "Exercise normal precautions in Senegal. Exercise increased caution in the Casamance region due to crime and landmines.",
+        "note": "travel.state.gov page behind a bot check; RSS pubDate Mon 01 Dec 2025."
+      },
+      {
+        "title": "U.S. State Dept country information — Senegal, safety and security",
+        "url": "https://cadataapi.state.gov/api/CountryTravelInformation",
+        "accessed": "2026-10-03",
+        "quote": "Robberies occur regularly along the Corniche d’Ouest, an area heavily frequented by tourists and westerners."
+      },
+      {
+        "title": "UK FCDO — Senegal safety and security",
+        "url": "https://www.gov.uk/foreign-travel-advice/senegal/safety-and-security",
+        "accessed": "2026-10-03",
+        "quote": "Street crime like pickpocketing and bag-snatching is also on the increase in Dakar."
+      },
+      {
+        "title": "Smartraveller — Senegal",
+        "url": "https://www.smartraveller.gov.au/destinations/africa/senegal",
+        "accessed": "2026-10-03",
+        "quote": "In Dakar, muggings and robberies are common, including in areas frequented by tourists.",
+        "note": "Overall: Exercise a high degree of caution (civil unrest, crime); updated 06 May 2026."
+      },
+      {
+        "title": "France Diplomatie — Sénégal, sécurité",
+        "url": "https://www.diplomatie.gouv.fr/fr/information-par-pays/senegal/conseils-aux-voyageurs-securite",
+        "accessed": "2026-10-03",
+        "quote": "Des vols avec agression ainsi que des cambriolages peuvent se produire, de jour comme de nuit.",
+        "note": "Dakar in the yellow (vigilance renforcée) zone."
+      },
+      {
+        "title": "U.S. State Department travel advisories RSS feed (official)",
+        "url": "https://travel.state.gov/_res/rss/TAsTWs.xml",
+        "accessed": "2026-10-03",
+        "note": "Senegal: Level 1, dated 2025-12-01; destination page https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.sen.html"
+      }
+    ],
+    "advisory": {
+      "level": 1,
+      "text": "Exercise normal precautions",
+      "date": "2025-12-01",
+      "url": "https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.sen.html",
+      "risks": [],
+      "regionalLevel": 1,
+      "localLevel": 1,
+      "localArea": null
+    }
+  },
+  "selection": "West Africa's most established expat/surf/remote-work city: dry, breezy Nov–May, fills a thin Africa region (two cities today), and gives a winter-sun option a short flight from Europe.",
+  "asOf": "2026-10",
+  "researchNotes": "Advisory: Senegal is Level 1 country-wide; only the Casamance region (far south, not Dakar) is Level 2 for crime and landmines, so risks[] is left empty for Dakar (the page's only indicators, Crime and Landmines, are Casamance-specific). travel.state.gov returned a bot check; level/text/date from the official advisory feed (published 2025-11-30T19:00-05:00 = 01 Dec 2025 UTC; RSS pubDate Mon 01 Dec 2025). Other governments are stricter: Smartraveller 'high degree of caution' (unrest + crime), France yellow zone for Dakar. Visa: in Aug 2025 the PM announced a reciprocity-based e-visa; as of 29 Sep 2026 France Diplomatie and GOV.UK still show visa-free stays under 3 months and the U.S. feed shows 90 days, so treated as not implemented — recheck before launch. AU rule is not stated on an official page I could open (Smartraveller defers to Senegal's embassy); recorded as visa-free 90 days from the exemption list (secondary). Yellow-fever card: the U.S. page lists it as required for entry. Homicide override left null: no citable Dakar or regional homicide rate found. Swim: satellite SSTs may run warm near shore in the Feb–Apr upwelling season; months kept conservative. Harmattan hazard may overlap the pipeline's CAMS PM2.5 (dust is included there); kept because the brief calls it out. One-off: the 2026 Youth Olympic Games (31 Oct–13 Nov 2026) will tighten short-let supply in Oct–Nov 2026 only; not listed as an event."
+}

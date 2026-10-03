@@ -7,6 +7,9 @@ noted in the string where the country observes it. City-level exceptions cover
 multi-zone countries (Canary Islands, Madeira, Yucatán). Idempotent.
 """
 import json, os
+import sys as _sys
+_sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from city_inputs import managed_names  # cities owned by add_city.py are skipped (never clobbered)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data", "travel-data.json")
@@ -50,8 +53,11 @@ CITY_TZ = {
 
 def main():
     d = json.load(open(DATA))
+    managed = managed_names()
     missing = []
     for c in d["cities"]:
+        if c["name"] in managed:
+            continue
         tz = CITY_TZ.get(c["name"]) or COUNTRY_TZ.get(c["country"])
         if not tz:
             missing.append(f"{c['name']} ({c['country']})")

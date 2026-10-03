@@ -1,0 +1,33 @@
+{
+  "city": "Galle",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-10",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 450, "party": "shared",              "source": "ikman.lk; nomads.com; lankawebsites.com", "asOf": "2026-10", "confidence": "low", "note": "furnished 1BR (AC) in Galle/Unawatuna, ~149,000 LKR at 330.4 LKR/USD. Local-market furnished 1BR on ikman ~Rs 90,000 ($272); foreigner-targeted Fort/beach units $400-700; nomads.com 1BR $531. Thin listing base, so the figure is mostly editorial"},
+    "utilities": {"usd": 70,  "party": "shared",              "source": "lankawebsites.com", "asOf": "2026-01", "confidence": "low", "note": "electric (AC) + water + fibre; guide range $50-90; often bundled into foreigner rentals"},
+    "groceries": {"usd": 130, "party": "perPerson",           "source": "lankawebsites.com", "asOf": "2026-01", "confidence": "low", "note": "single person cooking at home $100-160; imported goods cost more"},
+    "diningOut": {"usd": 160, "party": "perPerson",           "source": "lankawebsites.com; nomads.com", "asOf": "2026-10", "confidence": "low", "note": "rice-and-curry/local meals $1.50-3, café/restaurant mains $4-10 in the Fort and Unawatuna"},
+    "transit":   {"usd": 50,  "party": "perPerson",           "source": "lankawebsites.com; nomads.com", "asOf": "2026-10", "confidence": "low", "note": "tuk-tuks (~$1 a short trip), buses and the coast train; guide range $20-60; scooter rental would add more"},
+    "coworking": {"usd": 110, "party": "perPersonDiscounted", "source": "nomads.com; nomad.watch", "asOf": "2026-10", "confidence": "low", "note": "café-scale spaces; crowd figure $120/mo; Abode Ahangama day pass ~3,500 LKR (~$10.60); no operator monthly price page found"},
+    "simData":   {"usd": 7,   "party": "perPerson",           "source": "dialog.lk", "asOf": "2026-10", "confidence": "high", "note": "Dialog 40GB / 30 days Rs 1,995 incl. taxes"},
+    "misc":      {"usd": 80,  "party": "perPersonDiscounted", "source": "editorial", "asOf": "2026-10", "confidence": "low", "note": "toiletries, gym/yoga drop-ins, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "Rent-only multipliers Jan..Dec. South-west coast season Dec-Mar (SLTDA leisure arrivals peak Dec-Mar, trough May-Jun with the SW monsoon); Oct-Nov inter-monsoon rains keep the south coast soft until December.",
+    "values": [1.3, 1.3, 1.15, 1.0, 0.75, 0.75, 0.85, 0.85, 0.75, 0.8, 0.95, 1.3]
+  },
+  "evidence": [
+    {"claim": "ikman.lk Galle district furnished apartments: 1BR newly built Rs 90,000/mo; 2BR Thalpe Rs 100,000; foreigner-targeted Oceanfront 2BR Rs 395,000-396,000", "quote": "Newly Built Furnished Apartment for Rent – Galle Beds: 1 | Baths: 1 ... Rs 90,000 /month", "source": "ikman.lk", "url": "https://ikman.lk/en/ads/galle/apartment-rentals", "date": "2026-10", "confidence": "med"},
+    {"claim": "Fort/beachfront renovated apartments ask $400-700/mo; better-located modern units $250-400; utilities $50-90", "quote": "renovated character apartments and small houses commonly ask US$400–700 per month", "source": "lankawebsites.com", "url": "https://lankawebsites.com/home-and-life-style/realistic-cost-of-living-in-colombo-kandy-galle-and-jaffna-in-2026/", "date": "2026-01", "confidence": "low"},
+    {"claim": "Home cooking $100-160/mo; local meals $1.50-3; café mains $4-10; transport $20-60/mo", "quote": "a single person cooking at home can keep monthly food costs around US$100–160", "source": "lankawebsites.com", "url": "https://lankawebsites.com/home-and-life-style/realistic-cost-of-living-in-colombo-kandy-galle-and-jaffna-in-2026/", "date": "2026-01", "confidence": "low"},
+    {"claim": "Crowd-sourced: 1BR $531, coworking $120, nomad total $1,119/mo, dinner $2, taxi ~$1 a trip", "quote": "1BR apartment rent: $531 / month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/galle", "date": "2026-10", "confidence": "low"},
+    {"claim": "Weligama cross-check: 1BR $422, coworking $161", "quote": "Coworking hot desk: $161 / month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/weligama", "date": "2026-10", "confidence": "low"},
+    {"claim": "Ahangama coworking day pass ~3,500 LKR (Abode Ahangama)", "quote": "Abode Ahangama (Day pass approx. 3,500 LKR)", "source": "nomad.watch", "url": "https://nomad.watch/cities/LK/ahangama/guide", "date": "2026-10", "confidence": "low"},
+    {"claim": "Editorial mid-tier budget cross-check: rent $500, groceries $200, dining $180, transport $60, utilities $80, coworking $120", "quote": "monthly hot-desk membership $120", "source": "nomada.tools", "url": "https://nomada.tools/tools/cost-of-living/galle", "date": "2026-05", "confidence": "low"},
+    {"claim": "Dialog prepaid 40GB/30 days Rs 1,995 (taxes included)", "quote": "All prices are inclusive of taxes.", "source": "dialog.lk", "url": "https://www.dialog.lk/mobile-broadband/prepaid/plan/mobile-data-plans", "date": "2026-10", "confidence": "high"},
+    {"claim": "Seasonality basis: leisure arrivals lowest May-Jun with the SW monsoon on the south/west coasts", "quote": "May and June represent the lowest point for leisure travel", "source": "sltda.gov.lk", "url": "https://www.sltda.gov.lk/storage/common_media/Year_in_Review_2025_Final_updated_Report_2026_04_02.pdf", "date": "2026-04", "confidence": "high"},
+    {"claim": "Exchange rate used: 1 USD = 330.4 LKR (3 Oct 2026)", "quote": "\"LKR\": 330.410801", "source": "open.er-api.com", "url": "https://open.er-api.com/v6/latest/USD", "date": "2026-10", "confidence": "high"}
+  ]
+}

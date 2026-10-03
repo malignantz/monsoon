@@ -27,6 +27,10 @@
     "rate": 19.28,
     "year": "2023"
   },
+  "CAN": {
+    "rate": 1.98,
+    "year": "2023"
+  },
   "CHE": {
     "rate": 0.6,
     "year": "2023"
@@ -112,10 +116,27 @@
     "rate": 0.57,
     "year": "2023"
   },
+  "JPN": {
+    "rate": 0.23,
+    "year": "2023"
+  },
+  "KAZ": {
+    "rate": 2.55,
+    "year": "2022"
+  },
   "KHM": {
     "rate": 1.82,
     "year": "2021",
     "source": "WHO GHO homicide estimate 2021 (CI 0.9-3.2); WB/UNODC submission stale (2011)"
+  },
+  "KOR": {
+    "rate": 0.48,
+    "year": "2023"
+  },
+  "LKA": {
+    "rate": 1.85,
+    "year": "2021",
+    "source": "WHO GHO homicide estimate 2021 (CI 0.9-3.0); WB/UNODC submission stale (2019)"
   },
   "LTU": {
     "rate": 2.63,
@@ -168,6 +189,11 @@
   "ROU": {
     "rate": 1.11,
     "year": "2023"
+  },
+  "SEN": {
+    "rate": 7.91,
+    "year": "2021",
+    "source": "WHO GHO homicide estimate 2021 (CI 3.8-14.0); WB/UNODC submission stale (2015: 0.27, implausibly low)"
   },
   "SRB": {
     "rate": 1.31,

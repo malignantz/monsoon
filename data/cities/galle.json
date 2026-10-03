@@ -1,0 +1,265 @@
+{
+  "name": "Galle",
+  "country": "Sri Lanka",
+  "iso3": "LKA",
+  "region": "S Asia",
+  "lat": 6.0535,
+  "lng": 80.221,
+  "coordsNote": "Galle Fort. The nomad/surf scene is along the coast: Unawatuna (~6 km east), Ahangama and Weligama (~20–30 km east).",
+  "timezone": "UTC+5:30",
+  "schengen": false,
+  "visa": {
+    "US": {
+      "visaFree": false,
+      "days": 30,
+      "note": "Free ETA (apply online before arrival): 30 days, double entry, free since 25 May 2026; extendable for a fee at the Department of Immigration (up to 270 days in total)."
+    },
+    "UK": {
+      "visaFree": false,
+      "days": 30,
+      "note": "Free ETA (apply online before arrival): 30 days, double entry, free since 25 May 2026; extendable for a fee at the Department of Immigration (up to 270 days in total)."
+    },
+    "EU": {
+      "visaFree": false,
+      "days": 30,
+      "note": "ETA required, 30 days, double entry. Free since 25 May 2026 only for Austria, Belgium, Czech Republic, Denmark, Finland, France, Germany, Italy, Netherlands, Poland, Spain and Sweden; other EU passports pay the standard ETA fee. Extendable for a fee."
+    },
+    "AU": {
+      "visaFree": false,
+      "days": 30,
+      "note": "Free ETA (apply online before arrival): 30 days, double entry, free since 25 May 2026; extendable for a fee at the Department of Immigration (up to 270 days in total)."
+    }
+  },
+  "visaSources": [
+    {
+      "title": "Sri Lanka ETA — official (Department of Immigration & Emigration)",
+      "url": "https://www.eta.gov.lk/slvisa/",
+      "accessed": "2026-10-03",
+      "quote": "tourists are entitled to a free visa valid for 30 days...with double-entry facility permitted from the date of first arrival.",
+      "note": "Effective 25.05.2026 for 40 countries incl. United States, United Kingdom, Australia and 12 EU states; all foreign nationals must still obtain an ETA before arrival. No end date stated."
+    },
+    {
+      "title": "Department of Immigration & Emigration — visa extension",
+      "url": "https://www.immigration.gov.lk/pages_e.php?id=45",
+      "accessed": "2026-10-03",
+      "quote": "ETA or on arrival visa valid up to 30 days only. If the tourist stays more than 30 days, 30 day tourist visa should be extended.",
+      "note": "Extension fee table by nationality; extensions run up to 270 days from arrival."
+    }
+  ],
+  "english": {
+    "tier": 2,
+    "note": "Good in town (expat hub — above national average)",
+    "rationale": "Sri Lanka is in the moderate band on the EF EPI 2025 (score 486, rank 73), which maps to tier 1 in scripts/add_english.py. English is a widely used link language, and the Galle Fort–Unawatuna–Ahangama strip runs on foreign tourism and long-stay surfers/nomads, so +1 for the tourist/expat economy.",
+    "sources": [
+      {
+        "title": "EF EPI 2025 — Sri Lanka",
+        "url": "https://www.ef.com/wwen/epi/regions/asia/sri-lanka/",
+        "accessed": "2026-10-03",
+        "quote": "Global ranking: #73; EF EPI score: 486"
+      }
+    ]
+  },
+  "draw": "Culture / south coast",
+  "vibe": "Walled Dutch-era fort town with surf beaches and a nomad strip nearby",
+  "narrative": "A UNESCO-listed fort of ramparts, churches and colonial villas on a headland, with Unawatuna's bay a few kilometres east and the surf-and-café strip of Ahangama and Weligama 20–30 km along the coast. It is a Dec–Apr base: the May–Sep south-west monsoon and the Oct–Nov inter-monsoon rains bring rough seas, and coworking is café-scale rather than a deep hub.",
+  "activities": {
+    "adventure": 2,
+    "culture": 3,
+    "nomad": 2,
+    "wellness": 2,
+    "water": 3,
+    "food": 2,
+    "nature": 2,
+    "nightlife": 1
+  },
+  "season": {
+    "months": [
+      "Peak",
+      "Peak",
+      "In",
+      "Shoulder",
+      "Off",
+      "Off",
+      "Shoulder",
+      "Shoulder",
+      "Off",
+      "Off",
+      "Shoulder",
+      "Peak"
+    ],
+    "rationale": "Editorial estimate. Sri Lanka's leisure arrivals peak Dec–Mar and bottom out in May–Jun, when the south-west monsoon reaches the south and west coasts (SLTDA 2025). Jul–Aug arrivals recover but mostly head for the east coast, so Galle is only Shoulder then. Oct–Nov inter-monsoon rains keep the south coast quiet until December.",
+    "sources": [
+      {
+        "title": "SLTDA — Year in Review 2025",
+        "url": "https://www.sltda.gov.lk/storage/common_media/Year_in_Review_2025_Final_updated_Report_2026_04_02.pdf",
+        "accessed": "2026-10-03",
+        "quote": "May and June represent the lowest point for leisure travel, which corresponds with the onset of the southwest monsoon in the south and west coasts",
+        "note": "Pleasure/vacation arrivals 2025: Dec 181,945; Jan 133,063; Feb 132,507; Mar 127,781; May 68,273; Jun 68,809."
+      }
+    ]
+  },
+  "hazards": [
+    {
+      "months": [
+        5,
+        6
+      ],
+      "level": 1,
+      "note": "Southwest monsoon (rough seas)",
+      "source": {
+        "title": "Department of Census and Statistics — Statistical Abstract 2024, ch. 1 (Climate)",
+        "url": "https://www.statistics.gov.lk/abstract2024/chapter1",
+        "accessed": "2026-10-03",
+        "quote": "Rainfall during the South - west monsoon is mostly over the South - western parts of the Island.",
+        "note": "SW monsoon May–Sep; flagged at onset (May–Jun) when rain and surf on the south-west coast are heaviest. FCDO notes dangerous surf and rip tides at certain times of year."
+      }
+    },
+    {
+      "months": [
+        10,
+        11
+      ],
+      "level": 1,
+      "note": "Inter-monsoon rains",
+      "source": {
+        "title": "Department of Census and Statistics — Statistical Abstract 2024, ch. 1 (Climate)",
+        "url": "https://www.statistics.gov.lk/abstract2024/chapter1",
+        "accessed": "2026-10-03",
+        "quote": "Taking the Island as a whole, this is the rainiest period of the year.",
+        "note": "Second inter-monsoon, October–November."
+      }
+    }
+  ],
+  "swim": {
+    "body": "sea",
+    "name": "Indian Ocean (Unawatuna Bay)",
+    "months": [
+      11,
+      12,
+      1,
+      2,
+      3,
+      4
+    ],
+    "note": "Water is 27–30 °C all year, but the May–Sep south-west monsoon brings heavy surf and rips to this coast",
+    "source": {
+      "title": "seatemperature.org — Galle",
+      "url": "https://www.seatemperature.org/asia/sri-lanka/galle.htm",
+      "accessed": "2026-10-03",
+      "quote": "The coldest month is January with an average water temperature of",
+      "note": "January 27.6 °C; warmest late April ~29.8 °C. Months limited to the calm-sea season."
+    }
+  },
+  "events": [
+    {
+      "name": "Galle Literary Festival",
+      "months": [
+        1
+      ],
+      "tier": 2,
+      "blurb": "four days of talks and performances inside Galle Fort",
+      "source": {
+        "title": "ARTRA — Galle Literary Festival 13th edition, 22–25 January 2026",
+        "url": "https://www.artra.lk/voices-across-the-fort-galle-literary-festival-13th-edition-22-25-january-2026/",
+        "accessed": "2026-10-03",
+        "quote": "the streets of the UNESCO-listed Galle Fort",
+        "note": "Opening night 21 Jan; main festival 22–25 Jan 2026."
+      }
+    },
+    {
+      "name": "Sinhala and Tamil New Year (Avurudu)",
+      "months": [
+        4
+      ],
+      "tier": 2,
+      "blurb": "national New Year holiday with family rituals and village games",
+      "source": {
+        "title": "Ada Derana — Sinhala and Tamil New Year dawns",
+        "url": "https://www.adaderana.lk/news/121210/sinhala-and-tamil-new-year-dawns",
+        "accessed": "2026-10-03",
+        "quote": "The Sinhala and Tamil New Year has dawned today (14), at 9.32 a.m.",
+        "note": "14 April 2026; fixed by astrological time each year in mid-April."
+      }
+    },
+    {
+      "name": "Vesak",
+      "months": [
+        5,
+        6
+      ],
+      "tier": 2,
+      "blurb": "Buddhist full-moon festival of lanterns and dansal food stalls",
+      "source": {
+        "title": "Ada Derana — State Vesak Festival to be held on May 30",
+        "url": "https://www.adaderana.lk/news/117551/state-vesak-festival-to-be-held-on-may-30-minister",
+        "accessed": "2026-10-03",
+        "quote": "this year's State Vesak Festival will be held on May 30, 2026.",
+        "note": "Lunar: the May full moon; Vesak week can run into early June."
+      }
+    }
+  ],
+  "safety": {
+    "propertySub": 66,
+    "propertyNote": "Opportunistic theft, motorbike bag-snatching, card fraud, tuk-tuk overcharging",
+    "womensAdj": -5,
+    "womensSafetyNote": "Sexual harassment of women travellers reported; caution on buses and in crowds",
+    "touristMod": 1.0,
+    "touristRationale": "Visitor risks are petty theft, card fraud and overcharging, already in the property score; no evidence of a visitor-targeted violent risk.",
+    "touristTags": [
+      "petty-theft",
+      "scams-common",
+      "women-safety-caution"
+    ],
+    "homicideOverride": null,
+    "rationale": {
+      "property": "FCDO reports a rise in low-level opportunistic crime, motorbike bag-snatching and common card fraud; the south coast adds tuk-tuk overcharging. A small fort town and beach villages sit around Bali (64) and Dumaguete (64), below Hoi An (72).",
+      "tourist": "Crime against visitors is opportunistic rather than targeted; 1.0, like comparable beach towns.",
+      "womens": "FCDO specifically warns of sexual harassment of women (most reports in crowded places like markets and bus stations) and suggests personal alarms for solo travellers. -5 on the country Gallup baseline, as for Bali's party-scene adjustment."
+    },
+    "calibratedAgainst": [
+      "Hoi An",
+      "Bali (Canggu/Ubud)",
+      "Dumaguete",
+      "Nha Trang"
+    ],
+    "consulted": [
+      {
+        "title": "U.S. State Department travel advisories (official data feed)",
+        "url": "https://cadataapi.state.gov/api/TravelAdvisories",
+        "accessed": "2026-10-03",
+        "quote": "Sri Lanka - Level 2: Exercise Increased Caution",
+        "note": "Due to civil unrest, terrorism and landmines (landmines in northern/eastern areas). travel.state.gov itself served a bot check."
+      },
+      {
+        "title": "UK FCDO — Sri Lanka safety and security",
+        "url": "https://www.gov.uk/foreign-travel-advice/sri-lanka/safety-and-security",
+        "accessed": "2026-10-03",
+        "quote": "There's been an increase in incidents of low-level opportunistic crime",
+        "note": "Also: bank card fraud common; sexual harassment of women; dangerous surf/rip tides on many beaches."
+      },
+      {
+        "title": "U.S. State Department travel advisories RSS feed (official)",
+        "url": "https://travel.state.gov/_res/rss/TAsTWs.xml",
+        "accessed": "2026-10-03",
+        "note": "Sri Lanka: Level 2, dated 2025-10-14; destination page https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.lka.html"
+      }
+    ],
+    "advisory": {
+      "level": 2,
+      "text": "Exercise increased caution",
+      "date": "2025-10-14",
+      "url": "https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.lka.html",
+      "risks": [
+        "Civil unrest",
+        "Terrorism",
+        "Landmines"
+      ],
+      "regionalLevel": 2,
+      "localLevel": 2,
+      "localArea": null
+    }
+  },
+  "selection": "South-coast base and the catalog's first South Asian city; the Dec–Apr dry season on the south-west coast fills the winter window. Comparables: Hoi An, Bali (Canggu/Ubud), Dumaguete.",
+  "asOf": "2026-10",
+  "researchNotes": "Visa: Sri Lanka's free-ETA scheme (from 25 May 2026) covers the US, UK, AU and only 12 EU states; no end date is published, so re-check before shipping updates. visaFree=false because an ETA (pre-arrival authorisation) is still required, as with Vietnam's e-Visa in the catalog. US advisory is country-wide Level 2 with no higher regional level for the south; the advisory text came from cadataapi.state.gov because travel.state.gov served a bot check. The Dept of Meteorology site gave no usable climate text, so the hazard source is the official Statistical Abstract climate chapter. New region 'S Asia'."
+}
