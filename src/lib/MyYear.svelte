@@ -648,9 +648,8 @@
       <div class="preview-msg">
         <span class="preview-eyebrow">Shared itinerary</span>
         <span class="preview-sub">
-          You're viewing a year someone shared.{#if route.stays.length}
-            Your own year ({route.stays.length} {route.stays.length === 1 ? 'stay' : 'stays'}) is kept; Save a copy replaces it.{:else}
-            Save a copy to edit it as your own.{/if}
+          You're viewing a year someone shared.{' '}{#if route.stays.length}
+            Your own year ({route.stays.length} {route.stays.length === 1 ? 'stay' : 'stays'}) is kept; Save a copy replaces it.{:else}Save a copy to edit it as your own.{/if}
         </span>
       </div>
       <div class="preview-act">
