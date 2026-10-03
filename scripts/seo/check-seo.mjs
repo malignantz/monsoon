@@ -19,7 +19,11 @@
 //   • every internal link resolves: to a generated page, a file in dist/, an
 //     id on the same page, or the SPA root — and SPA links with ?city= / ?m= /
 //     ?region= / ?compare= name a real city / month / region slug / 2–3 cities
-//   • og:image / twitter:image on this site point at a file that exists in dist/
+//   • og:image / twitter:image on this site point at a file that exists in dist/;
+//     twitter:image equals og:image; both have alt text; city, month and compare pages
+//     each point at their own /og/<city|best|compare>/<slug>.png (a 1200x630 PNG, read
+//     from the IHDR header), every other page at /og.png; every PNG in dist/og/ is
+//     referenced by some page (no strays)
 // Site-wide:
 //   • sitemap.xml is an index; each child sitemap exists and parses; together
 //     they list every indexable page and the SPA root, once; no noindex page
@@ -36,6 +40,13 @@ const outArg = process.argv.indexOf('--out');
 const dist = join(root, outArg > 0 ? process.argv[outArg + 1] : 'dist');
 const SITE = 'https://monsoon.fyi';
 const MONTH_PARAMS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+// width/height from a PNG's signature + IHDR chunk (no dependency); null if it is not a PNG.
+function pngSize(file) {
+  const b = readFileSync(file);
+  if (b.length < 24 || b.readUInt32BE(0) !== 0x89504e47 || b.readUInt32BE(4) !== 0x0d0a1a0a || b.toString('latin1', 12, 16) !== 'IHDR') return null;
+  return { w: b.readUInt32BE(16), h: b.readUInt32BE(20) };
+}
 
 const errors = [];
 const err = (where, msg) => errors.push(`${where}: ${msg}`);
@@ -119,6 +130,7 @@ const WANT = {
 
 const titles = new Map();
 const noindexPages = new Set();
+const referencedOg = new Set(); // share-image URL paths some page points at
 const inbound = new Map([...pages.keys()].map((p) => [p, 0]));
 
 for (const [path, html] of pages) {
@@ -143,6 +155,26 @@ for (const [path, html] of pages) {
     const u = decode(m[1]);
     if (!u.startsWith(SITE + '/')) continue;
     if (!existsSync(join(dist, decodeURIComponent(u.slice(SITE.length))))) err(where, `image ${u} does not exist in dist/`);
+  }
+  // Each city / month / compare page has its own 1200x630 card; the rest use /og.png.
+  const ogImg = decode(/<meta property="og:image" content="([^"]*)"/.exec(html)?.[1] ?? '');
+  const twImg = decode(/<meta name="twitter:image" content="([^"]*)"/.exec(html)?.[1] ?? '');
+  if (twImg !== ogImg) err(where, `twitter:image ${twImg} is not og:image ${ogImg}`);
+  for (const a of ['og:image:alt', 'twitter:image:alt']) {
+    const attr = a.startsWith('og') ? 'property' : 'name';
+    if (!new RegExp(`<meta ${attr}="${a}" content="[^"]{10,}"`).test(html)) err(where, `missing or empty ${a}`);
+  }
+  const ownKind = { city: 'city', month: 'best', compare: 'compare' }[pageType(path)];
+  const wantImg = SITE + (ownKind ? `/og/${ownKind}/${path.split('/')[2]}.png` : '/og.png');
+  if (ogImg !== wantImg) err(where, `og:image ${ogImg} is not ${wantImg}`);
+  else {
+    referencedOg.add(ogImg.slice(SITE.length));
+    const f = join(dist, ogImg.slice(SITE.length));
+    if (existsSync(f)) {
+      const size = pngSize(f);
+      if (!size) err(where, `${ogImg} is not a valid PNG`);
+      else if (size.w !== 1200 || size.h !== 630) err(where, `${ogImg} is ${size.w}x${size.h}, want 1200x630`);
+    }
   }
 
   const types = new Set();
@@ -280,6 +312,18 @@ else {
 }
 if (!existsSync(join(dist, 'og.png'))) err('og.png', 'default share image is missing from dist/');
 
+// No stray share images: every PNG under dist/og/ is some page's og:image.
+const ogFiles = walk(join(dist, 'og'));
+for (const f of ogFiles) {
+  const rel = '/' + f.slice(dist.length + 1);
+  if (!referencedOg.has(rel)) err(rel, 'share image is not referenced by any page (stray)');
+}
+{
+  const f = join(dist, 'og.png');
+  const size = existsSync(f) ? pngSize(f) : null;
+  if (existsSync(f) && (!size || size.w !== 1200 || size.h !== 630)) err('og.png', 'default share image is not a 1200x630 PNG');
+}
+
 const counts = Object.fromEntries(PAGE_TYPES.map((t) => [t, 0]));
 for (const p of pages.keys()) {
   const t = pageType(p);
@@ -293,5 +337,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  `[check:seo] ok — ${pages.size} pages (${counts.city} city, ${counts.month} month, ${counts.region} region, ${counts['best-index']} best index, ${counts['cities-index']} cities index, ${counts.compare} compare, ${counts['compare-index']} compare index): one h1, self-canonical, unique titles, valid JSON-LD, all internal links resolve, no orphans, sitemap index (${indexLocs?.length ?? 0} child sitemaps)/robots/llms consistent`
+  `[check:seo] ok — ${pages.size} pages (${counts.city} city, ${counts.month} month, ${counts.region} region, ${counts['best-index']} best index, ${counts['cities-index']} cities index, ${counts.compare} compare, ${counts['compare-index']} compare index): one h1, self-canonical, unique titles, valid JSON-LD, all internal links resolve, no orphans, ${ogFiles.length} share images (1200x630, one per city/month/compare page, none stray), sitemap index (${indexLocs?.length ?? 0} child sitemaps)/robots/llms consistent`
 );

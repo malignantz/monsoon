@@ -26,6 +26,7 @@ import {
   SITE,
   MONTHS_LONG,
   monthPath,
+  monthSlug,
   cityPath,
   cityYear,
   relatedCities,
@@ -198,6 +199,10 @@ function compareDescription(story) {
   return `${lead.slice(0, DESC_MAX - 1).replace(/[\s,;:–—-]+\S*$/, '')}…`;
 }
 
+// Cells as the share cards need them: the Score the page prints plus its band
+// (the band comes from the unrounded Score, as on the page strip).
+const ogCells = (cells) => cells.map((c) => ({ q: Math.round(c.q), band: c.band }));
+
 const avg = (xs) => xs.reduce((s, x) => s + x, 0) / xs.length;
 const goodMonths = (cells) => cells.filter((c) => c.band === 'great' || c.band === 'good').length;
 
@@ -231,9 +236,10 @@ export function buildSite({ detail, now = new Date() }) {
   };
 
   const out = [];
+  const og = []; // per-page share-image specs: {path, card, data}; scripts/seo/build-seo.mjs renders them (native renderer, so not here)
   const pages = []; // {path, title} for the sitemap / llms.txt
   // opts: { noindex } keeps a page out of every sitemap and adds a robots meta;
-  // { ogImage: '/og/….png' } swaps the default share image.
+  // { ogImage: '/og/….png', ogAlt } swaps the default share image and its alt text.
   const emit = (path, title, description, Component, props, jsonLd, ogType, opts = {}) => {
     const { body, css } = renderPage(Component, { ...props, site });
     out.push({
@@ -339,7 +345,24 @@ export function buildSite({ detail, now = new Date() }) {
       },
       breadcrumbLd(crumbs)
     ];
-    emit(cityPath(p.key), title, description, CityPage, { c: p, year, rows, related, sources: sourceNotes(p, year), safety, cost, hubs: hubLinks(city.region), regionLabel: regionName(city.region), comparisons: comparisonsFor(city.key), crumbs }, jsonLd, 'article');
+    // Share card: the same public numbers the page prints (rounded Score, band,
+    // the cities index's "from $X/mo solo", the safety score and label).
+    const ogPath = `/og/city/${p.key}.png`;
+    og.push({
+      path: ogPath.slice(1),
+      card: 'cityCard',
+      data: {
+        name: p.name,
+        country: p.country,
+        region: regionName(city.region),
+        cells: ogCells(year.cells),
+        best: { month: MONTHS_LONG[year.best], q: bestQ },
+        fromSolo: Math.round(minCost(p)),
+        safety: { score: Math.round(safety.score), label: safety.label }
+      }
+    });
+    const ogAlt = `${p.name}, month by month: Score strip for all 12 months, best in ${MONTHS_LONG[year.best]} (${bestQ})`;
+    emit(cityPath(p.key), title, description, CityPage, { c: p, year, rows, related, sources: sourceNotes(p, year), safety, cost, hubs: hubLinks(city.region), regionLabel: regionName(city.region), comparisons: comparisonsFor(city.key), crumbs }, jsonLd, 'article', { ogImage: ogPath, ogAlt });
   }
 
   // ---- Month pages ----
@@ -377,7 +400,19 @@ export function buildSite({ detail, now = new Date() }) {
       },
       breadcrumbLd(crumbs)
     ];
-    emit(monthPath(i), title, description, MonthPage, { mIdx: i, facts: pubFacts, top, rest, crumbs }, jsonLd);
+    // Share card: this month's top 5 as the page lists them (Score, solo cost) and the 85+ count.
+    const ogPath = `/og/best/${monthSlug(i)}.png`;
+    og.push({
+      path: ogPath.slice(1),
+      card: 'monthCard',
+      data: {
+        month: M,
+        leaders: top.slice(0, 5).map((r) => ({ name: r.city.name, country: r.city.country, q: r.q, cost: Math.round(r.m.cost1) })),
+        great: facts.great,
+        total: facts.total
+      }
+    });
+    emit(monthPath(i), title, description, MonthPage, { mIdx: i, facts: pubFacts, top, rest, crumbs }, jsonLd, 'website', { ogImage: ogPath, ogAlt: `Where to be in ${M}: top 5 cities by Score, with monthly cost` });
     monthSummaries.push({ i, name: M, path: monthPath(i), leader: { name: pubFacts.leader.city.name, q: Math.round(facts.leader.q) }, great: facts.great, total: facts.total });
   }
 
@@ -548,7 +583,24 @@ export function buildSite({ detail, now = new Date() }) {
         },
         breadcrumbLd(crumbs)
       ];
-      emit(o.path, title, description, ComparePage, { v: view, crumbs }, jsonLd, 'article');
+      // Share card: subject as A (its win months outlined), anchor as B, the page's dek as the claim,
+      // average solo monthly cost per side (the page's "at a glance" figures).
+      const ogPath = `/og/compare/${pair.slug}.png`;
+      og.push({
+        path: ogPath.slice(1),
+        card: 'compareCard',
+        data: {
+          a: { name: shortName(S.name), cells: ogCells(yS.cells), cost: Math.round(view.glance.solo[0]) },
+          b: { name: shortName(A.name), cells: ogCells(yA.cells), cost: Math.round(view.glance.solo[1]) },
+          // The page's dek, with a parenthetical place name ("Lake Atitlán (Panajachel)") shortened so it fits one line.
+          claim: story.claim.replace(S.name, shortName(S.name)).replace(A.name, shortName(A.name)),
+          winMonths: [...pair.winMonths]
+        }
+      });
+      emit(o.path, title, description, ComparePage, { v: view, crumbs }, jsonLd, 'article', {
+        ogImage: ogPath,
+        ogAlt: `${shortName(S.name)} vs ${shortName(A.name)}: Score by month for both cities`
+      });
     }
 
     const bySubjectRegion = regions
@@ -575,6 +627,20 @@ export function buildSite({ detail, now = new Date() }) {
     ];
     emit(COMPARE_INDEX, title, description, CompareIndexPage, { groups: bySubjectRegion, count: comparisons.length, considered: gatePairs.length + gateRejected.length, crumbs }, jsonLd);
   }
+
+  // ---- Default share card (dist/og.png) ----
+  // Counts come from the data, so the card can never state a stale number. The
+  // decorative strip is a real city picked deterministically: the most Score
+  // bands in its year, then the most great months, ties by name
+  // (scripts/seo/og.mjs --default makes the same pick for public/og.png).
+  const nBands = (c) => new Set(years.get(c.key).cells.map((x) => x.band)).size;
+  const nGreat = (c) => years.get(c.key).cells.filter((x) => x.band === 'great').length;
+  const stripCity = cities.slice().sort((a, b) => nBands(b) - nBands(a) || nGreat(b) - nGreat(a) || a.name.localeCompare(b.name))[0];
+  const ogDefault = {
+    path: 'og.png',
+    card: 'defaultCard',
+    data: { cityCount: cities.length, regionCount: regions.length, cells: ogCells(years.get(stripCity.key).cells) }
+  };
 
   // ---- sitemaps ----
   // sitemap.xml is an index of per-type sitemaps. A page marked noindex is in
@@ -664,5 +730,5 @@ export function buildSite({ detail, now = new Date() }) {
   ].join('\n');
   out.push({ path: 'llms.txt', content: llms });
 
-  return { files: out, pages: pages.length, months: MONTHS.length, skipped, hubs: hubs.map((h) => h.path) };
+  return { files: out, og, ogDefault, pages: pages.length, months: MONTHS.length, skipped, hubs: hubs.map((h) => h.path) };
 }

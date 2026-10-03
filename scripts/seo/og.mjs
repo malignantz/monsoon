@@ -7,7 +7,7 @@
 //   await renderOgImages([{ path: 'og/city/lisbon.png', svg }], { outDir: 'dist' })
 //
 // CLI:
-//   node scripts/seo/og.mjs --default public/og.png   # site card, counts from travel-core.json
+//   node scripts/seo/og.mjs --default public/og.png   # site card, counts from travel-core.json (the build regenerates dist/og.png itself)
 //   node scripts/seo/og.mjs --preview                 # sample cards into tmp/og-preview/
 
 import fs from 'node:fs';
@@ -53,13 +53,34 @@ const fontOptions = {
 // Width of `text` in the real font: resvg's ink bounding box of a text-only SVG,
 // measured once at a 100px reference size and scaled (glyph widths are linear in
 // font size). Cached per (text, family, weight).
-const widthCache = new Map();
+// The cache persists in tmp/og-cache/ (keyed by the font/renderer signature):
+// measuring is most of a warm build's og time, and the widths only change
+// with the fonts.
 const REF = 100;
+const MEASURE_CACHE = path.join(ROOT, 'tmp', 'og-cache', 'measure.json');
+let widthCache;
+let widthCacheDirty = false;
+function widths() {
+  if (!widthCache) {
+    widthCache = new Map();
+    try {
+      const j = JSON.parse(fs.readFileSync(MEASURE_CACHE, 'utf8'));
+      if (j.sig === pipelineSignature()) widthCache = new Map(Object.entries(j.widths));
+    } catch {}
+  }
+  return widthCache;
+}
+function saveWidths() {
+  if (!widthCacheDirty) return;
+  fs.mkdirSync(path.dirname(MEASURE_CACHE), { recursive: true });
+  fs.writeFileSync(MEASURE_CACHE, JSON.stringify({ sig: pipelineSignature(), widths: Object.fromEntries(widthCache) }));
+  widthCacheDirty = false;
+}
 export function measure(text, family, weight, size) {
   text = String(text ?? '');
   if (!text) return 0;
   const key = `${family}|${weight}|${text}`;
-  let w = widthCache.get(key);
+  let w = widths().get(key);
   if (w === undefined) {
     const svg =
       `<svg xmlns="http://www.w3.org/2000/svg" width="4000" height="300" viewBox="0 0 4000 300">` +
@@ -69,6 +90,7 @@ export function measure(text, family, weight, size) {
     // anchors do not collide with neighbours.
     w = bbox ? bbox.width + 0.02 * REF : text.length * REF * 0.55;
     widthCache.set(key, w);
+    widthCacheDirty = true;
   }
   return (w * size) / REF;
 }
@@ -117,6 +139,7 @@ export async function renderOgImages(items, { outDir, cacheDir = path.join(ROOT,
     }
     bytes += fs.statSync(dest).size;
   }
+  saveWidths();
   return { rendered, cached, bytes, ms: Math.round(performance.now() - t0) };
 }
 
@@ -125,14 +148,16 @@ function loadCore() {
   return JSON.parse(fs.readFileSync(path.join(ROOT, 'src/generated/travel-core.json'), 'utf8'));
 }
 
-// Preview-only Score approximation (Balanced weights from the stored component
-// scores; the real build passes real numbers).
+// Balanced-lens Score recomputed from the stored component scores (same formula
+// as qolFor in src/lib/data.svelte.js, defaults: women's-safety blend off, floor
+// 55 / 0.6). The real build passes the app's own numbers; this exists for the
+// --preview and --default CLI so they can run without Vite.
 function approxCells(city) {
   const saf = city.safety?.score ?? 50;
   const floor = saf >= 55 ? 1 : 0.6 + 0.4 * (saf / 55);
   return city.months.map((m) => {
     const base = 0.35 * m.weather + 0.24 * saf + 0.18 * m.air + 0.13 * m.seasonScore + 0.1 * m.eventScore;
-    const q = Math.max(0, floor * base - (m.season === 'Peak' ? 4 : 0));
+    const q = Math.max(0, floor * base); // Balanced has no peak penalty
     return { q, band: card.bandOf(q) };
   });
 }
@@ -235,9 +260,15 @@ async function writeDefault(dest) {
   const core = loadCore();
   const cityCount = core.cities.length;
   const regionCount = new Set(core.cities.map((c) => c.region)).size;
-  // Decorative strip: a real catalog city that reads well, with a spread of bands.
-  const pick = core.cities.find((c) => c.name === 'Lisbon') ?? core.cities[0];
-  const svg = cards.defaultCard({ cityCount, regionCount, cells: approxCells(pick) });
+  // Decorative strip: the real city whose year shows the most Score bands, then
+  // the most great months, ties by name (a strip with some spread reads as data).
+  // build-seo.mjs makes the same pick from the app's own Scores for dist/og.png,
+  // so public/og.png (the committed fallback) stays byte-identical to it.
+  const bands = (c) => new Set(approxCells(c).map((x) => x.band)).size;
+  const greats = (c) => approxCells(c).filter((x) => x.band === 'great').length;
+  const pick = core.cities.slice().sort((a, b) => bands(b) - bands(a) || greats(b) - greats(a) || a.name.localeCompare(b.name))[0];
+  const cells = approxCells(pick).map((c) => ({ q: Math.round(c.q), band: c.band }));
+  const svg = cards.defaultCard({ cityCount, regionCount, cells });
   const png = renderSvg(svg);
   fs.mkdirSync(path.dirname(path.resolve(dest)), { recursive: true });
   fs.writeFileSync(dest, png);

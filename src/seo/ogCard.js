@@ -302,6 +302,28 @@ export function monthCard({ month, leaders = [], great, total } = {}, opts) {
   return s + '</svg>';
 }
 
+// Break `text` into two lines at the word boundary that best balances their
+// widths, at the largest size in [minSize, maxSize] where both fit; a line that
+// still overflows at minSize is ellipsised.
+function wrapTwo(measure, text, family, weight, maxW, maxSize, minSize) {
+  const words = String(text).split(/\s+/);
+  for (let size = maxSize; size >= minSize; size -= 1) {
+    let best = null;
+    for (let i = 1; i < words.length; i++) {
+      const l1 = words.slice(0, i).join(' ');
+      const l2 = words.slice(i).join(' ');
+      const w = Math.max(measure(l1, family, weight, size), measure(l2, family, weight, size));
+      if (w <= maxW * SLACK && (!best || w < best.w)) best = { w, lines: [l1, l2] };
+    }
+    if (best) return { lines: best.lines, size };
+  }
+  const mid = Math.ceil(words.length / 2);
+  return {
+    lines: [words.slice(0, mid).join(' '), words.slice(mid).join(' ')].map((l) => fit(measure, l, family, weight, maxW, minSize, minSize).text),
+    size: minSize
+  };
+}
+
 // ---- Compare card ----------------------------------------------------------
 // data: { a:{name,cells,cost}, b:{name,cells,cost}, claim, winMonths:[0-11 indexes where A wins] }
 export function compareCard({ a, b, claim, winMonths = [] } = {}, opts) {
@@ -338,8 +360,17 @@ export function compareCard({ a, b, claim, winMonths = [] } = {}, opts) {
   s += txt(MX - 3 + wA + gap + wV + gap, hy, nameB, { family: FONT.display, weight: 400, size });
 
   if (claim) {
-    const c = fit(measure, claim, FONT.body, 400, CONTENT_W, 30, 20);
-    s += txt(MX, 282, c.text, { family: FONT.body, weight: 400, size: c.size, fill: INK_2 });
+    // One line at up to 30px; a claim too long for that at 22px wraps to two
+    // balanced lines (20-26px) rather than being cut short.
+    const one = fit(measure, claim, FONT.body, 400, CONTENT_W, 30, 22);
+    if (!one.text.endsWith('…') || one.text === claim) {
+      s += txt(MX, 282, one.text, { family: FONT.body, weight: 400, size: one.size, fill: INK_2 });
+    } else {
+      const two = wrapTwo(measure, claim, FONT.body, 400, CONTENT_W, 26, 20);
+      two.lines.forEach((ln, i) => {
+        s += txt(MX, 276 + i * 30, ln, { family: FONT.body, weight: 400, size: two.size, fill: INK_2 });
+      });
+    }
   }
 
   const rowsDef = [
@@ -366,7 +397,7 @@ export function compareCard({ a, b, claim, winMonths = [] } = {}, opts) {
     });
   }
   if (winMonths.length) {
-    const lg = fit(measure, `Outlined: months ${a?.name} scores higher`, FONT.body, 400, CONTENT_W, 20, 15);
+    const lg = fit(measure, `Outlined: months ${a?.name} wins (at least 3 points higher and 20% cheaper)`, FONT.body, 400, CONTENT_W, 20, 15);
     s += txt(MX, 604, lg.text, { family: FONT.body, weight: 400, size: lg.size, fill: INK_3 });
   }
   return s + '</svg>';

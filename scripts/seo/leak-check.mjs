@@ -112,6 +112,23 @@ const decode = (s) =>
 
 const problems = [];
 let scanned = 0;
+
+// The share-image PNGs are binary, but their text is built from the og specs in
+// src/seo/entry.js. build-seo.mjs writes those specs to tmp/seo/og-text.json
+// (gitignored, never deployed); run the same markers over their JSON here so a
+// private string can't reach a card either. Absent file (check run without a
+// build) just skips this; build.sh always runs build-seo.mjs first.
+const ogTextPath = join(root, 'tmp/seo/og-text.json');
+if (existsSync(ogTextPath)) {
+  const leaves = [];
+  const collect = (v) => (typeof v === 'string' ? leaves.push(v) : v && typeof v === 'object' && Object.values(v).forEach(collect));
+  collect(JSON.parse(readFileSync(ogTextPath, 'utf8')).map((o) => o.data));
+  const ogText = leaves.join('\n');
+  for (const [m, from] of markers) {
+    if (ogText.includes(m)) problems.push(`share-image data: contains private text from ${from}: "${m.slice(0, 60)}…"`);
+  }
+  scanned++;
+}
 for (const f of files) {
   // og/ holds build-time PNG share images and nothing else; they are binary, so
   // there is no text to match, but any other file there is a stray.
