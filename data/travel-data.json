@@ -560,7 +560,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Chiang Mai; humidity: station Chiang Mai; rain days: station Chiang Mai.",
+          "note": "Temperature, humidity and rain days: station Chiang Mai.",
           "station": "Chiang Mai (WMO 48327)",
           "distanceKm": 2.3,
           "elevationM": 305
@@ -1055,7 +1055,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Bangkok Metropolis; humidity: station Bangkok Metropolis; rain days: station Bangkok Metropolis.",
+          "note": "Temperature, humidity and rain days: station Bangkok Metropolis.",
           "station": "Bangkok Metropolis (WMO 48455)",
           "distanceKm": 7.1,
           "elevationM": 3
@@ -1561,7 +1561,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis (some months kept as previous estimates).",
           "reanalysis": true
         },
         "temp": {
@@ -2039,7 +2039,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis (some months kept as previous estimates).",
           "reanalysis": true
         },
         "temp": {
@@ -2508,7 +2508,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis (some months kept as previous estimates).",
           "reanalysis": true
         },
         "temp": {
@@ -3007,7 +3007,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis (some months kept as previous estimates).",
           "reanalysis": true
         },
         "temp": {
@@ -3507,7 +3507,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Bayan Lepas; humidity: station Bayan Lepas; rain days: station Bayan Lepas.",
+          "note": "Temperature, humidity and rain days: station Bayan Lepas.",
           "station": "Bayan Lepas (WMO 48601)",
           "distanceKm": 14.5,
           "elevationM": 3
@@ -3989,7 +3989,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis (some months kept as previous estimates).",
           "reanalysis": true
         },
         "temp": {
@@ -4476,7 +4476,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Tbilisi; humidity: station Tbilisi; rain days: station Tbilisi.",
+          "note": "Temperature, humidity and rain days: station Tbilisi.",
           "station": "Tbilisi (WMO 37445)",
           "distanceKm": 6.8,
           "elevationM": 432
@@ -4964,7 +4964,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Krakow Balice; humidity: station Krakow Balice; rain days: station Krakow Balice.",
+          "note": "Temperature, humidity and rain days: station Krakow Balice.",
           "station": "Krakow Balice (WMO 12566)",
           "distanceKm": 10.3,
           "elevationM": 237
@@ -5458,7 +5458,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Budapest Belterulet; humidity: station Budapest Belterulet; rain days: station Budapest Belterulet.",
+          "note": "Temperature, humidity and rain days: station Budapest Belterulet.",
           "station": "Budapest Belterulet (WMO 12840)",
           "distanceKm": 1.7,
           "elevationM": 153
@@ -5942,7 +5942,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Sofia; humidity: station Sofia; rain days: station Sofia.",
+          "note": "Temperature, humidity and rain days: station Sofia.",
           "station": "Sofia (WMO 15614)",
           "distanceKm": 7.0,
           "elevationM": 586
@@ -6429,7 +6429,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Beograd; humidity: station Beograd; rain days: station Beograd.",
+          "note": "Temperature, humidity and rain days: station Beograd.",
           "station": "Beograd (WMO 13274)",
           "distanceKm": 2.3,
           "elevationM": 132
@@ -6915,7 +6915,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: station Herceg Novi; humidity: editorial estimate; rain days: station Herceg Novi.",
+          "note": "Temperature: station Herceg Novi; humidity: previous estimate kept (no station, and reanalysis is unreliable in mountain terrain); rain days: station Herceg Novi.",
           "station": "Herceg Novi (WMO 13455)",
           "distanceKm": 18.8,
           "elevationM": 10
@@ -7394,7 +7394,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis.",
           "reanalysis": true
         },
         "temp": {
@@ -7867,7 +7867,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis.",
           "reanalysis": true
         },
         "temp": {
@@ -8345,7 +8345,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Granadabaseaerea; humidity: station Granadabaseaerea; rain days: station Granadabaseaerea.",
+          "note": "Temperature, humidity and rain days: station Granadabaseaerea.",
           "station": "Granadabaseaerea (WMO 8420)",
           "distanceKm": 5.3,
           "elevationM": 687
@@ -8819,7 +8819,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Sevillasanpablo; humidity: station Sevillasanpablo; rain days: station Sevillasanpablo.",
+          "note": "Temperature, humidity and rain days: station Sevillasanpablo.",
           "station": "Sevillasanpablo (WMO 8391)",
           "distanceKm": 9.8,
           "elevationM": 34
@@ -9314,7 +9314,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Valencia; humidity: station Valencia; rain days: station Valencia.",
+          "note": "Temperature, humidity and rain days: station Valencia.",
           "station": "Valencia (WMO 8285)",
           "distanceKm": 1.5,
           "elevationM": 11
@@ -9807,7 +9807,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis.",
           "reanalysis": true
         },
         "temp": {
@@ -10286,7 +10286,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis.",
           "reanalysis": true
         },
         "temp": {
@@ -10760,7 +10760,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Catania Sigonella; humidity: station Catania Sigonella; rain days: station Catania Sigonella.",
+          "note": "Temperature, humidity and rain days: station Catania Sigonella.",
           "station": "Catania Sigonella (WMO 16459)",
           "distanceKm": 18.4,
           "elevationM": 24
@@ -11259,7 +11259,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis.",
           "reanalysis": true
         },
         "temp": {
@@ -11739,7 +11739,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis (some months kept as previous estimates).",
           "reanalysis": true
         },
         "temp": {
@@ -12226,7 +12226,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: station Tacubaya; humidity: editorial estimate; rain days: station Tacubaya.",
+          "note": "Temperature: station Tacubaya; humidity: previous estimate kept (no station, and reanalysis is unreliable in mountain terrain); rain days: station Tacubaya.",
           "station": "Tacubaya (WMO 76680)",
           "distanceKm": 7.4,
           "elevationM": 2309
@@ -12714,7 +12714,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: editorial estimate; rain days: ERA5 reanalysis."
+          "note": "Temperature: ERA5 reanalysis (some months kept as previous estimates); humidity: previous estimate kept (no station, and reanalysis is unreliable in mountain terrain); rain days: ERA5 reanalysis (some months kept as previous estimates)."
         },
         "temp": {
           "source": "era5-om",
@@ -13211,7 +13211,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis (some months kept as previous estimates).",
           "reanalysis": true
         },
         "temp": {
@@ -13697,7 +13697,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: station Insivumeh; humidity: editorial estimate; rain days: station Insivumeh.",
+          "note": "Temperature: station Insivumeh (some months kept as previous estimates); humidity: previous estimate kept (no station, and reanalysis is unreliable in mountain terrain); rain days: station Insivumeh.",
           "station": "Insivumeh (WMO 78640)",
           "distanceKm": 21.4,
           "elevationM": 1502
@@ -14181,7 +14181,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: station Olaya Herrera AUT; humidity: editorial estimate; rain days: station Olaya Herrera AUT.",
+          "note": "Temperature: station Olaya Herrera AUT; humidity: previous estimate kept (no station, and reanalysis is unreliable in mountain terrain); rain days: station Olaya Herrera AUT.",
           "station": "Olaya Herrera AUT (WMO 27015330)",
           "distanceKm": 2.9,
           "elevationM": 1490
@@ -14690,7 +14690,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: editorial estimate; rain days: ERA5 reanalysis."
+          "note": "Temperature: ERA5 reanalysis (some months kept as previous estimates); humidity: previous estimate kept (no station, and reanalysis is unreliable in mountain terrain); rain days: ERA5 reanalysis (some months kept as previous estimates)."
         },
         "temp": {
           "source": "era5-om",
@@ -15181,7 +15181,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Aeroparque Aero; humidity: station Aeroparque Aero; rain days: station Aeroparque Aero.",
+          "note": "Temperature, humidity and rain days: station Aeroparque Aero.",
           "station": "Aeroparque Aero (WMO 87582)",
           "distanceKm": 6.1,
           "elevationM": 6
@@ -15674,7 +15674,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis.",
           "reanalysis": true
         },
         "temp": {
@@ -16654,7 +16654,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: editorial estimate; rain days: ERA5 reanalysis."
+          "note": "Temperature: ERA5 reanalysis (some months kept as previous estimates); humidity: previous estimate kept (no station, and reanalysis is unreliable in mountain terrain); rain days: ERA5 reanalysis (some months kept as previous estimates)."
         },
         "temp": {
           "source": "era5-om",
@@ -17147,7 +17147,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: editorial estimate; rain days: ERA5 reanalysis."
+          "note": "Temperature: ERA5 reanalysis (some months kept as previous estimates); humidity: previous estimate kept (no station, and reanalysis is unreliable in mountain terrain); rain days: ERA5 reanalysis (some months kept as previous estimates)."
         },
         "temp": {
           "source": "era5-om",
@@ -18123,7 +18123,7 @@
             "era5-om"
           ],
           "confidence": "medium",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis.",
           "reanalysis": true
         },
         "temp": {
@@ -18659,7 +18659,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: editorial estimate; rain days: ERA5 reanalysis."
+          "note": "Temperature: ERA5 reanalysis (some months kept as previous estimates); humidity: previous estimate kept (no station, and reanalysis is unreliable in mountain terrain); rain days: ERA5 reanalysis (some months kept as previous estimates)."
         },
         "temp": {
           "source": "era5-om",
@@ -19144,7 +19144,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Ljubljana Bezigrad; humidity: station Ljubljana Bezigrad; rain days: station Ljubljana Bezigrad.",
+          "note": "Temperature, humidity and rain days: station Ljubljana Bezigrad.",
           "station": "Ljubljana Bezigrad (WMO 14015)",
           "distanceKm": 1.3,
           "elevationM": 299
@@ -19674,7 +19674,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis.",
           "reanalysis": true
         },
         "temp": {
@@ -20658,7 +20658,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: editorial estimate; rain days: ERA5 reanalysis."
+          "note": "Temperature: ERA5 reanalysis (some months kept as previous estimates); humidity: previous estimate kept (no station, and reanalysis is unreliable in mountain terrain); rain days: ERA5 reanalysis (some months kept as previous estimates)."
         },
         "temp": {
           "source": "era5-om",
@@ -21120,7 +21120,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis.",
           "reanalysis": true
         },
         "temp": {
@@ -21593,7 +21593,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Subang; humidity: station Subang; rain days: station Subang.",
+          "note": "Temperature, humidity and rain days: station Subang.",
           "station": "Subang (WMO 48647)",
           "distanceKm": 14.9,
           "elevationM": 17
@@ -22060,7 +22060,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: editorial estimate; rain days: ERA5 reanalysis."
+          "note": "Temperature: ERA5 reanalysis (some months kept as previous estimates); humidity: previous estimate kept (no station, and reanalysis is unreliable in mountain terrain); rain days: ERA5 reanalysis (some months kept as previous estimates)."
         },
         "temp": {
           "source": "era5-om",
@@ -23018,7 +23018,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Florya; humidity: station Florya; rain days: station Florya.",
+          "note": "Temperature, humidity and rain days: station Florya.",
           "station": "Florya (WMO 17636)",
           "distanceKm": 16.5,
           "elevationM": 37
@@ -23495,7 +23495,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: editorial estimate; rain days: ERA5 reanalysis."
+          "note": "Temperature: ERA5 reanalysis (some months kept as previous estimates); humidity: previous estimate kept (no station, and reanalysis is unreliable in mountain terrain); rain days: ERA5 reanalysis (some months kept as previous estimates)."
         },
         "temp": {
           "source": "era5-om",
@@ -23966,7 +23966,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: editorial estimate; rain days: ERA5 reanalysis."
+          "note": "Temperature: ERA5 reanalysis (some months kept as previous estimates); humidity: previous estimate kept (no station, and reanalysis is unreliable in mountain terrain); rain days: ERA5 reanalysis (some months kept as previous estimates)."
         },
         "temp": {
           "source": "era5-om",
@@ -24439,7 +24439,7 @@
             "era5-om"
           ],
           "confidence": "medium",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis.",
           "reanalysis": true
         },
         "temp": {
@@ -25410,7 +25410,7 @@
             "wmo-9120"
           ],
           "confidence": "low",
-          "note": "Temperature: editorial estimate; humidity: editorial estimate; rain days: station Tobias Bolanos Palma Airport.",
+          "note": "Temperature: previous estimate kept (station and reanalysis disagree by about 5 °C); humidity: previous estimate kept (no station, and reanalysis is unreliable in mountain terrain); rain days: station Tobias Bolanos Palma Airport (some months kept as previous estimates).",
           "station": "Tobias Bolanos Palma Airport (WMO 78764)",
           "distanceKm": 5.2,
           "elevationM": 997
@@ -26396,7 +26396,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Barcelonaaeropuerto; humidity: station Barcelonaaeropuerto; rain days: station Barcelonaaeropuerto.",
+          "note": "Temperature, humidity and rain days: station Barcelonaaeropuerto.",
           "station": "Barcelonaaeropuerto (WMO 8181)",
           "distanceKm": 13.4,
           "elevationM": 4
@@ -26883,7 +26883,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Madridretiro; humidity: station Madridretiro; rain days: station Madridretiro.",
+          "note": "Temperature, humidity and rain days: station Madridretiro.",
           "station": "Madridretiro (WMO 8222)",
           "distanceKm": 2.2,
           "elevationM": 667
@@ -27370,7 +27370,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Malagaaeropuerto; humidity: station Malagaaeropuerto; rain days: station Malagaaeropuerto.",
+          "note": "Temperature, humidity and rain days: station Malagaaeropuerto.",
           "station": "Malagaaeropuerto (WMO 8482)",
           "distanceKm": 8.2,
           "elevationM": 5
@@ -27861,7 +27861,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Roma Ciampino; humidity: station Roma Ciampino; rain days: station Roma Ciampino.",
+          "note": "Temperature, humidity and rain days: station Roma Ciampino.",
           "station": "Roma Ciampino (WMO 16239)",
           "distanceKm": 12.8,
           "elevationM": 129
@@ -28347,7 +28347,7 @@
             "era5-om"
           ],
           "confidence": "medium",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis.",
           "reanalysis": true
         },
         "temp": {
@@ -28828,7 +28828,7 @@
             "era5-om"
           ],
           "confidence": "medium",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis (some months kept as previous estimates).",
           "reanalysis": true
         },
         "temp": {
@@ -29314,7 +29314,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis.",
           "reanalysis": true
         },
         "temp": {
@@ -29805,7 +29805,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis (some months kept as previous estimates).",
           "reanalysis": true
         },
         "temp": {
@@ -30287,7 +30287,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis.",
           "reanalysis": true
         },
         "temp": {
@@ -30783,7 +30783,7 @@
             "era5-om"
           ],
           "confidence": "medium",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis (some months kept as previous estimates).",
           "reanalysis": true
         },
         "temp": {
@@ -31275,7 +31275,7 @@
             "wmo-9120"
           ],
           "confidence": "medium",
-          "note": "Temperature: station Grancanariaaeropuerto; humidity: station Grancanariaaeropuerto; rain days: station Grancanariaaeropuerto.",
+          "note": "Temperature, humidity and rain days: station Grancanariaaeropuerto.",
           "station": "Grancanariaaeropuerto (WMO 60030)",
           "distanceKm": 23.2,
           "elevationM": 32
@@ -31770,7 +31770,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Nice; humidity: station Nice; rain days: station Nice.",
+          "note": "Temperature, humidity and rain days: station Nice.",
           "station": "Nice (WMO 7690)",
           "distanceKm": 8.0,
           "elevationM": 2
@@ -32264,7 +32264,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Praha Libus; humidity: station Praha Libus; rain days: station Praha Libus.",
+          "note": "Temperature, humidity and rain days: station Praha Libus.",
           "station": "Praha Libus (WMO 11520)",
           "distanceKm": 7.5,
           "elevationM": 302
@@ -32750,7 +32750,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Warszawa Okecie; humidity: station Warszawa Okecie; rain days: station Warszawa Okecie.",
+          "note": "Temperature, humidity and rain days: station Warszawa Okecie.",
           "station": "Warszawa Okecie (WMO 12375)",
           "distanceKm": 8.8,
           "elevationM": 106
@@ -33241,7 +33241,7 @@
             "era5-om"
           ],
           "confidence": "medium",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis (some months kept as previous estimates).",
           "reanalysis": true
         },
         "temp": {
@@ -33730,7 +33730,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Tallinn-Harku; humidity: station Tallinn-Harku; rain days: station Tallinn-Harku.",
+          "note": "Temperature, humidity and rain days: station Tallinn-Harku.",
           "station": "Tallinn-Harku (WMO 26038)",
           "distanceKm": 9.6,
           "elevationM": 33
@@ -34211,7 +34211,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Riga Lu; humidity: station Riga Lu; rain days: station Riga Lu.",
+          "note": "Temperature, humidity and rain days: station Riga Lu.",
           "station": "Riga Lu (WMO 26422)",
           "distanceKm": 0.6,
           "elevationM": 3
@@ -34689,7 +34689,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Bucuresti Baneasa; humidity: station Bucuresti Baneasa; rain days: station Bucuresti Baneasa.",
+          "note": "Temperature, humidity and rain days: station Bucuresti Baneasa.",
           "station": "Bucuresti Baneasa (WMO 15420)",
           "distanceKm": 9.5,
           "elevationM": 90
@@ -35173,7 +35173,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Cluj Napoca; humidity: station Cluj Napoca; rain days: station Cluj Napoca.",
+          "note": "Temperature, humidity and rain days: station Cluj Napoca.",
           "station": "Cluj Napoca (WMO 15120)",
           "distanceKm": 4.1,
           "elevationM": 410
@@ -35656,7 +35656,7 @@
             "wmo-9120"
           ],
           "confidence": "medium",
-          "note": "Temperature: station Bratislava Koliba; humidity: station Bratislava Koliba; rain days: station Bratislava Koliba.",
+          "note": "Temperature, humidity and rain days: station Bratislava Koliba.",
           "station": "Bratislava Koliba (WMO 11813)",
           "distanceKm": 2.2,
           "elevationM": 286
@@ -36145,7 +36145,7 @@
             "era5-om"
           ],
           "confidence": "medium",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis (some months kept as previous estimates).",
           "reanalysis": true
         },
         "temp": {
@@ -36615,7 +36615,7 @@
             "wmo-9120"
           ],
           "confidence": "medium",
-          "note": "Temperature: station Sarajevo; humidity: station Sarajevo; rain days: station Sarajevo.",
+          "note": "Temperature, humidity and rain days: station Sarajevo.",
           "station": "Sarajevo (WMO 14654)",
           "distanceKm": 5.8,
           "elevationM": 630
@@ -36646,7 +36646,7 @@
             "cams-om",
             "who-aaq-v8"
           ],
-          "note": "CAMS seasonal shape scaled x2.98 to the WHO ground annual mean 28.4 µg/m³ (Ilidza, 2022–2024). all months from cited ground measurements (https://catalog.data.gov/dataset/sarajevo-pm2-5-data-from-metone-bam-1020).",
+          "note": "CAMS seasonal shape scaled x2.98 to the WHO ground annual mean 28.4 µg/m³ (Ilidza, 2022–2024). All months from cited ground measurements (https://catalog.data.gov/dataset/sarajevo-pm2-5-data-from-metone-bam-1020).",
           "confidence": "medium"
         }
       }
@@ -37110,7 +37110,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Amsterdam Schiphol Ap; humidity: station Amsterdam Schiphol Ap; rain days: station Amsterdam Schiphol Ap.",
+          "note": "Temperature, humidity and rain days: station Amsterdam Schiphol Ap.",
           "station": "Amsterdam Schiphol Ap (WMO 6240)",
           "distanceKm": 9.6,
           "elevationM": -4
@@ -37612,7 +37612,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Berlin-Tempelhof; humidity: station Berlin-Tempelhof; rain days: station Berlin-Tempelhof.",
+          "note": "Temperature, humidity and rain days: station Berlin-Tempelhof.",
           "station": "Berlin-Tempelhof (WMO 10384)",
           "distanceKm": 5.9,
           "elevationM": 48
@@ -38114,7 +38114,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Wien Hohe Warte; humidity: station Wien Hohe Warte; rain days: station Wien Hohe Warte.",
+          "note": "Temperature, humidity and rain days: station Wien Hohe Warte.",
           "station": "Wien Hohe Warte (WMO 11035)",
           "distanceKm": 4.7,
           "elevationM": 198
@@ -38606,7 +38606,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Zuerich Affoltern; humidity: station Zuerich Affoltern; rain days: station Zuerich Affoltern.",
+          "note": "Temperature, humidity and rain days: station Zuerich Affoltern.",
           "station": "Zuerich Affoltern (WMO 6664)",
           "distanceKm": 6.0,
           "elevationM": 444
@@ -39620,7 +39620,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Paris Montsouris; humidity: station Paris Montsouris; rain days: station Paris Montsouris.",
+          "note": "Temperature, humidity and rain days: station Paris Montsouris.",
           "station": "Paris Montsouris (WMO 7156)",
           "distanceKm": 4.0,
           "elevationM": 75
@@ -40123,7 +40123,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Dublin Airport; humidity: station Dublin Airport; rain days: station Dublin Airport.",
+          "note": "Temperature, humidity and rain days: station Dublin Airport.",
           "station": "Dublin Airport (WMO 3969)",
           "distanceKm": 8.8,
           "elevationM": 71
@@ -41595,7 +41595,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Geneve Cointrin; humidity: station Geneve Cointrin; rain days: station Geneve Cointrin.",
+          "note": "Temperature, humidity and rain days: station Geneve Cointrin.",
           "station": "Geneve Cointrin (WMO 6700)",
           "distanceKm": 5.0,
           "elevationM": 411
@@ -42085,7 +42085,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Muenchen-Stadt; humidity: station Muenchen-Stadt; rain days: station Muenchen-Stadt.",
+          "note": "Temperature, humidity and rain days: station Muenchen-Stadt.",
           "station": "Muenchen-Stadt (WMO 10865)",
           "distanceKm": 4.2,
           "elevationM": 515
@@ -42577,7 +42577,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Helsinki Kaisaniemi; humidity: station Helsinki Kaisaniemi; rain days: station Helsinki Kaisaniemi.",
+          "note": "Temperature, humidity and rain days: station Helsinki Kaisaniemi.",
           "station": "Helsinki Kaisaniemi (WMO 2978)",
           "distanceKm": 0.7,
           "elevationM": 3
@@ -43555,7 +43555,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station De Bilt Aws; humidity: station De Bilt Aws; rain days: station De Bilt Aws.",
+          "note": "Temperature, humidity and rain days: station De Bilt Aws.",
           "station": "De Bilt Aws (WMO 6260)",
           "distanceKm": 4.1,
           "elevationM": 2
@@ -44533,7 +44533,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis.",
           "reanalysis": true
         },
         "temp": {
@@ -45027,7 +45027,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Melbourne Olympic Park; humidity: station Melbourne Olympic Park; rain days: station Melbourne Olympic Park.",
+          "note": "Temperature, humidity and rain days: station Melbourne Olympic Park.",
           "station": "Melbourne Olympic Park (WMO 95936)",
           "distanceKm": 2.2,
           "elevationM": 7
@@ -45513,7 +45513,7 @@
             "era5-om"
           ],
           "confidence": "low",
-          "note": "Temperature: ERA5 reanalysis; humidity: ERA5 reanalysis; rain days: ERA5 reanalysis.",
+          "note": "Temperature, humidity and rain days: ERA5 reanalysis.",
           "reanalysis": true
         },
         "temp": {
@@ -45992,7 +45992,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Wellington Aero AWS; humidity: station Wellington Aero AWS; rain days: station Wellington Aero AWS.",
+          "note": "Temperature, humidity and rain days: station Wellington Aero AWS.",
           "station": "Wellington Aero AWS (WMO 93439)",
           "distanceKm": 5.5,
           "elevationM": 4
@@ -46485,7 +46485,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Tokyo; humidity: station Tokyo; rain days: station Tokyo.",
+          "note": "Temperature, humidity and rain days: station Tokyo.",
           "station": "Tokyo (WMO 47662)",
           "distanceKm": 9.2,
           "elevationM": 25
@@ -46959,7 +46959,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Osaka; humidity: station Osaka; rain days: station Osaka.",
+          "note": "Temperature, humidity and rain days: station Osaka.",
           "station": "Osaka (WMO 47772)",
           "distanceKm": 1.9,
           "elevationM": 23
@@ -47439,7 +47439,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: editorial estimate; humidity: editorial estimate; rain days: editorial estimate."
+          "note": "Temperature, humidity and rain days: previous estimate kept (climate data not fetched yet and no nearby station)."
         },
         "temp": {
           "source": "editorial",
@@ -47895,7 +47895,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: editorial estimate; humidity: editorial estimate; rain days: editorial estimate."
+          "note": "Temperature, humidity and rain days: previous estimate kept (climate data not fetched yet and no nearby station)."
         },
         "temp": {
           "source": "editorial",
@@ -48358,7 +48358,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Kuching; humidity: station Kuching; rain days: station Kuching.",
+          "note": "Temperature, humidity and rain days: station Kuching.",
           "station": "Kuching (WMO 96413)",
           "distanceKm": 6.7,
           "elevationM": 21
@@ -48855,7 +48855,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Dumaguete City Negros Oriental; humidity: station Dumaguete City Negros Oriental; rain days: station Dumaguete City Negros Oriental.",
+          "note": "Temperature, humidity and rain days: station Dumaguete City Negros Oriental.",
           "station": "Dumaguete City Negros Oriental (WMO 98642)",
           "distanceKm": 3.0,
           "elevationM": 8
@@ -49339,7 +49339,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Novi Sad; humidity: station Novi Sad; rain days: station Novi Sad.",
+          "note": "Temperature, humidity and rain days: station Novi Sad.",
           "station": "Novi Sad (WMO 13168)",
           "distanceKm": 6.1,
           "elevationM": 86
@@ -49815,7 +49815,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: editorial estimate; humidity: editorial estimate; rain days: editorial estimate."
+          "note": "Temperature, humidity and rain days: previous estimate kept (climate data not fetched yet and no nearby station)."
         },
         "temp": {
           "source": "editorial",
@@ -49837,7 +49837,7 @@
             "cams-om",
             "who-aaq-v8"
           ],
-          "note": "CAMS seasonal shape scaled x1.67 to the WHO ground annual mean 24.8 µg/m³ (Skopje, 2023–2025). all months from cited ground measurements (https://doi.org/10.18280/ijdne.210522).",
+          "note": "CAMS seasonal shape scaled x1.67 to the WHO ground annual mean 24.8 µg/m³ (Skopje, 2023–2025). All months from cited ground measurements (https://doi.org/10.18280/ijdne.210522).",
           "confidence": "medium"
         }
       }
@@ -50292,7 +50292,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: editorial estimate; humidity: editorial estimate; rain days: editorial estimate."
+          "note": "Temperature, humidity and rain days: previous estimate kept (climate data not fetched yet and no nearby station)."
         },
         "temp": {
           "source": "editorial",
@@ -50764,7 +50764,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Brno Turany; humidity: station Brno Turany; rain days: station Brno Turany.",
+          "note": "Temperature, humidity and rain days: station Brno Turany.",
           "station": "Brno Turany (WMO 11723)",
           "distanceKm": 7.6,
           "elevationM": 241
@@ -51241,7 +51241,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Wroclaw; humidity: station Wroclaw; rain days: station Wroclaw.",
+          "note": "Temperature, humidity and rain days: station Wroclaw.",
           "station": "Wroclaw (WMO 12424)",
           "distanceKm": 9.7,
           "elevationM": 120
@@ -51726,7 +51726,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: editorial estimate; humidity: editorial estimate; rain days: editorial estimate."
+          "note": "Temperature, humidity and rain days: previous estimate kept (climate data not fetched yet and no nearby station)."
         },
         "temp": {
           "source": "editorial",
@@ -52184,7 +52184,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Mendoza Aero; humidity: station Mendoza Aero; rain days: station Mendoza Aero.",
+          "note": "Temperature, humidity and rain days: station Mendoza Aero.",
           "station": "Mendoza Aero (WMO 87418)",
           "distanceKm": 6.0,
           "elevationM": 704
@@ -52664,7 +52664,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Salta Aero; humidity: station Salta Aero; rain days: station Salta Aero.",
+          "note": "Temperature, humidity and rain days: station Salta Aero.",
           "station": "Salta Aero (WMO 87047)",
           "distanceKm": 8.7,
           "elevationM": 1221
@@ -53141,7 +53141,7 @@
             "editorial"
           ],
           "confidence": "low",
-          "note": "Temperature: editorial estimate; humidity: editorial estimate; rain days: editorial estimate."
+          "note": "Temperature, humidity and rain days: previous estimate kept (climate data not fetched yet and no nearby station)."
         },
         "temp": {
           "source": "editorial",
@@ -53616,7 +53616,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Guanajuato; humidity: station Guanajuato; rain days: station Guanajuato.",
+          "note": "Temperature, humidity and rain days: station Guanajuato.",
           "station": "Guanajuato (WMO 76577)",
           "distanceKm": 1.1,
           "elevationM": 1999
@@ -54114,7 +54114,7 @@
             "wmo-9120"
           ],
           "confidence": "high",
-          "note": "Temperature: station Joao Pessoa; humidity: station Joao Pessoa; rain days: station Joao Pessoa.",
+          "note": "Temperature, humidity and rain days: station Joao Pessoa.",
           "station": "Joao Pessoa (WMO 82798)",
           "distanceKm": 2.8,
           "elevationM": 10

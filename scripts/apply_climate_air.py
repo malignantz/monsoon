@@ -114,6 +114,10 @@ def holdback_index(hb):
     return idx
 
 
+def cap(s):
+    return s[:1].upper() + s[1:]
+
+
 def months_txt(ms):
     ms = sorted(ms)
     return "all months" if len(ms) == 12 else ", ".join(MONTHS[m - 1] for m in ms)
@@ -163,7 +167,7 @@ def metric_prov(group, cpv, held, n_fields, cls="lowland"):
             o["note"] = "Raw CAMS model values: no recent WHO ground annual mean for this city."
         if cpv.get("override"):
             ov = cpv["override"]
-            o["note"] += f" {months_txt(ov['months'])} from cited ground measurements ({ov['source']})."
+            o["note"] += f" {cap(months_txt(ov['months']))} from cited ground measurements ({ov['source']})."
         o["confidence"] = cpv["confidence"]
     else:
         if cpv["method"] == "station":
@@ -184,7 +188,7 @@ def metric_prov(group, cpv, held, n_fields, cls="lowland"):
         bits = []
         for f, ms, reason in held:
             who = FIELD_LABEL[f] if n_fields > 1 else ""
-            bits.append(f"{who + ' in ' if who else ''}{months_txt(ms)} kept as editorial estimates: {reason}")
+            bits.append((f"{who} in {months_txt(ms)}" if who else cap(months_txt(ms))) + f" kept as editorial estimates: {reason}")
         o["note"] = (o.get("note", "") + " " + "; ".join(bits) + ".").strip()
         heavy = sum(len(h[1]) for h in held) >= 6 * n_fields or any(len(h[1]) == 12 for h in held)
         o["confidence"] = "low" if heavy else min(o["confidence"], "medium", key=CONF_RANK.get)
@@ -200,16 +204,26 @@ def climate_summary(pt, ph, pr):
             if k not in srcs:
                 srcs.append(k)
     conf = min((p["confidence"] for p in parts.values()), key=CONF_RANK.get)
-    bits = []
-    for g, p in parts.items():
-        what = LABEL[g].lower() if bits else LABEL[g]
+
+    def what(p):
         if p.get("station"):
-            bits.append(f"{what}: station {p['station'].split(' (')[0]}")
-        elif p.get("source") == "era5-om":
-            bits.append(f"{what}: ERA5 reanalysis")
-        else:
-            bits.append(f"{what}: editorial estimate")
-    o = {"sources": srcs, "confidence": conf, "note": "; ".join(bits) + "."}
+            return f"station {p['station'].split(' (')[0]}"
+        if p.get("source") == "era5-om":
+            return "ERA5 reanalysis"
+        return f"previous estimate kept ({p['note'].rstrip('.')})"
+
+    def partial(p):
+        return " (some months kept as previous estimates)" if "kept as editorial estimates" in p.get("note", "") \
+            and p.get("source") != "editorial" else ""
+
+    labels = {g: what(p) for g, p in parts.items()}
+    if len(set(labels.values())) == 1:
+        note = f"Temperature, humidity and rain days: {labels['temp']}"
+        note += partial(pt) or partial(ph) or partial(pr)
+    else:
+        note = "; ".join(f"{LABEL[g] if i == 0 else LABEL[g].lower()}: {labels[g]}{partial(p)}"
+                         for i, (g, p) in enumerate(parts.items()))
+    o = {"sources": srcs, "confidence": conf, "note": note + "."}
     st = next((p for p in (pt, pr, ph) if p.get("station")), None)
     if st:
         o.update({"station": st["station"], "distanceKm": st["distanceKm"], "elevationM": st["elevationM"]})
