@@ -1,0 +1,6 @@
+{
+  "source": "European Central Bank euro foreign exchange reference rates",
+  "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+  "asOf": "2026-10-02",
+  "perEUR": { "USD": 1.1225, "GBP": 0.85033, "CAD": 1.5984, "AUD": 1.6176 }
+}

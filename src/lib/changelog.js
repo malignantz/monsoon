@@ -6,6 +6,17 @@ export const METHOD_VERSION = 'v6';
 export const CHANGELOG = [
   {
     date: '2026-10-03',
+    title: 'Antalya added; corrections to the newest cities',
+    body:
+      'Antalya joins the catalog (121 cities). Its PM2.5 comes from the Turkish national network’s ' +
+      'urban-background monitor for 2020–2025, as reported to the European Environment Agency, because ' +
+      'the model and the single WHO traffic-station figure disagreed too much to use. A review of the ' +
+      'nine cities added earlier the same day fixed a few notes and event descriptions (Almaty’s Medeu ' +
+      'rink is closed for reconstruction; Izmir’s summer festival is classical music, not jazz). No ' +
+      'scores changed.'
+  },
+  {
+    date: '2026-10-03',
     title: 'Event scores now come from the visible event calendar',
     body:
       'The Events score used to read a separate month-by-month list that could disagree with the ' +

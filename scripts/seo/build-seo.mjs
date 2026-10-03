@@ -18,6 +18,9 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { GENERATED_TREES, countsLine } from './trees.mjs';
+// Native renderer (@resvg/resvg-js): plain Node only, never inside the Vite-SSR-loaded entry.js.
+import { cards, renderOgImages } from './og.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const outArg = process.argv.indexOf('--out');
@@ -52,8 +55,9 @@ try {
 }
 
 // Generated trees are owned by this script: clear them so a renamed or removed
-// city never leaves a stale page behind.
-for (const dir of ['city', 'best', 'cities']) rmSync(join(outDir, dir), { recursive: true, force: true });
+// city never leaves a stale page behind (compare/ and og/ are owned too, so a
+// removed comparison or share image goes with it).
+for (const dir of GENERATED_TREES) rmSync(join(outDir, dir), { recursive: true, force: true });
 
 let bytes = 0;
 for (const f of result.files) {
@@ -63,7 +67,29 @@ for (const f of result.files) {
   bytes += Buffer.byteLength(f.content);
 }
 
-const ms = Math.round(performance.now() - t0);
+// Share images (GROWTH_ENGINE_PLAN §5.7 / src/seo/ogCard.js). entry.js returns
+// the specs (path, card, public numbers); the SVGs and PNGs are made here. The
+// default card goes to dist/og.png, overwriting the copy of public/og.png Vite
+// placed there, so its counts can never go stale. PNGs are cached in
+// tmp/og-cache by SVG hash, so a warm build only re-renders changed cards.
+const ogItems = [result.ogDefault, ...result.og].map((o) => ({ path: o.path, svg: cards[o.card](o.data) }));
+const ogStats = await renderOgImages(ogItems, { outDir });
+// The card text comes from entry.js data, not from a scanned file, so hand the
+// same data to scripts/seo/leak-check.mjs (which scans it against the private-text
+// markers). tmp/ is gitignored and never deployed.
+mkdirSync(join(root, 'tmp/seo'), { recursive: true });
+writeFileSync(join(root, 'tmp/seo/og-text.json'), JSON.stringify([result.ogDefault, ...result.og].map((o) => ({ path: o.path, data: o.data }))));
+
+// Pages that failed their substance gate are not emitted; say which and why.
+for (const s of result.skipped ?? []) console.log(`[seo] skip ${s.path} — ${s.reason}`);
+
 console.log(
-  `[seo] ${result.pages} pages (+ sitemap.xml, llms.txt) → ${outDir.replace(root + '/', '')}/ · ${(bytes / 1024).toFixed(0)} KB · ${ms} ms`
+  `[seo] og: ${ogItems.length} images (${ogStats.rendered} rendered, ${ogStats.cached} cached) · ${(ogStats.bytes / 1024).toFixed(0)} KB · ${ogStats.ms} ms`
+);
+
+const ms = Math.round(performance.now() - t0);
+const pagePaths = result.files.filter((f) => f.path.endsWith('/index.html')).map((f) => ('/' + f.path).replace(/^\/+/, '/').replace(/index\.html$/, ''));
+const sitemaps = result.files.filter((f) => /^sitemap.*\.xml$/.test(f.path)).length;
+console.log(
+  `[seo] ${result.pages} pages (${countsLine(pagePaths)}) + ${sitemaps} sitemap files, llms.txt → ${outDir.replace(root + '/', '')}/ · ${(bytes / 1024).toFixed(0)} KB · ${ms} ms`
 );

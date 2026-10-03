@@ -18,7 +18,7 @@
     MONTH_LETTERS,
     monthOccupancy,
     routeStats,
-    generateRoute,
+    planYear,
     favorites,
     stayMonths,
     schengenCheckAdd,
@@ -30,12 +30,15 @@
     shareOrCopy,
     copyText,
     PRESETS,
-    normalizePresetKey
+    normalizePresetKey,
+    moneySymbol,
+    moneyNote
   } from './data.svelte.js';
   import { itineraryText, schengenLine } from './exportText.js';
   import { screen } from './mobile.svelte.js';
   import { focusTrap } from './focusTrap.js';
-  import { route, nextOpenMonth, adoption, adoptRoute, undoAdoption, keepAdoption } from './route.svelte.js';
+  import { route, nextOpenMonth, adoption, adoptRoute, fillRoute, undoAdoption, keepAdoption } from './route.svelte.js';
+  import { ANCHOR_PLACES, resolveAnchors, STYLE_BLURBS, legWhy, pickWhy } from './yearPlan.js';
   import { track } from './analytics.js';
   import {
     defaultFilters,
@@ -64,17 +67,23 @@
   const STORE_F = 'atlas.route.filters.v1';
   const DEFAULT_NAME = 'My Monsoon year';
 
+  // The regions that existed before Central Asia was added. Older builds saved
+  // "no region filter" as the explicit full list of regions at the time, so a
+  // saved list holding all of these is that old "all", not a real selection.
+  const LEGACY_REGIONS = ['Africa', 'E Asia', 'E Europe', 'LATAM', 'N America', 'N Europe', 'Oceania', 'S America', 'S Europe', 'SE Asia', 'W Asia', 'W Europe'];
+
   function loadFilters() {
     const base = defaultFilters();
     try {
       const f = JSON.parse(localStorage.getItem(STORE_F));
       if (f && typeof f === 'object') {
         for (const k of Object.keys(base)) if (k in f) base[k] = f[k];
-        // Sanitize regions into canonical order; empty also resets to all
-        // (the pre-all-selected format used [] to mean "all").
+        // Sanitize regions into canonical order. [] means "all" (what we persist
+        // now); a legacy full list also means "all", so regions added since it
+        // was saved are not silently filtered out.
         const saved = new Set(Array.isArray(base.regions) ? base.regions : []);
         base.regions = regions.filter((r) => saved.has(r));
-        if (!base.regions.length) base.regions = [...regions];
+        if (!base.regions.length || LEGACY_REGIONS.every((r) => saved.has(r))) base.regions = [...regions];
         // The old English dropdown (tier 0/2/3) is now a single checkbox; any
         // "decent+ or higher" selection maps to the new English-friendly toggle.
         if (typeof f.english === 'number' && f.english >= 2) base.englishOk = true;
@@ -190,7 +199,7 @@
       subtitle: `Planned on Monsoon (monsoon.fyi) · costs ${party === 'solo' ? 'solo' : 'for a couple'} · ${PRESETS[normalizePresetKey(preset)].label} lens`,
       rows,
       open: emptyMonths.map((m) => MONTHS[m]),
-      lines: [totals, schengenLine(sch), longest],
+      lines: [totals, schengenLine(sch), longest, moneyNote()],
       url: routeLink()
     });
   }
@@ -268,8 +277,11 @@
     canScrollRight = scrollEl.scrollWidth - scrollEl.clientWidth - scrollEl.scrollLeft > 4;
   }
 
+  // "No region filter" is persisted as [] rather than the full list, so regions
+  // added to the catalog later still count as selected; loadFilters() expands it.
   $effect(() => {
-    localStorage.setItem(STORE_F, JSON.stringify(filters));
+    const regionsSaved = regionSel.size ? regions.filter((r) => regionSel.has(r)) : [];
+    localStorage.setItem(STORE_F, JSON.stringify({ ...filters, regions: regionsSaved }));
   });
 
   function resetFilters() {
@@ -342,16 +354,19 @@
     ...(favorites.size ? [{ id: 'favorites', label: 'From favorites' }] : [])
   ]);
 
-  const example = $derived(ghostMode ? generateRoute(seedStyle, preset, valueModel) : []);
-  const exampleOcc = $derived(monthOccupancy(example));
-  const exampleStats = $derived(ghostMode ? routeStats(example, preset) : null);
-  // The generator keeps seeds within 90 real days, but the promise in the copy
-  // is only made when the shown example actually keeps it.
-  const exampleLegal = $derived(!exampleStats || exampleStats.schengen.ok);
-  // What the totals row shows: real route stats normally, the example's payoff
-  // (avg score, $/mo, festivals) while the ghost is up — so the first impression
-  // is a value preview, not a row of em-dashes.
-  const shownStats = $derived(ghostMode ? exampleStats : stats);
+  // The plan panel serves two jobs with one set of controls: the ghost example on
+  // an empty board ("Build me a year") and "Fill the open months" on a partial
+  // one, where the user's stays stay put and only the open months are suggested.
+  // The plan itself is computed below, once the open months are known.
+  let filling = $state(false);
+  // "Must be in <place> in <month>" constraints, at most three. They are inputs
+  // to the generator, kept as plain {place, month} until resolved.
+  const MAX_ANCHORS = 3;
+  let anchors = $state([]);
+  let whyOpen = $state(false);
+  let planEl = $state(null);
+  let planHeadEl = $state(null);
+  let fillBtnEl = $state(null);
 
   // Progress + milestone payoff for a real (non-preview) route: months filled out
   // of 12, with a "complete" state once the year is full (goal-gradient).
@@ -362,6 +377,49 @@
     route.stays = example.map((s) => ({ ...s }));
     selStart = -1;
   }
+
+  function startFilling() {
+    filling = true;
+    tick().then(() => {
+      planHeadEl?.focus({ preventScroll: true });
+      planEl?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
+    });
+  }
+
+  function cancelFilling() {
+    filling = false;
+    focusAfter(() => fillBtnEl);
+  }
+
+  // Add the suggested stays; the Undo banner takes focus since the panel (and the
+  // button that was pressed) goes away.
+  function fillOpenMonths() {
+    const added = plan?.added ?? [];
+    if (!added.length) return;
+    track('year_fill', { style: seedStyle, added: added.length, anchors: anchors.length });
+    fillRoute(added);
+    filling = false;
+    selStart = -1;
+    focusAfter(() => bannerEl?.querySelector('button'));
+  }
+
+  // New anchor: Europe, in the first open month no other anchor already holds.
+  function addAnchor() {
+    if (anchors.length >= MAX_ANCHORS) return;
+    const held = new Set(anchors.map((a) => a.month));
+    const open = planMode === 'fill' ? emptyMonths : MONTHS.map((_, m) => m);
+    const month = open.find((m) => !held.has(m)) ?? open[0] ?? 0;
+    const place = ANCHOR_PLACES.some((p) => p.id === 'europe') ? 'europe' : ANCHOR_PLACES[0]?.id;
+    anchors = [...anchors, { place, month }];
+  }
+
+  function removeAnchor(a) {
+    anchors = anchors.filter((x) => x !== a);
+  }
+
+  const anchorLabel = (id) => ANCHOR_PLACES.find((p) => p.id === id)?.label ?? id;
+  const areaPlaces = ANCHOR_PLACES.filter((p) => !p.id.startsWith('r:'));
+  const regionPlaces = ANCHOR_PLACES.filter((p) => p.id.startsWith('r:'));
 
   function startBlank() {
     ghostDismissed = true;
@@ -436,6 +494,45 @@
 
   const emptyMonths = $derived(occ.map((x, i) => (x === null ? i : -1)).filter((i) => i >= 0));
 
+  // Which plan the panel is showing: the ghost example on an empty board, or
+  // suggestions for the open months of a partial year, or none.
+  const planMode = $derived(
+    ghostMode
+      ? 'ghost'
+      : filling && !previewing && route.stays.length > 0 && emptyMonths.length > 0
+        ? 'fill'
+        : null
+  );
+  const plan = $derived(
+    planMode
+      ? planYear(seedStyle, preset, valueModel, {
+          locked: planMode === 'fill' ? route.stays : [],
+          anchors: resolveAnchors(anchors)
+        })
+      : null
+  );
+  // What the board draws faintly: the whole example, or just the suggestions.
+  const ghostLegs = $derived(plan ? (planMode === 'ghost' ? plan.stays : plan.added) : []);
+  const ghostOcc = $derived(monthOccupancy(ghostLegs));
+  const example = $derived(planMode === 'ghost' ? plan.stays : []);
+  // The year as it would be with the plan applied; totals show its payoff.
+  const planStats = $derived(plan ? routeStats(plan.stays, preset) : null);
+  // The generator keeps plans within 90 real days, but the promise in the copy
+  // is only made when the shown plan actually keeps it.
+  const exampleLegal = $derived(!planStats || planStats.schengen.ok);
+  // What the totals row shows: real route stats normally, the plan's payoff
+  // (avg score, $/mo, festivals) while it is up — so the first impression is a
+  // value preview, not a row of em-dashes.
+  const shownStats = $derived(planStats ?? stats);
+  // Why each suggested stay was picked, by city (a plan never repeats a city).
+  const planWhy = $derived(new Map((plan?.legs ?? []).map((l) => [l.key, legWhy(l, { style: seedStyle, preset })])));
+
+  // The panel closes itself when there is nothing left to fill (or no year to
+  // fill), and while a shared year is being previewed.
+  $effect(() => {
+    if (filling && (previewing || route.stays.length === 0 || emptyMonths.length === 0)) filling = false;
+  });
+
   // Where addStay would drop the next stay (mirrors addStay exactly): drives
   // both the month-dependent filtering and the Schengen breach preview.
   const prospect = $derived.by(() => {
@@ -497,6 +594,7 @@
         const r = prospect ? countryCheckAdd(route.stays, { key: c.key, ...prospect }) : null;
         return {
           c, s, cost,
+          why: prospect ? pickWhy(c, prospect, route.stays, preset) : '',
           breach: !!v?.breach, tight: !!v?.caution, schDays: v?.worst ?? 0,
           resOver: r?.state === 'over', resDays: r?.days ?? 0
         };
@@ -583,7 +681,7 @@
   // 12-cell year overview for the mobile mini-strip: filled cells carry the
   // stay's band colour for that month; tapping any cell scrolls to its card.
   const overview = $derived(
-    (ghostMode ? exampleOcc : occ).map((o, m) => {
+    (plan ? monthOccupancy(plan.stays) : occ).map((o, m) => {
       if (!o) return { m, filled: false, band: 'none', schengen: false, start: false };
       const c = cityByKey.get(o.key);
       return { m, filled: true, band: band(qolFor(c, m, preset)), schengen: c.schengen, start: o.start === m };
@@ -668,6 +766,17 @@
         <button type="button" class="chip" onclick={undoAdopt} title="Remove the shared year and start from scratch">Undo</button>
       </div>
     </div>
+  {:else if adopted?.kind === 'fill'}
+    <div class="previewbar" bind:this={bannerEl}>
+      <div class="preview-msg">
+        <span class="preview-eyebrow">Filled your open months</span>
+        <span class="preview-sub">Added {adopted.count} suggested {adopted.count === 1 ? 'stay' : 'stays'}. Undo puts your year back as it was.</span>
+      </div>
+      <div class="preview-act">
+        <button type="button" class="chip adopt" onclick={undoAdopt}>Undo</button>
+        <button type="button" class="chip" onclick={keepAdopted}>Keep</button>
+      </div>
+    </div>
   {:else if adopted}
     <div class="previewbar" bind:this={bannerEl}>
       <div class="preview-msg">
@@ -684,11 +793,16 @@
     </div>
   {/if}
 
-  {#if ghostMode}
-    <div class="seedstrip">
+  {#if planMode}
+    <div class="seedstrip" bind:this={planEl}>
       <div class="seed-copy">
-        <p class="seed-head">Build your year in one tap.</p>
-        <p class="seed-sub">Pick a starting point — we'll lay out a season-following{exampleLegal ? ', visa-legal' : ''} year you can adjust or clear anytime.</p>
+        {#if planMode === 'fill'}
+          <p class="seed-head" tabindex="-1" bind:this={planHeadEl}>Fill your open months.</p>
+          <p class="seed-sub">Your stays stay where they are. These suggestions fill the {emptyMonths.length} open {emptyMonths.length === 1 ? 'month' : 'months'}{exampleLegal ? ' and keep the year visa-legal' : ''}.</p>
+        {:else}
+          <p class="seed-head">Build your year in one tap.</p>
+          <p class="seed-sub">Pick a starting point — we'll lay out a season-following{exampleLegal ? ', visa-legal' : ''} year you can adjust or clear anytime.</p>
+        {/if}
       </div>
       <div class="seed-styles" role="group" aria-label="Choose a starter year">
         {#each seedStyles as st}
@@ -701,9 +815,81 @@
           >{st.label}</button>
         {/each}
       </div>
+
+      <div class="plan-extra">
+        <div class="anchor-row">
+          {#if anchors.length}
+            <span class="anchor-lbl">Must be in</span>
+            {#each anchors as a (a)}
+              <span class="anchor">
+                <select class="anchor-sel" bind:value={a.place} aria-label="Place">
+                  <optgroup label="Areas">
+                    {#each areaPlaces as p (p.id)}<option value={p.id}>{p.label}</option>{/each}
+                  </optgroup>
+                  <optgroup label="Regions">
+                    {#each regionPlaces as p (p.id)}<option value={p.id}>{p.label}</option>{/each}
+                  </optgroup>
+                </select>
+                <span class="anchor-in">in</span>
+                <select class="anchor-sel" bind:value={a.month} aria-label="Month">
+                  {#each MONTHS as mon, m}
+                    <option value={m} disabled={planMode === 'fill' && occ[m] !== null}>{mon}</option>
+                  {/each}
+                </select>
+                <button
+                  type="button"
+                  class="anchor-x"
+                  aria-label="Remove {anchorLabel(a.place)} in {MONTHS[a.month]}"
+                  onclick={() => removeAnchor(a)}
+                ><span aria-hidden="true">×</span></button>
+              </span>
+            {/each}
+          {/if}
+          {#if anchors.length < MAX_ANCHORS}
+            <button type="button" class="anchor-add" aria-label="Add a place you must be in for a month" onclick={addAnchor}>+ Must be in…</button>
+          {/if}
+        </div>
+
+        {#each plan.unmet as u (u.month)}
+          <p class="anchor-miss" role="note">No city in {u.label} fits {MONTHS[u.month]} with this style and the Schengen and 183-day limits.</p>
+        {/each}
+        {#if planMode === 'fill' && plan.open.length > 0}
+          <p class="anchor-miss">{plan.open.length} {plan.open.length === 1 ? 'month stays' : 'months stay'} open: nothing else fits.</p>
+        {/if}
+
+        <button
+          type="button"
+          class="why-toggle"
+          aria-expanded={whyOpen}
+          aria-controls="myr-why"
+          onclick={() => (whyOpen = !whyOpen)}
+        >Why these picks<span aria-hidden="true">{whyOpen ? ' ▴' : ' ▾'}</span></button>
+        <!-- Always in the DOM so aria-controls resolves; hidden while collapsed. -->
+        <div class="why-panel" id="myr-why" hidden={!whyOpen}>
+          <p class="why-blurb">{STYLE_BLURBS[seedStyle]}</p>
+          {#if plan.legs.length}
+            <ol class="why-list">
+              {#each plan.legs as leg (leg.key)}
+                <li>
+                  <span class="num">{rangeLabel(leg.start, leg.len)}</span>
+                  <strong>{cityByKey.get(leg.key)?.name ?? leg.key}</strong> — {legWhy(leg, { style: seedStyle, preset })}
+                </li>
+              {/each}
+            </ol>
+          {:else}
+            <p class="why-blurb">Nothing to suggest for the open months under these limits.</p>
+          {/if}
+        </div>
+      </div>
+
       <div class="seed-act">
-        <button type="button" class="chip use-example" onclick={useExample}>Use this year</button>
-        <button type="button" class="chip start-blank" onclick={startBlank}>Start from scratch</button>
+        {#if planMode === 'fill'}
+          <button type="button" class="chip use-example" onclick={fillOpenMonths} disabled={!plan.added.length}>Add {plan.added.length} {plan.added.length === 1 ? 'stay' : 'stays'}</button>
+          <button type="button" class="chip start-blank" onclick={cancelFilling}>Cancel</button>
+        {:else}
+          <button type="button" class="chip use-example" onclick={useExample}>Use this year</button>
+          <button type="button" class="chip start-blank" onclick={startBlank}>Start from scratch</button>
+        {/if}
       </div>
     </div>
   {/if}
@@ -737,8 +923,25 @@
     </div>
   {/snippet}
 
+  <!-- A faint, inert row for a stay the plan would add (mobile list). -->
+  {#snippet ghostRow(stay)}
+    {@const c = cityByKey.get(stay.key)}
+    {@const why = planWhy.get(stay.key)}
+    <li class="mrow filled ghost" class:schengen={c.schengen} id="myr-m-{stay.start}" aria-hidden="true">
+      <div class="mrow-head">
+        <span class="mname">{c.name}{#if c.schengen}<span class="dia"> ◆</span>{/if}</span>
+        <span class="mscore num">{Math.round(stayAvg(stay))}</span>
+      </div>
+      <p class="mmeta num">{rangeLabel(stay.start, stay.len)} · {stay.len}mo · ~{fmtMoney(stayCostAvg(stay))}/mo</p>
+      {#if why}<p class="mwhy">{why}</p>{/if}
+      <div class="mstrip">
+        <MonthStrip cells={stripCells(c, preset)} frameFrom={stay.start} frameLen={stay.len} />
+      </div>
+    </li>
+  {/snippet}
+
   {#if !screen.mobile}
-  <div class="board" class:ghost={ghostMode}>
+  <div class="board" class:ghost={ghostMode} class:fill={planMode === 'fill'}>
     <div class="boardscroll-wrap" class:more={canScrollRight}>
     <div class="boardscroll" bind:this={scrollEl} onscroll={updateScroll}>
     <div class="months num">
@@ -749,7 +952,7 @@
 
     <div class="timeline">
       {#each occ as o, i}
-        {#if o === null && !previewing && !ghostMode}
+        {#if o === null && !previewing && !ghostMode && !ghostOcc[i]}
           <button
             type="button"
             class="gap"
@@ -760,12 +963,12 @@
             aria-label="Plan {MONTHS[i]}"
             aria-pressed={i === selStart}
           >+</button>
-        {:else if o === null && !ghostMode}
+        {:else if o === null && !ghostMode && !ghostOcc[i]}
           <div class="gap empty" style="grid-column: {i + 1} / span 1" aria-hidden="true"></div>
         {/if}
       {/each}
-      {#if ghostMode}
-        {#each example as stay (stay.key)}
+      {#if planMode}
+        {#each ghostLegs as stay (stay.key)}
           {@const c = cityByKey.get(stay.key)}
           {#each segments(stay) as seg}
             <div
@@ -876,12 +1079,15 @@
         {:else}
           <div class="progress-track"><span class="progress-fill" style="width: {(monthsPlanned / 12) * 100}%"></span></div>
           <span class="progress-label num">{monthsPlanned} of 12 months planned</span>
+          {#if !filling}
+            <button type="button" class="chip fill-btn" bind:this={fillBtnEl} onclick={startFilling}>Fill the open months</button>
+          {/if}
         {/if}
       </div>
     {/if}
 
-    <div class="totals" class:ghost={ghostMode}>
-      {#if ghostMode}<span class="ghost-tag">Example year</span>{/if}
+    <div class="totals" class:ghost={planMode}>
+      {#if planMode}<span class="ghost-tag">{planMode === 'fill' ? 'With suggestions' : 'Example year'}</span>{/if}
       <div class="tot">
         <span class="num tv">{Math.round(shownStats.avgQol) || '—'}</span>
         <span class="tk">avg score</span>
@@ -916,8 +1122,8 @@
       {/each}
     </div>
 
-    <div class="mstats" class:ghost={ghostMode}>
-      {#if ghostMode}<span class="ghost-tag">Example year</span>{/if}
+    <div class="mstats" class:ghost={planMode}>
+      {#if planMode}<span class="ghost-tag">{planMode === 'fill' ? 'With suggestions' : 'Example year'}</span>{/if}
       <span class="mstat"><strong class="num">{Math.round(shownStats.avgQol) || '—'}</strong> avg score</span>
       <span class="mstat"><strong class="num">{shownStats.months ? fmtMoney(shownStats.avgCost) : '—'}</strong> /mo {partyWord()}</span>
       {#if sch.anySchengen}
@@ -953,6 +1159,9 @@
         {:else}
           <div class="progress-track"><span class="progress-fill" style="width: {(monthsPlanned / 12) * 100}%"></span></div>
           <span class="progress-label num">{monthsPlanned} of 12 months planned</span>
+          {#if !filling}
+            <button type="button" class="chip fill-btn" bind:this={fillBtnEl} onclick={startFilling}>Fill the open months</button>
+          {/if}
         {/if}
       </div>
     {/if}
@@ -960,27 +1169,22 @@
     <ul class="mlist">
       {#if ghostMode}
         {#each example as stay (stay.key)}
-          {@const c = cityByKey.get(stay.key)}
-          <li class="mrow filled ghost" class:schengen={c.schengen} id="myr-m-{stay.start}" aria-hidden="true">
-            <div class="mrow-head">
-              <span class="mname">{c.name}{#if c.schengen}<span class="dia"> ◆</span>{/if}</span>
-              <span class="mscore num">{Math.round(stayAvg(stay))}</span>
-            </div>
-            <p class="mmeta num">{rangeLabel(stay.start, stay.len)} · {stay.len}mo · ~{fmtMoney(stayCostAvg(stay))}/mo</p>
-            <div class="mstrip">
-              <MonthStrip cells={stripCells(c, preset)} frameFrom={stay.start} frameLen={stay.len} />
-            </div>
-          </li>
+          {@render ghostRow(stay)}
         {/each}
       {:else}
       {#each occ as o, m}
         {#if o === null}
+          {@const g = planMode ? ghostOcc[m] : null}
+          {#if g}
+            {#if g.start === m}{@render ghostRow(g)}{/if}
+          {:else}
           <li class="mrow empty" id="myr-m-{m}">
             <div class="mrow-head"><span class="mmonth">{MONTHS[m]}</span><span class="mopen">open</span></div>
             {#if !previewing}
               <button type="button" class="madd" onclick={() => openPicker(m)}><span class="plus" aria-hidden="true">+</span> Add a city</button>
             {/if}
           </li>
+          {/if}
         {:else if o.start === m}
           {@const c = cityByKey.get(o.key)}
           <li class="mrow filled" class:schengen={c.schengen} class:hazard={stayHazard(o)} id="myr-m-{m}">
@@ -1068,7 +1272,7 @@
     <div class="refine">
       <div class="refine-fields">
         <label class="refine-field">
-          <span class="refine-field-lbl">Max $/mo {partyWord()}</span>
+          <span class="refine-field-lbl">Max {moneySymbol()}/mo {partyWord()}</span>
           <div class="refine-select">
             <select bind:value={filters.maxCost} aria-label="Max monthly budget, {partyWord()}">
               <option value="">Any</option>
@@ -1152,11 +1356,11 @@
       </p>
     {/if}
     <ul class="rows">
-      {#each pickerList as { c, s, cost, breach, tight, schDays, resOver, resDays } (c.key)}
+      {#each pickerList as { c, s, cost, why, breach, tight, schDays, resOver, resDays } (c.key)}
         <li>
           <div class="rail">
             <span class="num rowq" title={sortMode === 'value' ? "Average Best Value across the months you'd book" : "Average score across the months you'd book"}>{Math.round(s)}</span>
-            <span class="railcost num" title="Average $/mo {partyWord()} across the months you'd book">{fmtMoney(cost)}<em>/mo</em></span>
+            <span class="railcost num" title="Average cost/mo {partyWord()} across the months you'd book">{fmtMoney(cost)}<em>/mo</em></span>
           </div>
           <div class="rowbody">
             <div class="rowhead">
@@ -1193,6 +1397,7 @@
                 muted={!prospect}
               />
             </div>
+            {#if why}<p class="rowwhy">{why}</p>{/if}
           </div>
           <button
             type="button"
@@ -1295,6 +1500,9 @@
     .boardscroll .months,
     .boardscroll .timeline { min-width: 0 !important; }
 
+    /* Suggestions that are still being weighed are not part of the year. */
+    .board.fill .stay.ghost { display: none !important; }
+
     .stay,
     .ovcell {
       -webkit-print-color-adjust: exact;
@@ -1361,7 +1569,7 @@
     gap: 14px;
     margin: 16px 0 14px;
     padding: 14px 18px;
-    background: linear-gradient(180deg, rgba(193, 79, 43, 0.07), rgba(193, 79, 43, 0.03));
+    background: linear-gradient(180deg, rgb(var(--terra-rgb) / 0.07), rgb(var(--terra-rgb) / 0.03));
     border: 1px solid var(--line);
     border-radius: 14px;
   }
@@ -1421,8 +1629,136 @@
     font-weight: 600;
   }
 
-  .chip.use-example:hover { background: var(--terra); border-color: var(--terra); }
+  .chip.use-example:hover:not(:disabled) { background: var(--terra); border-color: var(--terra); }
+  .chip.use-example:disabled { opacity: 0.5; cursor: not-allowed; }
   .chip.start-blank { color: var(--ink-2); }
+
+  /* The plan panel's secondary rows, quiet and under the style chips: where you
+     must be, what could not be met, and why each stay was picked. They sit
+     between the chips and the actions in the panel's flex order. */
+  .plan-extra {
+    order: 2;
+    flex: 1 1 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .anchor-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+    max-width: 100%;
+  }
+
+  .anchor-lbl { font-size: 12px; font-weight: 600; color: var(--ink-2); }
+
+  .anchor {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+  }
+
+  .anchor-sel { min-width: 0; max-width: 100%; }
+  .anchor-in { font-size: 12px; color: var(--ink-2); }
+
+  .anchor-x {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: none;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--ink-3);
+    cursor: pointer;
+  }
+
+  .anchor-x:hover { color: var(--terra-deep); background: rgba(193, 79, 43, 0.1); }
+
+  .anchor-add {
+    padding: 4px 12px;
+    border: 1px dashed var(--ink-3);
+    border-radius: 999px;
+    background: transparent;
+    font: inherit;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink-2);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .anchor-add:hover { border-color: var(--ink); color: var(--ink); }
+
+  .anchor-miss {
+    margin: 0;
+    padding: 6px 12px;
+    border-left: 2px solid var(--terra);
+    background: var(--terra-soft);
+    border-radius: 0 6px 6px 0;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--ink-2);
+  }
+
+  .why-toggle {
+    padding: 2px 0;
+    border: none;
+    background: none;
+    font: inherit;
+    font-size: 12px;
+    color: var(--ink-2);
+    text-decoration: underline dotted;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+
+  .why-toggle:hover { color: var(--ink); text-decoration-style: solid; }
+
+  .why-panel {
+    align-self: stretch;
+    padding: 10px 12px;
+    border: 1px solid var(--line-soft);
+    border-radius: 8px;
+    background: var(--card);
+  }
+
+  .why-blurb { margin: 0; font-size: 12px; line-height: 1.45; color: var(--ink-2); }
+
+  .why-list {
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--ink-2);
+  }
+
+  .why-list .num { margin-right: 4px; color: var(--ink-3); }
+  .why-list strong { color: var(--ink); font-weight: 600; }
+
+  /* On touch these meet the 44px floor, as the shared .chip and select do. */
+  @media (max-width: 700px) {
+    .anchor-x { min-width: var(--tap); min-height: var(--tap); }
+    .anchor-add,
+    .why-toggle {
+      min-height: var(--tap);
+      display: inline-flex;
+      align-items: center;
+    }
+  }
 
   /* The ghost timeline/cards read as a preview, not live data: dimmed, slightly
      desaturated, and inert. */
@@ -1443,28 +1779,34 @@
     text-transform: uppercase;
     font-weight: 600;
     color: var(--terra-deep);
-    background: rgba(193, 79, 43, 0.1);
+    background: rgb(var(--terra-rgb) / 0.1);
     border-radius: 999px;
     padding: 3px 9px;
   }
 
   .mrow.filled.ghost { opacity: 0.6; filter: saturate(0.7); pointer-events: none; }
 
+  /* The generator's one-line reason under a suggested stay (mobile). */
+  .mwhy { margin: -5px 0 10px; font-size: 12px; line-height: 1.35; color: var(--ink-2); }
+
   /* ── Progress + milestone ──
      A filling bar (goal-gradient) while the year is partial; a quiet celebratory
      line once all 12 months are placed. */
   .progress {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 12px;
+    gap: 8px 12px;
     margin-top: 14px;
   }
 
+  .fill-btn { flex-shrink: 0; white-space: nowrap; }
+
   .progress-track {
-    flex: 1;
+    flex: 1 1 60px;
     height: 6px;
     border-radius: 999px;
-    background: var(--line-soft, rgba(33, 36, 30, 0.1));
+    background: var(--line-soft);
     overflow: hidden;
   }
 
@@ -1472,7 +1814,7 @@
     display: block;
     height: 100%;
     border-radius: 999px;
-    background: var(--teal, #2f6f5e);
+    background: var(--teal);
     transition: width 0.3s ease;
   }
 
@@ -1487,7 +1829,7 @@
     font-family: var(--display);
     font-size: 14px;
     font-weight: 580;
-    color: var(--teal, #2f6f5e);
+    color: var(--teal);
   }
 
   .mprogress { margin: 0 0 16px; }
@@ -1503,8 +1845,8 @@
   .shareicon { flex: none; }
 
   .chip.share.on {
-    background: var(--teal, #2f6f5e);
-    border-color: var(--teal, #2f6f5e);
+    background: var(--teal);
+    border-color: var(--teal);
     color: var(--paper);
   }
 
@@ -1518,7 +1860,7 @@
     gap: 12px;
     margin-top: 16px;
     padding: 12px 16px;
-    background: var(--schengen-soft, #e8eef6);
+    background: var(--schengen-soft);
     border: 1px solid var(--line);
     border-radius: 12px;
   }
@@ -1628,7 +1970,7 @@
     inset: 0 0 0 auto;
     width: 44px;
     pointer-events: none;
-    background: linear-gradient(to right, rgba(253, 250, 242, 0), var(--card));
+    background: linear-gradient(to right, transparent, var(--card));
     opacity: 0;
     transition: opacity 0.2s ease;
   }
@@ -1679,11 +2021,11 @@
     transition: all 0.13s ease;
   }
 
-  .gap:hover, .gap.sel { border-color: var(--terra); color: var(--terra); background: rgba(193, 79, 43, 0.06); }
+  .gap:hover, .gap.sel { border-color: var(--terra); color: var(--terra); background: rgb(var(--terra-rgb) / 0.06); }
 
   .stay {
     position: relative;
-    background: #dcebe2;
+    background: var(--teal-soft);
     border: 1px solid var(--teal);
     border-radius: 9px;
     min-height: 54px;
@@ -1695,7 +2037,7 @@
   }
 
   .stay.schengen { background: var(--schengen-soft); border-color: var(--schengen); }
-  .stay.hazard { box-shadow: inset 0 0 0 2px rgba(193, 79, 43, 0.5); }
+  .stay.hazard { box-shadow: inset 0 0 0 2px rgb(var(--terra-rgb) / 0.5); }
 
   .stayname {
     background: none;
@@ -1774,7 +2116,7 @@
     border-radius: 3px;
   }
 
-  .dur-btn:hover:not(:disabled) { background: rgba(33, 36, 30, 0.1); color: var(--ink); }
+  .dur-btn:hover:not(:disabled) { background: rgb(var(--ink-rgb) / 0.1); color: var(--ink); }
   .dur-btn:disabled { opacity: 0.25; cursor: default; }
 
   /* Roomier tap targets on touch, where there's no hover to enlarge intent.
@@ -2115,7 +2457,7 @@
   }
 
   .segbtn:first-child { border-left: none; }
-  .segbtn:hover:not(.on) { background: rgba(33, 36, 30, 0.06); color: var(--ink); }
+  .segbtn:hover:not(.on) { background: rgb(var(--ink-rgb) / 0.06); color: var(--ink); }
 
   .segbtn.on {
     background: var(--ink);
@@ -2272,6 +2614,19 @@
 
   .rowstrip { min-width: 0; }
 
+  /* Why this city for the window: at most two lines so rows stay even. */
+  .rowwhy {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.35;
+    color: var(--ink-2);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+  }
+
   /* Underlined in the same accent as the in-window month marker, so the line
      itself reads as "this number measures those months." */
   .rowq {
@@ -2381,9 +2736,9 @@
     flex-wrap: wrap;
   }
 
-  .mrow.filled { background: #dcebe2; border-color: var(--teal); }
+  .mrow.filled { background: var(--teal-soft); border-color: var(--teal); }
   .mrow.filled.schengen { background: var(--schengen-soft); border-color: var(--schengen); }
-  .mrow.filled.hazard { box-shadow: inset 0 0 0 2px rgba(193, 79, 43, 0.4); }
+  .mrow.filled.hazard { box-shadow: inset 0 0 0 2px rgb(var(--terra-rgb) / 0.4); }
 
   .mrow-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 
@@ -2481,7 +2836,7 @@
     z-index: 60;
     display: flex;
     align-items: flex-end;
-    background: rgba(33, 36, 30, 0.45);
+    background: var(--scrim);
   }
 
   .picker-scrim-back {
@@ -2503,7 +2858,7 @@
     background: var(--paper);
     border-radius: 18px 18px 0 0;
     border-top: 1px solid var(--line);
-    box-shadow: 0 -10px 30px -16px rgba(33, 36, 30, 0.5);
+    box-shadow: 0 -10px 30px -16px rgb(var(--shade-rgb) / 0.5);
     outline: none;
   }
 
@@ -2581,7 +2936,7 @@
   .pcell.inwin {
     border-style: solid;
     border-color: var(--terra);
-    background: rgba(193, 79, 43, 0.12);
+    background: rgb(var(--terra-rgb) / 0.12);
     color: var(--terra-deep);
   }
 

@@ -101,18 +101,22 @@ export function removeStayRef(stay) {
   route.stays = route.stays.filter((s) => s !== stay);
 }
 
-// ---- Adopting a shared year ----
+// ---- Adopting a shared year (and filling the open months) ----
 // A shared link (?i=…) becomes the visitor's own year in one of two ways:
 //   'auto'  a visitor with no saved year lands on it: App adopts it on load as
 //           their starting point (there is nothing of theirs to protect);
 //   'copy'  a returning visitor previewing it read-only presses Save a copy,
 //           replacing the year they had.
-// Either way My year shows a one-line banner with Undo until the first edit
+// A third kind is not a shared year at all:
+//   'fill'  My year's "Fill the open months" appends generated stays to the
+//           year in place (see fillRoute).
+// In every case My year shows a one-line banner with Undo until the first edit
 // (after which an Undo would silently throw that edit away), Undo, or Keep.
 // Held here rather than in My year so it survives switching views.
 let adoptionRaw = $state.raw(null);
 
-// { kind, prev: { name, stays } } while the banner applies, else null.
+// { kind: 'auto' | 'copy' | 'fill', prev: { name, stays }, count? } while the
+// banner applies, else null. `count` is only set for 'fill': stays added.
 export const adoption = () => (adoptionRaw && route.stays === adoptionRaw.adopted ? adoptionRaw : null);
 
 export function adoptRoute(stays, name, kind) {
@@ -121,6 +125,15 @@ export function adoptRoute(stays, name, kind) {
   if (name || kind === 'auto') route.name = name ?? '';
   // Hold the stored proxy (not the literal) so the identity check above works.
   adoptionRaw = { kind, prev, adopted: route.stays };
+}
+
+// Append generated stays to the year (My year's "Fill the open months"), with the
+// same Undo banner as an adoption until the first edit.
+export function fillRoute(added) {
+  const prev = { name: route.name, stays: route.stays.map((s) => ({ ...s })) };
+  route.stays = [...route.stays, ...added.map((s) => ({ ...s }))];
+  // Hold the stored proxy (not the literal) so the identity check above works.
+  adoptionRaw = { kind: 'fill', prev, adopted: route.stays, count: added.length };
 }
 
 export function undoAdoption() {

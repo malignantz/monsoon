@@ -33,6 +33,15 @@
       "source": "https://catalog.data.gov/dataset/sarajevo-pm2-5-data-from-metone-bam-1020",
       "sourceDetail": "U.S. EPA Office of Research and Development (2019), Sarajevo PM2.5 Data from MetOne BAM-1020, https://pasteur.epa.gov/uploads/10.23719/1518365/Sarajevo-confproc-data.csv",
       "sourceLicence": "U.S. Public Domain (EPA data licence https://pasteur.epa.gov/license/sciencehub-license.html)"
+    },
+    {
+      "city": "antalya",
+      "months": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "values": {"1": 23.9, "2": 19.6, "3": 18.1, "4": 18.5, "5": 18.8, "6": 18.2, "7": 16.5, "8": 19.9, "9": 18.0, "10": 19.4, "11": 20.4, "12": 24.6},
+      "reason": "WHO annual (25.2) rests on one traffic station in 2019 and 2023, scale 2.14 vs CAMS. Replaced by the 2020-2025 mean of monthly means of valid, verified hourly PM2.5 at the national network's urban-background station TR070741 (36.915 N, 30.700 E, ~2 km from the city point); annual 19.7. Flat seasonal shape, slight winter peak. A nearby traffic station (TR070231, 2022-23) shows the same shape at 17.6. One station; dust events not filtered; Dec 2020, Jan 2021, Oct 2021 below 90% capture.",
+      "source": "https://eeadmz1batchservice02.blob.core.windows.net/airquality-p-e1a/TR/SPO-TR070741_6001.parquet",
+      "sourceDetail": "European Environment Agency, Air Quality download service for verified and up-to-date data (E1a), 2013-now, https://www.eea.europa.eu/en/datahub/datahubitem-view/778ef9f5-6293-4846-badd-56a29c70880d; sampling point SPO-TR070741_6001 (PM2.5), data provider Turkish Ministry of Environment, Urbanization and Climate Change (national air-quality network). Accessed 2026-10-03; monthly means recomputed by the lead from the hourly file.",
+      "sourceLicence": "EEA reuse policy: commercial or non-commercial reuse with acknowledgement of the EEA (https://www.eea.europa.eu/en/legal-notice)"
     }
   ]
 }

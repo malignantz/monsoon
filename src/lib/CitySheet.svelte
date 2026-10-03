@@ -5,7 +5,7 @@
   import Sources from './Sources.svelte';
   import { focusTrap, isTopLayer } from './focusTrap.js';
   import { cityShareUrl } from './urlState.js';
-  import { stripCells, qolFor, fmtMoney, fmtTemp, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, retryDetail, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, shareOrCopy, settings, sources, dataAsOf } from './data.svelte.js';
+  import { stripCells, qolFor, fmtMoney, fmtUsd, moneyNote, fmtTemp, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, retryDetail, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, shareOrCopy, settings, sources, dataAsOf } from './data.svelte.js';
   import { monthRows, safetyRows, costRows, cityDataDates, reportUrl, fmtDate, CHIP_LABEL, normConfidence } from './provenance.js';
 
   // oncompare is only passed where a comparison can be built (over This month,
@@ -13,6 +13,7 @@
   let { city, month, preset, onclose, onmonth, onstep, onaddtoyear, onmethod, compared = false, compareFull = false, oncompare = null } = $props();
 
   let sheetEl = $state(null);
+  let safetyHeadEl = $state(null);
 
   const faved = $derived(isFavorite(city.key));
 
@@ -58,6 +59,13 @@
   $effect(() => {
     untrack(retryDetail);
   });
+
+  // Retry unmounts its own button as the block flips to "Loading…", which would
+  // drop focus to <body>. Park it on the section heading (always mounted) first.
+  function retrySafety() {
+    safetyHeadEl?.focus({ preventScroll: true });
+    retryDetail();
+  }
 
   // Placeholder for detail-layer cells: an ellipsis while loading, a dash once
   // the load has failed (the safety block below carries the Retry).
@@ -113,7 +121,7 @@
     })
   );
   const safetySrcRows = $derived(detailStatus.ready ? safetyRows(city) : []);
-  const costSrcRows = $derived(detailStatus.ready ? costRows(city) : []);
+  const costSrcRows = $derived(detailStatus.ready ? costRows(city, fmtMoney) : []);
   const costLowest = $derived(normConfidence(city.costProv?.lowest));
 
   // What the selected month's Events score counts: the month's scored event
@@ -139,7 +147,7 @@
       `Safety ${saf.score ?? '—'} · violent ${Math.round(saf.violent?.sub ?? 0)} · property ${Math.round(saf.property?.sub ?? 0)} · visitor ×${saf.tourist?.modifier ?? 1} · women's ${Math.round(saf.womensSafety?.sub ?? 0)}`
     )
   );
-  const costReport = $derived(report('Cost', `${fmtMoney(cityCost(m))}/mo ${partyWord()}`));
+  const costReport = $derived(report('Cost', `${fmtUsd(cityCost(m))}/mo ${partyWord()}`));
 
   const dataDates = $derived(cityDataDates(city, sources, dataAsOf));
   const dataAsOfText = $derived(
@@ -285,6 +293,7 @@
           {/if}
           Rent reflects {MONTHS[month]} seasonality; other costs are held flat across the year.
         </p>
+        {#if moneyNote()}<p class="srcp">{moneyNote()}</p>{/if}
         {#if detailStatus.ready && city.costProv}
           <p class="srcp">
             Line items below are for one person in a base month{#if city.costProv.asOf}, as of {fmtDate(city.costProv.asOf)}{/if}{#if costLowest}; lowest item confidence: {CHIP_LABEL[costLowest]}{/if}.
@@ -342,7 +351,7 @@
       </section>
 
       <section class="block">
-        <h2>Safety, two ways
+        <h2 bind:this={safetyHeadEl} tabindex="-1">Safety, two ways
           <ScoreInfo title="Safety score">
             <p>55% violent + 45% property, then a ×0.60–1.40 visitor lens for whether
               travelers are more insulated or more targeted than locals.</p>
@@ -356,7 +365,7 @@
         {#if detailStatus.failed}
           <p class="loading" role="alert">
             Couldn't load the safety breakdown.
-            <button type="button" class="retry" onclick={retryDetail}>Retry</button>
+            <button type="button" class="retry" onclick={retrySafety}>Retry</button>
           </p>
         {:else if !detailStatus.ready}
           <p class="loading">Loading the safety breakdown…</p>
@@ -445,7 +454,7 @@
   .scrim {
     position: fixed;
     inset: 0;
-    background: rgba(33, 36, 30, 0.45);
+    background: var(--scrim);
     /* Above the My year picker sheet (z 60) so a city opened from a picker row
        sits on top, and closing it returns to the still-open picker. */
     z-index: 70;
@@ -544,7 +553,7 @@
   .save.on {
     color: var(--terra-deep);
     border-color: var(--terra);
-    background: var(--terra-soft, #f6e3d8);
+    background: var(--terra-soft);
   }
 
   /* The new browse→plan action leads the cluster: filled ink so it reads as the
@@ -610,6 +619,7 @@
     font-weight: 580;
     margin-bottom: 12px;
   }
+  h2[tabindex='-1']:focus { outline: none; }
 
   .mt { margin-top: 24px; }
 

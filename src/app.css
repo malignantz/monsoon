@@ -24,8 +24,31 @@
   --band-ok-ink: #46300a;
   --band-bad-ink: #fff4ee;
   /* The "ok" amber is a fill colour (about 2:1 on paper); text and outlines
-     that mean "tight" use this darker amber, 5:1 on paper. */
+     that mean "tight" use this darker amber, 5:1 on paper. Same idea for the
+     other bands when a score is set as coloured text (the table's grades). */
   --band-ok-text: #8a5c0a;
+  --band-good-text: #5a7a2e;
+  --band-bad-text: #ad4324;
+
+  /* Text and marks set on a solid terracotta fill (selected month pill). */
+  --on-terra: #fdf3ec;
+  /* A filled stay on the My year board; the hazard tag on cards. */
+  --teal-soft: #dcebe2;
+  --hazard: #7d2c12;
+  --hazard-soft: #f3ddd2;
+  /* Switch knob, off and on (on sits on a terracotta track). */
+  --knob: #fdfaf2;
+  --knob-on: #fdfaf2;
+
+  /* Channel triplets for translucent washes: rgb(var(--ink-rgb) / 0.1).
+     --ink-rgb and --paper-rgb flip with the theme (hover tints, the dot grid);
+     --shade-rgb is for shadows and stays dark in both themes. */
+  --ink-rgb: 33 36 30;
+  --paper-rgb: 246 241 230;
+  --terra-rgb: 193 79 43;
+  --teal-rgb: 21 107 79;
+  --shade-rgb: 33 36 30;
+  --scrim: rgb(33 36 30 / 0.45);
 
   --h1: clamp(34px, 7vw, 56px);
   --h2: clamp(18px, 3vw, 22px);
@@ -54,6 +77,67 @@
   --z-toast: 90;      /* confirmations ride above every sheet */
 }
 
+/* ── Dark theme: the atlas after dark ──
+   The same field atlas read by lamplight, not a dashboard: warm olive-black
+   paper (never blue-grey), parchment ink, a lifted terracotta, and Schengen
+   blue lightened just enough to stay its own colour. Fills that carry text
+   (ink, terra-deep, teal) turn light, so every "var(--paper) on a fill" pair
+   inverts cleanly. Band fills keep their hues but are re-stepped in lightness
+   so great/avoid and good/ok separate by brightness as well as hue (light
+   theme: 1.11 and 1.00; here 1.68 and 1.34). Ratios: README → Brand And UI.
+
+   data-theme is set before first paint by the inline script in index.html
+   (system preference unless Settings → Appearance overrides it; src/lib/theme.js
+   keeps it live). Screen only, so printing always uses the light tokens.
+   Static pages lift only the :root block above, so they stay light. */
+@media screen {
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+
+    --paper: #191b16;
+    --paper-2: #23261f;
+    --paper-3: #2d3028;
+    --card: #20231c;
+    --ink: #ece6d6;
+    --ink-2: #c2bcab;
+    --ink-3: #a6a090;
+    --line: #3e4137;
+    --line-soft: #2f3229;
+    --terra: #e27a56;
+    --terra-deep: #f19c7b;
+    --terra-soft: #3b2419;
+    --teal: #5bbb93;
+    --schengen: #93b2e8;
+    --schengen-soft: #1e2a3d;
+
+    --band-great: #3aa97b;
+    --band-good: #b9d27a;
+    --band-ok: #e0a23f;
+    --band-bad: #c04a2c;
+    --band-great-ink: #0c1f16;
+    --band-good-ink: #26330c;
+    --band-ok-ink: #3a2706;
+    --band-bad-ink: #fff4ee;
+    --band-ok-text: #e8b65c;
+    --band-good-text: #b9d27a;
+    --band-bad-text: #f08c6c;
+
+    --on-terra: #191b16;
+    --teal-soft: #1d3229;
+    --hazard: #f3a183;
+    --hazard-soft: #41231a;
+    --knob: #c2bcab;
+    --knob-on: #191b16;
+
+    --ink-rgb: 236 230 214;
+    --paper-rgb: 25 27 22;
+    --terra-rgb: 226 122 86;
+    --teal-rgb: 91 187 147;
+    --shade-rgb: 0 0 0;
+    --scrim: rgb(0 0 0 / 0.6);
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -66,7 +150,7 @@ body {
 
 body {
   background: var(--paper);
-  background-image: radial-gradient(rgba(33, 36, 30, 0.035) 0.5px, transparent 0.5px);
+  background-image: radial-gradient(rgb(var(--ink-rgb) / 0.035) 0.5px, transparent 0.5px);
   background-size: 14px 14px;
   color: var(--ink);
   font-family: var(--sans);
@@ -218,7 +302,7 @@ input:focus {
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 14px;
-  box-shadow: 0 12px 26px -20px rgba(33, 36, 30, 0.55);
+  box-shadow: 0 12px 26px -20px rgb(var(--shade-rgb) / 0.55);
   animation: refine-in 0.22s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -352,18 +436,18 @@ input:focus {
 @keyframes refine-flash {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(193, 79, 43, 0);
+    box-shadow: 0 0 0 0 rgb(var(--terra-rgb) / 0);
   }
   15% {
-    box-shadow: 0 0 0 5px rgba(193, 79, 43, 0.24);
+    box-shadow: 0 0 0 5px rgb(var(--terra-rgb) / 0.24);
   }
   65% {
-    box-shadow: 0 0 0 5px rgba(193, 79, 43, 0.16);
+    box-shadow: 0 0 0 5px rgb(var(--terra-rgb) / 0.16);
   }
 }
 
 ::selection {
-  background: rgba(193, 79, 43, 0.22);
+  background: rgb(var(--terra-rgb) / 0.22);
 }
 
 @media (prefers-reduced-motion: reduce) {

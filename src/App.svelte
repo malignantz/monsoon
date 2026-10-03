@@ -273,14 +273,30 @@
     typeof document.startViewTransition === 'function' &&
     !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // A transition can be aborted (a newer one starts, the page is hidden, a
+  // resize or popstate lands mid-flight): ready, finished and updateCallbackDone
+  // then reject. Nothing here depends on those outcomes, so swallow them all.
+  function animate(update, then = () => {}) {
+    const vt = document.startViewTransition(update);
+    vt.ready.catch(() => {});
+    vt.updateCallbackDone.catch(() => {});
+    // Runs on both outcomes; the two-argument then() leaves no rejected promise.
+    vt.finished.then(then, then);
+    return vt;
+  }
+
   function applyOpen(key, { replace = false, month: sheetMonth } = {}) {
     if (Number.isInteger(sheetMonth) && sheetMonth >= 0 && sheetMonth < 12) month = sheetMonth;
+    // A sheet already open on our own pushed entry (a double-click, or a second
+    // card clicked before the first open applied) is rewritten in place, so one
+    // Back still closes it.
+    const stacked = cityKey !== null && !!history.state?.sheet;
     cityKey = key;
     sheetOpenedAt = Date.now();
     track('city_sheet_open', { city: key, month, from: view === 'year' ? 'my_year' : 'this_month' });
     // Stepping (replace) keeps the entry's `sheet` flag; a fresh open pushes an
     // entry marked as ours, so closing can simply go back to the list.
-    if (replace) history.replaceState(history.state, '', urlFor());
+    if (replace || stacked) history.replaceState(history.state, '', urlFor());
     else history.pushState({ sheet: true }, '', urlFor());
   }
 
@@ -319,11 +335,13 @@
     }
     transitioningKey = key;
     await tick();
-    const vt = document.startViewTransition(async () => {
-      applyOpen(key, opts);
-      await tick();
-    });
-    vt.finished.finally(() => (transitioningKey = null));
+    animate(
+      async () => {
+        applyOpen(key, opts);
+        await tick();
+      },
+      () => (transitioningKey = null)
+    );
   }
 
   // Sheet → card: hold the hero name on the closing city so it flies back to
@@ -337,11 +355,13 @@
     }
     transitioningKey = cityKey;
     await tick();
-    const vt = document.startViewTransition(async () => {
-      applyClose();
-      await tick();
-    });
-    vt.finished.finally(() => (transitioningKey = null));
+    const vt = animate(
+      async () => {
+        applyClose();
+        await tick();
+      },
+      () => (transitioningKey = null)
+    );
     await vt.updateCallbackDone.catch(() => {});
   }
 
@@ -362,7 +382,7 @@
       applyOpen(next, { replace: true });
       return;
     }
-    document.startViewTransition(() => applyOpen(next, { replace: true }));
+    animate(() => applyOpen(next, { replace: true }));
   }
 
   $effect(() => {
@@ -458,7 +478,7 @@
   async function openFromCompare(key) {
     await CitySheetL.load().catch(() => {});
     if (!canAnimate()) applyOpen(key);
-    else document.startViewTransition(() => applyOpen(key));
+    else animate(() => applyOpen(key));
   }
 
   // Leaving for My year from inside an overlay (toast "View year"): drop the
@@ -645,6 +665,7 @@
         {compareKeys}
         oncompare={toggleCompare}
         oncomparemode={toggleCompareMode}
+        onaddtoyear={addToYear}
         onmodel={(m) => (valueModel = m)}
         onsettings={openSettings}
         onresume={() => (view = 'year')}
@@ -660,6 +681,10 @@
     <span>Your ancestors moved with the seasons. {cities.length} cities, scored month by month — clean air, mild weather, no typhoons, festivals on, 90 Schengen days at a time.</span>
     <span class="footlinks">
       <a class="num footlink" href="/cities/">all cities</a>
+      <span aria-hidden="true">·</span>
+      <a class="num footlink" href="/best/">where to be</a>
+      <span aria-hidden="true">·</span>
+      <a class="num footlink" href="/compare/">comparisons</a>
       <span aria-hidden="true">·</span>
       <button type="button" class="num footlink" data-prefetch="about" onclick={() => (aboutOpen = true)}>about</button>
       <span aria-hidden="true">·</span>
@@ -962,6 +987,7 @@
 
     .footlinks {
       align-self: flex-start;
+      flex-wrap: wrap; /* five links no longer fit one line on a phone */
     }
 
     .footlink {
@@ -1033,7 +1059,7 @@
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: 999px;
-    box-shadow: 0 14px 34px -14px rgba(33, 36, 30, 0.4);
+    box-shadow: 0 14px 34px -14px rgb(var(--shade-rgb) / 0.4);
     font-size: 13.5px;
     color: var(--ink-2);
     animation: lazy-in 0.2s ease 0.3s both;
@@ -1092,7 +1118,7 @@
     background: var(--ink);
     color: var(--paper);
     border-radius: 999px;
-    box-shadow: 0 14px 34px -12px rgba(33, 36, 30, 0.55);
+    box-shadow: 0 14px 34px -12px rgb(var(--shade-rgb) / 0.55);
     animation: toast-in 0.22s ease;
   }
 
@@ -1119,7 +1145,7 @@
 
   .toast-act {
     flex-shrink: 0;
-    border: 1px solid rgba(246, 241, 230, 0.4);
+    border: 1px solid rgb(var(--paper-rgb) / 0.4);
     background: transparent;
     color: var(--paper);
     border-radius: 999px;

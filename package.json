@@ -12,10 +12,13 @@
     "check:ids": "node scripts/check-city-ids.mjs",
     "test:schengen": "node scripts/test-schengen.mjs",
     "test:daycount": "node scripts/test-daycount.mjs",
+    "test:currency": "node scripts/test-currency.mjs",
+    "update:fx": "node scripts/update-fx-rates.mjs",
     "check:seeds": "node scripts/check-seeds.mjs",
     "deploy": "bash scripts/deploy.sh"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
     "svelte": "^5.16.0",
     "vite": "^6.0.7"

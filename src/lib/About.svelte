@@ -77,7 +77,7 @@
   .scrim {
     position: fixed;
     inset: 0;
-    background: rgba(33, 36, 30, 0.45);
+    background: var(--scrim);
     z-index: 60;
     overflow-y: auto;
     padding: 6vh 16px;

@@ -410,7 +410,7 @@
     align-items: center;
     justify-content: center;
     padding: 4vh 16px;
-    background: rgba(33, 36, 30, 0.45);
+    background: var(--scrim);
   }
 
   .scrim-back {
@@ -667,7 +667,7 @@
   .mb.on {
     background: var(--terra);
     border-color: var(--terra);
-    color: #fdf3ec;
+    color: var(--on-terra);
   }
 
   /* The sheet's large strip, flattened for three-up reading. Scoped here so the
@@ -839,7 +839,7 @@
 
   /* Best in row: weight + a faint shade of the "great" green, and the word
      "best" for screen readers — never colour alone. */
-  td.best { background: rgba(21, 107, 79, 0.075); }
+  td.best { background: rgb(var(--teal-rgb) / 0.075); }
   td.best .v,
   td.best .num,
   td.best .t { font-weight: 700; color: var(--ink); }

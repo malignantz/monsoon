@@ -7,12 +7,12 @@ See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring
 ## Data And Scoring
 
 - [ ] Finish the climate and air hold-backs. The sourced inputs are applied (methodology v6: WMO 1991-2020 station normals via NOAA NCEI, ERA5 via Open-Meteo, CAMS PM2.5 scaled to the WHO air-quality database), but 107 city-metrics (940 of 6,660 city-months) keep the previous estimate, labelled as editorial on the sheet. Rules and the full list: `docs/data-changes/2026-10-03-climate-air.md`, `data/climate-air-holdbacks.json`.
-  - 6 cities still to fetch from ERA5 (Open-Meteo quota): Nha Trang, Ipoh, Skopje, Ohrid, Gdansk, Queretaro. Then `scripts/apply_climate_air.py --check`, `--write`, `rebake_scores.py`, `sanity_check.py`.
+  - 6 cities still to fetch from ERA5: Nha Trang, Ipoh, Skopje, Ohrid, Gdansk, Queretaro. The Open-Meteo daily quota was still exhausted at 22:31 UTC on 2026-10-03. Then `scripts/apply_climate_air.py --check`, `--write`, `rebake_scores.py`, `sanity_check.py` (steps in `docs/data-changes/2026-10-03-new-cities.md`).
   - Held back pending a better source: Sofia and Plovdiv winter PM2.5, tropical rain days where the fitted threshold moves a month by more than 4 days, highland cities with no station nearby, CAMS-to-WHO scale factors outside 0.6-2.0.
-  - The WHO Ambient Air Quality Database is CC BY-NC-SA 3.0 IGO and scaled values from it are live. Settle the non-commercial question before Monsoon earns money (affiliate links, paid tiers), or swap the annual means for an openly licensed source.
-- [ ] Finish the 7 pending new cities and read the 9 that shipped. The add-a-city pipeline is merged (`scripts/add_city.py`, `data/cities/<slug>.json`, `docs/adding-a-city.md`) and the catalog is 120.
-  - Shipped 2026-10-03 without an owner read of the authored content (safety inputs, costs, narratives, events): Agadir, Alicante, Almaty, Busan, Costa Adeje, Fukuoka, Hua Hin, Izmir, Phuket.
-  - Authored but pending on a climate/air hold-back: Antalya, Dakar, Galle, La Paz, Lima, Montreal, Viña del Mar. `python3 scripts/add_city.py --check` lists the state.
+  - Licences before Monsoon earns money (affiliate links, paid tiers). The WHO Ambient Air Quality Database is CC BY-NC-SA 3.0 IGO and scaled values from it are live. Recommended replacement: EEA e-reporting annual means for the ~53 EU/EEA cities (commercial reuse allowed with acknowledgement; keyless REST API), plus the WashU ACAG V6.GL.02.04 satellite-ground PM2.5 grid (CC BY 4.0, 1998-2023) for the rest. That is a methodology change, so run a before/after diff first. Also: Open-Meteo's free API terms restrict use to non-commercial purposes, and that covers the ERA5 and CAMS fetches. A paid Open-Meteo plan or direct Copernicus CDS/ADS downloads (commercial use allowed) would fix it.
+- [ ] Finish the 6 pending new cities and settle the review judgment calls. The add-a-city pipeline is merged (`scripts/add_city.py`, `data/cities/<slug>.json`, `docs/adding-a-city.md`) and the catalog is 121 (Antalya added 2026-10-03 with a cited EEA PM2.5 series).
+  - Pending on a climate/air hold-back: Dakar (ERA5 humidity; PM2.5 scale 2.30, no monthly ground series found), Galle (ERA5 humidity), La Paz (ERA5), Lima (ERA5; a SENAMHI PM2.5 series is ready but its licence is unconfirmed), Montreal (ERA5), Viña del Mar (ERA5 temperature and humidity). Reasons and next steps: `docs/data-changes/2026-10-03-new-cities.md`. `python3 scripts/add_city.py --check` lists the state.
+  - The 9 cities shipped earlier on 2026-10-03 were reviewed against primary sources: clear errors fixed (text, citations, Thailand and Turkey visa rules), and the owner judgment calls are listed in `docs/data-changes/2026-10-03-shipped-city-review.md`. Still open: move Almaty's point to the Medeu district (needs a CAMS refetch). Antalya's authored content has not been reviewed yet.
 - [ ] Decide what to do with the unshipped FCDO layer and city photos. `scripts/build_fcdo.py` output is not baked into the data (no `advisoryUK`), and `data/city-media.json` hero paths are in the data but no images ship and no surface shows them. Either finish and ship, or remove the dead pipeline. State and what each option takes: `docs/dead-pipelines.md`.
 - [ ] Create a comprehensive visa information plan.
   - Define the user-facing scope before restoring visa details to city views (`city.visa` is in `data/travel-data.json` but rendered nowhere, so it was dropped from the core bundle; add it back to `CORE_CITY` in `scripts/split-data.mjs` when a surface shows it).
@@ -36,17 +36,17 @@ See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring
 
 ## My Year And Planning Flow
 
-- [ ] Surface why each leg was picked in the picker rows ("fills Mar-Apr · São João festival · €420 cheaper than your Feb stay"). The seed engine already computes this; it is not shown.
-- [ ] Finish the favorites-based itinerary builder. The "from favorites" seed style exists (`generateRoute('favorites')`, only offered when favorites exist); still missing:
+- [x] Say why in the picker rows and for generated stays: picker rows get a one-line `pickWhy` ("Semana Santa in Mar · $420/mo cheaper than your Lisbon stay"), generated stays a `legWhy` line in "Why these picks" and on mobile ghost rows (`src/lib/yearPlan.js`). Costs are USD. No "fills Mar–Apr" prefix on picker rows: the heading already says it.
+- [ ] Finish the favorites-based itinerary builder. The "from favorites" seed style exists (only offered when favorites exist), and since "Fill the open months" landed it also fills around stays the user placed (pick "From favorites" in the fill panel). Still missing:
   - Swap suggestions and month-by-month ranking over the favorites pool.
-  - Constraints: region balance, budget, weather minimums, event preference, stay length.
-  - Lock favorite stays, fill gaps, and compare generated routes before adopting one.
-- [ ] Add an "Add to my year" affordance on browse cards (only when a route exists, to keep browse calm). The city sheet already has "+ Add to year" with a toast (Undo / View year).
+  - Constraints: region balance, budget, weather minimums, event preference, stay length (the generator ignores My year's filters today).
+  - Compare generated routes side by side before adopting one (today: switch style chips and watch the preview).
+- [x] "+ Year" on browse cards and table rows, only when a route exists and has an open month, never in compare mode; same add flow and toast as the city sheet.
 - [ ] Improve the automatic itinerary picker.
   - Account for realistic routing and travel burden beyond straight-line distance.
-  - Support fixed anchors such as "I must be in Europe in June."
-  - Explain why suggested routes win.
-  - Add a lock/fill interaction where the planner fills around fixed stays.
+  - [x] Fixed anchors ("Must be in Europe in Jun", up to three; Europe, Asia, Latin America or any region), with unmet anchors reported.
+  - [x] Explain why suggested routes win: the style's rule plus one line per stay (Score, festival, trim/fill, runner-up, new region). The runner-up is named without its number because the internal ranking includes the variety nudge.
+  - [x] Lock/fill: "Fill the open months" treats the user's stays as locked and fills around them (Schengen-legal and under 183 days per country when the locked year is; `check:seeds` covers it). There is no per-stay lock toggle: every placed stay is a lock, by design.
 - [ ] Make visa/passport constraints actionable in route building.
   - `prefs.passport` is a stub with no Settings control.
   - My year should flag or prevent stays beyond passport-specific visa-free windows.
@@ -54,10 +54,11 @@ See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring
 
 ## Growth, Trust & Retention (from the UX audit)
 
-- [ ] Per-page share images. Every page still shares the same `og.png`. Generate an OG card per city, month and planned year ("My Monsoon Year: avg 89, 6 stays") at build time or via a Cloudflare Worker.
-- [ ] Gem-vs-anchor comparison pages (`/compare/<a>-vs-<b>`, capped to relevant pairs, `noindex` thin ones) generated from `gem x anchor x month` comparisons ("Plovdiv beats Barcelona in June"); reuse them for share cards and zero-input discovery. The in-app compare sheet and `src/lib/compare.js` findings are the starting point.
-- [ ] Region pages (`/best/<attribute>-in-<region>`) and a `/best/` index page; today `/best/` has only the 12 month pages and no index, and region hubs do not exist.
-- [ ] Label Best Value wins inline ("38% cheaper than Split for the same score") when Best Value is the active sort.
+- [ ] Share card for a planned year ("My Monsoon Year: avg 89, 6 stays"). City, month and comparison pages have build-time cards now; a year is user state, so it needs a Cloudflare Worker rendering the card from the `?i=` link (the SVG builders in `src/seo/ogCard.js` can be reused).
+- [ ] Watch the comparison pages in Search Console before adding more. Submit `sitemap.xml` (an index; `sitemap-compare.xml` is its own segment) and watch the indexed:submitted ratio for `/compare/` for 2-3 weeks (GROWTH_ENGINE_PLAN §10). Only then loosen the gate in `src/seo/pairing.js` or add per-month pages; if the ratio is low, tighten it. Read the 74 published claims once by hand (`node scripts/seo/pairing-report.mjs`, `tmp/seo/pairs.csv`).
+- [ ] Comparison pages: curated human signal for the strongest pairs (one link or video per city, `data/seo/curations.json`, GROWTH_ENGINE_PLAN §6.4) and funnel analytics (`seo_cta_click`) once analytics is on.
+- [ ] Region hubs exist only for regions with 8+ cities. N Europe, E Asia, Africa, Oceania and W Asia get none; consider merged hubs (e.g. "Northern and Western Europe") if those regions grow, and southern-hemisphere seasonal hubs for South America.
+- [x] Label Best Value wins inline on cards when Best Value is the sort (`src/lib/valueWin.js`). Labels are deliberately sparse (about 3-8 of 120 cities a month): a city beaten on both score and cost, or saving under 10%, keeps its usual finding. The table has no finding line, so it shows no label.
 - [ ] Mobile: check whether the first city card is above the fold on This month; the audit asked for it and it has not been verified.
 - [ ] Tasteful, value-framed email capture ("Email me my year" / "Email me November's rankings"): passwordless, never a wall; Cloudflare Worker + KV + a transactional email service.
 - [ ] Periodic re-engagement: a monthly "where to be in <next month>" send that doubles as the month page, a win-back about 9-10 months after last activity, data-update nudges. Depends on email capture.
@@ -77,19 +78,28 @@ See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring
 ## Display Options
 
 - [x] °C option: Settings → Temperatures, stored in `atlas.settings.v1`; defaults to °F for en-US and °C otherwise. Static pages stay °F.
-- [ ] Currency option. Costs are USD (`fmtMoney`).
-- [ ] Dark mode (nothing in `src` handles `prefers-color-scheme`).
+- [x] Currency option: Settings → Currency (USD, EUR, GBP, CAD, AUD), stored in `atlas.settings.v1`; defaults from the first browser language's region (see README). Display only, through `fmtMoney`, at checked-in ECB rates (`src/lib/fxRates.json`, refresh with `npm run update:fx`) with the date shown in Settings, the sheet's cost panel and Copy as text. Best Value and scores stay USD; static pages stay USD.
+  - [ ] Refresh the rate table now and then (`npm run update:fx`); nothing reminds anyone today. Converted Max cost filter options read as uneven amounts (e.g. €1,639) because the caps are USD steps.
+- [x] Dark mode: Settings → Appearance (System / Light / Dark), stored as `theme` in `atlas.settings.v1`; dark tokens in `src/app.css` under `@media screen` (print stays light), set before paint by `index.html`, kept live by `src/lib/theme.js`. Contrast ratios in README → Brand And UI.
+  - [ ] Static pages stay light (they lift only the light `:root` block). Adding a `prefers-color-scheme` copy of the dark tokens to `src/seo/styles.js` is cheap once the SEO work settles; its one literal (`.btn.primary:hover` white text) would need a token.
+  - [ ] The light theme's "good" and "ok" band fills are under 3:1 against paper (1.93) and equal in lightness to each other; the skyline heights carry it. Worth a deliberate look if the bands are ever retuned.
 
 ## Not Yet Seen In A Real Browser
 
-Built and checked by reading code and running the scripts; the dev server could not be previewed in the sandbox. Verify by hand:
+Ticked items were verified in a real browser on 2026-10-03 (rotation by viewport emulation, not a device). The rest were built and checked by reading code and running the scripts; verify by hand:
 
-- [ ] My year "Save a copy" Undo bar (appears, Undo restores the old year, disappears on first edit).
-- [ ] City sheet detail-load Retry state (block the detail JSON, press Retry).
-- [ ] Escape closing only an open info popover, not the sheet behind it.
-- [ ] Phone rotation with the My year mobile picker open: the picker closes and the page scroll lock releases.
-- [ ] "Tight" Schengen wording on a real route (1-2 days over, e.g. three consecutive 31-day months plus a shoulder stay).
-- [ ] Compare mode on a phone (checkbox strips, tray over the toast, Back closing the comparison).
+- [x] My year "Save a copy" Undo bar (appears, Undo restores the old year, disappears on first edit).
+- [x] City sheet detail-load Retry state (block the detail JSON, press Retry).
+- [x] Escape closing only an open info popover, not the sheet behind it.
+- [x] Phone rotation with the My year mobile picker open: the picker closes and the page scroll lock releases.
+- [x] "Tight" Schengen wording on a real route (1-2 days over, e.g. three consecutive 31-day months plus a shoulder stay).
+- [x] Compare mode on a phone (checkbox strips, tray over the toast, Back closing the comparison).
+- [ ] Dark mode on every surface (This month cards and table, city sheet, comparison, My year board, picker and mobile picker, Settings, About, How-to, Methodology, toasts): nothing reads as a light-mode leftover, band labels and the hazard hatch stay legible, focus rings show, the Settings switch knob reads off and on, and opacity-dimmed ghost or disabled text (My year ghost year and duration buttons, This month icons, the compare checkbox when off) is still readable. Then: no flash on reload in dark (System and forced Dark), System following an OS switch live, Print from dark gives the light page, the iOS status bar colour (theme-color).
+- [ ] Currency: switch to each of EUR/GBP/CAD/AUD and check cards, table, sheet (total, breakdown, line items, the conversion note), comparison, My year totals and rail, Max cost filters, Copy as text (note line at the end); the five-code control fits a 320px phone.
+- [ ] Card "+ Year": hover reveal, alignment on the meta row, tag wrapping on a narrow Schengen card with a hazard tag, always-on pill on touch; table "+" does not open the sheet; both show the add toast.
+- [ ] Best Value win labels read well and truncate cleanly to one line.
+- [ ] My year picker-row why lines (desktop and the mobile sheet).
+- [ ] Fill the open months: ghost suggestions on the desktop board (no `+` under them) and in the mobile list, anchor selects (disabled planned months, wrap at 375px), unmet note, "Why these picks", Add → Undo / Keep banner and focus, Cancel focus, print preview while filling.
 
 ## UI Polish
 
@@ -98,6 +108,15 @@ Built and checked by reading code and running the scripts; the dev server could 
   - Any future coaching should be contextual, dismissible, and tied to a relevant action.
 
 ## Done Or Consumed
+
+Shipped 2026-10-03 (growth pages):
+
+- [x] `/best/` index linking the 12 month pages and the region hubs.
+- [x] Region hubs `/best/<attribute>-in-<region>/` (cheapest, safest, cleanest air, winter, summer) behind a substance gate; thin ones are not built.
+- [x] Comparison pages `/compare/<subject>-vs-<anchor>/` plus a `/compare/` index, selected by the Value Floor gate in `src/seo/pairing.js` from the anchor list in `data/seo/fame.json`, written from `compareFindings` and the month data, linking into `?compare=a,b`.
+- [x] `Dataset` JSON-LD on `/cities/`; segmented sitemaps (`sitemap.xml` is an index).
+- [x] Per-page share images for city, month and comparison pages, rendered at build time with `@resvg/resvg-js`; the default `og.png` is regenerated from data (it said 111 cities and "Top pick").
+- [x] Build guards, leak check and `check:seo` cover `compare/` and `og/`.
 
 Shipped 2026-10-03:
 
@@ -109,12 +128,13 @@ Shipped 2026-10-03:
 - [x] Seed generator constraints: every style is Schengen-legal and keeps each country under 183 days (`npm run check:seeds`).
 - [x] Save a copy now has Undo; saved routes and favorites migrate renamed cities through `SLUG_ALIASES`, drop only unresolvable stays, and are not rewritten on boot.
 - [x] City sheet provenance: "Where these numbers come from" panels (source, date, confidence), cost line items with source links, "Report this number" prefilled GitHub issue, "Data as of" line, detail-load Retry.
+- [x] U.S. advisories refreshed from the State Department feed on 2026-10-03 (`scripts/refresh_advisories.py`): Thailand, Romania, Austria, Ireland and Thessaloniki now Level 1; 83 advisory dates corrected to the feed's publish date. Display only, no score moved.
 - [x] Add-a-city pipeline merged and 9 cities added (catalog 120): per-city input files with a schema, `add_city.py` bakes one record and proves every existing record is unchanged.
 - [x] Sourced climate and PM2.5 applied (methodology v6): station normals, ERA5 and WHO-scaled CAMS, with unverifiable values held back and labelled; licences shown per source. Data-change log in `docs/data-changes/`.
 - [x] Events score derived from the visible calendar (`reconcile_events.py --check-derived` is the invariant): the 16 month conflicts and the major-tier mismatches are resolved, 322 city-months changed tier.
 - [x] Methodology rewritten: per-input source/type/refreshed table, model version (now v6) and `src/lib/changelog.js`; removed claims the site could not back up (advisory badges, FCDO, hero photography).
 - [x] Events reconciliation (`scripts/reconcile_events.py`): 77 missing calendar entries added before the derive above.
-- [x] Static SEO pages (`scripts/seo/*`, `src/seo/*`): `/city/<slug>/` (111 at the time, now 120), `/best/where-to-be-in-<month>/` (12), `/cities/`, `sitemap.xml`, `llms.txt`, per-page title/canonical/OG/JSON-LD (TouristDestination, ItemList, BreadcrumbList), footer link to `/cities/`, `robots.txt` Sitemap line.
+- [x] Static SEO pages (`scripts/seo/*`, `src/seo/*`): `/city/<slug>/` (111 at the time, now 121), `/best/where-to-be-in-<month>/` (12), `/cities/`, `sitemap.xml`, `llms.txt`, per-page title/canonical/OG/JSON-LD (TouristDestination, ItemList, BreadcrumbList), footer link to `/cities/`, `robots.txt` Sitemap line.
 - [x] Build guards: `scripts/build.sh` runs the SEO generator and fails on private files in `dist/` or private text in generated pages (`leak-check.mjs`); `npm run build:seo` / `npm run check:seo`; `scripts/deploy.sh <branch>` for preview deploys.
 - [x] Accessibility pass: named stay controls, labelled gap buttons, `aria-pressed` on party, strip-cell and card year summaries, keyboard-operable table rows.
 - [x] Mobile header and sticky month bar fixes; picker strips recede when the year is full.

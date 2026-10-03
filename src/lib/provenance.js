@@ -12,6 +12,8 @@
 //                         unsourced estimates = low.
 //   editorial           — a hand-set judgment.
 
+import { formatMoney } from './currency.js';
+
 // Feedback goes to public GitHub issues, prefilled with city, month and metric.
 export const FEEDBACK_REPO = 'https://github.com/malignantz/monsoon';
 
@@ -270,12 +272,14 @@ export function safetyRows(city) {
 }
 
 // ---- Cost group: the city's itemized components ----
-export function costRows(city) {
+// fmt formats a US-dollar amount (the app passes fmtMoney so the line items
+// follow the display currency); the default keeps this module standalone.
+export function costRows(city, fmt = (usd) => formatMoney(usd, 'USD')) {
   const cp = city.costProv;
   if (!cp?.items?.length) return [];
   return cp.items.map((i) => ({
     label: i.label,
-    value: `$${i.usd.toLocaleString('en-US')}`,
+    value: fmt(i.usd),
     input: i.note || '',
     sources: i.url ? [{ name: i.source ?? i.url, url: i.url }] : [],
     sourceText: i.url ? null : i.source ? (/estimat/i.test(i.source) ? 'Estimated (no source named)' : `${i.source} (no page link stored)`) : 'No source named',

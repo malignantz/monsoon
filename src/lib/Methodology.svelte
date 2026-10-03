@@ -310,7 +310,7 @@
   .scrim {
     position: fixed;
     inset: 0;
-    background: rgba(33, 36, 30, 0.45);
+    background: var(--scrim);
     /* Above the city sheet (z 70): the sheet footer opens this on top of it. */
     z-index: 80;
     overflow-y: auto;
