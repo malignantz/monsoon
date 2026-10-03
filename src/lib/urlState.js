@@ -10,13 +10,17 @@
 //   layout=table         table density (cards is the default)
 //   region=se-asia,latam region filter, slugged and comma-joined
 //   city=<key>           open city sheet (pre-existing, unchanged)
+//   compare=lisbon,porto open the comparison (2–3 city keys, comma-joined, in
+//                        the order picked); like `city`, it pins `m` so a shared
+//                        comparison opens on the sender's month. Always rides on
+//                        This month — the comparison opens over the ranking.
 //
 // Everything else in the query (`i`, `route`, `n`, utm_*, …) is passed through
 // untouched, so shared-route and campaign links keep working.
 import { MONTHS, slug } from './data.svelte.js';
 
 const MONTH_PARAMS = MONTHS.map((m) => m.toLowerCase());
-const OWNED = ['view', 'm', 'sort', 'layout', 'region', 'city'];
+const OWNED = ['view', 'm', 'sort', 'layout', 'region', 'city', 'compare'];
 
 export function parseMonth(v) {
   if (v == null || v === '') return null;
@@ -43,7 +47,10 @@ export function readUrlState(search = location.search, regionList = []) {
     mode: sort === 'value' || sort === 'score' ? (sort === 'value' ? 'value' : 'quality') : null,
     density: layout === 'table' || layout === 'cards' ? layout : null,
     regions: q.has('region') ? regionSlugs.map((s) => bySlug.get(s)).filter(Boolean) : null,
-    city: q.get('city') || null
+    city: q.get('city') || null,
+    // Raw keys (unvalidated, possibly stale spellings); App canonicalises them
+    // against the bundle and decides whether there are enough to open.
+    compare: q.has('compare') ? (q.get('compare') ?? '').split(',').map((k) => k.trim()).filter(Boolean) : null
   };
 }
 
@@ -52,10 +59,12 @@ export function buildUrl(state, { defaultView = 'month', currentMonth, search = 
   const q = new URLSearchParams(search);
   for (const k of OWNED) q.delete(k);
   if (state.view !== defaultView) q.set('view', state.view);
+  const compare = state.view === 'month' && state.compare?.length ? state.compare : null;
+  if (compare) q.set('compare', compare.join(','));
   if (state.city) q.set('city', state.city);
-  // A city link always pins its month, so a shared sheet opens on the month the
-  // sharer was looking at; list views only pin a non-current month.
-  if (state.city || (state.view === 'month' && state.month !== currentMonth)) q.set('m', monthParam(state.month));
+  // A city or comparison link always pins its month, so a shared sheet opens on
+  // the month the sharer was looking at; list views only pin a non-current month.
+  if (state.city || compare || (state.view === 'month' && state.month !== currentMonth)) q.set('m', monthParam(state.month));
   if (state.view === 'month') {
     if (state.mode === 'value') q.set('sort', 'value');
     if (state.density === 'table') q.set('layout', 'table');
@@ -73,4 +82,13 @@ export function cityShareUrl(key, month) {
   u.searchParams.set('city', key);
   if (Number.isInteger(month) && month >= 0 && month < 12) u.searchParams.set('m', monthParam(month));
   return u.toString();
+}
+
+// Share link for a comparison (?compare=a,b&m=<mon>) — what the comparison's
+// Share button emits. Clean origin+path, no other state.
+export function compareShareUrl(keys, month) {
+  const u = new URL(location.origin + location.pathname);
+  u.searchParams.set('compare', keys.join(','));
+  if (Number.isInteger(month) && month >= 0 && month < 12) u.searchParams.set('m', monthParam(month));
+  return u.toString().replace(/%2C/gi, ',');
 }
