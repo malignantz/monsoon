@@ -1008,6 +1008,7 @@
                 selected={selStart}
                 frameFrom={prospect ? prospect.start : -1}
                 frameLen={prospect ? prospect.len : 0}
+                muted={!prospect}
               />
             </div>
           </div>

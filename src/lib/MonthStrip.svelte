@@ -1,7 +1,9 @@
 <script>
   import { MONTH_LETTERS, MONTHS } from './data.svelte.js';
 
-  let { cells, selected = -1, size = 'sm', onselect = null, labels = false, frameFrom = -1, frameLen = 0 } = $props();
+  // muted: every month at the out-of-window weight — for lists with no booking
+  // window to frame (My year picker once the year is full).
+  let { cells, selected = -1, size = 'sm', onselect = null, labels = false, frameFrom = -1, frameLen = 0, muted = false } = $props();
 
   // The stay-length window as underline segments (split so it wraps Dec→Jan).
   const frame = $derived.by(() => {
@@ -27,7 +29,7 @@
         class:risk1={c.risk === 1}
         class:risk2={c.risk === 2}
         class:sel={i === selected}
-        class:dim={frameFrom >= 0 && (i - frameFrom + 12) % 12 >= frameLen}
+        class:dim={muted || (frameFrom >= 0 && (i - frameFrom + 12) % 12 >= frameLen)}
         aria-pressed={i === selected}
         aria-label="{MONTHS[i]}: score {Math.round(c.q)}{c.fest ? ', major festival' : ''}{c.risk >= 1 ? ', seasonal hazard' : ''}"
         onclick={() => onselect(i)}
@@ -43,7 +45,7 @@
         class:risk1={c.risk === 1}
         class:risk2={c.risk === 2}
         class:sel={i === selected}
-        class:dim={frameFrom >= 0 && (i - frameFrom + 12) % 12 >= frameLen}
+        class:dim={muted || (frameFrom >= 0 && (i - frameFrom + 12) % 12 >= frameLen)}
         title={tip}
       >
         {#if labels}<span class="ml">{MONTH_LETTERS[i]}</span>{/if}
