@@ -612,11 +612,7 @@ export function decodeRouteCompact(str) {
   return sanitizeStays(stops);
 }
 
-// `?route=key~start~len_…` — readable fallback format.
-export function encodeRoute(stays) {
-  return stays.map((s) => `${s.key}~${s.start}~${s.len}`).join('_');
-}
-
+// `?route=key~start~len_…` — readable fallback format (decode only; never emitted).
 export function decodeRoute(str) {
   if (!str) return [];
   return sanitizeStays(

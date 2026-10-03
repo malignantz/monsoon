@@ -87,7 +87,7 @@ saved routes and favorites.
 
 ## Readable fallback — `?route=key~start~len_…`
 
-`encodeRoute` / `decodeRoute` still exist and `?route=` is still accepted on load
+`decodeRoute` still exists and `?route=` is still accepted on load
 (`?i=` is tried first). It is not emitted by the UI; it is kept for debugging and
 hand-authoring test links. `~` and `_` are URL-unreserved and never appear in a
 slug, so it needs no percent-encoding.

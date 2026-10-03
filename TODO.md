@@ -1,22 +1,18 @@
 # Monsoon TODO
 
-Last consolidated: 2026-10-03 (after URL state, compare, provenance, Schengen/day-count, events reconciliation and the static SEO pages shipped).
+Last consolidated: 2026-10-03 (after URL state, compare, provenance, Schengen/day-count, sourced climate and air, the derived events calendar and the static SEO pages shipped).
 
 See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring" My year problem, trust/freshness, retention loops, programmatic SEO), its source list and roadmap; its "Status as of 2026-10-03" note says which recommendations have shipped. The items below are the actionable slices.
 
 ## Data And Scoring
 
-- [ ] Apply the calibrated climate and air data. Built on branch `worktree-agent-afe28801026ce36a8` (WMO 1991-2020 station normals via NOAA NCEI, ERA5 via Open-Meteo, CAMS PM2.5 scaled to the WHO air-quality database); not applied to `main`. Pending owner review of the diff (`scripts/apply_climate_air.py --check`), then `--write`, `rebake_scores.py` and `sanity_check.py`.
-  - 6 cities still to fetch (Open-Meteo quota): Nha Trang, Ipoh, Skopje, Ohrid, Gdansk, Queretaro; they carry a low-confidence legacy estimate until then.
-  - Known doubtful cases to check before applying: Sofia and Plovdiv winter PM2.5, the tropical rain-day fallback (threshold fitted on station cities), highland cities with no station nearby, San José.
-  - WHO air-quality data is under a non-commercial licence; settle that before shipping scaled values.
-  - Until applied, per-month temperature, humidity, rain days and PM2.5 are unsourced estimates and the sheet and methodology say so.
-- [ ] Resolve the event mismatches that would change scores (`python3 scripts/reconcile_events.py` regenerates `tmp/events-mismatch.md`).
-  - 16 month conflicts: the scored month names an event the visible list carries in a different month. One side is wrong; fixing the score side changes `evtTier`/`events` and needs a rebake.
-  - 41 visible major (tier 3) events in months scored below tier 3.
-- [ ] Add-a-city pipeline, then expand beyond 111 cities. Depends on the climate/air pipeline above (new cities need sourced climate and PM2.5, not another estimate).
-  - Lookup tables live inside the scripts (not in data files), and the data files are joined on city name, so adding a city means touching several scripts and files by hand.
-  - Append the new ID to `src/lib/cityIds.v1.js` and run `npm run check:ids`; add `data/cost-evidence/<slug>.json`.
+- [ ] Finish the climate and air hold-backs. The sourced inputs are applied (methodology v6: WMO 1991-2020 station normals via NOAA NCEI, ERA5 via Open-Meteo, CAMS PM2.5 scaled to the WHO air-quality database), but 107 city-metrics (940 of 6,660 city-months) keep the previous estimate, labelled as editorial on the sheet. Rules and the full list: `docs/data-changes/2026-10-03-climate-air.md`, `data/climate-air-holdbacks.json`.
+  - 6 cities still to fetch from ERA5 (Open-Meteo quota): Nha Trang, Ipoh, Skopje, Ohrid, Gdansk, Queretaro. Then `scripts/apply_climate_air.py --check`, `--write`, `rebake_scores.py`, `sanity_check.py`.
+  - Held back pending a better source: Sofia and Plovdiv winter PM2.5, tropical rain days where the fitted threshold moves a month by more than 4 days, highland cities with no station nearby, CAMS-to-WHO scale factors outside 0.6-2.0.
+  - The WHO Ambient Air Quality Database is CC BY-NC-SA 3.0 IGO and scaled values from it are live. Settle the non-commercial question before Monsoon earns money (affiliate links, paid tiers), or swap the annual means for an openly licensed source.
+- [ ] Review and merge the add-a-city pipeline, then expand beyond 111 cities. Built on `wip/add-city-pipeline` (local worktree branch `worktree-agent-a8434aeed9353d7e7`, two commits on top of `main`), saved mid-run before a machine restart and not merged.
+  - What is there: `data/cities/<slug>.json` per-city inputs with a schema, `scripts/add_city.py <slug>|--all|--check`, `docs/adding-a-city.md`. 16 cities authored; 9 are applied (Agadir, Alicante, Almaty, Busan, Costa Adeje, Fukuoka, Hua Hin, Izmir, Phuket; catalog 120), 7 are pending on climate data (Antalya, Dakar, Galle, La Paz, Lima, Montreal, Viña del Mar).
+  - `add_city.py --check` passed on the branch on 2026-10-03 (rebake parity, sanity, derived events, IDs, seeds, Schengen, day-count, build, check:seo with 133 pages). Not done: an owner read of the authored content (safety inputs, costs, narratives, events) and a look in a browser.
 - [ ] Decide what to do with the unshipped FCDO layer and city photos. `scripts/build_fcdo.py` output is not baked into the data (no `advisoryUK`), and `data/city-media.json` hero paths are in the data but no images ship and no surface shows them. Either finish and ship, or remove the dead pipeline. State and what each option takes: `docs/dead-pipelines.md`.
 - [ ] Create a comprehensive visa information plan.
   - Define the user-facing scope before restoring visa details to city views (`city.visa` is in `data/travel-data.json` but rendered nowhere, so it was dropped from the core bundle; add it back to `CORE_CITY` in `scripts/split-data.mjs` when a surface shows it).
@@ -113,8 +109,10 @@ Shipped 2026-10-03:
 - [x] Seed generator constraints: every style is Schengen-legal and keeps each country under 183 days (`npm run check:seeds`).
 - [x] Save a copy now has Undo; saved routes and favorites migrate renamed cities through `SLUG_ALIASES`, drop only unresolvable stays, and are not rewritten on boot.
 - [x] City sheet provenance: "Where these numbers come from" panels (source, date, confidence), cost line items with source links, "Report this number" prefilled GitHub issue, "Data as of" line, detail-load Retry.
-- [x] Methodology rewritten: per-input source/type/refreshed table, model version (v5) and `src/lib/changelog.js`; removed claims the site could not back up (advisory badges, FCDO, hero photography).
-- [x] Events reconciliation (`scripts/reconcile_events.py`): 77 missing calendar entries added, no score changed; remaining mismatches listed above.
+- [x] Sourced climate and PM2.5 applied (methodology v6): station normals, ERA5 and WHO-scaled CAMS, with unverifiable values held back and labelled; licences shown per source. Data-change log in `docs/data-changes/`.
+- [x] Events score derived from the visible calendar (`reconcile_events.py --check-derived` is the invariant): the 16 month conflicts and the major-tier mismatches are resolved, 322 city-months changed tier.
+- [x] Methodology rewritten: per-input source/type/refreshed table, model version (now v6) and `src/lib/changelog.js`; removed claims the site could not back up (advisory badges, FCDO, hero photography).
+- [x] Events reconciliation (`scripts/reconcile_events.py`): 77 missing calendar entries added before the derive above.
 - [x] Static SEO pages (`scripts/seo/*`, `src/seo/*`): `/city/<slug>/` (111), `/best/where-to-be-in-<month>/` (12), `/cities/`, `sitemap.xml`, `llms.txt`, per-page title/canonical/OG/JSON-LD (TouristDestination, ItemList, BreadcrumbList), footer link to `/cities/`, `robots.txt` Sitemap line.
 - [x] Build guards: `scripts/build.sh` runs the SEO generator and fails on private files in `dist/` or private text in generated pages (`leak-check.mjs`); `npm run build:seo` / `npm run check:seo`; `scripts/deploy.sh <branch>` for preview deploys.
 - [x] Accessibility pass: named stay controls, labelled gap buttons, `aria-pressed` on party, strip-cell and card year summaries, keyboard-operable table rows.
