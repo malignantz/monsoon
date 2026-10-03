@@ -1363,7 +1363,7 @@
     gap: 14px;
     margin: 16px 0 14px;
     padding: 14px 18px;
-    background: linear-gradient(180deg, rgba(193, 79, 43, 0.07), rgba(193, 79, 43, 0.03));
+    background: linear-gradient(180deg, rgb(var(--terra-rgb) / 0.07), rgb(var(--terra-rgb) / 0.03));
     border: 1px solid var(--line);
     border-radius: 14px;
   }
@@ -1445,7 +1445,7 @@
     text-transform: uppercase;
     font-weight: 600;
     color: var(--terra-deep);
-    background: rgba(193, 79, 43, 0.1);
+    background: rgb(var(--terra-rgb) / 0.1);
     border-radius: 999px;
     padding: 3px 9px;
   }
@@ -1466,7 +1466,7 @@
     flex: 1;
     height: 6px;
     border-radius: 999px;
-    background: var(--line-soft, rgba(33, 36, 30, 0.1));
+    background: var(--line-soft);
     overflow: hidden;
   }
 
@@ -1474,7 +1474,7 @@
     display: block;
     height: 100%;
     border-radius: 999px;
-    background: var(--teal, #2f6f5e);
+    background: var(--teal);
     transition: width 0.3s ease;
   }
 
@@ -1489,7 +1489,7 @@
     font-family: var(--display);
     font-size: 14px;
     font-weight: 580;
-    color: var(--teal, #2f6f5e);
+    color: var(--teal);
   }
 
   .mprogress { margin: 0 0 16px; }
@@ -1505,8 +1505,8 @@
   .shareicon { flex: none; }
 
   .chip.share.on {
-    background: var(--teal, #2f6f5e);
-    border-color: var(--teal, #2f6f5e);
+    background: var(--teal);
+    border-color: var(--teal);
     color: var(--paper);
   }
 
@@ -1520,7 +1520,7 @@
     gap: 12px;
     margin-top: 16px;
     padding: 12px 16px;
-    background: var(--schengen-soft, #e8eef6);
+    background: var(--schengen-soft);
     border: 1px solid var(--line);
     border-radius: 12px;
   }
@@ -1630,7 +1630,7 @@
     inset: 0 0 0 auto;
     width: 44px;
     pointer-events: none;
-    background: linear-gradient(to right, rgba(253, 250, 242, 0), var(--card));
+    background: linear-gradient(to right, transparent, var(--card));
     opacity: 0;
     transition: opacity 0.2s ease;
   }
@@ -1681,11 +1681,11 @@
     transition: all 0.13s ease;
   }
 
-  .gap:hover, .gap.sel { border-color: var(--terra); color: var(--terra); background: rgba(193, 79, 43, 0.06); }
+  .gap:hover, .gap.sel { border-color: var(--terra); color: var(--terra); background: rgb(var(--terra-rgb) / 0.06); }
 
   .stay {
     position: relative;
-    background: #dcebe2;
+    background: var(--teal-soft);
     border: 1px solid var(--teal);
     border-radius: 9px;
     min-height: 54px;
@@ -1697,7 +1697,7 @@
   }
 
   .stay.schengen { background: var(--schengen-soft); border-color: var(--schengen); }
-  .stay.hazard { box-shadow: inset 0 0 0 2px rgba(193, 79, 43, 0.5); }
+  .stay.hazard { box-shadow: inset 0 0 0 2px rgb(var(--terra-rgb) / 0.5); }
 
   .stayname {
     background: none;
@@ -1776,7 +1776,7 @@
     border-radius: 3px;
   }
 
-  .dur-btn:hover:not(:disabled) { background: rgba(33, 36, 30, 0.1); color: var(--ink); }
+  .dur-btn:hover:not(:disabled) { background: rgb(var(--ink-rgb) / 0.1); color: var(--ink); }
   .dur-btn:disabled { opacity: 0.25; cursor: default; }
 
   /* Roomier tap targets on touch, where there's no hover to enlarge intent.
@@ -2117,7 +2117,7 @@
   }
 
   .segbtn:first-child { border-left: none; }
-  .segbtn:hover:not(.on) { background: rgba(33, 36, 30, 0.06); color: var(--ink); }
+  .segbtn:hover:not(.on) { background: rgb(var(--ink-rgb) / 0.06); color: var(--ink); }
 
   .segbtn.on {
     background: var(--ink);
@@ -2383,9 +2383,9 @@
     flex-wrap: wrap;
   }
 
-  .mrow.filled { background: #dcebe2; border-color: var(--teal); }
+  .mrow.filled { background: var(--teal-soft); border-color: var(--teal); }
   .mrow.filled.schengen { background: var(--schengen-soft); border-color: var(--schengen); }
-  .mrow.filled.hazard { box-shadow: inset 0 0 0 2px rgba(193, 79, 43, 0.4); }
+  .mrow.filled.hazard { box-shadow: inset 0 0 0 2px rgb(var(--terra-rgb) / 0.4); }
 
   .mrow-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 
@@ -2483,7 +2483,7 @@
     z-index: 60;
     display: flex;
     align-items: flex-end;
-    background: rgba(33, 36, 30, 0.45);
+    background: var(--scrim);
   }
 
   .picker-scrim-back {
@@ -2505,7 +2505,7 @@
     background: var(--paper);
     border-radius: 18px 18px 0 0;
     border-top: 1px solid var(--line);
-    box-shadow: 0 -10px 30px -16px rgba(33, 36, 30, 0.5);
+    box-shadow: 0 -10px 30px -16px rgb(var(--shade-rgb) / 0.5);
     outline: none;
   }
 
@@ -2583,7 +2583,7 @@
   .pcell.inwin {
     border-style: solid;
     border-color: var(--terra);
-    background: rgba(193, 79, 43, 0.12);
+    background: rgb(var(--terra-rgb) / 0.12);
     color: var(--terra-deep);
   }
 

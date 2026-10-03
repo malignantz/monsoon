@@ -137,13 +137,13 @@
   .band-ok { background: var(--band-ok); color: var(--band-ok-ink); }
   .band-bad { background: var(--band-bad); color: var(--band-bad-ink); }
 
-  .risk1 { box-shadow: inset 0 0 0 1.5px rgba(33, 36, 30, 0.35); }
+  .risk1 { box-shadow: inset 0 0 0 1.5px rgb(var(--shade-rgb) / 0.35); }
   .risk2 {
-    box-shadow: inset 0 0 0 2px rgba(33, 36, 30, 0.55);
+    box-shadow: inset 0 0 0 2px rgb(var(--shade-rgb) / 0.55);
     background-image: repeating-linear-gradient(
       -45deg,
       transparent 0 3px,
-      rgba(33, 36, 30, 0.18) 3px 5px
+      rgb(var(--shade-rgb) / 0.18) 3px 5px
     );
   }
 

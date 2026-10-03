@@ -626,10 +626,10 @@
     width: auto;
     padding: 0 11px;
     background: var(--terra);
-    color: #fdf3ec;
+    color: var(--on-terra);
   }
 
-  .mbtn.on.now::after { background: #fdf3ec; }
+  .mbtn.on.now::after { background: var(--on-terra); }
 
   .controls {
     display: flex;
@@ -864,7 +864,7 @@
   .chip.fav.on {
     color: var(--terra-deep);
     border-color: var(--terra);
-    background: var(--terra-soft, #f6e3d8);
+    background: var(--terra-soft);
   }
 
   @media (max-width: 700px) {
@@ -946,7 +946,7 @@
     isolation: isolate;
     background-color: var(--paper);
     border-bottom: 1px solid var(--line);
-    box-shadow: 0 8px 18px -14px rgba(33, 36, 30, 0.45);
+    box-shadow: 0 8px 18px -14px rgb(var(--shade-rgb) / 0.45);
     padding-top: var(--safe-t);
     transform: translateY(-100%);
     visibility: hidden;

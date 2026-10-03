@@ -6,6 +6,32 @@
     <title>Monsoon — follow the good months</title>
     <meta name="description" content="Design your personal slow-travel itinerary across 120 cities, month by month. Find where weather, air, safety, cost, and events line up for a better stay." />
     <meta name="theme-color" content="#f6f1e6" />
+    <!-- Theme before first paint (no flash): Settings → Appearance is saved as
+         atlas.settings.v1 .theme ('system' | 'light' | 'dark'); 'system' or no
+         saved value follows prefers-color-scheme. src/lib/theme.js repeats this
+         resolution at runtime and keeps it live; keep the two in step. -->
+    <script>
+      (function () {
+        var t;
+        try {
+          t = (JSON.parse(localStorage.getItem('atlas.settings.v1')) || {}).theme;
+        } catch (e) {}
+        if (t !== 'light' && t !== 'dark') {
+          t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+        if (t === 'dark') {
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute('content', '#191b16');
+        }
+      })();
+    </script>
+    <style>
+      @media screen {
+        html { background: #f6f1e6; }
+        html[data-theme='dark'] { background: #191b16; color-scheme: dark; }
+      }
+    </style>
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Monsoon" />
     <meta property="og:url" content="https://monsoon.fyi/" />

@@ -3,6 +3,7 @@
   // on close, so nothing here is a one-way door.
   import { PRESETS, prefs, saveSettings } from './data.svelte.js';
   import { CURRENCIES, ratesAsOfLabel } from './currency.js';
+  import { THEMES, applyTheme } from './theme.js';
   import { focusTrap } from './focusTrap.js';
 
   let { preset = $bindable('balanced'), onclose } = $props();
@@ -59,6 +60,16 @@
     </section>
 
     <section class="q">
+      <span class="qlabel">Appearance</span>
+      <div class="seg" role="group" aria-label="Appearance">
+        {#each THEMES as t (t.key)}
+          <button type="button" class:on={prefs.theme === t.key} aria-pressed={prefs.theme === t.key} onclick={() => { prefs.theme = t.key; applyTheme(t.key); }}>{t.label}</button>
+        {/each}
+      </div>
+      <p class="qhint">System follows your device's light or dark setting. Printing always uses the light page.</p>
+    </section>
+
+    <section class="q">
       <span class="qlabel">Optimize for</span>
       <div class="preset-grid" role="radiogroup" aria-label="Optimize for">
         {#each Object.entries(PRESETS) as [k, v]}
@@ -104,7 +115,7 @@
   .scrim {
     position: fixed;
     inset: 0;
-    background: rgba(33, 36, 30, 0.45);
+    background: var(--scrim);
     z-index: 60;
     overflow-y: auto;
     padding: 4vh 16px;
@@ -303,12 +314,12 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: var(--card);
-    box-shadow: 0 1px 2px rgba(33, 36, 30, 0.3);
+    background: var(--knob);
+    box-shadow: 0 1px 2px rgb(var(--shade-rgb) / 0.3);
     transition: transform 0.18s ease;
   }
 
-  .switch.on .knob { transform: translateX(20px); }
+  .switch.on .knob { transform: translateX(20px); background: var(--knob-on); }
 
   .foot {
     margin-top: 6px;

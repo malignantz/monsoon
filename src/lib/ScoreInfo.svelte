@@ -87,7 +87,7 @@
     padding: 12px 15px 13px;
     z-index: 30;
     display: block;
-    box-shadow: 0 10px 28px rgba(33, 36, 30, 0.12);
+    box-shadow: 0 10px 28px rgb(var(--shade-rgb) / 0.12);
     font-size: 12.5px;
     font-style: normal;
     font-weight: 400;

@@ -11,6 +11,7 @@ import { track } from './analytics.js';
 import { schengenWindow, schengenImpact } from './schengen.js';
 import { countryDays, countryImpact, RESIDENCY_DAYS } from './dayCount.js';
 import { formatMoney, moneySymbol as moneySymbolFor, currencyNote, isCurrency, defaultCurrency } from './currency.js';
+import { isTheme } from './theme.js';
 
 export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 export const MONTH_LETTERS = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
@@ -67,6 +68,7 @@ export const prefs = $state({
   womensSafety: storedSettings?.womensSafety ?? false, // blend the women's-safety signal into safety, orthogonal to any preset
   units: storedSettings?.units === 'C' || storedSettings?.units === 'F' ? storedSettings.units : defaultUnits(), // temperatures, display only
   currency: isCurrency(storedSettings?.currency) ? storedSettings.currency : initialCurrency(), // money, display only (costs stay USD)
+  theme: isTheme(storedSettings?.theme) ? storedSettings.theme : 'system', // 'system' | 'light' | 'dark', display only
   passport: storedSettings?.passport ?? null // TODO: visa data — would drive per-passport visa-free windows
 });
 
@@ -78,7 +80,7 @@ export function saveSettings() {
   const firstTime = !onboarded.done;
   localStorage.setItem(
     SETTINGS_KEY,
-    JSON.stringify({ party: prefs.party, womensSafety: prefs.womensSafety, units: prefs.units, currency: prefs.currency, passport: prefs.passport })
+    JSON.stringify({ party: prefs.party, womensSafety: prefs.womensSafety, units: prefs.units, currency: prefs.currency, theme: prefs.theme, passport: prefs.passport })
   );
   onboarded.done = true;
   track(firstTime ? 'onboarding_complete' : 'settings_save', {

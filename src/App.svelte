@@ -1033,7 +1033,7 @@
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: 999px;
-    box-shadow: 0 14px 34px -14px rgba(33, 36, 30, 0.4);
+    box-shadow: 0 14px 34px -14px rgb(var(--shade-rgb) / 0.4);
     font-size: 13.5px;
     color: var(--ink-2);
     animation: lazy-in 0.2s ease 0.3s both;
@@ -1092,7 +1092,7 @@
     background: var(--ink);
     color: var(--paper);
     border-radius: 999px;
-    box-shadow: 0 14px 34px -12px rgba(33, 36, 30, 0.55);
+    box-shadow: 0 14px 34px -12px rgb(var(--shade-rgb) / 0.55);
     animation: toast-in 0.22s ease;
   }
 
@@ -1119,7 +1119,7 @@
 
   .toast-act {
     flex-shrink: 0;
-    border: 1px solid rgba(246, 241, 230, 0.4);
+    border: 1px solid rgb(var(--paper-rgb) / 0.4);
     background: transparent;
     color: var(--paper);
     border-radius: 999px;

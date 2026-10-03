@@ -245,7 +245,7 @@
       right: 1px;
       width: 26px;
       border-radius: 0 14px 14px 0;
-      background: linear-gradient(90deg, transparent, rgba(33, 36, 30, 0.08));
+      background: linear-gradient(90deg, transparent, rgb(var(--shade-rgb) / 0.08));
       pointer-events: none;
     }
   }
@@ -340,9 +340,9 @@
   }
 
   .g1 { color: var(--teal); font-weight: 600; }
-  .g2 { color: #5a7a2e; }
-  .g3 { color: #a06a14; }
-  .g4 { color: var(--band-bad); }
+  .g2 { color: var(--band-good-text); }
+  .g3 { color: var(--band-ok-text); }
+  .g4 { color: var(--band-bad-text); }
 
   .count {
     font-size: 12px;

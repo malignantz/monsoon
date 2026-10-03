@@ -84,7 +84,7 @@
     background: var(--card);
     border: 1px solid var(--ink-3);
     border-radius: 14px;
-    box-shadow: 0 16px 34px -18px rgba(33, 36, 30, 0.55);
+    box-shadow: 0 16px 34px -18px rgb(var(--shade-rgb) / 0.55);
     animation: tray-in 0.22s cubic-bezier(0.22, 1, 0.36, 1);
   }
 

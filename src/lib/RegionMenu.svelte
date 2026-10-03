@@ -98,7 +98,7 @@
     background: var(--card);
     border: 1px solid var(--line);
     border-radius: 12px;
-    box-shadow: 0 14px 32px -14px rgba(33, 36, 30, 0.4);
+    box-shadow: 0 14px 32px -14px rgb(var(--shade-rgb) / 0.4);
     opacity: 0;
     transform: translateY(-4px);
     transition: opacity 0.14s ease, transform 0.14s cubic-bezier(0.22, 1, 0.36, 1);
