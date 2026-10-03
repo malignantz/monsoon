@@ -118,7 +118,7 @@
     "months": [
      9
     ],
-    "tier": 3,
+    "tier": 2,
     "blurb": "Independence Day; the Zócalo fills on the 15th"
    },
    {
@@ -222,14 +222,6 @@
     "name": "Jornada de Cultura Cubana",
     "months": [
      3
-    ],
-    "tier": 2,
-    "from": "score-calendar"
-   },
-   {
-    "name": "Fiesta de los Locos build-up",
-    "months": [
-     5
     ],
     "tier": 2,
     "from": "score-calendar"
@@ -353,6 +345,7 @@
    {
     "name": "Chinese New Year (Yaowarat)",
     "months": [
+     1,
      2
     ],
     "tier": 2,
@@ -379,6 +372,7 @@
    {
     "name": "Tết (Lunar New Year)",
     "months": [
+     1,
      2
     ],
     "tier": 2,
@@ -441,6 +435,7 @@
    {
     "name": "Tết (Lunar New Year)",
     "months": [
+     1,
      2
     ],
     "tier": 2,
@@ -467,6 +462,7 @@
    {
     "name": "Tết (Lunar New Year)",
     "months": [
+     1,
      2
     ],
     "tier": 3,
@@ -501,6 +497,7 @@
    {
     "name": "Tết (Lunar New Year)",
     "months": [
+     1,
      2
     ],
     "tier": 3,
@@ -665,7 +662,7 @@
    {
     "name": "George Town Festival",
     "months": [
-     7
+     8
     ],
     "tier": 2,
     "blurb": "month of arts across the heritage zone"
@@ -673,6 +670,7 @@
    {
     "name": "Chinese New Year",
     "months": [
+     1,
      2
     ],
     "tier": 2,
@@ -931,16 +929,9 @@
     "blurb": "altars across the centro and in Huaquechula nearby"
    },
    {
-    "name": "Equinox season / Cholula trips",
-    "months": [
-     3
-    ],
-    "tier": 2,
-    "from": "score-calendar"
-   },
-   {
     "name": "Semana Santa",
     "months": [
+     3,
      4
     ],
     "tier": 2,
@@ -950,14 +941,6 @@
     "name": "Fiestas Patrias & Huey Atlixcayotl",
     "months": [
      9
-    ],
-    "tier": 2,
-    "from": "score-calendar"
-   },
-   {
-    "name": "Catrina season / Cholula events",
-    "months": [
-     10
     ],
     "tier": 2,
     "from": "score-calendar"
@@ -1030,14 +1013,6 @@
     ],
     "tier": 2,
     "blurb": "university comparsas through the callejones"
-   },
-   {
-    "name": "Independence season",
-    "months": [
-     9
-    ],
-    "tier": 2,
-    "from": "score-calendar"
    }
   ]
  },
@@ -1110,7 +1085,7 @@
     "months": [
      11
     ],
-    "tier": 2,
+    "tier": 1,
     "from": "score-calendar"
    },
    {
@@ -1279,10 +1254,19 @@
    {
     "name": "Corpus Christi Feria",
     "months": [
+     5,
      6
     ],
     "tier": 2,
     "blurb": "the city's big week of casetas and bullfights"
+   },
+   {
+    "name": "Día de la Cruz (May Crosses)",
+    "months": [
+     5
+    ],
+    "tier": 2,
+    "from": "event-review-2026-10"
    }
   ]
  },
@@ -1318,14 +1302,6 @@
     ],
     "tier": 3,
     "blurb": "a week of casetas, horses, sherry and sevillanas"
-   },
-   {
-    "name": "Late spring fairs",
-    "months": [
-     5
-    ],
-    "tier": 2,
-    "from": "score-calendar"
    }
   ]
  },
@@ -1442,7 +1418,7 @@
     "months": [
      5
     ],
-    "tier": 3,
+    "tier": 2,
     "blurb": "the patron-saint festival — chotis, picnics and the bullfighting feria"
    },
    {
@@ -1518,6 +1494,7 @@
    {
     "name": "Carnaval de Las Palmas",
     "months": [
+     1,
      2,
      3
     ],
@@ -1679,15 +1656,6 @@
     ],
     "tier": 3,
     "blurb": "one of the world's biggest saint festivals — a million people, candle-bearing devotees, three days"
-   },
-   {
-    "name": "Summer season",
-    "months": [
-     7,
-     8
-    ],
-    "tier": 2,
-    "from": "score-calendar"
    }
   ]
  },
@@ -1718,6 +1686,7 @@
    {
     "name": "Easter celebrations",
     "months": [
+     3,
      4
     ],
     "tier": 2,
@@ -1763,14 +1732,7 @@
    {
     "name": "Greek Orthodox Easter (Apr/May)",
     "months": [
-     4
-    ],
-    "tier": 3,
-    "from": "score-calendar"
-   },
-   {
-    "name": "Easter / spring",
-    "months": [
+     4,
      5
     ],
     "tier": 2,
@@ -1800,7 +1762,7 @@
      4,
      5
     ],
-    "tier": 3,
+    "tier": 2,
     "blurb": "Crete's biggest moment — midnight fireworks and lamb on every spit"
    },
    {
@@ -1876,24 +1838,8 @@
     "months": [
      7
     ],
-    "tier": 2,
+    "tier": 3,
     "blurb": "the EDM invasion; book around it"
-   },
-   {
-    "name": "Summer season opens",
-    "months": [
-     6
-    ],
-    "tier": 2,
-    "from": "score-calendar"
-   },
-   {
-    "name": "Summer festivals",
-    "months": [
-     8
-    ],
-    "tier": 2,
-    "from": "score-calendar"
    }
   ]
  },
@@ -2068,22 +2014,6 @@
     "blurb": "the country's main film event"
    },
    {
-    "name": "Cloud Festival & open-air season",
-    "months": [
-     6
-    ],
-    "tier": 2,
-    "from": "score-calendar"
-   },
-   {
-    "name": "Summer music & lake nights",
-    "months": [
-     7
-    ],
-    "tier": 2,
-    "from": "score-calendar"
-   },
-   {
     "name": "Albanian Independence Day events",
     "months": [
      11
@@ -2185,14 +2115,6 @@
     ],
     "tier": 1,
     "blurb": "Jan 19: swimmers race for the cross in the lake"
-   },
-   {
-    "name": "Lake high season",
-    "months": [
-     8
-    ],
-    "tier": 2,
-    "from": "score-calendar"
    }
   ]
  },
@@ -2233,15 +2155,7 @@
     "months": [
      1
     ],
-    "tier": 2,
-    "from": "score-calendar"
-   },
-   {
-    "name": "Ski season & markets",
-    "months": [
-     12
-    ],
-    "tier": 2,
+    "tier": 1,
     "from": "score-calendar"
    }
   ]
@@ -2409,16 +2323,8 @@
     "months": [
      12
     ],
-    "tier": 2,
+    "tier": 3,
     "blurb": "Vörösmarty Square and the Basilica light show"
-   },
-   {
-    "name": "Spring season opens",
-    "months": [
-     5
-    ],
-    "tier": 2,
-    "from": "score-calendar"
    }
   ]
  },
@@ -2441,7 +2347,8 @@
    {
     "name": "Carnaval porteño",
     "months": [
-     2
+     2,
+     3
     ],
     "tier": 2,
     "blurb": "murga drumming in the barrios"
@@ -2527,7 +2434,7 @@
     "months": [
      9
     ],
-    "tier": 3,
+    "tier": 2,
     "blurb": "the city's massive September pilgrimage and processions"
    },
    {
@@ -2543,7 +2450,7 @@
     "months": [
      2
     ],
-    "tier": 2,
+    "tier": 1,
     "from": "score-calendar"
    }
   ]
@@ -2568,7 +2475,8 @@
     "name": "Carnaval (Murgas)",
     "months": [
      1,
-     2
+     2,
+     3
     ],
     "tier": 3,
     "blurb": "the world's longest carnival — 40 days of tablados and candombe"
@@ -2618,14 +2526,7 @@
    {
     "name": "Vendimia (wine harvest)",
     "months": [
-     3
-    ],
-    "tier": 2,
-    "from": "score-calendar"
-   },
-   {
-    "name": "Wine harvest",
-    "months": [
+     3,
      4
     ],
     "tier": 2,
@@ -2706,7 +2607,7 @@
     "months": [
      8
     ],
-    "tier": 3,
+    "tier": 2,
     "blurb": "Aug 15 city week — parades, fireworks off El Misti"
    },
    {
@@ -2741,7 +2642,7 @@
     "months": [
      11
     ],
-    "tier": 3,
+    "tier": 2,
     "blurb": "independence week, Nov 1–4 — the whole center celebrates"
    },
    {
@@ -2803,14 +2704,6 @@
     ],
     "tier": 1,
     "blurb": "Azorean heritage processions"
-   },
-   {
-    "name": "Summer high season",
-    "months": [
-     1
-    ],
-    "tier": 2,
-    "from": "score-calendar"
    }
   ]
  },
@@ -2844,7 +2737,7 @@
     "months": [
      6
     ],
-    "tier": 3,
+    "tier": 2,
     "blurb": "the northeast's huge June festival — forró and bonfires (Campina Grande nearby is the epicenter)"
    }
   ]
@@ -3039,33 +2932,17 @@
     "blurb": "Saryan street becomes one long tasting"
    },
    {
-    "name": "Armenian Genocide remembrance / spring events",
-    "months": [
-     4
-    ],
-    "tier": 2,
-    "from": "score-calendar"
-   },
-   {
     "name": "Independence Day events",
     "months": [
      9
     ],
-    "tier": 2,
+    "tier": 1,
     "from": "score-calendar"
    },
    {
     "name": "Yerevan city birthday / Erebuni-Yerevan",
     "months": [
      10
-    ],
-    "tier": 3,
-    "from": "score-calendar"
-   },
-   {
-    "name": "New Year season",
-    "months": [
-     12
     ],
     "tier": 2,
     "from": "score-calendar"
@@ -3534,8 +3411,10 @@
    {
     "name": "Ljubljana Festival",
     "months": [
+     6,
      7,
-     8
+     8,
+     9
     ],
     "tier": 2,
     "blurb": "summer-long classical and theater program"
@@ -4434,7 +4313,7 @@
      4,
      5
     ],
-    "tier": 3,
+    "tier": 2,
     "blurb": "Apr 30–May 1: student caps, sparkling wine and park picnics — the year's big party"
    },
    {
@@ -4675,14 +4554,6 @@
     ],
     "tier": 1,
     "blurb": "golden lights on Długi Targ"
-   },
-   {
-    "name": "Baltic beach season",
-    "months": [
-     8
-    ],
-    "tier": 2,
-    "from": "score-calendar"
    }
   ]
  }
