@@ -86,14 +86,14 @@ See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring
 
 ## Not Yet Seen In A Real Browser
 
-Built and checked by reading code and running the scripts; the dev server could not be previewed in the sandbox. Verify by hand:
+Ticked items were verified in a real browser on 2026-10-03 (rotation by viewport emulation, not a device). The rest were built and checked by reading code and running the scripts; verify by hand:
 
-- [ ] My year "Save a copy" Undo bar (appears, Undo restores the old year, disappears on first edit).
-- [ ] City sheet detail-load Retry state (block the detail JSON, press Retry).
-- [ ] Escape closing only an open info popover, not the sheet behind it.
-- [ ] Phone rotation with the My year mobile picker open: the picker closes and the page scroll lock releases.
-- [ ] "Tight" Schengen wording on a real route (1-2 days over, e.g. three consecutive 31-day months plus a shoulder stay).
-- [ ] Compare mode on a phone (checkbox strips, tray over the toast, Back closing the comparison).
+- [x] My year "Save a copy" Undo bar (appears, Undo restores the old year, disappears on first edit).
+- [x] City sheet detail-load Retry state (block the detail JSON, press Retry).
+- [x] Escape closing only an open info popover, not the sheet behind it.
+- [x] Phone rotation with the My year mobile picker open: the picker closes and the page scroll lock releases.
+- [x] "Tight" Schengen wording on a real route (1-2 days over, e.g. three consecutive 31-day months plus a shoulder stay).
+- [x] Compare mode on a phone (checkbox strips, tray over the toast, Back closing the comparison).
 - [ ] Dark mode on every surface (This month cards and table, city sheet, comparison, My year board, picker and mobile picker, Settings, About, How-to, Methodology, toasts): nothing reads as a light-mode leftover, band labels and the hazard hatch stay legible, focus rings show, the Settings switch knob reads off and on, and opacity-dimmed ghost or disabled text (My year ghost year and duration buttons, This month icons, the compare checkbox when off) is still readable. Then: no flash on reload in dark (System and forced Dark), System following an OS switch live, Print from dark gives the light page, the iOS status bar colour (theme-color).
 - [ ] Currency: switch to each of EUR/GBP/CAD/AUD and check cards, table, sheet (total, breakdown, line items, the conversion note), comparison, My year totals and rail, Max cost filters, Copy as text (note line at the end); the five-code control fits a 320px phone.
 - [ ] Card "+ Year": hover reveal, alignment on the meta row, tag wrapping on a narrow Schengen card with a hazard tag, always-on pill on touch; table "+" does not open the sheet; both show the add toast.
