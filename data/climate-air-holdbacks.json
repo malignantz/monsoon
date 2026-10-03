@@ -1,0 +1,972 @@
+{
+ "_meta": {
+  "description": "City-metric-months that keep their current (pre-pipeline) value. apply_climate_air.py leaves these numbers unchanged and marks their provenance 'Editorial estimate', confidence low, with the reason as the note.",
+  "seeded": "2026-10-03",
+  "seededBy": "scripts/seed_holdbacks.py (rules in its docstring); edit MANUAL there for hand additions",
+  "rules": {
+   "pending": "ERA5 not fetched (quota) and no high-confidence station",
+   "smog": "Sofia/Plovdiv PM2.5 Nov-Mar",
+   "who-scale": "CAMS->WHO factor outside [0.6, 2.0] with no cited override",
+   "trop-rain": "provisional tropical rain threshold, |Δ| > 4 days",
+   "highland": "highland city without station: humidity and night lows",
+   "station-vs-era5": "station and ERA5 disagree by ~5 °C",
+   "shape": "PM2.5 seasonal pattern correlates < -0.3 with a previous pattern spanning >= 10 µg/m³ (no override)",
+   "material": "non-high-confidence value differs materially from the previous one",
+   "manual": "hand-added case (see reason)"
+  },
+  "count": 107
+ },
+ "holdbacks": [
+  {
+   "city": "antigua",
+   "metric": "hum",
+   "months": "all",
+   "rule": "highland",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "antigua",
+   "metric": "low",
+   "months": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    11,
+    12
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "antigua",
+   "metric": "pm25",
+   "months": [
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "arequipa",
+   "metric": "hum",
+   "months": "all",
+   "rule": "highland+material",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "arequipa",
+   "metric": "low",
+   "months": "all",
+   "rule": "highland+material",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "arequipa",
+   "metric": "pm25",
+   "months": [
+    2
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "arequipa",
+   "metric": "rain",
+   "months": [
+    1,
+    2,
+    3
+   ],
+   "rule": "trop-rain+material",
+   "reason": "tropical rain-day estimate is provisional and differs by more than 4 days"
+  },
+  {
+   "city": "bali-canggu-ubud",
+   "metric": "high",
+   "months": [
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "bologna",
+   "metric": "high",
+   "months": [
+    1,
+    2,
+    12
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "boquete",
+   "metric": "hum",
+   "months": "all",
+   "rule": "highland",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "boquete",
+   "metric": "low",
+   "months": "all",
+   "rule": "highland",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "boquete",
+   "metric": "rain",
+   "months": [
+    4,
+    5,
+    11
+   ],
+   "rule": "trop-rain",
+   "reason": "tropical rain-day estimate is provisional and differs by more than 4 days"
+  },
+  {
+   "city": "cape-town",
+   "metric": "pm25",
+   "months": "all",
+   "rule": "who-scale",
+   "reason": "the air model and WHO ground data disagree by a factor of 0.52"
+  },
+  {
+   "city": "chania-crete",
+   "metric": "low",
+   "months": [
+    11
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "cuenca",
+   "metric": "high",
+   "months": [
+    1,
+    5,
+    6,
+    7,
+    8,
+    10
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "cuenca",
+   "metric": "hum",
+   "months": "all",
+   "rule": "highland+material",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "cuenca",
+   "metric": "low",
+   "months": "all",
+   "rule": "highland",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "cuenca",
+   "metric": "rain",
+   "months": [
+    4,
+    5,
+    9,
+    10
+   ],
+   "rule": "trop-rain+material",
+   "reason": "tropical rain-day estimate is provisional and differs by more than 4 days"
+  },
+  {
+   "city": "cusco",
+   "metric": "high",
+   "months": [
+    3,
+    4,
+    5,
+    6,
+    10,
+    11
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "cusco",
+   "metric": "hum",
+   "months": "all",
+   "rule": "highland+material",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "cusco",
+   "metric": "low",
+   "months": "all",
+   "rule": "highland+material",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "cusco",
+   "metric": "pm25",
+   "months": [
+    1,
+    2,
+    3,
+    4,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "cusco",
+   "metric": "rain",
+   "months": [
+    9,
+    10
+   ],
+   "rule": "trop-rain",
+   "reason": "tropical rain-day estimate is provisional and differs by more than 4 days"
+  },
+  {
+   "city": "da-lat",
+   "metric": "hum",
+   "months": "all",
+   "rule": "highland",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "da-lat",
+   "metric": "low",
+   "months": "all",
+   "rule": "highland",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "da-lat",
+   "metric": "rain",
+   "months": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11
+   ],
+   "rule": "trop-rain+material",
+   "reason": "tropical rain-day estimate is provisional and differs by more than 4 days"
+  },
+  {
+   "city": "da-nang",
+   "metric": "pm25",
+   "months": [
+    4
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "da-nang",
+   "metric": "rain",
+   "months": [
+    1,
+    12
+   ],
+   "rule": "trop-rain+material",
+   "reason": "tropical rain-day estimate is provisional and differs by more than 4 days"
+  },
+  {
+   "city": "funchal-madeira",
+   "metric": "rain",
+   "months": [
+    1,
+    12
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "gdansk",
+   "metric": "high",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "gdansk",
+   "metric": "hum",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "gdansk",
+   "metric": "low",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "gdansk",
+   "metric": "rain",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "granada",
+   "metric": "pm25",
+   "months": "all",
+   "rule": "shape",
+   "reason": "the air model's seasonal pattern runs opposite to the documented one; no monthly ground data to settle it"
+  },
+  {
+   "city": "hanoi",
+   "metric": "pm25",
+   "months": "all",
+   "rule": "manual",
+   "reason": "the air model puts Hanoi's peaks in April and August, against the usual winter peak; the WHO annual mean is from 2018–2020 only"
+  },
+  {
+   "city": "hanoi",
+   "metric": "rain",
+   "months": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "rule": "trop-rain+material",
+   "reason": "tropical rain-day estimate is provisional and differs by more than 4 days"
+  },
+  {
+   "city": "ho-chi-minh-city",
+   "metric": "pm25",
+   "months": "all",
+   "rule": "shape+material",
+   "reason": "the air model's seasonal pattern runs opposite to the documented one; no monthly ground data to settle it"
+  },
+  {
+   "city": "hoi-an",
+   "metric": "pm25",
+   "months": [
+    4
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "hoi-an",
+   "metric": "rain",
+   "months": [
+    9,
+    11
+   ],
+   "rule": "trop-rain+material",
+   "reason": "tropical rain-day estimate is provisional and differs by more than 4 days"
+  },
+  {
+   "city": "ipoh",
+   "metric": "high",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "ipoh",
+   "metric": "hum",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "ipoh",
+   "metric": "low",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "ipoh",
+   "metric": "rain",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "istanbul",
+   "metric": "pm25",
+   "months": "all",
+   "rule": "who-scale",
+   "reason": "the air model and WHO ground data disagree by a factor of 2.02"
+  },
+  {
+   "city": "kotor",
+   "metric": "hum",
+   "months": "all",
+   "rule": "highland",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "kuala-lumpur",
+   "metric": "pm25",
+   "months": [
+    3,
+    4,
+    6,
+    7
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "kuching",
+   "metric": "pm25",
+   "months": [
+    7,
+    8
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "lake-atitlan-panajachel",
+   "metric": "hum",
+   "months": "all",
+   "rule": "highland",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "lake-atitlan-panajachel",
+   "metric": "low",
+   "months": "all",
+   "rule": "highland+material",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "lake-atitlan-panajachel",
+   "metric": "pm25",
+   "months": [
+    5,
+    6
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "lake-atitlan-panajachel",
+   "metric": "rain",
+   "months": [
+    4,
+    5,
+    6,
+    10
+   ],
+   "rule": "trop-rain+material",
+   "reason": "tropical rain-day estimate is provisional and differs by more than 4 days"
+  },
+  {
+   "city": "marrakech",
+   "metric": "pm25",
+   "months": "all",
+   "rule": "who-scale",
+   "reason": "the air model and WHO ground data disagree by a factor of 4.01"
+  },
+  {
+   "city": "medellin",
+   "metric": "hum",
+   "months": "all",
+   "rule": "highland+material",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "mendoza",
+   "metric": "pm25",
+   "months": [
+    1,
+    2,
+    3,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "merida",
+   "metric": "rain",
+   "months": [
+    6,
+    7,
+    8,
+    9
+   ],
+   "rule": "trop-rain+material",
+   "reason": "tropical rain-day estimate is provisional and differs by more than 4 days"
+  },
+  {
+   "city": "mexico-city",
+   "metric": "hum",
+   "months": "all",
+   "rule": "highland+material",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "nha-trang",
+   "metric": "high",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "nha-trang",
+   "metric": "hum",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "nha-trang",
+   "metric": "low",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "nha-trang",
+   "metric": "rain",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "oaxaca",
+   "metric": "hum",
+   "months": "all",
+   "rule": "highland",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "oaxaca",
+   "metric": "low",
+   "months": "all",
+   "rule": "highland",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "oaxaca",
+   "metric": "rain",
+   "months": [
+    5,
+    7,
+    8,
+    9,
+    10
+   ],
+   "rule": "trop-rain+material",
+   "reason": "tropical rain-day estimate is provisional and differs by more than 4 days"
+  },
+  {
+   "city": "ohrid",
+   "metric": "high",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "ohrid",
+   "metric": "hum",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "ohrid",
+   "metric": "low",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "ohrid",
+   "metric": "pm25",
+   "months": "all",
+   "rule": "who-scale+shape+material",
+   "reason": "the air model and WHO ground data disagree by a factor of 2.41"
+  },
+  {
+   "city": "ohrid",
+   "metric": "rain",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "osaka",
+   "metric": "pm25",
+   "months": "all",
+   "rule": "who-scale",
+   "reason": "the air model and WHO ground data disagree by a factor of 0.54"
+  },
+  {
+   "city": "plovdiv",
+   "metric": "high",
+   "months": [
+    7,
+    12
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "plovdiv",
+   "metric": "pm25",
+   "months": [
+    1,
+    2,
+    3,
+    11,
+    12
+   ],
+   "rule": "smog",
+   "reason": "the air model misses the documented winter heating smog; no citable monthly data yet"
+  },
+  {
+   "city": "puebla",
+   "metric": "hum",
+   "months": "all",
+   "rule": "highland",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "puebla",
+   "metric": "low",
+   "months": "all",
+   "rule": "highland",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "puebla",
+   "metric": "rain",
+   "months": [
+    4,
+    5,
+    7
+   ],
+   "rule": "trop-rain+material",
+   "reason": "tropical rain-day estimate is provisional and differs by more than 4 days"
+  },
+  {
+   "city": "queretaro",
+   "metric": "high",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "queretaro",
+   "metric": "hum",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "queretaro",
+   "metric": "low",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "queretaro",
+   "metric": "rain",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "salta",
+   "metric": "pm25",
+   "months": [
+    1,
+    2,
+    8,
+    9,
+    10,
+    12
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "san-jose",
+   "metric": "high",
+   "months": "all",
+   "rule": "station-vs-era5",
+   "reason": "station and reanalysis disagree by about 5 °C"
+  },
+  {
+   "city": "san-jose",
+   "metric": "hum",
+   "months": "all",
+   "rule": "highland",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "san-jose",
+   "metric": "low",
+   "months": "all",
+   "rule": "station-vs-era5",
+   "reason": "station and reanalysis disagree by about 5 °C"
+  },
+  {
+   "city": "san-jose",
+   "metric": "pm25",
+   "months": "all",
+   "rule": "who-scale+material",
+   "reason": "the air model and WHO ground data disagree by a factor of 3.06"
+  },
+  {
+   "city": "san-jose",
+   "metric": "rain",
+   "months": [
+    5,
+    7,
+    8
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "san-miguel-de-allende",
+   "metric": "hum",
+   "months": "all",
+   "rule": "highland",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "san-miguel-de-allende",
+   "metric": "low",
+   "months": "all",
+   "rule": "highland",
+   "reason": "no station, and reanalysis is unreliable in mountain terrain"
+  },
+  {
+   "city": "san-miguel-de-allende",
+   "metric": "rain",
+   "months": [
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "rule": "trop-rain+material",
+   "reason": "tropical rain-day estimate is provisional and differs by more than 4 days"
+  },
+  {
+   "city": "sarande",
+   "metric": "pm25",
+   "months": [
+    11,
+    12
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "siem-reap",
+   "metric": "pm25",
+   "months": "all",
+   "rule": "who-scale",
+   "reason": "the air model and WHO ground data disagree by a factor of 2.14"
+  },
+  {
+   "city": "siem-reap",
+   "metric": "rain",
+   "months": [
+    5,
+    6,
+    8
+   ],
+   "rule": "trop-rain+material",
+   "reason": "tropical rain-day estimate is provisional and differs by more than 4 days"
+  },
+  {
+   "city": "skopje",
+   "metric": "high",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "skopje",
+   "metric": "hum",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "skopje",
+   "metric": "low",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "skopje",
+   "metric": "rain",
+   "months": "all",
+   "rule": "pending",
+   "reason": "climate data not fetched yet and no nearby station"
+  },
+  {
+   "city": "sofia",
+   "metric": "pm25",
+   "months": [
+    1,
+    2,
+    3,
+    11,
+    12
+   ],
+   "rule": "smog",
+   "reason": "the air model misses the documented winter heating smog; no citable monthly data yet"
+  },
+  {
+   "city": "taipei",
+   "metric": "pm25",
+   "months": [
+    12
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "tallinn",
+   "metric": "pm25",
+   "months": "all",
+   "rule": "who-scale",
+   "reason": "the air model and WHO ground data disagree by a factor of 0.43"
+  },
+  {
+   "city": "tirana",
+   "metric": "pm25",
+   "months": "all",
+   "rule": "shape+material",
+   "reason": "the air model's seasonal pattern runs opposite to the documented one; no monthly ground data to settle it"
+  },
+  {
+   "city": "tokyo",
+   "metric": "pm25",
+   "months": "all",
+   "rule": "who-scale",
+   "reason": "the air model and WHO ground data disagree by a factor of 0.47"
+  },
+  {
+   "city": "valletta",
+   "metric": "high",
+   "months": [
+    7
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "valletta",
+   "metric": "hum",
+   "months": [
+    5,
+    6,
+    7
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "valletta",
+   "metric": "rain",
+   "months": [
+    1
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "vancouver",
+   "metric": "pm25",
+   "months": "all",
+   "rule": "who-scale",
+   "reason": "the air model and WHO ground data disagree by a factor of 0.51"
+  },
+  {
+   "city": "vilnius",
+   "metric": "low",
+   "months": [
+    1,
+    2,
+    12
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "vilnius",
+   "metric": "pm25",
+   "months": "all",
+   "rule": "shape",
+   "reason": "the air model's seasonal pattern runs opposite to the documented one; no monthly ground data to settle it"
+  },
+  {
+   "city": "yerevan",
+   "metric": "pm25",
+   "months": [
+    1,
+    2,
+    3,
+    4,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "rule": "material",
+   "reason": "the new value differs a lot and could not be verified"
+  },
+  {
+   "city": "zurich",
+   "metric": "pm25",
+   "months": "all",
+   "rule": "who-scale",
+   "reason": "the air model and WHO ground data disagree by a factor of 0.53"
+  }
+ ]
+}
