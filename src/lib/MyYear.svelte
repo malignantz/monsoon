@@ -64,17 +64,23 @@
   const STORE_F = 'atlas.route.filters.v1';
   const DEFAULT_NAME = 'My Monsoon year';
 
+  // The regions that existed before Central Asia was added. Older builds saved
+  // "no region filter" as the explicit full list of regions at the time, so a
+  // saved list holding all of these is that old "all", not a real selection.
+  const LEGACY_REGIONS = ['Africa', 'E Asia', 'E Europe', 'LATAM', 'N America', 'N Europe', 'Oceania', 'S America', 'S Europe', 'SE Asia', 'W Asia', 'W Europe'];
+
   function loadFilters() {
     const base = defaultFilters();
     try {
       const f = JSON.parse(localStorage.getItem(STORE_F));
       if (f && typeof f === 'object') {
         for (const k of Object.keys(base)) if (k in f) base[k] = f[k];
-        // Sanitize regions into canonical order; empty also resets to all
-        // (the pre-all-selected format used [] to mean "all").
+        // Sanitize regions into canonical order. [] means "all" (what we persist
+        // now); a legacy full list also means "all", so regions added since it
+        // was saved are not silently filtered out.
         const saved = new Set(Array.isArray(base.regions) ? base.regions : []);
         base.regions = regions.filter((r) => saved.has(r));
-        if (!base.regions.length) base.regions = [...regions];
+        if (!base.regions.length || LEGACY_REGIONS.every((r) => saved.has(r))) base.regions = [...regions];
         // The old English dropdown (tier 0/2/3) is now a single checkbox; any
         // "decent+ or higher" selection maps to the new English-friendly toggle.
         if (typeof f.english === 'number' && f.english >= 2) base.englishOk = true;
@@ -268,8 +274,11 @@
     canScrollRight = scrollEl.scrollWidth - scrollEl.clientWidth - scrollEl.scrollLeft > 4;
   }
 
+  // "No region filter" is persisted as [] rather than the full list, so regions
+  // added to the catalog later still count as selected; loadFilters() expands it.
   $effect(() => {
-    localStorage.setItem(STORE_F, JSON.stringify(filters));
+    const regionsSaved = regionSel.size ? regions.filter((r) => regionSel.has(r)) : [];
+    localStorage.setItem(STORE_F, JSON.stringify({ ...filters, regions: regionsSaved }));
   });
 
   function resetFilters() {
