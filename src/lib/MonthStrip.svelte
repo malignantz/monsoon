@@ -13,23 +13,44 @@
   });
 </script>
 
-<div class="strip {size}" class:clickable={!!onselect}>
+<!-- Interactive (onselect) strips render real buttons; display-only strips (cards,
+     My year rows) render plain spans so they never nest a control inside the
+     card's own button. Display-only strips are aria-hidden — the host supplies a
+     text summary of the year instead (see stripSummary.js). -->
+<div class="strip {size}" class:clickable={!!onselect} aria-hidden={onselect ? undefined : 'true'}>
   {#each cells as c, i}
-    <button
-      type="button"
-      class="cell band-{c.band}"
-      class:risk1={c.risk === 1}
-      class:risk2={c.risk === 2}
-      class:sel={i === selected}
-      class:dim={frameFrom >= 0 && (i - frameFrom + 12) % 12 >= frameLen}
-      disabled={!onselect}
-      onclick={() => onselect?.(i)}
-      title={`${MONTHS[i]}: ${Math.round(c.q)} Score\nWeather: ${Math.round(c.weather)}${c.airCat ? ` · Air: ${c.airCat}` : ''}${c.seasonPhase ? ` · Season: ${c.seasonPhase}` : ''} · Events: ${Math.round(c.events)}${c.fest ? ' ★' : ''}`}
-    >
-      {#if labels}<span class="ml">{MONTH_LETTERS[i]}</span>{/if}
-      {#if size === 'lg'}<span class="q num">{Math.round(c.q)}</span>{/if}
-      {#if c.fest}<span class="fest" aria-label="major festival" title="Major festival">★</span>{/if}
-    </button>
+    {@const tip = `${MONTHS[i]}: ${Math.round(c.q)} Score\nWeather: ${Math.round(c.weather)}${c.airCat ? ` · Air: ${c.airCat}` : ''}${c.seasonPhase ? ` · Season: ${c.seasonPhase}` : ''} · Events: ${Math.round(c.events)}${c.fest ? ' ★' : ''}`}
+    {#if onselect}
+      <button
+        type="button"
+        class="cell band-{c.band}"
+        class:risk1={c.risk === 1}
+        class:risk2={c.risk === 2}
+        class:sel={i === selected}
+        class:dim={frameFrom >= 0 && (i - frameFrom + 12) % 12 >= frameLen}
+        aria-pressed={i === selected}
+        aria-label="{MONTHS[i]}: score {Math.round(c.q)}{c.fest ? ', major festival' : ''}{c.risk >= 1 ? ', seasonal hazard' : ''}"
+        onclick={() => onselect(i)}
+        title={tip}
+      >
+        {#if labels}<span class="ml" aria-hidden="true">{MONTH_LETTERS[i]}</span>{/if}
+        {#if size === 'lg'}<span class="q num" aria-hidden="true">{Math.round(c.q)}</span>{/if}
+        {#if c.fest}<span class="fest" aria-hidden="true" title="Major festival">★</span>{/if}
+      </button>
+    {:else}
+      <span
+        class="cell band-{c.band}"
+        class:risk1={c.risk === 1}
+        class:risk2={c.risk === 2}
+        class:sel={i === selected}
+        class:dim={frameFrom >= 0 && (i - frameFrom + 12) % 12 >= frameLen}
+        title={tip}
+      >
+        {#if labels}<span class="ml">{MONTH_LETTERS[i]}</span>{/if}
+        {#if size === 'lg'}<span class="q num">{Math.round(c.q)}</span>{/if}
+        {#if c.fest}<span class="fest">★</span>{/if}
+      </span>
+    {/if}
   {/each}
   {#if frame.length}
     <div class="winmark" aria-hidden="true">
@@ -86,9 +107,18 @@
     font: inherit;
   }
 
-  .cell:disabled {
-    cursor: default;
+  /* Non-colour cue for the score band (the green "good" and amber "ok" — and
+     the dark "great" and "avoid" — read alike without colour vision). On the
+     small strip, warm-band cells sit a little lower, bottom-aligned, so the year
+     reads as a quiet skyline: great/good full height, ok a step down, avoid two
+     steps down. The large sheet strip prints each month's score, so it stays
+     flat. The legend swatches mirror these heights. */
+  .sm {
+    align-items: end;
   }
+
+  .sm .cell.band-ok { height: 11px; }
+  .sm .cell.band-bad { height: 8px; }
 
   .lg .cell {
     height: 52px;

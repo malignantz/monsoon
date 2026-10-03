@@ -1,6 +1,7 @@
 <script>
   import MonthStrip from './MonthStrip.svelte';
   import { stripCells, qolFor, valueFor, whyNow, fmtMoney, cityCost, partyWord, isFavorite, toggleFavorite } from './data.svelte.js';
+  import { stripSummary } from './stripSummary.js';
 
   let { city, month, preset, mode, valueModel, heroKey = null, openKey = null, onopen } = $props();
 
@@ -15,6 +16,8 @@
   const score = $derived(
     mode === 'value' ? valueFor(city, month, preset, valueModel) : qolFor(city, month, preset)
   );
+  // The strip is colour-only, so the card's accessible name carries its year.
+  const yearSummary = $derived(stripSummary(cells));
   const why = $derived(whyNow(city, month));
   const m = $derived(city.months[month]);
 </script>
@@ -38,11 +41,12 @@
       </div>
       <div class="score {mode === 'value' ? 'neutral' : `band-${cells[month].band}`}">
         <span class="num big">{Math.round(score)}</span>
-        <span class="lbl">{mode === 'value' ? 'best value' : 'score'}</span>
+        <span class="lbl">{mode === 'value' ? 'Best Value' : 'Score'}</span>
       </div>
     </div>
 
     <MonthStrip {cells} selected={month} />
+    <span class="sr-only">{yearSummary}</span>
 
     <p class="why">{why || city.draw}</p>
 
@@ -66,7 +70,7 @@
     position: absolute;
     top: 11px;
     right: 11px;
-    z-index: 2;
+    z-index: var(--z-raised);
     width: 30px;
     height: 30px;
     display: flex;
