@@ -1,4 +1,5 @@
 <script>
+  import { focusTrap } from './focusTrap.js';
   // A read-only companion to Settings/Methodology — same scrim/card shell and
   // visual language, but a short, value-led guide. Opened from the header "?"
   // button (a secondary utility beside the settings gear), so "how to use it"
@@ -14,8 +15,6 @@
   import { cities } from './data.svelte.js';
 
   let { onclose } = $props();
-
-  let cardEl = $state(null);
 
   const BRAND_BANDS = ['ok', 'ok', 'good', 'good', 'good', 'great', 'great', 'good', 'good', 'good', 'ok', 'ok'];
 
@@ -41,24 +40,11 @@
     }
   ];
 
-  $effect(() => {
-    const onkey = (e) => {
-      if (e.key === 'Escape') onclose();
-    };
-    window.addEventListener('keydown', onkey);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    cardEl?.focus();
-    return () => {
-      window.removeEventListener('keydown', onkey);
-      document.body.style.overflow = prevOverflow;
-    };
-  });
 </script>
 
 <div class="scrim">
   <button type="button" class="scrim-back" aria-label="Close guide" onclick={onclose}></button>
-  <div class="card" role="dialog" aria-modal="true" aria-label="How to use Monsoon" tabindex="-1" bind:this={cardEl}>
+  <div class="card" role="dialog" aria-modal="true" aria-label="How to use Monsoon" tabindex="-1" use:focusTrap={{ onescape: onclose }}>
     <button type="button" class="x" onclick={onclose} aria-label="Close">×</button>
 
     <header class="head">

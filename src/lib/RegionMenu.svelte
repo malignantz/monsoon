@@ -25,11 +25,22 @@
   $effect(() => {
     if (!open) return;
     const reflow = () => position();
+    // Escape closes just this menu. Swallowed at the document (like ScoreInfo)
+    // so the layer behind it — the My year picker on phones — stays open.
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return;
+      e.preventDefault();
+      e.stopPropagation();
+      panel?.hidePopover?.();
+      btn?.focus();
+    };
     window.addEventListener('scroll', reflow, true);
     window.addEventListener('resize', reflow);
+    document.addEventListener('keydown', onKey);
     return () => {
       window.removeEventListener('scroll', reflow, true);
       window.removeEventListener('resize', reflow);
+      document.removeEventListener('keydown', onKey);
     };
   });
 </script>
@@ -108,7 +119,7 @@
   }
 
   .pop-title {
-    font-size: 9.5px;
+    font-size: 11px;
     letter-spacing: 0.07em;
     text-transform: uppercase;
     color: var(--ink-3);

@@ -17,9 +17,9 @@ See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring
 - [ ] Add-a-city pipeline, then expand beyond 111 cities. Depends on the climate/air pipeline above (new cities need sourced climate and PM2.5, not another estimate).
   - Lookup tables live inside the scripts (not in data files), and the data files are joined on city name, so adding a city means touching several scripts and files by hand.
   - Append the new ID to `src/lib/cityIds.v1.js` and run `npm run check:ids`; add `data/cost-evidence/<slug>.json`.
-- [ ] Decide what to do with the unshipped FCDO layer and city photos. `scripts/build_fcdo.py` output is not baked into the data (no `advisoryUK`), and `data/city-media.json` hero paths are in the data but no images ship and no surface shows them. Either finish and ship, or remove the dead pipeline.
+- [ ] Decide what to do with the unshipped FCDO layer and city photos. `scripts/build_fcdo.py` output is not baked into the data (no `advisoryUK`), and `data/city-media.json` hero paths are in the data but no images ship and no surface shows them. Either finish and ship, or remove the dead pipeline. State and what each option takes: `docs/dead-pipelines.md`.
 - [ ] Create a comprehensive visa information plan.
-  - Define the user-facing scope before restoring visa details to city views (`city.visa` is baked into core data but rendered nowhere).
+  - Define the user-facing scope before restoring visa details to city views (`city.visa` is in `data/travel-data.json` but rendered nowhere, so it was dropped from the core bundle; add it back to `CORE_CITY` in `scripts/split-data.mjs` when a surface shows it).
   - Cover passport-specific rules, e-visas/arrival cards, extensions, Schengen rolling windows, and source freshness.
   - Decide which visa signals belong in discovery, city detail, and My year validation.
 - [ ] Decide whether cost should become part of the headline score or remain a Best Value lens only.
@@ -35,14 +35,8 @@ See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring
 
 ## Itinerary Saving And Sharing
 
-- [ ] Redesign first-time shared itinerary landing.
-  - Today a shared link always opens a read-only preview with Save a copy (which has Undo) and Dismiss, even for a visitor with no saved year.
-  - If a visitor has no local itinerary yet, treat the shared route as their starting state instead of requiring an immediate "Save a copy" click.
-  - Add light intro copy that explains they are viewing someone's shared year and can edit it as their own.
-  - Keep the read-only preview for returning users; decide between "Start with this trip", "Customize this trip", or silent adoption with an undo/dismiss affordance.
-- [ ] Add export options for a planned year.
-  - Copyable text summary.
-  - Print stylesheet for the itinerary board.
+- [x] Redesign first-time shared itinerary landing: a visitor with no saved year gets the shared route as their starting year with a one-line note and Keep it / Undo; returning visitors keep the read-only preview (Save a copy with Undo, Show my year). Adding a city during a preview says it went to their own year. See `docs/itinerary-sharing.md`.
+- [x] Add export options for a planned year: Copy as text in My year (stays, scores, party costs, totals, Schengen, longest country, share link) and a one-page print stylesheet.
 
 ## My Year And Planning Flow
 
@@ -74,19 +68,19 @@ See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring
 
 ## Performance
 
-- [ ] Core JSON is inlined in the JS bundle: the main chunk is about 590 kB (Vite warns above 500 kB). Load the core data as a separate asset, or trim fields.
-- [ ] The detail JSON (about 460 kB) is fetched on every visit at idle, even if no city sheet is opened. Cache it better or fetch on first sheet open.
-- [ ] Dialogs (city sheet, comparison, methodology, settings, about, how-to) are statically imported; code-split them.
+- [x] Entry chunk down from 590 kB (126 kB gzip) to about 435 kB (91 kB gzip): `visa` dropped from the core JSON, which stays inlined (many modules read `cities` at import time). A columnar month encoding would save another ~150 kB raw but only ~4.5 kB gzip; not done.
+- [x] The detail JSON (now about 430 kB, 75 kB gzip; `media` dropped) is fetched on first intent: card/row hover, focus or touch, or a sheet, comparison or methodology opening.
+- [x] Dialogs (city sheet, comparison, methodology, settings, about, how-to) and My year are code-split (`src/lib/lazy.svelte.js`) and prefetched on intent.
 
 ## Accessibility
 
-- [ ] Focus trapping in dialogs (sheets and dialogs move focus in and restore it on close, but Tab can leave).
-- [ ] Toast pause-on-hover/focus so Undo does not disappear while the pointer is on it.
-- [ ] Small type: some labels are 9-10.5px; raise to a readable floor.
+- [x] Focus trapping in dialogs: one `focusTrap` action (`src/lib/focusTrap.js`) for every dialog, sheet and the mobile picker; Escape closes only the topmost layer.
+- [x] Toast pause-on-hover/focus so Undo does not disappear while the pointer is on it; announced through an always-mounted live region.
+- [x] Small type: labels raised to 11px and sentence-like text to 12px (glyph icons such as the "i" dots and festival stars excepted).
 
 ## Display Options
 
-- [ ] °C option. Temperatures are stored in °F and all go through `fmtTemp` in `data.svelte.js`, so the switch is one formatter plus a setting.
+- [x] °C option: Settings → Temperatures, stored in `atlas.settings.v1`; defaults to °F for en-US and °C otherwise. Static pages stay °F.
 - [ ] Currency option. Costs are USD (`fmtMoney`).
 - [ ] Dark mode (nothing in `src` handles `prefers-color-scheme`).
 

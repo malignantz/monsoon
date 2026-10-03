@@ -1,5 +1,5 @@
 <script>
-  import { untrack } from 'svelte';
+  import { untrack, tick } from 'svelte';
   import MonthStrip from './MonthStrip.svelte';
   import ScoreInfo from './ScoreInfo.svelte';
   import Legend from './Legend.svelte';
@@ -27,11 +27,16 @@
     partyWord,
     encodeRouteCompact,
     shareUrl,
-    shareOrCopy
+    shareOrCopy,
+    copyText,
+    PRESETS,
+    normalizePresetKey
   } from './data.svelte.js';
+  import { itineraryText, schengenLine } from './exportText.js';
   import { screen } from './mobile.svelte.js';
-  import { lockScroll } from './sheet.js';
-  import { route, nextOpenMonth } from './route.svelte.js';
+  import { focusTrap } from './focusTrap.js';
+  import { route, nextOpenMonth, adoption, adoptRoute, undoAdoption, keepAdoption } from './route.svelte.js';
+  import { track } from './analytics.js';
   import {
     defaultFilters,
     filtersActive,
@@ -84,43 +89,45 @@
   let dur = $state(2);
   let query = $state('');
 
-  // Arriving on a shared link (?route=…) shows that itinerary read-only, so it
-  // never silently overwrites the visitor's own saved year. They can adopt it
-  // ("Save a copy") or dismiss it back to their own route.
-  const startsWithSharedRoute = untrack(() => sharedRoute != null);
-  let previewing = $state(startsWithSharedRoute);
-  const boardStays = $derived(previewing ? (sharedRoute ?? []) : route.stays);
+  // A shared link (?i=…) reaches here as `sharedRoute` only for a visitor who
+  // already has a saved year: it shows read-only, so it never silently
+  // overwrites theirs, until they Save a copy or go back to their own year.
+  // (A visitor with no saved year has it adopted on load by App instead.)
+  const previewing = $derived(sharedRoute != null);
+  const boardStays = $derived(previewing ? sharedRoute : route.stays);
 
-  // Adopting replaces the visitor's own year, so when they had one we keep it
-  // for an Undo bar (same banner treatment as the preview bar). It stays up until
-  // Undo, dismissal, or the first edit to the adopted route — after which an
-  // Undo would silently throw that edit away.
-  let replaced = $state.raw(null);
+  // The Undo banner after an adoption (auto on load, or Save a copy); its
+  // state lives in the route store so it survives a trip to This month.
+  const adopted = $derived(adoption());
+
+  // These buttons remove themselves (the banner swaps or goes), so focus is
+  // placed deliberately instead of falling back to <body>.
+  let headingEl = $state(null);
+  let bannerEl = $state(null);
+  const focusAfter = (getEl) => tick().then(() => getEl()?.focus({ preventScroll: true }));
 
   function adoptShared() {
-    const prev = route.stays.length ? { stays: route.stays.map((s) => ({ ...s })), name: route.name } : null;
-    route.stays = (sharedRoute ?? []).map((s) => ({ ...s }));
-    if (sharedName) route.name = sharedName;
-    // Hold the stored proxy (not the literal) so the identity check below works.
-    replaced = prev ? { ...prev, adopted: route.stays } : null;
+    adoptRoute(sharedRoute ?? [], sharedName, 'copy');
+    track('shared_route_adopt', { auto: false, stays: route.stays.length });
     selStart = -1;
-    previewing = false;
     onsharedresolved?.();
+    focusAfter(() => bannerEl?.querySelector('button'));
   }
 
-  const showRestore = $derived(replaced != null && route.stays === replaced.adopted);
-
   function undoAdopt() {
-    if (!replaced) return;
-    route.stays = replaced.stays;
-    route.name = replaced.name;
-    replaced = null;
+    undoAdoption();
     selStart = -1;
+    focusAfter(() => headingEl);
+  }
+
+  function keepAdopted() {
+    keepAdoption();
+    focusAfter(() => headingEl);
   }
 
   function dismissShared() {
-    previewing = false;
     onsharedresolved?.();
+    focusAfter(() => headingEl);
   }
 
   // Share a link that encodes the current route into the URL — no backend.
@@ -132,10 +139,8 @@
     // Route lives in `i`; the trip name rides along as a decorative `n` that
     // decoding ignores, so links stay valid even if the name is dropped.
     const name = route.name.trim();
-    const params = { i: encodeRouteCompact(route.stays) };
-    if (name) params.n = name;
     const result = await shareOrCopy({
-      url: shareUrl(params),
+      url: routeLink(),
       title: name || DEFAULT_NAME,
       text: name || 'My Monsoon travel year'
     });
@@ -143,6 +148,62 @@
     copied = true;
     clearTimeout(copyTimer);
     copyTimer = setTimeout(() => (copied = false), 1800);
+  }
+
+  // ---- Export: Copy as text (and the print-only stay list below) ----
+  // Stays in calendar order from January; a stay wrapping Dec→Jan leads.
+  const calendarOrder = (s) => (s.start + s.len > 12 ? s.start - 12 : s.start);
+  const orderedStays = $derived([...route.stays].sort((a, b) => calendarOrder(a) - calendarOrder(b)));
+
+  function routeLink() {
+    const name = route.name.trim();
+    const params = { i: encodeRouteCompact(route.stays) };
+    if (name) params.n = name;
+    return shareUrl(params);
+  }
+
+  function itinerary() {
+    const party = partyWord();
+    const rows = orderedStays.map((stay) => {
+      const c = cityByKey.get(stay.key);
+      return {
+        range: rangeLabel(stay.start, stay.len),
+        len: stay.len,
+        city: c.name,
+        country: c.country,
+        schengen: c.schengen,
+        score: Math.round(stayAvg(stay)),
+        cost: fmtMoney(stayCostAvg(stay))
+      };
+    });
+    const totals = [
+      `Average score ${Math.round(stats.avgQol)}`,
+      `${fmtMoney(stats.avgCost)}/mo ${party} on average`,
+      `${stats.months}-month total ${fmtMoney(stats.totalCost)}`,
+      stats.festivals ? `${stats.festivals} major ${stats.festivals === 1 ? 'festival' : 'festivals'}` : ''
+    ].filter(Boolean).join(' · ');
+    const longest = cty.top
+      ? `Longest in one country: ${cty.top.country}, ${cty.top.days} days${cty.state === 'over' ? ' (183+, a common tax-residency mark)' : ''}`
+      : '';
+    return itineraryText({
+      title: route.name.trim() || DEFAULT_NAME,
+      subtitle: `Planned on Monsoon (monsoon.fyi) · costs ${party === 'solo' ? 'solo' : 'for a couple'} · ${PRESETS[normalizePresetKey(preset)].label} lens`,
+      rows,
+      open: emptyMonths.map((m) => MONTHS[m]),
+      lines: [totals, schengenLine(sch), longest],
+      url: routeLink()
+    });
+  }
+
+  let textCopied = $state(false);
+  let textTimer;
+  async function copyItinerary() {
+    if (!route.stays.length) return;
+    if (!(await copyText(itinerary()))) return;
+    track('itinerary_copy_text', { stays: route.stays.length });
+    textCopied = true;
+    clearTimeout(textTimer);
+    textTimer = setTimeout(() => (textCopied = false), 1800);
   }
 
   let filters = $state(loadFilters());
@@ -466,19 +527,10 @@
     if (!screen.mobile) pickerOpen = false;
   });
 
-  // Lock the page behind the open picker sheet and close it on Escape.
-  $effect(() => {
-    if (!pickerOpen) return;
-    const unlock = lockScroll();
-    const onkey = (e) => {
-      if (e.key === 'Escape' && !e.defaultPrevented) closePicker();
-    };
-    window.addEventListener('keydown', onkey);
-    return () => {
-      window.removeEventListener('keydown', onkey);
-      unlock();
-    };
-  });
+  // The open picker sheet locks the page, takes focus, keeps Tab inside and
+  // closes on Escape through focusTrap (on .picker-sheet below). Unmounting it
+  // by any route — Done, the scrim, Escape, a rotation past the breakpoint —
+  // releases the lock and hands focus back.
 
   // Adding from the sheet advances to the next open month automatically (addStay
   // already parks selStart on the next gap), keeping a fill rhythm without
@@ -548,7 +600,7 @@
   <header class="view-head">
     <div>
       <p class="kicker">Build the year</p>
-      <h1>My year<span class="dot">.</span></h1>
+      <h1 tabindex="-1" bind:this={headingEl}>My year<span class="dot">.</span></h1>
       {#if previewing}
         {#if sharedName}<p class="trip-name-static">{sharedName}</p>{/if}
       {:else if route.stays.length > 0}
@@ -583,6 +635,9 @@
             Share
           {/if}
         </button>
+        <button type="button" class="chip share" class:on={textCopied} onclick={copyItinerary} title="Copy the itinerary as plain text, with its share link">
+          {textCopied ? 'Text copied' : 'Copy as text'}
+        </button>
         <button type="button" class="chip clear" onclick={clearRoute}>Clear route</button>
       {/if}
     </div>
@@ -592,25 +647,40 @@
     <div class="previewbar">
       <div class="preview-msg">
         <span class="preview-eyebrow">Shared itinerary</span>
-        <span class="preview-sub">You're viewing a year someone shared. Save a copy to edit it as your own.</span>
+        <span class="preview-sub">
+          You're viewing a year someone shared.{#if route.stays.length}
+            Your own year ({route.stays.length} {route.stays.length === 1 ? 'stay' : 'stays'}) is kept; Save a copy replaces it.{:else}
+            Save a copy to edit it as your own.{/if}
+        </span>
       </div>
       <div class="preview-act">
         <button type="button" class="chip adopt" onclick={adoptShared}>Save a copy</button>
-        <button type="button" class="chip" onclick={dismissShared}>Dismiss</button>
+        <button type="button" class="chip" onclick={dismissShared}>Show my year</button>
       </div>
     </div>
-  {:else if showRestore}
-    <div class="previewbar" role="status">
+  {:else if adopted?.kind === 'auto'}
+    <div class="previewbar">
+      <div class="preview-msg">
+        <span class="preview-eyebrow">Shared with you</span>
+        <span class="preview-sub">Someone shared this year. It's now your starting point, saved on this device: edit anything.</span>
+      </div>
+      <div class="preview-act">
+        <button type="button" class="chip adopt" onclick={keepAdopted}>Keep it</button>
+        <button type="button" class="chip" onclick={undoAdopt} title="Remove the shared year and start from scratch">Undo</button>
+      </div>
+    </div>
+  {:else if adopted}
+    <div class="previewbar" bind:this={bannerEl}>
       <div class="preview-msg">
         <span class="preview-eyebrow">Saved as your year</span>
         <span class="preview-sub">
-          This replaced your previous year{replaced.name ? ` “${replaced.name}”` : ''} ({replaced.stays.length}
-          {replaced.stays.length === 1 ? 'stay' : 'stays'}).
+          This replaced your previous year{adopted.prev.name ? ` “${adopted.prev.name}”` : ''} ({adopted.prev.stays.length}
+          {adopted.prev.stays.length === 1 ? 'stay' : 'stays'}).
         </span>
       </div>
       <div class="preview-act">
         <button type="button" class="chip adopt" onclick={undoAdopt}>Undo</button>
-        <button type="button" class="chip" onclick={() => (replaced = null)}>Keep this year</button>
+        <button type="button" class="chip" onclick={keepAdopted}>Keep this year</button>
       </div>
     </div>
   {/if}
@@ -766,8 +836,8 @@
             <strong class="num">{sch.over}</strong> days over
             <span class="sch-sub">· {sch.worst} of 90 in {sch.window}</span>
           {:else if sch.caution}
-            <strong class="num">{sch.worst}</strong> of 90 days — trim a few days or leave early
-            <span class="sch-sub">· {sch.window} · count your exact days</span>
+            <strong class="num">{sch.worst}</strong> of 90 days — leave {sch.over} {sch.over === 1 ? 'day' : 'days'} early
+            <span class="sch-sub">· {sch.window} · count your exact dates</span>
           {:else if sch.atLimit}
             <strong class="num">0</strong> days left
             <span class="sch-sub">· worst window {sch.window}</span>
@@ -852,7 +922,7 @@
       <span class="mstat"><strong class="num">{Math.round(shownStats.avgQol) || '—'}</strong> avg score</span>
       <span class="mstat"><strong class="num">{shownStats.months ? fmtMoney(shownStats.avgCost) : '—'}</strong> /mo {partyWord()}</span>
       {#if sch.anySchengen}
-        <button type="button" class="mstat sch" class:bad={sch.breach} class:tight={schTight} onclick={() => { pickerOpen = true; flagNonSchengen(); }}>
+        <button type="button" class="mstat sch" class:bad={sch.breach} class:tight={schTight} onclick={() => { if (previewing) return; pickerOpen = true; flagNonSchengen(); }}>
           <strong class="num">◆ {sch.breach ? `${sch.over} over` : sch.caution ? `${sch.worst}/90 tight` : `${sch.remaining}/90`}</strong> Schengen
         </button>
       {/if}
@@ -943,6 +1013,25 @@
       <p class="board-hint">Tap a month's “Add a city” to start building your year.</p>
     {/if}
   </div>
+  {/if}
+
+  <!-- Print only: the stay list under the board, so a printed year reads on
+       its own (the board's names truncate and its controls don't print). -->
+  {#if boardStays.length}
+    <table class="printlist">
+      <thead><tr><th>Months</th><th>City</th><th>Score</th><th>Per month, {partyWord()}</th></tr></thead>
+      <tbody>
+        {#each [...boardStays].sort((a, b) => calendarOrder(a) - calendarOrder(b)) as stay (stay)}
+          {@const c = cityByKey.get(stay.key)}
+          <tr>
+            <td>{rangeLabel(stay.start, stay.len)} · {stay.len} mo</td>
+            <td>{c.name}, {c.country}{c.schengen ? ' ◆' : ''}</td>
+            <td class="num">{Math.round(stayAvg(stay))}</td>
+            <td class="num">{fmtMoney(stayCostAvg(stay))}</td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
   {/if}
 
   {#if !previewing}
@@ -1049,7 +1138,7 @@
     </div>
     {#if sch.anySchengen}
       <p class="schbudget num" class:warn={sch.breach} class:tight={sch.caution}>
-        ◆ {#if sch.breach}{sch.over} days over the Schengen cap{:else if sch.caution}{sch.worst} of 90 Schengen days in {sch.window} — tight, count your exact days{:else}{schLeft} of 90 Schengen days left in your tightest window{/if}
+        ◆ {#if sch.breach}{sch.over} days over the Schengen cap{:else if sch.caution}{sch.worst} of 90 Schengen days in {sch.window} — tight: leave {sch.over} {sch.over === 1 ? 'day' : 'days'} early{:else}{schLeft} of 90 Schengen days left in your tightest window{/if}
       </p>
     {/if}
     <div class="legendrow"><Legend /></div>
@@ -1127,7 +1216,7 @@
     {#if pickerOpen}
       <div class="picker-scrim">
         <button type="button" class="picker-scrim-back" aria-label="Close picker" onclick={closePicker}></button>
-        <div class="picker-sheet" role="dialog" aria-modal="true" aria-label="Add a city to your year">
+        <div class="picker-sheet" role="dialog" aria-modal="true" aria-label="Add a city to your year" tabindex="-1" use:focusTrap={{ onescape: closePicker }}>
           <div class="picker-grab" aria-hidden="true"></div>
           <div class="picker-top">
             <strong class="picker-title">
@@ -1171,10 +1260,91 @@
 <style>
   .wrap { padding-bottom: 70px; }
 
+  .printlist { display: none; }
+
+  /* ── Print: the board, its Schengen/country lines, totals and the stay
+     list on one page; every control, the picker and the banners drop out. */
+  @media print {
+    .wrap { padding-bottom: 0; }
+
+    .head-right,
+    .previewbar,
+    .seedstrip,
+    .board-hint,
+    .progress,
+    .gap,
+    .x,
+    .dur-ctl,
+    .cty-toggle,
+    .cty-panel,
+    .controls,
+    .refine,
+    .picker,
+    .mlist,
+    .mcaret,
+    .boardscroll-wrap::after {
+      display: none !important;
+    }
+
+    .board {
+      border-color: #bbb;
+      break-inside: avoid;
+      padding: 12px 14px;
+    }
+
+    .boardscroll { overflow: visible !important; }
+    .boardscroll .months,
+    .boardscroll .timeline { min-width: 0 !important; }
+
+    .stay,
+    .ovcell {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .stayname { padding-right: 0; }
+
+    .trip-name {
+      border-bottom: none !important;
+    }
+
+    .printlist {
+      display: table;
+      width: 100%;
+      margin-top: 14px;
+      border-collapse: collapse;
+      font-size: 11pt;
+      break-inside: avoid;
+    }
+
+    .printlist th {
+      text-align: left;
+      font-size: 9pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-2);
+      border-bottom: 1px solid #999;
+      padding: 4px 8px 4px 0;
+    }
+
+    .printlist td {
+      padding: 5px 8px 5px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .printlist .num { text-align: right; }
+    .printlist th:nth-child(n + 3) { text-align: right; }
+  }
+
+  /* Focus lands on the heading after a banner closes; no ring on a heading. */
+  h1:focus { outline: none; }
+
   .head-right {
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-end;
-    gap: 14px;
+    gap: 8px 12px;
   }
 
   .chip.clear { color: var(--terra-deep); }
@@ -1269,7 +1439,7 @@
 
   .ghost-tag {
     align-self: center;
-    font-size: 9.5px;
+    font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     font-weight: 600;
@@ -1357,7 +1527,7 @@
   .preview-msg { display: flex; flex-direction: column; gap: 2px; }
 
   .preview-eyebrow {
-    font-size: 10.5px;
+    font-size: 11px;
     letter-spacing: 0.07em;
     text-transform: uppercase;
     font-weight: 600;
@@ -1589,7 +1759,7 @@
   }
 
   .dur-val {
-    font-size: 9.5px;
+    font-size: 11px;
     color: var(--ink-2);
     padding: 0 1px;
   }
@@ -1635,13 +1805,13 @@
     --sch-accent: var(--schengen);
   }
 
-  .schline.tight { --sch-accent: var(--band-ok); }
+  .schline.tight { --sch-accent: var(--band-ok-text); }
   .schline.bad { --sch-accent: var(--band-bad); }
 
   .mlabel { font-size: 12px; font-weight: 600; color: var(--sch-accent); white-space: nowrap; }
 
   .sch-state {
-    font-size: 10.5px;
+    font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -1680,7 +1850,7 @@
   .clabel { font-size: 12px; font-weight: 600; color: var(--cty-accent); white-space: nowrap; }
 
   .cty-state {
-    font-size: 10.5px;
+    font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -1761,7 +1931,7 @@
   .cty-flag { color: var(--ink-3); }
   .cty-row.over .cty-days, .cty-row.over .cty-flag { color: var(--terra-deep); font-weight: 600; }
 
-  .cty-foot { margin: 8px 0 0; font-size: 11.5px; color: var(--ink-3); }
+  .cty-foot { margin: 8px 0 0; font-size: 12px; color: var(--ink-3); }
 
   .board-hint {
     margin: 4px 0 10px;
@@ -1783,7 +1953,7 @@
 
   .tot { display: flex; flex-direction: column; }
   .tv { font-size: 19px; font-weight: 600; }
-  .tk { font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); }
+  .tk { font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); }
 
   /* Compact control bar — mirrors This month's Sort + Regions ▾ / Refine ▾ row
      so both surfaces filter the same way. Filters collapse by default, keeping
@@ -1810,7 +1980,7 @@
   }
 
   .ctl-lbl {
-    font-size: 9.5px;
+    font-size: 11px;
     letter-spacing: 0.07em;
     text-transform: uppercase;
     color: var(--ink-3);
@@ -1910,7 +2080,7 @@
   }
 
   .schbudget.warn { color: var(--band-bad); }
-  .schbudget.tight { color: var(--band-ok); }
+  .schbudget.tight { color: var(--band-ok-text); }
 
   .pickctl { display: flex; align-items: center; gap: 14px; font-size: 12.5px; color: var(--ink-2); }
   .pickctl input { width: 200px; }
@@ -2033,7 +2203,7 @@
 
   .railcost em {
     font-style: normal;
-    font-size: 9.5px;
+    font-size: 11px;
     color: var(--ink-3);
   }
 
@@ -2133,7 +2303,7 @@
     border-radius: 6px;
     background: transparent;
     color: var(--ink-3);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -2178,8 +2348,8 @@
      center-align beside it. */
   .mstat.sch { color: var(--schengen); border-color: var(--schengen); cursor: pointer; min-height: var(--tap); }
   .mstat.sch strong { color: var(--schengen); }
-  .mstat.sch.tight { color: var(--band-ok); border-color: var(--band-ok); }
-  .mstat.sch.tight strong { color: var(--band-ok); }
+  .mstat.sch.tight { color: var(--band-ok-text); border-color: var(--band-ok-text); }
+  .mstat.sch.tight strong { color: var(--band-ok-text); }
   .mstat.sch.bad { color: var(--band-bad); border-color: var(--band-bad); }
   .mstat.sch.bad strong { color: var(--band-bad); }
 
@@ -2335,6 +2505,7 @@
     border-radius: 18px 18px 0 0;
     border-top: 1px solid var(--line);
     box-shadow: 0 -10px 30px -16px rgba(33, 36, 30, 0.5);
+    outline: none;
   }
 
   .picker-grab {

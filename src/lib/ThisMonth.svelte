@@ -149,7 +149,7 @@
       .map((c) => ({
         c,
         s: by === 'value' ? valueFor(c, month, preset, valueModel) : qolFor(c, month, preset),
-        cost: c.months[month].cost2
+        cost: cityCost(c.months[month])
       }))
       .sort((a, b) => {
         const diff = b.s - a.s;
@@ -989,7 +989,7 @@
 
   .monthsel.compact .mbtn {
     width: 24px;
-    font-size: 10.5px;
+    font-size: 11px;
   }
 
   .monthsel.compact .mbtn.on {
@@ -1022,7 +1022,7 @@
   }
 
   .key-intro {
-    font-size: 11.5px;
+    font-size: 12px;
     color: var(--ink-2);
     white-space: nowrap;
   }

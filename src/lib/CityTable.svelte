@@ -265,7 +265,7 @@
 
   th {
     text-align: right;
-    font-size: 10.5px;
+    font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-3);

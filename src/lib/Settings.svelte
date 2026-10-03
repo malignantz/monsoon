@@ -2,10 +2,9 @@
   // The re-openable settings panel. Writes the shared `prefs` store and persists
   // on close, so nothing here is a one-way door.
   import { PRESETS, prefs, saveSettings } from './data.svelte.js';
+  import { focusTrap } from './focusTrap.js';
 
   let { preset = $bindable('balanced'), onclose } = $props();
-
-  let cardEl = $state(null);
 
   // The signature month strip, reused as the brand mark (Bali's twelve months).
   const BRAND_BANDS = ['ok', 'ok', 'good', 'good', 'good', 'great', 'great', 'good', 'good', 'good', 'ok', 'ok'];
@@ -15,25 +14,13 @@
     onclose();
   }
 
-  $effect(() => {
-    const onkey = (e) => {
-      // Defaults are sensible, so Escape just saves and closes.
-      if (e.key === 'Escape' && !e.defaultPrevented) done();
-    };
-    window.addEventListener('keydown', onkey);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    cardEl?.focus();
-    return () => {
-      window.removeEventListener('keydown', onkey);
-      document.body.style.overflow = prevOverflow;
-    };
-  });
+  // Defaults are sensible, so Escape just saves and closes (focusTrap below
+  // also moves focus in, keeps Tab inside, restores focus and locks scroll).
 </script>
 
 <div class="scrim">
   <button type="button" class="scrim-back" aria-label="Close settings" onclick={done}></button>
-  <div class="card" role="dialog" aria-modal="true" aria-label="Settings" tabindex="-1" bind:this={cardEl}>
+  <div class="card" role="dialog" aria-modal="true" aria-label="Settings" tabindex="-1" use:focusTrap={{ onescape: done }}>
     <header class="head">
       <span class="mark" aria-hidden="true">
         {#each BRAND_BANDS as b}<span class="bcell band-{b}"></span>{/each}
@@ -50,6 +37,14 @@
         <button type="button" class:on={prefs.party === 'couple'} aria-pressed={prefs.party === 'couple'} onclick={() => (prefs.party = 'couple')}>Couple</button>
       </div>
       <p class="qhint">We'll show a single {prefs.party} cost-of-living figure everywhere instead of two.</p>
+    </section>
+
+    <section class="q">
+      <span class="qlabel">Temperatures</span>
+      <div class="seg" role="group" aria-label="Temperature unit">
+        <button type="button" class:on={prefs.units === 'C'} aria-pressed={prefs.units === 'C'} onclick={() => (prefs.units = 'C')}>°C</button>
+        <button type="button" class:on={prefs.units === 'F'} aria-pressed={prefs.units === 'F'} onclick={() => (prefs.units = 'F')}>°F</button>
+      </div>
     </section>
 
     <section class="q">
@@ -222,7 +217,7 @@
 
   .preset-grid em {
     font-style: normal;
-    font-size: 11.5px;
+    font-size: 12px;
     line-height: 1.35;
     color: currentColor;
     opacity: 0.72;

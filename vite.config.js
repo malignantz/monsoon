@@ -7,7 +7,7 @@ export default defineConfig({
     {
       // Regenerate src/generated/{travel-core,travel-detail}.json from
       // data/travel-data.json on every dev-server start and build. After
-      // rerunning the bake scripts (§9), restart `npm run dev` to pick up
+      // rerunning the bake scripts (README, "Data And Build Notes"), restart `npm run dev` to pick up
       // fresh data.
       name: 'split-travel-data',
       buildStart() {

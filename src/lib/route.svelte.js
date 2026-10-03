@@ -100,3 +100,36 @@ export function addCity(key, { start = -1, len = 2 } = {}) {
 export function removeStayRef(stay) {
   route.stays = route.stays.filter((s) => s !== stay);
 }
+
+// ---- Adopting a shared year ----
+// A shared link (?i=…) becomes the visitor's own year in one of two ways:
+//   'auto'  a visitor with no saved year lands on it: App adopts it on load as
+//           their starting point (there is nothing of theirs to protect);
+//   'copy'  a returning visitor previewing it read-only presses Save a copy,
+//           replacing the year they had.
+// Either way My year shows a one-line banner with Undo until the first edit
+// (after which an Undo would silently throw that edit away), Undo, or Keep.
+// Held here rather than in My year so it survives switching views.
+let adoptionRaw = $state.raw(null);
+
+// { kind, prev: { name, stays } } while the banner applies, else null.
+export const adoption = () => (adoptionRaw && route.stays === adoptionRaw.adopted ? adoptionRaw : null);
+
+export function adoptRoute(stays, name, kind) {
+  const prev = { name: route.name, stays: route.stays.map((s) => ({ ...s })) };
+  route.stays = stays.map((s) => ({ ...s }));
+  if (name || kind === 'auto') route.name = name ?? '';
+  // Hold the stored proxy (not the literal) so the identity check above works.
+  adoptionRaw = { kind, prev, adopted: route.stays };
+}
+
+export function undoAdoption() {
+  if (!adoptionRaw) return;
+  route.stays = adoptionRaw.prev.stays;
+  route.name = adoptionRaw.prev.name;
+  adoptionRaw = null;
+}
+
+export function keepAdoption() {
+  adoptionRaw = null;
+}

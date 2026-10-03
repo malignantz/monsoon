@@ -160,6 +160,7 @@ export function buildSite({ detail, now = new Date() }) {
   // whatever a local Node storage shim might hold.
   prefs.party = 'solo';
   prefs.womensSafety = false;
+  prefs.units = 'F'; // static pages don't vary by visitor locale
 
   if (detail.cities.length !== cities.length) throw new Error('[seo] travel-detail.json is out of step with travel-core.json');
   // URLs reuse the frozen share-link slug vocabulary so /city/<slug>/ and

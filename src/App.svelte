@@ -1,19 +1,26 @@
 <script>
   import { tick, untrack } from 'svelte';
   import ThisMonth from './lib/ThisMonth.svelte';
-  import MyYear from './lib/MyYear.svelte';
-  import CitySheet from './lib/CitySheet.svelte';
-  import Settings from './lib/Settings.svelte';
-  import Methodology from './lib/Methodology.svelte';
-  import About from './lib/About.svelte';
-  import HowTo from './lib/HowTo.svelte';
   import CompareTray from './lib/CompareTray.svelte';
-  import CompareSheet from './lib/CompareSheet.svelte';
-  import { cities, cityByKey, regions, qolFor, valueFor, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS } from './lib/data.svelte.js';
-  import { addCity, removeStayRef } from './lib/route.svelte.js';
+  import { lazy } from './lib/lazy.svelte.js';
+  import { focusTrap, focusTopLayer } from './lib/focusTrap.js';
+  import { cities, cityByKey, regions, qolFor, valueFor, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS, prefetchDetail } from './lib/data.svelte.js';
+  import { route, addCity, removeStayRef, adoptRoute } from './lib/route.svelte.js';
   import { track } from './lib/analytics.js';
   import { readUrlState, buildUrl } from './lib/urlState.js';
   import { MAX_COMPARE, sanitizeCompare, loadCompare, saveCompare } from './lib/compare.js';
+
+  // Code-split: This month is the landing surface and ships in the entry
+  // chunk; My year and every dialog/sheet load on first use (or on intent —
+  // see prefetch below), each with a small loading/reload fallback.
+  const MyYearL = lazy(() => import('./lib/MyYear.svelte'));
+  const CitySheetL = lazy(() => import('./lib/CitySheet.svelte'));
+  const CompareSheetL = lazy(() => import('./lib/CompareSheet.svelte'));
+  const SettingsL = lazy(() => import('./lib/Settings.svelte'));
+  const MethodologyL = lazy(() => import('./lib/Methodology.svelte'));
+  const AboutL = lazy(() => import('./lib/About.svelte'));
+  const HowToL = lazy(() => import('./lib/HowTo.svelte'));
+  const quiet = (p) => p.catch(() => {}); // the fallback shows the error
 
   const PREFS = 'atlas.prefs.v1';
 
@@ -30,14 +37,30 @@
   const currentMonth = new Date().getMonth();
 
   // A `?i=` (compact) or `?route=` (readable fallback) link opens straight into
-  // My year as a read-only shared itinerary.
+  // My year. A visitor with no saved year gets it as their own starting point
+  // (with a one-line note and Undo in My year); a visitor who already has a
+  // year sees it read-only (`sharedRoute`) until they Save a copy or go back.
   const shareParams = new URLSearchParams(location.search);
   const compact = decodeRouteCompact(shareParams.get('i'));
   const initialRoute = compact.length ? compact : decodeRoute(shareParams.get('route'));
-  let sharedRoute = $state(initialRoute.length ? initialRoute : null);
   // Decorative trip name carried alongside the route; decoded independently so a
   // missing or malformed name never affects the itinerary itself.
   const sharedName = initialRoute.length ? (shareParams.get('n') ?? '').slice(0, 60) : '';
+  const autoAdopt = initialRoute.length > 0 && route.stays.length === 0;
+  if (autoAdopt) {
+    adoptRoute(initialRoute, sharedName, 'auto');
+    track('shared_route_adopt', { auto: true, stays: initialRoute.length });
+    // It is theirs now: drop the share params so a reload shows their year
+    // rather than a preview of the same one.
+    stripShareParams();
+  }
+  let sharedRoute = $state(initialRoute.length && !autoAdopt ? initialRoute : null);
+
+  function stripShareParams() {
+    const u = new URL(location.href);
+    for (const k of ['i', 'route', 'n']) u.searchParams.delete(k);
+    history.replaceState(history.state, '', u.pathname + u.search.replace(/%2C/gi, ',') + u.hash);
+  }
 
   // Shareable state from the query string wins field by field; anything absent
   // falls back to saved prefs, then defaults (see urlState.js for the params).
@@ -130,6 +153,66 @@
 
   const openCity = $derived(cityKey ? cityByKey.get(cityKey) : null);
 
+  // ── Lazy surfaces: load on demand, prefetch on intent ──
+  // Each surface starts loading the moment it is asked for; the template shows
+  // a small fallback until it arrives. Hovering, focusing or touching a city
+  // (card, table row, #1 answer, a stay or picker row) fetches the sheet chunk
+  // and the detail data ahead of the click; the header and footer buttons that
+  // open a dialog prefetch it the same way (data-prefetch).
+  $effect(() => {
+    if (view === 'year') quiet(MyYearL.load());
+  });
+  $effect(() => {
+    if (openCity) quiet(CitySheetL.load());
+  });
+  $effect(() => {
+    // With two picks the comparison is one tap away; once it is open, any of
+    // its cities is one tap from a sheet.
+    if (comparing && compareKeys.length >= 2) quiet(CompareSheetL.load());
+    if (compareOpen) quiet(CitySheetL.load());
+  });
+  $effect(() => {
+    if (settingsOpen) quiet(SettingsL.load());
+  });
+  $effect(() => {
+    if (aboutOpen) quiet(AboutL.load());
+  });
+  $effect(() => {
+    if (howToOpen) quiet(HowToL.load());
+  });
+  $effect(() => {
+    if (!methodOpen) return;
+    quiet(MethodologyL.load());
+    prefetchDetail(); // its coverage line counts per-city provenance
+  });
+
+  const PREFETCH = { year: MyYearL, settings: SettingsL, about: AboutL, method: MethodologyL, howto: HowToL };
+  const CITY_TARGETS = '.cardwrap, .tablewrap tbody tr, .answer-btn, .stayname, .rowname, .mname';
+
+  function prefetchCity() {
+    prefetchDetail();
+    quiet(CitySheetL.load());
+  }
+
+  $effect(() => {
+    const onIntent = (e) => {
+      const t = e.target;
+      if (!(t instanceof Element)) return;
+      const named = t.closest('[data-prefetch]');
+      if (named) {
+        const l = PREFETCH[named.getAttribute('data-prefetch')];
+        if (l) quiet(l.load());
+      } else if (t.closest(CITY_TARGETS)) {
+        prefetchCity();
+      }
+    };
+    const types = ['pointerover', 'focusin', 'touchstart'];
+    for (const type of types) document.addEventListener(type, onIntent, { passive: true });
+    return () => {
+      for (const type of types) document.removeEventListener(type, onIntent);
+    };
+  });
+
   // ── URL state ──
   // view / month / sort / layout / region (+ the open city) live in the query
   // string so any state is shareable and bookmarkable. Filter tweaks replace the
@@ -137,10 +220,20 @@
   // sheet pushes on open and goes *back* on close (see applyOpen/applyClose).
   // Defaults emit no params, and unrelated params (?i=, ?n=, utm…) pass through.
   const defaultView = () => (sharedRoute ? 'year' : 'month');
+  // Once no shared year is on show, its params (?i=, ?route=, ?n=) are stale
+  // wherever they still sit in the query (e.g. on the history entry a sheet
+  // closed back to), so every rewrite drops them.
+  const searchNow = () => {
+    if (sharedRoute) return location.search;
+    const q = new URLSearchParams(location.search);
+    for (const k of ['i', 'route', 'n']) q.delete(k);
+    const qs = q.toString();
+    return qs ? `?${qs}` : '';
+  };
   const urlFor = () =>
     buildUrl(
       { view, month, mode, density, regions: activeRegions, city: cityKey, compare: compareOpen ? compareKeys : null },
-      { defaultView: defaultView(), currentMonth }
+      { defaultView: defaultView(), currentMonth, search: searchNow() }
     );
   const here = () => location.pathname + location.search + location.hash;
 
@@ -215,6 +308,11 @@
   // Card → sheet: tag the clicked card with the hero name in the outgoing
   // snapshot, then let the same name on the sheet's title morph into place.
   async function openSheet(key, opts = {}) {
+    // The morph needs the sheet in the new snapshot, so wait for its chunk
+    // (usually already prefetched on hover/focus). A failed load still opens:
+    // the fallback offers a reload.
+    prefetchDetail();
+    await CitySheetL.load().catch(() => {});
     if (!canAnimate()) {
       applyOpen(key, opts);
       return;
@@ -357,7 +455,8 @@
 
   // A city from the comparison opens its sheet on top (crossfade, no card
   // morph — the card is under the comparison). Closing it returns here.
-  function openFromCompare(key) {
+  async function openFromCompare(key) {
+    await CitySheetL.load().catch(() => {});
     if (!canAnimate()) applyOpen(key);
     else document.startViewTransition(() => applyOpen(key));
   }
@@ -385,10 +484,7 @@
   // the param so a reload (or a later share) starts from their own year.
   function resolveShared() {
     sharedRoute = null;
-    const u = new URL(location.href);
-    u.searchParams.delete('i');
-    u.searchParams.delete('route');
-    history.replaceState({}, '', u);
+    stripShareParams();
   }
 
   async function goHome() {
@@ -401,14 +497,66 @@
   // city into the itinerary at the viewed month, and a toast confirms it with an
   // Undo and a jump into My year. The route store does the placement (bumping to
   // the first open month if the viewed one is taken) and reports what it did.
+  //
+  // The toast never times out while the pointer is over it or focus is inside
+  // it (its Undo must not vanish mid-reach), and focusTrap pulls it into the
+  // Tab cycle of an open sheet. Screen readers hear it through a live region
+  // that is always mounted, so the message lands in an existing region (a
+  // region inserted together with its text is often not announced).
   let toast = $state(null);
+  let announce = $state('');
   let toastTimer;
+  let announceTimer;
+  let toastHover = false;
+  let toastFocus = false;
+
+  function armToast(ms) {
+    clearTimeout(toastTimer);
+    if (toast && !toastHover && !toastFocus) toastTimer = setTimeout(() => (toast = null), ms);
+  }
 
   function showToast(t) {
     toast = t;
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => (toast = null), 5500);
+    // Clear, then set after a beat, so a repeated message is announced again.
+    announce = '';
+    clearTimeout(announceTimer);
+    announceTimer = setTimeout(() => (announce = t.text), 80);
+    armToast(6000);
   }
+
+  // Closing the toast from inside it would drop focus on <body>; hand it back
+  // to the open sheet, if any.
+  function closeToast() {
+    const hadFocus = toastFocus;
+    toast = null;
+    if (hadFocus) focusTopLayer();
+  }
+
+  $effect(() => {
+    if (toast) return;
+    toastHover = toastFocus = false;
+    clearTimeout(toastTimer);
+  });
+
+  const toastEvents = {
+    onpointerenter: () => {
+      toastHover = true;
+      armToast(0);
+    },
+    onpointerleave: () => {
+      toastHover = false;
+      armToast(4000);
+    },
+    onfocusin: () => {
+      toastFocus = true;
+      armToast(0);
+    },
+    onfocusout: (e) => {
+      if (e.currentTarget.contains(e.relatedTarget)) return;
+      toastFocus = false;
+      armToast(4000);
+    }
+  };
 
   function addToYear(key, m) {
     const res = addCity(key, { start: m, len: 2 });
@@ -425,17 +573,22 @@
       res.len > 1 ? `${MONTHS[res.start]}–${MONTHS[(res.start + res.len - 1) % 12]}` : MONTHS[res.start];
     const bumped = res.bumped ? ` · ${MONTHS[m]} was taken` : '';
     const added = res.stay;
+    // While a shared year is on show, the add still goes to the visitor's own
+    // year, which the board isn't showing: say so, and offer to switch to it.
+    const previewing = !!sharedRoute;
     showToast({
       kind: 'ok',
-      text: `Added ${name} to ${range}${bumped}`,
+      text: previewing ? `Added ${name} to your own year, ${range}${bumped}` : `Added ${name} to ${range}${bumped}`,
+      viewLabel: previewing ? 'Show my year' : 'View year',
       undo: () => {
         removeStayRef(added);
-        toast = null;
+        closeToast();
       },
       view: async () => {
         toast = null;
         if (compareOpen) dropOverlays();
         else if (cityKey) await closeSheet();
+        if (sharedRoute) resolveShared();
         view = 'year';
       }
     });
@@ -456,16 +609,16 @@
 
     <nav>
       {#each NAV as n}
-        <button type="button" class="navbtn" class:on={view === n.id} onclick={() => (view = n.id)}>
+        <button type="button" class="navbtn" class:on={view === n.id} data-prefetch={n.id === 'year' ? 'year' : undefined} onclick={() => (view = n.id)}>
           {n.label}
         </button>
       {/each}
-      <button type="button" class="howto" onclick={openHowTo} aria-label="How to use Monsoon"><span class="howto-long">How it works</span><span class="howto-short">Guide</span></button>
+      <button type="button" class="howto" data-prefetch="howto" onclick={openHowTo} aria-label="How to use Monsoon"><span class="howto-long">How it works</span><span class="howto-short">Guide</span></button>
     </nav>
 
     <!-- The gear sits outside <nav> so on phones it can ride up beside the logo,
          leaving the nav row to the three labelled buttons (no label wrapping). -->
-    <button type="button" class="gear util" onclick={openSettings} aria-label="Settings" title="Settings">
+    <button type="button" class="gear util" data-prefetch="settings" onclick={openSettings} aria-label="Settings" title="Settings">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="12" cy="12" r="3" />
         <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
@@ -496,8 +649,10 @@
         onsettings={openSettings}
         onresume={() => (view = 'year')}
       />
+    {:else if MyYearL.C}
+      <MyYearL.C bind:preset {valueModel} {sharedRoute} {sharedName} onsharedresolved={resolveShared} onopen={openSheet} />
     {:else}
-      <MyYear bind:preset {valueModel} {sharedRoute} {sharedName} onsharedresolved={resolveShared} onopen={openSheet} />
+      {@render lazyWait(MyYearL, null, 'Loading your year…')}
     {/if}
   </main>
 
@@ -506,9 +661,9 @@
     <span class="footlinks">
       <a class="num footlink" href="/cities/">all cities</a>
       <span aria-hidden="true">·</span>
-      <button type="button" class="num footlink" onclick={() => (aboutOpen = true)}>about</button>
+      <button type="button" class="num footlink" data-prefetch="about" onclick={() => (aboutOpen = true)}>about</button>
       <span aria-hidden="true">·</span>
-      <button type="button" class="num footlink" onclick={() => (methodOpen = true)}>methodology · 2026</button>
+      <button type="button" class="num footlink" data-prefetch="method" onclick={() => (methodOpen = true)}>methodology · 2026</button>
     </span>
   </footer>
   {#if trayVisible}<div class="trayspace" aria-hidden="true"></div>{/if}
@@ -518,8 +673,10 @@
   <CompareTray keys={compareKeys} onremove={toggleCompare} onclear={clearCompare} onopen={openCompare} />
 {/if}
 
-{#if compareOpen && compareKeys.length >= 2}
-  <CompareSheet
+{#if compareOpen && compareKeys.length >= 2 && !CompareSheetL.C}
+  {@render lazyWait(CompareSheetL, closeCompare)}
+{:else if compareOpen && compareKeys.length >= 2}
+  <CompareSheetL.C
     keys={compareKeys}
     {month}
     {preset}
@@ -533,8 +690,10 @@
   />
 {/if}
 
-{#if openCity}
-  <CitySheet
+{#if openCity && !CitySheetL.C}
+  {@render lazyWait(CitySheetL, closeSheet)}
+{:else if openCity}
+  <CitySheetL.C
     city={openCity}
     {month}
     {preset}
@@ -549,30 +708,49 @@
   />
 {/if}
 
+<div class="sr-only" role="status" aria-live="polite" aria-atomic="true">{announce}</div>
 {#if toast}
-  <div class="toast" class:warn={toast.kind === 'warn'} class:lifted={trayVisible} role="status" aria-live="polite">
+  <div class="toast" class:warn={toast.kind === 'warn'} class:lifted={trayVisible} role="group" aria-label="Notification" data-trap-include onpointerenter={toastEvents.onpointerenter} onpointerleave={toastEvents.onpointerleave} onfocusin={toastEvents.onfocusin} onfocusout={toastEvents.onfocusout}>
     <span class="toast-msg">{toast.text}</span>
     {#if toast.undo}<button type="button" class="toast-act" onclick={toast.undo}>Undo</button>{/if}
-    {#if toast.view}<button type="button" class="toast-act primary" onclick={toast.view}>View year</button>{/if}
-    <button type="button" class="toast-x" aria-label="Dismiss" onclick={() => (toast = null)}>×</button>
+    {#if toast.view}<button type="button" class="toast-act primary" onclick={toast.view}>{toast.viewLabel ?? 'View year'}</button>{/if}
+    <button type="button" class="toast-x" aria-label="Dismiss" onclick={closeToast}>×</button>
   </div>
 {/if}
 
 {#if settingsOpen}
-  <Settings bind:preset onclose={closeSettings} />
+  {#if SettingsL.C}<SettingsL.C bind:preset onclose={closeSettings} />{:else}{@render lazyWait(SettingsL, closeSettings)}{/if}
 {/if}
 
 {#if aboutOpen}
-  <About onclose={() => (aboutOpen = false)} />
+  {#if AboutL.C}<AboutL.C onclose={() => (aboutOpen = false)} />{:else}{@render lazyWait(AboutL, () => (aboutOpen = false))}{/if}
 {/if}
 
 {#if methodOpen}
-  <Methodology onclose={() => (methodOpen = false)} />
+  <!-- Methodology manages its own Escape (capture phase), focus and scroll
+       lock; this host only adds it to the layer stack for the Tab cycle and
+       so the sheet under it stops taking ←/→. -->
+  {#if MethodologyL.C}<div class="layer-host" use:focusTrap={{ autofocus: false, restore: false, lock: false }}><MethodologyL.C onclose={() => (methodOpen = false)} /></div>{:else}{@render lazyWait(MethodologyL, () => (methodOpen = false))}{/if}
 {/if}
 
 {#if howToOpen}
-  <HowTo onclose={() => (howToOpen = false)} />
+  {#if HowToL.C}<HowToL.C onclose={() => (howToOpen = false)} />{:else}{@render lazyWait(HowToL, () => (howToOpen = false))}{/if}
 {/if}
+
+<!-- Fallback while a code-split surface loads: invisible for the first 300ms
+     (most loads finish sooner), then a quiet pill; on failure (typically a
+     deploy replaced the chunk under an open tab) a Reload. -->
+{#snippet lazyWait(l, onclose, label = 'Loading…')}
+  <div class="lazywait" class:inline={!onclose} class:failed={l.error} role="status">
+    {#if l.error}
+      <span>Couldn't load this part of Monsoon.</span>
+      <button type="button" class="lazy-act" onclick={() => location.reload()}>Reload</button>
+      {#if onclose}<button type="button" class="lazy-x" aria-label="Close" onclick={onclose}>×</button>{/if}
+    {:else}
+      <span>{label}</span>
+    {/if}
+  </div>
+{/snippet}
 
 <style>
   .shell {
@@ -840,6 +1018,64 @@
     .howto-short { display: inline; }
   }
 
+  .layer-host { display: contents; }
+
+  .lazywait {
+    position: fixed;
+    left: 50%;
+    top: 40%;
+    transform: translateX(-50%);
+    z-index: var(--z-sheet);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 16px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: 0 14px 34px -14px rgba(33, 36, 30, 0.4);
+    font-size: 13.5px;
+    color: var(--ink-2);
+    animation: lazy-in 0.2s ease 0.3s both;
+  }
+
+  .lazywait.inline {
+    position: static;
+    transform: none;
+    width: max-content;
+    margin: 48px auto;
+    box-shadow: none;
+  }
+
+  .lazywait.failed { animation: none; }
+
+  @keyframes lazy-in {
+    from { opacity: 0; }
+  }
+
+  .lazy-act {
+    border: 1px solid var(--line);
+    background: var(--card);
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .lazy-x {
+    border: none;
+    background: none;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--ink-3);
+    padding: 4px 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lazywait { animation: none; }
+  }
+
   /* Add-to-year confirmation. Sits above every sheet (city sheet is z70, the My
      year picker z60) and clears the iOS home indicator. */
   .toast {
@@ -938,5 +1174,26 @@
 
   @media (prefers-reduced-motion: reduce) {
     .toast { animation: none; }
+  }
+
+  /* Print: keep the wordmark, drop navigation, footer and floating UI. */
+  @media print {
+    nav,
+    .gear,
+    .tag,
+    .basefoot,
+    .trayspace,
+    .toast,
+    .lazywait {
+      display: none !important;
+    }
+
+    .shell { padding-top: 0; max-width: none; }
+    .bar { padding-bottom: 8px; border-bottom-width: 1px; }
+
+    .bcell {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
   }
 </style>
