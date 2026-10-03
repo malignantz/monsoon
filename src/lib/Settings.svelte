@@ -2,6 +2,7 @@
   // The re-openable settings panel. Writes the shared `prefs` store and persists
   // on close, so nothing here is a one-way door.
   import { PRESETS, prefs, saveSettings } from './data.svelte.js';
+  import { CURRENCIES, ratesAsOfLabel } from './currency.js';
   import { focusTrap } from './focusTrap.js';
 
   let { preset = $bindable('balanced'), onclose } = $props();
@@ -45,6 +46,16 @@
         <button type="button" class:on={prefs.units === 'C'} aria-pressed={prefs.units === 'C'} onclick={() => (prefs.units = 'C')}>°C</button>
         <button type="button" class:on={prefs.units === 'F'} aria-pressed={prefs.units === 'F'} onclick={() => (prefs.units = 'F')}>°F</button>
       </div>
+    </section>
+
+    <section class="q">
+      <span class="qlabel">Currency</span>
+      <div class="seg seg-cur" role="group" aria-label="Currency">
+        {#each CURRENCIES as c (c.code)}
+          <button type="button" class:on={prefs.currency === c.code} aria-pressed={prefs.currency === c.code} title={c.label} aria-label={c.label} onclick={() => (prefs.currency = c.code)}>{c.code}</button>
+        {/each}
+      </div>
+      <p class="qhint">Costs are researched in US dollars. Other currencies are converted estimates at ECB reference rates of {ratesAsOfLabel()}.</p>
     </section>
 
     <section class="q">
@@ -244,6 +255,8 @@
     height: 100%;
   }
 
+  .seg-cur button { padding: 0 14px; }
+
   .seg button:hover { color: var(--ink); }
 
   .seg button.on {
@@ -317,6 +330,13 @@
   }
 
   .cta:hover { background: var(--terra-deep); }
+
+  /* Five codes on a narrow phone: the bar spans the card and the buttons share
+     it evenly (a 320px screen leaves about 230px inside the card). */
+  @media (max-width: 400px) {
+    .seg-cur { display: flex; width: 100%; }
+    .seg-cur button { flex: 1 1 0; min-width: 0; padding: 0; }
+  }
 
   @media (max-width: 560px) {
     .preset-grid { grid-template-columns: 1fr; }

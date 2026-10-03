@@ -86,7 +86,8 @@ export function compareFindings(cities, month, preset, valueModel) {
     out.push(`${byQ[0].name} scores highest in ${mon} — ${list(rest)}.`);
   }
 
-  // Monthly cost for the user's party. Gaps under $25 read as "the same".
+  // Monthly cost for the user's party. Gaps under $25 (US dollars, whatever the
+  // display currency) read as "the same".
   const byCost = [...rows].sort((a, b) => a.cost - b.cost);
   const cheap = byCost[0];
   const spread = byCost[byCost.length - 1].cost - cheap.cost;

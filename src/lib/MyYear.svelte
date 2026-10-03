@@ -30,7 +30,9 @@
     shareOrCopy,
     copyText,
     PRESETS,
-    normalizePresetKey
+    normalizePresetKey,
+    moneySymbol,
+    moneyNote
   } from './data.svelte.js';
   import { itineraryText, schengenLine } from './exportText.js';
   import { screen } from './mobile.svelte.js';
@@ -190,7 +192,7 @@
       subtitle: `Planned on Monsoon (monsoon.fyi) · costs ${party === 'solo' ? 'solo' : 'for a couple'} · ${PRESETS[normalizePresetKey(preset)].label} lens`,
       rows,
       open: emptyMonths.map((m) => MONTHS[m]),
-      lines: [totals, schengenLine(sch), longest],
+      lines: [totals, schengenLine(sch), longest, moneyNote()],
       url: routeLink()
     });
   }
@@ -1068,7 +1070,7 @@
     <div class="refine">
       <div class="refine-fields">
         <label class="refine-field">
-          <span class="refine-field-lbl">Max $/mo {partyWord()}</span>
+          <span class="refine-field-lbl">Max {moneySymbol()}/mo {partyWord()}</span>
           <div class="refine-select">
             <select bind:value={filters.maxCost} aria-label="Max monthly budget, {partyWord()}">
               <option value="">Any</option>
@@ -1156,7 +1158,7 @@
         <li>
           <div class="rail">
             <span class="num rowq" title={sortMode === 'value' ? "Average Best Value across the months you'd book" : "Average score across the months you'd book"}>{Math.round(s)}</span>
-            <span class="railcost num" title="Average $/mo {partyWord()} across the months you'd book">{fmtMoney(cost)}<em>/mo</em></span>
+            <span class="railcost num" title="Average cost/mo {partyWord()} across the months you'd book">{fmtMoney(cost)}<em>/mo</em></span>
           </div>
           <div class="rowbody">
             <div class="rowhead">

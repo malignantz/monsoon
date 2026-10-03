@@ -77,7 +77,8 @@ See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring
 ## Display Options
 
 - [x] °C option: Settings → Temperatures, stored in `atlas.settings.v1`; defaults to °F for en-US and °C otherwise. Static pages stay °F.
-- [ ] Currency option. Costs are USD (`fmtMoney`).
+- [x] Currency option: Settings → Currency (USD, EUR, GBP, CAD, AUD), stored in `atlas.settings.v1`; defaults from the first browser language's region (see README). Display only, through `fmtMoney`, at checked-in ECB rates (`src/lib/fxRates.json`, refresh with `npm run update:fx`) with the date shown in Settings, the sheet's cost panel and Copy as text. Best Value and scores stay USD; static pages stay USD.
+  - [ ] Refresh the rate table now and then (`npm run update:fx`); nothing reminds anyone today. Converted Max cost filter options read as uneven amounts (e.g. €1,639) because the caps are USD steps.
 - [ ] Dark mode (nothing in `src` handles `prefers-color-scheme`).
 
 ## Not Yet Seen In A Real Browser

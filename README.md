@@ -52,6 +52,8 @@ Safety is a custom v3 index: homicide-anchored violent safety, hand-set property
 - Svelte + Vite SPA, no backend, plus a build-time static page generator (`scripts/seo/`, `src/seo/`).
 - `data/travel-data.json` is split into generated runtime files under `src/generated/`: `travel-core.json` is bundled into the JS, `travel-detail.json` (safety breakdown, narratives, climate fields, provenance) is fetched on first intent (a city hovered, focused or touched, or a sheet, comparison or methodology opening). My year and every dialog are code-split and load on first use (`src/lib/lazy.svelte.js`).
 - State persists in `localStorage`: `atlas.route.v1` (itinerary), `atlas.settings.v1`, `atlas.favorites.v1`, `atlas.prefs.v1`, and `atlas.route.filters.v1` (My year filters). The in-progress comparison is in `sessionStorage` (`atlas.compare.v1`).
+- `atlas.settings.v1` (Settings dialog, saved on close) holds `party` (`solo` | `couple`), `womensSafety`, `units` (`C` | `F`), `currency` (`USD` | `EUR` | `GBP` | `CAD` | `AUD`) and `passport` (a stub). Units and currency default from the first browser language until the first save: °F for `en-US`, else °C; GBP for a UK region, CAD for `-CA`, AUD for `-AU`, EUR for a eurozone region (or a region-less eurozone language such as `de`), otherwise USD.
+- Currency is display only. Costs, Best Value and every score stay in US dollars; `fmtMoney` (`src/lib/data.svelte.js` over `src/lib/currency.js`) converts at the checked-in ECB reference rates in `src/lib/fxRates.json` (the date is shown in Settings and beside converted costs). Refresh them by hand with `npm run update:fx` and commit the file; builds never fetch. "Report this number" issues quote the stored USD value, and static pages are always USD (and °F).
 - Shared routes emit compact `?i=<base64url>` URLs using frozen city IDs in `src/lib/cityIds.v1.js`. Run `npm run check:ids` when cities are added.
 - `scripts/build.sh` is the real build: `vite build`, then `scripts/seo/build-seo.mjs` (city, month and cities-index pages, `sitemap.xml`, `llms.txt` written into `dist/`), then a guard that fails if any private input file is in `dist/`, then `scripts/seo/leak-check.mjs` (fails if private input text appears in a generated page). `npm run build` alone is only `vite build`. Static pages render only fields allowlisted in `src/seo/publicData.js`.
 - Deploy: `npm run deploy` runs `scripts/deploy.sh`, which runs `build.sh` and uploads `dist/` to the Cloudflare Pages project `monsoon` with wrangler (direct upload; a git push deploys nothing). `scripts/deploy.sh <branch>` uploads a preview and prints a `*.pages.dev` URL; with no argument it is a production deploy to monsoon.fyi.
@@ -70,11 +72,12 @@ There is no unit-test framework, CI or browser test suite; these are plain scrip
 
 - `npm run test:schengen`: assertions on `src/lib/schengen.js` (real month lengths, rolling 180-day window, the Tight band).
 - `npm run test:daycount`: assertions on `src/lib/dayCount.js` (days per country, 150/183-day states).
+- `npm run test:currency`: assertions on `src/lib/currency.js` (conversion, whole-unit rounding, USD output unchanged, the language-to-currency default).
 - `npm run check:seeds`: loads the real dataset and checks every "Build me a year" style under every lens is a full year, Schengen-legal, with no country at 183+ days.
 - `npm run check:ids`: the frozen city ID table is complete, duplicate-free and append-only against git HEAD.
 - `npm run build:seo` then `npm run check:seo`: both need an existing `dist/` (run `npm run build` first). `build:seo` generates the static pages and runs the leak check; `check:seo` validates them (one h1, self-canonical, unique titles, JSON-LD parses, internal links resolve, everything in the sitemap, no orphans).
 - `python3 scripts/rebake_scores.py --check` and `python3 scripts/sanity_check.py` after any data or settings change: the baked scores still match the formulas.
-- Other `package.json` scripts: `dev`, `build`, `preview`, `deploy`.
+- Other `package.json` scripts: `dev`, `build`, `preview`, `deploy`, `update:fx` (refresh the currency rate table).
 
 ## Active Work
 

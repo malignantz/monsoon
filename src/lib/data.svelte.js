@@ -10,6 +10,7 @@ import { CITY_IDS_V1 } from './cityIds.v1.js';
 import { track } from './analytics.js';
 import { schengenWindow, schengenImpact } from './schengen.js';
 import { countryDays, countryImpact, RESIDENCY_DAYS } from './dayCount.js';
+import { formatMoney, moneySymbol as moneySymbolFor, currencyNote, isCurrency, defaultCurrency } from './currency.js';
 
 export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 export const MONTH_LETTERS = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
@@ -53,10 +54,19 @@ function defaultUnits() {
   return lang === 'en-us' ? 'F' : 'C';
 }
 
+// US dollars (the data's native currency) unless the first browser language
+// clearly points at EUR, GBP, CAD or AUD, until the traveller picks one in
+// Settings (saved with the rest). Static pages pin USD (src/seo/entry.js).
+function initialCurrency() {
+  if (typeof navigator === 'undefined') return 'USD';
+  return defaultCurrency(navigator.languages?.length ? navigator.languages : [navigator.language]);
+}
+
 export const prefs = $state({
   party: storedSettings?.party ?? 'solo', // 'solo' | 'couple' — picks which cost field is shown everywhere
   womensSafety: storedSettings?.womensSafety ?? false, // blend the women's-safety signal into safety, orthogonal to any preset
   units: storedSettings?.units === 'C' || storedSettings?.units === 'F' ? storedSettings.units : defaultUnits(), // temperatures, display only
+  currency: isCurrency(storedSettings?.currency) ? storedSettings.currency : initialCurrency(), // money, display only (costs stay USD)
   passport: storedSettings?.passport ?? null // TODO: visa data — would drive per-passport visa-free windows
 });
 
@@ -68,7 +78,7 @@ export function saveSettings() {
   const firstTime = !onboarded.done;
   localStorage.setItem(
     SETTINGS_KEY,
-    JSON.stringify({ party: prefs.party, womensSafety: prefs.womensSafety, units: prefs.units, passport: prefs.passport })
+    JSON.stringify({ party: prefs.party, womensSafety: prefs.womensSafety, units: prefs.units, currency: prefs.currency, passport: prefs.passport })
   );
   onboarded.done = true;
   track(firstTime ? 'onboarding_complete' : 'settings_save', {
@@ -296,7 +306,18 @@ export function whyNow(city, mIdx) {
   return bits.slice(0, 3).join(' · ');
 }
 
-export const fmtMoney = (n) => '$' + Math.round(n).toLocaleString('en-US');
+// Costs, Best Value and all scoring maths stay in US dollars; only display
+// converts. Every money figure in the app goes through this one formatter, which
+// reads prefs.currency, so any template or $derived that calls it follows the
+// Settings switch.
+export const fmtMoney = (usd) => formatMoney(usd, prefs.currency);
+// For the few places that must show the stored US-dollar value (e.g. a prefilled
+// "Report this number" issue).
+export const fmtUsd = (usd) => formatMoney(usd, 'USD');
+// The chosen currency's symbol ('$', '€', '£', 'CA$', 'A$') for short labels
+// like "Max €/mo", and the "converted estimate" disclosure ('' for USD).
+export const moneySymbol = () => moneySymbolFor(prefs.currency);
+export const moneyNote = () => currencyNote(prefs.currency);
 
 // Temperatures are stored in °F. Every temperature on screen goes through this
 // one formatter, always with its unit; it reads prefs.units, so any template or

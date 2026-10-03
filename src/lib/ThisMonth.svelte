@@ -3,7 +3,7 @@
   import CityTable from './CityTable.svelte';
   import Legend from './Legend.svelte';
   import RegionMenu from './RegionMenu.svelte';
-  import { cities, regions, qolFor, valueFor, swimNow, cityCost, partyWord, fmtMoney, routeStats, prefs, PRESETS, normalizePresetKey, MONTHS, MONTH_LETTERS, favorites } from './data.svelte.js';
+  import { cities, regions, qolFor, valueFor, swimNow, cityCost, partyWord, fmtMoney, moneySymbol, routeStats, prefs, PRESETS, normalizePresetKey, MONTHS, MONTH_LETTERS, favorites } from './data.svelte.js';
   import { untrack } from 'svelte';
   import { COST_OPTIONS, snapCostCap } from './planner.js';
   import { route } from './route.svelte.js';
@@ -381,7 +381,7 @@
     <div class="refine">
       <div class="refine-fields">
         <label class="refine-field">
-          <span class="refine-field-lbl">Max $/mo {partyWord()}</span>
+          <span class="refine-field-lbl">Max {moneySymbol()}/mo {partyWord()}</span>
           <div class="refine-select">
             <select bind:value={maxCost} aria-label="Max monthly budget, {partyWord()}">
               <option value="">Any</option>
