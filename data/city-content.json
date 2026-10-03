@@ -217,6 +217,62 @@
     ],
     "tier": 3,
     "blurb": "altars, Catrinas and La Calaca festival"
+   },
+   {
+    "name": "Jornada de Cultura Cubana",
+    "months": [
+     3
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Fiesta de los Locos build-up",
+    "months": [
+     5
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Desfile de los Locos",
+    "months": [
+     6
+    ],
+    "tier": 3,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Guanajuato film season",
+    "months": [
+     7
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Chamber Music Festival",
+    "months": [
+     8
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Fiestas Patrias & San Miguel patronal feast",
+    "months": [
+     9
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Festival de San Miguel de Allende",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -293,6 +349,14 @@
     ],
     "tier": 1,
     "blurb": "yellow-flag street food across Chinatown"
+   },
+   {
+    "name": "Chinese New Year (Yaowarat)",
+    "months": [
+     2
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -339,6 +403,14 @@
     ],
     "tier": 1,
     "blurb": "monthly: electric lights off, lanterns on, every lunar 14th"
+   },
+   {
+    "name": "Mid-Autumn Lantern Festival",
+    "months": [
+     9
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -553,6 +625,15 @@
     ],
     "tier": 1,
     "blurb": "international literary festival"
+   },
+   {
+    "name": "Bali Arts Festival (Denpasar)",
+    "months": [
+     6,
+     7
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -848,6 +929,38 @@
     ],
     "tier": 2,
     "blurb": "altars across the centro and in Huaquechula nearby"
+   },
+   {
+    "name": "Equinox season / Cholula trips",
+    "months": [
+     3
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Semana Santa",
+    "months": [
+     4
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Fiestas Patrias & Huey Atlixcayotl",
+    "months": [
+     9
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Catrina season / Cholula events",
+    "months": [
+     10
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -917,6 +1030,14 @@
     ],
     "tier": 2,
     "blurb": "university comparsas through the callejones"
+   },
+   {
+    "name": "Independence season",
+    "months": [
+     9
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -951,6 +1072,54 @@
     ],
     "tier": 1,
     "blurb": "student week; ribbons and concerts"
+   },
+   {
+    "name": "Fantasporto film festival",
+    "months": [
+     2
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Serralves em Festa",
+    "months": [
+     5
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "MEO Mares Vivas & summer festivals",
+    "months": [
+     7
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Douro grape harvest",
+    "months": [
+     9
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Chestnut season / Sao Martinho",
+    "months": [
+     11
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Christmas markets & concerts",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -1029,6 +1198,14 @@
     ],
     "tier": 3,
     "blurb": "one of the world's biggest displays, ringing the whole amphitheater bay"
+   },
+   {
+    "name": "Flower Festival",
+    "months": [
+     3
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -1063,6 +1240,14 @@
     ],
     "tier": 1,
     "blurb": "qvevri openings in Mtatsminda Park"
+   },
+   {
+    "name": "Rtveli wine harvest (Sep/Oct)",
+    "months": [
+     9
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -1133,6 +1318,14 @@
     ],
     "tier": 3,
     "blurb": "a week of casetas, horses, sherry and sevillanas"
+   },
+   {
+    "name": "Late spring fairs",
+    "months": [
+     5
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -1167,6 +1360,14 @@
     ],
     "tier": 1,
     "blurb": "the tomato fight, 40 min away"
+   },
+   {
+    "name": "Summer & Gran Fira",
+    "months": [
+     7
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -1209,6 +1410,14 @@
     ],
     "tier": 2,
     "blurb": "one of Europe's biggest music festivals"
+   },
+   {
+    "name": "Sónar festival",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -1244,6 +1453,14 @@
     ],
     "tier": 1,
     "blurb": "summer-long open-air culture program"
+   },
+   {
+    "name": "Orgullo / Pride",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -1385,6 +1602,14 @@
     ],
     "tier": 2,
     "blurb": "costumed no-rules football in Santa Croce"
+   },
+   {
+    "name": "Maggio Musicale Fiorentino",
+    "months": [
+     5
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -1420,6 +1645,14 @@
     ],
     "tier": 1,
     "blurb": "open-air cinema on Piazza Maggiore"
+   },
+   {
+    "name": "FICO Eataly World food fair",
+    "months": [
+     10
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -1446,6 +1679,15 @@
     ],
     "tier": 3,
     "blurb": "one of the world's biggest saint festivals — a million people, candle-bearing devotees, three days"
+   },
+   {
+    "name": "Summer season",
+    "months": [
+     7,
+     8
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -1472,6 +1714,14 @@
     ],
     "tier": 3,
     "blurb": "July 14–15: the patron saint's cart parades to the sea with fireworks"
+   },
+   {
+    "name": "Easter celebrations",
+    "months": [
+     4
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -1509,6 +1759,22 @@
     ],
     "tier": 1,
     "blurb": "pre-Lent costumes and Plaka mayhem"
+   },
+   {
+    "name": "Greek Orthodox Easter (Apr/May)",
+    "months": [
+     4
+    ],
+    "tier": 3,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Easter / spring",
+    "months": [
+     5
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -1612,6 +1878,22 @@
     ],
     "tier": 2,
     "blurb": "the EDM invasion; book around it"
+   },
+   {
+    "name": "Summer season opens",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Summer festivals",
+    "months": [
+     8
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -1784,6 +2066,30 @@
     ],
     "tier": 1,
     "blurb": "the country's main film event"
+   },
+   {
+    "name": "Cloud Festival & open-air season",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Summer music & lake nights",
+    "months": [
+     7
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Albanian Independence Day events",
+    "months": [
+     11
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -1879,6 +2185,14 @@
     ],
     "tier": 1,
     "blurb": "Jan 19: swimmers race for the cross in the lake"
+   },
+   {
+    "name": "Lake high season",
+    "months": [
+     8
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -1913,6 +2227,22 @@
     ],
     "tier": 1,
     "blurb": "roast lamb and name-day feasts"
+   },
+   {
+    "name": "Surva masquerade (Pernik, late Jan)",
+    "months": [
+     1
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Ski season & markets",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -1947,6 +2277,22 @@
     ],
     "tier": 2,
     "blurb": "opera under the stars in the Roman theater"
+   },
+   {
+    "name": "Night of Museums & Galleries",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Plovdiv Jazz Festival",
+    "months": [
+     8
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -2065,6 +2411,14 @@
     ],
     "tier": 2,
     "blurb": "Vörösmarty Square and the Basilica light show"
+   },
+   {
+    "name": "Spring season opens",
+    "months": [
+     5
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -2115,6 +2469,14 @@
     ],
     "tier": 1,
     "blurb": "Sunday gaucho fair (closes high summer)"
+   },
+   {
+    "name": "Día de la Tradición",
+    "months": [
+     11
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -2175,6 +2537,14 @@
     ],
     "tier": 1,
     "blurb": "folk-music festival in wine country"
+   },
+   {
+    "name": "Carnival season",
+    "months": [
+     2
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -2244,6 +2614,22 @@
     ],
     "tier": 2,
     "blurb": "international theater festival across the city"
+   },
+   {
+    "name": "Vendimia (wine harvest)",
+    "months": [
+     3
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Wine harvest",
+    "months": [
+     4
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -2287,6 +2673,15 @@
     ],
     "tier": 2,
     "blurb": "the city's dark-skinned Christ procession (Holy Monday)"
+   },
+   {
+    "name": "Semana Santa (Mar/Apr)",
+    "months": [
+     3,
+     4
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -2364,6 +2759,14 @@
     ],
     "tier": 2,
     "blurb": "Dec 24's vast nativity parade"
+   },
+   {
+    "name": "Cuenca Independence (Nov 3)",
+    "months": [
+     11
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -2400,6 +2803,14 @@
     ],
     "tier": 1,
     "blurb": "Azorean heritage processions"
+   },
+   {
+    "name": "Summer high season",
+    "months": [
+     1
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -2540,6 +2951,14 @@
     ],
     "tier": 2,
     "blurb": "giant kites fly in nearby Sumpango, Nov 1"
+   },
+   {
+    "name": "Quema del Diablo (Dec 7) & Christmas",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -2575,6 +2994,14 @@
     ],
     "tier": 1,
     "blurb": "Panajachel's patron fair"
+   },
+   {
+    "name": "Day of Dead & Giant Kite (nearby Sumpango)",
+    "months": [
+     11
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -2610,6 +3037,38 @@
     ],
     "tier": 2,
     "blurb": "Saryan street becomes one long tasting"
+   },
+   {
+    "name": "Armenian Genocide remembrance / spring events",
+    "months": [
+     4
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Independence Day events",
+    "months": [
+     9
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Yerevan city birthday / Erebuni-Yerevan",
+    "months": [
+     10
+    ],
+    "tier": 3,
+    "from": "score-calendar"
+   },
+   {
+    "name": "New Year season",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -2811,6 +3270,14 @@
     ],
     "tier": 2,
     "blurb": "Asakusa's rowdy three-day shrine festival"
+   },
+   {
+    "name": "Golden Week",
+    "months": [
+     5
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -2889,6 +3356,14 @@
     ],
     "tier": 1,
     "blurb": "winter arts takeover"
+   },
+   {
+    "name": "Moomba / Grand Prix season",
+    "months": [
+     3
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -3072,6 +3547,22 @@
     ],
     "tier": 2,
     "blurb": "the riverside in festival lights"
+   },
+   {
+    "name": "Druga Godba music festival",
+    "months": [
+     4
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "City of Women festival",
+    "months": [
+     10
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -3151,6 +3642,14 @@
     ],
     "tier": 2,
     "blurb": "one of Europe's oldest jazz festivals"
+   },
+   {
+    "name": "Cannes Film Festival (nearby)",
+    "months": [
+     5
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -3231,6 +3730,14 @@
     ],
     "tier": 1,
     "blurb": "big pop/rock weekend"
+   },
+   {
+    "name": "Christmas markets",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -3265,6 +3772,14 @@
     ],
     "tier": 1,
     "blurb": "April 1: passports stamped at the bridge"
+   },
+   {
+    "name": "Vilnius Music Festival",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -3307,6 +3822,14 @@
     ],
     "tier": 1,
     "blurb": "tens of thousands singing — a national sacrament"
+   },
+   {
+    "name": "Tallinn Music Week / Midsummer",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -3460,6 +3983,14 @@
     ],
     "tier": 2,
     "blurb": "Gendarmenmarkt and a hundred others"
+   },
+   {
+    "name": "Christopher Street Day (Pride)",
+    "months": [
+     6
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -3504,6 +4035,14 @@
     ],
     "tier": 2,
     "blurb": "Europe's biggest free open-air festival"
+   },
+   {
+    "name": "Vienna Philharmonic New Year Concert",
+    "months": [
+     1
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -3538,6 +4077,14 @@
     ],
     "tier": 2,
     "blurb": "a million ravers around the lake"
+   },
+   {
+    "name": "Zurich Christmas markets",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -3583,6 +4130,14 @@
     ],
     "tier": 2,
     "blurb": "the Proms at the Albert Hall"
+   },
+   {
+    "name": "Christmas markets & lights",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -3626,6 +4181,22 @@
     ],
     "tier": 1,
     "blurb": "all-night art across the city"
+   },
+   {
+    "name": "Bastille Day (Jul 14)",
+    "months": [
+     7
+    ],
+    "tier": 2,
+    "from": "score-calendar"
+   },
+   {
+    "name": "Christmas markets",
+    "months": [
+     12
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -3668,6 +4239,14 @@
     ],
     "tier": 1,
     "blurb": "trad music in Temple Bar's churches"
+   },
+   {
+    "name": "Dublin Halloween / Bram Stoker Festival",
+    "months": [
+     10
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -3711,6 +4290,14 @@
     ],
     "tier": 1,
     "blurb": "world-class documentary festival"
+   },
+   {
+    "name": "Copenhagen Jazz Festival",
+    "months": [
+     7
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -3857,6 +4444,14 @@
     ],
     "tier": 2,
     "blurb": "bonfires; the city empties to cottages"
+   },
+   {
+    "name": "Helsinki Festival",
+    "months": [
+     8
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -3926,6 +4521,14 @@
     ],
     "tier": 1,
     "blurb": "winter lights on the wharves"
+   },
+   {
+    "name": "King's Day",
+    "months": [
+     4
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -3960,6 +4563,14 @@
     ],
     "tier": 1,
     "blurb": "new-herring season opens at Scheveningen"
+   },
+   {
+    "name": "King's Day",
+    "months": [
+     4
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  },
@@ -4064,6 +4675,14 @@
     ],
     "tier": 1,
     "blurb": "golden lights on Długi Targ"
+   },
+   {
+    "name": "Baltic beach season",
+    "months": [
+     8
+    ],
+    "tier": 2,
+    "from": "score-calendar"
    }
   ]
  }

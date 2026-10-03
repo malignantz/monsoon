@@ -5,7 +5,11 @@
 
   // Dense view of the same ranking the cards show. The parent (This month) owns
   // all filtering and hands us an already-filtered list; we only sort columns.
-  let { cities, month, preset, valueModel, onmodel, onopen } = $props();
+  // `order` reports the row keys as currently sorted, so the city sheet's ←/→
+  // can step through the table in the order the user sees it.
+  // compare: null outside compare mode; { keys, full } while picking — each
+  // row then leads with a checkbox (the row click still opens the sheet).
+  let { cities, month, preset, valueModel, onmodel, onopen, order = $bindable([]), compare = null, oncompare } = $props();
 
   let sortKey = $state('qol');
   let sortDir = $state(-1);
@@ -13,7 +17,7 @@
   const COLS = $derived([
     { k: 'name',  label: 'City',      num: false },
     { k: 'qol',   label: 'Score',      num: true, tip: 'Best month money aside: weather, safety, air quality, seasonality & events · 0-100' },
-    { k: 'value', label: 'Best Value', num: true, tip: 'Score relative to cost (cost is damped so "best value" = cheap-and-nice, not merely cheap) · unitless index, compare cities only' },
+    { k: 'value', label: 'Best Value', num: true, tip: 'Score relative to cost (cost is damped so Best Value = cheap-and-nice, not merely cheap) · unitless index, compare cities only' },
     { k: 'weather', label: 'Weather', num: true, tip: 'Temperature & sunshine comfort · 0–100' },
     { k: 'air',   label: 'Air',       num: true, tip: 'Air quality (PM2.5) · 100 = cleanest in dataset' },
     { k: 'safety', label: 'Safety',   num: true, tip: 'Crime & personal safety index · 100 = safest' },
@@ -55,6 +59,10 @@
       if (sortKey === 'value' && Math.abs(va - vb) < 1.0) return a.cost - b.cost;
       return primary;
     });
+  });
+
+  $effect(() => {
+    order = rows.map((r) => r.c.key);
   });
 
   function shade(v) {
@@ -108,11 +116,40 @@
       </thead>
       <tbody>
         {#each rows as r (r.c.key)}
-          <tr onclick={() => onopen(r.c.key)}>
+          <!-- The whole row stays a mouse target; the city name is the real,
+               focusable button, so keyboard and screen-reader users can open it. -->
+          {@const picked = !!compare?.keys.includes(r.c.key)}
+          <tr
+            class:picked
+            onclick={(e) => {
+              if (e.target.closest?.('.tcmp')) return;
+              onopen(r.c.key);
+            }}
+          >
             <td class="city">
-              {r.name}
+              {#if compare}
+                <label class="tcmp" title={compare.full && !picked ? 'Three cities picked — remove one to add another' : `Compare ${r.name}`}>
+                  <input
+                    type="checkbox"
+                    checked={picked}
+                    disabled={compare.full && !picked}
+                    aria-label="Compare {r.name}"
+                    onchange={() => oncompare(r.c.key)}
+                  />
+                </label>
+              {/if}
+              <span class="cityinfo">
+              <button
+                type="button"
+                class="cityname"
+                onclick={(e) => {
+                  e.stopPropagation();
+                  onopen(r.c.key);
+                }}
+              >{r.name}</button>
               <em>{r.region}{r.schengen ? ' ◆' : ''}{r.swim ? ' ≋' : ''}{#if r.risk >= 1}
                   <span class="hz" title={r.riskNote}>⚠</span>{/if}</em>
+              </span>
             </td>
             <td class="num {shade(r.qol)}">{Math.round(r.qol)}</td>
             <td class="num">{r.value.toFixed(1)}</td>
@@ -160,6 +197,44 @@
   }
 
   tbody tr:hover td.city { background: var(--paper-2); }
+
+  /* Compare mode: a checkbox leads each city cell; picked rows wear the soft
+     terracotta filter accent (the checkbox carries the state too). */
+  .cityinfo {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .tcmp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    margin: -6px 4px -6px -8px;
+    padding: 6px 6px;
+    cursor: pointer;
+  }
+
+  .tcmp input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: var(--terra);
+    cursor: pointer;
+  }
+
+  .tcmp input:disabled { cursor: default; }
+
+  tbody tr.picked td,
+  tbody tr.picked td.city { background: var(--terra-soft); }
+
+  @media (max-width: 700px) {
+    .tcmp {
+      min-width: 40px;
+      min-height: 40px;
+      margin: -8px 2px -8px -10px;
+    }
+  }
 
   @media (max-width: 700px) {
     .tableouter::after {
@@ -239,6 +314,21 @@
   .city {
     text-align: left;
     font-weight: 600;
+  }
+
+  .cityname {
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+  }
+
+  .cityname:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--terra);
+    text-underline-offset: 3px;
   }
 
   .city em {

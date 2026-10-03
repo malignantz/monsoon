@@ -6,7 +6,15 @@
   $effect(() => {
     if (!open) return;
     const onDocClick = (e) => { if (root && !root.contains(e.target)) open = false; };
-    const onKey = (e) => { if (e.key === 'Escape') open = false; };
+    // Escape closes just this popover. Swallow it so a dialog behind us (city
+    // sheet, picker, settings — all listening on window, which this document
+    // listener fires before) doesn't close too.
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return;
+      e.preventDefault();
+      e.stopPropagation();
+      open = false;
+    };
     document.addEventListener('click', onDocClick, true);
     document.addEventListener('keydown', onKey);
     return () => {

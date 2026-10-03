@@ -1,5 +1,5 @@
 <script>
-  import { tick } from 'svelte';
+  import { tick, untrack } from 'svelte';
   import ThisMonth from './lib/ThisMonth.svelte';
   import MyYear from './lib/MyYear.svelte';
   import CitySheet from './lib/CitySheet.svelte';
@@ -7,9 +7,13 @@
   import Methodology from './lib/Methodology.svelte';
   import About from './lib/About.svelte';
   import HowTo from './lib/HowTo.svelte';
-  import { cities, cityByKey, qolFor, valueFor, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS } from './lib/data.svelte.js';
+  import CompareTray from './lib/CompareTray.svelte';
+  import CompareSheet from './lib/CompareSheet.svelte';
+  import { cities, cityByKey, regions, qolFor, valueFor, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS } from './lib/data.svelte.js';
   import { addCity, removeStayRef } from './lib/route.svelte.js';
   import { track } from './lib/analytics.js';
+  import { readUrlState, buildUrl } from './lib/urlState.js';
+  import { MAX_COMPARE, sanitizeCompare, loadCompare, saveCompare } from './lib/compare.js';
 
   const PREFS = 'atlas.prefs.v1';
 
@@ -35,14 +39,51 @@
   // missing or malformed name never affects the itinerary itself.
   const sharedName = initialRoute.length ? (shareParams.get('n') ?? '').slice(0, 60) : '';
 
+  // Shareable state from the query string wins field by field; anything absent
+  // falls back to saved prefs, then defaults (see urlState.js for the params).
+  const fromUrl = readUrlState(location.search, regions);
+
   // 'explore' merged into 'month' as a card/table density toggle; fall back for saved prefs.
-  let view = $state(initialRoute.length ? 'year' : p.view === 'explore' ? 'month' : (p.view ?? 'month'));
-  let month = $state(currentMonth);
-  let mode = $state(p.mode ?? 'quality');
+  // A bare shared city link (?city=…) opens over This month, so closing the
+  // sheet lands on the ranked list rather than wherever the visitor last was.
+  // Any This-month param (month, sort, layout, region) is a link to the
+  // ranking too, so it wins over the visitor's last-used view.
+  const linksToRanking =
+    fromUrl.city || fromUrl.compare || fromUrl.month != null || fromUrl.mode || fromUrl.density || fromUrl.regions;
+  let view = $state(
+    fromUrl.view ??
+      (initialRoute.length ? 'year' : linksToRanking ? 'month' : p.view === 'explore' ? 'month' : (p.view ?? 'month'))
+  );
+  let month = $state(fromUrl.month ?? currentMonth);
+  // A ranking link with no sort param means the default sort (that is how the
+  // sender's clean URL was built), not the recipient's last-used one.
+  const rankingLink = fromUrl.month != null || fromUrl.density || fromUrl.regions || fromUrl.compare;
+  let mode = $state(fromUrl.mode ?? (rankingLink ? 'quality' : (p.mode ?? 'quality')));
   let preset = $state(normalizePresetKey(p.preset));
   let valueModel = $state(p.valueModel ?? 'adjusted');
-  let density = $state(p.density === 'table' ? 'table' : 'cards');
-  let cityKey = $state(new URLSearchParams(location.search).get('city'));
+  let density = $state(fromUrl.density ?? (p.density === 'table' ? 'table' : 'cards'));
+  let activeRegions = $state(new Set(fromUrl.regions ?? []));
+  let cityKey = $state(fromUrl.city && cityByKey.has(fromUrl.city) ? fromUrl.city : null);
+
+  // ── Compare ──
+  // compareKeys is the in-progress pick (session-only, max three). A
+  // `?compare=a,b` link replaces it and opens the comparison over This month;
+  // a link with fewer than two usable cities just seeds the tray. Picking mode
+  // (checkboxes on cards/rows, the tray) is on while there are picks, or once
+  // the Compare toggle has been switched on; clearing the tray ends it.
+  const urlCompare = fromUrl.compare ? sanitizeCompare(fromUrl.compare) : null;
+  let compareKeys = $state(urlCompare?.length ? urlCompare : loadCompare());
+  let comparePicking = $state(untrack(() => compareKeys.length) > 0);
+  let compareOpen = $state(untrack(() => view) === 'month' && (urlCompare?.length ?? 0) >= 2);
+  const comparing = $derived(view === 'month' && (comparePicking || compareKeys.length > 0));
+  const trayVisible = $derived(comparing && !compareOpen);
+
+  $effect(() => saveCompare([...compareKeys]));
+
+  // First-visit colour key on This month; dismissed once, it stays dismissed.
+  let keyHidden = $state(p.keyHidden === true);
+  // This month's list in on-screen order (filtered + sorted) for ←/→ stepping.
+  let visibleKeys = $state([]);
   // The city whose card should wear the shared `city-hero` name during a
   // card↔sheet view transition. Held only across the transition, then cleared.
   let transitioningKey = $state(null);
@@ -71,7 +112,10 @@
   }
 
   $effect(() => {
-    localStorage.setItem(PREFS, JSON.stringify({ view, mode, preset, valueModel, density }));
+    const next = JSON.stringify({ view, mode, preset, valueModel, density, keyHidden });
+    try {
+      localStorage.setItem(PREFS, next);
+    } catch {}
   });
 
   // Surface view: fires on load and on every This month ↔ My year switch, so we
@@ -86,17 +130,48 @@
 
   const openCity = $derived(cityKey ? cityByKey.get(cityKey) : null);
 
-  // Same ranking the views use (unfiltered), so ←/→ in the sheet flips
-  // through the deck in the order the user is browsing it.
-  const rankedKeys = $derived(
-    [...cities]
+  // ── URL state ──
+  // view / month / sort / layout / region (+ the open city) live in the query
+  // string so any state is shareable and bookmarkable. Filter tweaks replace the
+  // current entry; a view change pushes one, so Back moves between views. The
+  // sheet pushes on open and goes *back* on close (see applyOpen/applyClose).
+  // Defaults emit no params, and unrelated params (?i=, ?n=, utm…) pass through.
+  const defaultView = () => (sharedRoute ? 'year' : 'month');
+  const urlFor = () =>
+    buildUrl(
+      { view, month, mode, density, regions: activeRegions, city: cityKey, compare: compareOpen ? compareKeys : null },
+      { defaultView: defaultView(), currentMonth }
+    );
+  const here = () => location.pathname + location.search + location.hash;
+
+  let lastView = untrack(() => view);
+  // Set while our own history.back() (closing a pushed sheet) is in flight, so
+  // the sync effect doesn't rewrite the entry we're leaving.
+  let pendingBack = false;
+
+  $effect(() => {
+    const target = urlFor();
+    const v = view;
+    untrack(() => {
+      const viewChanged = v !== lastView;
+      lastView = v;
+      if (pendingBack || target === here()) return;
+      if (viewChanged) history.pushState({}, '', target);
+      else history.replaceState(history.state, '', target);
+    });
+  });
+
+  // Fallback order for ←/→ when the sheet wasn't opened from the visible This
+  // month list (e.g. from My year): the unfiltered ranking for the month.
+  function rankedKeys() {
+    return [...cities]
       .map((c) => ({
         key: c.key,
         s: mode === 'value' ? valueFor(c, month, preset, valueModel) : qolFor(c, month, preset)
       }))
       .sort((a, b) => b.s - a.s)
-      .map((x) => x.key)
-  );
+      .map((x) => x.key);
+  }
 
   // Skip view transitions when unsupported or when the user prefers reduced
   // motion — the underlying state change still happens, just without the morph.
@@ -110,20 +185,31 @@
     cityKey = key;
     sheetOpenedAt = Date.now();
     track('city_sheet_open', { city: key, month, from: view === 'year' ? 'my_year' : 'this_month' });
-    const u = new URL(location.href);
-    u.searchParams.set('city', key);
-    replace ? history.replaceState({}, '', u) : history.pushState({}, '', u);
+    // Stepping (replace) keeps the entry's `sheet` flag; a fresh open pushes an
+    // entry marked as ours, so closing can simply go back to the list.
+    if (replace) history.replaceState(history.state, '', urlFor());
+    else history.pushState({ sheet: true }, '', urlFor());
   }
 
-  function applyClose() {
+  function trackClose() {
     if (sheetOpenedAt) {
       track('city_sheet_close', { city: cityKey, dwell_ms: Date.now() - sheetOpenedAt });
       sheetOpenedAt = 0;
     }
+  }
+
+  function applyClose() {
+    trackClose();
     cityKey = null;
-    const u = new URL(location.href);
-    u.searchParams.delete('city');
-    history.pushState({}, '', u);
+    if (history.state?.sheet) {
+      // Opened in-app via pushState: step back, so Back never reopens the sheet.
+      pendingBack = true;
+      history.back();
+    } else {
+      // Landed directly on a ?city= link: there's nothing of ours behind it, so
+      // drop the param in place and land cleanly on the list.
+      history.replaceState(history.state, '', urlFor());
+    }
   }
 
   // Card → sheet: tag the clicked card with the hero name in the outgoing
@@ -143,9 +229,11 @@
   }
 
   // Sheet → card: hold the hero name on the closing city so it flies back to
-  // its card, which reappears as the sheet unmounts.
+  // its card, which reappears as the sheet unmounts. Resolves once the close
+  // has been applied, so callers can switch view *after* the history step.
   async function closeSheet() {
-    if (!canAnimate()) {
+    // Over a comparison there is no visible card to fly back to.
+    if (!canAnimate() || compareOpen) {
       applyClose();
       return;
     }
@@ -156,14 +244,22 @@
       await tick();
     });
     vt.finished.finally(() => (transitioningKey = null));
+    await vt.updateCallbackDone.catch(() => {});
   }
 
   // ←/→ stepping swaps cities within the open sheet: a plain crossfade (no card
-  // hero) lets the title morph from one city to the next.
+  // hero) lets the title morph from one city to the next. It follows the list
+  // exactly as This month shows it (filters, search, sort, table column order).
   function stepCity(dir) {
-    const i = rankedKeys.indexOf(cityKey);
+    const list =
+      compareOpen && compareKeys.includes(cityKey)
+        ? compareKeys
+        : view === 'month' && visibleKeys.includes(cityKey)
+          ? visibleKeys
+          : rankedKeys();
+    const i = list.indexOf(cityKey);
     if (i < 0) return;
-    const next = rankedKeys[(i + dir + rankedKeys.length) % rankedKeys.length];
+    const next = list[(i + dir + list.length) % list.length];
     if (!canAnimate()) {
       applyOpen(next, { replace: true });
       return;
@@ -172,10 +268,108 @@
   }
 
   $effect(() => {
-    const onPop = () => (cityKey = new URLSearchParams(location.search).get('city'));
+    const onPop = () => {
+      const s = readUrlState(location.search, regions);
+      const nextCity = s.city && cityByKey.has(s.city) ? s.city : null;
+      if (pendingBack) {
+        // Our own close landed. Keep in-memory state (e.g. a month picked inside
+        // the sheet) and rewrite this entry to match it — pushing instead if the
+        // view changed meanwhile (toast "View year"), so Back still works.
+        pendingBack = false;
+        if ((s.view ?? defaultView()) !== view) history.pushState({}, '', urlFor());
+        else history.replaceState(history.state, '', urlFor());
+        return;
+      }
+      const nextCompare = s.compare ? sanitizeCompare(s.compare) : [];
+      if (cityKey && !nextCity) {
+        // Browser Back out of an open sheet behaves exactly like closing it.
+        trackClose();
+        cityKey = null;
+        // …landing on the comparison it was opened from, if that is where Back went.
+        if (nextCompare.length >= 2) compareKeys = nextCompare;
+        compareOpen = nextCompare.length >= 2;
+        history.replaceState(history.state, '', urlFor());
+        return;
+      }
+      if (compareOpen && nextCompare.length < 2 && !nextCity) {
+        // Browser Back out of the comparison closes it, keeping the picks and
+        // any month chosen inside it.
+        compareOpen = false;
+        history.replaceState(history.state, '', urlFor());
+        return;
+      }
+      if (nextCompare.length >= 2) compareKeys = nextCompare;
+      compareOpen = nextCompare.length >= 2 && (s.view ?? defaultView()) === 'month';
+      cityKey = nextCity;
+      view = lastView = s.view ?? defaultView();
+      month = s.month ?? currentMonth;
+      mode = s.mode ?? 'quality';
+      density = s.density ?? 'cards';
+      activeRegions = new Set(s.regions ?? []);
+    };
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
   });
+
+  // ── Compare actions ──
+  function toggleCompare(key) {
+    if (compareKeys.includes(key)) {
+      compareKeys = compareKeys.filter((k) => k !== key);
+      if (compareOpen && compareKeys.length < 2) closeCompare();
+      return;
+    }
+    if (compareKeys.length >= MAX_COMPARE) return;
+    compareKeys = [...compareKeys, key];
+    // Once you've started picking, emptying the tray keeps you in picking mode
+    // until you dismiss it.
+    comparePicking = true;
+    track('compare_add', { city: key, count: compareKeys.length });
+  }
+
+  function clearCompare() {
+    compareKeys = [];
+    comparePicking = false;
+  }
+
+  function toggleCompareMode() {
+    if (comparing) clearCompare();
+    else comparePicking = true;
+  }
+
+  // Pushes an entry marked as ours, so closing can step back (like the sheet).
+  function openCompare() {
+    if (compareKeys.length < 2) return;
+    compareOpen = true;
+    track('compare_open', { cities: compareKeys.join(','), month });
+    history.pushState({ compare: true }, '', urlFor());
+  }
+
+  function closeCompare() {
+    compareOpen = false;
+    if (history.state?.compare) {
+      pendingBack = true;
+      history.back();
+    } else {
+      // Landed directly on a ?compare= link: drop the param in place.
+      history.replaceState(history.state, '', urlFor());
+    }
+  }
+
+  // A city from the comparison opens its sheet on top (crossfade, no card
+  // morph — the card is under the comparison). Closing it returns here.
+  function openFromCompare(key) {
+    if (!canAnimate()) applyOpen(key);
+    else document.startViewTransition(() => applyOpen(key));
+  }
+
+  // Leaving for My year from inside an overlay (toast "View year"): drop the
+  // sheet and comparison in place, then let the view change push its entry.
+  function dropOverlays() {
+    if (cityKey) trackClose();
+    cityKey = null;
+    compareOpen = false;
+    history.replaceState({}, '', urlFor());
+  }
 
   const NAV = [
     { id: 'month', label: 'This month' },
@@ -197,8 +391,8 @@
     history.replaceState({}, '', u);
   }
 
-  function goHome() {
-    if (cityKey) closeSheet();
+  async function goHome() {
+    if (cityKey) await closeSheet();
     view = 'month';
   }
 
@@ -238,9 +432,10 @@
         removeStayRef(added);
         toast = null;
       },
-      view: () => {
+      view: async () => {
         toast = null;
-        if (cityKey) closeSheet();
+        if (compareOpen) dropOverlays();
+        else if (cityKey) await closeSheet();
         view = 'year';
       }
     });
@@ -265,41 +460,97 @@
           {n.label}
         </button>
       {/each}
-      <button type="button" class="howto" onclick={openHowTo} aria-label="How to use Monsoon">How it works</button>
-      <button type="button" class="gear util" onclick={openSettings} aria-label="Settings" title="Settings">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="3" />
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-        </svg>
-      </button>
+      <button type="button" class="howto" onclick={openHowTo} aria-label="How to use Monsoon"><span class="howto-long">How it works</span><span class="howto-short">Guide</span></button>
     </nav>
 
+    <!-- The gear sits outside <nav> so on phones it can ride up beside the logo,
+         leaving the nav row to the three labelled buttons (no label wrapping). -->
+    <button type="button" class="gear util" onclick={openSettings} aria-label="Settings" title="Settings">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+      </svg>
+    </button>
   </header>
 
   <main>
     {#if view === 'month'}
-      <ThisMonth bind:month bind:mode {currentMonth} {preset} {valueModel} bind:density heroKey={transitioningKey} openKey={cityKey} onopen={openSheet} onmodel={(m) => (valueModel = m)} />
+      <ThisMonth
+        bind:month
+        bind:mode
+        bind:density
+        bind:activeRegions
+        bind:keyHidden
+        bind:visibleKeys
+        {currentMonth}
+        {preset}
+        {valueModel}
+        heroKey={transitioningKey}
+        openKey={cityKey}
+        onopen={openSheet}
+        {comparing}
+        {compareKeys}
+        oncompare={toggleCompare}
+        oncomparemode={toggleCompareMode}
+        onmodel={(m) => (valueModel = m)}
+        onsettings={openSettings}
+        onresume={() => (view = 'year')}
+      />
     {:else}
-      <MyYear bind:preset {sharedRoute} {sharedName} onsharedresolved={resolveShared} onopen={openSheet} />
+      <MyYear bind:preset {valueModel} {sharedRoute} {sharedName} onsharedresolved={resolveShared} onopen={openSheet} />
     {/if}
   </main>
 
   <footer class="basefoot">
-    <span>Your ancestors moved with the seasons. 111 cities, scored month by month — clean air, mild weather, no typhoons, festivals on, 90 Schengen days at a time.</span>
+    <span>Your ancestors moved with the seasons. {cities.length} cities, scored month by month — clean air, mild weather, no typhoons, festivals on, 90 Schengen days at a time.</span>
     <span class="footlinks">
+      <a class="num footlink" href="/cities/">all cities</a>
+      <span aria-hidden="true">·</span>
       <button type="button" class="num footlink" onclick={() => (aboutOpen = true)}>about</button>
       <span aria-hidden="true">·</span>
       <button type="button" class="num footlink" onclick={() => (methodOpen = true)}>methodology · 2026</button>
     </span>
   </footer>
+  {#if trayVisible}<div class="trayspace" aria-hidden="true"></div>{/if}
 </div>
 
+{#if trayVisible}
+  <CompareTray keys={compareKeys} onremove={toggleCompare} onclear={clearCompare} onopen={openCompare} />
+{/if}
+
+{#if compareOpen && compareKeys.length >= 2}
+  <CompareSheet
+    keys={compareKeys}
+    {month}
+    {preset}
+    {valueModel}
+    covered={!!openCity}
+    onmonth={(i) => (month = i)}
+    onremove={toggleCompare}
+    onclose={closeCompare}
+    onopencity={openFromCompare}
+    onaddtoyear={addToYear}
+  />
+{/if}
+
 {#if openCity}
-  <CitySheet city={openCity} {month} {preset} onclose={closeSheet} onmonth={(i) => (month = i)} onstep={stepCity} onaddtoyear={addToYear} />
+  <CitySheet
+    city={openCity}
+    {month}
+    {preset}
+    onclose={closeSheet}
+    onmonth={(i) => (month = i)}
+    onstep={stepCity}
+    onaddtoyear={addToYear}
+    onmethod={() => (methodOpen = true)}
+    compared={compareKeys.includes(openCity.key)}
+    compareFull={compareKeys.length >= MAX_COMPARE}
+    oncompare={view === 'month' && !compareOpen ? toggleCompare : null}
+  />
 {/if}
 
 {#if toast}
-  <div class="toast" class:warn={toast.kind === 'warn'} role="status" aria-live="polite">
+  <div class="toast" class:warn={toast.kind === 'warn'} class:lifted={trayVisible} role="status" aria-live="polite">
     <span class="toast-msg">{toast.text}</span>
     {#if toast.undo}<button type="button" class="toast-act" onclick={toast.undo}>Undo</button>{/if}
     {#if toast.view}<button type="button" class="toast-act primary" onclick={toast.view}>View year</button>{/if}
@@ -334,7 +585,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 16px 26px;
+    gap: 16px 2px;
     padding-bottom: 16px;
     border-bottom: 1.5px solid var(--ink);
   }
@@ -416,7 +667,11 @@
     .tag { display: none; }
   }
 
-  nav { display: flex; gap: 2px; }
+  nav {
+    display: flex;
+    gap: 2px;
+    margin-left: 24px;
+  }
 
   .navbtn {
     background: none;
@@ -426,6 +681,7 @@
     color: var(--ink-2);
     padding: 7px 13px;
     border-radius: 999px;
+    white-space: nowrap;
   }
 
   .navbtn:hover { color: var(--ink); }
@@ -547,7 +803,41 @@
     .util {
       min-height: var(--tap);
       min-width: var(--tap);
+      margin-right: -10px; /* optical: align the glyph, not its tap box, to the gutter */
     }
+
+    /* Two rows on phones: logo + gear, then the three labelled nav buttons on
+       their own full-width row, so "This month" / "My year" never wrap. */
+    .bar {
+      row-gap: 8px;
+      padding-bottom: 10px;
+    }
+
+    .gear { order: 2; }
+
+    nav {
+      order: 3;
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+
+  /* Narrow phones: trim the pills so all three labels still fit one row; at
+     ~320px the guide button drops to its short label. */
+  @media (max-width: 360px) {
+    .navbtn,
+    .howto {
+      padding-left: 11px;
+      padding-right: 11px;
+      font-size: 13.5px;
+    }
+  }
+
+  .howto-short { display: none; }
+
+  @media (max-width: 340px) {
+    .howto-long { display: none; }
+    .howto-short { display: inline; }
   }
 
   /* Add-to-year confirmation. Sits above every sheet (city sheet is z70, the My
@@ -557,7 +847,7 @@
     left: 50%;
     bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     transform: translateX(-50%);
-    z-index: 90;
+    z-index: var(--z-toast);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -571,6 +861,12 @@
   }
 
   .toast.warn { background: var(--terra-deep); }
+
+  /* Clear the compare tray when both are up. */
+  .toast.lifted { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+
+  /* Room under the footer so the fixed compare tray never covers the last row. */
+  .trayspace { height: calc(72px + var(--safe-b)); }
 
   /* Opacity-only so it never fights the transform used to centre the pill. */
   @keyframes toast-in {

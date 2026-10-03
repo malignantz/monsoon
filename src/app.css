@@ -40,6 +40,15 @@
   --sheet-max-h: 92dvh;
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-t: env(safe-area-inset-top, 0px);
+
+  /* ── Stacking scale ──
+     One ladder for everything that floats, so a sticky bar can never slide
+     under (or over) the wrong layer. Overlays keep their existing numbers. */
+  --z-raised: 2;      /* in-card controls (favorite heart) */
+  --z-sticky: 45;     /* This month's compact month bar */
+  --z-overlay: 60;    /* scrim dialogs: settings, guide, picker */
+  --z-sheet: 70;      /* city sheet */
+  --z-toast: 90;      /* confirmations ride above every sheet */
 }
 
 * {
@@ -81,6 +90,19 @@ button {
   outline: 2px solid var(--terra);
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+/* Screen-reader-only text (accessible summaries that would be noise on screen). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .kicker {

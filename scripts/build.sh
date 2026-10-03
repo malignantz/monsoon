@@ -4,13 +4,21 @@
 # Vite owns the build now: assets are content-hashed (cache-busting is
 # automatic) and data/travel-data.json is split into src/generated/ and loaded
 # via src/lib/data.svelte.js, so dist/ should contain only index.html, assets/
-# and the public/ files (robots.txt, og.png, clearStorage.html). Pages direct-upload does
-# NOT honor .assetsignore, so after building we verify that none of the
-# private inputs (raw data files, scripts, docs) leaked into the upload set.
+# and the public/ files (robots.txt, og.png, clearStorage.html), plus the static
+# SEO surface scripts/seo/build-seo.mjs adds after the SPA build: city/<slug>/,
+# best/where-to-be-in-<month>/ and cities/ (an index.html each), sitemap.xml
+# and llms.txt. Pages direct-upload does NOT honor .assetsignore, so after
+# building we verify that none of the private inputs (raw data files, scripts,
+# docs) leaked into the upload set, and that no private input TEXT was rendered
+# into the SEO pages (scripts/seo/leak-check.mjs).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 npm run build
+
+# Static SEO pages (hub layer): standalone HTML that reuses the app's own
+# scoring via Vite's SSR loader. The SPA output above is left untouched.
+node scripts/seo/build-seo.mjs
 
 # Guard: fail the deploy staging if anything private ends up in dist/.
 leaks=$(find dist -type f \( \
@@ -20,10 +28,21 @@ leaks=$(find dist -type f \( \
   -name 'city-media.json' -o \
   -name 'worldbank-homicide.json' -o \
   -name 'wps-community-safety.json' -o \
+  -name 'climate-normals.json' -o \
+  -name 'air-climatology.json' -o \
+  -name 'air-overrides.json' -o \
+  -name 'travel-data.json' -o \
+  -name 'swim-inputs.json' -o \
+  -path '*/cost-evidence/*' -o \
+  -path '*/raw/*' -o \
   -name '*.backup.json' -o \
   -name '*.md' -o \
   -name '*.py' -o \
-  -name '*.xlsx' \
+  -name '*.mjs' -o \
+  -name '*.xlsx' -o \
+  -path 'dist/city/*' ! -name 'index.html' -o \
+  -path 'dist/best/*' ! -name 'index.html' -o \
+  -path 'dist/cities/*' ! -name 'index.html' \
 \) || true)
 if [ -n "$leaks" ]; then
   echo "ERROR: private files staged into dist/ — refusing to deploy:" >&2
@@ -31,5 +50,12 @@ if [ -n "$leaks" ]; then
   exit 1
 fi
 
-echo "Staged dist/:"
-find dist -type f | sort
+# Guard: the SEO pages render only allowlisted public fields
+# (src/seo/publicData.js); fail if any private input text — cost-evidence
+# notes/quotes, safety rationale and audit notes — shows up in them.
+node scripts/seo/leak-check.mjs
+
+count() { find "$1" -name index.html 2>/dev/null | wc -l | tr -d ' '; }
+echo "Staged dist/ (SEO trees summarized):"
+find dist -type f -not -path 'dist/city/*' -not -path 'dist/best/*' -not -path 'dist/cities/*' | sort
+echo "dist/city/ $(count dist/city) pages · dist/best/ $(count dist/best) pages · dist/cities/ $(count dist/cities) page"

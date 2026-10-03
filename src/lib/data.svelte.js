@@ -7,11 +7,19 @@ import core from '../generated/travel-core.json';
 import detailUrl from '../generated/travel-detail.json?url';
 import { CITY_IDS_V1 } from './cityIds.v1.js';
 import { track } from './analytics.js';
+import { schengenWindow, schengenImpact } from './schengen.js';
+import { countryDays, countryImpact, RESIDENCY_DAYS } from './dayCount.js';
 
 export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 export const MONTH_LETTERS = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
 
 export const settings = core.settings;
+// Top-level provenance table {key: {name, url, licence, window, retrieved,
+// method}}; null until the measured climate/air pipeline lands.
+export const sources = core.sources ?? null;
+// Build-time "as of" dates per input family (safety, advisory, cost, womens,
+// swim, content) — see scripts/split-data.mjs.
+export const dataAsOf = core.asOf ?? {};
 
 // ---- User settings (onboarding identity, not the exploratory lens) ----
 // Persisted separately from the view/mode/preset "lens" that App.svelte owns:
@@ -31,8 +39,9 @@ function loadSettings() {
 
 const storedSettings = loadSettings();
 
-// done flips true once the user has saved settings at least once; App.svelte
-// shows first-run onboarding while it's false.
+// done flips true once the user has saved settings at least once. There's no
+// first-run gate any more; this only splits the first save (onboarding_complete)
+// from later ones (settings_save) in analytics.
 export const onboarded = $state({ done: storedSettings != null });
 
 export const prefs = $state({
@@ -58,6 +67,15 @@ export function saveSettings() {
   });
 }
 
+// Old city key → current key, for cities renamed since they were first saved or
+// shared. Applied everywhere a key comes back from outside the bundle: v1 share
+// links (which never edit the frozen ID table), the saved route, and favorites.
+export const SLUG_ALIASES = {
+  'las-palmas-gran-canaria': 'las-palmas'
+};
+
+export const canonicalKey = (key) => (Object.hasOwn(SLUG_ALIASES, key) ? SLUG_ALIASES[key] : key);
+
 // ---- Favorites: a lightweight saved shortlist, persisted as a list of keys ----
 const FAVORITES_KEY = 'atlas.favorites.v1';
 
@@ -65,7 +83,8 @@ function loadFavorites() {
   if (typeof localStorage === 'undefined') return [];
   try {
     const a = JSON.parse(localStorage.getItem(FAVORITES_KEY));
-    return Array.isArray(a) ? a : [];
+    // Renamed cities migrate in place; the Set dedupes old + new spellings.
+    return Array.isArray(a) ? a.filter((k) => typeof k === 'string').map(canonicalKey) : [];
   } catch {
     return [];
   }
@@ -102,7 +121,9 @@ export const cities = $state(core.cities.map((c) => ({ ...c, key: slug(c.name) }
 export const cityByKey = new Map(cities.map((c) => [c.key, c]));
 export const regions = [...new Set(cities.map((c) => c.region))].sort();
 
-export const detailStatus = $state({ ready: false });
+// ready: the detail layer is merged. failed: the last attempt errored, so the
+// sheet can stop saying "Loading…" and offer retryDetail() instead.
+export const detailStatus = $state({ ready: false, failed: false, loading: false });
 
 async function loadDetail() {
   const res = await fetch(detailUrl);
@@ -115,14 +136,29 @@ async function loadDetail() {
     if (d.safety) c.safety = d.safety;
     if (d.drawDetail) c.drawDetail = d.drawDetail;
     if (d.media) c.media = d.media;
+    if (d.prov) c.prov = d.prov;
+    if (d.costProv) c.costProv = d.costProv;
     d.months?.forEach((dm, j) => Object.assign(c.months[j], dm));
   });
   detailStatus.ready = true;
 }
 
+// Fetch (or re-fetch) the detail layer. Safe to call repeatedly: a load in
+// flight or an already-merged layer makes it a no-op.
+export function retryDetail() {
+  if (detailStatus.ready || detailStatus.loading) return;
+  detailStatus.loading = true;
+  detailStatus.failed = false;
+  loadDetail()
+    .catch((e) => {
+      console.error('[atlas] detail layer failed to load', e);
+      detailStatus.failed = true;
+    })
+    .finally(() => (detailStatus.loading = false));
+}
+
 if (typeof window !== 'undefined') {
-  const kick = () => loadDetail().catch((e) => console.error('[atlas] detail layer failed to load', e));
-  'requestIdleCallback' in window ? requestIdleCallback(kick) : setTimeout(kick, 1);
+  'requestIdleCallback' in window ? requestIdleCallback(retryDetail) : setTimeout(retryDetail, 1);
 }
 
 // ---- "Optimize for" lenses: weights over stored component scores (methodology §6) ----
@@ -248,6 +284,10 @@ export function whyNow(city, mIdx) {
 
 export const fmtMoney = (n) => '$' + Math.round(n).toLocaleString('en-US');
 
+// Temperatures are stored in °F. Every temperature on screen goes through this
+// one formatter, always with its unit, so a °C setting only has to change here.
+export const fmtTemp = (f) => (f == null ? '—' : `${Math.round(f)}°F`);
+
 // "Jun–Oct" for a set of swim months (1-12), handling year-wrap (Dec–Mar).
 export function fmtMonthRange(months) {
   if (!months?.length) return '';
@@ -262,7 +302,9 @@ export function fmtMonthRange(months) {
 export const swimNow = (city, mIdx) => city.swim?.months?.includes(mIdx + 1) ?? false;
 
 // ---- Schengen 90/180 over a cyclic year of stays ----
-// stays: [{key, start (0-11), len (1-12)}]; a month in a Schengen city ≈ 30 days.
+// stays: [{key, start (0-11), len (1-12)}]. The day-level maths (real month
+// lengths, true rolling 180-day window, the whole-month caution band) lives in
+// schengen.js; these wrappers just supply the city lookup.
 export function stayMonths(stay) {
   return Array.from({ length: stay.len }, (_, i) => (stay.start + i) % 12);
 }
@@ -273,40 +315,34 @@ export function monthOccupancy(stays) {
   return occ;
 }
 
+const isSchengenKey = (key) => !!cityByKey.get(key)?.schengen;
+
+// The route's worst rolling 180-day window:
+//   { worst, remaining, over, window, anySchengen,
+//     ok (≤ 90), atLimit (exactly 90), caution (1–2 days over: whole-month
+//     rounding, fixable by leaving early), breach (3+ days over) }
 export function schengenCheck(stays) {
-  const days = Array(12).fill(0);
-  for (const s of stays) {
-    const c = cityByKey.get(s.key);
-    if (!c?.schengen) continue;
-    for (const m of stayMonths(s)) days[m] = 30;
-  }
-  let worst = 0;
-  let worstStart = 0;
-  for (let i = 0; i < 12; i++) {
-    let sum = 0;
-    for (let j = 0; j < 6; j++) sum += days[(i + j) % 12];
-    if (sum > worst) {
-      worst = sum;
-      worstStart = i;
-    }
-  }
-  // The six month indices that make up the worst rolling 180-day window.
-  const windowMonths = Array.from({ length: 6 }, (_, j) => (worstStart + j) % 12);
-  return {
-    worst,
-    worstStart,
-    windowMonths,
-    schengenMonths: days.map((d) => d > 0),
-    window: `${MONTHS[worstStart]}–${MONTHS[(worstStart + 5) % 12]}`,
-    remaining: Math.max(0, 90 - worst),
-    over: Math.max(0, worst - 90),
-    ok: worst <= 90,
-    tight: worst > 75 && worst <= 90,
-    // Months are 30-day blocks, so the worst window is always a multiple of 30 —
-    // the only compliant-but-maxed case is exactly 90 (three Schengen months).
-    atLimit: worst === 90,
-    anySchengen: days.some((d) => d > 0)
-  };
+  return schengenWindow(stays, isSchengenKey);
+}
+
+// Verdict for adding `stay` to `stays`, judged on the windows that stay touches
+// (so an unrelated over-limit stretch elsewhere doesn't flag every pick).
+export function schengenCheckAdd(stays, stay) {
+  return schengenImpact(stays, stay, isSchengenKey);
+}
+
+// ---- Days per country (183-day tax-residency signal) ----
+// Maths in dayCount.js; these wrappers supply the city → country lookup.
+const countryOfKey = (key) => cityByKey.get(key)?.country;
+
+// { rows: [{country, days, state}], top, over, near, state } — see dayCount.js.
+export function countryCheck(stays) {
+  return countryDays(stays, countryOfKey);
+}
+
+// What adding `stay` does to its own country's total: { country, days, added, state }.
+export function countryCheckAdd(stays, stay) {
+  return countryImpact(stays, stay, countryOfKey);
 }
 
 export function routeStats(stays, presetKey = 'balanced') {
@@ -348,9 +384,24 @@ export function routeStats(stays, presetKey = 'balanced') {
 // the quality/value score ranges — spreads the year across the map instead of
 // parking it in one region). Deterministic input → identical route every render.
 //
+// Schengen honesty: three real months are 89–92 days, so outside winter a full
+// Schengen block would land in the 1–2-day caution band. A seed never does that —
+// every placement must keep the year at or under 90 real days. A Schengen city
+// that can't take the whole block may take its best two-month slice instead
+// (≤ 62 days), judged against the block as if the spare month were filled by the
+// best non-Schengen month on offer; a gap pass then stretches a neighbouring
+// non-Schengen stay into that month (or drops in a one-month stay). Seeds are
+// therefore always strictly 90/180-legal, which the "visa-legal" copy relies on.
+//
+// Days per country: a seed never puts 183+ days in one country (the common
+// tax-residency mark), so a ready-made year never trips the residency caution.
+// Distinct cities rarely get there, but two blocks in one country can (Jul–Dec
+// is 184 days) and a small favorites pool easily does.
+//
 // Styles:
 //   'quality'      max average Score for each block (the default ghost)
-//   'value'        max Best-Value (livability per dollar)
+//   'value'        max Best-Value (livability per dollar), under the same value
+//                  model the cards use (valueModel: 'adjusted' | 'classic')
 //   'festival'     Score, boosted toward blocks that land a major festival
 //   'nonschengen'  Score, but only non-Schengen cities (sidesteps the 90/180 cap)
 //   'favorites'    Score, drawn only from the user's saved cities
@@ -358,19 +409,37 @@ export function routeStats(stays, presetKey = 'balanced') {
 // A pool too small to fill all four blocks (e.g. few favorites) just yields a
 // shorter route — callers surface that honestly rather than padding it.
 const SEED_LEN = 3;
+const SEED_VARIETY = 0.93; // nudge against repeating a region / adding a stop
 
-export function generateRoute(style = 'quality', presetKey = 'balanced') {
+export function generateRoute(style = 'quality', presetKey = 'balanced', valueModel = 'adjusted') {
   let pool = cities;
   if (style === 'nonschengen') pool = cities.filter((c) => !c.schengen);
   else if (style === 'favorites') pool = cities.filter((c) => favorites.has(c.key));
 
-  const blockScore = (c, months) => {
-    if (style === 'value') return months.reduce((a, m) => a + valueFor(c, m, presetKey), 0) / months.length;
-    let s = months.reduce((a, m) => a + qolFor(c, m, presetKey), 0) / months.length;
-    if (style === 'festival') {
-      const fests = months.reduce((a, m) => a + (c.months[m].evtTier >= 3 ? 1 : 0), 0);
-      s += fests * 8; // pull a real festival into the block when it's close on Score
+  const monthScore = (c, m) => (style === 'value' ? valueFor(c, m, presetKey, valueModel) : qolFor(c, m, presetKey));
+
+  // Best non-Schengen month on offer, discounted like any extra stop — the
+  // stand-in value of the month a trimmed Schengen stay leaves open.
+  const fillScore = MONTHS.map((_, m) =>
+    pool.reduce((best, c) => (c.schengen ? best : Math.max(best, monthScore(c, m) * SEED_VARIETY)), 0)
+  );
+
+  // Average over the whole block, so a two-month slice competes on equal terms.
+  const blockScore = (c, blockStart, p) => {
+    let sum = 0;
+    let fests = 0;
+    for (let i = 0; i < SEED_LEN; i++) {
+      const m = (blockStart + i) % 12;
+      const inStay = (m - p.start + 12) % 12 < p.len;
+      if (!inStay) {
+        sum += fillScore[m];
+        continue;
+      }
+      sum += monthScore(c, m);
+      if (c.months[m].evtTier >= 3) fests++;
     }
+    let s = sum / SEED_LEN;
+    if (style === 'festival') s += fests * 8; // pull a real festival into the block when it's close on Score
     return s;
   };
 
@@ -378,33 +447,80 @@ export function generateRoute(style = 'quality', presetKey = 'balanced') {
   const usedRegions = new Set();
   const usedKeys = new Set();
   for (let start = 0; start < 12; start += SEED_LEN) {
-    const months = [];
-    for (let i = 0; i < SEED_LEN; i++) months.push((start + i) % 12);
     let best = null;
     let bestScore = -Infinity;
     for (const c of pool) {
       if (usedKeys.has(c.key)) continue;
-      // Keep every seed honest: never place a Schengen city that would breach the
-      // 90/180 cap the tool warns about everywhere else.
-      if (c.schengen && !schengenCheck([...stays, { key: c.key, start, len: SEED_LEN }]).ok) continue;
-      let s = blockScore(c, months);
-      if (usedRegions.has(c.region)) s *= 0.93;
-      if (s > bestScore) {
-        bestScore = s;
-        best = c;
+      const options = c.schengen
+        ? [
+            { start, len: SEED_LEN },
+            { start, len: SEED_LEN - 1 },
+            { start: start + 1, len: SEED_LEN - 1 }
+          ]
+        : [{ start, len: SEED_LEN }];
+      for (const p of options) {
+        // Keep every seed honest: never place a Schengen stay that takes the year
+        // past 90 real days in any 180 — not even into the caution band.
+        if (c.schengen && !schengenCheck([...stays, { key: c.key, ...p }]).ok) continue;
+        if (countryCheckAdd(stays, { key: c.key, ...p }).days >= RESIDENCY_DAYS) continue;
+        let s = blockScore(c, start, p);
+        if (usedRegions.has(c.region)) s *= SEED_VARIETY;
+        if (s > bestScore) {
+          bestScore = s;
+          best = { key: c.key, region: c.region, ...p };
+        }
+        if (p.len === SEED_LEN) break; // the full block, when legal, beats trimming it
       }
     }
     if (!best) continue;
-    stays.push({ key: best.key, start, len: SEED_LEN });
+    stays.push({ key: best.key, start: best.start, len: best.len });
     usedRegions.add(best.region);
     usedKeys.add(best.key);
   }
-  return stays;
-}
 
-// The default ghost example is the quality seed.
-export function exampleRoute(presetKey = 'balanced') {
-  return generateRoute('quality', presetKey);
+  // Gap pass: fill any month a trimmed Schengen stay left open. Stretching a
+  // non-Schengen neighbour (one fewer move) wins ties against a new one-month
+  // stop; neither can change the Schengen count.
+  for (let m = 0; m < 12; m++) {
+    const occ = monthOccupancy(stays);
+    if (occ[m]) continue;
+    const prev = occ[(m + 11) % 12];
+    const next = occ[(m + 1) % 12];
+    let fill = null;
+    let fillBest = -Infinity;
+    for (const nb of [prev, next]) {
+      const c = nb && cityByKey.get(nb.key);
+      if (!c || c.schengen) continue;
+      if (countryCheckAdd(stays, { key: c.key, start: m, len: 1 }).days >= RESIDENCY_DAYS) continue;
+      const s = monthScore(c, m);
+      if (s > fillBest) {
+        fillBest = s;
+        fill = { extend: nb };
+      }
+    }
+    for (const c of pool) {
+      if (c.schengen || usedKeys.has(c.key)) continue;
+      if (countryCheckAdd(stays, { key: c.key, start: m, len: 1 }).days >= RESIDENCY_DAYS) continue;
+      const s = monthScore(c, m) * SEED_VARIETY;
+      if (s > fillBest) {
+        fillBest = s;
+        fill = { city: c };
+      }
+    }
+    if (!fill) continue;
+    if (fill.city) {
+      stays.push({ key: fill.city.key, start: m, len: 1 });
+      usedKeys.add(fill.city.key);
+    } else if (fill.extend === prev) {
+      prev.len++;
+    } else {
+      next.start = m;
+      next.len++;
+    }
+  }
+  // Chronological from January; a stay stretched back across Dec→Jan leads.
+  const order = (s) => (s.start + s.len > 12 ? s.start - 12 : s.start);
+  return stays.sort((a, b) => order(a) - order(b));
 }
 
 // ---- Shareable routes: the whole itinerary lives in the URL, no backend ----
@@ -423,11 +539,8 @@ const ROUTE_VERSION = 1;
 
 const ID_BY_SLUG_V1 = new Map(CITY_IDS_V1.map((slug, id) => [slug, id]));
 
-// Old encoded slug → current key, for cities renamed since v1. Lets old links
-// keep resolving without ever editing the frozen table.
-const SLUG_ALIASES = {
-  'las-palmas-gran-canaria': 'las-palmas'
-};
+// Cities renamed since v1 resolve through SLUG_ALIASES (top of file), so old
+// links keep working without ever editing the frozen table.
 
 if (import.meta.env?.DEV) {
   const missing = cities.filter((c) => !ID_BY_SLUG_V1.has(c.key)).map((c) => c.key);
@@ -475,7 +588,7 @@ export function decodeRouteCompact(str) {
   if (bytes.length < 1 || bytes[0] !== ROUTE_VERSION) return [];
   const stops = [];
   for (let i = 1; i + 1 < bytes.length; i += 2) {
-    const key = SLUG_ALIASES[CITY_IDS_V1[bytes[i]]] ?? CITY_IDS_V1[bytes[i]];
+    const key = CITY_IDS_V1[bytes[i]];
     stops.push({ key, start: (bytes[i + 1] >> 4) & 0x0f, len: (bytes[i + 1] & 0x0f) + 1 });
   }
   return sanitizeStays(stops);
@@ -496,14 +609,18 @@ export function decodeRoute(str) {
   );
 }
 
-// Shared by both decoders: drop stays with an unknown city or out-of-range
-// values, and skip any whose months collide with one already placed
-// (monthOccupancy is last-wins on overlap), so a hand-edited or stale link can't
-// produce a broken board.
-function sanitizeStays(stops) {
+// Shared by both decoders and the saved-route loader: migrate renamed city keys,
+// drop stays with an unknown city or out-of-range values, and skip any whose
+// months collide with one already placed (monthOccupancy is last-wins on
+// overlap), so a hand-edited or stale link — or one bad stored stay — can't
+// produce a broken board or take the valid stays down with it.
+export function sanitizeStays(stops) {
   const occ = Array(12).fill(false);
   const out = [];
-  for (const { key, start, len } of stops) {
+  for (const stop of stops) {
+    if (!stop || typeof stop !== 'object') continue;
+    const key = canonicalKey(stop.key);
+    const { start, len } = stop;
     if (!key || !cityByKey.has(key)) continue;
     if (!Number.isInteger(start) || start < 0 || start > 11) continue;
     if (!Number.isInteger(len) || len < 1 || len > 12) continue;

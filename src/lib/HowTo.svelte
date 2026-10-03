@@ -11,6 +11,8 @@
   // the scores. Audience is implied, not named; the discovery-arbitrage "aha"
   // stays generic (no specific city pairs). See [[explainer-ia-direction]],
   // [[score-naming]], [[positioning-and-scoring-direction]].
+  import { cities } from './data.svelte.js';
+
   let { onclose } = $props();
 
   let cardEl = $state(null);
@@ -72,7 +74,7 @@
     <section class="q">
       <span class="qlabel">What it’s for</span>
       <p class="qhint">Quality of life is seasonal — a city that’s glorious in May can be brutal in
-        August. Monsoon scores all 111 cities for <em>every</em> month, so you can find somewhere
+        August. Monsoon scores all {cities.length} cities for <em>every</em> month, so you can find somewhere
         genuinely great to settle for less, and know exactly <strong>where to be and when</strong>.</p>
     </section>
 
@@ -105,7 +107,8 @@
       <span class="qlabel">Your settings shape the scores</span>
       <p class="qhint">The ⚙ sets your party size and how much women’s street-safety counts, then
         switches what “best” means — <em>Balanced</em>, <em>Livability</em> or <em>High season</em>.
-        ♡ saves cities; filters narrow by region, safety, air, cost and Schengen.</p>
+        ♡ saves cities. On This month, find a city by name or narrow by region, budget, minimum
+        score, swimmable water and Schengen; My year’s picker adds safety, air, rain and English-friendly filters.</p>
     </section>
 
     <footer class="foot">

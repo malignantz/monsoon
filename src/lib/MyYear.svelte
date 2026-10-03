@@ -21,7 +21,9 @@
     generateRoute,
     favorites,
     stayMonths,
-    schengenCheck,
+    schengenCheckAdd,
+    countryCheck,
+    countryCheckAdd,
     partyWord,
     encodeRouteCompact,
     shareUrl,
@@ -29,7 +31,7 @@
   } from './data.svelte.js';
   import { screen } from './mobile.svelte.js';
   import { lockScroll } from './sheet.js';
-  import { route } from './route.svelte.js';
+  import { route, nextOpenMonth } from './route.svelte.js';
   import {
     defaultFilters,
     filtersActive,
@@ -41,8 +43,18 @@
     AIR_OPTIONS,
     RAIN_OPTIONS
   } from './planner.js';
+  import { RESIDENCY_DAYS } from './dayCount.js';
 
-  let { preset = $bindable(), onopen, sharedRoute = null, sharedName = '', onsharedresolved } = $props();
+  // valueModel: the same 'adjusted' | 'classic' Best Value model the cards and
+  // table use, so a city never shows two different Best Value numbers.
+  let {
+    preset = $bindable(),
+    valueModel = 'adjusted',
+    onopen,
+    sharedRoute = null,
+    sharedName = '',
+    onsharedresolved
+  } = $props();
 
   const STORE_F = 'atlas.route.filters.v1';
   const DEFAULT_NAME = 'My Monsoon year';
@@ -79,12 +91,31 @@
   let previewing = $state(startsWithSharedRoute);
   const boardStays = $derived(previewing ? (sharedRoute ?? []) : route.stays);
 
+  // Adopting replaces the visitor's own year, so when they had one we keep it
+  // for an Undo bar (same banner treatment as the preview bar). It stays up until
+  // Undo, dismissal, or the first edit to the adopted route — after which an
+  // Undo would silently throw that edit away.
+  let replaced = $state.raw(null);
+
   function adoptShared() {
+    const prev = route.stays.length ? { stays: route.stays.map((s) => ({ ...s })), name: route.name } : null;
     route.stays = (sharedRoute ?? []).map((s) => ({ ...s }));
     if (sharedName) route.name = sharedName;
+    // Hold the stored proxy (not the literal) so the identity check below works.
+    replaced = prev ? { ...prev, adopted: route.stays } : null;
     selStart = -1;
     previewing = false;
     onsharedresolved?.();
+  }
+
+  const showRestore = $derived(replaced != null && route.stays === replaced.adopted);
+
+  function undoAdopt() {
+    if (!replaced) return;
+    route.stays = replaced.stays;
+    route.name = replaced.name;
+    replaced = null;
+    selStart = -1;
   }
 
   function dismissShared() {
@@ -115,6 +146,17 @@
   }
 
   let filters = $state(loadFilters());
+
+  // Budget caps are per party size (couple's list has no 1500), so a Solo ↔
+  // Couple switch re-snaps the saved cap — otherwise the filter keeps applying
+  // while the dropdown shows blank.
+  $effect(() => {
+    const party = partyWord();
+    untrack(() => {
+      const next = normalizeFilters(filters, party);
+      if (next.maxCost !== filters.maxCost) filters.maxCost = next.maxCost;
+    });
+  });
 
   // Region selection mirrors This month's convention: an empty set means "all
   // regions" (filtering to zero would show nothing, so empty reads as no filter).
@@ -202,7 +244,20 @@
   const occ = $derived(monthOccupancy(boardStays));
   const stats = $derived(routeStats(boardStays, preset));
   const sch = $derived(stats.schengen);
-  const schState = $derived(!sch.ok ? 'Over limit' : sch.atLimit ? 'At the limit' : 'Within limits');
+  // caution = 1–2 days over from whole-month rounding: flagged, but as "tight"
+  // (leave a day or two early), not as a hard breach.
+  const schState = $derived(
+    sch.breach ? 'Over limit' : sch.caution ? 'Tight' : sch.atLimit ? 'At the limit' : 'Within limits'
+  );
+  const schTight = $derived(sch.caution || sch.atLimit);
+
+  // Days per country — a tax-residency planning signal beside the Schengen
+  // meter. Quiet by default (just the longest country); 'near' from 150 days,
+  // 'over' at 183, when a short plain-language caution appears. Only one
+  // country can reach 183 in a 365-day year, so the caution names one.
+  const cty = $derived(countryCheck(boardStays));
+  const ctyOver = $derived(cty.over[0] ?? null);
+  let ctyOpen = $state(false);
 
   // Ghost example: when the year is empty (and not previewing a shared link), the
   // board shows a faint, curated sample year instead of a wall of blank months.
@@ -226,9 +281,12 @@
     ...(favorites.size ? [{ id: 'favorites', label: 'From favorites' }] : [])
   ]);
 
-  const example = $derived(ghostMode ? generateRoute(seedStyle, preset) : []);
+  const example = $derived(ghostMode ? generateRoute(seedStyle, preset, valueModel) : []);
   const exampleOcc = $derived(monthOccupancy(example));
   const exampleStats = $derived(ghostMode ? routeStats(example, preset) : null);
+  // The generator keeps seeds within 90 real days, but the promise in the copy
+  // is only made when the shown example actually keeps it.
+  const exampleLegal = $derived(!exampleStats || exampleStats.schengen.ok);
   // What the totals row shows: real route stats normally, the example's payoff
   // (avg score, $/mo, festivals) while the ghost is up — so the first impression
   // is a value preview, not a row of em-dashes.
@@ -284,9 +342,11 @@
     return n;
   }
 
+  // A taken (stale) selStart moves forward to the next open month, matching
+  // addCity in route.svelte.js.
   function addStay(key) {
     let start = selStart;
-    if (start < 0 || occ[start] !== null) start = occ.findIndex((x) => x === null);
+    if (start < 0 || occ[start] !== null) start = nextOpenMonth(start, occ);
     if (start < 0) return;
     const len = Math.max(1, Math.min(dur, freeRun(start)));
     route.stays = [...route.stays, { key, start, len }];
@@ -318,7 +378,7 @@
   // Where addStay would drop the next stay (mirrors addStay exactly): drives
   // both the month-dependent filtering and the Schengen breach preview.
   const prospect = $derived.by(() => {
-    const start = selStart >= 0 && occ[selStart] === null ? selStart : occ.findIndex((x) => x === null);
+    const start = selStart >= 0 && occ[selStart] === null ? selStart : nextOpenMonth(selStart, occ);
     if (start < 0) return null;
     return { start, len: Math.max(1, Math.min(dur, freeRun(start))) };
   });
@@ -357,7 +417,7 @@
     const target = targetMonths;
     const score = (c) =>
       sortMode === 'value'
-        ? target.reduce((a, m) => a + valueFor(c, m, preset), 0) / target.length
+        ? target.reduce((a, m) => a + valueFor(c, m, preset, valueModel), 0) / target.length
         : target.reduce((a, m) => a + qolFor(c, m, preset), 0) / target.length;
     // Average $/mo over the same months the score measures, so the rail's price
     // and number describe the identical booking window.
@@ -366,17 +426,20 @@
       .map((c) => ({ c, s: score(c), cost: cost(c) }))
       .sort((a, b) => b.s - a.s)
       .slice(0, 30)
-      .map(({ c, s, cost }) => ({
-        c,
-        s,
-        cost,
+      .map(({ c, s, cost }) => {
         // Warn (don't block) when adding this Schengen city where addStay would
-        // place it pushes the rolling 90/180 window over the cap.
-        breach:
-          c.schengen && prospect
-            ? !schengenCheck([...route.stays, { key: c.key, start: prospect.start, len: prospect.len }]).ok
-            : false
-      }));
+        // place it lands in an over-limit 90/180 window: `breach` for a real
+        // overstay, `tight` for the 1–2-day whole-month rounding band.
+        const v = c.schengen && prospect ? schengenCheckAdd(route.stays, { key: c.key, ...prospect }) : null;
+        // Same idea for days per country: note (never block) a pick that would
+        // take its country to 183+ days in the year.
+        const r = prospect ? countryCheckAdd(route.stays, { key: c.key, ...prospect }) : null;
+        return {
+          c, s, cost,
+          breach: !!v?.breach, tight: !!v?.caution, schDays: v?.worst ?? 0,
+          resOver: r?.state === 'over', resDays: r?.days ?? 0
+        };
+      });
   });
 
   // ───────────────────── Mobile layout ─────────────────────
@@ -396,12 +459,19 @@
     pickerOpen = false;
   }
 
+  // The sheet only exists in the mobile layout. Rotating or resizing past the
+  // breakpoint unmounts it without running closePicker, which would otherwise
+  // leave pickerOpen (and the scroll lock below) stuck on.
+  $effect(() => {
+    if (!screen.mobile) pickerOpen = false;
+  });
+
   // Lock the page behind the open picker sheet and close it on Escape.
   $effect(() => {
     if (!pickerOpen) return;
     const unlock = lockScroll();
     const onkey = (e) => {
-      if (e.key === 'Escape') closePicker();
+      if (e.key === 'Escape' && !e.defaultPrevented) closePicker();
     };
     window.addEventListener('keydown', onkey);
     return () => {
@@ -529,13 +599,27 @@
         <button type="button" class="chip" onclick={dismissShared}>Dismiss</button>
       </div>
     </div>
+  {:else if showRestore}
+    <div class="previewbar" role="status">
+      <div class="preview-msg">
+        <span class="preview-eyebrow">Saved as your year</span>
+        <span class="preview-sub">
+          This replaced your previous year{replaced.name ? ` “${replaced.name}”` : ''} ({replaced.stays.length}
+          {replaced.stays.length === 1 ? 'stay' : 'stays'}).
+        </span>
+      </div>
+      <div class="preview-act">
+        <button type="button" class="chip adopt" onclick={undoAdopt}>Undo</button>
+        <button type="button" class="chip" onclick={() => (replaced = null)}>Keep this year</button>
+      </div>
+    </div>
   {/if}
 
   {#if ghostMode}
     <div class="seedstrip">
       <div class="seed-copy">
         <p class="seed-head">Build your year in one tap.</p>
-        <p class="seed-sub">Pick a starting point — we'll lay out a season-following, visa-legal year you can adjust or clear anytime.</p>
+        <p class="seed-sub">Pick a starting point — we'll lay out a season-following{exampleLegal ? ', visa-legal' : ''} year you can adjust or clear anytime.</p>
       </div>
       <div class="seed-styles" role="group" aria-label="Choose a starter year">
         {#each seedStyles as st}
@@ -554,6 +638,35 @@
       </div>
     </div>
   {/if}
+
+  <!-- Days per country: the expandable list and the 183-day caution, shared by
+       the desktop line and the mobile pill. -->
+  {#snippet ctyCaution()}
+    {#if ctyOver}
+      <p class="cty-caution" role="note">
+        <strong>{ctyOver.country} is at <span class="num">{ctyOver.days}</span> days.</strong>
+        Many countries treat about 183 days in a year as tax residency. Rules vary: some count a
+        calendar year, some a fiscal year or any rolling 12 months, and some use other tests. A
+        planning signal, not tax advice.
+      </p>
+    {/if}
+  {/snippet}
+
+  {#snippet ctyPanel()}
+    <!-- Always in the DOM so aria-controls resolves; hidden while collapsed. -->
+    <div class="cty-panel" id="myr-cty-list" hidden={!ctyOpen}>
+      <ul class="cty-rows" aria-label="Days per country">
+        {#each cty.rows as r (r.country)}
+          <li class="cty-row" class:near={r.state === 'near'} class:over={r.state === 'over'}>
+            <span class="cty-name">{r.country}</span>
+            <span class="cty-bar" aria-hidden="true"><span class="cty-fill" style="width: {Math.min(100, (r.days / RESIDENCY_DAYS) * 100)}%"></span></span>
+            <span class="cty-days num">{r.days} days{#if r.state === 'over'}<span class="cty-flag"> · 183+</span>{:else if r.state === 'near'}<span class="cty-flag"> · near 183</span>{/if}</span>
+          </li>
+        {/each}
+      </ul>
+      <p class="cty-foot">Real days in each country across your planned year. Bars run to 183, a common tax-residency mark.</p>
+    </div>
+  {/snippet}
 
   {#if !screen.mobile}
   <div class="board" class:ghost={ghostMode}>
@@ -575,6 +688,8 @@
             style="grid-column: {i + 1} / span 1"
             onclick={() => (selStart = selStart === i ? -1 : i)}
             title="Plan {MONTHS[i]}"
+            aria-label="Plan {MONTHS[i]}"
+            aria-pressed={i === selStart}
           >+</button>
         {:else if o === null && !ghostMode}
           <div class="gap empty" style="grid-column: {i + 1} / span 1" aria-hidden="true"></div>
@@ -615,11 +730,11 @@
               {#if previewing}
                 <span class="dur-val preview-len num">{stay.len}mo</span>
               {:else}
-                <button type="button" class="x" aria-label="Remove stay" onclick={() => removeStay(stay)}>×</button>
+                <button type="button" class="x" aria-label="Remove {c.name}" onclick={() => removeStay(stay)}>×</button>
                 <div class="dur-ctl">
-                  <button type="button" class="dur-btn" aria-label="Shorter" onclick={() => resizeStay(stay, stay.len - 1)} disabled={stay.len <= 1}>−</button>
+                  <button type="button" class="dur-btn" aria-label="Shorter stay in {c.name}" onclick={() => resizeStay(stay, stay.len - 1)} disabled={stay.len <= 1}>−</button>
                   <span class="dur-val num">{stay.len}mo</span>
-                  <button type="button" class="dur-btn" aria-label="Longer" onclick={() => resizeStay(stay, stay.len + 1)}>+</button>
+                  <button type="button" class="dur-btn" aria-label="Longer stay in {c.name}" onclick={() => resizeStay(stay, stay.len + 1)}>+</button>
                 </div>
               {/if}
             {:else}
@@ -637,17 +752,22 @@
     {/if}
 
     {#if sch.anySchengen}
-      <div class="schline" class:bad={!sch.ok} class:tight={sch.ok && sch.atLimit}>
+      <div class="schline" class:bad={sch.breach} class:tight={schTight}>
         <span class="mlabel">◆ Schengen 90/180</span>
         <ScoreInfo title="Schengen 90/180 rule">
           <p>On a tourist visa you can be in the Schengen Area at most 90 days in any rolling 180-day window.</p>
           <p>◆ marks Schengen countries. Staying longer means a longer-stay visa or a break outside the area.</p>
+          <p>Days are counted for real (Jul–Sep is 92), so three whole months can come out a day or two over —
+            shown as Tight: leave a couple of days early and count your exact dates.</p>
         </ScoreInfo>
         <span class="sch-state">{schState}</span>
         <span class="sch-read">
-          {#if !sch.ok}
-            <strong class="num">{sch.over}</strong> {sch.over === 1 ? 'day' : 'days'} over
-            <span class="sch-sub">· worst window {sch.window}</span>
+          {#if sch.breach}
+            <strong class="num">{sch.over}</strong> days over
+            <span class="sch-sub">· {sch.worst} of 90 in {sch.window}</span>
+          {:else if sch.caution}
+            <strong class="num">{sch.worst}</strong> of 90 days — trim a few days or leave early
+            <span class="sch-sub">· {sch.window} · count your exact days</span>
           {:else if sch.atLimit}
             <strong class="num">0</strong> days left
             <span class="sch-sub">· worst window {sch.window}</span>
@@ -657,6 +777,27 @@
           {/if}
         </span>
       </div>
+    {/if}
+
+    {#if cty.top}
+      <div class="ctyline" class:near={cty.state === 'near'} class:over={cty.state === 'over'}>
+        <span class="clabel">Days per country</span>
+        {#if cty.state !== 'ok'}
+          <span class="cty-state">{cty.state === 'over' ? '183+ days' : 'Near 183'}</span>
+        {/if}
+        <span class="cty-read">
+          Longest in one country: <strong>{cty.top.country} · <span class="num">{cty.top.days}</span> days</strong>
+        </span>
+        <button
+          type="button"
+          class="cty-toggle"
+          aria-expanded={ctyOpen}
+          aria-controls="myr-cty-list"
+          onclick={() => (ctyOpen = !ctyOpen)}
+        >{ctyOpen ? 'Hide countries' : 'All countries'}<span aria-hidden="true">{ctyOpen ? ' ▴' : ' ▾'}</span></button>
+      </div>
+      {@render ctyCaution()}
+      {@render ctyPanel()}
     {/if}
 
     {#if !previewing && route.stays.length > 0}
@@ -711,11 +852,30 @@
       <span class="mstat"><strong class="num">{Math.round(shownStats.avgQol) || '—'}</strong> avg score</span>
       <span class="mstat"><strong class="num">{shownStats.months ? fmtMoney(shownStats.avgCost) : '—'}</strong> /mo {partyWord()}</span>
       {#if sch.anySchengen}
-        <button type="button" class="mstat sch" class:bad={!sch.ok} class:tight={sch.ok && sch.atLimit} onclick={() => { pickerOpen = true; flagNonSchengen(); }}>
-          <strong class="num">◆ {sch.ok ? `${sch.remaining}/90` : `${sch.over} over`}</strong> Schengen
+        <button type="button" class="mstat sch" class:bad={sch.breach} class:tight={schTight} onclick={() => { pickerOpen = true; flagNonSchengen(); }}>
+          <strong class="num">◆ {sch.breach ? `${sch.over} over` : sch.caution ? `${sch.worst}/90 tight` : `${sch.remaining}/90`}</strong> Schengen
+        </button>
+      {/if}
+      {#if cty.top}
+        <button
+          type="button"
+          class="mstat cty"
+          class:near={cty.state === 'near'}
+          class:over={cty.state === 'over'}
+          aria-expanded={ctyOpen}
+          aria-controls="myr-cty-list"
+          onclick={() => (ctyOpen = !ctyOpen)}
+        >
+          <span class="sr-only">Longest in one country:</span>
+          <strong class="num">{cty.top.days}d</strong> {cty.top.country}{#if cty.state === 'near'} · near 183{:else if cty.state === 'over'} · 183+{/if}
+          <span class="mcaret" aria-hidden="true">{ctyOpen ? '▴' : '▾'}</span>
         </button>
       {/if}
     </div>
+    {#if cty.top}
+      {@render ctyCaution()}
+      {@render ctyPanel()}
+    {/if}
 
     {#if !previewing && route.stays.length > 0}
       <div class="progress mprogress" class:done={yearComplete}>
@@ -766,11 +926,11 @@
             {#if !previewing}
               <div class="mrow-act">
                 <div class="durm" role="group" aria-label="Stay length in months">
-                  <button type="button" class="durb" aria-label="Shorter" onclick={() => resizeStay(o, o.len - 1)} disabled={o.len <= 1}>−</button>
+                  <button type="button" class="durb" aria-label="Shorter stay in {c.name}" onclick={() => resizeStay(o, o.len - 1)} disabled={o.len <= 1}>−</button>
                   <span class="durv num">{o.len} mo</span>
-                  <button type="button" class="durb" aria-label="Longer" onclick={() => resizeStay(o, o.len + 1)}>+</button>
+                  <button type="button" class="durb" aria-label="Longer stay in {c.name}" onclick={() => resizeStay(o, o.len + 1)}>+</button>
                 </div>
-                <button type="button" class="mremove" onclick={() => removeStay(o)}>Remove</button>
+                <button type="button" class="mremove" aria-label="Remove {c.name}" onclick={() => removeStay(o)}>Remove</button>
               </div>
             {/if}
           </li>
@@ -888,8 +1048,8 @@
       </div>
     </div>
     {#if sch.anySchengen}
-      <p class="schbudget num" class:warn={!sch.ok}>
-        ◆ {#if sch.ok}{schLeft} of 90 Schengen days left in your tightest window{:else}{sch.over} days over the Schengen cap{/if}
+      <p class="schbudget num" class:warn={sch.breach} class:tight={sch.caution}>
+        ◆ {#if sch.breach}{sch.over} days over the Schengen cap{:else if sch.caution}{sch.worst} of 90 Schengen days in {sch.window} — tight, count your exact days{:else}{schLeft} of 90 Schengen days left in your tightest window{/if}
       </p>
     {/if}
     <div class="legendrow"><Legend /></div>
@@ -904,7 +1064,7 @@
       </p>
     {/if}
     <ul class="rows">
-      {#each pickerList as { c, s, cost, breach } (c.key)}
+      {#each pickerList as { c, s, cost, breach, tight, schDays, resOver, resDays } (c.key)}
         <li>
           <div class="rail">
             <span class="num rowq" title={sortMode === 'value' ? "Average Best Value across the months you'd book" : "Average score across the months you'd book"}>{Math.round(s)}</span>
@@ -912,9 +1072,29 @@
           </div>
           <div class="rowbody">
             <div class="rowhead">
-              <button type="button" class="rowname" onclick={() => onopen(c.key)}>
-                {c.name}<em>{c.country}{c.schengen ? ' ◆' : ''}{#if breach}<span class="breachnote" title="Adding this Schengen stay breaks the 90/180 cap">· over 90/180</span>{/if}</em>
-              </button>
+              <button type="button" class="rowname" onclick={() => onopen(c.key)}>{c.name}</button>
+              <span class="rowsub">
+                {c.country}{c.schengen ? ' ◆' : ''}
+                {#if breach || tight}
+                  <!-- Actionable: opens Refine and flashes the Non-Schengen toggle. -->
+                  <button
+                    type="button"
+                    class="breachnote"
+                    class:tight={!breach}
+                    onclick={flagNonSchengen}
+                    title={breach
+                      ? `Adding ${c.name} here puts ${schDays} days in one 180-day window — show non-Schengen cities instead`
+                      : `Whole months put this at ${schDays} of 90 days — leave a day or two early, or show non-Schengen cities`}
+                  >· {breach ? 'over' : 'tight'} 90/180</button>
+                {/if}
+                {#if resOver}
+                  <!-- Informational only: a stay this long here reaches 183 days in the country. -->
+                  <span
+                    class="resnote"
+                    title="Adding this stay puts {resDays} days in {c.country} this year. Many countries treat about 183 days as tax residency."
+                  >· {resDays} days this year<span class="sr-only"> in {c.country}, past the 183-day tax-residency mark</span></span>
+                {/if}
+              </span>
             </div>
             <div class="rowstrip">
               <MonthStrip
@@ -922,6 +1102,7 @@
                 selected={selStart}
                 frameFrom={prospect ? prospect.start : -1}
                 frameLen={prospect ? prospect.len : 0}
+                muted={!prospect}
               />
             </div>
           </div>
@@ -931,7 +1112,7 @@
             class:warn={breach}
             onclick={() => addFromPicker(c.key)}
             disabled={!emptyMonths.length}
-            title={breach ? 'Will exceed the Schengen 90/180 limit' : `Add ${c.name}`}
+            title={breach ? `Will exceed the Schengen 90/180 limit (${schDays} days)` : `Add ${c.name}`}
             aria-label="Add {c.name}"
           >
             <span class="plus" aria-hidden="true">+</span>Add
@@ -1474,11 +1655,113 @@
     margin-left: auto;
     font-size: 12.5px;
     color: var(--ink-2);
+  }
+
+  /* The Tight readout is a sentence, so the line may wrap — but only between
+     phrases, never inside the count or the window. */
+  .sch-read strong { color: var(--sch-accent); font-size: 14px; white-space: nowrap; }
+  .sch-sub { color: var(--ink-3); white-space: nowrap; }
+
+  /* Days per country — the Schengen line's quieter sibling. Ink-only until a
+     country nears 183 days; the state pill and the words carry the meaning,
+     colour only reinforces it. */
+  .ctyline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    --cty-accent: var(--ink-3);
+  }
+
+  .ctyline.near { --cty-accent: var(--ink-2); }
+  .ctyline.over { --cty-accent: var(--terra-deep); }
+
+  .clabel { font-size: 12px; font-weight: 600; color: var(--cty-accent); white-space: nowrap; }
+
+  .cty-state {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cty-accent);
+    border: 1px solid var(--cty-accent);
+    border-radius: 999px;
+    padding: 2px 10px;
+  }
+
+  .ctyline.near .cty-state { border-color: var(--band-ok); }
+
+  .cty-read { margin-left: auto; font-size: 12.5px; color: var(--ink-3); }
+  .cty-read strong { font-weight: 600; color: var(--ink-2); white-space: nowrap; }
+  .ctyline.over .cty-read strong { color: var(--terra-deep); }
+
+  .cty-toggle {
+    padding: 2px 0;
+    border: none;
+    background: none;
+    font: inherit;
+    font-size: 12px;
+    color: var(--ink-2);
+    text-decoration: underline dotted;
+    text-underline-offset: 2px;
+    cursor: pointer;
     white-space: nowrap;
   }
 
-  .sch-read strong { color: var(--sch-accent); font-size: 14px; }
-  .sch-sub { color: var(--ink-3); }
+  .cty-toggle:hover { color: var(--ink); text-decoration-style: solid; }
+
+  .cty-caution {
+    margin: 8px 0 0;
+    padding: 8px 12px;
+    border-left: 2px solid var(--terra);
+    background: var(--terra-soft);
+    border-radius: 0 6px 6px 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+
+  .cty-caution strong { color: var(--terra-deep); font-weight: 600; }
+
+  .cty-panel {
+    margin-top: 8px;
+    padding: 10px 12px;
+    border: 1px solid var(--line-soft);
+    border-radius: 8px;
+    background: var(--card);
+  }
+
+  .cty-rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+
+  .cty-row {
+    display: grid;
+    grid-template-columns: minmax(0, 9.5em) 1fr auto;
+    align-items: center;
+    gap: 10px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+  }
+
+  .cty-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* The track is 183 days long; a country at or past it fills the track. */
+  .cty-bar {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--line-soft);
+    overflow: hidden;
+  }
+
+  .cty-fill { display: block; height: 100%; border-radius: 999px; background: var(--ink-3); }
+  .cty-row.near .cty-fill { background: var(--band-ok); }
+  .cty-row.over .cty-fill { background: var(--terra); }
+
+  .cty-days { font-size: 12px; color: var(--ink-2); white-space: nowrap; text-align: right; }
+  .cty-flag { color: var(--ink-3); }
+  .cty-row.over .cty-days, .cty-row.over .cty-flag { color: var(--terra-deep); font-weight: 600; }
+
+  .cty-foot { margin: 8px 0 0; font-size: 11.5px; color: var(--ink-3); }
 
   .board-hint {
     margin: 4px 0 10px;
@@ -1627,6 +1910,7 @@
   }
 
   .schbudget.warn { color: var(--band-bad); }
+  .schbudget.tight { color: var(--band-ok); }
 
   .pickctl { display: flex; align-items: center; gap: 14px; font-size: 12.5px; color: var(--ink-2); }
   .pickctl input { width: 200px; }
@@ -1753,8 +2037,8 @@
     color: var(--ink-3);
   }
 
-  /* Name + score share a header line; the strip runs full width beneath it so
-     the months get the most room and still align column-to-column down the list. */
+  /* Name over its country line; the strip runs full width beneath so the months
+     get the most room and still align column-to-column down the list. */
   .rowbody {
     min-width: 0;
     display: flex;
@@ -1764,19 +2048,44 @@
 
   .rowhead {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    flex-direction: column;
+    align-items: flex-start;
     min-height: 18px;
+  }
+
+  .rowsub {
+    font-size: 11px;
+    color: var(--ink-3);
   }
 
   /* Breach cue rides the country line (which has spare room) so the city name
      keeps full width and never wraps an extra line — the warn-styled Add button
-     carries the louder signal. */
+     carries the louder signal. It's a quiet link-style button: tapping it opens
+     Refine on the Non-Schengen toggle, the fix for the warning it states. */
   .breachnote {
-    margin-left: 4px;
+    margin-left: 2px;
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
     color: var(--terra-deep);
     font-weight: 600;
+    text-decoration: underline dotted;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+
+  .breachnote.tight { color: var(--ink-2); }
+
+  /* 183-day note: informational, so plain text in the tight-note ink (no link). */
+  .resnote { margin-left: 2px; color: var(--ink-2); font-weight: 600; }
+  .breachnote:hover { text-decoration-style: solid; }
+
+  /* On touch the 11px cue gets an invisible overlay to the 24px WCAG 2.5.8 floor
+     without growing the row — kept short of the city name just above it. */
+  @media (max-width: 700px) {
+    .breachnote { position: relative; }
+    .breachnote::after { content: ''; position: absolute; inset: -6px -4px; }
   }
 
   .rowname {
@@ -1788,14 +2097,6 @@
     font-size: 13.5px;
     font-weight: 600;
     color: var(--ink);
-  }
-
-  .rowname em {
-    display: block;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 11px;
-    color: var(--ink-3);
   }
 
   .rowname:hover { color: var(--terra-deep); }
@@ -1881,6 +2182,14 @@
   .mstat.sch.tight strong { color: var(--band-ok); }
   .mstat.sch.bad { color: var(--band-bad); border-color: var(--band-bad); }
   .mstat.sch.bad strong { color: var(--band-bad); }
+
+  /* Days-per-country pill: toggles the per-country list, so it gets the tap
+     floor too; it stays ink-quiet until a country nears 183. */
+  .mstat.cty { cursor: pointer; min-height: var(--tap); text-align: left; }
+  .mstat.cty.near { border-color: var(--band-ok); color: var(--ink-2); }
+  .mstat.cty.over { border-color: var(--terra); color: var(--terra-deep); }
+  .mstat.cty.over strong { color: var(--terra-deep); }
+  .mcaret { font-size: 10px; color: var(--ink-3); }
 
   /* The month list. */
   .mlist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }

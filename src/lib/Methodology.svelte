@@ -1,7 +1,12 @@
 <script>
   // A read-only companion to Settings.svelte — same scrim/card shell and visual
   // language, but a scrollable sources-and-methods write-up instead of controls.
-  // Opened from the footer's "methodology" link.
+  // Opened from the footer's "methodology" link and from the city sheet footer
+  // ("How this is sourced"), so it stacks above the sheet.
+  import { sources, dataAsOf, cities, detailStatus } from './data.svelte.js';
+  import { provFor, fmtDate, fmtWindow, FEEDBACK_REPO } from './provenance.js';
+  import { METHOD_VERSION, CHANGELOG, LAST_UPDATED } from './changelog.js';
+
   let { onclose } = $props();
 
   let cardEl = $state(null);
@@ -17,17 +22,112 @@
     { label: 'Events', pct: 10 }
   ];
 
-  $effect(() => {
-    const onkey = (e) => {
-      if (e.key === 'Escape') onclose();
+  // Which entry of the top-level sources table feeds a metric family. The
+  // table is keyed by short names chosen by the pipeline, so match on what
+  // each entry says about itself.
+  function sourceFor(patterns, exclude = null) {
+    if (!sources) return null;
+    const entries = Object.entries(sources).filter(([k]) => k !== exclude?.key);
+    for (const re of patterns) {
+      const hit = entries.find(([k, v]) => re.test(`${k} ${v?.name ?? ''} ${v?.method ?? ''}`));
+      if (hit) return { key: hit[0], ...hit[1] };
+    }
+    return null;
+  }
+  const airSrc = sourceFor([/pm2\.?5|pm25/i, /\bcams\b/i, /air[- ]quality/i]);
+  const climateSrc = sourceFor([/era5|temperature/i, /climate|weather/i], airSrc);
+
+  // Coverage once the detail layer (which carries per-city prov) is in.
+  const coverage = $derived.by(() => {
+    if (!detailStatus.ready) return null;
+    const n = (metric) => cities.filter((c) => provFor(c, metric, sources)).length;
+    return { climate: n('climate'), pm25: n('pm25'), total: cities.length };
+  });
+
+  function measuredRow(input, src, metric, fallbackNote) {
+    if (!src) {
+      return { input, source: { name: 'No source yet: estimates, being replaced with measured data' }, type: 'Unsourced estimate', refreshed: '—', note: fallbackNote };
+    }
+    const cov = coverage?.[metric];
+    const partial = coverage && cov < coverage.total;
+    return {
+      input,
+      source: { name: src.name, url: src.url },
+      type: /reanalysis|cams|model|forecast/i.test(`${src.name} ${src.method ?? ''}`) ? 'Modelled' : 'Measured',
+      refreshed: src.retrieved ? fmtDate(src.retrieved) : '—',
+      note: [
+        src.window ? `${fmtWindow(src.window)} average.` : '',
+        partial ? `Covers ${cov} of ${coverage.total} cities so far; the rest are still unsourced estimates.` : ''
+      ].filter(Boolean).join(' ')
     };
-    window.addEventListener('keydown', onkey);
+  }
+
+  const INPUTS = $derived([
+    measuredRow('Day and night temperature, humidity, rain days (per month)', climateSrc, 'climate',
+      'Values were estimated without a citable source.'),
+    measuredRow('PM2.5 (monthly mean)', airSrc, 'pm25', 'Values were estimated without a citable source.'),
+    { input: 'Hazard flags (typhoon, flood, heat, smoke months)', source: null, type: 'Editorial estimate', refreshed: '—' },
+    {
+      input: 'Intentional-homicide rate',
+      source: { name: 'World Bank / UNODC', url: 'https://data.worldbank.org/indicator/VC.IHR.PSRC.P5' },
+      type: 'Measured',
+      refreshed: fmtDate(dataAsOf.safety) || '—',
+      note: 'WHO modelled estimates where the national figure is stale; a few city or state figures from local statistics. Each city sheet links its own.'
+    },
+    { input: 'Property-crime sub-score (45% of safety)', source: null, type: 'Editorial estimate', refreshed: fmtDate(dataAsOf.safety) || '—' },
+    {
+      input: 'Visitor-risk modifier (×0.60–1.40)',
+      source: null,
+      type: 'Editorial estimate',
+      refreshed: fmtDate(dataAsOf.safety) || '—',
+      note: 'Informed by OSAC crime and safety reports and U.S. State Department guidance.'
+    },
+    {
+      input: "Women who feel safe walking alone at night (country)",
+      source: { name: 'Gallup World Poll via the Georgetown WPS Index 2025/26', url: 'https://giwps.georgetown.edu/the-index/' },
+      type: 'Measured (survey)',
+      refreshed: fmtDate(dataAsOf.womens) || '—'
+    },
+    { input: "Women's street-safety city adjustment", source: null, type: 'Editorial estimate', refreshed: fmtDate(dataAsOf.safety) || '—' },
+    { input: 'Season phase (peak, in, shoulder, off)', source: null, type: 'Editorial estimate', refreshed: '—' },
+    { input: 'Event tiers and the event each month counts', source: null, type: 'Editorial estimate', refreshed: '—' },
+    {
+      input: 'Cost line items (rent, utilities, food, transport, coworking, SIM, other)',
+      source: { name: 'Cited cost-of-living pages, linked per item on each city sheet' },
+      type: 'Sourced estimate',
+      refreshed: fmtDate(dataAsOf.cost) || '—',
+      note: 'Each item carries its own source, date and confidence.'
+    },
+    { input: 'Swim months (display only)', source: null, type: 'Editorial estimate', refreshed: fmtDate(dataAsOf.swim) || '—' },
+    {
+      input: 'U.S. travel advisory (shown, never scored)',
+      source: { name: 'U.S. Department of State', url: 'https://travel.state.gov/en/international-travel/travel-advisories.html' },
+      type: 'Official',
+      refreshed: fmtDate(dataAsOf.advisory) || '—'
+    }
+  ]);
+
+  $effect(() => {
+    // Capture phase on window runs before the city sheet's own key handler, so
+    // Escape (and the sheet's ←/→ city stepping) stop here while this is open.
+    const onkey = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        e.stopPropagation();
+        onclose();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        e.stopPropagation();
+      }
+    };
+    window.addEventListener('keydown', onkey, true);
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    const prevFocus = document.activeElement;
     cardEl?.focus();
     return () => {
-      window.removeEventListener('keydown', onkey);
+      window.removeEventListener('keydown', onkey, true);
       document.body.style.overflow = prevOverflow;
+      prevFocus?.focus?.();
     };
   });
 </script>
@@ -41,11 +141,12 @@
       <span class="mark" aria-hidden="true">
         {#each BRAND_BANDS as b}<span class="bcell band-{b}"></span>{/each}
       </span>
-      <p class="kicker">Methodology<span class="tld"> · v5</span></p>
+      <p class="kicker">Methodology<span class="tld"> · {METHOD_VERSION}</span></p>
       <h1>How a month is scored</h1>
-      <p class="lede">Every city is scored independently for all twelve months. One headline
-        <strong>Score</strong> blends five measures — each computed from sourced data,
-        not vibes. Here's exactly what goes in.</p>
+      <p class="lede">Every city is scored for all twelve months. One headline <strong>Score</strong>
+        blends five sub-scores. Some inputs are measured, some are modelled, and several are
+        editorial estimates set by hand. The table below says which is which.</p>
+      <p class="ver num">Version {METHOD_VERSION}{LAST_UPDATED ? ` · last updated ${fmtDate(LAST_UPDATED)}` : ''}</p>
     </header>
 
     <section class="q">
@@ -69,62 +170,103 @@
     <section class="q">
       <span class="qlabel">Weather</span>
       <p class="qhint">Day-high and night-low temperature against separate comfort bands, humidity,
-        and a tiered rain penalty (a few tropical downpours ≠ a washout). A per-month
-        extreme-weather flag scales the whole term down for typhoon, flood, and heatwave months.</p>
-      <p class="src">Source · climate normals for temperature, humidity, rain-days &amp; seasonal hazards</p>
+        and a tiered rain penalty (a few tropical downpours ≠ a washout). A per-month hazard flag,
+        set by hand, scales the whole term down for typhoon, flood and heatwave months.</p>
     </section>
 
     <section class="q">
       <span class="qlabel">Air</span>
-      <p class="qhint">PM2.5 climatology on a two-tier penalty curve — gentle to 35 µg/m³, then
-        steep, mirroring where health impact accelerates. Thresholds anchored to the WHO 2021 guidelines.</p>
-      <p class="src">Source · PM2.5 climatology · WHO 2021 air-quality guideline &amp; interim targets</p>
+      <p class="qhint">Monthly mean PM2.5 on a two-tier penalty curve — gentle to 35 µg/m³, then
+        steep, mirroring where health impact accelerates. Thresholds follow the WHO 2021 guideline
+        and interim targets.</p>
     </section>
 
     <section class="q">
       <span class="qlabel">Safety</span>
-      <p class="qhint">A homicide-anchored violent term (the only violent-crime stat comparable across
-        countries) plus a hand-researched property/petty-crime term, then a visitor-risk multiplier for
-        whether tourists are insulated from or targeted by local crime. Government travel advisories
+      <p class="qhint">A violent term anchored on the intentional-homicide rate (the only violent-crime
+        statistic comparable across countries), plus a property and petty-crime term, then a
+        visitor-risk multiplier for whether travelers are insulated from or targeted by local crime.
+        The property term and the multiplier are editorial estimates. Government travel advisories
         never change the number.</p>
-      <p class="src">Source · World Bank / UNODC &amp; WHO homicide rates · hand-set property &amp; visitor-risk research</p>
     </section>
 
     <section class="q">
       <span class="qlabel">Women's street-safety</span>
       <p class="qhint">Shown alongside Safety but <strong>not folded into the headline</strong> unless the
-        women's-safety setting is enabled. A country baseline of women who feel safe walking alone at night, plus a hand-set
-        per-city adjustment for harassment of foreign women and within-country variation.</p>
-      <p class="src">Source · Gallup World Poll via the Georgetown WPS Index · hand-set city deltas</p>
+        women's-safety setting is enabled. A country baseline from the share of women who say they feel
+        safe walking alone at night, plus a hand-set per-city adjustment for harassment of foreign women
+        and within-country variation.</p>
     </section>
 
     <section class="q">
       <span class="qlabel">Season &amp; Events</span>
-      <p class="qhint">Season scores the month's tourism phase (peak → off). Events reflects the scale of
-        notable festivals that month — weighted lightly, because over a multi-week stay a single festival
-        matters less than breathable air and safe streets.</p>
-      <p class="src">Source · per-city seasonal calendars &amp; reviewed event listings</p>
+      <p class="qhint">Season scores the month's tourism phase (peak → off). Events scores the
+        biggest event the month counts, on a 0–3 tier. Both are hand-set per city and month. Events
+        is weighted lightly, because over a multi-week stay a single festival matters less than
+        breathable air and safe streets. Each city sheet names the event behind the month's score.</p>
     </section>
 
     <section class="q">
       <span class="qlabel">Cost &amp; Best Value</span>
-      <p class="qhint">Each city's monthly cost is built from eight itemized, dated, sourced components for
-        one anchor persona (a solo nomad living mid-range), then scaled for a couple and adjusted for
-        accommodation seasonality. <strong>Best Value</strong> is the only place the Score meets cost — the Score
-        divided by a damped cost, so "best value" rewards cheap-<em>and</em>-nice, not merely cheap.</p>
-      <p class="src">Source · per-city cost-evidence store (rent, utilities, food, transit, coworking, …) with receipts &amp; dates</p>
+      <p class="qhint">Each city's monthly cost is the sum of eight itemized components for one anchor
+        persona (a solo nomad living mid-range), each with its own cited page, date and confidence,
+        then scaled for a couple and adjusted for accommodation seasonality. <strong>Best Value</strong>
+        is the only place the Score meets cost — the Score divided by a damped cost, so "best value"
+        rewards cheap-<em>and</em>-nice, not merely cheap.</p>
     </section>
 
-    <section class="q sources">
-      <span class="qlabel">Sources at a glance</span>
-      <ul>
-        <li>WHO 2021 air-quality guidelines &amp; interim targets</li>
-        <li>World Bank &amp; UNODC intentional-homicide rates; WHO modeled estimates where data is stale</li>
-        <li>Gallup World Poll feel-safe data via the Georgetown WPS Index</li>
-        <li>Per-city cost-evidence store with itemized, dated receipts</li>
-        <li>Climate normals for temperature, humidity, rain-days &amp; seasonal hazards</li>
-      </ul>
+    <section class="q">
+      <span class="qlabel">Every input, its source and type</span>
+      <div class="itable" role="table" aria-label="Inputs, sources, types and refresh dates">
+        <div class="irow ihead" role="row">
+          <span role="columnheader">Input</span>
+          <span role="columnheader">Source</span>
+          <span role="columnheader">Type</span>
+          <span role="columnheader">Refreshed</span>
+        </div>
+        {#each INPUTS as r}
+          <div class="irow" role="row">
+            <span class="iin" role="cell">{r.input}</span>
+            <span class="isrc" role="cell">
+              {#if r.source?.url}<a href={r.source.url} target="_blank" rel="noopener">{r.source.name}</a>{:else if r.source}{r.source.name}{:else}Set by hand{/if}
+              {#if r.note}<span class="inote">{r.note}</span>{/if}
+            </span>
+            <span class="itype" role="cell"><span class="tchip" class:ed={/Editorial|Unsourced/.test(r.type)}>{r.type}</span></span>
+            <span class="iwhen num" role="cell">{r.refreshed}</span>
+          </div>
+        {/each}
+      </div>
     </section>
+
+    <section class="q">
+      <span class="qlabel">What is editorial</span>
+      <p class="qhint">These inputs are set by hand and are part of the score: the property-crime
+        sub-score (45% of the local safety baseline), the visitor-risk modifier, season phase, event
+        tiers and hazard flags. Also hand-set, but kept out of the score: swim months, and the per-city
+        women's-safety adjustment (unless you turn on the women's-safety setting). On each city sheet
+        these are labelled <em>Editorial estimate</em>, with the note stored for them where one exists.</p>
+      <p class="qhint">Confidence on the city sheet: <strong>High</strong> for official statistics and
+        surveys with a stored link; <strong>Medium</strong> for modelled estimates and secondary city
+        figures; <strong>Low</strong> for estimates with no source yet. Cost items carry the confidence
+        recorded with each one.</p>
+      <p class="qhint">Spot a number that looks wrong? Every source panel on a city sheet has a
+        “Report this number” link, or <a href="{FEEDBACK_REPO}/issues/new" target="_blank" rel="noopener">open an issue</a>.</p>
+    </section>
+
+    {#if CHANGELOG.length}
+      <section class="q">
+        <span class="qlabel">Changelog</span>
+        <ul class="log">
+          {#each CHANGELOG as e}
+            <li>
+              <span class="logdate num">{fmtDate(e.date)}</span>
+              <span class="logtitle">{e.title}</span>
+              <span class="logbody">{e.body}</span>
+            </li>
+          {/each}
+        </ul>
+      </section>
+    {/if}
 
     <footer class="foot">
       <p class="disclaim">A planning signal, not legal, medical, or security advice. Re-verify visa
@@ -139,7 +281,8 @@
     position: fixed;
     inset: 0;
     background: rgba(33, 36, 30, 0.45);
-    z-index: 60;
+    /* Above the city sheet (z 70): the sheet footer opens this on top of it. */
+    z-index: 80;
     overflow-y: auto;
     padding: 6vh 16px;
   }
@@ -292,24 +435,87 @@
     text-align: right;
   }
 
-  .src {
-    font-family: var(--mono);
-    font-size: 11px;
+  .ver {
+    font-size: 11.5px;
     color: var(--ink-3);
     margin: 10px 0 0;
-    line-height: 1.45;
   }
 
-  .sources ul {
-    margin: 10px 0 0;
-    padding-left: 18px;
+  .qhint a,
+  .isrc a { color: var(--ink-2); text-decoration: underline; text-underline-offset: 2px; }
+  .qhint a:hover,
+  .isrc a:hover { color: var(--ink); }
+
+  /* Inputs table: four columns on wide screens, a stacked card per input on
+     phones so nothing scrolls sideways. */
+  .itable { margin-top: 12px; font-size: 12.5px; }
+
+  .irow {
+    display: grid;
+    grid-template-columns: 1.3fr 1.5fr 0.9fr 0.7fr;
+    gap: 10px;
+    padding: 8px 0;
+    border-top: 1px solid var(--line-soft);
+    align-items: baseline;
   }
 
-  .sources li {
-    font-size: 12.5px;
+  .ihead {
+    border-top: none;
+    padding-top: 0;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .iin { color: var(--ink); }
+  .isrc { color: var(--ink-2); overflow-wrap: anywhere; }
+  .inote { display: block; font-size: 11.5px; color: var(--ink-3); margin-top: 2px; }
+  .iwhen { font-size: 11.5px; color: var(--ink-3); }
+
+  .tchip {
+    display: inline-block;
+    font-size: 11px;
+    line-height: 1.35;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0 7px;
     color: var(--ink-2);
-    line-height: 1.5;
-    margin-bottom: 4px;
+  }
+
+  .tchip.ed { border-style: dashed; }
+
+  @media (max-width: 600px) {
+    .ihead { display: none; }
+    .irow {
+      grid-template-columns: 1fr auto;
+      gap: 3px 10px;
+    }
+    .iin { grid-column: 1 / -1; font-weight: 600; }
+    .isrc { grid-column: 1 / -1; }
+    .itype { grid-column: 1; }
+    .iwhen { grid-column: 2; text-align: right; }
+  }
+
+  .log { list-style: none; margin: 10px 0 0; padding: 0; }
+
+  .log li {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 2px 12px;
+    padding: 8px 0;
+    border-top: 1px solid var(--line-soft);
+    font-size: 12.5px;
+  }
+
+  .log li:first-child { border-top: none; }
+  .logdate { grid-row: span 2; font-size: 11.5px; color: var(--ink-3); }
+  .logtitle { font-weight: 600; color: var(--ink); }
+  .logbody { color: var(--ink-2); line-height: 1.5; }
+
+  @media (max-width: 600px) {
+    .log li { grid-template-columns: 1fr; }
+    .logdate { grid-row: auto; }
   }
 
   .foot {

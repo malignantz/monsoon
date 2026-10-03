@@ -3,8 +3,11 @@
   import CityTable from './CityTable.svelte';
   import Legend from './Legend.svelte';
   import RegionMenu from './RegionMenu.svelte';
-  import { cities, regions, qolFor, valueFor, swimNow, cityCost, partyWord, fmtMoney, MONTHS, MONTH_LETTERS, favorites } from './data.svelte.js';
-  import { COST_OPTIONS } from './planner.js';
+  import { cities, regions, qolFor, valueFor, swimNow, cityCost, partyWord, fmtMoney, routeStats, prefs, PRESETS, normalizePresetKey, MONTHS, MONTH_LETTERS, favorites } from './data.svelte.js';
+  import { untrack } from 'svelte';
+  import { COST_OPTIONS, snapCostCap } from './planner.js';
+  import { route } from './route.svelte.js';
+  import { MAX_COMPARE } from './compare.js';
 
   let {
     month = $bindable(0),
@@ -13,20 +16,39 @@
     currentMonth,
     valueModel,
     density = $bindable('cards'),
+    activeRegions = $bindable(new Set()),
+    keyHidden = $bindable(false),
+    // The list as the user currently sees it (filtered + sorted), so the city
+    // sheet's ←/→ steps through the same order.
+    visibleKeys = $bindable([]),
     heroKey = null,
     openKey = null,
     onopen,
-    onmodel
+    onmodel,
+    onsettings,
+    onresume,
+    // Compare: picking mode on/off, the current picks, and the two actions.
+    comparing = false,
+    compareKeys = [],
+    oncompare,
+    oncomparemode
   } = $props();
 
-  let activeRegions = $state(new Set());
   let nonSchengenOnly = $state(false);
   let favOnly = $state(false);
   let swimOnly = $state(false);
   let maxCost = $state('');
+  // Budget caps differ for solo vs couple; re-snap so a party switch never
+  // leaves a cap that no option represents.
+  $effect(() => {
+    const party = partyWord();
+    untrack(() => (maxCost = snapCostCap(maxCost, party)));
+  });
   let minQol = $state('');
+  let query = $state('');
   let showMore = $state(false);
   let showAll = $state(false);
+  let tableOrder = $state([]);
 
   // Once the hero scrolls away, a compact bar re-exposes month + rank — exactly
   // what the old sticky toolbar carried, nothing more.
@@ -35,7 +57,11 @@
 
   $effect(() => {
     if (!sentinel) return;
-    const io = new IntersectionObserver(([e]) => (stuck = !e.isIntersecting), {
+    // Only "stuck" once the sentinel has left through the TOP of the viewport.
+    // A sentinel still below the fold (short phones, or on first paint) is also
+    // "not intersecting" — without the top check the bar used to appear on top
+    // of the static controls it duplicates.
+    const io = new IntersectionObserver(([e]) => (stuck = !e.isIntersecting && e.boundingClientRect.top < 0), {
       rootMargin: '-4px 0px 0px 0px'
     });
     io.observe(sentinel);
@@ -44,15 +70,19 @@
 
   const CAP = 48;
 
+  const compareFull = $derived(compareKeys.length >= MAX_COMPARE);
+  const monthLong = $derived(new Date(2026, month, 1).toLocaleString('en-US', { month: 'long' }));
+
   // Budget caps scale with party size, mirroring My year's Max $/mo dropdown so
   // the two surfaces offer the same choices in the same control.
   const costOptions = $derived(COST_OPTIONS[partyWord()] ?? COST_OPTIONS.solo);
 
-  // Discrete Score floors, styled like My year's Min safety / Min air options.
+  // Score floors share the month strip's band vocabulary (great 85+, good 75+,
+  // ok 65+), so a filter label always means the same thing as a strip colour.
   const QOL_OPTIONS = [
-    { v: 70, label: 'Good (70+)' },
-    { v: 80, label: 'Great (80+)' },
-    { v: 90, label: 'Excellent (90+)' }
+    { v: 65, label: 'OK (65+)' },
+    { v: 75, label: 'Good (75+)' },
+    { v: 85, label: 'Great (85+)' }
   ];
 
   function toggleRegion(r) {
@@ -62,6 +92,7 @@
   }
 
   const moreActive = $derived(maxCost !== '' || minQol !== '' || swimOnly || nonSchengenOnly);
+  const filtersActive = $derived(activeRegions.size > 0 || favOnly || moreActive);
 
   function resetFilters() {
     activeRegions = new Set();
@@ -72,10 +103,32 @@
     minQol = '';
   }
 
+  // ── Find a city ──
+  // Diacritics-insensitive: NFD strips combining accents (Málaga → malaga), and
+  // the handful of letters NFD can't split (ł, ø, ß…) are folded by hand so
+  // "wroclaw" finds Wrocław and "gdansk" finds Gdańsk.
+  const FOLD = { ł: 'l', ø: 'o', đ: 'd', ð: 'd', ß: 'ss', æ: 'ae', œ: 'oe', ı: 'i', þ: 'th' };
+  const fold = (s) =>
+    s
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .replace(/[łøđðßæœıþ]/g, (ch) => FOLD[ch]);
+
+  const haystack = new Map(cities.map((c) => [c.key, fold(`${c.name} ${c.country}`)]));
+  const terms = $derived(fold(query).trim().split(/\s+/).filter(Boolean));
+  const matchesQuery = (c) => terms.every((t) => haystack.get(c.key).includes(t));
+
+  function clearQuery(e) {
+    query = '';
+    e?.currentTarget?.closest('.find')?.querySelector('input')?.focus();
+  }
+
   // One filter pass, shared by both densities. Cards re-rank it by the toolbar's
   // Highest Score/Best Value mode; the table column-sorts it itself.
   const filtered = $derived.by(() => {
     let list = cities;
+    if (terms.length) list = list.filter(matchesQuery);
     if (favOnly) list = list.filter((c) => favorites.has(c.key));
     if (activeRegions.size) list = list.filter((c) => activeRegions.has(c.region));
     if (nonSchengenOnly) list = list.filter((c) => !c.schengen);
@@ -87,21 +140,60 @@
     return list;
   });
 
-  const ranked = $derived.by(() =>
-    filtered
+  // How many cities the search alone matches — tells the empty state whether
+  // the query or the filters are what's excluding everything.
+  const queryHits = $derived(terms.length ? cities.filter(matchesQuery).length : 0);
+
+  function rank(list, by) {
+    return list
       .map((c) => ({
         c,
-        s: mode === 'value' ? valueFor(c, month, preset, valueModel) : qolFor(c, month, preset),
+        s: by === 'value' ? valueFor(c, month, preset, valueModel) : qolFor(c, month, preset),
         cost: c.months[month].cost2
       }))
       .sort((a, b) => {
         const diff = b.s - a.s;
         // Best Value tiebreaker (within 1pt): no budget cap here, so cheaper first.
-        if (mode === 'value' && Math.abs(diff) < 1.0) return a.cost - b.cost;
+        if (by === 'value' && Math.abs(diff) < 1.0) return a.cost - b.cost;
         return diff;
-      })
-      .map((x) => x.c)
+      });
+  }
+
+  const rankedScored = $derived(rank(filtered, mode));
+  const ranked = $derived(rankedScored.map((x) => x.c));
+
+  $effect(() => {
+    visibleKeys = density === 'table' ? tableOrder : ranked.map((c) => c.key);
+  });
+
+  // ── The #1 answer ──
+  // One plain finding under the dek: the top of the list exactly as ranked (the
+  // table hides the sort toggle, so it answers by Score there).
+  const answer = $derived.by(() => {
+    const by = density === 'table' ? 'quality' : mode;
+    const top = (by === mode ? rankedScored : rank(filtered, by))[0];
+    if (!top) return null;
+    const narrowed = filtersActive || terms.length > 0;
+    const lead = by === 'value' ? 'Best Value' : 'Top';
+    return { city: top.c, score: Math.round(top.s), label: `${lead}${narrowed ? ' match' : ''} for ${monthLong}` };
+  });
+
+  // ── Active scoring lens ──
+  // Only surfaced when it isn't the default, so the browse page stays quiet for
+  // most people but never silently ranks by a lens someone forgot they set.
+  const lensKey = $derived(normalizePresetKey(preset));
+  const lensLabel = $derived(
+    lensKey === 'balanced' && !prefs.womensSafety
+      ? ''
+      : `${PRESETS[lensKey].label}${prefs.womensSafety ? ' · women’s safety' : ''}`
   );
+
+  // ── Returning-user resume line ──
+  const yourYear = $derived.by(() => {
+    if (!route.stays.length) return null;
+    const st = routeStats(route.stays, preset);
+    return { stays: route.stays.length, avg: Math.round(st.avgQol) };
+  });
 </script>
 
 <section>
@@ -117,6 +209,7 @@
             class:now={i === currentMonth}
             title={MONTHS[i]}
             aria-label={MONTHS[i]}
+            aria-pressed={i === month}
             tabindex={stuck ? 0 : -1}
             onclick={() => (month = i)}
           >
@@ -126,12 +219,23 @@
       </div>
       {#if density !== 'table'}
         <div class="seg" role="group" aria-label="Sort by">
-          <button type="button" class:on={mode === 'quality'} tabindex={stuck ? 0 : -1} onclick={() => (mode = 'quality')}>Highest Score</button>
-          <button type="button" class:on={mode === 'value'} tabindex={stuck ? 0 : -1} onclick={() => (mode = 'value')}>Best Value</button>
+          <button type="button" class:on={mode === 'quality'} aria-pressed={mode === 'quality'} tabindex={stuck ? 0 : -1} onclick={() => (mode = 'quality')}>Highest Score</button>
+          <button type="button" class:on={mode === 'value'} aria-pressed={mode === 'value'} tabindex={stuck ? 0 : -1} onclick={() => (mode = 'value')}>Best Value</button>
         </div>
       {/if}
     </div>
   </div>
+
+  {#if yourYear}
+    <button type="button" class="resume" onclick={onresume}>
+      <span class="resume-k">Your year:</span>
+      <span class="num">{yourYear.stays} {yourYear.stays === 1 ? 'stay' : 'stays'}</span>
+      <span class="resume-sep" aria-hidden="true">·</span>
+      <span>avg score <span class="num">{yourYear.avg}</span></span>
+      <span class="resume-sep" aria-hidden="true">·</span>
+      <span class="resume-go">Resume <span aria-hidden="true">→</span></span>
+    </button>
+  {/if}
 
   <header class="view-head">
     <p class="kicker">Where should I be in</p>
@@ -155,16 +259,35 @@
       </div>
     </div>
     <p class="dek">The good months, ranked — clean air, mild weather, no typhoons, festivals on.</p>
+    {#if answer}
+      <p class="answer">
+        <button type="button" class="answer-btn" onclick={() => onopen(answer.city.key)}>
+          <span class="answer-k">{answer.label}:</span>
+          <span class="answer-city">{answer.city.name}, {answer.city.country}</span>
+          <span class="answer-score">— <span class="num">{answer.score}</span>.</span>
+        </button>
+      </p>
+    {/if}
   </header>
 
   <div class="controls">
     <div class="toolbar">
-      <p class="result-count num">{filtered.length} {filtered.length === 1 ? 'city' : 'cities'}</p>
+      <div class="meta-row">
+        <p class="result-count num">{filtered.length} {filtered.length === 1 ? 'city' : 'cities'}</p>
+        {#if lensLabel}
+          <button type="button" class="lens" onclick={onsettings} title="Change in Settings">
+            Ranked for: <strong>{lensLabel}</strong>
+          </button>
+        {/if}
+        {#if density === 'cards' && keyHidden}
+          <button type="button" class="keylink" onclick={() => (keyHidden = false)}>What do the colours mean?</button>
+        {/if}
+      </div>
       <div class="segs">
         {#if density !== 'table'}
           <div class="seg" role="group" aria-label="Sort by">
-            <button type="button" class:on={mode === 'quality'} onclick={() => (mode = 'quality')}>Highest Score</button>
-            <button type="button" class:on={mode === 'value'} onclick={() => (mode = 'value')}>Best Value</button>
+            <button type="button" class:on={mode === 'quality'} aria-pressed={mode === 'quality'} onclick={() => (mode = 'quality')}>Highest Score</button>
+            <button type="button" class:on={mode === 'value'} aria-pressed={mode === 'value'} onclick={() => (mode = 'value')}>Best Value</button>
           </div>
         {/if}
         <div class="seg density" role="group" aria-label="View as">
@@ -172,41 +295,83 @@
             <svg class="vicon" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
               <rect x="2" y="2" width="5" height="5" rx="1" /><rect x="9" y="2" width="5" height="5" rx="1" /><rect x="2" y="9" width="5" height="5" rx="1" /><rect x="9" y="9" width="5" height="5" rx="1" />
             </svg>
-            Cards
+            <span class="seglbl">Cards</span>
           </button>
           <button type="button" class:on={density === 'table'} aria-pressed={density === 'table'} onclick={() => (density = 'table')}>
             <svg class="vicon" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
               <line x1="2.5" y1="4" x2="13.5" y2="4" /><line x1="2.5" y1="8" x2="13.5" y2="8" /><line x1="2.5" y1="12" x2="13.5" y2="12" />
             </svg>
-            Table
+            <span class="seglbl">Table</span>
           </button>
         </div>
+        <!-- Compare is a mode, not a per-card fixture: switched on, each card
+             (or table row) gains a labelled checkbox and the tray appears. Off,
+             browse carries no extra chrome at all, on touch or desktop. -->
+        <button
+          type="button"
+          class="cmpmode"
+          class:on={comparing}
+          aria-pressed={comparing}
+          title={comparing ? 'Stop comparing (clears your picks)' : 'Pick two or three cities to compare side by side'}
+          onclick={oncomparemode}
+        >
+          <svg class="vicon" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <rect x="2" y="2.5" width="5" height="11" rx="1" /><rect x="9" y="2.5" width="5" height="11" rx="1" />
+          </svg>
+          Compare
+        </button>
       </div>
     </div>
 
-    <div class="filters">
-      {#if activeRegions.size > 0 || nonSchengenOnly || favOnly || moreActive}
-        <button type="button" class="chip clearchip" onclick={resetFilters}>✕ Clear</button>
-      {/if}
-      <button
-        type="button"
-        class="chip fav"
-        class:on={favOnly}
-        title="Show only saved cities"
-        onclick={() => (favOnly = !favOnly)}
-      >
-        {favOnly ? '♥' : '♡'} Favorites{favorites.size ? ` · ${favorites.size}` : ''}
-      </button>
-      <RegionMenu {regions} active={activeRegions} ontoggle={toggleRegion} onclear={() => (activeRegions = new Set())} />
-      <button
-        type="button"
-        class="chip more"
-        class:on={showMore || moreActive}
-        aria-expanded={showMore}
-        onclick={() => (showMore = !showMore)}
-      >
-        Refine{moreActive ? ' ·' : ''}{showMore ? ' ▴' : ' ▾'}
-      </button>
+    <div class="filterbar">
+      <div class="find" role="search">
+        <svg class="find-icon" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.5" /><line x1="10.4" y1="10.4" x2="14" y2="14" />
+        </svg>
+        <input
+          type="search"
+          placeholder="Find a city"
+          aria-label="Find a city or country"
+          autocomplete="off"
+          spellcheck="false"
+          bind:value={query}
+          onkeydown={(e) => {
+            if (e.key === 'Escape' && query) {
+              e.stopPropagation();
+              query = '';
+            }
+          }}
+        />
+        {#if query}
+          <button type="button" class="find-clear" aria-label="Clear search" onclick={clearQuery}>×</button>
+        {/if}
+      </div>
+
+      <div class="filters">
+        {#if filtersActive}
+          <button type="button" class="chip clearchip" onclick={resetFilters}>✕ Clear</button>
+        {/if}
+        <button
+          type="button"
+          class="chip fav"
+          class:on={favOnly}
+          aria-pressed={favOnly}
+          title="Show only saved cities"
+          onclick={() => (favOnly = !favOnly)}
+        >
+          {favOnly ? '♥' : '♡'} Favorites{favorites.size ? ` · ${favorites.size}` : ''}
+        </button>
+        <RegionMenu {regions} active={activeRegions} ontoggle={toggleRegion} onclear={() => (activeRegions = new Set())} />
+        <button
+          type="button"
+          class="chip more"
+          class:on={showMore || moreActive}
+          aria-expanded={showMore}
+          onclick={() => (showMore = !showMore)}
+        >
+          Refine{moreActive ? ' ·' : ''}{showMore ? ' ▴' : ' ▾'}
+        </button>
+      </div>
     </div>
   </div>
 
@@ -247,25 +412,25 @@
     </div>
   {/if}
 
-  {#if density === 'cards'}
-    <div class="strip-key">
-      <p class="key-intro">Each colored strip is the city's whole year — green months are great to be there, red months aren't.</p>
-      <div class="key-row">
-        <span class="key-unit">
-          <span class="key-label">Score by month:</span>
-          <span class="kswatch kgreat">great</span>
-          <span class="kswatch kgood">good</span>
-          <span class="kswatch kok">ok</span>
-          <span class="kswatch kbad">avoid</span>
-        </span>
-        <Legend />
-      </div>
+  {#if density === 'cards' && !keyHidden}
+    <!-- The whole key on one compact line: what a strip is, the four bands (with
+         their height cue), the icons. Dismissed once, it stays dismissed. -->
+    <div class="keyline">
+      <span class="key-intro">Each strip is a city’s year:</span>
+      <Legend bands />
+      <button type="button" class="key-x" aria-label="Hide the colour key" title="Hide" onclick={() => (keyHidden = true)}>×</button>
     </div>
   {/if}
 
   {#if filtered.length === 0}
     <div class="emptystate">
-      {#if favOnly && favorites.size === 0}
+      {#if terms.length && queryHits === 0}
+        <p>No city or country matches “{query.trim()}”.</p>
+        <button type="button" class="chip clearchip" onclick={clearQuery}>✕ Clear search</button>
+      {:else if terms.length && filtersActive}
+        <p>“{query.trim()}” matches {queryHits} {queryHits === 1 ? 'city' : 'cities'}, but none pass your filters.</p>
+        <button type="button" class="chip clearchip" onclick={resetFilters}>✕ Clear filters</button>
+      {:else if favOnly && favorites.size === 0}
         <p>No saved cities yet — tap ♡ on any city to save it here.</p>
         <button type="button" class="chip clearchip" onclick={() => (favOnly = false)}>← Back to all cities</button>
       {:else}
@@ -274,11 +439,32 @@
       {/if}
     </div>
   {:else if density === 'table'}
-    <CityTable cities={filtered} {month} {preset} {valueModel} {onmodel} {onopen} />
+    <CityTable
+      cities={filtered}
+      {month}
+      {preset}
+      {valueModel}
+      {onmodel}
+      {onopen}
+      bind:order={tableOrder}
+      compare={comparing ? { keys: compareKeys, full: compareFull } : null}
+      {oncompare}
+    />
   {:else}
     <div class="grid">
       {#each ranked.slice(0, showAll ? ranked.length : CAP) as city (city.key)}
-        <CityCard {city} {month} {preset} {mode} {valueModel} {heroKey} {openKey} {onopen} />
+        <CityCard
+          {city}
+          {month}
+          {preset}
+          {mode}
+          {valueModel}
+          {heroKey}
+          {openKey}
+          {onopen}
+          compare={comparing ? { on: compareKeys.includes(city.key), full: compareFull } : null}
+          {oncompare}
+        />
       {/each}
     </div>
 
@@ -288,7 +474,7 @@
       </span>
       {#if ranked.length > CAP}
         <button type="button" class="chip" onclick={() => (showAll = !showAll)}>
-          {showAll ? 'Show top 48' : `Show all ${ranked.length}`}
+          {showAll ? `Show top ${CAP}` : `Show all ${ranked.length}`}
         </button>
       {/if}
     </div>
@@ -310,6 +496,82 @@
   .view-head {
     display: block;
     margin: 26px 0 18px;
+  }
+
+  /* The #1 answer: one plain finding, set in the body face so it reads as the
+     page answering its own question rather than as another control. */
+  .answer {
+    margin: 10px 0 0;
+    font-size: 13.5px;
+    line-height: 1.4;
+  }
+
+  .answer-btn {
+    display: inline;
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    color: var(--ink-2);
+    text-align: left;
+  }
+
+  .answer-city {
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.15s ease, color 0.15s ease;
+  }
+
+  .answer-btn:hover .answer-city {
+    color: var(--terra-deep);
+    text-decoration-color: var(--terra);
+  }
+
+  .answer-score .num {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* Returning-user resume line: a quiet slip above the hero, not a banner. */
+  .resume {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 7px;
+    margin: 18px 0 -8px;
+    padding: 6px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    font-size: 12.5px;
+    color: var(--ink-2);
+    text-align: left;
+    transition: border-color 0.15s ease;
+  }
+
+  .resume:hover { border-color: var(--ink-3); }
+
+  .resume-k { color: var(--ink-3); }
+  .resume-sep { color: var(--ink-3); }
+
+  .resume-go {
+    font-weight: 600;
+    color: var(--terra-deep);
+  }
+
+  .resume:hover .resume-go { color: var(--terra); }
+
+  @media (max-width: 700px) {
+    .view-head { margin: 18px 0 16px; }
+    .view-head .kicker { margin: 0; }
+    .resume {
+      min-height: var(--tap);
+      margin: 14px 0 -4px;
+    }
   }
 
   .title-row {
@@ -388,10 +650,57 @@
     gap: 9px;
   }
 
+  /* Caption row: count, then (only when relevant) the active lens and the
+     colour-key affordance — all quiet text, wrapping as width allows. */
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 12px;
+  }
+
   .result-count {
     margin: 0;
     font-size: 12.5px;
     color: var(--ink-3);
+  }
+
+  /* Active-lens pill: says what the ranking is for, opens Settings to change it. */
+  .lens {
+    align-self: center;
+    border: 1px solid var(--line);
+    background: var(--card);
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 11.5px;
+    color: var(--ink-3);
+    white-space: nowrap;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .lens strong {
+    font-weight: 600;
+    color: var(--terra-deep);
+  }
+
+  .lens:hover { border-color: var(--ink-3); color: var(--ink-2); }
+
+  .keylink {
+    border: none;
+    background: none;
+    padding: 0;
+    font-size: 12px;
+    color: var(--ink-3);
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-underline-offset: 3px;
+    white-space: nowrap;
+    transition: color 0.15s ease, text-decoration-color 0.15s ease;
+  }
+
+  .keylink:hover {
+    color: var(--terra-deep);
+    text-decoration-color: var(--terra);
   }
 
   .segs {
@@ -442,7 +751,103 @@
   }
 
   .seg.density button.on .vicon { opacity: 1; }
+
+  /* Compare mode toggle: a single pill in the segmented controls' vocabulary
+     (same height, border and ink "on" fill), so it reads as a view switch. */
+  .cmpmode {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 32px;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-3);
+    flex-shrink: 0;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .cmpmode:hover { color: var(--ink); border-color: var(--ink-3); }
+
+  .cmpmode.on {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+
+  .cmpmode .vicon { opacity: 0.7; }
+  .cmpmode.on .vicon { opacity: 1; }
   .seg.density button:not(.on) .vicon { opacity: 0.6; }
+
+  /* Search leads the filter row on desktop; on phones it takes its own row. */
+  .filterbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
+  }
+
+  .find {
+    position: relative;
+    flex: 0 1 220px;
+    min-width: 0;
+  }
+
+  .find-icon {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ink-3);
+    pointer-events: none;
+  }
+
+  .find input {
+    width: 100%;
+    height: 30px;
+    padding: 0 30px 0 30px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    transition: border-color 0.15s ease;
+  }
+
+  .find input:hover { border-color: var(--ink-3); }
+  .find input:focus { border-color: var(--terra); }
+
+  .find input::placeholder {
+    color: var(--ink-3);
+    opacity: 1;
+  }
+
+  /* We draw our own clear button (consistent across browsers, tap-sized on phones). */
+  .find input::-webkit-search-cancel-button,
+  .find input::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .find-clear {
+    position: absolute;
+    right: 3px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 999px;
+    background: none;
+    color: var(--ink-3);
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .find-clear:hover { color: var(--ink); background: var(--paper-2); }
 
   .filters {
     display: flex;
@@ -467,9 +872,45 @@
     .monthsel { width: 100%; height: var(--tap); }
     .mbtn { width: auto; flex: 1; }
 
-    /* Sort + Cards/Table segmented controls meet the tap floor on touch. */
+    /* Sort + Cards/Table segmented controls meet the tap floor on touch. The
+       density toggle goes icon-only (labels stay for screen readers) so both
+       controls share one row at 375px. */
     .seg,
-    .seg.density { height: var(--tap); }
+    .seg.density,
+    .cmpmode { height: var(--tap); }
+
+    .seg button { padding: 0 13px; }
+
+    .seg.density button { padding: 0 15px; }
+
+    .seglbl {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .find { flex: 1 1 100%; }
+
+    .find input {
+      height: var(--tap);
+      font-size: 16px; /* ≥16px stops iOS zooming the page on focus */
+      padding-left: 34px;
+      padding-right: var(--tap);
+    }
+
+    .find-icon { left: 13px; }
+
+    .find-clear {
+      right: 0;
+      width: var(--tap);
+      height: var(--tap);
+      font-size: 19px;
+    }
+
+    .find-clear:hover { background: none; }
 
     .filters {
       flex-wrap: nowrap;
@@ -492,31 +933,42 @@
     margin: 0;
   }
 
+  /* A solid paper slab, never translucent: it slides (transform only — no
+     opacity fade, which left it half-transparent over cards mid-scroll on
+     phones) and is fully hidden with visibility when parked off-screen. Its own
+     layer + an opaque background-color keep card text from showing through. */
   .stickbar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 45;
-    background: var(--paper);
+    z-index: var(--z-sticky);
+    isolation: isolate;
+    background-color: var(--paper);
     border-bottom: 1px solid var(--line);
-    box-shadow: 0 6px 16px -12px rgba(33, 36, 30, 0.4);
+    box-shadow: 0 8px 18px -14px rgba(33, 36, 30, 0.45);
+    padding-top: var(--safe-t);
     transform: translateY(-100%);
-    opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.18s ease;
+    transition:
+      transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s linear 0.22s;
   }
 
   .stickbar.show {
     transform: translateY(0);
-    opacity: 1;
+    visibility: visible;
     pointer-events: auto;
+    transition:
+      transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s;
   }
 
   .stickbar-inner {
     max-width: 1240px;
     margin: 0 auto;
-    padding: 9px 26px;
+    padding: 9px var(--pad-x);
     display: flex;
     align-items: center;
     gap: 12px;
@@ -551,66 +1003,67 @@
   }
 
   @media (max-width: 700px) {
-    .stickbar-inner { padding: 8px 16px; gap: 8px; }
+    .stickbar-inner { padding: 8px var(--pad-x); gap: 8px; }
     .stick-now { display: none; }
     .monthsel.compact { flex: 1; }
     .monthsel.compact .mbtn { flex: 1; width: auto; }
     .stickbar .seg { display: none; }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .stickbar { transition: opacity 0.18s ease; transform: none; }
-  }
-
-  .strip-key {
+  /* The colour key, compressed to one quiet line (wraps to two on phones),
+     with a dismiss control at its end. */
+  .keyline {
     display: flex;
-    flex-direction: column;
-    gap: 9px;
-    margin-bottom: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    margin: -4px 0 14px;
+    padding: 0 0 0 1px;
   }
 
   .key-intro {
-    margin: 0;
-    max-width: 64ch;
-    font-size: 12.5px;
-    line-height: 1.5;
+    font-size: 11.5px;
     color: var(--ink-2);
-  }
-
-  .key-row {
-    display: flex;
-    align-items: center;
-    gap: 6px 16px;
-    flex-wrap: wrap;
-  }
-
-  .key-unit {
-    display: flex;
-    align-items: center;
-    gap: 7px;
     white-space: nowrap;
   }
 
-  .key-label {
-    font-size: 10px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+  .keyline :global(.legend) { flex: 0 1 auto; min-width: 0; }
+
+  .key-x {
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: none;
     color: var(--ink-3);
-    margin-right: 2px;
+    font-size: 15px;
+    line-height: 1;
+    transition: color 0.15s ease, border-color 0.15s ease;
   }
 
-  .kswatch {
-    border-radius: 3px;
-    padding: 1px 7px;
-    font-size: 10.5px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-  }
+  .key-x:hover { color: var(--ink); border-color: var(--line); }
 
-  .kgreat { background: var(--band-great); color: var(--band-great-ink); }
-  .kgood  { background: var(--band-good);  color: var(--band-good-ink);  }
-  .kok    { background: var(--band-ok);    color: var(--band-ok-ink);    }
-  .kbad   { background: var(--band-bad);   color: var(--band-bad-ink);   }
+  @media (max-width: 700px) {
+    /* Phones: the swatches sit right above the strips they explain, so the
+       intro drops and the key packs into two short lines (bands, then icons).
+       The dismiss button's 44px tap area overhangs into the page gutter. */
+    .keyline { position: relative; padding-right: 26px; }
+    .key-intro { display: none; }
+    .keyline :global(.bandkey) { flex-wrap: wrap; }
+
+    /* Tap-sized, pinned to the line's top-right so wrapping never strands it. */
+    .key-x {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: var(--tap);
+      height: var(--tap);
+    }
+  }
 
   .emptystate {
     display: flex;

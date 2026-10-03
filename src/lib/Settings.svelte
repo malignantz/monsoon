@@ -18,7 +18,7 @@
   $effect(() => {
     const onkey = (e) => {
       // Defaults are sensible, so Escape just saves and closes.
-      if (e.key === 'Escape') done();
+      if (e.key === 'Escape' && !e.defaultPrevented) done();
     };
     window.addEventListener('keydown', onkey);
     const prevOverflow = document.body.style.overflow;
@@ -46,8 +46,8 @@
     <section class="q">
       <span class="qlabel">Who's traveling?</span>
       <div class="seg" role="group" aria-label="Party size">
-        <button type="button" class:on={prefs.party === 'solo'} onclick={() => (prefs.party = 'solo')}>Solo</button>
-        <button type="button" class:on={prefs.party === 'couple'} onclick={() => (prefs.party = 'couple')}>Couple</button>
+        <button type="button" class:on={prefs.party === 'solo'} aria-pressed={prefs.party === 'solo'} onclick={() => (prefs.party = 'solo')}>Solo</button>
+        <button type="button" class:on={prefs.party === 'couple'} aria-pressed={prefs.party === 'couple'} onclick={() => (prefs.party = 'couple')}>Couple</button>
       </div>
       <p class="qhint">We'll show a single {prefs.party} cost-of-living figure everywhere instead of two.</p>
     </section>

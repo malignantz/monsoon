@@ -13,9 +13,14 @@ Writes per city (only when authored — everything degrades gracefully if absent
 The legacy top-level `draw` string and per-month `events` strings are left intact;
 the sheet falls back to them for any city not yet authored. Idempotent. Run after
 safety_v3.py / build_fcdo.py, before build.sh.
+
+  python3 scripts/build_city_content.py                # bake everything above
+  python3 scripts/build_city_content.py --only events  # bake city.events only
+                                                       # (used by reconcile_events.py)
 """
 import json
 import os
+import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data", "travel-data.json")
@@ -25,6 +30,11 @@ ACTIVITY_KEYS = {"food", "nature", "water", "culture", "nightlife", "wellness", 
 
 
 def main():
+    only = None
+    if "--only" in sys.argv:
+        only = sys.argv[sys.argv.index("--only") + 1]
+        if only != "events":
+            raise SystemExit("--only supports: events")
     d = json.load(open(DATA))
     content = json.load(open(CONTENT))
 
@@ -33,6 +43,12 @@ def main():
         rec = content.get(c["name"])
         if not rec:
             missing.append(c["name"])
+            continue
+
+        if only == "events":
+            if rec.get("events"):
+                c["events"] = rec["events"]
+            authored.append(c["name"])
             continue
 
         if rec.get("safetyNarrative"):
@@ -54,7 +70,11 @@ def main():
 
         authored.append(c["name"])
 
-    json.dump(d, open(DATA, "w"), indent=2, ensure_ascii=False)
+    with open(DATA, "w") as f:
+        f.write(json.dumps(d, indent=2, ensure_ascii=False) + "\n")
+    if only:
+        print(f"city {only} baked: {len(authored)} cities, {len(missing)} without content.")
+        return
     print(f"city content baked: {len(authored)} authored, {len(missing)} pending.")
     print("authored:", ", ".join(authored))
     print(f"\n{len(missing)} cities still use graceful fallbacks (legacy draw + month.events).")
