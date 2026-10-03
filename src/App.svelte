@@ -43,9 +43,13 @@
   // 'explore' merged into 'month' as a card/table density toggle; fall back for saved prefs.
   // A bare shared city link (?city=…) opens over This month, so closing the
   // sheet lands on the ranked list rather than wherever the visitor last was.
+  // Any This-month param (month, sort, layout, region) is a link to the
+  // ranking too, so it wins over the visitor's last-used view.
+  const linksToRanking =
+    fromUrl.city || fromUrl.month != null || fromUrl.mode || fromUrl.density || fromUrl.regions;
   let view = $state(
     fromUrl.view ??
-      (initialRoute.length ? 'year' : fromUrl.city ? 'month' : p.view === 'explore' ? 'month' : (p.view ?? 'month'))
+      (initialRoute.length ? 'year' : linksToRanking ? 'month' : p.view === 'explore' ? 'month' : (p.view ?? 'month'))
   );
   let month = $state(fromUrl.month ?? currentMonth);
   let mode = $state(fromUrl.mode ?? p.mode ?? 'quality');
