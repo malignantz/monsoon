@@ -8,6 +8,7 @@ dist/
 !README.md
 !TODO.md
 !UX_RESEARCH_AUDIT.md
+!docs/**/*.md
 archive/
 archive/consumed/
 data/*.backup.json
