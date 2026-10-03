@@ -19,10 +19,35 @@ def city_slug(name):
     return re.sub(r"[^a-z0-9]+", "-", s).strip("-")
 
 
-def load_cities():
+def load_cities(only=None):
+    """Catalog cities plus managed inputs (data/cities/<slug>.json) not yet in the catalog.
+
+    New cities must flow through the climate/air chain BEFORE they enter
+    travel-data.json, so the chain reads both. Each item: name, country, slug,
+    lat, lng, swim (for the coastal class), iso3 (managed inputs only).
+    `only`: optional set of slugs to restrict to.
+    """
     d = json.load(open(DATA))
-    return [{"name": c["name"], "country": c["country"], "slug": city_slug(c["name"]),
-             "lat": c["lat"], "lng": c["lng"]} for c in d["cities"]]
+    out = [{"name": c["name"], "country": c["country"], "slug": city_slug(c["name"]),
+            "lat": c["lat"], "lng": c["lng"], "swim": c.get("swim")} for c in d["cities"]]
+    have = {c["slug"] for c in out}
+    cdir = os.path.join(ROOT, "data", "cities")
+    if os.path.isdir(cdir):
+        for f in sorted(os.listdir(cdir)):
+            if not f.endswith(".json") or f.startswith("_"):
+                continue
+            rec = json.load(open(os.path.join(cdir, f)))
+            s = city_slug(rec["name"])
+            if s in have:
+                for c in out:
+                    if c["slug"] == s:
+                        c["iso3"] = rec.get("iso3")
+                continue
+            out.append({"name": rec["name"], "country": rec["country"], "slug": s, "lat": rec["lat"],
+                        "lng": rec["lng"], "swim": rec.get("swim"), "iso3": rec.get("iso3"), "new": True})
+    if only:
+        out = [c for c in out if c["slug"] in only]
+    return out
 
 
 class DailyLimit(Exception):

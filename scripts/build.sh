@@ -39,6 +39,8 @@ leaks=$(find dist -type f \( \
   -name 'travel-data.json' -o \
   -name 'swim-inputs.json' -o \
   -path '*/cost-evidence/*' -o \
+  -path '*/data/cities/*' -o \
+  -name '_schema.json' -o \
   -path '*/raw/*' -o \
   -name '*.backup.json' -o \
   -name '*.md' -o \

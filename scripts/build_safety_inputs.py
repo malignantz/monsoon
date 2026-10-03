@@ -16,10 +16,27 @@ propertySub / womensSafety are REQUIRED for every city (0-100, higher = safer),
 hand-set per the plan's rubrics (Gallup feel-safe anchor + city adjustment;
 women's = gender-split anchor). No Numbeo numbers are used.
 """
-import json, os
+import json, os, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "data", "safety-inputs-v3.json")
+
+# RETIRED (2026-10). This generator predates the hand-reviewed womensAdj deltas and
+# _audit notes now in data/safety-inputs-v3.json (68 cities), so running it would
+# silently overwrite the current safety inputs with older values. The JSON file is
+# the source of truth for the 111 legacy cities; edit it directly. New cities carry
+# their safety inputs in data/cities/<slug>.json (scripts/add_city.py).
+# `--out <path>` still writes the historical table elsewhere, for reference only.
+if __name__ == "__main__":
+    if "--out" not in sys.argv:
+        raise SystemExit(
+            "build_safety_inputs.py is retired: it would overwrite data/safety-inputs-v3.json with values that "
+            "predate womensAdj/_audit. Edit data/safety-inputs-v3.json directly for legacy cities; add new cities "
+            "with data/cities/<slug>.json + scripts/add_city.py (docs/adding-a-city.md). "
+            "Use --out <path> to dump the historical table somewhere else.")
+    OUT = os.path.abspath(sys.argv[sys.argv.index("--out") + 1])
+    if os.path.samefile(os.path.dirname(OUT), os.path.join(ROOT, "data")) and os.path.basename(OUT) == "safety-inputs-v3.json":
+        raise SystemExit("refusing to overwrite data/safety-inputs-v3.json")
 
 # Shorthand: P=propertySub, W=womensSafety, M=touristMod, T=tags,
 # H=(rate, scope, source, url) override, LL=localLevel, LA=localArea,

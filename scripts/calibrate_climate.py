@@ -16,13 +16,24 @@ station normals in the same city class (inland-lowland / coastal / highland).
 
 Writes data/climate-calibrated.json.
 
-Usage: python3 scripts/calibrate_climate.py
+The ERA5 rain-day thresholds and the ERA5-vs-station skill table (which sets the
+reanalysis confidence labels) are FROZEN once written: a rerun reuses the values
+in the existing file's _meta, so adding cities (or fetching ERA5 for a station
+city) never shifts any other city's rain days or confidence. --refit recomputes
+them from every station-backed city (a deliberate methodology change: review the
+diff and log it in docs/data-changes/).
+
+Cities come from openmeteo_common.load_cities(): the catalog plus managed inputs
+in data/cities/ that are not in the catalog yet. A new city with neither a
+station nor ERA5 gets method "pending" (no values).
+
+Usage: python3 scripts/calibrate_climate.py [--refit]
 """
 import datetime, json, os, sys
 from collections import defaultdict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from openmeteo_common import ROOT, DATA, city_slug, c_to_f
+from openmeteo_common import ROOT, DATA, city_slug, c_to_f, load_cities
 
 CLIM = os.path.join(ROOT, "data", "climate-normals.json")
 STN = os.path.join(ROOT, "data", "station-normals.json")
@@ -64,13 +75,21 @@ def fit_rain(pairs):
 
 
 def main():
+    refit = "--refit" in sys.argv[1:]
     d = json.load(open(DATA))
+    catalog = {city_slug(c["name"]): c for c in d["cities"]}
+    cities = load_cities()
     clim = json.load(open(CLIM))
     stn = json.load(open(STN))
+    frozen = None
+    if not refit and os.path.exists(OUT):
+        fm = json.load(open(OUT)).get("_meta", {})
+        if fm.get("rainCalibration") and fm.get("era5VsStation"):
+            frozen = fm
 
     # ---------- 1. calibrate the ERA5 wet-day threshold against station DP01 ----------
     pairs, temp_err, hum_err = [], defaultdict(list), defaultdict(list)
-    for c in d["cities"]:
+    for c in ([] if frozen else d["cities"]):
         s = city_slug(c["name"])
         cr, sr = clim.get(s), stn.get(s)
         if not cr or not sr:
@@ -85,20 +104,25 @@ def main():
                 temp_err[cls] += [c_to_f(m["tmaxC"]) - c_to_f(tx), c_to_f(m["tminC"]) - c_to_f(tn)]
         if sr["hum"]:
             hum_err[cls] += [m["rhPct"] - h for m, h in zip(cr["months"], sr["hum"]["rhPct"])]
-    rain_fit = fit_rain(pairs)
-    # Use a separate tropical threshold only if it beats the global one there by > 0.5 day MAE.
-    th_all = rain_fit["all"]["best"]
-    th = {"extratropical": rain_fit["extratropical"]["best"], "tropical": rain_fit["tropical"]["best"]}
-    if rain_fit["tropical"]["grid"][th_all]["mae"] - rain_fit["tropical"]["grid"][th["tropical"]]["mae"] <= 0.5:
-        th["tropical"] = th_all
-    if rain_fit["extratropical"]["grid"][th_all]["mae"] - rain_fit["extratropical"]["grid"][th["extratropical"]]["mae"] <= 0.5:
-        th["extratropical"] = th_all
-    rain_mae = {b: rain_fit[b]["grid"][th[b]]["mae"] for b in th}
-
     def era5_skill(errs):
         return {k: {"bias": round(mean(v), 2), "mae": round(mean([abs(x) for x in v]), 2), "n": len(v)}
                 for k, v in errs.items()}
-    tskill, hskill = era5_skill(temp_err), era5_skill(hum_err)
+
+    if frozen:
+        rain_fit = frozen["rainCalibration"]["fit"]
+        th = frozen["rainCalibration"]["thresholdMm"]
+        tskill, hskill = frozen["era5VsStation"]["tempF"], frozen["era5VsStation"]["rhPct"]
+    else:
+        rain_fit = fit_rain(pairs)
+        # Use a separate tropical threshold only if it beats the global one there by > 0.5 day MAE.
+        th_all = rain_fit["all"]["best"]
+        th = {"extratropical": rain_fit["extratropical"]["best"], "tropical": rain_fit["tropical"]["best"]}
+        if rain_fit["tropical"]["grid"][th_all]["mae"] - rain_fit["tropical"]["grid"][th["tropical"]]["mae"] <= 0.5:
+            th["tropical"] = th_all
+        if rain_fit["extratropical"]["grid"][th_all]["mae"] - rain_fit["extratropical"]["grid"][th["extratropical"]]["mae"] <= 0.5:
+            th["extratropical"] = th_all
+        tskill, hskill = era5_skill(temp_err), era5_skill(hum_err)
+    rain_mae = {b: rain_fit[b]["grid"][th[b]]["mae"] for b in th}
 
     def re_conf(skill, cls, good, ok):
         mae = skill.get(cls, {}).get("mae", 99)
@@ -106,8 +130,9 @@ def main():
 
     # ---------- 2. per-city calibrated values ----------
     out = {}
-    for c in d["cities"]:
-        s = city_slug(c["name"])
+    for c in cities:
+        s = c["slug"]
+        legacy_months = catalog[s]["months"] if s in catalog else None
         cr, sr = clim.get(s), stn[s]
         z = sr["cityElevation"]
         cls, cls_reason = city_class(c, z, cr)
@@ -121,8 +146,14 @@ def main():
                     "reason": f"WMO 1991-2020 {what} normal at {g['name']} ({g['distKm']} km, {g['dzM']:+d} m)"}
 
         def legacy(what):
+            if legacy_months is None:  # new city: there is no previous estimate to keep
+                return {"method": "pending", "confidence": None,
+                        "reason": f"no station within limits and ERA5 not fetched yet; no {what} value"}
             return {"method": "legacy-estimate", "confidence": "low",
                     "reason": f"no station within limits and ERA5 fetch pending (Open-Meteo quota); old unsourced {what} kept"}
+
+        def old(i, f):
+            return legacy_months[i][f] if legacy_months is not None else None
 
         # temperature
         if sr["temp"]:
@@ -141,8 +172,8 @@ def main():
                             "reason": f"no station; ERA5 (elevation-downscaled), {cls_reason}; ERA5 vs stations in "
                                       f"{cls} cities: MAE {mae:.1f} °F"}
         else:
-            for i, m in enumerate(c["months"]):
-                months[i]["high"], months[i]["low"] = m["high"], m["low"]
+            for i in range(12):
+                months[i]["high"], months[i]["low"] = old(i, "high"), old(i, "low")
             prov["temp"] = legacy("high/low")
 
         # humidity
@@ -161,8 +192,8 @@ def main():
                            "reason": f"no station; ERA5 cell RH (not elevation-corrected), {cls_reason}; ERA5 vs "
                                      f"stations in {cls} cities: MAE {mae:.1f} pts"}
         else:
-            for i, m in enumerate(c["months"]):
-                months[i]["hum"] = m["hum"]
+            for i in range(12):
+                months[i]["hum"] = old(i, "hum")
             prov["hum"] = legacy("humidity")
 
         # rain days
@@ -181,8 +212,8 @@ def main():
                             "reason": f"no station; ERA5 days >= {t} mm (threshold fitted to {band} station "
                                       f"normals, MAE {mae:.1f} d), {cls_reason}"}
         else:
-            for i, m in enumerate(c["months"]):
-                months[i]["rain"] = m["rain"]
+            for i in range(12):
+                months[i]["rain"] = old(i, "rain")
             prov["rain"] = legacy("rain days")
 
         out[s] = {"name": c["name"], "class": cls, "cityElevation": z, "months": months, "prov": prov}
@@ -195,6 +226,7 @@ def main():
         "description": "Calibrated monthly climate inputs: WMO station normals first, else ERA5 (Open-Meteo).",
         "sources": {"wmo-9120": stn["_meta"]["citation"], "era5-om": clim["_meta"]["source"] + " " + clim["_meta"]["url"]},
         "generated": datetime.date.today().isoformat(),
+        "fitFrozen": bool(frozen),
         "rainCalibration": {
             "target": "WMO 1991-2020 DP01 (days >= 1 mm) at station-backed cities",
             "thresholdMm": th, "fit": rain_fit,

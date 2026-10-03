@@ -24,7 +24,7 @@ Usage: python3 scripts/calibrate_air.py
 import csv, datetime, io, json, math, os, re, sys, unicodedata
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from openmeteo_common import ROOT, DATA, city_slug
+from openmeteo_common import ROOT, DATA, city_slug, load_cities, UA
 from xlsx_min import read_xlsx
 
 WHO_URL = ("https://cdn.who.int/media/docs/default-source/air-pollution-documents/air-quality-and-health/"
@@ -71,7 +71,20 @@ def fnum(v):
         return None
 
 
+def ensure_who():
+    """Download the WHO workbook into the (gitignored) raw cache if it is missing."""
+    if os.path.exists(WHO_XLSX):
+        return
+    import urllib.request
+    os.makedirs(os.path.dirname(WHO_XLSX), exist_ok=True)
+    req = urllib.request.Request(WHO_URL, headers={"User-Agent": UA})
+    data = urllib.request.urlopen(req, timeout=300).read()
+    open(WHO_XLSX + ".part", "wb").write(data)
+    os.replace(WHO_XLSX + ".part", WHO_XLSX)
+
+
 def load_who():
+    ensure_who()
     # The workbook is a CSV dumped into column A; Excel split quoted fields that
     # contain commas into extra cells, so rejoin cells with "," before parsing.
     rows = list(read_xlsx(WHO_XLSX).values())[0]
@@ -90,7 +103,7 @@ def load_who():
 
 
 def match(c, who):
-    iso = ISO3.get(c["country"])
+    iso = ISO3.get(c["country"]) or c.get("iso3")
     cname = norm(c["name"].split("(")[0])
     cands = {}
     for r in who:
@@ -122,11 +135,15 @@ def main():
     ovr = json.load(open(OVR)) if os.path.exists(OVR) else {"overrides": []}
     out, counts = {}, {"who-scaled": 0, "raw-cams": 0, "overridden-cities": 0}
 
-    for c in d["cities"]:
-        s = city_slug(c["name"])
+    for c in load_cities():
+        s = c["slug"]
+        if s not in air:  # managed new city whose CAMS fetch is still pending
+            print(f"{s:26} pending: no CAMS climatology yet (run fetch_air.py)")
+            continue
         cams = [m["pm25"] for m in air[s]["months"]]
         cams_mean = sum(cams) / 12
-        m = match({"name": c["name"], "country": c["country"], "lat": c["lat"], "lng": c["lng"]}, who)
+        m = match({"name": c["name"], "country": c["country"], "lat": c["lat"], "lng": c["lng"],
+                   "iso3": c.get("iso3")}, who)
         prov = {"camsAnnual": round(cams_mean, 1)}
         recent = sorted([r for r in (m["rows"] if m else []) if r["year"] >= MIN_YEAR], key=lambda r: r["year"])
         # one value per year (several rows per year = different versions; keep the latest listed)

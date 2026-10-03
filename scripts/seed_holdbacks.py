@@ -26,6 +26,16 @@ Rules (each entry records which one fired):
 
 Hand additions go in MANUAL below. Re-running overwrites the JSON.
 
+New cities (added through scripts/add_city.py, so absent from the pre-pipeline
+snapshot data/legacy-climate-air.json) have no previous value to keep, so a
+hold-back means "no trustworthy value" and keeps the city out of the catalog.
+new_city_holds() applies the same criteria where they do not need a previous
+value: pending, who-scale, highland and station-vs-era5 unchanged; trop-rain
+becomes "the provisional tropical threshold changes the answer by > 4 days"
+(ERA5 days >= 1 mm vs days >= the fitted threshold); shape and material cannot
+apply (no previous pattern/value) and are covered by the confidence label; smog
+and other documented misses go in the city's climateAir.manualHolds.
+
 Usage: python3 scripts/seed_holdbacks.py
 """
 import datetime, json, os, sys
@@ -62,10 +72,61 @@ MANUAL = [
 ]
 
 
+STATION_VS_ERA5_C = 4.5   # mean |station - ERA5| in °C that makes temperature unverifiable (San José: ~5)
+TROP_RAIN_DAYS = 4
+
+
+def new_city_holds(slug, lat, cc, ac, cr, manual=()):
+    """Hold-backs for a city with no previous value. cc/ac = climate-/air-calibrated
+    records (ac None if CAMS not fetched), cr = ERA5 normals record or None.
+    Returns [{"metric", "months", "rule", "reason"}]."""
+    out = []
+
+    def hold(metric, months, rule, reason):
+        out.append({"metric": metric, "months": months, "rule": rule, "reason": reason})
+
+    for f in ("high", "low", "hum", "rain"):
+        if cc["prov"][GROUP[f]]["method"] == "pending":
+            hold(f, "all", "pending", "climate data not fetched yet and no nearby station")
+    if ac is None:
+        hold("pm25", "all", "pending", "air-quality data not fetched yet")
+    else:
+        ap = ac["prov"]
+        k = ap.get("scale")
+        if k is not None and not (SCALE_LO <= k <= SCALE_HI) and "override" not in ap:
+            hold("pm25", "all", "who-scale", f"the air model and WHO ground data disagree by a factor of {k}")
+    if cc["class"] == "highland":
+        for f in ("hum", "low"):
+            if cc["prov"][GROUP[f]]["method"] == "reanalysis":
+                hold(f, "all", "highland", "no station, and reanalysis is unreliable in mountain terrain")
+    tp = cc["prov"]["temp"]
+    if tp["method"] == "station" and cr:
+        st = tp["station"]
+        stn = json.load(open(P("station-normals.json")))[slug]["temp"]
+        dx = sum(abs(a - m["tmaxC"]) for a, m in zip(stn["tmaxC"], cr["months"])) / 12
+        dn = sum(abs(a - m["tminC"]) for a, m in zip(stn["tminC"], cr["months"])) / 12
+        if max(dx, dn) >= STATION_VS_ERA5_C:
+            for f in ("high", "low"):
+                hold(f, "all", "station-vs-era5",
+                     f"station ({st['name']}) and reanalysis disagree by about {max(dx, dn):.0f} °C")
+    rp = cc["prov"]["rain"]
+    if rp["method"] == "reanalysis-calibrated" and abs(lat) < 23.5 and cr:
+        ms = [i + 1 for i, (m, n) in enumerate(zip(cr["months"], cc["months"]))
+              if abs(m["wetDaysByMm"]["1"] - n["rain"]) > TROP_RAIN_DAYS]
+        if ms:
+            hold("rain", ms, "trop-rain",
+                 "tropical rain-day estimate depends on the provisional threshold by more than 4 days")
+    for e in manual:
+        hold(e["metric"], e["months"], "manual", e["reason"])
+    return out
+
+
 def main():
     d = json.load(open(DATA))
     # Compare against the pre-pipeline values (snapshot), not whatever is live now.
     legacy = json.load(open(P("legacy-climate-air.json")))
+    new_cities = [c for c in d["cities"] if city_slug(c["name"]) not in legacy]
+    d["cities"] = [c for c in d["cities"] if city_slug(c["name"]) in legacy]
     for c in d["cities"]:
         for f in ("high", "low", "hum", "rain", "pm25"):
             for i, m in enumerate(c["months"]):
@@ -158,6 +219,16 @@ def main():
             if ms:
                 hold(s, "pm25", ms, "material",
                      "the new value differs a lot and could not be verified")
+
+    # cities added through add_city.py: no previous value, new-city criteria
+    if new_cities:
+        from city_inputs import load_inputs
+        inputs = {city_slug(v["name"]): v for v in load_inputs().values()}
+        for c in new_cities:
+            s = city_slug(c["name"])
+            manual = (inputs.get(s, {}).get("climateAir") or {}).get("manualHolds", [])
+            for h in new_city_holds(s, c["lat"], ccal[s], acal.get(s), clim.get(s), manual):
+                hold(s, h["metric"], h["months"], h["rule"], h["reason"])
 
     rows = []
     for (s, f), v in sorted(held.items()):

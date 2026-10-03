@@ -8,9 +8,18 @@ Reads:
   data/wps-community-safety.json (country women's feel-safe baseline, cached;
                                   Gallup World Poll via Georgetown WPS Index)
 
-Writes the v3 three-part safety object for ALL cities and recomputes every
-month's qol/qolBase/value so stored data stays consistent with the v2 QoL
-pipeline (METHODOLOGY §6, unchanged).
+Writes the v3 three-part safety object for every LEGACY city and refreshes each
+month's qolBase/qol/value with the same formulas as scripts/rebake_scores.py.
+
+Cities added through scripts/add_city.py ("managed": they have a
+data/cities/<slug>.json) are skipped here: add_city.py bakes their safety with
+compute_safety() below from the per-city file, so this script can never clobber
+them. Rerunning this script on unchanged inputs is byte-identical.
+
+History (fixed 2026-10): the old version recomputed every month's `value` with
+the classic QoL/(cost2/1000) formula, ignoring settings.value_cost_exponent, so a
+rerun silently broke Best Value until rebake_scores.py ran; it also dropped any
+safety.narrative and stamped asOf "2026-06" unconditionally.
 
     ViolentSub  = curve(homicide rate /100k; city override else country baseline)
     PropertySub = hand-set perception (inputs)            [NO Numbeo]
@@ -22,14 +31,13 @@ pipeline (METHODOLOGY §6, unchanged).
                    within-country variation, fear-vs-victimization correction)
 Advisory does not cap; localLevel >= 3 yields a badge.
 """
-import json, os
+import json, os, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data", "travel-data.json")
 INPUTS = os.path.join(ROOT, "data", "safety-inputs-v3.json")
 WB = os.path.join(ROOT, "data", "worldbank-homicide.json")
 WPS = os.path.join(ROOT, "data", "wps-community-safety.json")
-BACKUP = os.path.join(ROOT, "data", "travel-data.pre-safetyv3.backup.json")
 
 W_VIOLENT, W_PROPERTY = 0.55, 0.45
 MOD_MIN, MOD_MAX = 0.60, 1.40
@@ -89,14 +97,97 @@ def qol_floor(score, th, lo):
     return 1.0 if score >= th else round(lo + (1 - lo) * (score / th), 4)
 
 
+def homicide_for(country, m, wb, iso3=None):
+    """(rate, scope, source, url) — override from inputs, else World Bank country baseline."""
+    if "homicideOverride" in m:
+        return (m["homicideOverride"], m.get("homicideScope", "city"),
+                m.get("homicideSource", ""), m.get("homicideUrl"))
+    iso = COUNTRY_ISO.get(country) or iso3
+    rec = wb.get(iso, {})
+    rate = rec.get("rate")
+    if rate is None:
+        raise SystemExit(f"no homicide baseline for {country}/{iso} — add it to data/worldbank-homicide.json "
+                         "(World Bank VC.IHR.PSRC.P5) or cite a homicideOverride")
+    return (rate, "country",
+            rec.get("source") or f"World Bank / UNODC intentional homicide {rec.get('year')} ({country})",
+            "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5")
+
+
+def compute_safety(name, country, m, adv, settings, wb, wps, prev=None, iso3=None, as_of="2026-06"):
+    """The v3 safety object for one city.
+
+    m   = hand-set inputs in the safety-inputs-v3.json shape (propertySub, womensAdj, touristMod, ...)
+    adv = advisory fields: advisory, advisoryLevel, regionalLevel, risks, source, url, date
+    prev = the city's current safety object (narrative / asOf are preserved), or None.
+    """
+    th, lo = settings["safety_floor_threshold"], settings["safety_floor_min"]
+    rate, scope, hsource, hurl = homicide_for(country, m, wb, iso3)
+
+    wps_rec = wps.get(WPS_NAME.get(country, country), {})
+    cs = wps_rec.get("communitySafety")
+    if cs is None:
+        raise SystemExit(f"no WPS community-safety baseline for {name} ({country})")
+    wbase = round(womens_baseline(cs), 1)
+    wadj = m.get("womensAdj", 0)
+    wsub = int(round(max(0, min(100, wbase + wadj))))
+
+    vsub = round(violent_sub(rate), 1)
+    prop = m["propertySub"]
+    base = W_VIOLENT * vsub + W_PROPERTY * prop
+    mod = max(MOD_MIN, min(MOD_MAX, m.get("touristMod", 1.0)))
+    score = int(round(max(0, min(100, base * mod))))
+    floor = qol_floor(score, th, lo)
+    local_level = m.get("localLevel", adv.get("regionalLevel", adv.get("advisoryLevel", 1)))
+    local_area = m.get("localArea")
+
+    new = {
+        "score": score, "base": round(base, 1), "label": label_for(score),
+        "method": "v3", "asOf": (prev or {}).get("asOf", as_of), "qolFloor": floor,
+        "violent": {"sub": vsub, "homicideRate": rate, "scope": scope, "source": hsource, "url": hurl},
+        "property": {"sub": prop, "source": m.get("propertyNote", ""), "url": None},
+        "womensSafety": {"sub": wsub, "baseline": wbase, "cs": cs, "adj": wadj, "scope": "country",
+                         "source": m.get("womensSafetyNote", ""),
+                         "dataSource": "Gallup World Poll women's feel-safe %, via Georgetown WPS Index 2025/26",
+                         "url": WPS_URL},
+        "tourist": {"modifier": mod, "rationale": m.get("touristRationale", ""),
+                    "tags": m.get("touristTags", []), "source": "OSAC Crime & Safety Reports / U.S. State Dept guidance"},
+        "advisory": adv.get("advisory"), "advisoryLevel": adv.get("advisoryLevel"),
+        "regionalLevel": adv.get("regionalLevel"),
+        "advisoryLocal": {"level": local_level, "area": local_area},
+        "badge": ({"level": local_level,
+                   "text": f"Level {local_level} — {'Do not travel' if local_level >= 4 else 'Reconsider travel'}",
+                   "area": local_area} if local_level >= 3 else None),
+        "risks": adv.get("risks", []), "source": adv.get("source"), "url": adv.get("url"), "date": adv.get("date"),
+        "note": (f"v3: violent {vsub} (homicide {rate}/100k, {scope}) + property {prop} "
+                 f"-> base {round(base,1)}, tourist x{mod} -> {score}."
+                 + (f" {m['touristRationale']}" if m.get("touristRationale") else "")),
+    }
+    if prev and prev.get("narrative"):
+        new["narrative"] = prev["narrative"]
+    return new
+
+
+def refresh_month_scores(c, settings):
+    """qolBase/qol/value for every month from stored components (same formulas as rebake_scores.py)."""
+    s = settings
+    qw = (s["q_weather"], s["q_safety"], s["q_air"], s["q_season"], s["q_event"])
+    score, floor = c["safety"]["score"], c["safety"]["qolFloor"]
+    for mo in c["months"]:
+        qb = (qw[0] * mo["weather"] + qw[1] * score + qw[2] * mo["air"]
+              + qw[3] * mo["seasonScore"] + qw[4] * mo["eventScore"])
+        mo["qolBase"] = round(qb, 1)
+        mo["qol"] = round(floor * qb, 1)
+        mo["value"] = round(mo["qol"] / (mo["cost2"] / 1000) ** s["value_cost_exponent"], 2)
+
+
 def main():
     d = json.load(open(DATA))
     inputs = json.load(open(INPUTS))
     wb = json.load(open(WB))
     wps = json.load(open(WPS))["countries"]
-    if not os.path.exists(BACKUP):
-        json.dump(d, open(BACKUP, "w"), indent=2, ensure_ascii=False)
-        print(f"backup -> {os.path.relpath(BACKUP, ROOT)}")
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from city_inputs import managed_names
+    managed = managed_names()
 
     s = d["settings"]
     s["safety_v3"] = {
@@ -119,90 +210,27 @@ def main():
                                 "times a 0.60-1.40 visitor-risk modifier. Advisory Level 3/4 shown as a badge, not a cap. "
                                 "Women's-safety shown as a separate signal.")
 
-    th, lo = s["safety_floor_threshold"], s["safety_floor_min"]
-    qw = dict(weather=s["q_weather"], safety=s["q_safety"], air=s["q_air"], season=s["q_season"], event=s["q_event"])
-
-    rows = []
+    rows, skipped = [], []
     for c in d["cities"]:
         name = c["name"]
-        m = inputs[name]
+        if name in managed:
+            skipped.append(name)
+            continue
         sf = c["safety"]
-
-        # homicide rate: override else country baseline
-        if "homicideOverride" in m:
-            rate, scope = m["homicideOverride"], m.get("homicideScope", "city")
-            hsource, hurl = m.get("homicideSource", ""), m.get("homicideUrl")
-        else:
-            iso = COUNTRY_ISO[c["country"]]
-            rec = wb.get(iso, {})
-            rate = rec.get("rate")
-            if rate is None:
-                raise SystemExit(f"no homicide baseline for {name} ({c['country']}/{iso})")
-            scope = "country"
-            hsource = rec.get("source") or f"World Bank / UNODC intentional homicide {rec.get('year')} ({c['country']})"
-            hurl = "https://data.worldbank.org/indicator/VC.IHR.PSRC.P5"
-
-        # women's signal: country Gallup feel-safe baseline + hand-set city delta
-        wps_rec = wps.get(WPS_NAME.get(c["country"], c["country"]), {})
-        cs = wps_rec.get("communitySafety")
-        if cs is None:
-            raise SystemExit(f"no WPS community-safety baseline for {name} ({c['country']})")
-        wbase = round(womens_baseline(cs), 1)
-        wadj = m.get("womensAdj", 0)
-        wsub = int(round(max(0, min(100, wbase + wadj))))
-
-        vsub = round(violent_sub(rate), 1)
-        prop = m["propertySub"]
-        base = W_VIOLENT * vsub + W_PROPERTY * prop
-        mod = max(MOD_MIN, min(MOD_MAX, m.get("touristMod", 1.0)))
-        score = int(round(max(0, min(100, base * mod))))
-        floor = qol_floor(score, th, lo)
-
         old = sf.get("score")
-        local_level = m.get("localLevel", sf.get("regionalLevel", sf.get("advisoryLevel", 1)))
-        local_area = m.get("localArea")
-
-        # rebuild safety object: keep advisory fields, drop Numbeo
-        new = {
-            "score": score, "base": round(base, 1), "label": label_for(score),
-            "method": "v3", "asOf": "2026-06", "qolFloor": floor,
-            "violent": {"sub": vsub, "homicideRate": rate, "scope": scope, "source": hsource, "url": hurl},
-            "property": {"sub": prop, "source": m.get("propertyNote", ""), "url": None},
-            "womensSafety": {"sub": wsub, "baseline": wbase, "cs": cs, "adj": wadj, "scope": "country",
-                             "source": m.get("womensSafetyNote", ""),
-                             "dataSource": "Gallup World Poll women's feel-safe %, via Georgetown WPS Index 2025/26",
-                             "url": WPS_URL},
-            "tourist": {"modifier": mod, "rationale": m.get("touristRationale", ""),
-                        "tags": m.get("touristTags", []), "source": "OSAC Crime & Safety Reports / U.S. State Dept guidance"},
-            "advisory": sf.get("advisory"), "advisoryLevel": sf.get("advisoryLevel"),
-            "regionalLevel": sf.get("regionalLevel"),
-            "advisoryLocal": {"level": local_level, "area": local_area},
-            "badge": ({"level": local_level,
-                       "text": f"Level {local_level} — {'Do not travel' if local_level >= 4 else 'Reconsider travel'}",
-                       "area": local_area} if local_level >= 3 else None),
-            "risks": sf.get("risks", []), "source": sf.get("source"), "url": sf.get("url"), "date": sf.get("date"),
-            "note": (f"v3: violent {vsub} (homicide {rate}/100k, {scope}) + property {prop} "
-                     f"-> base {round(base,1)}, tourist x{mod} -> {score}."
-                     + (f" {m['touristRationale']}" if m.get("touristRationale") else "")),
-        }
-        c["safety"] = new
-
-        for mo in c["months"]:
-            qb = (qw["weather"]*mo["weather"] + qw["safety"]*score + qw["air"]*mo["air"]
-                  + qw["season"]*mo["seasonScore"] + qw["event"]*mo["eventScore"])
-            qol = floor * qb
-            mo["qolBase"] = round(qb, 1)
-            mo["qol"] = round(qol, 1)
-            mo["value"] = round(qol / (mo["cost2"] / 1000), 2)
-
-        rows.append((name, c["country"], old, score, vsub, prop, mod, scope))
+        c["safety"] = compute_safety(name, c["country"], inputs[name], sf, s, wb, wps, prev=sf)
+        refresh_month_scores(c, s)
+        n = c["safety"]
+        rows.append((name, c["country"], old, n["score"], n["violent"]["sub"], n["property"]["sub"],
+                     n["tourist"]["modifier"], n["violent"]["scope"]))
 
     json.dump(d, open(DATA, "w"), indent=2, ensure_ascii=False)
     rows.sort(key=lambda r: -r[3])
     print(f"\n{'City':28}{'Country':22}{'old':>4}{'new':>5}{'V':>6}{'P':>4}{'mod':>6}  scope")
     for name, ctry, old, new, v, p, mod, scope in rows:
         print(f"{name:28}{ctry:22}{str(old):>4}{new:>5}{v:>6}{p:>4}{mod:>6}  {scope}")
-    print(f"\nwrote {os.path.relpath(DATA, ROOT)} — {len(rows)} cities")
+    print(f"\nwrote {os.path.relpath(DATA, ROOT)} — {len(rows)} cities"
+          + (f"; skipped {len(skipped)} managed by add_city.py" if skipped else ""))
 
 
 if __name__ == "__main__":

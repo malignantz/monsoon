@@ -124,6 +124,19 @@ const COORDS = {
   'João Pessoa':                 { lat: -7.1195,  lng: -34.8450 },
 };
 
+// RETIRED (2026-10). Coordinates for the 111 legacy cities are baked; new cities
+// carry lat/lng in data/cities/<slug>.json (scripts/add_city.py). Rewriting
+// travel-data.json from Node also re-serialises every float (1.0 -> 1), which
+// changes thousands of unrelated lines, so this script now refuses to write.
+if (!process.argv.includes('--dry-run')) {
+  console.error(
+    'add-coords.js is retired: coordinates now live in data/cities/<slug>.json (scripts/add_city.py, ' +
+      'docs/adding-a-city.md). Writing from Node would re-serialise every float in travel-data.json. ' +
+      'Use --dry-run to list cities whose coords differ from the table.'
+  );
+  process.exit(1);
+}
+
 const data = JSON.parse(readFileSync(DATA_PATH, 'utf8'));
 
 let updated = 0;
@@ -144,5 +157,6 @@ if (missing.length) {
   console.warn('No coords for:', missing.join(', '));
 }
 
-writeFileSync(DATA_PATH, JSON.stringify(data, null, 2));
-console.log(`Updated ${updated}/${data.cities.length} cities.`);
+// --dry-run only: never write.
+void writeFileSync;
+console.log(`${updated}/${data.cities.length} cities have a table entry (dry run, nothing written).`);

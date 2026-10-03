@@ -6,6 +6,9 @@ Romania (full members, land borders from Jan 2025). Note the EU-but-NOT-Schengen
 cases present in the catalog: Cyprus and Ireland (and the UK, which left the EU).
 """
 import json, os
+import sys as _sys
+_sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from city_inputs import managed_names  # cities owned by add_city.py are skipped (never clobbered)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data", "travel-data.json")
@@ -21,7 +24,11 @@ SCHENGEN = {
 
 d = json.load(open(DATA))
 n = 0
+managed = managed_names()
 for c in d["cities"]:
+    if c["name"] in managed:
+        n += c["schengen"]
+        continue
     c["schengen"] = c["country"] in SCHENGEN
     n += c["schengen"]
 json.dump(d, open(DATA, "w"), indent=2, ensure_ascii=False)

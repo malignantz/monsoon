@@ -20,10 +20,17 @@ Per calendar month (averaged over every year in the window):
 
 Writes data/climate-normals.json.
 
+Incremental: a city already in the committed data/climate-normals.json whose
+raw response is not cached locally keeps its committed entry (the raw cache is
+gitignored and may be absent); only cities missing from both are fetched.
+--refetch forces a fresh download for the selected cities. The daily Open-Meteo
+quota resets at 00:00 UTC; a DailyLimit stops the run and keeps everything
+fetched so far.
+
 Usage:
-    python3 scripts/fetch_climate.py              # fetch missing, rebuild normals
-    python3 scripts/fetch_climate.py --offline    # cache only, no network
-    python3 scripts/fetch_climate.py --only kotor,hanoi
+    python3 scripts/fetch_climate.py              # fetch cities missing from the normals, rebuild
+    python3 scripts/fetch_climate.py --offline    # no network: cache + committed entries only
+    python3 scripts/fetch_climate.py --only kotor,hanoi [--refetch]
 """
 import datetime, json, os, sys, time
 from collections import defaultdict
@@ -95,10 +102,15 @@ def normals(raw):
 def main():
     args = sys.argv[1:]
     offline = "--offline" in args
+    refetch = "--refetch" in args
     only = None
     if "--only" in args:
         only = set(args[args.index("--only") + 1].split(","))
+    if refetch and not only:
+        raise SystemExit("--refetch needs --only <slugs> (it deletes the raw cache for those cities)")
 
+    prev_doc = json.load(open(OUT)) if os.path.exists(OUT) else {}
+    prev = {k: v for k, v in prev_doc.items() if k != "_meta"}
     cities = load_cities()
     out = {}
     fetched = 0
@@ -107,7 +119,16 @@ def main():
             continue
         p_main = os.path.join(RAW, c["slug"] + ".json")
         p_grid = os.path.join(RAW, c["slug"] + ".grid.json")
-        if offline and not (os.path.exists(p_main) and os.path.exists(p_grid)):
+        cached_raw = os.path.exists(p_main) and os.path.exists(p_grid)
+        if not cached_raw and c["slug"] in prev and not refetch:
+            out[c["slug"]] = prev[c["slug"]]   # committed derived entry; no raw cache needed
+            continue
+        if refetch:
+            for p_ in (p_main, p_grid):
+                if os.path.exists(p_):
+                    os.remove(p_)
+            cached_raw = False
+        if offline and not cached_raw:
             print(f"[{i:3}] {c['slug']}: not cached, skipped (offline)")
             continue
         try:
@@ -132,11 +153,10 @@ def main():
             "months": normals(raw),
         }
 
-    if only:  # merge into an existing file rather than truncating it
-        if os.path.exists(OUT):
-            prev = json.load(open(OUT))
-            prev.update(out)
-            out = {k: v for k, v in prev.items() if k != "_meta"}
+    # never drop a committed entry (e.g. an offline run, or a city filtered by --only)
+    merged = dict(prev)
+    merged.update(out)
+    out = merged
 
     doc = {"_meta": {
         "source": "Open-Meteo Historical Weather API — ECMWF ERA5 / ERA5-Land reanalysis (model 'era5_seamless')",
@@ -145,7 +165,8 @@ def main():
         "licence": "CC BY 4.0 (Open-Meteo); contains modified Copernicus Climate Change Service information",
         "attribution": "Weather data by Open-Meteo.com (CC BY 4.0); Hersbach et al. (2020) ERA5, Copernicus C3S",
         "window": f"{START}..{END}",
-        "retrieved": datetime.date.today().isoformat(),
+        "retrieved": (datetime.date.today().isoformat() if fetched
+                      else prev_doc.get("_meta", {}).get("retrieved", datetime.date.today().isoformat())),
         "method": ("One request per city, daily values in local time. Per calendar month over the window: "
                    "mean daily max/min 2 m temperature; mean of daily-mean relative humidity; mean count of "
                    f"days with precipitation >= {WET_MM} mm; mean monthly precipitation total. "

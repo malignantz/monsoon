@@ -6,6 +6,7 @@
    "era5-om": "Open-Meteo Historical Weather API — ECMWF ERA5 / ERA5-Land reanalysis (model 'era5_seamless') https://archive-api.open-meteo.com/v1/archive"
   },
   "generated": "2026-10-03",
+  "fitFrozen": true,
   "rainCalibration": {
    "target": "WMO 1991-2020 DP01 (days >= 1 mm) at station-backed cities",
    "thresholdMm": {

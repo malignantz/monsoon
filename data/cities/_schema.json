@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "data/cities/_schema.json",
+  "title": "Monsoon per-city input",
+  "description": "Everything a human or agent authors for ONE city added through scripts/add_city.py. One file per city: data/cities/<slug>.json, slug = scripts/check-city-ids.mjs convention (NFD, strip accents, non-alnum -> '-'). Climate (high/low/hum/rain) and PM2.5 are NOT authored here: they come from the pipeline (WMO station normals -> ERA5; CAMS scaled to WHO). Cost lives in data/cost-evidence/<slug>.json. Every number needs a recorded source, or an explicit editorial-estimate label with a rationale. Only record URLs you actually opened and that support the figure. Validated by scripts/city_inputs.py (no external jsonschema dependency; this file documents the contract and drives the required-field checks). See docs/adding-a-city.md.",
+  "type": "object",
+  "required": ["name", "country", "iso3", "region", "lat", "lng", "timezone", "schengen", "english", "draw", "vibe", "narrative", "activities", "season", "hazards", "swim", "events", "safety", "asOf"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {"type": "string"},
+    "name": {"type": "string", "description": "Display name, unique in the catalog. Disambiguate with a parenthetical like existing entries: 'Chania (Crete)', 'Funchal (Madeira)'."},
+    "country": {"type": "string", "description": "Country label as used elsewhere in the catalog (e.g. 'Czech Republic', 'Bosnia & Herzegovina', 'Turkey')."},
+    "iso3": {"type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO 3166-1 alpha-3. Used for the World Bank homicide baseline and the WHO air-quality match."},
+    "region": {"type": "string", "description": "Catalog region (existing: Africa, E Asia, E Europe, LATAM, N America, N Europe, Oceania, S America, S Europe, SE Asia, W Asia, W Europe; new regions are allowed)."},
+    "lat": {"type": "number", "minimum": -90, "maximum": 90},
+    "lng": {"type": "number", "minimum": -180, "maximum": 180},
+    "coordsNote": {"type": "string", "description": "What the point is (city centre / the nomad district). Climate stations are matched from this point, so it matters."},
+    "timezone": {"type": "string", "description": "Standard-time offset, DST noted, e.g. 'UTC+1 (DST +2)', 'UTC+5:30'."},
+    "schengen": {"type": "boolean"},
+    "visa": {"description": "null = use the country rule in scripts/add_visa.py (required to exist). Otherwise per-passport rules, verified on an official page.", "oneOf": [{"type": "null"}, {"$ref": "#/$defs/visa"}]},
+    "visaSources": {"type": "array", "items": {"$ref": "#/$defs/source"}},
+    "english": {
+      "type": "object", "required": ["tier", "note", "rationale"], "additionalProperties": false,
+      "properties": {
+        "tier": {"type": "integer", "minimum": 0, "maximum": 3, "description": "0 Limited, 1 Tourist zones, 2 Good in town, 3 Widespread (EF EPI country band, +1 for an expat hub well ahead of it)."},
+        "note": {"type": "string", "description": "Exactly the label for the tier, optionally + ' (expat hub — above national average)'."},
+        "rationale": {"type": "string"},
+        "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}}
+      }
+    },
+    "draw": {"type": "string", "description": "Short category, e.g. 'Beach / winter sun'. Existing voice: 'City / coast', 'Culture / Yucatán'."},
+    "vibe": {"type": "string", "description": "One line, factual, no unsupported superlatives."},
+    "narrative": {"type": "string", "description": "Two sentences in the existing city-sheet voice (concrete places and things; one honest caveat)."},
+    "activities": {
+      "type": "object", "additionalProperties": false,
+      "required": ["adventure", "culture", "nomad", "wellness", "water", "food", "nature", "nightlife"],
+      "properties": {
+        "adventure": {"$ref": "#/$defs/act"}, "culture": {"$ref": "#/$defs/act"}, "nomad": {"$ref": "#/$defs/act"},
+        "wellness": {"$ref": "#/$defs/act"}, "water": {"$ref": "#/$defs/act"}, "food": {"$ref": "#/$defs/act"},
+        "nature": {"$ref": "#/$defs/act"}, "nightlife": {"$ref": "#/$defs/act"}
+      }
+    },
+    "season": {
+      "type": "object", "required": ["months", "rationale"], "additionalProperties": false,
+      "description": "Editorial estimate: tourist-season phase per month (crowds/prices), Jan..Dec.",
+      "properties": {
+        "months": {"type": "array", "minItems": 12, "maxItems": 12, "items": {"enum": ["Peak", "In", "Shoulder", "Off"]}},
+        "rationale": {"type": "string"},
+        "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}}
+      }
+    },
+    "hazards": {
+      "type": "array", "description": "Per-month hazard flags (risk 1 = elevated: weather score x0.8; 2 = severe: x0.55). Typhoon/hurricane/monsoon/extreme heat/smoke/haze. At most one entry per month. Each needs a source.",
+      "items": {
+        "type": "object", "required": ["months", "level", "note", "source"], "additionalProperties": false,
+        "properties": {
+          "months": {"$ref": "#/$defs/months"},
+          "level": {"enum": [1, 2]},
+          "note": {"type": "string", "description": "Short label in the existing style: 'Summer heat', 'Typhoon season', 'Hurricane season', 'Extreme heat (100F+)'."},
+          "source": {"$ref": "#/$defs/source"}
+        }
+      }
+    },
+    "swim": {
+      "description": "null when there is no seasonally swimmable open water. Months = water warm enough for most swimmers (roughly >= 20-21 °C sea temperature).",
+      "oneOf": [{"type": "null"}, {
+        "type": "object", "required": ["body", "name", "months", "source"], "additionalProperties": false,
+        "properties": {
+          "body": {"enum": ["sea", "lake", "river", "cenotes"]},
+          "name": {"type": "string"}, "months": {"$ref": "#/$defs/months"},
+          "note": {"type": ["string", "null"]},
+          "source": {"$ref": "#/$defs/source"}
+        }
+      }]
+    },
+    "events": {
+      "type": "array",
+      "description": "The city-sheet event calendar; the Events score derives from it (scripts/reconcile_events.py --derive). Tier rubric (docs/data-changes/2026-10-03-events.md): 3 = genuinely major, travel-worthy festival for that city, worth planning a stay around; 2 = notable (a national holiday, local city day or religious feast without a draw for visitors is at most 2); 1 = minor or recurring. Movable feasts list every month they can fall in. Blurbs: short and factual, never invented.",
+      "items": {
+        "type": "object", "required": ["name", "months", "tier", "source"], "additionalProperties": false,
+        "properties": {
+          "name": {"type": "string"}, "months": {"$ref": "#/$defs/months"},
+          "tier": {"enum": [1, 2, 3]}, "blurb": {"type": "string"},
+          "source": {"$ref": "#/$defs/source"}
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": ["propertySub", "propertyNote", "womensAdj", "womensSafetyNote", "touristMod", "touristRationale", "touristTags", "homicideOverride", "rationale", "calibratedAgainst", "consulted", "advisory"],
+      "additionalProperties": false,
+      "description": "Inputs to the Safety v3 index (scripts/safety_v3.py formula). Violent sub-score comes from the homicide rate: World Bank/UNODC country baseline (data/worldbank-homicide.json) unless homicideOverride cites a city/region figure. propertySub, touristMod and womensAdj are EDITORIAL ESTIMATES: each needs a 1-2 sentence rationale and the list of what was consulted, calibrated against named comparable cities already in the catalog.",
+      "properties": {
+        "propertySub": {"type": "integer", "minimum": 0, "maximum": 100, "description": "Property/petty-crime safety, higher = safer."},
+        "propertyNote": {"type": "string", "description": "Short phrase shown as the property source, e.g. 'Tourist-zone pickpocketing; calm overall'."},
+        "womensAdj": {"type": "integer", "minimum": -30, "maximum": 30, "description": "City delta on the country Gallup women's feel-safe baseline (display only)."},
+        "womensSafetyNote": {"type": "string"},
+        "touristMod": {"type": "number", "minimum": 0.6, "maximum": 1.4, "description": "Visitor-vs-local risk modifier; 1.0 = none."},
+        "touristRationale": {"type": "string"},
+        "touristTags": {"type": "array", "items": {"type": "string"}, "description": "Reuse existing tags: petty-theft, bag-snatching, scams-common, tourist-zones-safer, women-safety-caution, very-low-crime, expat-haven, nightlife-risk, violence-elsewhere-in-state, protest-unrest, tourist-safe."},
+        "homicideOverride": {"oneOf": [{"type": "null"}, {
+          "type": "object", "required": ["rate", "scope", "source", "url"], "additionalProperties": false,
+          "properties": {"rate": {"type": "number", "minimum": 0}, "scope": {"enum": ["city", "region", "state", "entity", "country"]},
+                         "source": {"type": "string"}, "url": {"type": ["string", "null"]}, "year": {"type": ["string", "integer"]}}
+        }]},
+        "rationale": {
+          "type": "object", "required": ["property", "tourist", "womens"], "additionalProperties": false,
+          "properties": {"property": {"type": "string"}, "tourist": {"type": "string"}, "womens": {"type": "string"}}
+        },
+        "calibratedAgainst": {"type": "array", "minItems": 1, "items": {"type": "string"}, "description": "Existing catalog city names the editorial values were calibrated against."},
+        "consulted": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/source"}},
+        "advisory": {
+          "type": "object", "required": ["level", "text", "date", "url", "risks"], "additionalProperties": false,
+          "description": "U.S. State Department advisory (reference only; never changes a score). Level/date from the advisory page itself.",
+          "properties": {
+            "level": {"enum": [1, 2, 3, 4]},
+            "text": {"enum": ["Exercise normal precautions", "Exercise increased caution", "Reconsider travel", "Do not travel"]},
+            "date": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "description": "Date the advisory was issued/updated, as shown on the page."},
+            "url": {"type": "string"},
+            "risks": {"type": "array", "items": {"type": "string"}, "description": "Risk indicators named on the page, e.g. Terrorism, Crime, Unrest, Kidnapping or hostage taking."},
+            "regionalLevel": {"enum": [1, 2, 3, 4], "description": "Level for the city's state/region where the advisory differs (default = level)."},
+            "localLevel": {"enum": [1, 2, 3, 4], "description": "Level that applies at the city itself (default = regionalLevel). >= 3 shows a badge."},
+            "localArea": {"type": ["string", "null"]}
+          }
+        }
+      }
+    },
+    "climateAir": {
+      "type": "object", "additionalProperties": false,
+      "description": "Optional manual hold-backs for the climate/air pipeline (e.g. a documented smog season the model misses). A held-back metric has no fallback for a new city, so it keeps the city pending.",
+      "properties": {
+        "manualHolds": {"type": "array", "items": {
+          "type": "object", "required": ["metric", "months", "reason"], "additionalProperties": false,
+          "properties": {"metric": {"enum": ["high", "low", "hum", "rain", "pm25"]}, "months": {"oneOf": [{"const": "all"}, {"$ref": "#/$defs/months"}]}, "reason": {"type": "string"}}
+        }},
+        "notes": {"type": "string"}
+      }
+    },
+    "selection": {"type": "string", "description": "One line: why this city was added (copied into the data-changes log)."},
+    "asOf": {"type": "string", "pattern": "^\\d{4}-\\d{2}$", "description": "Month the research reflects."},
+    "researchNotes": {"type": "string"}
+  },
+  "$defs": {
+    "act": {"type": "integer", "minimum": 0, "maximum": 3},
+    "months": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "integer", "minimum": 1, "maximum": 12}},
+    "source": {
+      "type": "object", "required": ["url", "accessed"], "additionalProperties": false,
+      "properties": {
+        "title": {"type": "string"}, "url": {"type": "string", "pattern": "^https?://"},
+        "accessed": {"type": "string", "pattern": "^\\d{4}-\\d{2}(-\\d{2})?$"},
+        "quote": {"type": "string", "description": "Short verbatim snippet (<= 25 words) that supports the figure."},
+        "note": {"type": "string"}
+      }
+    },
+    "visa": {
+      "type": "object", "required": ["US", "UK", "EU", "AU"], "additionalProperties": false,
+      "properties": {"US": {"$ref": "#/$defs/visaRule"}, "UK": {"$ref": "#/$defs/visaRule"}, "EU": {"$ref": "#/$defs/visaRule"}, "AU": {"$ref": "#/$defs/visaRule"}}
+    },
+    "visaRule": {
+      "type": "object", "required": ["visaFree", "days", "note"], "additionalProperties": false,
+      "properties": {"visaFree": {"type": "boolean"}, "days": {"type": ["integer", "null"]}, "note": {"type": "string"}}
+    }
+  }
+}

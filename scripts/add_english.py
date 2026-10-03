@@ -14,6 +14,9 @@ cities whose tourist/expat economy runs far ahead of the national average
 Idempotent; run after add_timezones.py in the bake order.
 """
 import json, os
+import sys as _sys
+_sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from city_inputs import managed_names  # cities owned by add_city.py are skipped (never clobbered)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data", "travel-data.json")
@@ -51,8 +54,11 @@ LABEL = {3: "Widespread", 2: "Good in town", 1: "Tourist zones", 0: "Limited"}
 
 def main():
     d = json.load(open(DATA))
+    managed = managed_names()
     missing = []
     for c in d["cities"]:
+        if c["name"] in managed:
+            continue
         base = COUNTRY_TIER.get(c["country"])
         if base is None:
             missing.append(f"{c['name']} ({c['country']})")
