@@ -29,7 +29,7 @@
   "counts": {
    "who-scaled": 99,
    "raw-cams": 28,
-   "overridden-cities": 3
+   "overridden-cities": 4
   }
  },
  "chiang-mai": {
@@ -3821,39 +3821,6 @@
    "reason": "CAMS seasonal shape scaled x1.01 to WHO AAQ annual mean 23.3 µg/m³ (Almaty/KAZ, 2022, 2023, 2024)"
   }
  },
- "antalya": {
-  "name": "Antalya",
-  "months": [
-   27.6,
-   25.6,
-   26.3,
-   27.3,
-   28.4,
-   26.7,
-   25.2,
-   29.1,
-   21.8,
-   19.9,
-   23.7,
-   20.9
-  ],
-  "prov": {
-   "camsAnnual": 11.8,
-   "method": "cams-shape-x-who-annual",
-   "source": "who-aaq-v8+cams-om",
-   "confidence": "high",
-   "whoSettlement": "Antalya/TUR",
-   "whoDistKm": 2.8,
-   "whoYears": [
-    2019,
-    2023
-   ],
-   "whoAnnual": 25.2,
-   "whoStationTypes": "Traffic-Urban (n=1)",
-   "scale": 2.14,
-   "reason": "CAMS seasonal shape scaled x2.14 to WHO AAQ annual mean 25.2 µg/m³ (Antalya/TUR, 2019, 2023)"
-  }
- },
  "busan": {
   "name": "Busan",
   "months": [
@@ -3921,40 +3888,6 @@
    "reason": "CAMS seasonal shape scaled x1.26 to WHO AAQ annual mean 11.2 µg/m³ (Arona/ESP, 2020, 2021, 2022)"
   }
  },
- "dakar": {
-  "name": "Dakar",
-  "months": [
-   71.5,
-   87.2,
-   67.9,
-   68.8,
-   81.9,
-   65.3,
-   56.1,
-   35.2,
-   37.5,
-   56.8,
-   52.2,
-   67.6
-  ],
-  "prov": {
-   "camsAnnual": 27.1,
-   "method": "cams-shape-x-who-annual",
-   "source": "who-aaq-v8+cams-om",
-   "confidence": "high",
-   "whoSettlement": "Dakar/SEN",
-   "whoDistKm": 5.6,
-   "whoYears": [
-    2021,
-    2022,
-    2024
-   ],
-   "whoAnnual": 62.3,
-   "whoStationTypes": "Urban industrial (n=1)",
-   "scale": 2.3,
-   "reason": "CAMS seasonal shape scaled x2.30 to WHO AAQ annual mean 62.3 µg/m³ (Dakar/SEN, 2021, 2022, 2024)"
-  }
- },
  "fukuoka": {
   "name": "Fukuoka",
   "months": [
@@ -3986,30 +3919,6 @@
    "whoStationTypes": "Urban (n=4)",
    "scale": 0.88,
    "reason": "CAMS seasonal shape scaled x0.88 to WHO AAQ annual mean 13.1 µg/m³ (Fukuoka/JPN, 2018, 2019); fewer than 2 recent years or older data"
-  }
- },
- "galle": {
-  "name": "Galle",
-  "months": [
-   21.8,
-   20.7,
-   20.0,
-   13.7,
-   10.5,
-   10.2,
-   10.1,
-   10.3,
-   9.9,
-   11.8,
-   14.5,
-   18.4
-  ],
-  "prov": {
-   "camsAnnual": 14.3,
-   "method": "raw-cams",
-   "source": "cams-om",
-   "confidence": "low",
-   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
   }
  },
  "hua-hin": {
@@ -4068,6 +3977,211 @@
    "whoStationTypes": "Traffic-Urban (n=1)",
    "scale": 1.37,
    "reason": "CAMS seasonal shape scaled x1.37 to WHO AAQ annual mean 22.9 µg/m³ (Izmir/TUR, 2023, 2024, 2025)"
+  }
+ },
+ "phuket": {
+  "name": "Phuket",
+  "months": [
+   18.1,
+   17.0,
+   19.4,
+   17.6,
+   11.8,
+   12.7,
+   15.1,
+   12.2,
+   11.7,
+   8.8,
+   11.1,
+   12.5
+  ],
+  "prov": {
+   "camsAnnual": 9.7,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Phuket/THA",
+   "whoDistKm": 0.5,
+   "whoYears": [
+    2019,
+    2021
+   ],
+   "whoAnnual": 14.0,
+   "whoStationTypes": "Urban (n=1)",
+   "scale": 1.44,
+   "reason": "CAMS seasonal shape scaled x1.44 to WHO AAQ annual mean 14.0 µg/m³ (Phuket/THA, 2019, 2021)"
+  }
+ },
+ "antalya": {
+  "name": "Antalya",
+  "months": [
+   23.9,
+   19.6,
+   18.1,
+   18.5,
+   18.8,
+   18.2,
+   16.5,
+   19.9,
+   18.0,
+   19.4,
+   20.4,
+   24.6
+  ],
+  "prov": {
+   "camsAnnual": 11.8,
+   "method": "cams-shape-x-who-annual+override",
+   "source": "who-aaq-v8+cams-om+override",
+   "confidence": "medium",
+   "whoSettlement": "Antalya/TUR",
+   "whoDistKm": 2.8,
+   "whoYears": [
+    2019,
+    2023
+   ],
+   "whoAnnual": 25.2,
+   "whoStationTypes": "Traffic-Urban (n=1)",
+   "scale": 2.14,
+   "reason": "CAMS seasonal shape scaled x2.14 to WHO AAQ annual mean 25.2 µg/m³ (Antalya/TUR, 2019, 2023); months [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] overridden from cited ground data (https://eeadmz1batchservice02.blob.core.windows.net/airquality-p-e1a/TR/SPO-TR070741_6001.parquet)",
+   "override": {
+    "months": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12
+    ],
+    "reason": "WHO annual (25.2) rests on one traffic station in 2019 and 2023, scale 2.14 vs CAMS. Replaced by the 2020-2025 mean of monthly means of valid, verified hourly PM2.5 at the national network's urban-background station TR070741 (36.915 N, 30.700 E, ~2 km from the city point); annual 19.7. Flat seasonal shape, slight winter peak. A nearby traffic station (TR070231, 2022-23) shows the same shape at 17.6. One station; dust events not filtered; Dec 2020, Jan 2021, Oct 2021 below 90% capture.",
+    "source": "https://eeadmz1batchservice02.blob.core.windows.net/airquality-p-e1a/TR/SPO-TR070741_6001.parquet",
+    "sourceLicence": "EEA reuse policy: commercial or non-commercial reuse with acknowledgement of the EEA (https://www.eea.europa.eu/en/legal-notice)",
+    "changes": [
+     {
+      "month": 1,
+      "before": 27.6,
+      "after": 23.9
+     },
+     {
+      "month": 2,
+      "before": 25.6,
+      "after": 19.6
+     },
+     {
+      "month": 3,
+      "before": 26.3,
+      "after": 18.1
+     },
+     {
+      "month": 4,
+      "before": 27.3,
+      "after": 18.5
+     },
+     {
+      "month": 5,
+      "before": 28.4,
+      "after": 18.8
+     },
+     {
+      "month": 6,
+      "before": 26.7,
+      "after": 18.2
+     },
+     {
+      "month": 7,
+      "before": 25.2,
+      "after": 16.5
+     },
+     {
+      "month": 8,
+      "before": 29.1,
+      "after": 19.9
+     },
+     {
+      "month": 9,
+      "before": 21.8,
+      "after": 18.0
+     },
+     {
+      "month": 10,
+      "before": 19.9,
+      "after": 19.4
+     },
+     {
+      "month": 11,
+      "before": 23.7,
+      "after": 20.4
+     },
+     {
+      "month": 12,
+      "before": 20.9,
+      "after": 24.6
+     }
+    ]
+   }
+  }
+ },
+ "dakar": {
+  "name": "Dakar",
+  "months": [
+   71.5,
+   87.2,
+   67.9,
+   68.8,
+   81.9,
+   65.3,
+   56.1,
+   35.2,
+   37.5,
+   56.8,
+   52.2,
+   67.6
+  ],
+  "prov": {
+   "camsAnnual": 27.1,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Dakar/SEN",
+   "whoDistKm": 5.6,
+   "whoYears": [
+    2021,
+    2022,
+    2024
+   ],
+   "whoAnnual": 62.3,
+   "whoStationTypes": "Urban industrial (n=1)",
+   "scale": 2.3,
+   "reason": "CAMS seasonal shape scaled x2.30 to WHO AAQ annual mean 62.3 µg/m³ (Dakar/SEN, 2021, 2022, 2024)"
+  }
+ },
+ "galle": {
+  "name": "Galle",
+  "months": [
+   21.8,
+   20.7,
+   20.0,
+   13.7,
+   10.5,
+   10.2,
+   10.1,
+   10.3,
+   9.9,
+   11.8,
+   14.5,
+   18.4
+  ],
+  "prov": {
+   "camsAnnual": 14.3,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
   }
  },
  "la-paz-baja": {
@@ -4160,39 +4274,6 @@
    "whoStationTypes": "urban-commercial (n=2), urban-industrial (n=1), urban-residential (n=5), urban-t",
    "scale": 0.69,
    "reason": "CAMS seasonal shape scaled x0.69 to WHO AAQ annual mean 7.7 µg/m³ (Montreal/CAN, 2021, 2022, 2023)"
-  }
- },
- "phuket": {
-  "name": "Phuket",
-  "months": [
-   18.1,
-   17.0,
-   19.4,
-   17.6,
-   11.8,
-   12.7,
-   15.1,
-   12.2,
-   11.7,
-   8.8,
-   11.1,
-   12.5
-  ],
-  "prov": {
-   "camsAnnual": 9.7,
-   "method": "cams-shape-x-who-annual",
-   "source": "who-aaq-v8+cams-om",
-   "confidence": "high",
-   "whoSettlement": "Phuket/THA",
-   "whoDistKm": 0.5,
-   "whoYears": [
-    2019,
-    2021
-   ],
-   "whoAnnual": 14.0,
-   "whoStationTypes": "Urban (n=1)",
-   "scale": 1.44,
-   "reason": "CAMS seasonal shape scaled x1.44 to WHO AAQ annual mean 14.0 µg/m³ (Phuket/THA, 2019, 2021)"
   }
  },
  "vina-del-mar": {

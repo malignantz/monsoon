@@ -138,4 +138,5 @@ export const CITY_IDS_V1 = [
   "hua-hin", // 118
   "izmir", // 119
   "phuket", // 120
+  "antalya", // 121
 ];

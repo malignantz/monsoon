@@ -2,7 +2,7 @@
 
 Monsoon is a seasonal migration planner for slow travelers, digital nomads, and expatFIRE people deciding when to be where. Nomad List tells you where; Monsoon tells you when.
 
-The product scores 120 cities month by month across weather, air quality, safety, seasonality, events, and cost. The core use case is a traveler who can stay somewhere for one to three months and wants a year that is livable, affordable, and compliant with Schengen 90/180 constraints.
+The product scores 121 cities month by month across weather, air quality, safety, seasonality, events, and cost. The core use case is a traveler who can stay somewhere for one to three months and wants a year that is livable, affordable, and compliant with Schengen 90/180 constraints.
 
 ## Product Shape
 
@@ -11,7 +11,7 @@ The product scores 120 cities month by month across weather, air quality, safety
 - City sheet: full-screen detail for one city and selected month. Each group (month, safety, cost) has a "Where these numbers come from" panel with source, date, confidence and type; cost line items link to their sources; "Report this number" opens a prefilled public GitHub issue. If the detail layer fails to load the safety block offers Retry.
 - My year: editable itinerary builder with local storage, shareable URLs, "Build me a year" seed styles, Copy as text and a one-page print layout. A shared link becomes a first-time visitor's starting year (Keep it / Undo); a visitor with a saved year gets a read-only preview with Save a copy (with Undo). See `docs/itinerary-sharing.md`. The Schengen meter counts real days over every rolling 180-day window; 1-2 days over reads "Tight" rather than legal or breached. Beside it, days per country flag any country at 183+ days (a planning signal, not tax advice). Saved routes and favorites migrate renamed cities through `SLUG_ALIASES`.
 - Methodology: a dialog with a per-input table (source, type, last refreshed), the model version (v6) and a changelog (`src/lib/changelog.js`).
-- Static pages: build-time HTML for crawlers and link previews: `/city/<slug>/` (120), `/best/where-to-be-in-<month>/` (12), `/cities/`, `sitemap.xml` and `llms.txt`. They are separate from the SPA and link into it.
+- Static pages: build-time HTML for crawlers and link previews: `/city/<slug>/` (121), `/best/where-to-be-in-<month>/` (12), `/cities/`, `sitemap.xml` and `llms.txt`. They are separate from the SPA and link into it.
 
 The month strip is the signature primitive: 12 cells, one per month, colored by Score band. It appears on browse cards, city sheets, and route-picking rows.
 
