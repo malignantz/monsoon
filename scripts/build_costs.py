@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build city cost fields in data/travel-data.json from the cost-evidence store.
 
-The evidence store (data/cost-evidence/<slug>.json, gitignored — see _schema.json)
+The evidence store (data/cost-evidence/<slug>.json, tracked in git — see _schema.json)
 is the source of truth for cost. Each file holds itemized, sourced components for
 ONE persona: a solo nomad living mid-range. This script turns those into the
 fields the app reads: rent, util, var, solo, couple, and monthly cost1/cost2.

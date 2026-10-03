@@ -157,7 +157,7 @@ export function normalizePresetKey(key) {
 
 const FLOOR_T = settings.safety_floor_threshold ?? 55;
 const FLOOR_MIN = settings.safety_floor_min ?? 0.6;
-const VALUE_EXP = settings.value_cost_exponent ?? 0.55;
+const VALUE_EXP = settings.value_cost_exponent ?? 0.45;
 
 export function safetyInput(city) {
   const s = city.safety?.score ?? 50;

@@ -73,7 +73,7 @@
   <Legend />
   <ScoreInfo title="Best Value index" align="right">
     <p>Score divided by cost — but cost is damped
-      (cost<sup>{settings.value_cost_exponent ?? 0.55}</sup>) so "best value" rewards
+      (cost<sup>{settings.value_cost_exponent ?? 0.45}</sup>) so "best value" rewards
       cheap-<em>and</em>-nice, not merely cheap.</p>
     <p>Tick "classic Best Value" for plain Score ÷ cost per $1k, where cheapness dominates.</p>
     <label class="cb pop-toggle">

@@ -62,7 +62,7 @@
         {/each}
       </div>
       <p class="qnote">Score defaults. Livability and High season re-weight the same
-        sub-scores live; Livability ignores events and only subtracts a small peak-season
+        sub-scores live; Livability ignores season and events and only subtracts a small peak-season
         crowding penalty. The safety floor always applies.</p>
     </section>
 
@@ -85,9 +85,9 @@
       <span class="qlabel">Safety</span>
       <p class="qhint">A homicide-anchored violent term (the only violent-crime stat comparable across
         countries) plus a hand-researched property/petty-crime term, then a visitor-risk multiplier for
-        whether tourists are insulated from or targeted by local crime. Government travel advisories drive
-        a <em>badge</em>, never a silent change to the number.</p>
-      <p class="src">Source · World Bank / UNODC &amp; WHO homicide rates · hand-set property &amp; visitor-risk research · US State Dept + UK FCDO advisories</p>
+        whether tourists are insulated from or targeted by local crime. Government travel advisories
+        never change the number.</p>
+      <p class="src">Source · World Bank / UNODC &amp; WHO homicide rates · hand-set property &amp; visitor-risk research</p>
     </section>
 
     <section class="q">
@@ -121,10 +121,8 @@
         <li>WHO 2021 air-quality guidelines &amp; interim targets</li>
         <li>World Bank &amp; UNODC intentional-homicide rates; WHO modeled estimates where data is stale</li>
         <li>Gallup World Poll feel-safe data via the Georgetown WPS Index</li>
-        <li>US State Department &amp; UK FCDO travel advisories (display badges only)</li>
         <li>Per-city cost-evidence store with itemized, dated receipts</li>
         <li>Climate normals for temperature, humidity, rain-days &amp; seasonal hazards</li>
-        <li>Hero photography from Wikimedia Commons, with license &amp; attribution</li>
       </ul>
     </section>
 

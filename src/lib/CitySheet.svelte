@@ -247,7 +247,7 @@
             <p>Violent is anchored on the intentional-homicide rate — here
               {saf.violent?.homicideRate ?? '—'}/100k ({saf.violent?.scope ?? 'country'}) — the only
               crime statistic comparable across countries. Property is hand-researched
-              petty-theft perception; government advisories are shown as badges, never caps.</p>
+              petty-theft perception; government advisories never cap the score.</p>
             <p class="src">{saf.violent?.source ?? 'World Bank / UNODC'}</p>
           </ScoreInfo>
         </h2>

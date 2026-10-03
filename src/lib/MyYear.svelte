@@ -153,16 +153,12 @@
 
   let sortMode = $state('qol');
 
-  // Board element + a one-shot flash so applying a proposal (which fills the
-  // timeline far above the proposal list) gives visible, located confirmation.
-  let boardEl;
-  let flash = $state(false);
   const reducedMotion = () =>
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // The timeline scrolls horizontally on narrow viewports; a right-edge fade
   // signals there are more months off-screen (only when there actually are).
-  let scrollEl;
+  let scrollEl = $state(null);
   let canScrollRight = $state(false);
   function updateScroll() {
     if (!scrollEl) return;
@@ -178,8 +174,8 @@
     regionSel = new Set();
   }
 
-  // Clicking a row's "over 90/180" warning points the user at the fix: scroll
-  // the non-Schengen filter into view, focus it, and flash it so it's found.
+  // Clicking the Schengen stat chip points the user at the fix: scroll the
+  // non-Schengen filter into view, focus it, and flash it so it's found.
   let nonSchengenEl = $state(null);
   let nonSchengenFlash = $state(false);
   function flagNonSchengen() {
@@ -363,13 +359,17 @@
       sortMode === 'value'
         ? target.reduce((a, m) => a + valueFor(c, m, preset), 0) / target.length
         : target.reduce((a, m) => a + qolFor(c, m, preset), 0) / target.length;
+    // Average $/mo over the same months the score measures, so the rail's price
+    // and number describe the identical booking window.
+    const cost = (c) => target.reduce((a, m) => a + cityCost(c.months[m]), 0) / target.length;
     return list
-      .map((c) => ({ c, s: score(c) }))
+      .map((c) => ({ c, s: score(c), cost: cost(c) }))
       .sort((a, b) => b.s - a.s)
       .slice(0, 30)
-      .map(({ c, s }) => ({
+      .map(({ c, s, cost }) => ({
         c,
         s,
+        cost,
         // Warn (don't block) when adding this Schengen city where addStay would
         // place it pushes the rolling 90/180 window over the cap.
         breach:
@@ -556,7 +556,7 @@
   {/if}
 
   {#if !screen.mobile}
-  <div class="board" class:flash class:ghost={ghostMode} bind:this={boardEl}>
+  <div class="board" class:ghost={ghostMode}>
     <div class="boardscroll-wrap" class:more={canScrollRight}>
     <div class="boardscroll" bind:this={scrollEl} onscroll={updateScroll}>
     <div class="months num">
@@ -904,19 +904,17 @@
       </p>
     {/if}
     <ul class="rows">
-      {#each pickerList as { c, s, breach } (c.key)}
+      {#each pickerList as { c, s, cost, breach } (c.key)}
         <li>
+          <div class="rail">
+            <span class="num rowq" title={sortMode === 'value' ? "Average Best Value across the months you'd book" : "Average score across the months you'd book"}>{Math.round(s)}</span>
+            <span class="railcost num" title="Average $/mo {partyWord()} across the months you'd book">{fmtMoney(cost)}<em>/mo</em></span>
+          </div>
           <div class="rowbody">
             <div class="rowhead">
               <button type="button" class="rowname" onclick={() => onopen(c.key)}>
-                {c.name}<em>{c.country}{c.schengen ? ' ◆' : ''}</em>
+                {c.name}<em>{c.country}{c.schengen ? ' ◆' : ''}{#if breach}<span class="breachnote" title="Adding this Schengen stay breaks the 90/180 cap">· over 90/180</span>{/if}</em>
               </button>
-              <div class="rowmeasure">
-                {#if breach}
-                  <button type="button" class="rowwarn" onclick={flagNonSchengen} title="Adding this Schengen stay breaks the 90/180 cap — filter to non-Schengen cities">◆ over 90/180</button>
-                {/if}
-                <span class="num rowq" title={sortMode === 'value' ? "Average Best Value across the months you'd book" : "Average score across the months you'd book"}>{Math.round(s)}</span>
-              </div>
             </div>
             <div class="rowstrip">
               <MonthStrip
@@ -1267,17 +1265,6 @@
     border: 1px solid var(--line);
     border-radius: 16px;
     padding: 18px 20px 16px;
-  }
-
-  /* One-shot confirmation when a proposal is applied to the timeline above. */
-  .board.flash {
-    animation: boardflash 1s ease;
-  }
-
-  @keyframes boardflash {
-    0% { box-shadow: 0 0 0 0 rgba(193, 79, 43, 0); border-color: var(--line); }
-    22% { box-shadow: 0 0 0 4px rgba(193, 79, 43, 0.22); border-color: var(--terra); }
-    100% { box-shadow: 0 0 0 0 rgba(193, 79, 43, 0); border-color: var(--line); }
   }
 
   .boardscroll-wrap {
@@ -1736,11 +1723,34 @@
 
   .rows li {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: 16px;
     padding: 11px 0;
     border-top: 1px solid var(--line-soft);
+  }
+
+  /* Leading decision rail: the quality number over its $/mo, both framing the
+     same booking window. Fixed width so every month strip aligns down the list. */
+  .rail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    min-width: 66px;
+  }
+
+  .railcost {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--ink-2);
+    line-height: 1;
+  }
+
+  .railcost em {
+    font-style: normal;
+    font-size: 9.5px;
+    color: var(--ink-3);
   }
 
   /* Name + score share a header line; the strip runs full width beneath it so
@@ -1756,26 +1766,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: 10px;
+    min-height: 18px;
   }
 
-  .rowwarn {
-    font-family: inherit;
-    font-size: 9.5px;
+  /* Breach cue rides the country line (which has spare room) so the city name
+     keeps full width and never wraps an extra line — the warn-styled Add button
+     carries the louder signal. */
+  .breachnote {
+    margin-left: 4px;
+    color: var(--terra-deep);
     font-weight: 600;
-    letter-spacing: 0.02em;
-    color: #7d2c12;
-    background: #f3ddd2;
-    border: none;
-    border-radius: 999px;
-    padding: 2px 8px;
-    white-space: nowrap;
-    cursor: pointer;
-    transition: background 0.13s ease;
   }
-
-  .rowwarn:hover { background: #ecc6b3; }
-  .rowwarn:focus-visible { outline: 2px solid var(--terra); outline-offset: 1px; }
 
   .rowname {
     background: none;
@@ -1800,24 +1802,15 @@
 
   .rowstrip { min-width: 0; }
 
-  /* Score + optional Schengen warning, right side of the header line. Always
-     present, so the warning never changes a row's height. */
-  .rowmeasure {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-  }
-
   /* Underlined in the same accent as the in-window month marker, so the line
      itself reads as "this number measures those months." */
   .rowq {
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 600;
     color: var(--ink);
     border-bottom: 2px solid var(--terra);
-    padding-bottom: 1px;
-    line-height: 1.1;
+    padding-bottom: 2px;
+    line-height: 1;
   }
 
   /* ───────────────────── Mobile My year ─────────────────────

@@ -2,8 +2,9 @@
 # Build dist/ for a Cloudflare Pages direct-upload deploy.
 #
 # Vite owns the build now: assets are content-hashed (cache-busting is
-# automatic) and data/travel-data.json is bundled via src/lib/data.js, so
-# dist/ should contain only index.html + assets/. Pages direct-upload does
+# automatic) and data/travel-data.json is split into src/generated/ and loaded
+# via src/lib/data.svelte.js, so dist/ should contain only index.html, assets/
+# and the public/ files (robots.txt, og.png, clearStorage.html). Pages direct-upload does
 # NOT honor .assetsignore, so after building we verify that none of the
 # private inputs (raw data files, scripts, docs) leaked into the upload set.
 set -euo pipefail

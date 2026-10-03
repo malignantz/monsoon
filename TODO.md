@@ -64,7 +64,7 @@ slices; the audit has the "why" and the citations.
   - Explain why suggested routes win.
   - Add a lock/fill interaction where the planner fills around fixed stays.
 - [ ] Make visa/passport constraints actionable in route building.
-  - User settings already store `passport`; city sheets already show visa rows.
+  - `prefs.passport` is a stub with no Settings control; `city.visa` is baked into the data but not rendered anywhere yet.
   - My year should flag or prevent stays beyond passport-specific visa-free windows.
   - Keep Schengen as a special rolling-window rule.
 
@@ -127,7 +127,7 @@ Full rationale + sources in `UX_RESEARCH_AUDIT.md`.
   - Cover passport-specific rules, e-visas/arrival cards, extensions, Schengen rolling windows, and source freshness.
   - Decide which visa signals belong in discovery, city detail, and My year validation.
 - [ ] Decide whether cost should become part of the headline score or remain a Best Value lens only.
-  - Current model keeps Top Pick cost-free and uses Best Value for Top Pick relative to cost.
+  - Current model keeps the Score cost-free and uses Best Value for Score relative to cost.
   - Product positioning leans hard on livability per dollar, so the default ranking may eventually need to become more budget-aware.
 - [ ] Research resident-livability dimensions that are not yet scored.
   - Healthcare access/quality.
