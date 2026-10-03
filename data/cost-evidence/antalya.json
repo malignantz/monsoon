@@ -1,0 +1,32 @@
+{
+  "city": "Antalya",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-10",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 730, "party": "shared",              "source": "emlakjet.com", "asOf": "2026-10", "confidence": "med", "note": "Furnished 1+1 in Konyaaltı or Lara (Güzeloba/Şirinyalı). Live emlakjet asking rents of 28,000–45,000 TL, median about 35,000 TL (about $712 at 49.13 TRY/USD), plus a small premium for 1–3 month terms. Several winter lets end on 1 June."},
+    "utilities": {"usd": 90,  "party": "shared",              "source": "wise.com", "asOf": "2026-10", "confidence": "med", "note": "Electric, water and home internet. Wise gives £67 utilities plus £10 internet for an 85 m² flat (about $102 at 0.756 GBP/USD), scaled down for a 55–65 m² 1+1. Summer air-con pushes bills up."},
+    "groceries": {"usd": 200, "party": "perPerson",           "source": "wise.com", "asOf": "2026-10", "confidence": "med", "note": "Home cooking. Wise gives £160/month per person (about $212); Migros/BİM plus weekly pazars."},
+    "diningOut": {"usd": 175, "party": "perPerson",           "source": "wise.com", "asOf": "2026-10", "confidence": "med", "note": "Derived: about 14 meals out at about $9 (Wise: inexpensive meal £6) plus about 15 café coffees at about $3.50."},
+    "transit":   {"usd": 40,  "party": "perPerson",           "source": "antalyakart.com.tr", "asOf": "2026-10", "confidence": "med", "note": "Official full fare is 42 TL per boarding with Antalyakart, transfers free; there is no general monthly pass. 40 boardings is about 1,680 TL ($34), plus the odd taxi."},
+    "coworking": {"usd": 120, "party": "perPersonDiscounted", "source": "editorial estimate (myturkeyadventure.com, nomads.com)", "asOf": "2026-10", "confidence": "low", "note": "Thin coworking scene, and no operator price page could be verified. Aggregator figures range from $80–200 (guide listing, possibly AI-written) to $248 (nomads.com, formulaic). Set near Istanbul's $120."},
+    "simData":   {"usd": 37,  "party": "perPerson",           "source": "bento.travel", "asOf": "2026-10", "confidence": "med", "note": "Turkcell Tourist Welcome Pack: 20 GB plus 200 minutes for 30 days, about 1,800 TRY in mid-2026. Foreign phones are IMEI-blocked after 120 days, which doesn't affect 1–3 month stays."},
+    "misc":      {"usd": 110, "party": "perPersonDiscounted", "source": "editorial estimate", "asOf": "2026-10", "confidence": "low", "note": "Gym, hammam, toiletries, museum and site entries, buffer. Set between Istanbul ($120) and Chania ($145) less Turkey's lower price level."}
+  },
+  "accomSeasonality": {
+    "_doc": "Editorial. Annual-lease owners switch flats to holiday lets for Jun–Sep (several emlakjet winter lets end 1 June), so monthly rents for short stays rise sharply in summer and are cheapest Dec–Feb.",
+    "values": [0.85, 0.85, 0.9, 1.0, 1.1, 1.25, 1.35, 1.35, 1.2, 1.0, 0.9, 0.85]
+  },
+  "evidence": [
+    {"claim": "Konyaaltı furnished 1+1 asking rents, 1–3 Oct 2026: 28,000 / 30,000 / 30,000 / 35,000 / 40,000 / 45,000 / 28,000 TL", "quote": "Konyaaltı Limanda Havuzlu 1+1 Eşyalı Kiralık Daire | Konyaaltı, Liman Mahallesi | 1+1 · 65 m² · 3. Kat | 03.10.2026 | 28.000 ₺", "source": "emlakjet.com", "url": "https://www.emlakjet.com/kiralik-daire/antalya-konyaalti", "date": "2026-10", "confidence": "med"},
+    {"claim": "Lara-side (Muratpaşa) furnished 1+1 asking rents 30,000–43,500 TL", "quote": "Acc Homes'tan Eski Lara Cad.üzerinde Eşyalı 1+1 | Muratpaşa, Şirinyalı Mahallesi | 65 m² | 02.10.2026 | 43.500 ₺", "source": "emlakjet.com", "url": "https://www.emlakjet.com/kiralik-daire/antalya-muratpasa", "date": "2026-10", "confidence": "med"},
+    {"claim": "Some Konyaaltı furnished lets are winter-only (end 1 June), so summer monthly supply tightens", "quote": "Liman'ın Kalbinde Havuzlu Sitede Full Eşyalı 1+1 Kiralık – 1 Haziran Çıkışlı ... 30.000 ₺", "source": "emlakjet.com", "url": "https://www.emlakjet.com/kiralik-daire/antalya-konyaalti", "date": "2026-10", "confidence": "med"},
+    {"claim": "Official Antalyakart fare 42 TL per boarding, transfers free", "quote": "Tam Ücret: 42.00 TL Emekli - Öğretmen: 40.00 TL Öğrenci 20.00 TL ... Aktarma: Ücretsiz", "source": "antalyakart.com.tr", "url": "https://www.antalyakart.com.tr/Page/Faqs", "date": "2026-10", "confidence": "high"},
+    {"claim": "Utilities £67 (85 m²) plus internet £10; groceries £160 per person; inexpensive meal £6; monthly pass £20", "quote": "Basic utilities in Antalya ... for an 85m² apartment) cost an average of £67 per month. Internet access typically adds another £10.", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/turkey/antalya", "date": "2026-10", "confidence": "med"},
+    {"claim": "Turkcell Tourist Welcome Pack about 1,800 TRY for 20 GB / 30 days", "quote": "officially runs around 1,500 TRY (~$33), though mid-2026 reports put it closer to 1,800 TRY in practice", "source": "bento.travel", "url": "https://www.bento.travel/turkey/sim-card", "date": "2026-10", "confidence": "med"},
+    {"claim": "Coworking aggregator figures (unverified, possibly AI-written): Konyaaltı spaces $80–130/month", "quote": "Cowork Konyaaltı | Konyaaltı | $80 - $120", "source": "myturkeyadventure.com", "url": "https://myturkeyadventure.com/blog/antalya-digital-nomad-guide-best-co-working-cafes-sea-view-turkey", "date": "2026-09", "confidence": "low"},
+    {"claim": "nomads.com: 1BR centre $564, coworking hot desk $248 (crowd/model data)", "quote": "1BR studio (city center): $564/month ... Coworking hot desk: $248/month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/antalya", "date": "2026-10", "confidence": "low"},
+    {"claim": "FX used: 1 USD = 49.13 TRY; 1 USD = 0.756 GBP (2026-10-03)", "quote": "TRY 49.134891 ... GBP 0.756313 (time_last_update_utc Sat, 03 Oct 2026)", "source": "open.er-api.com", "url": "https://open.er-api.com/v6/latest/USD", "date": "2026-10", "confidence": "high"}
+  ]
+}

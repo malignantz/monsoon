@@ -1,0 +1,33 @@
+{
+  "city": "Dakar",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-10",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 975, "party": "shared",              "source": "sn.coinafrique.com / numbeo.com", "asOf": "2026-10", "confidence": "med", "note": "furnished 1BR ('2 pièces') in Mermoz / Ngor-Almadies / Point E ~570,000 FCFA (monthly listings 500k–650k; Numbeo unfurnished 1BR centre 475k). FX 583 XOF/USD"},
+    "utilities": {"usd": 130, "party": "shared",              "source": "osiris.sn / numbeo.com", "asOf": "2026-10", "confidence": "low", "note": "Orange fibre 100 Mbps 24,900 FCFA + electricity/water ~50,000 FCFA (estimate: about half Numbeo's 118,944 FCFA 85 m² figure; A/C drives Senelec bills). Many furnished lets include some of this"},
+    "groceries": {"usd": 220, "party": "perPerson",           "source": "numbeo.com", "asOf": "2026-10", "confidence": "low", "note": "home cooking; local markets cheap but imported staples (dairy, cheese, cereals) are expensive — milk ~1,500 FCFA/L"},
+    "diningOut": {"usd": 170, "party": "perPerson",           "source": "numbeo.com", "asOf": "2026-10", "confidence": "med", "note": "derived: 10 local meals x 3,000 FCFA + 2 mid-range meals (31,000 FCFA for two) + 12 cappuccinos x 1,975 FCFA + extras ≈ 100,000 FCFA (Numbeo, 18 contributors)"},
+    "transit":   {"usd": 60,  "party": "perPerson",           "source": "au-senegal.com / numbeo.com", "asOf": "2026-09", "confidence": "low", "note": "derived: ~20 BRT/DDD rides at 400–500 FCFA + ~12 Yango/taxi rides at ~2,000 FCFA; BRT does not reach Almadies, so taxis dominate for expats"},
+    "coworking": {"usd": 110, "party": "perPersonDiscounted", "source": "coworkingcafe.com / au-senegal.com", "asOf": "2026-10", "confidence": "med", "note": "hot desk ~60,000–65,000 FCFA/month (Impact Hub from 60,000; Jokkolabs 65,000 in 2021); Regus Almadies is pricier"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "orange.sn", "asOf": "2026-10", "confidence": "high", "note": "Orange Pass Internet mois 25 GB = 5,000 FCFA plus a little call credit"},
+    "misc":      {"usd": 110, "party": "perPersonDiscounted", "source": "numbeo.com", "asOf": "2026-10", "confidence": "low", "note": "gym (~26,250 FCFA), toiletries, entertainment, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "12 monthly multipliers for RENT ONLY (Jan..Dec). Editorial: dry-season (Nov–Mar) visitor and short-stay expat demand firms furnished rents; the Jul–Sep rainy season is softest. Dakar's furnished market is mostly business/expat driven, so the swing is modest.",
+    "values": [1.05, 1.05, 1.05, 1.00, 1.00, 0.95, 0.95, 0.95, 0.95, 1.00, 1.05, 1.05]
+  },
+  "evidence": [
+    {"claim": "Furnished 1-bedroom + living room, 70 m², Mermoz: 500,000 FCFA per month", "quote": "il est composé de d’une chambre un salon une cuisine la location est fixée à 500000 frs cfa par mois", "source": "sn.coinafrique.com", "url": "https://sn.coinafrique.com/annonce/appartements-meubles/location-appartement-meuble-2-pieces-a-mermoz-6064603", "date": "2026-10", "confidence": "high"},
+    {"claim": "Furnished 1BR ~60 m², Ngor-Almadies, secure residence with pool, gym and generator: 580,000 FCFA, available 1 Oct 2026", "quote": "situé à ngor almadies ... loyer : 580 000 fcfa", "source": "sn.coinafrique.com", "url": "https://sn.coinafrique.com/annonce/appartements-meubles/location-appartements-meubles-2-pieces-ngor-6044204", "date": "2026-10", "confidence": "high"},
+    {"claim": "Furnished 1BR 85 m², Point E, modern block with fibre and generator: 650,000 FCFA", "quote": "en location un studio standing meublé au point e dans un immeuble moderne composé de : 1 chambres", "source": "sn.coinafrique.com", "url": "https://sn.coinafrique.com/annonce/appartements-meubles/location-appartements-meubles-2-pieces-point-e-6069122", "date": "2026-10", "confidence": "med"},
+    {"claim": "Numbeo Dakar 1BR centre 475,000 FCFA; utilities 118,944; broadband 27,160; cheap meal 3,000; mid-range for two 31,000; gym 26,250 (18 contributors)", "quote": "202 entries in the past 12 months by 18 different contributors", "source": "numbeo.com", "url": "https://www.numbeo.com/cost-of-living/in/Dakar", "date": "2026-10", "confidence": "med"},
+    {"claim": "Orange fibre 100 Mbps 24,900 FCFA/month (Yas 150 Mbps 22,900) as of June 2026", "quote": "100 Mbps à 24 900 FCFA / mois", "source": "osiris.sn", "url": "https://www.osiris.sn/telecoms-au-senegal-la-guerre-de-l-internet-est-declaree-yas-cree-la-surprise.html", "date": "2026-06", "confidence": "med"},
+    {"claim": "Orange monthly data pass: 25 GB for 5,000 FCFA", "quote": "Pass | 25 Go | 5000F | Pour tous les clients d’Orange.. Valable 1 mois", "source": "orange.sn", "url": "https://www.orange.sn/pass-internet", "date": "2026-10", "confidence": "high"},
+    {"claim": "BRT fares 400 FCFA within a zone, 500 FCFA across zones", "quote": "400 FCFA pour un trajet effectué à l'intérieur d'une même zone", "source": "au-senegal.com", "url": "https://au-senegal.com/brt-dakar-lignes-stations-tarifs-et-comment-l-utiliser,18546.html", "date": "2026-09", "confidence": "med"},
+    {"claim": "Impact Hub Dakar (Cité Keur Gorgui) coworking from 60,000 FCFA/month, day from 4,000", "quote": "from CFA60,000/month", "source": "coworkingcafe.com", "url": "https://www.coworkingcafe.com/coworking-property/sn/region-de-dakar/dakar/cite-keur-gorgui", "date": "2026-10", "confidence": "med"},
+    {"claim": "Jokkolabs monthly 65,000 FCFA; Ofisini 70,000; Regus coworking 58,500 (2021 guide — dated)", "quote": "abonnement mensuel qui s'élève à 65 000 FCFA", "source": "au-senegal.com", "url": "https://au-senegal.com/ou-trouver-des-espaces-de-coworking-a-dakar,16116.html", "date": "2021-11", "confidence": "low"},
+    {"claim": "FX used: 1 USD = 583 XOF (3 Oct 2026; XOF pegged at 655.957/EUR)", "quote": "\"XOF\":582.983896", "source": "open.er-api.com", "url": "https://open.er-api.com/v6/latest/USD", "date": "2026-10", "confidence": "high"}
+  ]
+}

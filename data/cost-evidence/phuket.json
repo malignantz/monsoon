@@ -1,0 +1,35 @@
+{
+  "city": "Phuket",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-10",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 850, "party": "shared",              "source": "ddproperty.com; fazwaz.com; iamkohchang.com", "asOf": "2026-10", "confidence": "med", "note": "furnished 1BR condo in Rawai/Chalong/Kata, ~28,500 THB at 33.56 THB/USD. DDproperty Rawai 1BR asking median ~29.5k THB; FazWaz Rawai 1BR avg $1,107 skews to new sea-view builds; Chalong condos 18-25k"},
+    "utilities": {"usd": 115, "party": "shared",              "source": "iamkohchang.com", "asOf": "2026-09", "confidence": "med", "note": "electric 2,500-3,000 THB (light AC) + water 300-400 + fibre 700-900 = ~3,900 THB; heavy AC use pushes electric to 4-5k"},
+    "groceries": {"usd": 150, "party": "perPerson",           "source": "iamkohchang.com (derived)", "asOf": "2026-09", "confidence": "low", "note": "home cooking, mix of markets and Makro/Lotus; split from a 15,000 THB/mo 'comfortable' food budget"},
+    "diningOut": {"usd": 230, "party": "perPerson",           "source": "iamkohchang.com", "asOf": "2026-09", "confidence": "med", "note": "street food 60-80 THB a meal plus some Western mains at 350-600 THB; food total ~$380 vs a 15k THB (~$447) comfortable budget"},
+    "transit":   {"usd": 125, "party": "perPerson",           "source": "byklo.rent; iamkohchang.com; phuketsmartbus.com", "asOf": "2026-09", "confidence": "med", "note": "monthly scooter ~3,500 THB (Rawai 3,000-4,800) + fuel ~600 THB; Grab rides are 150-250 THB, Smart Bus airport-Rawai 100 THB"},
+    "coworking": {"usd": 115, "party": "perPersonDiscounted", "source": "thaiholidayguide.com (Grind Time 3,745 THB; The Project 3,900 THB)", "asOf": "2026-07", "confidence": "med", "note": "hot-desk monthly in Chalong/Rawai, ~3,850 THB; island range ~3,500-7,000 THB"},
+    "simData":   {"usd": 12,  "party": "perPerson",           "source": "dtac.co.th", "asOf": "2026-10", "confidence": "med", "note": "Thai prepaid: dtac 10GB/30 days 214 THB incl. VAT; ~400 THB for a larger monthly allowance"},
+    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "editorial (iamkohchang.com misc 5,000 THB)", "asOf": "2026-09", "confidence": "low", "note": "gym/Muay Thai, toiletries, entertainment, buffer; set above Chiang Mai's $100 for resort pricing"}
+  },
+  "accomSeasonality": {
+    "_doc": "Rent-only multipliers Jan..Dec. Peak Dec-Feb (dry NE monsoon, European winter); low season May-Oct with up to 30% off (iamkohchang.com); June/September quietest.",
+    "values": [1.25, 1.25, 1.1, 1.0, 0.85, 0.8, 0.85, 0.85, 0.8, 0.85, 1.05, 1.3]
+  },
+  "evidence": [
+    {"claim": "FazWaz Rawai: 1BR average asking rent $1,107/mo (206 listings); studio $908", "quote": "1 Bedroom (View 206 Condos) $1,107", "source": "fazwaz.com", "url": "https://www.fazwaz.com/condo-for-rent/thailand/phuket/mueang-phuket/rawai?bedrooms=1", "date": "2026-10", "confidence": "high"},
+    {"claim": "FazWaz Chalong: 1BR average asking rent $1,182/mo (165 listings); studio $503", "quote": "1 Bedroom (View 165 Condos) $1,182", "source": "fazwaz.com", "url": "https://www.fazwaz.com/condo-for-rent/thailand/phuket/phuket-town/chalong?bedrooms=1", "date": "2026-10", "confidence": "high"},
+    {"claim": "DDproperty Rawai 1BR listings (Sep-Oct 2026), first page: 13k-68k THB; median ~29.5k THB (~$880). Examples: Nai Harn Re-Life 25,000; At The Tree 20,000; The Proud 22,515; NOON Village (Chalong) 16,000-20,000", "quote": "21 Condos for Rent - 1 Bedrooms, Rawai", "source": "ddproperty.com", "url": "https://www.ddproperty.com/en/condo-for-rent?freetext=Rawai&beds=1", "date": "2026-10", "confidence": "high"},
+    {"claim": "Comfortable expat budget: Chalong condo 22,000 THB, utilities 3,500, food 15,000, transport 4,000, misc 5,000 (total 56,000 THB incl. insurance)", "quote": "Rent (Chalong condo): 22,000 THB ($610)", "source": "iamkohchang.com", "url": "https://iamkohchang.com/blog/cost-to-live-in-phuket.html", "date": "2026-09", "confidence": "med"},
+    {"claim": "Utilities: electric 2,500-3,000 THB (light AC), water 300-400, internet 700-900; scooter 3,000-4,500 THB/mo, fuel 500-800", "quote": "Electricity (light AC use): 2,500-3,000 THB", "source": "iamkohchang.com", "url": "https://iamkohchang.com/blog/cost-to-live-in-phuket.html", "date": "2026-09", "confidence": "med"},
+    {"claim": "Low season brings rent deals of up to 30% off (basis for seasonality)", "quote": "Best time for rental deals with up to 30% off.", "source": "iamkohchang.com", "url": "https://iamkohchang.com/blog/cost-to-live-in-phuket.html", "date": "2026-09", "confidence": "med"},
+    {"claim": "Monthly Honda Click rental in Rawai 3,000-4,800 THB", "quote": "Monthly contracts in Phuket Town and Rawai drop the effective per-day rate below the cheapest Patong walk-in", "source": "byklo.rent", "url": "https://www.byklo.rent/en/blog/best-scooter-rental-phuket/", "date": "2026-05", "confidence": "med"},
+    {"claim": "Phuket Smart Bus: airport to Rawai 100 THB", "quote": "Airport → Rawai: 100 THB", "source": "phuketsmartbus.com", "url": "https://www.phuketsmartbus.com/timetable", "date": "2026-10", "confidence": "high"},
+    {"claim": "Coworking monthly: Grind Time (Chalong) 3,745 THB; The Project (Rawai) 3,900 THB", "quote": "Day pass: 375 THB; Weekly: 1,605 THB; Monthly: 3,745 THB", "source": "thaiholidayguide.com", "url": "https://www.thaiholidayguide.com/coworking-spaces-phuket/", "date": "2026-07", "confidence": "med"},
+    {"claim": "Crowd-sourced cross-check: 1BR $732, coworking $165, nomad total $1,493/mo", "quote": "Coworking hot desk: $165/month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/phuket", "date": "2026-10", "confidence": "low"},
+    {"claim": "Thai prepaid data: dtac 10GB/30 days at 200 THB (214 THB incl. VAT)", "quote": "Net 10GB 30D Get free LINE MAN coupon value 200B", "source": "dtac.co.th", "url": "https://www.dtac.co.th/en/package/prepaid/UP2U/detail/21234150", "date": "2026-10", "confidence": "med"},
+    {"claim": "Exchange rate used: 1 USD = 33.56 THB (3 Oct 2026)", "quote": "\"THB\": 33.555074", "source": "open.er-api.com", "url": "https://open.er-api.com/v6/latest/USD", "date": "2026-10", "confidence": "high"}
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "name": "Agadir",
+  "country": "Morocco",
+  "iso3": "MAR",
+  "region": "Africa",
+  "lat": 30.4278,
+  "lng": -9.5981,
+  "coordsNote": "City centre behind the main beach (Talborjt / seafront); Founty and the Marina sit 1–3 km south and north along the bay; Taghazout surf villages ~20 km north.",
+  "timezone": "UTC+1",
+  "schengen": false,
+  "visa": null,
+  "english": {
+    "tier": 1,
+    "note": "Tourist zones",
+    "rationale": "Morocco scores 492 on EF EPI (Moderate band, #68) and Agadir itself 485, slightly under the national figure; French is the main second language. English is fine in hotels, surf camps and the seafront, thinner elsewhere. Unlike Marrakech no expat-hub bump: the long-stay community is largely French-speaking.",
+    "sources": [
+      {"title": "EF EPI — Morocco", "url": "https://www.ef.com/wwen/epi/regions/africa/morocco/", "accessed": "2026-10-03", "note": "Morocco 492 (#68, Moderate); Souss-Massa region 484, Agadir 485."}
+    ]
+  },
+  "draw": "Beach / winter sun",
+  "vibe": "Modern Atlantic resort city, long sandy bay, surf villages up the coast",
+  "narrative": "Rebuilt after the 1960 earthquake, Agadir is a low-rise, modern resort city: a long crescent beach and promenade, the Souk El Had market, the hilltop Kasbah Oufella ruins, fresh fish at the port and surf at Taghazout and Tamraght 20 km north. Calmer and more conventional than Marrakech, with a long-standing European winter crowd — but there is no old medina to speak of, and the Atlantic rarely tops 21 °C.",
+  "activities": {
+    "adventure": 2,
+    "culture": 1,
+    "nomad": 1,
+    "wellness": 2,
+    "water": 2,
+    "food": 2,
+    "nature": 2,
+    "nightlife": 1
+  },
+  "season": {
+    "months": ["In", "In", "In", "In", "Shoulder", "Shoulder", "Peak", "Peak", "Shoulder", "In", "In", "Peak"],
+    "rationale": "Editorial estimate. Two seasons: European (British-led) winter sun from October to April, with Christmas–New Year near full (~90% expected occupancy), and a domestic summer peak — forecast occupancy 60% Jun, 68% Jul, 84% Aug, with Moroccan holidaymakers at least half of late-July–August activity. May–June and September are the gaps. Jan–Apr 2025 classified-hotel occupancy averaged 60.8% with the UK at ~26% of arrivals.",
+    "sources": [
+      {"title": "Bladi.net — Tourisme au Maroc : des records attendus cet été (25 Jun 2025)", "url": "https://www.bladi.net/tourisme-maroc-records-attendus-cet-ete-mre-pole-position,115451.html", "accessed": "2026-10-03", "quote": "les touristes nationaux qui constituent au moins 50 % de notre activité d'hébergement entre fin juillet et fin août", "note": "Agadir forecast occupancy 60% June, 68% July, 84% August."},
+      {"title": "Bladi.net — Marrakech, la star des fêtes de fin d'année, Agadir en embuscade (30 Dec 2024)", "url": "https://www.bladi.net/marrakech-star-fetes-fin-annee-agadir-embuscade,112315.html", "accessed": "2026-10-03", "note": "Agadir year-end occupancy expected ~90%."},
+      {"title": "Hespress English — Agadir tourism continues upward trend, British market leads growth (1 Jun 2025)", "url": "https://en.hespress.com/112200-112200.html", "accessed": "2026-10-03", "quote": "The British market remained Agadir's top performer, accounting for 25.85% of arrivals and nearly a third of overnight stays."}
+    ]
+  },
+  "hazards": [],
+  "swim": {
+    "body": "sea",
+    "name": "Atlantic (Agadir Bay)",
+    "months": [7, 8, 9, 10],
+    "note": "Peaks only ~21 °C; winter sea 17.5–18 °C (surfers wear wetsuits)",
+    "source": {"title": "seatemperature.org — Agadir monthly averages", "url": "https://www.seatemperature.org/africa/morocco/agadir.htm", "accessed": "2026-10-03", "note": "20.3 °C Jul, 20.8 °C Aug, 20.9 °C Sep–Oct; 19.4–19.7 °C in Jun and Nov."}
+  },
+  "events": [
+    {
+      "name": "Ramadan & Eid al-Fitr",
+      "months": [2, 3],
+      "tier": 2,
+      "blurb": "daytime slows and evenings fill after ftour; 2027 expected ~8 Feb – 9/10 Mar, and Morocco sets clocks back to UTC+0 for the month",
+      "source": {"title": "The National — Ramadan 2027 dates and Eid Al Fitr holiday (9 Sep 2026)", "url": "https://www.thenationalnews.com/news/uae/2026/09/09/ramadan-2027-dates-eid-al-fitr-holiday/", "accessed": "2026-10-03", "quote": "Ramadan 2027 is projected to begin on February 8, lasting either 29 or 30 days", "note": "Ramadan 2026 also fell mid-Feb to mid-Mar. Clock change per calendarific.com/holidays/2027/MA (DST ends 7 Feb, restarts 14 Mar 2027)."}
+    },
+    {
+      "name": "Timitar festival",
+      "months": [7],
+      "tier": 2,
+      "blurb": "three nights of Amazigh and world music on Place Al Amal and at the Théâtre de Verdure (21st edition, 23–25 July 2026)",
+      "source": {"title": "Maroc.ma — Agadir : la 21e édition du festival Timitar du 23 au 25 juillet", "url": "https://maroc.ma/fr/actualites/agadir-la-21e-edition-du-festival-timitar-du-23-au-25-juillet", "accessed": "2026-10-03", "quote": "Les artistes amazighs accueillent les musiques du monde"}
+    },
+    {
+      "name": "Eid al-Adha",
+      "months": [5],
+      "tier": 1,
+      "blurb": "family feast; businesses close for a few days (2027 expected 17 May)",
+      "source": {"title": "Calendarific — Morocco holidays 2027", "url": "https://calendarific.com/holidays/2027/MA", "accessed": "2026-10-03", "note": "Eid al-Adha Mon 17 May 2027 (provisional); 2026 fell in late May."}
+    }
+  ],
+  "safety": {
+    "propertySub": 62,
+    "propertyNote": "Beach and souk pickpocketing, bag-snatching; calmer than Marrakech",
+    "womensAdj": -12,
+    "womensSafetyNote": "Unwanted attention for women alone; less intense than Marrakech",
+    "touristMod": 1.0,
+    "touristRationale": "",
+    "touristTags": ["petty-theft", "women-safety-caution"],
+    "homicideOverride": null,
+    "rationale": {
+      "property": "Editorial estimate. FCDO says petty crime is common in Moroccan tourist areas, including beaches, but crime against visitors concentrates in Marrakech, Casablanca, Fes and Tangier; Agadir's modern resort layout has no maze-like medina. Set above Marrakech (55) but well below the Spanish coast (65-70).",
+      "tourist": "Hustling and fake guides exist but are far milder than in Marrakech's medina, which is why Marrakech carries 0.95; resort-zone visitors face roughly local risk, so 1.0.",
+      "womens": "FCDO notes women may face unwanted attention, particularly alone. Agadir is a more relaxed, beach-oriented city than Marrakech (-23), so roughly half that delta."
+    },
+    "calibratedAgainst": ["Marrakech", "Las Palmas", "Málaga"],
+    "consulted": [
+      {"title": "UK FCDO — Morocco: safety and security (updated 19 Aug 2026)", "url": "https://www.gov.uk/foreign-travel-advice/morocco/safety-and-security", "accessed": "2026-10-03", "quote": "Petty crime is common in tourist areas, especially in historical districts (medina quarters) and on beaches."},
+      {"title": "UK FCDO — Morocco travel advice summary", "url": "https://www.gov.uk/foreign-travel-advice/morocco", "accessed": "2026-10-03", "note": "Still current at 3 October 2026; updated 19 August 2026."},
+      {"title": "Expat.com — Safety in Morocco", "url": "https://www.expat.com/en/guide/africa/morocco/17688-safety-in-morocco.html", "accessed": "2026-10-03", "quote": "Petty theft is probably worst in Marrakesh and Casablanca, Salé and Fes where there are the most tourists."},
+      {"title": "U.S. State Department — Travel Advisories RSS feed", "url": "https://travel.state.gov/_res/rss/TAsTWs.xml", "accessed": "2026-10-03", "quote": "Exercise increased caution in Morocco due to risk of terrorism. Some areas have increased risk.", "note": "Morocco item 'Level 2: Exercise Increased Caution', pubDate Fri 04 Sep 2026."}
+    ],
+    "advisory": {
+      "level": 2,
+      "text": "Exercise increased caution",
+      "date": "2026-09-04",
+      "url": "https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.mar.html",
+      "risks": ["Terrorism"],
+      "regionalLevel": 2,
+      "localLevel": 2,
+      "localArea": null
+    }
+  },
+  "selection": "Atlantic winter-sun base with a long-established European snowbird community and surf at Taghazout 20 km north; fills the Dec–Feb window and adds an African coastal option beside Marrakech.",
+  "asOf": "2026-10",
+  "researchNotes": "Timezone: Morocco keeps UTC+1 year-round except during Ramadan, when it switches to UTC+0 (e.g. 7 Feb – 14 Mar 2027 per calendarific). US advisory: level, date and risk text verified from the State Dept RSS feed (travel.state.gov/_res/rss/TAsTWs.xml); the advisory page linked from the feed returned HTTP 403, so I could not read which 'areas have increased risk' (historically the Western Sahara / Algerian border regions, far from Agadir). Hazards empty: Agadir's Atlantic climate is mild; occasional chergui (Saharan wind) heat spikes are short-lived and should show in the climate data. Seismic risk (1960 quake) is real but not a monthly hazard."
+}

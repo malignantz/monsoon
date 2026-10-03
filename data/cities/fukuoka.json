@@ -1,0 +1,84 @@
+{
+  "$schema": "./_schema.json",
+  "name": "Fukuoka",
+  "country": "Japan",
+  "iso3": "JPN",
+  "region": "E Asia",
+  "lat": 33.5904,
+  "lng": 130.4017,
+  "coordsNote": "Tenjin/Hakata core (Chuo and Hakata wards), where the long-stay monthly apartments and coworking spaces cluster.",
+  "timezone": "UTC+9",
+  "schengen": false,
+  "visa": null,
+  "english": {
+    "tier": 1,
+    "note": "Tourist zones",
+    "rationale": "EF EPI 2025 puts Japan in the Low band (score 446, #96) and Fukuoka's own city score (445) sits at the national level, so no expat-hub bump. Same tier as Tokyo and Osaka: signage, transit and hotels handle English; everyday conversation outside them is limited.",
+    "sources": [
+      {"title": "EF EPI 2025: Japan", "url": "https://www.ef.com/wwen/epi/regions/asia/japan/", "accessed": "2026-10-03", "note": "Japan 446, rank 96, Low band; Fukuoka city score 445."}
+    ]
+  },
+  "draw": "City / food",
+  "vibe": "Compact harbour city: yatai ramen stalls, beaches by subway, cheaper than Tokyo",
+  "narrative": "Japan's easy second city: Hakata ramen at riverside yatai in Nakasu, an airport two subway stops from downtown, Ohori Park and Maizuru's castle ruins for walking, and Itoshima's beaches within reach. Rents run well below Tokyo; the trade is a muggy rainy season into July and typhoons that reach northern Kyushu from August to September.",
+  "activities": {"adventure": 1, "culture": 2, "nomad": 2, "wellness": 2, "water": 2, "food": 3, "nature": 2, "nightlife": 2},
+  "season": {
+    "months": ["Shoulder", "Shoulder", "Peak", "Peak", "In", "Off", "In", "In", "Shoulder", "In", "In", "In"],
+    "rationale": "Editorial estimate. Late March to early April is sakura (the Fukuoka Castle Sakura Festival runs about two weeks around the turn of the month) plus Japan's spring moving season; May has Golden Week and Hakata Dontaku; June is the rainy season lull; July has Hakata Gion Yamakasa and school holidays; August is Obon travel despite the heat; September is typhoon-exposed and quieter apart from Hojoya; October to December bring mild weather, the November Kyushu sumo basho and year-end travel. Winter is quiet but mild.",
+    "sources": [
+      {"title": "Fukuoka City Official Tourist Guide: Fukuoka Castle Sakura Festival 2026", "url": "https://www.gofukuoka.jp/events/detail/1854053d-da55-4680-8f4a-5b28d4066416", "accessed": "2026-10-03", "quote": "The Fukuoka Castle Sakura Festival March 26th (Wednesday) ~ April 6th (Sunday)"},
+      {"title": "Fukuoka Prefecture Official Travel Guide: July events", "url": "https://www.crossroadfukuoka.jp/en/articles/july", "accessed": "2026-10-03", "quote": "Wednesday, July 1 – Wednesday, July 15, 2026"}
+    ]
+  },
+  "hazards": [
+    {"months": [7, 8], "level": 1, "note": "Summer heat & typhoon season", "source": {"title": "JMA typhoon climatology: average approaches by region (Northern Kyushu)", "url": "https://www.data.jma.go.jp/yoho/typhoon/statistics/average/average.html", "accessed": "2026-10-03", "note": "Northern Kyushu normals: Jul 0.8, Aug 1.1 approaches/month (within 300 km); hot, humid peak summer."}},
+    {"months": [9], "level": 1, "note": "Typhoon season", "source": {"title": "JMA typhoon climatology: average approaches by region (Northern Kyushu)", "url": "https://www.data.jma.go.jp/yoho/typhoon/statistics/average/average.html", "accessed": "2026-10-03", "note": "Northern Kyushu normal: Sep 1.1 approaches/month, joint highest with August."}}
+  ],
+  "swim": {
+    "body": "sea",
+    "name": "Momochi Seaside Park / Itoshima beaches",
+    "months": [7, 8, 9],
+    "note": "Lifeguarded beach season runs early July to end of August (Momochi to 1 Sep); sea stays ~26°C into September.",
+    "source": {"title": "seatemperatu.re: Fukuoka sea temperature by month", "url": "https://www.seatemperatu.re/east-asia/japan/fukuoka/when.html", "accessed": "2026-10-03", "note": "Monthly means Jul 78°F, Aug 82°F, Sep 79°F, Oct 76°F; Fukuoka Now beach guide lists 2026 swim seasons (Momochi 11 Jul–1 Sep)."}
+  },
+  "events": [
+    {"name": "Hakata Gion Yamakasa", "months": [7], "tier": 3, "blurb": "two weeks of decorated floats, ending in the dawn Oiyama race on July 15", "source": {"title": "Fukuoka Prefecture Official Travel Guide: July events", "url": "https://www.crossroadfukuoka.jp/en/articles/july", "accessed": "2026-10-03", "quote": "Wednesday, July 1 – Wednesday, July 15, 2026"}},
+    {"name": "Hakata Dontaku", "months": [5], "tier": 2, "blurb": "Golden Week parade festival on May 3–4", "source": {"title": "Fukuoka Now: Hakata Dontaku 2026", "url": "https://www.fukuoka-now.com/en/event/hakata-dontaku-26/", "accessed": "2026-10-03", "quote": "May 3, 2026 (Sun., Hol), May 4, 2026 (Mon., Hol)"}},
+    {"name": "Fukuoka Castle Sakura Festival", "months": [3, 4], "tier": 2, "blurb": "cherry blossoms and night illuminations at Maizuru Park", "source": {"title": "Fukuoka City Official Tourist Guide", "url": "https://www.gofukuoka.jp/events/detail/1854053d-da55-4680-8f4a-5b28d4066416", "accessed": "2026-10-03", "quote": "The Fukuoka Castle Sakura Festival March 26th (Wednesday) ~ April 6th (Sunday)"}},
+    {"name": "Hojoya at Hakozaki Shrine", "months": [9], "tier": 2, "blurb": "seven days of rites and around 500 stalls, Sep 12–18", "source": {"title": "Fukuoka Now: Hakozaki Shrine Hojoya Festival 2026", "url": "https://www.fukuoka-now.com/en/?p=179525", "accessed": "2026-10-03", "quote": "Sep. 12, 2026 (Sat) ~ Sep. 18, 2026 (Fri)"}},
+    {"name": "Grand Sumo Kyushu Basho", "months": [11], "tier": 2, "blurb": "the year's final sumo tournament at Fukuoka Kokusai Center", "source": {"title": "Japan Travel Planning: 2026 sumo tournaments", "url": "https://japantravelplanning.com/sumo-tournaments-in-japan/", "accessed": "2026-10-03", "quote": "November 8–22, 2026 – Fukuoka, Fukuoka Kokusai Center"}}
+  ],
+  "safety": {
+    "propertySub": 82,
+    "propertyNote": "Very low crime; Nakasu bar-billing and drink-spiking caution",
+    "womensAdj": 10,
+    "womensSafetyNote": "Women report high public-space safety; usual nightlife-district caution",
+    "touristMod": 1.0,
+    "touristRationale": "Japan-level very low crime; the visitor-specific risk is entertainment-district overbilling, not street crime.",
+    "touristTags": ["very-low-crime"],
+    "homicideOverride": null,
+    "rationale": {
+      "property": "Japan's property crime is very low and Fukuoka shares that profile; set just under Osaka (83) because Nakasu is a large late-night entertainment district where the bar-billing and drink-spiking problems the UK FCDO flags in Japanese nightlife areas can occur.",
+      "tourist": "No evidence that visitors face higher risk than residents outside entertainment-district bars; State Dept Level 1 with no risk indicators. Kept at 1.0 like Tokyo and Osaka.",
+      "womens": "Applied a +10 city delta on Japan's Gallup baseline, in line with Osaka (+11) and Tokyo (+13), slightly lower to reflect Nakasu nightlife; no Fukuoka-specific survey found."
+    },
+    "calibratedAgainst": ["Osaka", "Tokyo", "Taipei"],
+    "consulted": [
+      {"title": "U.S. State Department travel advisory feed (Japan)", "url": "https://cadataapi.state.gov/api/TravelAdvisories", "accessed": "2026-10-03", "quote": "Exercise normal precaution in Japan.", "note": "travel.state.gov advisory page sat behind a bot check; level, date and text read from the State Department's own advisory API."},
+      {"title": "UK FCDO: Japan safety and security", "url": "https://www.gov.uk/foreign-travel-advice/japan/safety-and-security", "accessed": "2026-10-03", "quote": "There are increased reports of drink spiking and credit card fraud.", "note": "Named hotspots are Tokyo districts; Fukuoka not mentioned."}
+    ],
+    "advisory": {
+      "level": 1,
+      "text": "Exercise normal precautions",
+      "date": "2025-05-15",
+      "url": "https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.jpn.html",
+      "risks": [],
+      "regionalLevel": 1,
+      "localLevel": 1,
+      "localArea": null
+    }
+  },
+  "selection": "Japan's most livable second city for long stays: compact, cheaper than Tokyo, startup- and nomad-friendly city programmes, with spring and autumn shoulder months; complements Tokyo, Osaka and Taipei.",
+  "asOf": "2026-10",
+  "researchNotes": "Advisory: travel.state.gov returned a Cloudflare bot challenge (not bypassed); level/text read from cadataapi.state.gov (Published 2025-05-14T20:00-04:00 = 2025-05-15 UTC, matching the legacy RSS pubDate of 15 May 2025). The advisory URL is the canonical page link given by that API. Hazards: JMA regional typhoon normals; June rainy season (tsuyu) left to the rain-day pipeline rather than flagged. homicideOverride left null (country baseline)."
+}

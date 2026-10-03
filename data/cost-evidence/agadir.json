@@ -1,0 +1,32 @@
+{
+  "city": "Agadir",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-10",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 604, "party": "shared",              "source": "avito.ma", "asOf": "2026-10", "confidence": "med", "note": "furnished 1-bed (2-room) flat in Founty / Haut-Founty / Marina ~6,000 MAD/mo; Avito furnished listings there 5,000–8,000 MAD; USD->MAD 9.939"},
+    "utilities": {"usd": 60,  "party": "shared",              "source": "hespress.com (inwi) / numbeo.com", "asOf": "2026-10", "confidence": "med", "note": "~600 MAD: inwi fibre 100 Mbps 349 MAD + electricity/water ~250 MAD (Numbeo basic utilities 232 MAD); often included in furnished lets"},
+    "groceries": {"usd": 131, "party": "perPerson",           "source": "numbeo.com", "asOf": "2026-10", "confidence": "med", "note": "~1,300 MAD/mo; Souk El Had produce cheap, imported goods not"},
+    "diningOut": {"usd": 156, "party": "perPerson",           "source": "numbeo.com", "asOf": "2026-10", "confidence": "med", "note": "~1,550 MAD: ~15 local meals at 50–60 MAD, cafés (21 MAD cappuccino), two mid-range dinners"},
+    "transit":   {"usd": 40,  "party": "perPerson",           "source": "combien-coute.net / estimated", "asOf": "2026-10", "confidence": "low", "note": "~400 MAD: Alsa city bus ~5 MAD/ride (fares rose 0.5–1 MAD in Jan 2026) plus metered petit taxis"},
+    "coworking": {"usd": 91,  "party": "perPersonDiscounted", "source": "workin.space (Hub Station Agadir)", "asOf": "2026-10", "confidence": "med", "note": "open-space nomad desk 800 MAD/mo HT (~960 incl. 20% VAT); other central spaces 599–800 MAD; ~900 MAD used"},
+    "simData":   {"usd": 10,  "party": "perPerson",           "source": "yoxo.ma", "asOf": "2026-10", "confidence": "high", "note": "Yoxo (Orange) 100 MAD/mo for 60 GB, no commitment, SIM or eSIM"},
+    "misc":      {"usd": 101, "party": "perPersonDiscounted", "source": "numbeo.com / estimated", "asOf": "2026-10", "confidence": "low", "note": "~1,000 MAD: gym ~250 MAD (Numbeo) + hammam, toiletries, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "Editorial: European winter season (Dec–Mar) and the domestic July–August peak push furnished-let prices up; May–June and September–October are the soft months.",
+    "values": [1.10, 1.10, 1.05, 1.00, 0.90, 0.95, 1.10, 1.15, 0.95, 0.95, 1.00, 1.10]
+  },
+  "evidence": [
+    {"claim": "Avito Agadir furnished flats (3 Oct 2026): Haut-Founty studio 5,000 MAD; Founty/Agadir Bay furnished 2-room 6,000–8,000 MAD; Hay Salam furnished 3,500–4,500 MAD (local districts)", "quote": "Studio meublé Haut Founty 1 chambre Étage 4 5 000 DH Agadir, Haut-Founty", "source": "avito.ma listings", "url": "https://www.avito.ma/fr/agadir/appartements-%C3%A0_louer", "date": "2026-10", "confidence": "med"},
+    {"claim": "Founty furnished example: 96 m² 'Appartement meublé à Agadir Bay' 8,000 MAD; Haut-Founty furnished 2-room 7,000 MAD", "quote": "Appartement meublé 2 chambres à louer Haut Founti URGENT 2 chambres 1 sdb Étage 2 7 000 DH", "source": "avito.ma listings", "url": "https://www.avito.ma/fr/agadir/appartements-%C3%A0_louer", "date": "2026-10", "confidence": "med"},
+    {"claim": "Numbeo Agadir: 1BR centre 4,120 MAD (mostly unfurnished long-term); inexpensive meal 50 MAD; cappuccino 20.94; utilities 232 MAD; internet 287.50; gym 250", "quote": "This city had 192 entries in the past 12 months by 18 different contributors.", "source": "numbeo.com", "url": "https://www.numbeo.com/cost-of-living/in/Agadir", "date": "2026-10", "confidence": "med"},
+    {"claim": "inwi fibre 100 Mbps 349 MAD/month (range from 249 MAD)", "quote": "le débit 100 Mbps devient accessible à 349 DH, contre 449 DH auparavant", "source": "fr.hespress.com", "url": "https://fr.hespress.com/420975-420975.html", "date": "2025-04", "confidence": "med"},
+    {"claim": "Hub Station Agadir (Rue de l'Hôtel de Ville, centre): open-space nomad 60 MAD/day, 800 MAD/month per person", "quote": "Monthly: 800 MAD per person", "source": "workin.space", "url": "https://workin.space/coworking/maroc/souss-massa/agadir/hub-station-agadir", "date": "2026-10", "confidence": "med"},
+    {"claim": "Yoxo 100 DH/month plan: 60 GB, 5 h calls; no commitment", "quote": "100% digital et sans engagement", "source": "yoxo.ma", "url": "https://www.yoxo.ma/", "date": "2026-10", "confidence": "high"},
+    {"claim": "Agadir public transport ticket ~€0.46 (~5 MAD); taxi ~€0.55/km (aggregator)", "quote": "pour acheter un ticket de transport en commun à Agadir le prix est de 0.46 €.", "source": "combien-coute.net", "url": "https://www.combien-coute.net/ticket-bus/maroc/agadir/", "date": "2026-09", "confidence": "low"},
+    {"claim": "Alsa raised Agadir bus fares by 0.5–1 MAD per trip after AFCON (Jan 2026); official alsa.ma fare table did not render per-line prices", "quote": "Agadir : Le prix du bus augmente juste après la CAN, la colère monte chez les usagers", "source": "bladi.net", "url": "https://www.bladi.net/agadir-prix-bus-augmente-juste-can-colere-monte-usagers,119050.html", "date": "2026-01", "confidence": "low"},
+    {"claim": "USD->MAD rate used: 9.939 (mid-market, 3 Oct 2026)", "quote": "1 USD = 9.93918288 MAD", "source": "xe.com", "url": "https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=MAD", "date": "2026-10", "confidence": "high"}
+  ]
+}

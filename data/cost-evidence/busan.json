@@ -1,0 +1,32 @@
+{
+  "city": "Busan",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-10",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1000, "party": "shared",              "source": "airbnb.com / wise.com", "asOf": "2026-10", "confidence": "med", "note": "Furnished studio/1BR on a 1–3 month term. The usual Korean lease (wolse) needs a deposit of 10–20x the rent and an ARC, so it isn't practical for visitors. Airbnb whole-unit monthly prices for Nov 2026 start around $735–1,130 in Seomyeon and $980–1,350 in Haeundae (quartile 1 is about $1,660–1,800). Korean short-let platforms (33m2) are probably cheaper but couldn't be read. Wise's long-lease 1BR is £484 (about $640)."},
+    "utilities": {"usd": 60,  "party": "shared",              "source": "editorial estimate (wise.com)", "asOf": "2026-10", "confidence": "low", "note": "Short-term officetel and Airbnb rates usually include internet and building maintenance. This budgets for electricity and gas overage (summer air-con, winter ondol). Wise's full-flat figure is £128 plus £20 internet for 85 m²."},
+    "groceries": {"usd": 280, "party": "perPerson",           "source": "editorial estimate (wise.com)", "asOf": "2026-10", "confidence": "low", "note": "Home cooking. Korean fruit and produce are expensive. Wise's £361 per person (about $477) looks high for a solo cook who also eats out, so this is set between Osaka ($260) and Wise."},
+    "diningOut": {"usd": 230, "party": "perPerson",           "source": "wise.com", "asOf": "2026-10", "confidence": "med", "note": "Derived: about 18 meals at about $9 (gukbap and dwaeji-gukbap places, Wise inexpensive meal £5) plus about 15 café coffees at about $4."},
+    "transit":   {"usd": 55,  "party": "perPerson",           "source": "korea.stripes.com", "asOf": "2026-10", "confidence": "med", "note": "Metro KRW 1,600 per section-1 ride by card (bus 1,550). 40 rides is about KRW 64,000 ($47) plus the odd taxi."},
+    "coworking": {"usd": 196, "party": "perPersonDiscounted", "source": "wework.com", "asOf": "2026-10", "confidence": "high", "note": "WeWork Busan (BIFC, Seomyeon) coworking membership from KRW 263,500/month (list KRW 310,000), about $196 at 1,347.39 KRW/USD. Local independents and Busan's public workation centre can be cheaper."},
+    "simData":   {"usd": 29,  "party": "perPerson",           "source": "trazy.com", "asOf": "2026-10", "confidence": "med", "note": "KT 30-day prepaid: 15 GB then unlimited at 3 Mbps, plus 100 minutes, KRW 39,600 (reseller page)."},
+    "misc":      {"usd": 160, "party": "perPersonDiscounted", "source": "editorial estimate", "asOf": "2026-10", "confidence": "low", "note": "Gym, jjimjilbang/spa, toiletries, entertainment, buffer. Set between Taipei ($180) and Tbilisi-tier cities, below Osaka ($200)."}
+  },
+  "accomSeasonality": {
+    "_doc": "Editorial. The short-let market spikes in the Jul–Aug beach season and dips in winter; spring blossom and the Sep–Oct Chuseok and film-festival period add a small uplift.",
+    "values": [0.9, 0.95, 1.0, 1.05, 1.05, 1.0, 1.25, 1.3, 1.05, 1.05, 1.0, 0.9]
+  },
+  "evidence": [
+    {"claim": "Airbnb whole-unit monthly stays, 1 Nov – 1 Dec 2026: Seomyeon cheapest $734.52, $977.78, $1,016.31, $1,041.35, $1,110.30; quartiles $1,662 / $2,243 / $2,976 (46 listings)", "quote": "\"checkin\":\"2026-11-01\" \"checkout\":\"2026-12-01\" ... \"priceString\":\"$977.78\"", "source": "airbnb.com", "url": "https://www.airbnb.com/s/Seomyeon--Busanjin-gu--Busan--South-Korea/homes?date_picker_type=monthly_stay&monthly_start_date=2026-11-01&monthly_length=1&monthly_end_date=2026-12-01&adults=1&room_types%5B%5D=Entire%20home%2Fapt&min_bedrooms=0&currency=USD", "date": "2026-10", "confidence": "med"},
+    {"claim": "Airbnb whole-unit monthly stays, Nov 2026: Haeundae cheapest $977.78, $1,175.27, $1,259.17, $1,295.35; quartiles $1,803 / $2,446 / $3,200 (52 listings)", "quote": "\"checkin\":\"2026-11-01\" \"checkout\":\"2026-12-01\" ... \"priceString\":\"$1,259.17\"", "source": "airbnb.com", "url": "https://www.airbnb.com/s/Haeundae-gu--Busan--South-Korea/homes?date_picker_type=monthly_stay&monthly_start_date=2026-11-01&monthly_length=1&monthly_end_date=2026-12-01&adults=1&room_types%5B%5D=Entire%20home%2Fapt&currency=USD", "date": "2026-10", "confidence": "med"},
+    {"claim": "WeWork Busan coworking membership from KRW 263,500/month", "quote": "Coworking Membership: ₩310,000/월 ₩263,500/월부터", "source": "wework.com", "url": "https://www.wework.com/ko-KR/l/coworking-space/busan", "date": "2026-10", "confidence": "high"},
+    {"claim": "Busan metro fare rose to KRW 1,600 (card) in the following May; bus KRW 1,550", "quote": "City buses will see a fare hike of 350 won, reaching 1,550 won from the previous rate.", "source": "korea.stripes.com", "url": "https://korea.stripes.com/travel/bus-and-metro-fares-in-busan-to-rise-from-october-6.html", "date": "2023-10", "confidence": "med"},
+    {"claim": "KT 30-day prepaid SIM: KRW 39,600 for 15 GB then 3 Mbps unlimited plus 100 minutes", "quote": "Unlimited Data + 100 Min Voice + 100 SMS - 39,600 KRW ... 15GB at 4G/LTE data then unlimited at 3Mbps", "source": "trazy.com", "url": "https://www.trazy.com/experience/detail/prepaid-data-sim-card-long-term?ad_id=5506", "date": "2026-10", "confidence": "med"},
+    {"claim": "Wise Busan: 1BR centre £483.58; utilities £128 (85 m²) plus internet £20; inexpensive meal £5; monthly pass £40; groceries £361 per person", "quote": "1-bed rent (city centre): £483.58 ... Basic utilities: £128 per month", "source": "wise.com", "url": "https://wise.com/gb/cost-of-living/south-korea/busan", "date": "2026-10", "confidence": "med"},
+    {"claim": "Busan workation context: hot desks $100–200; 1BR about $578 (long lease)", "quote": "Professional desks run a modest $100 to $200 a month", "source": "seoulz.com", "url": "https://www.seoulz.com/busan-workation-2026/", "date": "2026-07", "confidence": "low"},
+    {"claim": "nomads.com: 1BR centre $719, coworking $244 (crowd/model data)", "quote": "1BR Studio Rent (Center): $719 / month ... Coworking Hot Desk: $244 / month", "source": "nomads.com", "url": "https://nomads.com/cost-of-living/in/busan", "date": "2026-10", "confidence": "low"},
+    {"claim": "FX used: 1 USD = 1,347.39 KRW; 1 USD = 0.756 GBP (2026-10-03)", "quote": "KRW 1347.389067 ... GBP 0.756313 (time_last_update_utc Sat, 03 Oct 2026)", "source": "open.er-api.com", "url": "https://open.er-api.com/v6/latest/USD", "date": "2026-10", "confidence": "high"}
+  ]
+}

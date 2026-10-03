@@ -1,0 +1,34 @@
+{
+  "city": "Alicante",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-10",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 1182, "party": "shared",              "source": "idealista.com", "asOf": "2026-10", "confidence": "high", "note": "furnished 1BR in Centro / Mercado / Ensanche ~€1,050/mo: idealista Centro index €14.3/m² (~€860 for 60 m²) + furnished/medium-term premium; Centro 1BR listings median ~€1,150; EUR->USD 1.1254"},
+    "utilities": {"usd": 113,  "party": "shared",              "source": "energias-renovables.com / digimobil.es", "asOf": "2026-10", "confidence": "med", "note": "~€100: electricity ~€50 (summer AC), water ~€18, fibre €30 (Digi 1 Gb)"},
+    "groceries": {"usd": 225,  "party": "perPerson",           "source": "numbeo.com", "asOf": "2026-10", "confidence": "med", "note": "~€200/mo home cooking; Mercado Central"},
+    "diningOut": {"usd": 225,  "party": "perPerson",           "source": "numbeo.com", "asOf": "2026-10", "confidence": "med", "note": "~€200/mo: menú del día, tapas in El Barrio, cafés (€1.94 cappuccino)"},
+    "transit":   {"usd": 34,   "party": "perPerson",           "source": "alicante.es", "asOf": "2026-10", "confidence": "med", "note": "TAM Bono 30 días €24 with the 40% subsidy (bus + TRAM) through Dec 2026, ~€40 if it lapses; blended ~€30"},
+    "coworking": {"usd": 191,  "party": "perPersonDiscounted", "source": "workin.space (Skyblue / Sotelo Space)", "asOf": "2026-10", "confidence": "med", "note": "central open desks €140–150/mo + 21% IVA ≈ €170"},
+    "simData":   {"usd": 11,   "party": "perPerson",           "source": "digimobil.es", "asOf": "2026-10", "confidence": "high", "note": "Digi prepago 50 GB €7/mo; ~€10 with buffer"},
+    "misc":      {"usd": 158,  "party": "perPersonDiscounted", "source": "numbeo.com / estimated", "asOf": "2026-10", "confidence": "low", "note": "~€140: gym ~€37 (Numbeo) + toiletries, outings, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "Editorial: July–August beach peak dominates; mild uplift in June (Hogueras); winter has steady northern-European demand but long-term listings dominate, so only slight softening Oct–Mar.",
+    "values": [0.95, 0.95, 0.95, 1.00, 1.00, 1.10, 1.30, 1.30, 1.05, 0.95, 0.90, 0.90]
+  },
+  "evidence": [
+    {"claim": "Alicante city rent index €13.9/m² (Sep 2026, +5.9% y/y); Centro €14.3, Playa de San Juan-El Cabo €15.9", "quote": "Centro 14,3 €/m2 - 1,5 % + 1,1 % + 6,8 %", "source": "idealista.com price report", "url": "https://www.idealista.com/sala-de-prensa/informes-precio-vivienda/alquiler/comunitat-valenciana/alicante/alicante-alacant/", "date": "2026-09", "confidence": "high"},
+    {"claim": "Centro 1BR listings (3 Oct 2026, 30 visible): €850–1,600, median ~€1,150; most furnished", "quote": "Piso en C. Segura, 22, Mercado, Alicante / Alacant | 1.100€/mes | 1 hab. 52 m²", "source": "idealista.com listings", "url": "https://www.idealista.com/alquiler-viviendas/alicante-alacant/centro/con-de-un-dormitorio/", "date": "2026-10", "confidence": "high"},
+    {"claim": "Comparison: Valencia €16.3/m² and Málaga €16.5/m² (Sep 2026) vs Alicante €13.9 (~15% cheaper)", "quote": "16,3 €/m2 Precio del m2 en València en septiembre 2026", "source": "idealista.com price report", "url": "https://www.idealista.com/sala-de-prensa/informes-precio-vivienda/alquiler/comunitat-valenciana/valencia-provincia/valencia/", "date": "2026-09", "confidence": "high"},
+    {"claim": "Málaga rent index €16.5/m² (Sep 2026)", "quote": "16,5 €/m2 Precio del m2 en Málaga en septiembre 2026", "source": "idealista.com price report", "url": "https://www.idealista.com/sala-de-prensa/informes-precio-vivienda/alquiler/andalucia/malaga-provincia/malaga/", "date": "2026-09", "confidence": "high"},
+    {"claim": "TAM Bono 30 días costs €24 with 40% discount for ages 31–65, extended to end of 2026", "quote": "El Bono 30 días con bonificación del 40% cuesta 24 euros.", "source": "alicante.es", "url": "https://www.alicante.es/es/noticias/alicante-amplia-final-ano-gratuidad-del-autobus-urbano-14-anos", "date": "2026-06", "confidence": "high"},
+    {"claim": "Skyblue Coworking (central) open desk €140/month excl. VAT", "quote": "140 € /mes /persona", "source": "workin.space", "url": "https://workin.space/es/coworking/espana/valenciana/alicante/skyblue-coworking", "date": "2026-10", "confidence": "med"},
+    {"claim": "Digi prepaid 50 GB for €7/month (table row as rendered)", "quote": "50 GB | 50 GB | €7/month | Unlimited national calls", "source": "digimobil.es", "url": "https://www.digimobil.es/movil/", "date": "2026-10", "confidence": "high"},
+    {"claim": "Digi fibre 1 Gbps €30/month", "quote": "30 €/mes", "source": "digimobil.es", "url": "https://www.digimobil.es/fibra-optica", "date": "2026-10", "confidence": "high"},
+    {"claim": "Spanish households average €690/yr electricity (~€57.50/mo) and ~€218/yr water", "quote": "Los hogares españoles destinan 690 euros al año de media para pagar el recibo de la luz", "source": "energias-renovables.com", "url": "https://www.energias-renovables.com/panorama/los-hogares-espa-oles-destinan-690-euros-20260205", "date": "2026-02", "confidence": "med"},
+    {"claim": "Numbeo Alicante: single person ex-rent €734; inexpensive meal €17.50; transport pass €23.50; utilities (85 m²) €125; internet €26.69; gym €36.78; 1BR centre €898", "quote": "$826.6 (€734.3)", "source": "numbeo.com", "url": "https://www.numbeo.com/cost-of-living/in/Alicante", "date": "2026-10", "confidence": "med"},
+    {"claim": "EUR->USD rate used: 1.1254 (mid-market, 3 Oct 2026)", "quote": "1 EUR = 1.12540445 USD", "source": "xe.com", "url": "https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=USD", "date": "2026-10", "confidence": "high"}
+  ]
+}

@@ -13,7 +13,304 @@
   "units": {
    "pm25": "µg/m³ (monthly mean)"
   },
-  "cities": 111
+  "cities": 127
+ },
+ "agadir": {
+  "name": "Agadir",
+  "country": "Morocco",
+  "query": {
+   "lat": 30.4278,
+   "lng": -9.5981
+  },
+  "grid": {
+   "lat": 30.400002,
+   "lng": -9.599991,
+   "elevation": 62.0
+  },
+  "months": [
+   {
+    "mo": 1,
+    "pm25": 19.7,
+    "yearMin": 10.0,
+    "yearMax": 39.3,
+    "nYears": 4
+   },
+   {
+    "mo": 2,
+    "pm25": 21.1,
+    "yearMin": 14.1,
+    "yearMax": 36.1,
+    "nYears": 4
+   },
+   {
+    "mo": 3,
+    "pm25": 16.4,
+    "yearMin": 12.1,
+    "yearMax": 20.5,
+    "nYears": 4
+   },
+   {
+    "mo": 4,
+    "pm25": 19.6,
+    "yearMin": 13.8,
+    "yearMax": 31.6,
+    "nYears": 4
+   },
+   {
+    "mo": 5,
+    "pm25": 16.0,
+    "yearMin": 11.5,
+    "yearMax": 20.0,
+    "nYears": 4
+   },
+   {
+    "mo": 6,
+    "pm25": 16.3,
+    "yearMin": 12.5,
+    "yearMax": 18.3,
+    "nYears": 4
+   },
+   {
+    "mo": 7,
+    "pm25": 23.4,
+    "yearMin": 15.9,
+    "yearMax": 28.1,
+    "nYears": 4
+   },
+   {
+    "mo": 8,
+    "pm25": 26.4,
+    "yearMin": 19.7,
+    "yearMax": 36.5,
+    "nYears": 4
+   },
+   {
+    "mo": 9,
+    "pm25": 17.5,
+    "yearMin": 9.1,
+    "yearMax": 25.0,
+    "nYears": 4
+   },
+   {
+    "mo": 10,
+    "pm25": 20.5,
+    "yearMin": 14.8,
+    "yearMax": 31.8,
+    "nYears": 4
+   },
+   {
+    "mo": 11,
+    "pm25": 17.5,
+    "yearMin": 11.8,
+    "yearMax": 21.8,
+    "nYears": 4
+   },
+   {
+    "mo": 12,
+    "pm25": 15.1,
+    "yearMin": 8.0,
+    "yearMax": 26.3,
+    "nYears": 4
+   }
+  ]
+ },
+ "alicante": {
+  "name": "Alicante",
+  "country": "Spain",
+  "query": {
+   "lat": 38.3452,
+   "lng": -0.481
+  },
+  "grid": {
+   "lat": 38.300003,
+   "lng": -0.5,
+   "elevation": 19.0
+  },
+  "months": [
+   {
+    "mo": 1,
+    "pm25": 6.3,
+    "yearMin": 5.5,
+    "yearMax": 7.2,
+    "nYears": 4
+   },
+   {
+    "mo": 2,
+    "pm25": 8.1,
+    "yearMin": 5.5,
+    "yearMax": 10.5,
+    "nYears": 4
+   },
+   {
+    "mo": 3,
+    "pm25": 7.5,
+    "yearMin": 6.3,
+    "yearMax": 8.3,
+    "nYears": 4
+   },
+   {
+    "mo": 4,
+    "pm25": 8.1,
+    "yearMin": 7.6,
+    "yearMax": 8.6,
+    "nYears": 4
+   },
+   {
+    "mo": 5,
+    "pm25": 8.3,
+    "yearMin": 8.0,
+    "yearMax": 8.6,
+    "nYears": 4
+   },
+   {
+    "mo": 6,
+    "pm25": 9.9,
+    "yearMin": 8.4,
+    "yearMax": 11.9,
+    "nYears": 4
+   },
+   {
+    "mo": 7,
+    "pm25": 11.6,
+    "yearMin": 8.9,
+    "yearMax": 16.4,
+    "nYears": 4
+   },
+   {
+    "mo": 8,
+    "pm25": 11.1,
+    "yearMin": 9.0,
+    "yearMax": 13.5,
+    "nYears": 4
+   },
+   {
+    "mo": 9,
+    "pm25": 8.6,
+    "yearMin": 6.8,
+    "yearMax": 9.9,
+    "nYears": 4
+   },
+   {
+    "mo": 10,
+    "pm25": 7.9,
+    "yearMin": 7.4,
+    "yearMax": 9.1,
+    "nYears": 4
+   },
+   {
+    "mo": 11,
+    "pm25": 6.4,
+    "yearMin": 4.7,
+    "yearMax": 10.2,
+    "nYears": 4
+   },
+   {
+    "mo": 12,
+    "pm25": 6.5,
+    "yearMin": 5.0,
+    "yearMax": 7.8,
+    "nYears": 4
+   }
+  ]
+ },
+ "almaty": {
+  "name": "Almaty",
+  "country": "Kazakhstan",
+  "query": {
+   "lat": 43.222,
+   "lng": 76.8512
+  },
+  "grid": {
+   "lat": 43.199997,
+   "lng": 76.899994,
+   "elevation": 852.0
+  },
+  "months": [
+   {
+    "mo": 1,
+    "pm25": 37.5,
+    "yearMin": 25.8,
+    "yearMax": 52.2,
+    "nYears": 4
+   },
+   {
+    "mo": 2,
+    "pm25": 33.6,
+    "yearMin": 24.3,
+    "yearMax": 46.9,
+    "nYears": 4
+   },
+   {
+    "mo": 3,
+    "pm25": 27.7,
+    "yearMin": 21.4,
+    "yearMax": 35.4,
+    "nYears": 4
+   },
+   {
+    "mo": 4,
+    "pm25": 21.3,
+    "yearMin": 18.0,
+    "yearMax": 28.0,
+    "nYears": 4
+   },
+   {
+    "mo": 5,
+    "pm25": 17.6,
+    "yearMin": 13.7,
+    "yearMax": 23.5,
+    "nYears": 4
+   },
+   {
+    "mo": 6,
+    "pm25": 15.7,
+    "yearMin": 12.5,
+    "yearMax": 18.2,
+    "nYears": 4
+   },
+   {
+    "mo": 7,
+    "pm25": 14.4,
+    "yearMin": 12.1,
+    "yearMax": 16.0,
+    "nYears": 4
+   },
+   {
+    "mo": 8,
+    "pm25": 13.7,
+    "yearMin": 11.3,
+    "yearMax": 15.9,
+    "nYears": 4
+   },
+   {
+    "mo": 9,
+    "pm25": 15.6,
+    "yearMin": 13.1,
+    "yearMax": 18.5,
+    "nYears": 4
+   },
+   {
+    "mo": 10,
+    "pm25": 18.9,
+    "yearMin": 14.6,
+    "yearMax": 23.0,
+    "nYears": 4
+   },
+   {
+    "mo": 11,
+    "pm25": 26.7,
+    "yearMin": 19.5,
+    "yearMax": 35.5,
+    "nYears": 4
+   },
+   {
+    "mo": 12,
+    "pm25": 34.4,
+    "yearMin": 25.0,
+    "yearMax": 41.3,
+    "nYears": 4
+   }
+  ]
  },
  "amsterdam": {
   "name": "Amsterdam",
@@ -110,6 +407,105 @@
     "pm25": 8.2,
     "yearMin": 7.2,
     "yearMax": 9.8,
+    "nYears": 4
+   }
+  ]
+ },
+ "antalya": {
+  "name": "Antalya",
+  "country": "Turkey",
+  "query": {
+   "lat": 36.8969,
+   "lng": 30.7133
+  },
+  "grid": {
+   "lat": 36.9,
+   "lng": 30.699997,
+   "elevation": 53.0
+  },
+  "months": [
+   {
+    "mo": 1,
+    "pm25": 12.9,
+    "yearMin": 12.2,
+    "yearMax": 13.4,
+    "nYears": 4
+   },
+   {
+    "mo": 2,
+    "pm25": 12.0,
+    "yearMin": 9.9,
+    "yearMax": 14.1,
+    "nYears": 4
+   },
+   {
+    "mo": 3,
+    "pm25": 12.3,
+    "yearMin": 10.6,
+    "yearMax": 13.0,
+    "nYears": 4
+   },
+   {
+    "mo": 4,
+    "pm25": 12.8,
+    "yearMin": 10.8,
+    "yearMax": 15.3,
+    "nYears": 4
+   },
+   {
+    "mo": 5,
+    "pm25": 13.3,
+    "yearMin": 12.0,
+    "yearMax": 14.7,
+    "nYears": 4
+   },
+   {
+    "mo": 6,
+    "pm25": 12.5,
+    "yearMin": 11.5,
+    "yearMax": 13.6,
+    "nYears": 4
+   },
+   {
+    "mo": 7,
+    "pm25": 11.8,
+    "yearMin": 10.6,
+    "yearMax": 13.1,
+    "nYears": 4
+   },
+   {
+    "mo": 8,
+    "pm25": 13.6,
+    "yearMin": 12.4,
+    "yearMax": 15.8,
+    "nYears": 4
+   },
+   {
+    "mo": 9,
+    "pm25": 10.2,
+    "yearMin": 8.8,
+    "yearMax": 11.2,
+    "nYears": 4
+   },
+   {
+    "mo": 10,
+    "pm25": 9.3,
+    "yearMin": 8.0,
+    "yearMax": 11.6,
+    "nYears": 4
+   },
+   {
+    "mo": 11,
+    "pm25": 11.1,
+    "yearMin": 8.9,
+    "yearMax": 12.9,
+    "nYears": 4
+   },
+   {
+    "mo": 12,
+    "pm25": 9.8,
+    "yearMin": 9.0,
+    "yearMax": 11.5,
     "nYears": 4
    }
   ]
@@ -1698,6 +2094,105 @@
    }
   ]
  },
+ "busan": {
+  "name": "Busan",
+  "country": "South Korea",
+  "query": {
+   "lat": 35.1796,
+   "lng": 129.0756
+  },
+  "grid": {
+   "lat": 35.200005,
+   "lng": 129.1,
+   "elevation": 26.0
+  },
+  "months": [
+   {
+    "mo": 1,
+    "pm25": 19.2,
+    "yearMin": 15.2,
+    "yearMax": 24.3,
+    "nYears": 4
+   },
+   {
+    "mo": 2,
+    "pm25": 19.4,
+    "yearMin": 13.9,
+    "yearMax": 22.7,
+    "nYears": 4
+   },
+   {
+    "mo": 3,
+    "pm25": 25.8,
+    "yearMin": 21.1,
+    "yearMax": 31.1,
+    "nYears": 4
+   },
+   {
+    "mo": 4,
+    "pm25": 22.7,
+    "yearMin": 20.5,
+    "yearMax": 27.6,
+    "nYears": 4
+   },
+   {
+    "mo": 5,
+    "pm25": 20.0,
+    "yearMin": 16.3,
+    "yearMax": 23.4,
+    "nYears": 4
+   },
+   {
+    "mo": 6,
+    "pm25": 19.8,
+    "yearMin": 14.4,
+    "yearMax": 22.4,
+    "nYears": 4
+   },
+   {
+    "mo": 7,
+    "pm25": 12.9,
+    "yearMin": 11.2,
+    "yearMax": 15.4,
+    "nYears": 4
+   },
+   {
+    "mo": 8,
+    "pm25": 14.2,
+    "yearMin": 12.3,
+    "yearMax": 16.5,
+    "nYears": 4
+   },
+   {
+    "mo": 9,
+    "pm25": 11.9,
+    "yearMin": 11.2,
+    "yearMax": 12.6,
+    "nYears": 4
+   },
+   {
+    "mo": 10,
+    "pm25": 14.0,
+    "yearMin": 12.1,
+    "yearMax": 16.2,
+    "nYears": 4
+   },
+   {
+    "mo": 11,
+    "pm25": 17.0,
+    "yearMin": 13.0,
+    "yearMax": 21.9,
+    "nYears": 4
+   },
+   {
+    "mo": 12,
+    "pm25": 16.1,
+    "yearMin": 15.0,
+    "yearMax": 18.0,
+    "nYears": 4
+   }
+  ]
+ },
  "cape-town": {
   "name": "Cape Town",
   "country": "South Africa",
@@ -2292,6 +2787,105 @@
    }
   ]
  },
+ "costa-adeje-tenerife": {
+  "name": "Costa Adeje (Tenerife)",
+  "country": "Spain",
+  "query": {
+   "lat": 28.0817,
+   "lng": -16.7286
+  },
+  "grid": {
+   "lat": 28.099998,
+   "lng": -16.699997,
+   "elevation": 45.0
+  },
+  "months": [
+   {
+    "mo": 1,
+    "pm25": 11.0,
+    "yearMin": 5.8,
+    "yearMax": 19.2,
+    "nYears": 4
+   },
+   {
+    "mo": 2,
+    "pm25": 12.4,
+    "yearMin": 7.7,
+    "yearMax": 18.3,
+    "nYears": 4
+   },
+   {
+    "mo": 3,
+    "pm25": 6.9,
+    "yearMin": 5.3,
+    "yearMax": 8.3,
+    "nYears": 4
+   },
+   {
+    "mo": 4,
+    "pm25": 8.8,
+    "yearMin": 7.1,
+    "yearMax": 10.8,
+    "nYears": 4
+   },
+   {
+    "mo": 5,
+    "pm25": 7.3,
+    "yearMin": 5.9,
+    "yearMax": 8.3,
+    "nYears": 4
+   },
+   {
+    "mo": 6,
+    "pm25": 7.3,
+    "yearMin": 5.9,
+    "yearMax": 8.5,
+    "nYears": 4
+   },
+   {
+    "mo": 7,
+    "pm25": 8.4,
+    "yearMin": 5.8,
+    "yearMax": 11.8,
+    "nYears": 4
+   },
+   {
+    "mo": 8,
+    "pm25": 10.8,
+    "yearMin": 7.5,
+    "yearMax": 15.3,
+    "nYears": 4
+   },
+   {
+    "mo": 9,
+    "pm25": 7.3,
+    "yearMin": 5.3,
+    "yearMax": 10.3,
+    "nYears": 4
+   },
+   {
+    "mo": 10,
+    "pm25": 7.8,
+    "yearMin": 6.6,
+    "yearMax": 11.0,
+    "nYears": 4
+   },
+   {
+    "mo": 11,
+    "pm25": 7.9,
+    "yearMin": 6.5,
+    "yearMax": 11.6,
+    "nYears": 4
+   },
+   {
+    "mo": 12,
+    "pm25": 11.1,
+    "yearMin": 6.4,
+    "yearMax": 17.8,
+    "nYears": 4
+   }
+  ]
+ },
  "cuenca": {
   "name": "Cuenca",
   "country": "Ecuador",
@@ -2684,6 +3278,105 @@
     "pm25": 17.4,
     "yearMin": 14.3,
     "yearMax": 20.2,
+    "nYears": 4
+   }
+  ]
+ },
+ "dakar": {
+  "name": "Dakar",
+  "country": "Senegal",
+  "query": {
+   "lat": 14.7167,
+   "lng": -17.4677
+  },
+  "grid": {
+   "lat": 14.700005,
+   "lng": -17.5,
+   "elevation": 39.0
+  },
+  "months": [
+   {
+    "mo": 1,
+    "pm25": 31.1,
+    "yearMin": 28.7,
+    "yearMax": 34.9,
+    "nYears": 4
+   },
+   {
+    "mo": 2,
+    "pm25": 37.9,
+    "yearMin": 31.3,
+    "yearMax": 46.9,
+    "nYears": 4
+   },
+   {
+    "mo": 3,
+    "pm25": 29.5,
+    "yearMin": 20.9,
+    "yearMax": 37.9,
+    "nYears": 4
+   },
+   {
+    "mo": 4,
+    "pm25": 29.9,
+    "yearMin": 20.3,
+    "yearMax": 38.7,
+    "nYears": 4
+   },
+   {
+    "mo": 5,
+    "pm25": 35.6,
+    "yearMin": 21.2,
+    "yearMax": 47.5,
+    "nYears": 4
+   },
+   {
+    "mo": 6,
+    "pm25": 28.4,
+    "yearMin": 15.6,
+    "yearMax": 36.7,
+    "nYears": 4
+   },
+   {
+    "mo": 7,
+    "pm25": 24.4,
+    "yearMin": 19.6,
+    "yearMax": 28.6,
+    "nYears": 4
+   },
+   {
+    "mo": 8,
+    "pm25": 15.3,
+    "yearMin": 13.6,
+    "yearMax": 18.0,
+    "nYears": 4
+   },
+   {
+    "mo": 9,
+    "pm25": 16.3,
+    "yearMin": 11.9,
+    "yearMax": 19.3,
+    "nYears": 4
+   },
+   {
+    "mo": 10,
+    "pm25": 24.7,
+    "yearMin": 18.9,
+    "yearMax": 27.1,
+    "nYears": 4
+   },
+   {
+    "mo": 11,
+    "pm25": 22.7,
+    "yearMin": 17.3,
+    "yearMax": 30.8,
+    "nYears": 4
+   },
+   {
+    "mo": 12,
+    "pm25": 29.4,
+    "yearMin": 20.0,
+    "yearMax": 38.2,
     "nYears": 4
    }
   ]
@@ -3084,6 +3777,105 @@
    }
   ]
  },
+ "fukuoka": {
+  "name": "Fukuoka",
+  "country": "Japan",
+  "query": {
+   "lat": 33.5904,
+   "lng": 130.4017
+  },
+  "grid": {
+   "lat": 33.6,
+   "lng": 130.4,
+   "elevation": 8.0
+  },
+  "months": [
+   {
+    "mo": 1,
+    "pm25": 15.4,
+    "yearMin": 12.5,
+    "yearMax": 20.7,
+    "nYears": 4
+   },
+   {
+    "mo": 2,
+    "pm25": 14.4,
+    "yearMin": 11.0,
+    "yearMax": 17.1,
+    "nYears": 4
+   },
+   {
+    "mo": 3,
+    "pm25": 18.7,
+    "yearMin": 17.4,
+    "yearMax": 21.1,
+    "nYears": 4
+   },
+   {
+    "mo": 4,
+    "pm25": 19.3,
+    "yearMin": 16.7,
+    "yearMax": 23.5,
+    "nYears": 4
+   },
+   {
+    "mo": 5,
+    "pm25": 18.4,
+    "yearMin": 17.6,
+    "yearMax": 19.0,
+    "nYears": 4
+   },
+   {
+    "mo": 6,
+    "pm25": 17.4,
+    "yearMin": 13.7,
+    "yearMax": 19.3,
+    "nYears": 4
+   },
+   {
+    "mo": 7,
+    "pm25": 13.1,
+    "yearMin": 8.8,
+    "yearMax": 16.4,
+    "nYears": 4
+   },
+   {
+    "mo": 8,
+    "pm25": 13.9,
+    "yearMin": 12.4,
+    "yearMax": 16.9,
+    "nYears": 4
+   },
+   {
+    "mo": 9,
+    "pm25": 11.5,
+    "yearMin": 8.5,
+    "yearMax": 13.9,
+    "nYears": 4
+   },
+   {
+    "mo": 10,
+    "pm25": 10.9,
+    "yearMin": 9.6,
+    "yearMax": 12.7,
+    "nYears": 4
+   },
+   {
+    "mo": 11,
+    "pm25": 13.4,
+    "yearMin": 11.5,
+    "yearMax": 15.7,
+    "nYears": 4
+   },
+   {
+    "mo": 12,
+    "pm25": 12.7,
+    "yearMin": 10.5,
+    "yearMax": 14.7,
+    "nYears": 4
+   }
+  ]
+ },
  "funchal-madeira": {
   "name": "Funchal (Madeira)",
   "country": "Portugal",
@@ -3179,6 +3971,105 @@
     "pm25": 8.1,
     "yearMin": 5.7,
     "yearMax": 9.9,
+    "nYears": 4
+   }
+  ]
+ },
+ "galle": {
+  "name": "Galle",
+  "country": "Sri Lanka",
+  "query": {
+   "lat": 6.0535,
+   "lng": 80.221
+  },
+  "grid": {
+   "lat": 6.0999985,
+   "lng": 80.20001,
+   "elevation": 3.0
+  },
+  "months": [
+   {
+    "mo": 1,
+    "pm25": 21.8,
+    "yearMin": 14.9,
+    "yearMax": 30.6,
+    "nYears": 4
+   },
+   {
+    "mo": 2,
+    "pm25": 20.7,
+    "yearMin": 15.7,
+    "yearMax": 25.1,
+    "nYears": 4
+   },
+   {
+    "mo": 3,
+    "pm25": 20.0,
+    "yearMin": 17.9,
+    "yearMax": 22.3,
+    "nYears": 4
+   },
+   {
+    "mo": 4,
+    "pm25": 13.7,
+    "yearMin": 12.1,
+    "yearMax": 14.5,
+    "nYears": 4
+   },
+   {
+    "mo": 5,
+    "pm25": 10.5,
+    "yearMin": 10.1,
+    "yearMax": 10.9,
+    "nYears": 4
+   },
+   {
+    "mo": 6,
+    "pm25": 10.2,
+    "yearMin": 9.4,
+    "yearMax": 11.4,
+    "nYears": 4
+   },
+   {
+    "mo": 7,
+    "pm25": 10.1,
+    "yearMin": 9.6,
+    "yearMax": 10.9,
+    "nYears": 4
+   },
+   {
+    "mo": 8,
+    "pm25": 10.3,
+    "yearMin": 8.4,
+    "yearMax": 12.0,
+    "nYears": 4
+   },
+   {
+    "mo": 9,
+    "pm25": 9.9,
+    "yearMin": 9.4,
+    "yearMax": 10.4,
+    "nYears": 4
+   },
+   {
+    "mo": 10,
+    "pm25": 11.8,
+    "yearMin": 10.0,
+    "yearMax": 12.9,
+    "nYears": 4
+   },
+   {
+    "mo": 11,
+    "pm25": 14.5,
+    "yearMin": 9.4,
+    "yearMax": 19.4,
+    "nYears": 4
+   },
+   {
+    "mo": 12,
+    "pm25": 18.4,
+    "yearMin": 9.7,
+    "yearMax": 22.9,
     "nYears": 4
    }
   ]
@@ -4074,6 +4965,105 @@
    }
   ]
  },
+ "hua-hin": {
+  "name": "Hua Hin",
+  "country": "Thailand",
+  "query": {
+   "lat": 12.5684,
+   "lng": 99.9577
+  },
+  "grid": {
+   "lat": 12.599998,
+   "lng": 100.0,
+   "elevation": 11.0
+  },
+  "months": [
+   {
+    "mo": 1,
+    "pm25": 23.8,
+    "yearMin": 17.0,
+    "yearMax": 30.8,
+    "nYears": 4
+   },
+   {
+    "mo": 2,
+    "pm25": 18.1,
+    "yearMin": 15.3,
+    "yearMax": 23.0,
+    "nYears": 4
+   },
+   {
+    "mo": 3,
+    "pm25": 18.8,
+    "yearMin": 14.9,
+    "yearMax": 24.1,
+    "nYears": 4
+   },
+   {
+    "mo": 4,
+    "pm25": 19.0,
+    "yearMin": 11.1,
+    "yearMax": 34.4,
+    "nYears": 4
+   },
+   {
+    "mo": 5,
+    "pm25": 8.3,
+    "yearMin": 5.7,
+    "yearMax": 10.7,
+    "nYears": 4
+   },
+   {
+    "mo": 6,
+    "pm25": 3.8,
+    "yearMin": 3.6,
+    "yearMax": 4.1,
+    "nYears": 4
+   },
+   {
+    "mo": 7,
+    "pm25": 3.9,
+    "yearMin": 3.4,
+    "yearMax": 4.6,
+    "nYears": 4
+   },
+   {
+    "mo": 8,
+    "pm25": 3.4,
+    "yearMin": 3.1,
+    "yearMax": 4.0,
+    "nYears": 4
+   },
+   {
+    "mo": 9,
+    "pm25": 3.7,
+    "yearMin": 2.7,
+    "yearMax": 4.7,
+    "nYears": 4
+   },
+   {
+    "mo": 10,
+    "pm25": 16.1,
+    "yearMin": 9.9,
+    "yearMax": 19.8,
+    "nYears": 4
+   },
+   {
+    "mo": 11,
+    "pm25": 18.3,
+    "yearMin": 12.0,
+    "yearMax": 25.6,
+    "nYears": 4
+   },
+   {
+    "mo": 12,
+    "pm25": 19.3,
+    "yearMin": 14.2,
+    "yearMax": 24.6,
+    "nYears": 4
+   }
+  ]
+ },
  "ipoh": {
   "name": "Ipoh",
   "country": "Malaysia",
@@ -4268,6 +5258,105 @@
     "pm25": 16.9,
     "yearMin": 14.4,
     "yearMax": 18.6,
+    "nYears": 4
+   }
+  ]
+ },
+ "izmir": {
+  "name": "Izmir",
+  "country": "Turkey",
+  "query": {
+   "lat": 38.4237,
+   "lng": 27.1428
+  },
+  "grid": {
+   "lat": 38.40001,
+   "lng": 27.100006,
+   "elevation": 8.0
+  },
+  "months": [
+   {
+    "mo": 1,
+    "pm25": 23.8,
+    "yearMin": 15.1,
+    "yearMax": 35.5,
+    "nYears": 4
+   },
+   {
+    "mo": 2,
+    "pm25": 19.5,
+    "yearMin": 17.6,
+    "yearMax": 21.3,
+    "nYears": 4
+   },
+   {
+    "mo": 3,
+    "pm25": 20.1,
+    "yearMin": 15.5,
+    "yearMax": 24.2,
+    "nYears": 4
+   },
+   {
+    "mo": 4,
+    "pm25": 15.6,
+    "yearMin": 10.9,
+    "yearMax": 18.5,
+    "nYears": 4
+   },
+   {
+    "mo": 5,
+    "pm25": 14.3,
+    "yearMin": 13.0,
+    "yearMax": 15.1,
+    "nYears": 4
+   },
+   {
+    "mo": 6,
+    "pm25": 12.2,
+    "yearMin": 10.6,
+    "yearMax": 13.9,
+    "nYears": 4
+   },
+   {
+    "mo": 7,
+    "pm25": 12.2,
+    "yearMin": 9.1,
+    "yearMax": 13.5,
+    "nYears": 4
+   },
+   {
+    "mo": 8,
+    "pm25": 13.5,
+    "yearMin": 11.9,
+    "yearMax": 15.8,
+    "nYears": 4
+   },
+   {
+    "mo": 9,
+    "pm25": 11.8,
+    "yearMin": 9.4,
+    "yearMax": 13.1,
+    "nYears": 4
+   },
+   {
+    "mo": 10,
+    "pm25": 14.1,
+    "yearMin": 9.8,
+    "yearMax": 19.2,
+    "nYears": 4
+   },
+   {
+    "mo": 11,
+    "pm25": 19.3,
+    "yearMin": 12.8,
+    "yearMax": 29.9,
+    "nYears": 4
+   },
+   {
+    "mo": 12,
+    "pm25": 23.6,
+    "yearMin": 16.2,
+    "yearMax": 33.7,
     "nYears": 4
    }
   ]
@@ -4767,6 +5856,105 @@
    }
   ]
  },
+ "la-paz-baja": {
+  "name": "La Paz (Baja)",
+  "country": "Mexico",
+  "query": {
+   "lat": 24.1426,
+   "lng": -110.3128
+  },
+  "grid": {
+   "lat": 24.099998,
+   "lng": -110.299995,
+   "elevation": 26.0
+  },
+  "months": [
+   {
+    "mo": 1,
+    "pm25": 4.7,
+    "yearMin": 4.3,
+    "yearMax": 5.9,
+    "nYears": 4
+   },
+   {
+    "mo": 2,
+    "pm25": 4.7,
+    "yearMin": 4.4,
+    "yearMax": 5.0,
+    "nYears": 4
+   },
+   {
+    "mo": 3,
+    "pm25": 5.1,
+    "yearMin": 4.3,
+    "yearMax": 6.6,
+    "nYears": 4
+   },
+   {
+    "mo": 4,
+    "pm25": 5.4,
+    "yearMin": 4.8,
+    "yearMax": 6.0,
+    "nYears": 4
+   },
+   {
+    "mo": 5,
+    "pm25": 7.1,
+    "yearMin": 6.2,
+    "yearMax": 7.9,
+    "nYears": 4
+   },
+   {
+    "mo": 6,
+    "pm25": 7.2,
+    "yearMin": 5.4,
+    "yearMax": 9.3,
+    "nYears": 4
+   },
+   {
+    "mo": 7,
+    "pm25": 8.3,
+    "yearMin": 6.5,
+    "yearMax": 8.9,
+    "nYears": 4
+   },
+   {
+    "mo": 8,
+    "pm25": 7.9,
+    "yearMin": 7.7,
+    "yearMax": 8.0,
+    "nYears": 4
+   },
+   {
+    "mo": 9,
+    "pm25": 5.8,
+    "yearMin": 4.9,
+    "yearMax": 6.4,
+    "nYears": 4
+   },
+   {
+    "mo": 10,
+    "pm25": 5.5,
+    "yearMin": 4.4,
+    "yearMax": 6.5,
+    "nYears": 4
+   },
+   {
+    "mo": 11,
+    "pm25": 4.9,
+    "yearMin": 4.3,
+    "yearMax": 5.8,
+    "nYears": 4
+   },
+   {
+    "mo": 12,
+    "pm25": 4.9,
+    "yearMin": 4.4,
+    "yearMax": 5.2,
+    "nYears": 4
+   }
+  ]
+ },
  "lagos-algarve": {
   "name": "Lagos (Algarve)",
   "country": "Portugal",
@@ -5060,6 +6248,105 @@
     "pm25": 11.7,
     "yearMin": 6.7,
     "yearMax": 18.3,
+    "nYears": 4
+   }
+  ]
+ },
+ "lima": {
+  "name": "Lima",
+  "country": "Peru",
+  "query": {
+   "lat": -12.1211,
+   "lng": -77.0297
+  },
+  "grid": {
+   "lat": -12.099998,
+   "lng": -77.0,
+   "elevation": 87.0
+  },
+  "months": [
+   {
+    "mo": 1,
+    "pm25": 14.0,
+    "yearMin": 8.5,
+    "yearMax": 16.4,
+    "nYears": 4
+   },
+   {
+    "mo": 2,
+    "pm25": 14.5,
+    "yearMin": 9.7,
+    "yearMax": 17.2,
+    "nYears": 4
+   },
+   {
+    "mo": 3,
+    "pm25": 14.8,
+    "yearMin": 9.7,
+    "yearMax": 18.6,
+    "nYears": 4
+   },
+   {
+    "mo": 4,
+    "pm25": 13.0,
+    "yearMin": 8.9,
+    "yearMax": 15.2,
+    "nYears": 4
+   },
+   {
+    "mo": 5,
+    "pm25": 13.3,
+    "yearMin": 9.6,
+    "yearMax": 15.5,
+    "nYears": 4
+   },
+   {
+    "mo": 6,
+    "pm25": 13.2,
+    "yearMin": 10.1,
+    "yearMax": 15.3,
+    "nYears": 4
+   },
+   {
+    "mo": 7,
+    "pm25": 12.8,
+    "yearMin": 11.1,
+    "yearMax": 14.3,
+    "nYears": 4
+   },
+   {
+    "mo": 8,
+    "pm25": 12.1,
+    "yearMin": 10.7,
+    "yearMax": 14.2,
+    "nYears": 4
+   },
+   {
+    "mo": 9,
+    "pm25": 13.2,
+    "yearMin": 11.3,
+    "yearMax": 15.8,
+    "nYears": 4
+   },
+   {
+    "mo": 10,
+    "pm25": 11.8,
+    "yearMin": 9.2,
+    "yearMax": 14.9,
+    "nYears": 4
+   },
+   {
+    "mo": 11,
+    "pm25": 12.2,
+    "yearMin": 9.3,
+    "yearMax": 14.4,
+    "nYears": 4
+   },
+   {
+    "mo": 12,
+    "pm25": 12.7,
+    "yearMin": 10.0,
+    "yearMax": 15.1,
     "nYears": 4
    }
   ]
@@ -6252,6 +7539,105 @@
    }
   ]
  },
+ "montreal": {
+  "name": "Montréal",
+  "country": "Canada",
+  "query": {
+   "lat": 45.5019,
+   "lng": -73.5674
+  },
+  "grid": {
+   "lat": 45.5,
+   "lng": -73.6,
+   "elevation": 76.0
+  },
+  "months": [
+   {
+    "mo": 1,
+    "pm25": 10.3,
+    "yearMin": 7.2,
+    "yearMax": 13.0,
+    "nYears": 4
+   },
+   {
+    "mo": 2,
+    "pm25": 12.7,
+    "yearMin": 11.3,
+    "yearMax": 16.1,
+    "nYears": 4
+   },
+   {
+    "mo": 3,
+    "pm25": 11.4,
+    "yearMin": 10.2,
+    "yearMax": 12.9,
+    "nYears": 4
+   },
+   {
+    "mo": 4,
+    "pm25": 10.3,
+    "yearMin": 8.9,
+    "yearMax": 11.7,
+    "nYears": 4
+   },
+   {
+    "mo": 5,
+    "pm25": 10.4,
+    "yearMin": 8.3,
+    "yearMax": 12.0,
+    "nYears": 4
+   },
+   {
+    "mo": 6,
+    "pm25": 16.3,
+    "yearMin": 11.6,
+    "yearMax": 24.8,
+    "nYears": 4
+   },
+   {
+    "mo": 7,
+    "pm25": 14.1,
+    "yearMin": 10.7,
+    "yearMax": 17.3,
+    "nYears": 4
+   },
+   {
+    "mo": 8,
+    "pm25": 12.5,
+    "yearMin": 10.5,
+    "yearMax": 14.7,
+    "nYears": 4
+   },
+   {
+    "mo": 9,
+    "pm25": 11.3,
+    "yearMin": 9.0,
+    "yearMax": 14.9,
+    "nYears": 4
+   },
+   {
+    "mo": 10,
+    "pm25": 8.3,
+    "yearMin": 6.7,
+    "yearMax": 11.1,
+    "nYears": 4
+   },
+   {
+    "mo": 11,
+    "pm25": 7.2,
+    "yearMin": 5.8,
+    "yearMax": 8.2,
+    "nYears": 4
+   },
+   {
+    "mo": 12,
+    "pm25": 9.3,
+    "yearMin": 7.1,
+    "yearMax": 12.3,
+    "nYears": 4
+   }
+  ]
+ },
  "munich": {
   "name": "Munich",
   "country": "Germany",
@@ -7337,6 +8723,105 @@
     "pm25": 11.4,
     "yearMin": 7.7,
     "yearMax": 13.2,
+    "nYears": 4
+   }
+  ]
+ },
+ "phuket": {
+  "name": "Phuket",
+  "country": "Thailand",
+  "query": {
+   "lat": 7.8804,
+   "lng": 98.3923
+  },
+  "grid": {
+   "lat": 7.9000015,
+   "lng": 98.399994,
+   "elevation": 6.0
+  },
+  "months": [
+   {
+    "mo": 1,
+    "pm25": 12.6,
+    "yearMin": 11.8,
+    "yearMax": 13.5,
+    "nYears": 4
+   },
+   {
+    "mo": 2,
+    "pm25": 11.8,
+    "yearMin": 9.9,
+    "yearMax": 13.2,
+    "nYears": 4
+   },
+   {
+    "mo": 3,
+    "pm25": 13.5,
+    "yearMin": 11.0,
+    "yearMax": 14.9,
+    "nYears": 4
+   },
+   {
+    "mo": 4,
+    "pm25": 12.2,
+    "yearMin": 6.3,
+    "yearMax": 17.0,
+    "nYears": 4
+   },
+   {
+    "mo": 5,
+    "pm25": 8.2,
+    "yearMin": 6.3,
+    "yearMax": 11.5,
+    "nYears": 4
+   },
+   {
+    "mo": 6,
+    "pm25": 8.8,
+    "yearMin": 6.7,
+    "yearMax": 9.9,
+    "nYears": 4
+   },
+   {
+    "mo": 7,
+    "pm25": 10.5,
+    "yearMin": 8.5,
+    "yearMax": 13.4,
+    "nYears": 4
+   },
+   {
+    "mo": 8,
+    "pm25": 8.5,
+    "yearMin": 7.1,
+    "yearMax": 10.8,
+    "nYears": 4
+   },
+   {
+    "mo": 9,
+    "pm25": 8.1,
+    "yearMin": 6.6,
+    "yearMax": 8.8,
+    "nYears": 4
+   },
+   {
+    "mo": 10,
+    "pm25": 6.1,
+    "yearMin": 5.2,
+    "yearMax": 6.8,
+    "nYears": 4
+   },
+   {
+    "mo": 11,
+    "pm25": 7.7,
+    "yearMin": 7.1,
+    "yearMax": 8.8,
+    "nYears": 4
+   },
+   {
+    "mo": 12,
+    "pm25": 8.7,
+    "yearMin": 8.4,
+    "yearMax": 9.0,
     "nYears": 4
    }
   ]
@@ -10505,6 +11990,105 @@
     "pm25": 6.1,
     "yearMin": 3.6,
     "yearMax": 7.1,
+    "nYears": 4
+   }
+  ]
+ },
+ "vina-del-mar": {
+  "name": "Viña del Mar",
+  "country": "Chile",
+  "query": {
+   "lat": -33.0245,
+   "lng": -71.5518
+  },
+  "grid": {
+   "lat": -33.0,
+   "lng": -71.6,
+   "elevation": 8.0
+  },
+  "months": [
+   {
+    "mo": 1,
+    "pm25": 7.4,
+    "yearMin": 6.9,
+    "yearMax": 8.2,
+    "nYears": 4
+   },
+   {
+    "mo": 2,
+    "pm25": 11.5,
+    "yearMin": 5.1,
+    "yearMax": 20.1,
+    "nYears": 4
+   },
+   {
+    "mo": 3,
+    "pm25": 7.0,
+    "yearMin": 5.8,
+    "yearMax": 8.2,
+    "nYears": 4
+   },
+   {
+    "mo": 4,
+    "pm25": 7.7,
+    "yearMin": 5.6,
+    "yearMax": 8.8,
+    "nYears": 4
+   },
+   {
+    "mo": 5,
+    "pm25": 15.8,
+    "yearMin": 11.2,
+    "yearMax": 21.5,
+    "nYears": 4
+   },
+   {
+    "mo": 6,
+    "pm25": 18.1,
+    "yearMin": 12.8,
+    "yearMax": 21.0,
+    "nYears": 4
+   },
+   {
+    "mo": 7,
+    "pm25": 17.6,
+    "yearMin": 14.6,
+    "yearMax": 20.5,
+    "nYears": 4
+   },
+   {
+    "mo": 8,
+    "pm25": 12.7,
+    "yearMin": 9.9,
+    "yearMax": 15.5,
+    "nYears": 4
+   },
+   {
+    "mo": 9,
+    "pm25": 10.5,
+    "yearMin": 9.1,
+    "yearMax": 14.5,
+    "nYears": 4
+   },
+   {
+    "mo": 10,
+    "pm25": 7.9,
+    "yearMin": 7.3,
+    "yearMax": 8.6,
+    "nYears": 4
+   },
+   {
+    "mo": 11,
+    "pm25": 7.2,
+    "yearMin": 5.8,
+    "yearMax": 9.7,
+    "nYears": 4
+   },
+   {
+    "mo": 12,
+    "pm25": 7.2,
+    "yearMin": 6.6,
+    "yearMax": 7.5,
     "nYears": 4
    }
   ]

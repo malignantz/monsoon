@@ -1,0 +1,185 @@
+{
+  "name": "Viña del Mar",
+  "country": "Chile",
+  "iso3": "CHL",
+  "region": "S America",
+  "lat": -33.0245,
+  "lng": -71.5518,
+  "coordsNote": "Plan de Viña near the Marga Marga estuary / Avenida San Martín beachfront; Reñaca is ~6 km north, Valparaíso ~8 km south by Metro Valparaíso.",
+  "timezone": "UTC-4 (DST -3)",
+  "schengen": false,
+  "visa": null,
+  "english": {
+    "tier": 1,
+    "note": "Tourist zones",
+    "rationale": "Chile scores 517 on EF EPI (#54, Moderate band), so tier 1 like Santiago. EF lists Viña del Mar's city score at 578, but that comes from self-selected test-takers and Spanish dominates daily life. No expat-hub bump.",
+    "sources": [
+      {
+        "title": "EF EPI — Chile",
+        "url": "https://www.ef.com/wwen/epi/regions/latin-america/chile/",
+        "accessed": "2026-10-03",
+        "note": "Chile 517, rank #54 (Moderate); Valparaíso region ~559–560, Viña del Mar city 578."
+      }
+    ]
+  },
+  "draw": "Beach / city",
+  "vibe": "Chile's Pacific resort city: beachfront avenues, gardens, casino; Valparaíso's hills next door",
+  "narrative": "Chile's 'garden city' on the Pacific: the Avenida San Martín beachfront and Reñaca's sand, the Quinta Vergara park and palace, the Wulff castle and the flower clock, with Valparaíso's UNESCO-listed hills 15 minutes away by Metro and the Casablanca wine valley under an hour inland. The dry December–March summer is mild rather than hot, but the Humboldt Current keeps the sea at 14–16 °C, and January–February brings Santiago's holiday crowds and peak rents.",
+  "activities": {
+    "adventure": 1,
+    "culture": 2,
+    "nomad": 1,
+    "wellness": 1,
+    "water": 2,
+    "food": 2,
+    "nature": 2,
+    "nightlife": 2
+  },
+  "season": {
+    "months": [
+      "Peak",
+      "Peak",
+      "Shoulder",
+      "Off",
+      "Off",
+      "Off",
+      "Shoulder",
+      "Off",
+      "Shoulder",
+      "Off",
+      "Shoulder",
+      "In"
+    ],
+    "rationale": "Editorial estimate. The lifeguarded beach season runs from mid-December to 15 March. January–February is the domestic and Argentine summer peak (Valparaíso and Coquimbo coast 'favoured by Argentine tourists' in 2026), topped by the Festival de Viña in late February, and New Year's fireworks draw about a million people. July (school winter holidays) and the September Fiestas Patrias weekend bring short bumps; April–June, August and October are quiet.",
+    "sources": [
+      {
+        "title": "Emol — Balance temporada: gremios del turismo (16 Feb 2026)",
+        "url": "https://www.emol.com/noticias/Nacional/2026/02/16/1191568/balance-temporada-gremios-turismo.html",
+        "accessed": "2026-10-03",
+        "note": "Summer 2026: ~65% average occupancy nationally; Hoteleros de Chile say the Valparaíso and Coquimbo coast benefited from Argentine visitors."
+      },
+      {
+        "title": "Radio Agricultura — Autoridad Marítima dio inicio a la temporada de playas 2021-2022 (16 Dec 2021)",
+        "url": "https://www.radioagricultura.cl/noticias/nacional/autoridad-maritima-dio-inicio-a-la-temporada-de-playas-2021-2022-con-un-llamado-a-prevenir-accidentes-durante-la-epoca-estival_20211216/",
+        "accessed": "2026-10-03",
+        "note": "Beach season opened in Reñaca on 16 Dec and runs until 15 March."
+      }
+    ]
+  },
+  "hazards": [],
+  "swim": {
+    "body": "sea",
+    "name": "Pacific (Reñaca / Playa Acapulco / Caleta Abarca)",
+    "months": [
+      1,
+      2
+    ],
+    "note": "Cold Humboldt Current water, about 15–16 °C even in summer; this is the locals' lifeguarded beach season (mid-Dec to 15 Mar), not warm-water swimming.",
+    "source": {
+      "title": "seatemperatu.re — Viña del Mar sea temperature",
+      "url": "https://www.seatemperatu.re/south-america/chile/vina-del-mar/",
+      "accessed": "2026-10-03",
+      "note": "Monthly averages (last 24 months): Jan 16 °C, Feb 15 °C, Dec 14 °C, Jul 11 °C."
+    }
+  },
+  "events": [
+    {
+      "name": "Festival Internacional de la Canción de Viña del Mar",
+      "months": [
+        2
+      ],
+      "tier": 3,
+      "blurb": "six nights of televised concerts and song competition at the Quinta Vergara amphitheatre in late February; the 2026 edition ran 22–27 February",
+      "source": {
+        "title": "24horas.cl — Festival de Viña 2026: programación, artistas y entradas (25 Nov 2025)",
+        "url": "https://www.24horas.cl/festival-de-vina-del-mar/festival-vina-2026-programacion-artistas-entradas",
+        "accessed": "2026-10-03",
+        "note": "Sunday 22 to Friday 27 February 2026, Quinta Vergara."
+      }
+    },
+    {
+      "name": "Año Nuevo en el Mar (New Year's fireworks)",
+      "months": [
+        12
+      ],
+      "tier": 2,
+      "blurb": "an 18–20 minute fireworks show from 16 launch points along the Viña and Valparaíso shore, drawing about a million people",
+      "source": {
+        "title": "CNN Chile — Así fue el ensayo de fuegos artificiales en Valparaíso y Viña del Mar (26 Dec 2025)",
+        "url": "https://www.cnnchile.com/pais/asi-fue-el-ensayo-de-fuegos-artificiales-en-valparaiso-y-vina-del-mar-previo-a-ano-nuevo/",
+        "accessed": "2026-10-03",
+        "note": "28,000+ shots from 16 points (7 in Viña); mayor expected 'a million people'. Held on the night of 31 Dec."
+      }
+    },
+    {
+      "name": "Fiestas Patrias",
+      "months": [
+        9
+      ],
+      "tier": 2,
+      "blurb": "the 18 September independence holiday; the Fiesta Criolla fonda at the Valparaíso Sporting Club ran 17–20 September 2026",
+      "source": {
+        "title": "Radio Agricultura — Fondas en Viña del Mar 2026: cuánto cuesta entrar y qué artistas estarán en el Sporting (17 Sep 2026)",
+        "url": "https://www.radioagricultura.cl/entretencion/fondas-en-vina-del-mar-2026-cuanto-cuesta-entrar-y-que-artistas-estaran-en-el-sporting_20260917/",
+        "accessed": "2026-10-03",
+        "note": "Fiesta Criolla Sporting 2026, 17–20 September, Av. Los Castaños 404."
+      }
+    }
+  ],
+  "safety": {
+    "propertySub": 52,
+    "propertyNote": "Phone snatching, distraction theft and muggings; worse in Valparaíso",
+    "womensAdj": 0,
+    "womensSafetyNote": "Moderate",
+    "touristMod": 1.0,
+    "touristRationale": "",
+    "touristTags": [
+      "petty-theft",
+      "bag-snatching"
+    ],
+    "homicideOverride": null,
+    "rationale": {
+      "property": "Editorial estimate. The State Department says street crime is common in Chile and violent crime is increasing; the FCDO names Valparaíso, next door, for frequent and increasingly armed muggings. The Viña Plan and beachfront are calmer than central Valparaíso, so set just above Santiago (50) and level with Buenos Aires (52), below Montevideo (55).",
+      "tourist": "Visitors face the same distraction and phone theft as locals; no evidence of extra targeting beyond the beachfront crowds. 1.0 like Santiago.",
+      "womens": "No Viña-specific evidence either way; kept at the Chile Gallup baseline like Santiago."
+    },
+    "calibratedAgainst": [
+      "Santiago",
+      "Buenos Aires",
+      "Montevideo"
+    ],
+    "consulted": [
+      {
+        "title": "U.S. State Department travel advisories RSS feed (Chile entry)",
+        "url": "https://travel.state.gov/_res/rss/TAsTWs.xml",
+        "accessed": "2026-10-03",
+        "quote": "Exercise increased caution in Chile due to crime and civil unrest.",
+        "note": "Level 2, 20 May 2026; health indicator (Andes hantavirus, CDC Level 1) added. No regional levels, so the Valparaíso region is the same as the country. The advisory page itself is behind a Cloudflare bot check."
+      },
+      {
+        "title": "UK FCDO — Chile: safety and security",
+        "url": "https://www.gov.uk/foreign-travel-advice/chile/safety-and-security",
+        "accessed": "2026-10-03",
+        "quote": "Muggings happen frequently, especially in Santiago and Valparaiso, and increasingly with weapons such as guns and knives.",
+        "note": "Also warns of protests (11 Sep, 29 Mar, 1 May) and severe forest fires."
+      }
+    ],
+    "advisory": {
+      "level": 2,
+      "text": "Exercise increased caution",
+      "date": "2026-08-19",
+      "url": "https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.chl.html",
+      "risks": [
+        "Crime",
+        "Unrest",
+        "Health"
+      ],
+      "regionalLevel": 2,
+      "localLevel": 2,
+      "localArea": null
+    }
+  },
+  "selection": "Chile's Pacific beach city next to Valparaíso: a mild, dry December–March summer that complements the northern-winter cities, the Festival de Viña in February, and furnished 1BRs around CLP 560k (portalinmobiliario, Oct 2026).",
+  "asOf": "2026-10",
+  "researchNotes": "US advisory: the State Department advisory pages return 403 or a Cloudflare bot check (not bypassed). Level, date and text come from the official RSS feed (travel.state.gov/_res/rss/TAsTWs.xml), the same data as the catalog's Santiago entry (Level 2, 20 May 2026, Unrest/Crime/Health). The Chile advisory has no regional levels, so the Valparaíso region is Level 2; no reason not to ship. Swim is set to January–February despite a 15–16 °C sea, because the brief allows the locals' swim season; reviewers may prefer null. Wildfire hazard (Jan–Feb, level 1) is a judgment call: the catalog doesn't flag wildfire for other Mediterranean-climate cities, but Viña had the deadliest fire in Chile's history in Feb 2024 (and a large fire in Dec 2022) in its own hillside neighbourhoods. Not listed: El Derby horse race at the Valparaíso Sporting Club (early Feb), not verified this session. Homicide: no city/region figure found, so no override. Review edit 2026-10-03: wildfire flag (Jan-Feb) removed: one extreme event (Feb 2024) is not a seasonal climatology, and the catalog does not flag wildfire for comparable Mediterranean-climate cities."
+}

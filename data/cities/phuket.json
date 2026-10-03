@@ -1,0 +1,241 @@
+{
+  "name": "Phuket",
+  "country": "Thailand",
+  "iso3": "THA",
+  "region": "SE Asia",
+  "lat": 7.8804,
+  "lng": 98.3923,
+  "coordsNote": "Phuket Town (island capital). Long-stay areas are 10-25 km away: Rawai/Nai Harn and Chalong in the south, Kata on the south-west coast, Bang Tao on the north-west coast.",
+  "timezone": "UTC+7",
+  "schengen": false,
+  "visa": null,
+  "english": {
+    "tier": 2,
+    "note": "Good in town (expat hub — above national average)",
+    "rationale": "Thailand sits well below the global average on the EF EPI 2025 (score 402, rank 116; country tier 1 in scripts/add_english.py, as for Bangkok and Chiang Mai). Phuket's tourism and long-stay economy (Rawai/Chalong expat districts, international hospitals and schools) runs well ahead of that, so +1 for an expat hub, matching Bangkok and Chiang Mai.",
+    "sources": [
+      {
+        "title": "EF EPI 2025 — Thailand",
+        "url": "https://www.ef.com/wwen/epi/regions/asia/thailand/",
+        "accessed": "2026-10-03",
+        "quote": "EF EPI score 402; Global ranking #116",
+        "note": "Page shows score and rank; global average 488."
+      }
+    ]
+  },
+  "draw": "Beach / island living",
+  "vibe": "Big island base: beaches, hospitals, long-stay condos, Andaman islands",
+  "narrative": "Thailand's largest island splits into scenes: long-stayers cluster in Rawai, Nai Harn and Chalong in the south and in Bang Tao on the west coast, while Phuket Old Town keeps its Sino-Portuguese shophouses and food streets. Private hospitals, coworking spaces and boat trips to Phang Nga Bay make long stays easy, but costs run well above Chiang Mai or Hua Hin, and the west-coast beaches fly red flags through the May–Oct monsoon.",
+  "activities": {
+    "adventure": 2,
+    "culture": 2,
+    "nomad": 2,
+    "wellness": 3,
+    "water": 3,
+    "food": 3,
+    "nature": 2,
+    "nightlife": 3
+  },
+  "season": {
+    "months": [
+      "Peak",
+      "Peak",
+      "In",
+      "In",
+      "Shoulder",
+      "Off",
+      "Shoulder",
+      "Shoulder",
+      "Off",
+      "Shoulder",
+      "In",
+      "Peak"
+    ],
+    "rationale": "Editorial estimate. High season is the dry north-east monsoon, Nov–Apr, peaking Dec–Feb when European, Scandinavian and Russian winter visitors fill the island. The May–Oct south-west monsoon is low season with up to 30% rent discounts; Jul–Aug hold up on short-haul (India, Middle East, China) summer travel and October gets a lift from the Vegetarian Festival and Chinese Golden Week. June and September are the quietest.",
+    "sources": [
+      {
+        "title": "I Am Koh Chang — Cost to live in Phuket (2026)",
+        "url": "https://iamkohchang.com/blog/cost-to-live-in-phuket.html",
+        "accessed": "2026-10-03",
+        "quote": "Peak tourist arrivals which mean very high short-term rental costs in Patong/Kata.",
+        "note": "High season given as Nov–Feb; low season May–Oct 'Best time for rental deals with up to 30% off.'"
+      }
+    ]
+  },
+  "hazards": [
+    {
+      "months": [
+        9,
+        10
+      ],
+      "level": 1,
+      "note": "Southwest monsoon peak (rough seas)",
+      "source": {
+        "title": "Thai Meteorological Department — 3-month outlook Jul–Sep 2026 (normals table)",
+        "url": "https://www.tmd.go.th/media/climate/3-months/newsjas_2026_english.pdf",
+        "accessed": "2026-10-03",
+        "quote": "Southern Thailand (West Coast) ... 349.4 19.6 419.2 20.4 429.2 21.8",
+        "note": "Normal rainfall for the Andaman (west) coast region: Jul 349.4 mm, Aug 419.2 mm, Sep 429.2 mm; the Oct–Dec outlook (newsond_2024_english.pdf) gives Oct 368.8 mm. Sep–Oct are the wettest, roughest-sea months; FCDO notes drownings in riptides and the red-flag system."
+      }
+    }
+  ],
+  "swim": {
+    "body": "sea",
+    "name": "Andaman Sea (Kata, Nai Harn, Bang Tao)",
+    "months": [
+      11,
+      12,
+      1,
+      2,
+      3,
+      4
+    ],
+    "note": "Water is 28–30 °C all year, but the May–Oct monsoon swell brings rip currents and red flags to the west-coast beaches",
+    "source": {
+      "title": "seatemperature.org — Phuket",
+      "url": "https://www.seatemperature.org/asia/thailand/phuket.htm",
+      "accessed": "2026-10-03",
+      "quote": "The coldest month is January with an average water temperature of 28.1°C.",
+      "note": "Warmest May 30.5 °C. Months limited to the calm-sea season; see FCDO riptide/red-flag guidance."
+    }
+  },
+  "events": [
+    {
+      "name": "Chinese New Year in Phuket Old Town",
+      "months": [
+        2
+      ],
+      "tier": 2,
+      "blurb": "lanterns, lion and dragon dances around Thalang Road",
+      "source": {
+        "title": "Villa-Phuket — Phuket Event Calendar 2026",
+        "url": "https://www.villa-phuket.com/magazine/?p=4758",
+        "accessed": "2026-10-03",
+        "quote": "February 17, 2026 – Chinese New Year",
+        "note": "Lunar New Year falls in February in both 2026 (17 Feb) and 2027 (6 Feb)."
+      }
+    },
+    {
+      "name": "Songkran",
+      "months": [
+        4
+      ],
+      "tier": 2,
+      "blurb": "Thai New Year water festival; Patong's Bangla Road is the centre",
+      "source": {
+        "title": "Villa-Phuket — Phuket Event Calendar 2026",
+        "url": "https://www.villa-phuket.com/magazine/?p=4758",
+        "accessed": "2026-10-03",
+        "quote": "April 13–15, 2026 – Songkran Festival"
+      }
+    },
+    {
+      "name": "Phuket Vegetarian Festival",
+      "months": [
+        9,
+        10
+      ],
+      "tier": 3,
+      "blurb": "nine-day Nine Emperor Gods festival: shrine processions, firecrackers, vegetarian food stalls",
+      "source": {
+        "title": "Phuket 101 — Phuket Vegetarian Festival",
+        "url": "https://www.phuket101.net/events/phuket-vegetarian-festival/",
+        "accessed": "2026-10-03",
+        "quote": "a Taoist festival honouring the Nine Emperor Gods",
+        "note": "2026 edition runs Sat 10 – Sun 18 October (page updated 30 Aug 2026). Follows the 9th Chinese lunar month, so it can start in late September (as expected in 2027)."
+      }
+    },
+    {
+      "name": "Loy Krathong",
+      "months": [
+        11
+      ],
+      "tier": 2,
+      "blurb": "candlelit krathong offerings floated on lakes, beaches and rivers island-wide",
+      "source": {
+        "title": "Phuket 101 — Loy Krathong Festival",
+        "url": "https://www.phuket101.net/events/loy-krathong-festival/",
+        "accessed": "2026-10-03",
+        "quote": "In 2026, Loy Krathong falls on Tuesday, November 24."
+      }
+    },
+    {
+      "name": "Phuket King's Cup Regatta",
+      "months": [
+        12
+      ],
+      "tier": 1,
+      "blurb": "Asia's long-running yachting regatta off the island",
+      "source": {
+        "title": "Villa-Phuket — Phuket Event Calendar 2026",
+        "url": "https://www.villa-phuket.com/magazine/?p=4758",
+        "accessed": "2026-10-03",
+        "quote": "December 5–12, 2026 – Phuket King's Cup Regatta",
+        "note": "Official site kingscup.com returned 403, so dates are from this calendar."
+      }
+    }
+  ],
+  "safety": {
+    "propertySub": 66,
+    "propertyNote": "Motorbike bag-snatching, taxi/jet-ski scams; long-stay south is calmer",
+    "womensAdj": 0,
+    "womensSafetyNote": "Generally safe; nightlife and drink-spiking awareness in Patong",
+    "touristMod": 1.0,
+    "touristRationale": "Visitor risk is mainly scams and petty theft (already in the property score); long-stay districts are residential. No extra modifier.",
+    "touristTags": [
+      "scams-common",
+      "bag-snatching",
+      "nightlife-risk"
+    ],
+    "homicideOverride": null,
+    "rationale": {
+      "property": "A large resort economy brings the usual tourist-zone theft and well-known taxi and jet-ski rental scams, plus motorbike bag-snatching (FCDO). Set just above Bangkok (62) and Bali (64), below Chiang Mai (74), because the long-stay south (Rawai/Chalong) is residential but Patong pulls the island average down.",
+      "tourist": "Most crime against visitors is opportunistic and already captured in the property score; no evidence that visitors face higher violent risk than residents. Kept at 1.0 like the other Thai cities.",
+      "womens": "FCDO flags drink spiking and assaults in Thai tourist and party areas; Patong has a big nightlife strip, but long-stay areas are quiet. Held at the country Gallup baseline (adj 0), same as Bangkok."
+    },
+    "calibratedAgainst": [
+      "Bangkok",
+      "Chiang Mai",
+      "Bali (Canggu/Ubud)",
+      "Nha Trang"
+    ],
+    "consulted": [
+      {
+        "title": "U.S. State Department travel advisories (official data feed)",
+        "url": "https://cadataapi.state.gov/api/TravelAdvisories",
+        "accessed": "2026-10-03",
+        "quote": "Thailand - Level 1: Exercise Normal Precautions",
+        "note": "travel.state.gov itself served a Cloudflare bot check; the advisory text was read from State's official advisory API (same content as the advisory page)."
+      },
+      {
+        "title": "UK FCDO — Thailand safety and security",
+        "url": "https://www.gov.uk/foreign-travel-advice/thailand/safety-and-security",
+        "accessed": "2026-10-03",
+        "quote": "beware of bag-snatchers, especially on motorbikes",
+        "note": "Also: drink spiking in tourist areas; drownings in riptides, follow red flags."
+      },
+      {
+        "title": "U.S. State Department travel advisories RSS feed (official)",
+        "url": "https://travel.state.gov/_res/rss/TAsTWs.xml",
+        "accessed": "2026-10-03",
+        "note": "Thailand: Level 1, dated 2026-07-07; destination page https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/thailand-travel-advisory.html"
+      }
+    ],
+    "advisory": {
+      "level": 1,
+      "text": "Exercise normal precautions",
+      "date": "2026-07-07",
+      "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/thailand-travel-advisory.html",
+      "risks": [
+        "Armed conflict",
+        "Unrest"
+      ],
+      "regionalLevel": 1,
+      "localLevel": 1,
+      "localArea": null
+    }
+  },
+  "selection": "Andaman-coast winter base with deep long-stay infrastructure (hospitals, coworking, retiree and nomad communities); the Nov–Apr dry season fills the Dec–Feb window. Comparables: Bangkok, Chiang Mai, Bali (Canggu/Ubud), Da Nang.",
+  "asOf": "2026-10",
+  "researchNotes": "US advisory: Thailand was lowered to Level 1 on 2026-07-06; increased caution applies only near the Thai-Cambodian border (armed conflict) and in Yala/Pattani/Narathiwat (unrest), so the risks list names those area risks, not Phuket. The catalog's Bangkok/Chiang Mai advisory (Level 2, 2025-07-25) looks stale. travel.state.gov was blocked by a bot check, so the text came from cadataapi.state.gov. The TMD climate web pages render empty, so the hazard source is TMD's seasonal-outlook PDF normals table. Hospitals/coworking claims are general; no single source opened for 'private hospitals'. Swim months limited to Nov–Apr because of monsoon rips, not water temperature."
+}

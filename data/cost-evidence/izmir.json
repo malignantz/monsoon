@@ -1,0 +1,35 @@
+{
+  "city": "Izmir",
+  "anchor": "solo-nomad-midrange",
+  "currency": "USD",
+  "asOf": "2026-10",
+  "provenance": "researched",
+  "components": {
+    "rent":      {"usd": 655, "party": "shared",              "source": "emlakjet.com (Endeksa data)", "asOf": "2026-10", "confidence": "med", "note": "furnished 1+1 in Alsancak / Bostanlı, ~₺32,000/mo. Alsancak index ₺376/m² (≈₺22,500 unfurnished for 60 m²) plus furnished/medium-term premium; furnished 1+1 listings ₺40k (Alsancak, luxury 85 m²), furnished 2+1 ₺25–56k. USD/TRY 49.0 (TCMB, 2 Oct 2026)"},
+    "utilities": {"usd": 90,  "party": "shared",              "source": "numbeo.com", "asOf": "2026-10", "confidence": "med", "note": "~₺4,400: basic utilities $84.54 for 85 m² (smaller for a 1BR, but summer AC) + fibre $15.96"},
+    "groceries": {"usd": 170, "party": "perPerson",           "source": "numbeo.com", "asOf": "2026-10", "confidence": "med", "note": "~₺8,300 home cooking; milk $1.12/L, eggs $2.49/12, chicken $2.28/lb; Kemeraltı and neighbourhood pazar markets"},
+    "diningOut": {"usd": 170, "party": "perPerson",           "source": "numbeo.com", "asOf": "2026-10", "confidence": "med", "note": "~₺8,300: about 10 inexpensive meals ($10.18) + 2 mid-range dinners + cafés ($3.66 cappuccino)"},
+    "transit":   {"usd": 45,  "party": "perPerson",           "source": "izmirimkart.com.tr", "asOf": "2026-10", "confidence": "med", "note": "~₺2,200: about 60 boardings at the ₺35 İzmirim Kart full fare (bus/metro/tram/ferry, later boardings within 90 min free); no adult monthly pass. Numbeo monthly figure $43.25"},
+    "coworking": {"usd": 160, "party": "perPersonDiscounted", "source": "regus.com / workin.space", "asOf": "2026-10", "confidence": "med", "note": "~₺7,800: Regus coworking access plan from ₺209/day (₺6,219/mo on a 24-month term); open desk at Regus Folkart Towers ₺11,659/mo month-to-month. Independent spaces likely cheaper (not verified)"},
+    "simData":   {"usd": 25,  "party": "perPerson",           "source": "turktelekom.com.tr / turkcell.com.tr", "asOf": "2026-10", "confidence": "med", "note": "~₺1,200/mo tourist SIM: Türk Telekom Tourist Welcome 75 GB ₺550/15 days; Turkcell Tourist Welcome Pack ₺1,800/28 days. Foreign phones work unregistered for up to 120 days"},
+    "misc":      {"usd": 120, "party": "perPersonDiscounted", "source": "numbeo.com / estimated", "asOf": "2026-10", "confidence": "low", "note": "~₺5,900: gym $64.42 (Numbeo) + toiletries, outings, buffer"}
+  },
+  "accomSeasonality": {
+    "_doc": "Editorial: a long-lease city market with summer demand for furnished flats (Jul–Aug foreign-arrival peak, Bostanlı/Urla beach season) and a September student and Fair bump; winter is soft.",
+    "values": [0.92, 0.92, 0.95, 1.0, 1.05, 1.1, 1.15, 1.15, 1.05, 1.0, 0.95, 0.92]
+  },
+  "evidence": [
+    {"claim": "Alsancak (Konak) rental index ₺376/m², average ₺37,572, +13.7% yoy; Konak district ₺360/m², average ₺35,969 (Sep 2026)", "quote": "Alsancak: 376 ₺/m², ₺37.572 average, +13.7% change", "source": "emlakjet.com (Endeksa)", "url": "https://www.emlakjet.com/emlak-piyasasi/kiralik-daire/izmir-konak", "date": "2026-09", "confidence": "high"},
+    {"claim": "İzmir-wide rent ₺325/m², average ₺32,424, +18.9% in 12 months; Karşıyaka ₺369/m², Urla ₺507/m², Çeşme ₺522/m²", "quote": "İzmir genelinde kiralık konut m² fiyatı Eylül 2026 itibarıyla 325 ₺/m² seviyesindedir", "source": "emlakjet.com (Endeksa)", "url": "https://www.emlakjet.com/emlak-piyasasi/kiralik-daire/izmir", "date": "2026-09", "confidence": "high"},
+    {"claim": "Alsancak live listings: furnished 1+1 85 m² ₺40,000; unfurnished 1+1 75 m² ₺23,000; furnished 2+1 ₺25,000–45,000", "quote": "Alsancak Merkezde Tadilatlı Lüks Eşyalı Kiralık Geniş 1+1 Daire — 40,000 TL", "source": "emlakjet.com listings", "url": "https://www.emlakjet.com/kiralik-daire/izmir-konak-alsancak-mahallesi", "date": "2026-10", "confidence": "med"},
+    {"claim": "Bostanlı listings: unfurnished 1+1 45 m² near the shore ₺36,000; furnished 2+1 ₺29,000–56,000; area average ₺377/m²", "quote": "Bostanlı Sahile Yakın Otoparklı Eşyasız 1+1 Kiralık Daire — 36,000 TL", "source": "emlakjet.com listings", "url": "https://www.emlakjet.com/kiralik-daire/izmir-karsiyaka-bostanli-mahallesi", "date": "2026-10", "confidence": "med"},
+    {"claim": "Average İzmir rent ₺33,369 (Emlakjet-Endeksa) and ₺333.3/m² asking (sahibinden-BETAM), Sep 2026", "quote": "İzmir'deki ortalama konut kirası 33 bin 369 TL", "source": "milligazete.com.tr", "url": "https://www.milligazete.com.tr/istanbulda-kiralar-ne-kadar-oldu-eylul-2026-istanbul-ankara-ve-izmir-ortalama-kira-fiyatlari-kac-tl-1", "date": "2026-09", "confidence": "med"},
+    {"claim": "USD/TRY 48.97 buy / 49.06 sell (TCMB indicative, 2 Oct 2026)", "quote": "<ForexSelling>49.0582</ForexSelling>", "source": "tcmb.gov.tr", "url": "https://www.tcmb.gov.tr/kurlar/today.xml", "date": "2026-10", "confidence": "high"},
+    {"claim": "İzmirim Kart full fare ₺35 (tariff A), 90-minute free transfers, İZBAN ₺40 first 20 km; in force from 1 Apr 2026", "quote": "90 Dakika içinde 2. ve sonraki tüm binişler fiyata dahildir", "source": "izmirimkart.com.tr", "url": "https://www.izmirimkart.com.tr/tr/tarife-ucretlendirme/56/129", "date": "2026-04", "confidence": "high"},
+    {"claim": "Regus İzmir coworking: dedicated desk from ₺389/day, coworking access plan from ₺209/day, day pass from ₺1,609", "quote": "Coworking access plan Prices from 209 TRY Per person per day", "source": "regus.com", "url": "https://www.regus.com/en-gb/turkey/izmir/coworking", "date": "2026-10", "confidence": "high"},
+    {"claim": "Regus Folkart Towers (Bayraklı) open-space desk ₺11,659/month per person", "quote": "Open-space desk: ₺11,659/month per person", "source": "workin.space", "url": "https://workin.space/en/turkiye/izmir", "date": "2026-10", "confidence": "med"},
+    {"claim": "Turkcell Tourist Welcome Pack ₺1,800 per 28 days, 20 GB + 200 minutes, foreign passport, stays up to 120 days", "quote": "20GB of internet, 200 local minutes, and exclusive benefits", "source": "turkcell.com.tr", "url": "https://www.turkcell.com.tr/kampanyalar/yeni-turkcell-musterisi/tourist-welcome-pack", "date": "2026-10", "confidence": "high"},
+    {"claim": "Türk Telekom Tourist Welcome 75 GB ₺550 for 15 days", "quote": "75 GB Internet ... 550 TL ... 15 Days", "source": "turktelekom.com.tr", "url": "https://bireysel.turktelekom.com.tr/mobil/welcome-75gb", "date": "2026-10", "confidence": "high"},
+    {"claim": "Numbeo İzmir: single person ~$709/mo excl. rent; inexpensive meal $10.18; utilities 85 m² $84.54; internet $15.96; gym $64.42; transport pass $43.25", "quote": "The estimated monthly costs for a single person are $708.7 (₺34,815.3), excluding rent.", "source": "numbeo.com", "url": "https://www.numbeo.com/cost-of-living/in/Izmir?displayCurrency=USD", "date": "2026-10", "confidence": "med"}
+  ]
+}

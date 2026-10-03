@@ -1,0 +1,204 @@
+{
+  "name": "Costa Adeje (Tenerife)",
+  "country": "Spain",
+  "iso3": "ESP",
+  "region": "S Europe",
+  "lat": 28.0817,
+  "lng": -16.7286,
+  "coordsNote": "Costa Adeje resort strip (Fañabé / Torviscas), south-west Tenerife; Los Cristianos is ~6 km south-east, El Médano ~25 km east.",
+  "timezone": "UTC+0 (DST +1)",
+  "schengen": true,
+  "visa": null,
+  "english": {
+    "tier": 2,
+    "note": "Good in town (expat hub — above national average)",
+    "rationale": "Spain sits in the EF EPI Moderate band (score 540), which maps to tier 1 for the rest of the Spanish catalog. South Tenerife's resort coast runs largely on British and northern-European tourism and has a large resident British community, so English works in shops, restaurants, agencies and clinics: +1 expat-hub bump to tier 2.",
+    "sources": [
+      {
+        "title": "EF EPI — Spain",
+        "url": "https://www.ef.com/wwen/epi/regions/europe/spain/",
+        "accessed": "2026-10-03",
+        "note": "Spain EF EPI score 540, rank #36 (Moderate band, 500-549)."
+      }
+    ]
+  },
+  "draw": "Beach / winter sun",
+  "vibe": "Resort-strip winter sun, whale-watching boats, Teide an hour uphill",
+  "narrative": "South Tenerife's resort coast: Fañabé and Playa del Duque beaches, whale- and dolphin-watching boats out of Puerto Colón, Teide National Park and the Masca gorge within an hour, and kite and windsurf at El Médano. Winters are reliably mild and English is everywhere, but it is a resort monoculture with winter rents to match — Los Cristianos is the more lived-in base.",
+  "activities": {
+    "adventure": 2,
+    "culture": 1,
+    "nomad": 2,
+    "wellness": 2,
+    "water": 3,
+    "food": 2,
+    "nature": 3,
+    "nightlife": 2
+  },
+  "season": {
+    "months": [
+      "Peak",
+      "Peak",
+      "Peak",
+      "In",
+      "Shoulder",
+      "Shoulder",
+      "In",
+      "In",
+      "Shoulder",
+      "In",
+      "In",
+      "Peak"
+    ],
+    "rationale": "Editorial estimate. Tenerife hotel and apartment occupancy is high all year (Jan–Nov 2025 average 76.7%), so no month is truly Off. Dec–Mar is the northern-European winter-sun peak (highest seasonal rents: one San Eugenio listing asks €3,400/month for late Dec–early Feb vs €2,500 for Jul–Sep); Jul–Aug fills with Spanish and family holidaymakers; May–Jun and September are the relative lulls.",
+    "sources": [
+      {
+        "title": "Turismo de Tenerife — Situación alojativa noviembre 2025 (PDF)",
+        "url": "https://www.webtenerife.com/-/media/files/investigacion/situacion-turistica/informes-de-situacin-turstica-de-tenerife/relateddocuments/2025/situacion-alojativa-noviembre-2025.pdf",
+        "accessed": "2026-10-03",
+        "quote": "mientras que la ocupación promedio fue del 76,7 %",
+        "note": "Jan–Nov 2025 island average occupancy in hotels + apartments; November 74.5%."
+      },
+      {
+        "title": "idealista — 1-bedroom rentals in Costa Adeje",
+        "url": "https://www.idealista.com/alquiler-viviendas/adeje/costa-adeje/con-de-un-dormitorio/",
+        "accessed": "2026-10-03",
+        "quote": "23 de diciembre – 5 de febrero (precio 3.400 € mensuales = 30 días)",
+        "note": "Same listing quotes €2,500/month for 14 Jul–21 Sep: winter is the price peak."
+      }
+    ]
+  },
+  "hazards": [],
+  "swim": {
+    "body": "sea",
+    "name": "Atlantic (Playa del Duque / Fañabé)",
+    "months": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "note": "Feb–Apr water ~19 °C — fine for most; warmest Sep–Oct ~23–24 °C",
+    "source": {
+      "title": "seatemperature.org — Playa de las Américas monthly averages",
+      "url": "https://www.seatemperature.org/europe/spain/playa-de-las-americas.htm",
+      "accessed": "2026-10-03",
+      "note": "Monthly means 19.3 °C (Mar) to 23.7 °C (Sep); same convention as Las Palmas (all months)."
+    }
+  },
+  "events": [
+    {
+      "name": "Carnaval de Santa Cruz de Tenerife",
+      "months": [
+        2,
+        3
+      ],
+      "tier": 2,
+      "blurb": "the island capital's street carnival, about an hour north by motorway; 2027 street days 19–28 Feb (date moves with Lent)",
+      "source": {
+        "title": "Planomato — programa y fechas Carnaval Santa Cruz de Tenerife 2027",
+        "url": "https://www.planomato.com/es/santa-cruz-de-tenerife/n/programa-fechas-carnaval-santa-cruz-tenerife-2027",
+        "accessed": "2026-10-03",
+        "quote": "la gran fiesta en las calles santacruceras se desplegará entre el 19 y el 28 de febrero"
+      }
+    },
+    {
+      "name": "La Pasión de Adeje (Good Friday)",
+      "months": [
+        3,
+        4
+      ],
+      "tier": 2,
+      "blurb": "300-plus local amateur actors stage the Passion along Adeje's Calle Grande every Good Friday, held since 1995",
+      "source": {
+        "title": "RTVC — La Pasión de Adeje tuvo más de trescientas personas en su representación",
+        "url": "https://rtvc.es/representacion-pasion-de-adeje-tenerife-viernes-santo-2025",
+        "accessed": "2026-10-03",
+        "quote": "Más de trescientas personas se convierten en protagonistas",
+        "note": "Good Friday 2026 = 3 Apr; 2027 = 26 Mar."
+      }
+    },
+    {
+      "name": "Romería de San Sebastián",
+      "months": [
+        1
+      ],
+      "tier": 1,
+      "blurb": "20 January: hundreds of riders in Canarian dress ride to the San Sebastián shrine above La Caleta, ending with a blessing of the animals",
+      "source": {
+        "title": "Festivales de España — Romería de San Sebastián, La Caleta (Adeje)",
+        "url": "https://www.festivalesdeespana.com/festival/romeria-san-sebastian-la-caleta-adeje",
+        "accessed": "2026-10-03",
+        "quote": "Centenares de jinetes con sus caballos, agrupaciones folclóricas, carrozas y romeros vestidos con el traje tradicional canario"
+      }
+    }
+  ],
+  "safety": {
+    "propertySub": 68,
+    "propertyNote": "Resort petty theft (beaches, hire cars); calm overall",
+    "womensAdj": -3,
+    "womensSafetyNote": "Generally safe; resort nightlife-strip awareness",
+    "touristMod": 1.0,
+    "touristRationale": "",
+    "touristTags": [
+      "petty-theft"
+    ],
+    "homicideOverride": null,
+    "rationale": {
+      "property": "Editorial estimate. Crime here is the resort pattern FCDO describes for Spain generally — distraction theft, bags left on beaches and theft from hire cars — with no city-specific warnings; set a notch above Las Palmas (65, port city of ~380k) and just below Málaga/Valencia (70).",
+      "tourist": "No evidence that visitors face materially different risk than residents; most residents in the resort zone are themselves foreigners. Kept at 1.0 like the other Canary and Spanish coastal entries.",
+      "womens": "Matches Las Palmas (-3): FCDO's Spain advice flags drink spiking and rare sexual assaults in nightlife settings, relevant to the Playa de las Américas (Las Verónicas) bar strip; otherwise at the Spain baseline."
+    },
+    "calibratedAgainst": [
+      "Las Palmas",
+      "Málaga",
+      "Valencia",
+      "Funchal (Madeira)"
+    ],
+    "consulted": [
+      {
+        "title": "UK FCDO — Spain: safety and security",
+        "url": "https://www.gov.uk/foreign-travel-advice/spain/safety-and-security",
+        "accessed": "2026-10-03",
+        "quote": "Be alert to the risk of street crime. Thieves use distraction techniques and often work in teams.",
+        "note": "No Canary Islands-specific crime warnings."
+      },
+      {
+        "title": "Travel Pirates — US Spain travel advisory Level 2 (Ceuta raised to Level 3)",
+        "url": "https://www.travelpirates.com/captains-log/us-spain-travel-advisory-level-2-ceuta-us-travelers",
+        "accessed": "2026-10-03",
+        "note": "Secondary report of the 1 Aug 2026 State Department update: Spain Level 2 (terrorism, unrest), Ceuta Level 3; Canary Islands unaffected."
+      },
+      {
+        "title": "U.S. State Department travel advisories RSS feed (official)",
+        "url": "https://travel.state.gov/_res/rss/TAsTWs.xml",
+        "accessed": "2026-10-03",
+        "note": "Spain: Level 2, dated 2026-08-01; destination page https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.esp.html"
+      }
+    ],
+    "advisory": {
+      "level": 2,
+      "text": "Exercise increased caution",
+      "date": "2026-08-01",
+      "url": "https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.esp.html",
+      "risks": [
+        "Terrorism",
+        "Unrest"
+      ],
+      "regionalLevel": 2,
+      "localLevel": 2,
+      "localArea": null
+    }
+  },
+  "selection": "Europe's main winter-sun snowbird base (south Tenerife); fills the thin Dec–Feb window alongside Las Palmas and Funchal.",
+  "asOf": "2026-10",
+  "researchNotes": "US advisory: travel.state.gov returned HTTP 403 / a Cloudflare bot check to both WebFetch and the browser pane, so the advisory page itself could NOT be opened. Level 2, date 2026-08-01 and risks (Terrorism, Unrest) come from a web-search snippet of the State Dept page plus the Travel Pirates write-up (in consulted); the existing catalog has Spain at Level 2 dated 2026-06-09 — reconcile centrally. Hazards: left empty for consistency with Las Palmas; Saharan dust (calima) episodes hit the Canaries a few days a year, mostly in winter, and should show up in the CAMS PM2.5 series rather than as a flag. Rent is well above the catalog's Las Palmas figure because Costa Adeje 1BR listings on idealista cluster at €1,300–1,600 (seasonal lets €1,500–2,500)."
+}

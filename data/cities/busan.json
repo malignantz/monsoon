@@ -1,0 +1,95 @@
+{
+  "name": "Busan",
+  "country": "South Korea",
+  "iso3": "KOR",
+  "region": "E Asia",
+  "lat": 35.1796,
+  "lng": 129.0756,
+  "coordsNote": "City centre (Busan City Hall / Yeonsan area). Long-stay areas are Haeundae (beach, about 12 km east), Gwangalli (beach) and Seomyeon (downtown hub).",
+  "timezone": "UTC+9",
+  "schengen": false,
+  "visa": {
+    "US": {"visaFree": true, "days": 90, "note": "Visa-free up to 90 days. K-ETA temporarily waived until 31 Dec 2026; check whether the waiver is extended for 2027."},
+    "UK": {"visaFree": true, "days": 90, "note": "Visa-free up to 90 days. K-ETA temporarily waived until 31 Dec 2026."},
+    "EU": {"visaFree": true, "days": 90, "note": "Most EU nationals visa-free up to 90 days. The K-ETA waiver through 31 Dec 2026 covers only Austria, Belgium, Denmark, Finland, France, Germany, Italy, the Netherlands, Poland, Spain and Sweden; other EU nationals need a K-ETA (KRW 10,000)."},
+    "AU": {"visaFree": true, "days": 90, "note": "Visa-free up to 90 days. K-ETA temporarily waived until 31 Dec 2026."}
+  },
+  "visaSources": [
+    {"title": "Korean Consulate General in Hagåtña (MOFA): K-ETA temporary exemption extended", "url": "https://www.mofa.go.kr/us-hagatna-en/brd/m_5521/view.do?seq=761689", "accessed": "2026-10-03", "quote": "January 1, 2026 (Thu) – December 31, 2026 (Thu) (KST)", "note": "Posted 2025-12-29; applies to all currently exempt countries including the US"},
+    {"title": "Korean Consulate General in Philadelphia (MOFA): duration of stay under 90 days", "url": "https://overseas.mofa.go.kr/us-philly-en/wpge/m_26418/contents.do", "accessed": "2026-10-03", "quote": "U. S. citizens traveling to Korea for tourism, business, or other purposes can stay up to 90 days with a K-ETA"},
+    {"title": "UK FCDO: South Korea entry requirements", "url": "https://www.gov.uk/foreign-travel-advice/south-korea/entry-requirements", "accessed": "2026-10-03", "quote": "British nationals travelling visa-free to South Korea are temporarily exempt from requiring a K-ETA until December 31, 2026."},
+    {"title": "Envoy Global: Republic of Korea K-ETA exemptions (list of 22 exempt countries/regions)", "url": "https://www.envoyglobal.com/news-alert/republic-of-korea-expands-k-eta-exemptions/", "accessed": "2026-10-03", "quote": "Australia, Austria, Belgium, Canada, Denmark, Finland, France, Germany, Hong Kong, Italy, Japan, Macao, the Netherlands ... Spain, Sweden, Taiwan, the United Kingdom and the U.S.", "note": "Full 22-entry list also includes New Zealand, Norway, Poland and Singapore"},
+    {"title": "K-ETA official portal: guidance (fee)", "url": "https://www.k-eta.go.kr/portal/guide/viewetaguidance.do", "accessed": "2026-10-03", "quote": "KRW : 10,000원"}
+  ],
+  "english": {
+    "tier": 1,
+    "note": "Tourist zones",
+    "rationale": "EF EPI 2025 puts South Korea at 522 (rank 48, Moderate band) and Busan's city score at 520. Signage and transit are fully bilingual, but spoken English outside hotels, Haeundae and younger crowds is limited. Same tier as Taipei and Osaka.",
+    "sources": [
+      {"title": "EF EPI 2025: South Korea", "url": "https://www.ef.com/wwen/epi/regions/asia/south-korea/", "accessed": "2026-10-03", "note": "Country 522 (#48); Busan 520"}
+    ]
+  },
+  "draw": "Beach / city",
+  "vibe": "Korea's port city: urban beaches, seafood markets, hillside villages and an easy metro",
+  "narrative": "Haeundae and Gwangalli put city beaches on the metro, with Jagalchi fish market, the painted hillside lanes of Gamcheon Culture Village and the seaside Haedong Yonggungsa temple in between. Spring and autumn are the long-stay months (the film festival is in October); July to September brings humidity, monsoon rains and typhoon risk.",
+  "activities": {"adventure": 2, "culture": 2, "nomad": 2, "wellness": 3, "water": 2, "food": 3, "nature": 2, "nightlife": 2},
+  "season": {
+    "months": ["Off", "Off", "Shoulder", "In", "In", "Shoulder", "Peak", "Peak", "In", "In", "Shoulder", "Off"],
+    "rationale": "Editorial estimate. The beach season is the domestic peak: Busan's beaches drew 21.46M visits in summer 2026, and Haeundae was open 26 June to 15 September. Spring blossom (Apr–May), Chuseok (Sep) and the film festival (Oct) keep those months busy. Winter (Dec–Feb) is quiet apart from Lunar New Year.",
+    "sources": [
+      {"title": "Korea JoongAng Daily: Busan beaches top 21 million visitors as summer draws to a close", "url": "https://www.koreajoongangdaily.com/korea/busan-beaches-top-21-million-visitors-as-summer-draws-to-a-closenbsp/12860623", "accessed": "2026-10-03", "quote": "Busan's seven public beaches drew 21.46 million visitors this summer.", "note": "Article 2026-09-05; Haeundae opened June 26, open through September 15"}
+    ]
+  },
+  "hazards": [
+    {"months": [7], "level": 1, "note": "Monsoon rains & humidity, early typhoons", "source": {"title": "UK FCDO: South Korea safety and security (typhoons)", "url": "https://www.gov.uk/foreign-travel-advice/south-korea/safety-and-security", "accessed": "2026-10-03", "note": "FCDO: typhoon season runs June to November; Korean climatology ranks July third for typhoon disasters"}},
+    {"months": [8], "level": 1, "note": "Typhoon season, hot & humid", "source": {"title": "Statistical study of meteorological disasters caused by typhoons in Korea (KoreaScience)", "url": "https://koreascience.or.kr/article/JAKO199211920571956.page?lang=ko", "accessed": "2026-10-03", "quote": "the highest number appears in August followed by September and the third is July."}},
+    {"months": [9], "level": 1, "note": "Typhoon season", "source": {"title": "Statistical study of meteorological disasters caused by typhoons in Korea (KoreaScience)", "url": "https://koreascience.or.kr/article/JAKO199211920571956.page?lang=ko", "accessed": "2026-10-03", "quote": "the July and September are alike in the degree of the disasters per typhoon.", "note": "KMA: 3.4 typhoons affect Korea in a typical year (Financial News, 2026-08-27)."}}
+  ],
+  "swim": {
+    "body": "sea",
+    "name": "Haeundae / Gwangalli / Songjeong beaches",
+    "months": [7, 8, 9],
+    "note": "Haeundae is lifeguarded from about 26 June to mid-September; other beaches July–August. October water is still about 22 °C but beaches are unpatrolled.",
+    "source": {"title": "seatemperature.org: Busan monthly sea temperature", "url": "https://www.seatemperature.org/asia/south-korea/busan.htm", "accessed": "2026-10-03", "quote": "The warmest water temperature is in August with an average around 79°F/26.1°C."}
+  },
+  "events": [
+    {"name": "Busan International Film Festival (BIFF)", "months": [10], "tier": 3, "blurb": "Asia's leading film festival, based at the Busan Cinema Center in Centum City; 6–15 October 2026", "source": {"title": "Koreabridge: Busan International Film Festival 2026", "url": "https://koreabridge.net/event/busan-international-film-festival-0", "accessed": "2026-10-03", "quote": "The 31st edition runs October 6–15, 2026, primarily at Busan Cinema Center in Haeundae-gu"}},
+    {"name": "Busan Fireworks Festival", "months": [11], "tier": 2, "blurb": "Fireworks over Gwangan Bridge from Gwangalli Beach; 7 November 2026", "source": {"title": "Koreabridge: Busan Fireworks Festival", "url": "https://koreabridge.net/event/busan-fireworks-festival-0", "accessed": "2026-10-03", "quote": "The Busan Fireworks Festival takes place November 7, 2026, centered on Gwangalli Beach"}},
+    {"name": "Chuseok (harvest holiday)", "months": [9], "tier": 1, "blurb": "Three-day national holiday, 24–26 Sep 2026 and 14–16 Sep 2027; travel peaks and some closures", "source": {"title": "Office Holidays: South Korea 2026", "url": "https://www.officeholidays.com/countries/south-korea/2026", "accessed": "2026-10-03", "note": "2027 dates from https://www.officeholidays.com/countries/south-korea/2027"}},
+    {"name": "Seollal (Lunar New Year)", "months": [2], "tier": 1, "blurb": "National holiday, 16–18 Feb 2026 and 6–9 Feb 2027", "source": {"title": "Office Holidays: South Korea 2026", "url": "https://www.officeholidays.com/countries/south-korea/2026", "accessed": "2026-10-03", "note": "2027 dates from https://www.officeholidays.com/countries/south-korea/2027"}},
+    {"name": "Buddha's Birthday", "months": [5], "tier": 1, "blurb": "Lantern-lit temples; 24 May 2026 and 13 May 2027", "source": {"title": "Office Holidays: South Korea 2026", "url": "https://www.officeholidays.com/countries/south-korea/2026", "accessed": "2026-10-03"}}
+  ],
+  "safety": {
+    "propertySub": 84,
+    "propertyNote": "Very low crime; occasional theft in crowds and nightlife areas",
+    "womensAdj": 5,
+    "womensSafetyNote": "Women report high public-space safety; hidden-camera concerns",
+    "touristMod": 1.0,
+    "touristRationale": "Very low street crime; visitor issues are mostly nightlife-area incidents",
+    "touristTags": ["very-low-crime"],
+    "homicideOverride": null,
+    "rationale": {
+      "property": "Editorial estimate. The FCDO says theft against foreigners is rare and limited to crowded tourist and nightlife zones. Busan is Korea's second city and port, with marginally more nightlife and port-area friction than Osaka, so it's set just above Osaka (83) and below Tokyo (86) and Taipei (88).",
+      "tourist": "No visitor-specific risk pattern beyond the nightlife-area assaults the FCDO mentions, so the modifier stays at 1.0.",
+      "womens": "+5 over the national Gallup baseline, the same delta as Taipei: well-lit, CCTV-dense, busy public spaces. Kept below Osaka (+11) because of Korea's documented hidden-camera ('molka') problem and the FCDO's note on assaults around bars."
+    },
+    "calibratedAgainst": ["Osaka", "Tokyo", "Taipei"],
+    "consulted": [
+      {"title": "UK FCDO: South Korea safety and security", "url": "https://www.gov.uk/foreign-travel-advice/south-korea/safety-and-security", "accessed": "2026-10-03", "quote": "There have been cases of assault, including sexual assault, particularly around bars and nightlife areas."},
+      {"title": "U.S. State Dept travel advisories feed (cadataapi.state.gov)", "url": "https://cadataapi.state.gov/api/TravelAdvisories", "accessed": "2026-10-03", "quote": "consular services, including passport services, are not available at the U.S. Consulate in Busan", "note": "Official State Dept JSON feed; travel.state.gov itself served a Cloudflare bot challenge"}
+    ],
+    "advisory": {
+      "level": 1,
+      "text": "Exercise normal precautions",
+      "date": "2025-05-28",
+      "url": "https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.kor.html",
+      "risks": [],
+      "regionalLevel": 1,
+      "localLevel": 1,
+      "localArea": null
+    }
+  },
+  "selection": "Korea's second city (the catalog has no Korean city yet): urban beaches, strong spring and autumn shoulder months, an October film festival, and a workation-friendly base with 90-day visa-free entry.",
+  "asOf": "2026-10",
+  "researchNotes": "Advisory: travel.state.gov served a Cloudflare challenge, which was not bypassed. Level and date were read from the State Department's cadataapi feed: 'South Korea - Level 1: Exercise Normal Precautions', Published 2025-05-27T20:00-04:00, recorded as 2025-05-28 per the existing convention. The page mentions demonstrations, peninsula tensions and civil-defence drills but no risk-indicator letters. Visa: the K-ETA waiver ends 31 Dec 2026. If it isn't extended, US/UK/AU and the 11 exempt EU nationals will need a K-ETA (KRW 10,000) for 2027 stays. Australia's 90-day visa-free period wasn't confirmed on an Australian government page (smartraveller.gov.au timed out). The K-ETA exemption list does include Australia."
+}

@@ -1,0 +1,245 @@
+{
+  "$schema": "./_schema.json",
+  "name": "La Paz (Baja)",
+  "country": "Mexico",
+  "iso3": "MEX",
+  "region": "LATAM",
+  "lat": 24.1426,
+  "lng": -110.3128,
+  "coordsNote": "Malecón / Centro, La Paz, Baja California Sur (the walkable waterfront where most long-stay visitors base themselves).",
+  "timezone": "UTC-7",
+  "schengen": false,
+  "visa": null,
+  "english": {
+    "tier": 2,
+    "note": "Good in town (expat hub — above national average)",
+    "rationale": "Mexico sits in EF EPI's low band (score 440), which maps to tier 1 country-wide; Baja California Sur scores 483 on the same index, well above the national figure, and La Paz has a long-established North American snowbird/expat community around the Malecón, so it gets the +1 expat-hub bump (as Mérida and San Miguel de Allende do).",
+    "sources": [
+      {
+        "title": "EF EPI — Mexico",
+        "url": "https://www.ef.com/wwen/epi/regions/latin-america/mexico/",
+        "accessed": "2026-10-03",
+        "quote": "EF EPI score: 440",
+        "note": "Regional table on the same page lists Baja California Sur at 483."
+      }
+    ]
+  },
+  "draw": "Beach / Sea of Cortez",
+  "vibe": "Calm bay-front state capital; islands, whale sharks and winter sun",
+  "narrative": "A working Mexican state capital strung along a long seafront malecón, with Balandra's shallow turquoise lagoon and the sea-lion colonies of Espíritu Santo island a short boat ride away and juvenile whale sharks in the bay through the winter. Summers are fiercely hot and August–October brings hurricane risk; nomad infrastructure is thinner than in Mexico's big hubs.",
+  "activities": {
+    "adventure": 2,
+    "culture": 1,
+    "nomad": 1,
+    "wellness": 1,
+    "water": 3,
+    "food": 2,
+    "nature": 3,
+    "nightlife": 1
+  },
+  "season": {
+    "months": [
+      "Peak",
+      "Peak",
+      "Peak",
+      "In",
+      "Shoulder",
+      "Off",
+      "Off",
+      "Off",
+      "Off",
+      "Shoulder",
+      "In",
+      "Peak"
+    ],
+    "rationale": "Snowbirds return from mid-October as heat and hurricane risk ease and leave before May; December–March is the busiest stretch (whale-shark peak, holidays, Carnaval). June–September is very quiet: brutal heat and hurricane risk, with many locals and expats leaving the peninsula.",
+    "sources": [
+      {
+        "title": "Gringo Gazette — snowbird season in Baja Sur",
+        "url": "https://gringogazette.com/?p=33054",
+        "accessed": "2026-10-03",
+        "quote": "starting in the middle of October, as the heat trails off and the chance of a hurricane decreases, those here year-round start to welcome those returning"
+      },
+      {
+        "title": "Mexico Travel & Leisure — best time to visit La Paz",
+        "url": "https://www.mexicotravelandleisure.com/blog/best-time-to-visit-la-paz/",
+        "accessed": "2026-10-03",
+        "quote": "June through September brings brutal heat, hurricane risk, and unpredictable marine tours."
+      }
+    ]
+  },
+  "hazards": [
+    {
+      "months": [
+        8,
+        9,
+        10
+      ],
+      "level": 1,
+      "note": "Hurricane season",
+      "source": {
+        "title": "NOAA NHC — Tropical cyclone climatology (eastern Pacific)",
+        "url": "https://www.nhc.noaa.gov/climo/",
+        "accessed": "2026-10-03",
+        "quote": "most tropical cyclones occurring between late June and early October",
+        "note": "Eastern Pacific season runs May 15–Nov 30; Baja impacts concentrate Aug–Oct (see the by-month table cited on the September entry)."
+      }
+    }
+  ],
+  "swim": {
+    "body": "sea",
+    "name": "Sea of Cortez (Bahía de La Paz, Balandra, El Tecolote)",
+    "months": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "note": "Jan–Mar averages ~19–20 °C: bracing, wetsuit weather for most; Aug–Oct water is ~29–30 °C.",
+    "source": {
+      "title": "World Sea Temperatures — La Paz",
+      "url": "https://www.seatemperature.org/north-america/mexico/la-paz.htm",
+      "accessed": "2026-10-03",
+      "quote": "The coldest month is February with an average water temperature of 66.4°F/19.1°C.",
+      "note": "Monthly means: Jan 20.1, Feb 19.1, Mar 20.0, Apr 21.3, May 23.8 … Sep 30.1, Dec 21.7 °C."
+    }
+  },
+  "events": [
+    {
+      "name": "Carnaval de La Paz",
+      "months": [
+        2
+      ],
+      "tier": 2,
+      "blurb": "six nights of parades and big-name concerts on the malecón (2026: 12–17 Feb)",
+      "source": {
+        "title": "Posta BCS — guía Carnaval La Paz 2026",
+        "url": "https://www.posta.com.mx/bcs/guia-practica-para-disfrutar-el-carnaval-la-paz-2026-sin-contratiempos/vl2154490",
+        "accessed": "2026-10-03",
+        "quote": "del 12 al 17 de febrero",
+        "note": "Pre-Lent, so it falls in February in both 2026 and 2027."
+      }
+    },
+    {
+      "name": "Whale shark season",
+      "months": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "tier": 2,
+      "blurb": "regulated swims with juvenile whale sharks in the bay; peak January–March",
+      "source": {
+        "title": "Mexico Travel & Leisure — best time to visit La Paz",
+        "url": "https://www.mexicotravelandleisure.com/blog/best-time-to-visit-la-paz/",
+        "accessed": "2026-10-03",
+        "quote": "October through May. Peak: January through March",
+        "note": "SEMARNAT management plan for the Bahía de La Paz refuge confirms the animals arrive in October (gob.mx PMT Tiburón Ballena 2022-2023)."
+      }
+    },
+    {
+      "name": "Fiestas de Fundación de La Paz",
+      "months": [
+        5
+      ],
+      "tier": 1,
+      "blurb": "city founding festival on the malecón: folk-dance parade, Cortés landing re-enactment, concerts (2026: from 2 May)",
+      "source": {
+        "title": "Posta BCS — Fiestas de Fundación 2026 agenda",
+        "url": "https://www.posta.com.mx/bcs/fiestas-de-fundacion-de-la-paz-2026-agenda-con-fechas-horarios-y-actividades/vl2195616",
+        "accessed": "2026-10-03",
+        "quote": "Saturday May 2 at 5 p.m. ... the XXIV edition of the Mitote Folklórico"
+      }
+    }
+  ],
+  "safety": {
+    "propertySub": 70,
+    "propertyNote": "Calm malecón and Centro; modest petty theft",
+    "womensAdj": 10,
+    "womensSafetyNote": "Perceived insecurity well below the national average; women's perception nationally higher",
+    "touristMod": 1.08,
+    "touristRationale": "State violence is largely intra-criminal and concentrated outside the waterfront and tourist areas; La Paz residents report markedly less insecurity than the national average.",
+    "touristTags": [
+      "tourist-zones-safer",
+      "expat-haven"
+    ],
+    "homicideOverride": {
+      "rate": 10.0,
+      "scope": "state",
+      "source": "INEGI 2024 death-registration homicides, Baja California Sur (85; rate 10/100k vs national 25.6), via Expansión Política",
+      "url": "https://politica.expansion.mx/mexico/2025/08/01/homicidios-en-mexico-2024-inegi",
+      "year": 2024
+    },
+    "rationale": {
+      "property": "Editorial estimate: no city property-crime series found; INEGI's ENSU urban survey puts La Paz's perceived insecurity at 46.6% vs 61.5% nationally (Mar 2026), and the walkable Centro/malecón is low-key. Set level with Oaxaca (70), below Mérida (80), well above Mexico City (45).",
+      "tourist": "1.08 like Mexico City: a moderate tourist-zones-safer adjustment. State homicide (10/100k INEGI 2024, double 2023's ~5) reflects drug-market disputes mostly away from the waterfront; Mérida/Oaxaca get 1.12 but their violence is either very low or clearly regional.",
+      "womens": "+10 on the country Gallup baseline (Oaxaca +11, Mérida +25): La Paz's ENSU insecurity perception is ~15 points under the national figure; INEGI notes women nationally feel less safe than men, so the uplift is kept moderate."
+    },
+    "calibratedAgainst": [
+      "Mérida",
+      "Oaxaca",
+      "Mexico City"
+    ],
+    "consulted": [
+      {
+        "title": "U.S. State Dept travel advisories (official data feed) — Mexico entry",
+        "url": "https://cadataapi.state.gov/api/TravelAdvisories",
+        "accessed": "2026-10-03",
+        "quote": "State of Baja Sur: Exercise increased caution due to terrorism and crime.",
+        "note": "travel.state.gov itself returned a bot-check page; level, text and date taken from the Department's official advisory feed (same text as the page)."
+      },
+      {
+        "title": "El Financiero — La Paz 15 points below national insecurity average (ENSU, Mar 2026)",
+        "url": "https://www.elfinanciero.com.mx/estados/2026/04/24/la-paz-se-mantiene-15-puntos-por-debajo-del-promedio-nacional-de-inseguridad-milena-quiroga/",
+        "accessed": "2026-10-03",
+        "quote": "46.6%",
+        "note": "ENSU perceived insecurity, La Paz vs national 61.5%."
+      },
+      {
+        "title": "Expansión Política — homicidios en México 2024 (INEGI)",
+        "url": "https://politica.expansion.mx/mexico/2025/08/01/homicidios-en-mexico-2024-inegi",
+        "accessed": "2026-10-03",
+        "quote": "Baja California Sur, con un total de 85 y una tasa de 10"
+      },
+      {
+        "title": "UK FCDO — Mexico safety and security",
+        "url": "https://www.gov.uk/foreign-travel-advice/mexico/safety-and-security",
+        "accessed": "2026-10-03",
+        "note": "No La Paz-specific warning; general note on assaults in major resort areas (Los Cabos named)."
+      },
+      {
+        "title": "U.S. State Department travel advisories RSS feed (official)",
+        "url": "https://travel.state.gov/_res/rss/TAsTWs.xml",
+        "accessed": "2026-10-03",
+        "note": "Mexico: Level 2, dated 2026-05-29; destination page https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.mex.html"
+      }
+    ],
+    "advisory": {
+      "level": 2,
+      "text": "Exercise increased caution",
+      "date": "2026-05-29",
+      "url": "https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.mex.html",
+      "risks": [
+        "Crime",
+        "Kidnapping or hostage taking",
+        "Terrorism"
+      ],
+      "regionalLevel": 2,
+      "localLevel": 2,
+      "localArea": "Baja California Sur"
+    }
+  },
+  "selection": "Sea of Cortez winter-sun base for North American snowbirds in a Level-2 state (Baja California Sur): Nov–Apr season, whale sharks and islands, with a clear Aug–Oct hurricane window to plan around.",
+  "asOf": "2026-10",
+  "researchNotes": "Advisory: travel.state.gov returned a Cloudflare bot check (not bypassed); level/text/state entry and date come from the State Dept's official feeds (cadataapi.state.gov TravelAdvisories: published 2025-08-11T20:00-04:00; RSS pubDate Tue 12 Aug 2025). The catalog's other Mexican cities carry 2026-05-29 — reconcile centrally if the page shows a later reissue date. Baja California Sur: Level 2 with no U.S.-government travel restrictions. Homicide override is STATE scope (La Paz municipality figure not found in a citable source; Los Cabos accounts for much of the state's violence, so La Paz may be lower). Timezone: Zona Pacífico (UTC-7), no DST since the Oct 2022 time-zone law (only Baja California and northern border municipalities still change). Hazards: summer heat (Jul–Sep highs ~35 °C) left to the climate pipeline; only one hazard per month, so hurricanes take Aug–Oct. Whale-shark end month (May) is from a travel guide; the SEMARNAT plan says animals leave Jun–Jul but the regulated tour window can be shorter. Gray-whale lagoon trips (Magdalena Bay, Jan–Mar) are a day trip, not listed as a city event. Review edit 2026-10-03: September hurricane flag lowered from level 2 to 1 to match Mérida's Aug-Oct treatment (level 2 is kept for extreme heat/peak typhoon exposure)."
+}

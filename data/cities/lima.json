@@ -1,0 +1,197 @@
+{
+  "$schema": "./_schema.json",
+  "name": "Lima",
+  "country": "Peru",
+  "iso3": "PER",
+  "region": "S America",
+  "lat": -12.1211,
+  "lng": -77.0297,
+  "coordsNote": "Miraflores (clifftop malecón district); Barranco adjoins to the south. Both are where long-stay rentals and coworking cluster.",
+  "timezone": "UTC-5",
+  "schengen": false,
+  "visa": null,
+  "english": {
+    "tier": 2,
+    "note": "Good in town (expat hub — above national average)",
+    "rationale": "EF EPI 2025 scores Peru 519 (#52, Moderate band), which would be tier 1 like Cusco; Lima's own city score is 555, well above the national figure, and Miraflores/Barranco restaurants, coworkings and hotels routinely work in English, so +1 for an expat hub.",
+    "sources": [
+      {
+        "title": "EF EPI 2025: Peru",
+        "url": "https://www.ef.com/wwen/epi/regions/latin-america/peru/",
+        "accessed": "2026-10-03",
+        "note": "Peru 519, rank 52; Lima city score 555."
+      }
+    ]
+  },
+  "draw": "Food / coast",
+  "vibe": "Clifftop Miraflores and arty Barranco, ceviche and Nikkei; grey garúa winters",
+  "narrative": "Peru's capital on the Pacific cliffs: ceviche and Nikkei cooking from cheap cebicherías to tasting menus, surf breaks and paragliders along the Costa Verde, the Larco and MALI museums, and Barranco's murals and bars a walk from Miraflores. December to April is sunny beach season; from about June to October a low grey sky (the garúa) sits over the city for weeks at a time.",
+  "activities": {
+    "adventure": 2,
+    "culture": 3,
+    "nomad": 2,
+    "wellness": 1,
+    "water": 2,
+    "food": 3,
+    "nature": 1,
+    "nightlife": 3
+  },
+  "season": {
+    "months": [
+      "Peak",
+      "Peak",
+      "In",
+      "Shoulder",
+      "Off",
+      "Off",
+      "Shoulder",
+      "Shoulder",
+      "Off",
+      "Shoulder",
+      "Shoulder",
+      "In"
+    ],
+    "rationale": "Editorial estimate. Lima's own high season is its sunny summer, late December to March, when the beaches and holiday rentals fill; May-June and September are the grey low season. July-August get the Fiestas Patrias domestic holiday and international arrivals passing through to Cusco's dry season; October has the Señor de los Milagros processions.",
+    "sources": [
+      {
+        "title": "The Only Peru Guide: best time to visit Lima (updated 2026-02-18)",
+        "url": "https://www.theonlyperuguide.com/peru-guide/lima/best-time-to-visit/",
+        "accessed": "2026-10-03",
+        "quote": "From roughly June through October, Lima often gets persistent low clouds and garúa (mist/drizzle)."
+      }
+    ]
+  },
+  "hazards": [],
+  "swim": {
+    "body": "sea",
+    "name": "Costa Verde beaches (Miraflores / Barranco)",
+    "months": [
+      1,
+      2,
+      3
+    ],
+    "note": "The Humboldt Current keeps the Pacific cool: ~21°C at best in Jan-Mar, under 18°C mid-year. Beaches are pebbly; check DIGESA beach-health ratings.",
+    "source": {
+      "title": "seatemperatu.re: Lima sea temperature by month",
+      "url": "https://www.seatemperatu.re/south-america/peru/lima/when.html",
+      "accessed": "2026-10-03",
+      "note": "Monthly means Jan-Mar 70°F, Apr 68°F, Dec 67°F, Aug-Sep 61°F."
+    }
+  },
+  "events": [
+    {
+      "name": "Señor de los Milagros processions",
+      "months": [
+        10,
+        11
+      ],
+      "tier": 2,
+      "blurb": "purple-robed processions of the Christ of Pachacamilla through central Lima, five outings Oct 3–Nov 1 in 2026",
+      "source": {
+        "title": "El Peruano: Señor de los Milagros 2026 dates and routes",
+        "url": "https://elperuano.pe/noticia/305166-senor-de-los-milagros-2026-revisa-aqui-las-fechas-y-rutas-de-los-cinco-recorridos-de-las-procesiones-en-lima",
+        "accessed": "2026-10-03",
+        "note": "Five processions: Oct 3, 18, 19, 28 and Nov 1, 2026."
+      }
+    },
+    {
+      "name": "Fiestas Patrias",
+      "months": [
+        7
+      ],
+      "tier": 2,
+      "blurb": "Independence holidays on July 28–29, with parades and a long domestic-travel weekend",
+      "source": {
+        "title": "Infobae Perú: July 2026 holidays",
+        "url": "https://www.infobae.com/peru/2026/07/27/el-30-y-31-de-julio-son-feriados-o-dias-no-laborables-en-peru-atento-a-lo-que-dice-la-norma/",
+        "accessed": "2026-10-03",
+        "quote": "El martes 28 y el miércoles 29 de julio sí son feriados nacionales"
+      }
+    },
+    {
+      "name": "Santa Rosa de Lima",
+      "months": [
+        8
+      ],
+      "tier": 1,
+      "blurb": "national holiday for the city's patron saint, August 30",
+      "source": {
+        "title": "Caretas: 2026 holidays",
+        "url": "https://caretas.pe/?p=818280",
+        "accessed": "2026-10-03",
+        "quote": "30 de agosto (Santa Rosa de Lima)"
+      }
+    }
+  ],
+  "safety": {
+    "propertySub": 45,
+    "propertyNote": "Phone snatching, armed street robbery and taxi crime, incl. in Miraflores/Barranco",
+    "womensAdj": 0,
+    "womensSafetyNote": "Moderate; street harassment common, use app taxis at night",
+    "touristMod": 1.0,
+    "touristRationale": "Miraflores and Barranco are the busiest, best-patrolled districts, but the UK FCDO notes attacks there; the extortion/contract-killing wave behind Lima's state of emergency targets transport and businesses, not visitors.",
+    "touristTags": [
+      "petty-theft",
+      "bag-snatching",
+      "scams-common",
+      "protest-unrest"
+    ],
+    "homicideOverride": null,
+    "rationale": {
+      "property": "The State Dept says petty theft, muggings and assaults happen even in daylight, and the UK FCDO names Miraflores and Barranco as places attacks occur, plus fake-taxi express kidnappings. Set at Mexico City's 45, below Cusco and Santiago (50), reflecting a large capital with active street crime even in its nomad districts.",
+      "tourist": "Kept at 1.0: visitor-specific risks (fake taxis, express kidnapping, distraction theft) are real but are captured in the property score; the 2024-26 extortion and sicariato surge that keeps Lima and Callao under a rolling state of emergency is aimed at bus companies and businesses rather than foreigners. Unrest tag because national protests concentrate in central Lima.",
+      "womens": "0 delta on Peru's Gallup baseline, as for Cusco: no Lima-specific survey found showing Miraflores/Barranco differ from the national picture in either direction."
+    },
+    "calibratedAgainst": [
+      "Cusco",
+      "Santiago",
+      "Buenos Aires",
+      "Mexico City"
+    ],
+    "consulted": [
+      {
+        "title": "U.S. State Department travel advisory feed (Peru)",
+        "url": "https://cadataapi.state.gov/api/TravelAdvisories",
+        "accessed": "2026-10-03",
+        "quote": "Exercise increased caution in Peru due to risk of crime, unrest, kidnapping , and terrorism . Some areas have increased risk.",
+        "note": "Lima is not in any Level 4 area (Loreto Colombia border, VRAEM, Abancay/Ayacucho/Huancavelica/Huancayo). travel.state.gov page behind a bot check; read via the State Department's advisory API."
+      },
+      {
+        "title": "UK FCDO: Peru safety and security",
+        "url": "https://www.gov.uk/foreign-travel-advice/peru/safety-and-security",
+        "accessed": "2026-10-03",
+        "quote": "Attacks can take place in tourist areas of Lima such as Miraflores and Barranco."
+      },
+      {
+        "title": "RPP: state of emergency in Lima and Callao extended 60 days (2026-06-25)",
+        "url": "https://rpp.pe/politica/gobierno/gobierno-oficializa-prorroga-del-estado-de-emergencia-en-lima-y-callao-por-60-dias-noticia-1694596",
+        "accessed": "2026-10-03",
+        "note": "Extension from 2026-06-28 for 60 days citing homicide, sicariato and extortion; whether it was extended again after late August was not verified."
+      },
+      {
+        "title": "U.S. State Department travel advisories RSS feed (official)",
+        "url": "https://travel.state.gov/_res/rss/TAsTWs.xml",
+        "accessed": "2026-10-03",
+        "note": "Peru: Level 2, dated 2025-05-16; destination page https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/peru-travel-advisory.html"
+      }
+    ],
+    "advisory": {
+      "level": 2,
+      "text": "Exercise increased caution",
+      "date": "2025-05-16",
+      "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/peru-travel-advisory.html",
+      "risks": [
+        "Crime",
+        "Unrest",
+        "Kidnapping or hostage taking",
+        "Terrorism"
+      ],
+      "regionalLevel": 2,
+      "localLevel": 2,
+      "localArea": null
+    }
+  },
+  "selection": "Pacific-coast capital with a large nomad scene in Miraflores/Barranco; its sunny December-April summer complements Cusco's May-September dry season, while the grey garúa months (June-October) are the trade-off.",
+  "asOf": "2026-10",
+  "researchNotes": "Advisory: travel.state.gov returned a Cloudflare bot challenge (not bypassed); level/text/risks read from cadataapi.state.gov (Published 2026-09-03T20:00-04:00 = 2026-09-04 UTC). Lima is Level 2 (country level); the Level 4 areas are far from Lima. Lima and Callao have been under a rolling security state of emergency since 2024 (latest verified extension: 60 days from 2026-06-28). homicideOverride left null: no citable Lima-metro rate found this pass; the country baseline may understate the 2024-26 rise in Lima killings. Hazards: none (garúa is grey skies, not a hazard; rain-day/humidity pipeline handles it)."
+}

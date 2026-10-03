@@ -1,0 +1,199 @@
+{
+  "name": "Hua Hin",
+  "country": "Thailand",
+  "iso3": "THA",
+  "region": "SE Asia",
+  "lat": 12.5684,
+  "lng": 99.9577,
+  "coordsNote": "Hua Hin town centre near the beach and night market; condos stretch south towards Khao Takiab.",
+  "timezone": "UTC+7",
+  "schengen": false,
+  "visa": null,
+  "english": {
+    "tier": 2,
+    "note": "Good in town (expat hub — above national average)",
+    "rationale": "Thailand is a low-proficiency country on the EF EPI 2025 (score 402, rank 116; country tier 1). Hua Hin has a decades-old Scandinavian, British and German retiree and snowbird community, with condo management, hospitals and services used to English, so +1 for an expat hub. Thinner than Bangkok or Chiang Mai outside the tourist core.",
+    "sources": [
+      {
+        "title": "EF EPI 2025 — Thailand",
+        "url": "https://www.ef.com/wwen/epi/regions/asia/thailand/",
+        "accessed": "2026-10-03",
+        "quote": "EF EPI score 402; Global ranking #116"
+      }
+    ]
+  },
+  "draw": "Beach / snowbird",
+  "vibe": "Royal seaside town, golf, night markets, retiree long-stayers",
+  "narrative": "The royal family's long-time seaside retreat, about three hours from Bangkok: a long sandy beach running south to Khao Takiab, night markets, golf courses and a deep stock of condos built around winter long-stayers. Calmer and cheaper than Phuket, but the Gulf beaches are flatter and less dramatic, and dedicated coworking is thin.",
+  "activities": {
+    "adventure": 1,
+    "culture": 2,
+    "nomad": 1,
+    "wellness": 3,
+    "water": 2,
+    "food": 2,
+    "nature": 2,
+    "nightlife": 1
+  },
+  "season": {
+    "months": [
+      "Peak",
+      "Peak",
+      "In",
+      "Shoulder",
+      "Off",
+      "Off",
+      "Shoulder",
+      "Shoulder",
+      "Off",
+      "Off",
+      "In",
+      "Peak"
+    ],
+    "rationale": "Editorial estimate. Foreign high season is Nov–Feb (snowbirds stay into March), peaking Dec–Feb. Bangkok weekenders keep a domestic base all year, with Songkran in April and the Jazz City event at the end of May. Jul–Aug pick up on European family holidays. May–Jun and Sep–Oct are the lowest, and the best time to negotiate leases.",
+    "sources": [
+      {
+        "title": "I Am Koh Chang — Cost to live in Hua Hin",
+        "url": "https://iamkohchang.com/blog/cost-to-live-in-hua-hin.html",
+        "accessed": "2026-10-03",
+        "quote": "High Season (November to February)",
+        "note": "Page also gives Low Season (May to October) as the 'best time for negotiating long-term leases'."
+      }
+    ]
+  },
+  "hazards": [],
+  "swim": {
+    "body": "sea",
+    "name": "Gulf of Thailand (Hua Hin beach)",
+    "months": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "note": "Warm all year (27–30 °C). Jellyfish risk is highest in the May–Oct rainy season, so swim at lifeguarded stretches",
+    "source": {
+      "title": "seatemperatu.re — Hua Hin, best time to swim",
+      "url": "https://www.seatemperatu.re/southeast-asia/thailand/hua-hin/when.html",
+      "accessed": "2026-10-03",
+      "quote": "81°F (min: 80°F/max: 83°F)",
+      "note": "January is the coldest month (~27 °C); 'ideal swimming' every month. Jellyfish note from FCDO Thailand safety page."
+    }
+  },
+  "events": [
+    {
+      "name": "Songkran",
+      "months": [
+        4
+      ],
+      "tier": 2,
+      "blurb": "Thai New Year water festival, with a Hua Hin Songkran Fest in the town centre",
+      "source": {
+        "title": "Songkran 2026 in Thailand: dates, events and city-by-city guide",
+        "url": "https://theo-courant.com/en/songkran-2026-dates-events-city-guide/",
+        "accessed": "2026-10-03",
+        "quote": "Songkran marks the Thai New Year and takes place every year from April 13 to 15.",
+        "note": "Lists 'Hua Hin Songkran Fest' on 12–13 April 2026."
+      }
+    },
+    {
+      "name": "Hua Hin Jazz City",
+      "months": [
+        5,
+        6
+      ],
+      "tier": 2,
+      "blurb": "multi-day jazz event at beachside and town-centre venues",
+      "source": {
+        "title": "TAGTHAi — HUA HIN Jazz City Event 2026",
+        "url": "https://www.tagthai.com/explore/events/p/hua-hin-jazz-city",
+        "accessed": "2026-10-03",
+        "quote": "HUA HIN Jazz City Event 2026 (29 May-1 June 2026)"
+      }
+    },
+    {
+      "name": "Phetchaburi–Hua Hin Vintage Car Parade",
+      "months": [
+        12
+      ],
+      "tier": 1,
+      "blurb": "classic-car rally from Bangkok ending at the Dusit Thani Hua Hin",
+      "source": {
+        "title": "Motor Expo — Vintage Car Parade 23rd",
+        "url": "https://www.motorexpo.co.th/en/news/5088",
+        "accessed": "2026-10-03",
+        "quote": "Phetchaburi-Hua Hin Vintage Car Parade 23rd",
+        "note": "23rd edition 19–21 December 2025."
+      }
+    }
+  ],
+  "safety": {
+    "propertySub": 74,
+    "propertyNote": "Low crime resort town; minor scams and opportunistic theft",
+    "womensAdj": 5,
+    "womensSafetyNote": "Generally safe; quiet family and retiree town",
+    "touristMod": 1.0,
+    "touristRationale": "Resort town with a mostly older, long-stay visitor base; no sign of visitor-targeted crime beyond the petty theft already in the property score.",
+    "touristTags": [
+      "tourist-safe",
+      "expat-haven"
+    ],
+    "homicideOverride": null,
+    "rationale": {
+      "property": "Small, family- and retiree-oriented royal resort town without Patong-style nightlife; the usual bag-snatching and overcharging guidance (FCDO, country-wide) applies. Set level with Chiang Mai (74), above Bangkok (62) and Phuket (66).",
+      "tourist": "No evidence of a visitor-vs-local risk gap; 1.0 as for other Thai cities.",
+      "womens": "FCDO's Thai warnings (drink spiking, assaults) centre on party areas; Hua Hin's bar scene is small and the town is family- and retiree-oriented. Modest +5 over the country Gallup baseline, below Chiang Mai's legacy +10."
+    },
+    "calibratedAgainst": [
+      "Chiang Mai",
+      "Bangkok",
+      "Nha Trang",
+      "Da Nang"
+    ],
+    "consulted": [
+      {
+        "title": "U.S. State Department travel advisories (official data feed)",
+        "url": "https://cadataapi.state.gov/api/TravelAdvisories",
+        "accessed": "2026-10-03",
+        "quote": "Thailand - Level 1: Exercise Normal Precautions",
+        "note": "Prachuap Khiri Khan is not in the higher-caution areas (Thai-Cambodian border; Yala, Pattani, Narathiwat)."
+      },
+      {
+        "title": "UK FCDO — Thailand safety and security",
+        "url": "https://www.gov.uk/foreign-travel-advice/thailand/safety-and-security",
+        "accessed": "2026-10-03",
+        "quote": "Jellyfish can swim close to the shore, particularly during the rainy season from May to October."
+      },
+      {
+        "title": "U.S. State Department travel advisories RSS feed (official)",
+        "url": "https://travel.state.gov/_res/rss/TAsTWs.xml",
+        "accessed": "2026-10-03",
+        "note": "Thailand: Level 1, dated 2026-07-07; destination page https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/thailand-travel-advisory.html"
+      }
+    ],
+    "advisory": {
+      "level": 1,
+      "text": "Exercise normal precautions",
+      "date": "2026-07-07",
+      "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/thailand-travel-advisory.html",
+      "risks": [
+        "Armed conflict",
+        "Unrest"
+      ],
+      "regionalLevel": 1,
+      "localLevel": 1,
+      "localArea": null
+    }
+  },
+  "selection": "Gulf-coast snowbird town long favoured by Scandinavian and other retirees; dry Dec–Apr, with monsoon timing different from Phuket (rainiest Sep–Nov). Comparables: Chiang Mai, Da Nang, Nha Trang.",
+  "asOf": "2026-10",
+  "researchNotes": "No hazard flagged: Hua Hin is one of the drier stretches of the Thai coast and its Sep–Nov rains are not a safety hazard; the climate pipeline already scores rain days. The US advisory's area risks (armed conflict near the Cambodian border, unrest in the deep south) are listed as the page names them; they do not apply to Hua Hin. travel.state.gov was behind a bot check, so the text came from cadataapi.state.gov. The 'royal retreat' and 'three hours from Bangkok' claims are general knowledge plus nomads.com's 3-hour figure; coworking thinness is per nomads.com and digitalnomads.world. Loy Krathong is omitted for lack of a Hua Hin-specific source."
+}

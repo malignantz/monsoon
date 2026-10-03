@@ -1,0 +1,82 @@
+{
+  "$schema": "./_schema.json",
+  "name": "Montréal",
+  "country": "Canada",
+  "iso3": "CAN",
+  "region": "N America",
+  "lat": 45.5019,
+  "lng": -73.5674,
+  "coordsNote": "Downtown/Plateau edge; the long-stay areas are Plateau-Mont-Royal and Mile End just north.",
+  "timezone": "UTC-5 (DST -4)",
+  "schengen": false,
+  "visa": null,
+  "english": {
+    "tier": 3,
+    "note": "Widespread",
+    "rationale": "Canada is not ranked by EF EPI (English is an official language). Montréal is French-majority, but Statistics Canada reports 69% of Montréal-CMA workers are English-French bilingual and 21% work mainly in English; in the Plateau, Mile End and downtown, service in English is routine. Signage and some official interactions are French-first under Quebec law.",
+    "sources": [
+      {"title": "Statistics Canada: Languages at work, spotlight on Montréal", "url": "https://statcan.gc.ca/o1/en/plus/3032-languages-work-spotlight-montreal", "accessed": "2026-10-03", "quote": "Among workers in the Montréal census metropolitan area (CMA), 80% were at least bilingual (69% English–French bilingual)"}
+    ]
+  },
+  "draw": "Culture / festivals",
+  "vibe": "Bilingual festival city: Plateau walk-ups, bagels and terrasses; severe winters",
+  "narrative": "A French-speaking city with European-style neighbourhoods: Plateau and Mile End walk-ups with outdoor staircases, wood-fired bagels, Mount Royal's park above downtown, and a summer run of free outdoor shows from the Jazz Fest through Just for Laughs and Osheaga. Winters are severe, with months of snow and deep-freeze cold, so it works best as a June-to-September base.",
+  "activities": {"adventure": 1, "culture": 3, "nomad": 2, "wellness": 1, "water": 1, "food": 3, "nature": 1, "nightlife": 3},
+  "season": {
+    "months": ["Off", "Off", "Off", "Off", "Shoulder", "Peak", "Peak", "Peak", "In", "In", "Off", "Shoulder"],
+    "rationale": "Editorial estimate. Visitor demand and short-stay prices concentrate in the festival summer (Grand Prix late May, then the Jazz Fest, Just for Laughs and Osheaga from late June to early August); September-October stay busy with mild weather and fall colour. November to April is the low season despite winter festivals (Igloofest, Montréal en Lumière); late March-April is thaw/slush season. December gets some holiday travel.",
+    "sources": [
+      {"title": "Tourisme Montréal: Just For Laughs 2026", "url": "https://www.mtl.org/en/experience/just-for-laughs-festival", "accessed": "2026-10-03", "quote": "runs from July 15 to 26 at various venues"},
+      {"title": "Tourisme Montréal: winter festivals guide", "url": "https://www.mtl.org/en/experience/montreal-winter-festivals-shine-bright", "accessed": "2026-10-03", "quote": "from Jan 14 to Feb 6, 2027"}
+    ]
+  },
+  "hazards": [],
+  "swim": {
+    "body": "river",
+    "name": "Plage urbaine de Verdun (St. Lawrence)",
+    "months": [6, 7, 8],
+    "note": "Supervised river beach mid-June to end of August; swimming suspended after heavy rain. Swimming in the river outside the supervised zone is discouraged.",
+    "source": {"title": "Ville de Montréal (Verdun borough) press release, 2026-06-03", "url": "https://montreal.ca/communiques-de-presse/se-rafraichir-la-plage-oui-defier-le-fleuve-non-verdun-lance-une-campagne-rappelant-la-population", "accessed": "2026-10-03", "quote": "du 13 juin au 30 août 2026, tous les jours, de 10 h à 19 h."}
+  },
+  "events": [
+    {"name": "Festival International de Jazz de Montréal", "months": [6, 7], "tier": 3, "blurb": "ten days of concerts, many free and outdoors, in the Quartier des Spectacles", "source": {"title": "Bonjour Québec: Festival International de Jazz de Montréal", "url": "https://www.bonjourquebec.com/en-ca/listing/events/festival-international-de-jazz-de-montreal/0rgm", "accessed": "2026-10-03", "quote": "June 25 - July 4, 2027", "note": "2026 edition reported as June 25–July 4 too."}},
+    {"name": "Just For Laughs", "months": [7], "tier": 2, "blurb": "the comedy festival, July 15–26 in 2026", "source": {"title": "Tourisme Montréal", "url": "https://www.mtl.org/en/experience/just-for-laughs-festival", "accessed": "2026-10-03", "quote": "runs from July 15 to 26 at various venues"}},
+    {"name": "Osheaga", "months": [7, 8], "tier": 2, "blurb": "three-day music festival at Parc Jean-Drapeau", "source": {"title": "JamBase: Osheaga 2026 lineup", "url": "https://www.jambase.com/article/osheaga-2026-lineup", "accessed": "2026-10-03", "quote": "returns July 31 – August 2, 2026 to Parc Jean-Drapeau in Montréal"}},
+    {"name": "Canadian Grand Prix (F1)", "months": [5], "tier": 2, "blurb": "moved to the third or fourth weekend of May from 2026", "source": {"title": "Formula 1: Canadian Grand Prix scheduling change", "url": "https://www.formula1.com/en/latest/article/canadian-grand-prix-to-support-f1-calendar-rationalisation-with-scheduling.642IODSLs6mDj8Rs9DCRHD", "accessed": "2026-10-03", "quote": "the Grand Prix is set to be scheduled on the third or fourth weekend of May each year"}},
+    {"name": "Montréal en Lumière", "months": [2, 3], "tier": 2, "blurb": "winter food, arts and light festival with the Nuit blanche", "source": {"title": "Tourisme Montréal: winter festivals guide", "url": "https://www.mtl.org/en/experience/montreal-winter-festivals-shine-bright", "accessed": "2026-10-03", "quote": "from Feb 18 to Feb 28, 2027", "note": "2026 edition ran Feb 27–Mar 7, so both months listed."}},
+    {"name": "Igloofest", "months": [1, 2], "tier": 1, "blurb": "outdoor winter electronic-music weekends in the Old Port", "source": {"title": "Tourisme Montréal: winter festivals guide", "url": "https://www.mtl.org/en/experience/montreal-winter-festivals-shine-bright", "accessed": "2026-10-03", "quote": "from Jan 14 to Feb 6, 2027"}}
+  ],
+  "safety": {
+    "propertySub": 74,
+    "propertyNote": "Safe overall; petty theft and car break-ins in busy areas",
+    "womensAdj": 10,
+    "womensSafetyNote": "Busy, walkable central neighbourhoods; ordinary night-time caution",
+    "touristMod": 1.0,
+    "touristRationale": "Crimes against visitors are mostly opportunistic theft; no visitor-specific pattern beyond that.",
+    "touristTags": ["petty-theft"],
+    "homicideOverride": null,
+    "rationale": {
+      "property": "The State Dept describes Canadian crime against foreigners as crimes of opportunity (pickpocketing, purse snatching, car break-ins), common in tourist areas. Set slightly above Vancouver (72), whose downtown has more visible open-air disorder; below Taipei/Tokyo-tier cities.",
+      "tourist": "No evidence that visitors are targeted beyond opportunistic theft; Level 1 advisory. 1.0, as for Vancouver.",
+      "womens": "+10 on Canada's Gallup baseline, one point under Vancouver (+11): dense, busy central neighbourhoods with late-running metro; no Montréal-specific survey found, so kept close to the calibrated comparator."
+    },
+    "calibratedAgainst": ["Vancouver", "Berlin"],
+    "consulted": [
+      {"title": "U.S. State Department travel advisory feed (Canada)", "url": "https://cadataapi.state.gov/api/TravelAdvisories", "accessed": "2026-10-03", "quote": "Most crimes against foreigners are crimes of opportunity, like purse snatching, pickpocketing, and car break-ins or theft.", "note": "travel.state.gov page behind a bot check; read via the State Department's advisory API."},
+      {"title": "UK FCDO: Canada safety and security", "url": "https://www.gov.uk/foreign-travel-advice/canada/safety-and-security", "accessed": "2026-10-03", "quote": "Take precautions to protect yourself from petty crime", "note": "No Montréal-specific warnings."}
+    ],
+    "advisory": {
+      "level": 1,
+      "text": "Exercise normal precautions",
+      "date": "2026-06-05",
+      "url": "https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.can.html",
+      "risks": [],
+      "regionalLevel": 1,
+      "localLevel": 1,
+      "localArea": null
+    }
+  },
+  "selection": "North America has one city today; Montréal's festival summer (Jazz Fest, Just for Laughs, Osheaga) and European-style neighbourhoods make it a strong June-September base on the continent. Winters are severe.",
+  "asOf": "2026-10",
+  "researchNotes": "Advisory: travel.state.gov returned a Cloudflare bot challenge (not bypassed); level/text read from cadataapi.state.gov (Published 2026-06-04T20:00-04:00 = 2026-06-05 UTC; the API's Japan entry maps the same way onto its RSS date). Hazards left empty: wildfire smoke reached Montréal in some recent summers (e.g. 2023) but it is episodic rather than seasonal, matching Vancouver's treatment; extreme winter cold is not a hazard class here and is handled by the climate pipeline. homicideOverride null (country baseline). Quebec restricts short-term rentals, so furnished stays are typically 31-night minimum."
+}
