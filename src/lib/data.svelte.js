@@ -32,8 +32,9 @@ function loadSettings() {
 
 const storedSettings = loadSettings();
 
-// done flips true once the user has saved settings at least once; App.svelte
-// shows first-run onboarding while it's false.
+// done flips true once the user has saved settings at least once. There's no
+// first-run gate any more; this only splits the first save (onboarding_complete)
+// from later ones (settings_save) in analytics.
 export const onboarded = $state({ done: storedSettings != null });
 
 export const prefs = $state({

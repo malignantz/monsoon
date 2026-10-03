@@ -20,8 +20,8 @@ const CORE_CITY = [
   'rent', 'var', 'util', 'vibe', 'draw', 'english', 'visa', 'swim', 'events',
   'lat', 'lng'
 ];
-// rain (avg rainy days/mo) is core, not detail: the My Year filters and
-// auto-planner read it, and they must never depend on the lazy layer.
+// rain (avg rainy days/mo) is core, not detail: the My Year rain filter and the
+// city sheet read it, and they must never depend on the lazy layer.
 const CORE_MONTH = [
   'airCat', 'risk', 'riskNote', 'season', 'evtTier',
   'weather', 'air', 'seasonScore', 'eventScore', 'cost1', 'cost2', 'rain'

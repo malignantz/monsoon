@@ -100,9 +100,3 @@ export function addCity(key, { start = -1, len = 2 } = {}) {
 export function removeStayRef(stay) {
   route.stays = route.stays.filter((s) => s !== stay);
 }
-
-// Whether the year has at least one open month — drives whether browse surfaces
-// should even offer an add affordance.
-export function hasOpenMonth() {
-  return monthOccupancy(route.stays).some((x) => x === null);
-}
