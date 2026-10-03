@@ -128,6 +128,7 @@ Shipped 2026-10-03:
 - [x] Seed generator constraints: every style is Schengen-legal and keeps each country under 183 days (`npm run check:seeds`).
 - [x] Save a copy now has Undo; saved routes and favorites migrate renamed cities through `SLUG_ALIASES`, drop only unresolvable stays, and are not rewritten on boot.
 - [x] City sheet provenance: "Where these numbers come from" panels (source, date, confidence), cost line items with source links, "Report this number" prefilled GitHub issue, "Data as of" line, detail-load Retry.
+- [x] U.S. advisories refreshed from the State Department feed on 2026-10-03 (`scripts/refresh_advisories.py`): Thailand, Romania, Austria, Ireland and Thessaloniki now Level 1; 83 advisory dates corrected to the feed's publish date. Display only, no score moved.
 - [x] Add-a-city pipeline merged and 9 cities added (catalog 120): per-city input files with a schema, `add_city.py` bakes one record and proves every existing record is unchanged.
 - [x] Sourced climate and PM2.5 applied (methodology v6): station normals, ERA5 and WHO-scaled CAMS, with unverifiable values held back and labelled; licences shown per source. Data-change log in `docs/data-changes/`.
 - [x] Events score derived from the visible calendar (`reconcile_events.py --check-derived` is the invariant): the 16 month conflicts and the major-tier mismatches are resolved, 322 city-months changed tier.

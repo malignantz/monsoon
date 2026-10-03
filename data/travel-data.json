@@ -483,20 +483,21 @@
           "tags": [],
           "source": "OSAC Crime & Safety Reports / U.S. State Dept guidance"
         },
-        "advisory": "Exercise increased caution",
-        "advisoryLevel": 2,
-        "regionalLevel": 2,
+        "advisory": "Exercise normal precautions",
+        "advisoryLevel": 1,
+        "regionalLevel": 1,
         "advisoryLocal": {
-          "level": 2,
+          "level": 1,
           "area": null
         },
         "badge": null,
         "risks": [
+          "Armed conflict",
           "Unrest"
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/thailand.html",
-        "date": "2025-07-25",
+        "date": "2026-07-07",
         "note": "v3: violent 82.8 (homicide 4.44/100k, country) + property 74 -> base 78.8, tourist x1.0 -> 79."
       },
       "schengen": false,
@@ -969,20 +970,21 @@
           ],
           "source": "OSAC Crime & Safety Reports / U.S. State Dept guidance"
         },
-        "advisory": "Exercise increased caution",
-        "advisoryLevel": 2,
-        "regionalLevel": 2,
+        "advisory": "Exercise normal precautions",
+        "advisoryLevel": 1,
+        "regionalLevel": 1,
         "advisoryLocal": {
-          "level": 2,
+          "level": 1,
           "area": null
         },
         "badge": null,
         "risks": [
+          "Armed conflict",
           "Unrest"
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/thailand.html",
-        "date": "2025-07-25",
+        "date": "2026-07-07",
         "note": "v3: violent 82.8 (homicide 4.44/100k, country) + property 62 -> base 73.4, tourist x1.0 -> 73."
       },
       "schengen": false,
@@ -1472,7 +1474,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/vietnam.html",
-        "date": "2024-12-16",
+        "date": "2026-06-24",
         "note": "v3: violent 95.5 (homicide 1.91/100k, country) + property 72 -> base 84.9, tourist x1.0 -> 85."
       },
       "schengen": false,
@@ -1970,7 +1972,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/vietnam.html",
-        "date": "2024-12-16",
+        "date": "2026-06-24",
         "note": "v3: violent 95.5 (homicide 1.91/100k, country) + property 72 -> base 84.9, tourist x1.0 -> 85."
       },
       "schengen": false,
@@ -2451,7 +2453,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/vietnam.html",
-        "date": "2024-12-16",
+        "date": "2026-06-24",
         "note": "v3: violent 95.5 (homicide 1.91/100k, country) + property 66 -> base 82.2, tourist x1.0 -> 82."
       },
       "schengen": false,
@@ -2924,7 +2926,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/indonesia.html",
-        "date": "2025-04-30",
+        "date": "2026-07-07",
         "note": "v3: violent 100.0 (homicide 0.3/100k, country) + property 64 -> base 83.8, tourist x1.0 -> 84."
       },
       "schengen": false,
@@ -6362,7 +6364,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/serbia.html",
-        "date": "2025-04-11",
+        "date": "2026-08-27",
         "note": "v3: violent 98.5 (homicide 1.31/100k, country) + property 70 -> base 85.7, tourist x1.0 -> 86."
       },
       "schengen": false,
@@ -6847,7 +6849,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/montenegro.html",
-        "date": "2024-11-26",
+        "date": "2026-08-27",
         "note": "v3: violent 100.0 (homicide 0.79/100k, country) + property 78 -> base 90.1, tourist x1.0 -> 90."
       },
       "schengen": false,
@@ -7808,7 +7810,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/albania.html",
-        "date": "2024-12-31",
+        "date": "2026-08-26",
         "note": "v3: violent 98.0 (homicide 1.39/100k, country) + property 66 -> base 83.6, tourist x1.0 -> 84."
       },
       "schengen": false,
@@ -9734,7 +9736,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/portugal.html",
-        "date": "2025-12-23",
+        "date": "2025-03-03",
         "note": "v3: violent 100.0 (homicide 0.72/100k, country) + property 70 -> base 86.5, tourist x1.0 -> 86."
       },
       "schengen": true,
@@ -10219,7 +10221,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/portugal.html",
-        "date": "2025-12-23",
+        "date": "2025-03-03",
         "note": "v3: violent 100.0 (homicide 0.72/100k, country) + property 80 -> base 91.0, tourist x1.0 -> 91."
       },
       "schengen": true,
@@ -12159,7 +12161,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/mexico.html",
-        "date": "2026-05-29",
+        "date": "2025-08-12",
         "note": "v3: violent 65.0 (homicide 10.0/100k, entity) + property 45 -> base 56.0, tourist x1.08 -> 60. Central tourist boroughs far safer than the citywide figure; main visitor risks are petty theft and express kidnapping via unregulated taxis."
       },
       "schengen": false,
@@ -12648,7 +12650,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/mexico.html",
-        "date": "2026-05-29",
+        "date": "2025-08-12",
         "note": "v3: violent 57.5 (homicide 15.0/100k, state) + property 70 -> base 63.1, tourist x1.12 -> 71. State violence is concentrated in the Isthmus and coast, not the capital; the tourist core is calm."
       },
       "schengen": false,
@@ -13128,7 +13130,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/mexico.html",
-        "date": "2026-05-29",
+        "date": "2025-08-12",
         "note": "v3: violent 96.0 (homicide 1.8/100k, city) + property 80 -> base 88.8, tourist x1.12 -> 99. Safest state capital in Mexico; violent crime against residents and visitors is rare."
       },
       "schengen": false,
@@ -14124,7 +14126,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/colombia.html",
-        "date": "2026-03-31",
+        "date": "2025-04-17",
         "note": "v3: violent 63.5 (homicide 11.0/100k, city) + property 50 -> base 57.4, tourist x0.95 -> 55. Homicides at an 80-year low, but tourists face real targeted risk: scopolamine drugging, dating-app robbery and overdose deaths."
       },
       "schengen": false,
@@ -15100,7 +15102,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/argentina.html",
-        "date": "2026-05-20",
+        "date": "2026-07-10",
         "note": "v3: violent 82.0 (homicide 4.6/100k, city) + property 52 -> base 68.5, tourist x1.0 -> 68. Homicide at a 31-year low; the visitor issue is property crime, not violence."
       },
       "schengen": false,
@@ -16088,7 +16090,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/uruguay.html",
-        "date": "2025-05-07",
+        "date": "2026-07-28",
         "note": "v3: violent 60.5 (homicide 13.0/100k, city) + property 55 -> base 58.0, tourist x1.0 -> 58."
       },
       "schengen": false,
@@ -18048,7 +18050,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/albania.html",
-        "date": "2024-12-31",
+        "date": "2026-08-26",
         "note": "v3: violent 98.0 (homicide 1.39/100k, country) + property 66 -> base 83.6, tourist x1.0 -> 84."
       },
       "schengen": false,
@@ -18544,7 +18546,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/mexico.html",
-        "date": "2026-05-29",
+        "date": "2025-08-12",
         "note": "v3: violent 18.9 (homicide 49.3/100k, city) + property 75 -> base 44.1, tourist x1.4 -> 62. Guanajuato's Bajío cartel war is intra-criminal and concentrated in peripheral neighborhoods; the Centro Histórico and large expat community see little violent crime (Oct 2025: zero municipal homicides, calmest month in 20 years). Tourists are rarely targeted — but an Aug 2025 festival shooting (2 dead, 17 wounded) shows public-space exposure isn't zero, so the visitor modifier is generous (1.40, the model max) but not unbounded."
       },
       "schengen": false,
@@ -19562,7 +19564,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/portugal.html",
-        "date": "2025-12-23",
+        "date": "2025-03-03",
         "note": "v3: violent 100.0 (homicide 0.72/100k, country) + property 74 -> base 88.3, tourist x1.0 -> 88."
       },
       "schengen": true,
@@ -20583,7 +20585,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/mexico.html",
-        "date": "2026-05-29",
+        "date": "2025-08-12",
         "note": "v3: violent 62.0 (homicide 12.0/100k, state) + property 55 -> base 58.9, tourist x1.08 -> 64. Historic center is well-policed; risks are petty theft and intercity-highway crime, not tourist-targeted violence."
       },
       "schengen": false,
@@ -21071,7 +21073,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/vietnam-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2026-06-24",
         "note": "v3: violent 95.5 (homicide 1.91/100k, country) + property 50 -> base 75.0, tourist x1.0 -> 75."
       },
       "schengen": false,
@@ -21535,7 +21537,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/malaysia-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2026-02-22",
         "note": "v3: violent 100.0 (homicide 0.73/100k, country) + property 55 -> base 79.8, tourist x1.0 -> 80."
       },
       "schengen": false,
@@ -22011,7 +22013,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/vietnam-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2026-06-24",
         "note": "v3: violent 95.5 (homicide 1.91/100k, country) + property 74 -> base 85.8, tourist x1.0 -> 86."
       },
       "schengen": false,
@@ -22473,7 +22475,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/morocco-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-04-21",
         "note": "v3: violent 96.5 (homicide 1.71/100k, country) + property 55 -> base 77.8, tourist x0.95 -> 74. Tourists are actively worked by scams and aggressive touts; harassment of women is common."
       },
       "schengen": false,
@@ -23437,7 +23439,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/panama-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2026-08-19",
         "note": "v3: violent 92.5 (homicide 2.5/100k, region) + property 65 -> base 80.1, tourist x1.05 -> 84. Chiriquí highlands are among Panama's safest areas; established retiree community."
       },
       "schengen": false,
@@ -23908,7 +23910,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/peru-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-05-16",
         "note": "v3: violent 69.2 (homicide 8.6/100k, country) + property 52 -> base 61.5, tourist x1.0 -> 61."
       },
       "schengen": false,
@@ -24373,7 +24375,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/taiwan-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-11-25",
         "note": "v3: violent 100.0 (homicide 0.8/100k, country) + property 88 -> base 94.6, tourist x1.0 -> 95."
       },
       "schengen": false,
@@ -24857,7 +24859,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/south-africa-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-05-27",
         "note": "v3: violent 9.0 (homicide 70.2/100k, city) + property 40 -> base 22.9, tourist x1.2 -> 28. One of the world's highest murder rates, but homicide is concentrated in the Cape Flats; V&A Waterfront, Atlantic Seaboard and Table Mountain are heavily secured — though trail muggings of tourists do occur."
       },
       "schengen": false,
@@ -25352,7 +25354,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/costa-rica-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2026-04-02",
         "note": "v3: violent 62.0 (homicide 12.0/100k, city) + property 50 -> base 56.6, tourist x1.05 -> 59. Costa Rica's tourism is well-managed; San José sees property crime more than tourist-targeted violence."
       },
       "schengen": false,
@@ -25821,7 +25823,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/cyprus-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2026-06-01",
         "note": "v3: violent 100.0 (homicide 0.82/100k, country) + property 78 -> base 90.1, tourist x1.0 -> 90."
       },
       "schengen": false,
@@ -26313,7 +26315,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/spain-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-05-12",
         "note": "v3: violent 100.0 (homicide 0.69/100k, country) + property 48 -> base 76.6, tourist x1.0 -> 77."
       },
       "schengen": true,
@@ -26818,7 +26820,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/spain-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-05-12",
         "note": "v3: violent 100.0 (homicide 0.69/100k, country) + property 66 -> base 84.7, tourist x1.0 -> 85."
       },
       "schengen": true,
@@ -27302,7 +27304,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/spain-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-05-12",
         "note": "v3: violent 100.0 (homicide 0.69/100k, country) + property 70 -> base 86.5, tourist x1.0 -> 86."
       },
       "schengen": true,
@@ -27793,7 +27795,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/italy-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-05-23",
         "note": "v3: violent 100.0 (homicide 0.57/100k, country) + property 52 -> base 78.4, tourist x1.0 -> 78."
       },
       "schengen": true,
@@ -28282,7 +28284,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/italy-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-05-23",
         "note": "v3: violent 100.0 (homicide 0.57/100k, country) + property 62 -> base 82.9, tourist x1.0 -> 83."
       },
       "schengen": true,
@@ -28763,7 +28765,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/italy-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-05-23",
         "note": "v3: violent 100.0 (homicide 0.57/100k, country) + property 60 -> base 82.0, tourist x1.0 -> 82."
       },
       "schengen": true,
@@ -29246,7 +29248,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/italy-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-05-23",
         "note": "v3: violent 100.0 (homicide 0.57/100k, country) + property 50 -> base 77.5, tourist x1.0 -> 78."
       },
       "schengen": true,
@@ -29726,7 +29728,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/malta-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2026-07-09",
         "note": "v3: violent 100.0 (homicide 0.56/100k, country) + property 80 -> base 91.0, tourist x1.0 -> 91."
       },
       "schengen": true,
@@ -30208,20 +30210,18 @@
           ],
           "source": "OSAC Crime & Safety Reports / U.S. State Dept guidance"
         },
-        "advisory": "Exercise increased caution",
-        "advisoryLevel": 2,
-        "regionalLevel": 2,
+        "advisory": "Exercise normal precautions",
+        "advisoryLevel": 1,
+        "regionalLevel": 1,
         "advisoryLocal": {
-          "level": 2,
+          "level": 1,
           "area": null
         },
         "badge": null,
-        "risks": [
-          "Terrorism"
-        ],
+        "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/greece-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-10-23",
         "note": "v3: violent 100.0 (homicide 0.84/100k, country) + property 58 -> base 81.1, tourist x1.0 -> 81."
       },
       "schengen": true,
@@ -30699,7 +30699,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/portugal-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-03-03",
         "note": "v3: violent 100.0 (homicide 0.72/100k, country) + property 85 -> base 93.2, tourist x1.0 -> 93."
       },
       "schengen": true,
@@ -31199,7 +31199,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/spain-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-05-12",
         "note": "v3: violent 100.0 (homicide 0.69/100k, country) + property 65 -> base 84.2, tourist x1.0 -> 84."
       },
       "schengen": true,
@@ -31696,7 +31696,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/france-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-05-28",
         "note": "v3: violent 98.3 (homicide 1.34/100k, country) + property 58 -> base 80.2, tourist x1.0 -> 80."
       },
       "schengen": true,
@@ -32191,7 +32191,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/czech-republic-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-04-28",
         "note": "v3: violent 100.0 (homicide 0.77/100k, country) + property 62 -> base 82.9, tourist x1.0 -> 83."
       },
       "schengen": true,
@@ -32682,7 +32682,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/poland.html",
-        "date": "2026-06-09",
+        "date": "2025-06-05",
         "note": "v3: violent 100.0 (homicide 0.8/100k, country) + property 74 -> base 88.3, tourist x1.0 -> 88."
       },
       "schengen": true,
@@ -33168,7 +33168,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/lithuania-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2026-04-28",
         "note": "v3: violent 91.8 (homicide 2.63/100k, country) + property 70 -> base 82.0, tourist x1.0 -> 82."
       },
       "schengen": true,
@@ -33650,7 +33650,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/estonia-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2026-03-31",
         "note": "v3: violent 97.3 (homicide 1.54/100k, country) + property 80 -> base 89.5, tourist x1.0 -> 90."
       },
       "schengen": true,
@@ -34147,7 +34147,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/latvia-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2026-04-01",
         "note": "v3: violent 92.5 (homicide 2.5/100k, country) + property 70 -> base 82.4, tourist x1.0 -> 82."
       },
       "schengen": true,
@@ -34620,20 +34620,18 @@
           ],
           "source": "OSAC Crime & Safety Reports / U.S. State Dept guidance"
         },
-        "advisory": "Exercise increased caution",
-        "advisoryLevel": 2,
-        "regionalLevel": 2,
+        "advisory": "Exercise normal precautions",
+        "advisoryLevel": 1,
+        "regionalLevel": 1,
         "advisoryLocal": {
-          "level": 2,
+          "level": 1,
           "area": null
         },
         "badge": null,
-        "risks": [
-          "Petty crime"
-        ],
+        "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/romania-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-10-14",
         "note": "v3: violent 99.5 (homicide 1.11/100k, country) + property 68 -> base 85.3, tourist x1.0 -> 85."
       },
       "schengen": true,
@@ -35096,20 +35094,18 @@
           "tags": [],
           "source": "OSAC Crime & Safety Reports / U.S. State Dept guidance"
         },
-        "advisory": "Exercise increased caution",
-        "advisoryLevel": 2,
-        "regionalLevel": 2,
+        "advisory": "Exercise normal precautions",
+        "advisoryLevel": 1,
+        "regionalLevel": 1,
         "advisoryLocal": {
-          "level": 2,
+          "level": 1,
           "area": null
         },
         "badge": null,
-        "risks": [
-          "Petty crime"
-        ],
+        "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/romania-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-10-14",
         "note": "v3: violent 99.5 (homicide 1.11/100k, country) + property 74 -> base 88.0, tourist x1.0 -> 88."
       },
       "schengen": true,
@@ -35591,7 +35587,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/slovakia-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2026-02-10",
         "note": "v3: violent 99.4 (homicide 1.12/100k, country) + property 78 -> base 89.8, tourist x1.0 -> 90."
       },
       "schengen": true,
@@ -36073,7 +36069,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/bulgaria-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-10-09",
         "note": "v3: violent 99.5 (homicide 1.09/100k, country) + property 70 -> base 86.2, tourist x1.0 -> 86."
       },
       "schengen": true,
@@ -36559,7 +36555,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/bosnia-and-herzegovina-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2026-08-27",
         "note": "v3: violent 98.9 (homicide 1.22/100k, country) + property 72 -> base 86.8, tourist x1.0 -> 87."
       },
       "schengen": false,
@@ -37036,7 +37032,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/netherlands-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2024-08-09",
         "note": "v3: violent 100.0 (homicide 0.69/100k, country) + property 74 -> base 88.3, tourist x1.0 -> 88."
       },
       "schengen": true,
@@ -37531,7 +37527,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/germany-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-05-13",
         "note": "v3: violent 100.0 (homicide 0.91/100k, country) + property 72 -> base 87.4, tourist x1.0 -> 87."
       },
       "schengen": true,
@@ -38018,20 +38014,18 @@
           "tags": [],
           "source": "OSAC Crime & Safety Reports / U.S. State Dept guidance"
         },
-        "advisory": "Exercise increased caution",
-        "advisoryLevel": 2,
-        "regionalLevel": 2,
+        "advisory": "Exercise normal precautions",
+        "advisoryLevel": 1,
+        "regionalLevel": 1,
         "advisoryLocal": {
-          "level": 2,
+          "level": 1,
           "area": null
         },
         "badge": null,
-        "risks": [
-          "Terrorism"
-        ],
+        "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/austria-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2026-08-21",
         "note": "v3: violent 100.0 (homicide 0.88/100k, country) + property 85 -> base 93.2, tourist x1.0 -> 93."
       },
       "schengen": true,
@@ -38532,7 +38526,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/switzerland-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-05-20",
         "note": "v3: violent 100.0 (homicide 0.6/100k, country) + property 88 -> base 94.6, tourist x1.0 -> 95."
       },
       "schengen": true,
@@ -39024,7 +39018,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/united-kingdom-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-05-08",
         "note": "v3: violent 99.4 (homicide 1.12/100k, country) + property 60 -> base 81.7, tourist x1.0 -> 82."
       },
       "schengen": false,
@@ -39531,7 +39525,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/france-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2025-05-28",
         "note": "v3: violent 98.3 (homicide 1.34/100k, country) + property 52 -> base 77.5, tourist x1.0 -> 77."
       },
       "schengen": true,
@@ -40029,20 +40023,18 @@
           ],
           "source": "OSAC Crime & Safety Reports / U.S. State Dept guidance"
         },
-        "advisory": "Exercise increased caution",
-        "advisoryLevel": 2,
-        "regionalLevel": 2,
+        "advisory": "Exercise normal precautions",
+        "advisoryLevel": 1,
+        "regionalLevel": 1,
         "advisoryLocal": {
-          "level": 2,
+          "level": 1,
           "area": null
         },
         "badge": null,
-        "risks": [
-          "Terrorism"
-        ],
+        "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/ireland-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2026-03-20",
         "note": "v3: violent 100.0 (homicide 0.65/100k, country) + property 60 -> base 82.0, tourist x1.0 -> 82."
       },
       "schengen": false,
@@ -40543,7 +40535,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/denmark-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2024-09-17",
         "note": "v3: violent 100.0 (homicide 0.84/100k, country) + property 82 -> base 91.9, tourist x1.0 -> 92."
       },
       "schengen": true,
@@ -41047,7 +41039,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/sweden-travel-advisory.html",
-        "date": "2026-06-09",
+        "date": "2026-05-18",
         "note": "v3: violent 99.2 (homicide 1.15/100k, country) + property 68 -> base 85.2, tourist x1.05 -> 89. Sweden's gang shootings are intra-criminal in specific suburbs, not in visitor areas."
       },
       "schengen": true,
@@ -42996,7 +42988,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories/norway-travel-advisory.html",
-        "date": "2025-02-03",
+        "date": "2026-07-06",
         "note": "v3: violent 100.0 (homicide 0.54/100k, country) + property 84 -> base 92.8, tourist x1 -> 93. Very low violent crime; ordinary city-center nightlife caution"
       },
       "schengen": true,
@@ -44944,7 +44936,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/australia.html",
-        "date": "2026-06-10",
+        "date": "2025-05-30",
         "note": "v3: violent 100.0 (homicide 0.74/100k, country) + property 76 -> base 89.2, tourist x1 -> 89. Safe overall; late-night entertainment districts need ordinary caution"
       },
       "schengen": false,
@@ -45447,7 +45439,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/new-zealand.html",
-        "date": "2026-06-10",
+        "date": "2026-04-29",
         "note": "v3: violent 100.0 (homicide 1/100k, country) + property 74 -> base 88.3, tourist x1 -> 88. Safe overall; car break-ins and petty theft around tourist parking areas"
       },
       "schengen": false,
@@ -45927,7 +45919,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/new-zealand.html",
-        "date": "2026-06-10",
+        "date": "2026-04-29",
         "note": "v3: violent 100.0 (homicide 1/100k, country) + property 76 -> base 89.2, tourist x1 -> 89. Safe overall; compact nightlife areas need ordinary late-night caution"
       },
       "schengen": false,
@@ -46412,7 +46404,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/japan.html",
-        "date": "2026-06-10",
+        "date": "2025-05-15",
         "note": "v3: violent 100.0 (homicide 0.23/100k, country) + property 86 -> base 93.7, tourist x1 -> 94. Extremely low violent crime; lost-property culture, minor entertainment-district scams"
       },
       "schengen": false,
@@ -46902,7 +46894,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/japan.html",
-        "date": "2026-06-10",
+        "date": "2025-05-15",
         "note": "v3: violent 100.0 (homicide 0.23/100k, country) + property 83 -> base 92.4, tourist x1 -> 92. Very low violent crime; entertainment-zone scams are the main visitor issue"
       },
       "schengen": false,
@@ -47376,7 +47368,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories..html",
-        "date": "2024-12-16",
+        "date": "2026-06-24",
         "note": "v3: violent 97.4 (homicide 1.52/100k, country) + property 72 -> base 86.0, tourist x1 -> 86. Generally safe; beach/tourist-strip petty theft and traffic risk"
       },
       "schengen": false,
@@ -47846,7 +47838,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/malaysia.html",
-        "date": "2026-06-10",
+        "date": "2026-02-22",
         "note": "v3: violent 100.0 (homicide 0.67/100k, country) + property 76 -> base 89.2, tourist x1 -> 89. Safe, low-key city; ordinary petty-theft caution in crowded areas"
       },
       "schengen": false,
@@ -48302,7 +48294,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/malaysia.html",
-        "date": "2026-06-10",
+        "date": "2026-02-22",
         "note": "v3: violent 100.0 (homicide 0.67/100k, country) + property 78 -> base 90.1, tourist x1 -> 90. Relaxed and safe by regional standards; low violent crime"
       },
       "schengen": false,
@@ -48781,7 +48773,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/philippines.html",
-        "date": "2026-06-10",
+        "date": "2025-05-08",
         "note": "v3: violent 83.5 (homicide 4.3/100k, country) + property 64 -> base 74.7, tourist x0.98 -> 73. Tourist-friendly town, but national advisory risks and petty crime warrant caution"
       },
       "schengen": false,
@@ -49274,7 +49266,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories..html",
-        "date": "2025-04-11",
+        "date": "2026-08-27",
         "note": "v3: violent 100.0 (homicide 1/100k, country) + property 72 -> base 87.4, tourist x1 -> 87. Generally safe; petty theft around nightlife/festival crowds"
       },
       "schengen": false,
@@ -49759,7 +49751,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/republic-of-north-macedonia.html",
-        "date": "2026-06-10",
+        "date": "2025-01-14",
         "note": "v3: violent 97.0 (homicide 1.6/100k, country) + property 69 -> base 84.4, tourist x1 -> 84. Generally safe; petty theft and late-night caution in busy areas"
       },
       "schengen": false,
@@ -50225,7 +50217,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/republic-of-north-macedonia.html",
-        "date": "2026-06-10",
+        "date": "2025-01-14",
         "note": "v3: violent 97.0 (homicide 1.6/100k, country) + property 74 -> base 86.7, tourist x1 -> 87. Safe lake-town profile; petty theft is the main visitor issue"
       },
       "schengen": false,
@@ -50699,7 +50691,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/czechia.html",
-        "date": "2026-06-10",
+        "date": "2025-04-28",
         "note": "v3: violent 100.0 (homicide 0.66/100k, country) + property 78 -> base 90.1, tourist x1 -> 90. Very safe overall; petty theft near transit and event crowds"
       },
       "schengen": true,
@@ -52136,7 +52128,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/argentina.html",
-        "date": "2026-05-20",
+        "date": "2026-07-10",
         "note": "v3: violent 82.5 (homicide 4.49/100k, country) + property 62 -> base 73.3, tourist x1 -> 73. Generally comfortable for visitors; theft risk is higher after dark and in busier areas"
       },
       "schengen": false,
@@ -52600,7 +52592,7 @@
         "risks": [],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/argentina.html",
-        "date": "2026-05-20",
+        "date": "2026-07-10",
         "note": "v3: violent 82.5 (homicide 4.49/100k, country) + property 60 -> base 72.4, tourist x1 -> 72. Generally manageable visitor profile; petty theft and isolated robberies require caution"
       },
       "schengen": false,
@@ -53084,7 +53076,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/mexico.html",
-        "date": "2026-06-10",
+        "date": "2025-08-12",
         "note": "v3: violent 77.0 (homicide 6/100k, city) + property 68 -> base 73.0, tourist x1.08 -> 79. Lower-violence Bajio city by Mexico standards; highway and nightlife caution still apply"
       },
       "schengen": false,
@@ -53560,7 +53552,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/en/international-travel/travel-advisories/mexico.html",
-        "date": "2026-06-10",
+        "date": "2025-08-12",
         "note": "v3: violent 50.0 (homicide 20/100k, state) + property 55 -> base 52.2, tourist x1.12 -> 59. Tourist core is calmer than the statewide picture, but Guanajuato state has elevated organized-crime risk"
       },
       "schengen": false,
@@ -54533,7 +54525,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.mar.html",
-        "date": "2026-09-04",
+        "date": "2025-04-21",
         "note": "v3: violent 96.5 (homicide 1.71/100k, country) + property 62 -> base 81.0, tourist x1.0 -> 81."
       },
       "schengen": false,
@@ -55023,7 +55015,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.esp.html",
-        "date": "2026-08-01",
+        "date": "2025-05-12",
         "note": "v3: violent 100.0 (homicide 0.69/100k, country) + property 70 -> base 86.5, tourist x1.0 -> 86."
       },
       "schengen": true,
@@ -56488,7 +56480,7 @@
         ],
         "source": "U.S. Department of State Travel Advisories",
         "url": "https://travel.state.gov/content/tsg_aem/us/en/home/international-travel/travel-advisories/destination.esp.html",
-        "date": "2026-08-01",
+        "date": "2025-05-12",
         "note": "v3: violent 100.0 (homicide 0.69/100k, country) + property 68 -> base 85.6, tourist x1.0 -> 86."
       },
       "schengen": true,
