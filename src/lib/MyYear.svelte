@@ -641,6 +641,8 @@
             style="grid-column: {i + 1} / span 1"
             onclick={() => (selStart = selStart === i ? -1 : i)}
             title="Plan {MONTHS[i]}"
+            aria-label="Plan {MONTHS[i]}"
+            aria-pressed={i === selStart}
           >+</button>
         {:else if o === null && !ghostMode}
           <div class="gap empty" style="grid-column: {i + 1} / span 1" aria-hidden="true"></div>
@@ -681,11 +683,11 @@
               {#if previewing}
                 <span class="dur-val preview-len num">{stay.len}mo</span>
               {:else}
-                <button type="button" class="x" aria-label="Remove stay" onclick={() => removeStay(stay)}>×</button>
+                <button type="button" class="x" aria-label="Remove {c.name}" onclick={() => removeStay(stay)}>×</button>
                 <div class="dur-ctl">
-                  <button type="button" class="dur-btn" aria-label="Shorter" onclick={() => resizeStay(stay, stay.len - 1)} disabled={stay.len <= 1}>−</button>
+                  <button type="button" class="dur-btn" aria-label="Shorter stay in {c.name}" onclick={() => resizeStay(stay, stay.len - 1)} disabled={stay.len <= 1}>−</button>
                   <span class="dur-val num">{stay.len}mo</span>
-                  <button type="button" class="dur-btn" aria-label="Longer" onclick={() => resizeStay(stay, stay.len + 1)}>+</button>
+                  <button type="button" class="dur-btn" aria-label="Longer stay in {c.name}" onclick={() => resizeStay(stay, stay.len + 1)}>+</button>
                 </div>
               {/if}
             {:else}
@@ -837,11 +839,11 @@
             {#if !previewing}
               <div class="mrow-act">
                 <div class="durm" role="group" aria-label="Stay length in months">
-                  <button type="button" class="durb" aria-label="Shorter" onclick={() => resizeStay(o, o.len - 1)} disabled={o.len <= 1}>−</button>
+                  <button type="button" class="durb" aria-label="Shorter stay in {c.name}" onclick={() => resizeStay(o, o.len - 1)} disabled={o.len <= 1}>−</button>
                   <span class="durv num">{o.len} mo</span>
-                  <button type="button" class="durb" aria-label="Longer" onclick={() => resizeStay(o, o.len + 1)}>+</button>
+                  <button type="button" class="durb" aria-label="Longer stay in {c.name}" onclick={() => resizeStay(o, o.len + 1)}>+</button>
                 </div>
-                <button type="button" class="mremove" onclick={() => removeStay(o)}>Remove</button>
+                <button type="button" class="mremove" aria-label="Remove {c.name}" onclick={() => removeStay(o)}>Remove</button>
               </div>
             {/if}
           </li>
