@@ -12,6 +12,11 @@ archive/
 archive/consumed/
 data/*.backup.json
 
+# Raw Open-Meteo responses (cache for scripts/fetch_climate.py / fetch_air.py;
+# reproducible from the scripts) and scratch reports.
+data/raw/
+tmp/
+
 # Scratch screenshots & MCP capture artifacts
 about-desktop.png
 about-mobile.png
