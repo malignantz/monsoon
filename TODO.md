@@ -24,7 +24,7 @@ slices; the audit has the "why" and the citations.
   - Done: a faint, dismissible **ghost example year** now renders on the empty board
     (desktop + mobile) with a seed strip ("Use this example" / "Start from scratch"),
     and the totals/overview preview the example's real payoff (avg score, $/mo, festivals)
-    tagged "Example year" instead of em-dashes. Generator: `exampleRoute()` in
+    tagged "Example year" instead of em-dashes. Generator: `generateRoute('quality')` in
     `data.svelte.js` — deterministic, season-following, Schengen-legal, greedy-by-score
     with a region-variety nudge so it's stable and spans the map.
   - Insight: keeping the board and warming it in place beats swapping in an explainer
@@ -34,10 +34,11 @@ slices; the audit has the "why" and the citations.
     and a **completion milestone** ("✓ Your year is complete — N major festivals along the
     way") on the real route, desktop + mobile.
 - [x] Build "Build me a year" — seed *choices*, not just one example. **(Audit §3.1.)**
-  - Done: `generateRoute(style, preset)` in `data.svelte.js` generalizes the seed engine into
+  - Done: `generateRoute(style, preset, valueModel)` in `data.svelte.js` generalizes the seed engine into
     five styles — **best quality / best value (livability-per-dollar) / festival / non-Schengen /
-    from favorites** (the last only when favorites exist). Each is deterministic, Schengen-legal,
-    and uses a scale-independent (multiplicative) region-variety nudge. The seed strip now has a
+    from favorites** (the last only when favorites exist). Each is deterministic, strictly
+    Schengen-legal on real day counts (a Schengen stay that would top 90 days is trimmed to its
+    best two months, the spare month filled by a non-Schengen neighbour), and uses a scale-independent (multiplicative) region-variety nudge. The seed strip now has a
     style chooser that re-seeds the ghost preview *live*; "Use this year" adopts the previewed
     style into an editable route.
   - Remaining (smaller follow-up): surface *why* each leg was picked in the picker rows

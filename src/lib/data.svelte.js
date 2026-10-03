@@ -7,6 +7,7 @@ import core from '../generated/travel-core.json';
 import detailUrl from '../generated/travel-detail.json?url';
 import { CITY_IDS_V1 } from './cityIds.v1.js';
 import { track } from './analytics.js';
+import { schengenWindow, schengenImpact } from './schengen.js';
 
 export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 export const MONTH_LETTERS = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
@@ -262,7 +263,9 @@ export function fmtMonthRange(months) {
 export const swimNow = (city, mIdx) => city.swim?.months?.includes(mIdx + 1) ?? false;
 
 // ---- Schengen 90/180 over a cyclic year of stays ----
-// stays: [{key, start (0-11), len (1-12)}]; a month in a Schengen city ≈ 30 days.
+// stays: [{key, start (0-11), len (1-12)}]. The day-level maths (real month
+// lengths, true rolling 180-day window, the whole-month caution band) lives in
+// schengen.js; these wrappers just supply the city lookup.
 export function stayMonths(stay) {
   return Array.from({ length: stay.len }, (_, i) => (stay.start + i) % 12);
 }
@@ -273,40 +276,20 @@ export function monthOccupancy(stays) {
   return occ;
 }
 
+const isSchengenKey = (key) => !!cityByKey.get(key)?.schengen;
+
+// The route's worst rolling 180-day window:
+//   { worst, remaining, over, window, anySchengen,
+//     ok (≤ 90), atLimit (exactly 90), caution (1–2 days over: whole-month
+//     rounding, fixable by leaving early), breach (3+ days over) }
 export function schengenCheck(stays) {
-  const days = Array(12).fill(0);
-  for (const s of stays) {
-    const c = cityByKey.get(s.key);
-    if (!c?.schengen) continue;
-    for (const m of stayMonths(s)) days[m] = 30;
-  }
-  let worst = 0;
-  let worstStart = 0;
-  for (let i = 0; i < 12; i++) {
-    let sum = 0;
-    for (let j = 0; j < 6; j++) sum += days[(i + j) % 12];
-    if (sum > worst) {
-      worst = sum;
-      worstStart = i;
-    }
-  }
-  // The six month indices that make up the worst rolling 180-day window.
-  const windowMonths = Array.from({ length: 6 }, (_, j) => (worstStart + j) % 12);
-  return {
-    worst,
-    worstStart,
-    windowMonths,
-    schengenMonths: days.map((d) => d > 0),
-    window: `${MONTHS[worstStart]}–${MONTHS[(worstStart + 5) % 12]}`,
-    remaining: Math.max(0, 90 - worst),
-    over: Math.max(0, worst - 90),
-    ok: worst <= 90,
-    tight: worst > 75 && worst <= 90,
-    // Months are 30-day blocks, so the worst window is always a multiple of 30 —
-    // the only compliant-but-maxed case is exactly 90 (three Schengen months).
-    atLimit: worst === 90,
-    anySchengen: days.some((d) => d > 0)
-  };
+  return schengenWindow(stays, isSchengenKey);
+}
+
+// Verdict for adding `stay` to `stays`, judged on the windows that stay touches
+// (so an unrelated over-limit stretch elsewhere doesn't flag every pick).
+export function schengenCheckAdd(stays, stay) {
+  return schengenImpact(stays, stay, isSchengenKey);
 }
 
 export function routeStats(stays, presetKey = 'balanced') {
@@ -348,9 +331,19 @@ export function routeStats(stays, presetKey = 'balanced') {
 // the quality/value score ranges — spreads the year across the map instead of
 // parking it in one region). Deterministic input → identical route every render.
 //
+// Schengen honesty: three real months are 89–92 days, so outside winter a full
+// Schengen block would land in the 1–2-day caution band. A seed never does that —
+// every placement must keep the year at or under 90 real days. A Schengen city
+// that can't take the whole block may take its best two-month slice instead
+// (≤ 62 days), judged against the block as if the spare month were filled by the
+// best non-Schengen month on offer; a gap pass then stretches a neighbouring
+// non-Schengen stay into that month (or drops in a one-month stay). Seeds are
+// therefore always strictly 90/180-legal, which the "visa-legal" copy relies on.
+//
 // Styles:
 //   'quality'      max average Score for each block (the default ghost)
-//   'value'        max Best-Value (livability per dollar)
+//   'value'        max Best-Value (livability per dollar), under the same value
+//                  model the cards use (valueModel: 'adjusted' | 'classic')
 //   'festival'     Score, boosted toward blocks that land a major festival
 //   'nonschengen'  Score, but only non-Schengen cities (sidesteps the 90/180 cap)
 //   'favorites'    Score, drawn only from the user's saved cities
@@ -358,19 +351,37 @@ export function routeStats(stays, presetKey = 'balanced') {
 // A pool too small to fill all four blocks (e.g. few favorites) just yields a
 // shorter route — callers surface that honestly rather than padding it.
 const SEED_LEN = 3;
+const SEED_VARIETY = 0.93; // nudge against repeating a region / adding a stop
 
-export function generateRoute(style = 'quality', presetKey = 'balanced') {
+export function generateRoute(style = 'quality', presetKey = 'balanced', valueModel = 'adjusted') {
   let pool = cities;
   if (style === 'nonschengen') pool = cities.filter((c) => !c.schengen);
   else if (style === 'favorites') pool = cities.filter((c) => favorites.has(c.key));
 
-  const blockScore = (c, months) => {
-    if (style === 'value') return months.reduce((a, m) => a + valueFor(c, m, presetKey), 0) / months.length;
-    let s = months.reduce((a, m) => a + qolFor(c, m, presetKey), 0) / months.length;
-    if (style === 'festival') {
-      const fests = months.reduce((a, m) => a + (c.months[m].evtTier >= 3 ? 1 : 0), 0);
-      s += fests * 8; // pull a real festival into the block when it's close on Score
+  const monthScore = (c, m) => (style === 'value' ? valueFor(c, m, presetKey, valueModel) : qolFor(c, m, presetKey));
+
+  // Best non-Schengen month on offer, discounted like any extra stop — the
+  // stand-in value of the month a trimmed Schengen stay leaves open.
+  const fillScore = MONTHS.map((_, m) =>
+    pool.reduce((best, c) => (c.schengen ? best : Math.max(best, monthScore(c, m) * SEED_VARIETY)), 0)
+  );
+
+  // Average over the whole block, so a two-month slice competes on equal terms.
+  const blockScore = (c, blockStart, p) => {
+    let sum = 0;
+    let fests = 0;
+    for (let i = 0; i < SEED_LEN; i++) {
+      const m = (blockStart + i) % 12;
+      const inStay = (m - p.start + 12) % 12 < p.len;
+      if (!inStay) {
+        sum += fillScore[m];
+        continue;
+      }
+      sum += monthScore(c, m);
+      if (c.months[m].evtTier >= 3) fests++;
     }
+    let s = sum / SEED_LEN;
+    if (style === 'festival') s += fests * 8; // pull a real festival into the block when it's close on Score
     return s;
   };
 
@@ -378,33 +389,77 @@ export function generateRoute(style = 'quality', presetKey = 'balanced') {
   const usedRegions = new Set();
   const usedKeys = new Set();
   for (let start = 0; start < 12; start += SEED_LEN) {
-    const months = [];
-    for (let i = 0; i < SEED_LEN; i++) months.push((start + i) % 12);
     let best = null;
     let bestScore = -Infinity;
     for (const c of pool) {
       if (usedKeys.has(c.key)) continue;
-      // Keep every seed honest: never place a Schengen city that would breach the
-      // 90/180 cap the tool warns about everywhere else.
-      if (c.schengen && !schengenCheck([...stays, { key: c.key, start, len: SEED_LEN }]).ok) continue;
-      let s = blockScore(c, months);
-      if (usedRegions.has(c.region)) s *= 0.93;
-      if (s > bestScore) {
-        bestScore = s;
-        best = c;
+      const options = c.schengen
+        ? [
+            { start, len: SEED_LEN },
+            { start, len: SEED_LEN - 1 },
+            { start: start + 1, len: SEED_LEN - 1 }
+          ]
+        : [{ start, len: SEED_LEN }];
+      for (const p of options) {
+        // Keep every seed honest: never place a Schengen stay that takes the year
+        // past 90 real days in any 180 — not even into the caution band.
+        if (c.schengen && !schengenCheck([...stays, { key: c.key, ...p }]).ok) continue;
+        let s = blockScore(c, start, p);
+        if (usedRegions.has(c.region)) s *= SEED_VARIETY;
+        if (s > bestScore) {
+          bestScore = s;
+          best = { key: c.key, region: c.region, ...p };
+        }
+        if (p.len === SEED_LEN) break; // the full block, when legal, beats trimming it
       }
     }
     if (!best) continue;
-    stays.push({ key: best.key, start, len: SEED_LEN });
+    stays.push({ key: best.key, start: best.start, len: best.len });
     usedRegions.add(best.region);
     usedKeys.add(best.key);
   }
-  return stays;
-}
 
-// The default ghost example is the quality seed.
-export function exampleRoute(presetKey = 'balanced') {
-  return generateRoute('quality', presetKey);
+  // Gap pass: fill any month a trimmed Schengen stay left open. Stretching a
+  // non-Schengen neighbour (one fewer move) wins ties against a new one-month
+  // stop; neither can change the Schengen count.
+  for (let m = 0; m < 12; m++) {
+    const occ = monthOccupancy(stays);
+    if (occ[m]) continue;
+    const prev = occ[(m + 11) % 12];
+    const next = occ[(m + 1) % 12];
+    let fill = null;
+    let fillBest = -Infinity;
+    for (const nb of [prev, next]) {
+      const c = nb && cityByKey.get(nb.key);
+      if (!c || c.schengen) continue;
+      const s = monthScore(c, m);
+      if (s > fillBest) {
+        fillBest = s;
+        fill = { extend: nb };
+      }
+    }
+    for (const c of pool) {
+      if (c.schengen || usedKeys.has(c.key)) continue;
+      const s = monthScore(c, m) * SEED_VARIETY;
+      if (s > fillBest) {
+        fillBest = s;
+        fill = { city: c };
+      }
+    }
+    if (!fill) continue;
+    if (fill.city) {
+      stays.push({ key: fill.city.key, start: m, len: 1 });
+      usedKeys.add(fill.city.key);
+    } else if (fill.extend === prev) {
+      prev.len++;
+    } else {
+      next.start = m;
+      next.len++;
+    }
+  }
+  // Chronological from January; a stay stretched back across Dec→Jan leads.
+  const order = (s) => (s.start + s.len > 12 ? s.start - 12 : s.start);
+  return stays.sort((a, b) => order(a) - order(b));
 }
 
 // ---- Shareable routes: the whole itinerary lives in the URL, no backend ----

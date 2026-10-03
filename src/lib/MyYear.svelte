@@ -21,7 +21,7 @@
     generateRoute,
     favorites,
     stayMonths,
-    schengenCheck,
+    schengenCheckAdd,
     partyWord,
     encodeRouteCompact,
     shareUrl,
@@ -42,7 +42,16 @@
     RAIN_OPTIONS
   } from './planner.js';
 
-  let { preset = $bindable(), onopen, sharedRoute = null, sharedName = '', onsharedresolved } = $props();
+  // valueModel: the same 'adjusted' | 'classic' Best Value model the cards and
+  // table use, so a city never shows two different Best Value numbers.
+  let {
+    preset = $bindable(),
+    valueModel = 'adjusted',
+    onopen,
+    sharedRoute = null,
+    sharedName = '',
+    onsharedresolved
+  } = $props();
 
   const STORE_F = 'atlas.route.filters.v1';
   const DEFAULT_NAME = 'My Monsoon year';
@@ -202,7 +211,12 @@
   const occ = $derived(monthOccupancy(boardStays));
   const stats = $derived(routeStats(boardStays, preset));
   const sch = $derived(stats.schengen);
-  const schState = $derived(!sch.ok ? 'Over limit' : sch.atLimit ? 'At the limit' : 'Within limits');
+  // caution = 1–2 days over from whole-month rounding: flagged, but as "tight"
+  // (leave a day or two early), not as a hard breach.
+  const schState = $derived(
+    sch.breach ? 'Over limit' : sch.caution ? 'Tight' : sch.atLimit ? 'At the limit' : 'Within limits'
+  );
+  const schTight = $derived(sch.caution || sch.atLimit);
 
   // Ghost example: when the year is empty (and not previewing a shared link), the
   // board shows a faint, curated sample year instead of a wall of blank months.
@@ -226,9 +240,12 @@
     ...(favorites.size ? [{ id: 'favorites', label: 'From favorites' }] : [])
   ]);
 
-  const example = $derived(ghostMode ? generateRoute(seedStyle, preset) : []);
+  const example = $derived(ghostMode ? generateRoute(seedStyle, preset, valueModel) : []);
   const exampleOcc = $derived(monthOccupancy(example));
   const exampleStats = $derived(ghostMode ? routeStats(example, preset) : null);
+  // The generator keeps seeds within 90 real days, but the promise in the copy
+  // is only made when the shown example actually keeps it.
+  const exampleLegal = $derived(!exampleStats || exampleStats.schengen.ok);
   // What the totals row shows: real route stats normally, the example's payoff
   // (avg score, $/mo, festivals) while the ghost is up — so the first impression
   // is a value preview, not a row of em-dashes.
@@ -357,7 +374,7 @@
     const target = targetMonths;
     const score = (c) =>
       sortMode === 'value'
-        ? target.reduce((a, m) => a + valueFor(c, m, preset), 0) / target.length
+        ? target.reduce((a, m) => a + valueFor(c, m, preset, valueModel), 0) / target.length
         : target.reduce((a, m) => a + qolFor(c, m, preset), 0) / target.length;
     // Average $/mo over the same months the score measures, so the rail's price
     // and number describe the identical booking window.
@@ -366,17 +383,13 @@
       .map((c) => ({ c, s: score(c), cost: cost(c) }))
       .sort((a, b) => b.s - a.s)
       .slice(0, 30)
-      .map(({ c, s, cost }) => ({
-        c,
-        s,
-        cost,
+      .map(({ c, s, cost }) => {
         // Warn (don't block) when adding this Schengen city where addStay would
-        // place it pushes the rolling 90/180 window over the cap.
-        breach:
-          c.schengen && prospect
-            ? !schengenCheck([...route.stays, { key: c.key, start: prospect.start, len: prospect.len }]).ok
-            : false
-      }));
+        // place it lands in an over-limit 90/180 window: `breach` for a real
+        // overstay, `tight` for the 1–2-day whole-month rounding band.
+        const v = c.schengen && prospect ? schengenCheckAdd(route.stays, { key: c.key, ...prospect }) : null;
+        return { c, s, cost, breach: !!v?.breach, tight: !!v?.caution, schDays: v?.worst ?? 0 };
+      });
   });
 
   // ───────────────────── Mobile layout ─────────────────────
@@ -535,7 +548,7 @@
     <div class="seedstrip">
       <div class="seed-copy">
         <p class="seed-head">Build your year in one tap.</p>
-        <p class="seed-sub">Pick a starting point — we'll lay out a season-following, visa-legal year you can adjust or clear anytime.</p>
+        <p class="seed-sub">Pick a starting point — we'll lay out a season-following{exampleLegal ? ', visa-legal' : ''} year you can adjust or clear anytime.</p>
       </div>
       <div class="seed-styles" role="group" aria-label="Choose a starter year">
         {#each seedStyles as st}
@@ -637,17 +650,22 @@
     {/if}
 
     {#if sch.anySchengen}
-      <div class="schline" class:bad={!sch.ok} class:tight={sch.ok && sch.atLimit}>
+      <div class="schline" class:bad={sch.breach} class:tight={schTight}>
         <span class="mlabel">◆ Schengen 90/180</span>
         <ScoreInfo title="Schengen 90/180 rule">
           <p>On a tourist visa you can be in the Schengen Area at most 90 days in any rolling 180-day window.</p>
           <p>◆ marks Schengen countries. Staying longer means a longer-stay visa or a break outside the area.</p>
+          <p>Days are counted for real (Jul–Sep is 92), so three whole months can come out a day or two over —
+            shown as Tight: leave a couple of days early and count your exact dates.</p>
         </ScoreInfo>
         <span class="sch-state">{schState}</span>
         <span class="sch-read">
-          {#if !sch.ok}
-            <strong class="num">{sch.over}</strong> {sch.over === 1 ? 'day' : 'days'} over
-            <span class="sch-sub">· worst window {sch.window}</span>
+          {#if sch.breach}
+            <strong class="num">{sch.over}</strong> days over
+            <span class="sch-sub">· {sch.worst} of 90 in {sch.window}</span>
+          {:else if sch.caution}
+            <strong class="num">{sch.worst}</strong> of 90 days — trim a few days or leave early
+            <span class="sch-sub">· {sch.window} · count your exact days</span>
           {:else if sch.atLimit}
             <strong class="num">0</strong> days left
             <span class="sch-sub">· worst window {sch.window}</span>
@@ -711,8 +729,8 @@
       <span class="mstat"><strong class="num">{Math.round(shownStats.avgQol) || '—'}</strong> avg score</span>
       <span class="mstat"><strong class="num">{shownStats.months ? fmtMoney(shownStats.avgCost) : '—'}</strong> /mo {partyWord()}</span>
       {#if sch.anySchengen}
-        <button type="button" class="mstat sch" class:bad={!sch.ok} class:tight={sch.ok && sch.atLimit} onclick={() => { pickerOpen = true; flagNonSchengen(); }}>
-          <strong class="num">◆ {sch.ok ? `${sch.remaining}/90` : `${sch.over} over`}</strong> Schengen
+        <button type="button" class="mstat sch" class:bad={sch.breach} class:tight={schTight} onclick={() => { pickerOpen = true; flagNonSchengen(); }}>
+          <strong class="num">◆ {sch.breach ? `${sch.over} over` : sch.caution ? `${sch.worst}/90 tight` : `${sch.remaining}/90`}</strong> Schengen
         </button>
       {/if}
     </div>
@@ -888,8 +906,8 @@
       </div>
     </div>
     {#if sch.anySchengen}
-      <p class="schbudget num" class:warn={!sch.ok}>
-        ◆ {#if sch.ok}{schLeft} of 90 Schengen days left in your tightest window{:else}{sch.over} days over the Schengen cap{/if}
+      <p class="schbudget num" class:warn={sch.breach} class:tight={sch.caution}>
+        ◆ {#if sch.breach}{sch.over} days over the Schengen cap{:else if sch.caution}{sch.worst} of 90 Schengen days in {sch.window} — tight, count your exact days{:else}{schLeft} of 90 Schengen days left in your tightest window{/if}
       </p>
     {/if}
     <div class="legendrow"><Legend /></div>
@@ -904,7 +922,7 @@
       </p>
     {/if}
     <ul class="rows">
-      {#each pickerList as { c, s, cost, breach } (c.key)}
+      {#each pickerList as { c, s, cost, breach, tight, schDays } (c.key)}
         <li>
           <div class="rail">
             <span class="num rowq" title={sortMode === 'value' ? "Average Best Value across the months you'd book" : "Average score across the months you'd book"}>{Math.round(s)}</span>
@@ -912,9 +930,22 @@
           </div>
           <div class="rowbody">
             <div class="rowhead">
-              <button type="button" class="rowname" onclick={() => onopen(c.key)}>
-                {c.name}<em>{c.country}{c.schengen ? ' ◆' : ''}{#if breach}<span class="breachnote" title="Adding this Schengen stay breaks the 90/180 cap">· over 90/180</span>{/if}</em>
-              </button>
+              <button type="button" class="rowname" onclick={() => onopen(c.key)}>{c.name}</button>
+              <span class="rowsub">
+                {c.country}{c.schengen ? ' ◆' : ''}
+                {#if breach || tight}
+                  <!-- Actionable: opens Refine and flashes the Non-Schengen toggle. -->
+                  <button
+                    type="button"
+                    class="breachnote"
+                    class:tight={!breach}
+                    onclick={flagNonSchengen}
+                    title={breach
+                      ? `Adding ${c.name} here puts ${schDays} days in one 180-day window — show non-Schengen cities instead`
+                      : `Whole months put this at ${schDays} of 90 days — leave a day or two early, or show non-Schengen cities`}
+                  >· {breach ? 'over' : 'tight'} 90/180</button>
+                {/if}
+              </span>
             </div>
             <div class="rowstrip">
               <MonthStrip
@@ -931,7 +962,7 @@
             class:warn={breach}
             onclick={() => addFromPicker(c.key)}
             disabled={!emptyMonths.length}
-            title={breach ? 'Will exceed the Schengen 90/180 limit' : `Add ${c.name}`}
+            title={breach ? `Will exceed the Schengen 90/180 limit (${schDays} days)` : `Add ${c.name}`}
             aria-label="Add {c.name}"
           >
             <span class="plus" aria-hidden="true">+</span>Add
@@ -1474,11 +1505,12 @@
     margin-left: auto;
     font-size: 12.5px;
     color: var(--ink-2);
-    white-space: nowrap;
   }
 
-  .sch-read strong { color: var(--sch-accent); font-size: 14px; }
-  .sch-sub { color: var(--ink-3); }
+  /* The Tight readout is a sentence, so the line may wrap — but only between
+     phrases, never inside the count or the window. */
+  .sch-read strong { color: var(--sch-accent); font-size: 14px; white-space: nowrap; }
+  .sch-sub { color: var(--ink-3); white-space: nowrap; }
 
   .board-hint {
     margin: 4px 0 10px;
@@ -1627,6 +1659,7 @@
   }
 
   .schbudget.warn { color: var(--band-bad); }
+  .schbudget.tight { color: var(--band-ok); }
 
   .pickctl { display: flex; align-items: center; gap: 14px; font-size: 12.5px; color: var(--ink-2); }
   .pickctl input { width: 200px; }
@@ -1753,8 +1786,8 @@
     color: var(--ink-3);
   }
 
-  /* Name + score share a header line; the strip runs full width beneath it so
-     the months get the most room and still align column-to-column down the list. */
+  /* Name over its country line; the strip runs full width beneath so the months
+     get the most room and still align column-to-column down the list. */
   .rowbody {
     min-width: 0;
     display: flex;
@@ -1764,19 +1797,41 @@
 
   .rowhead {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    flex-direction: column;
+    align-items: flex-start;
     min-height: 18px;
+  }
+
+  .rowsub {
+    font-size: 11px;
+    color: var(--ink-3);
   }
 
   /* Breach cue rides the country line (which has spare room) so the city name
      keeps full width and never wraps an extra line — the warn-styled Add button
-     carries the louder signal. */
+     carries the louder signal. It's a quiet link-style button: tapping it opens
+     Refine on the Non-Schengen toggle, the fix for the warning it states. */
   .breachnote {
-    margin-left: 4px;
+    margin-left: 2px;
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
     color: var(--terra-deep);
     font-weight: 600;
+    text-decoration: underline dotted;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+
+  .breachnote.tight { color: var(--ink-2); }
+  .breachnote:hover { text-decoration-style: solid; }
+
+  /* On touch the 11px cue gets an invisible overlay to the 24px WCAG 2.5.8 floor
+     without growing the row — kept short of the city name just above it. */
+  @media (max-width: 700px) {
+    .breachnote { position: relative; }
+    .breachnote::after { content: ''; position: absolute; inset: -6px -4px; }
   }
 
   .rowname {
@@ -1788,14 +1843,6 @@
     font-size: 13.5px;
     font-weight: 600;
     color: var(--ink);
-  }
-
-  .rowname em {
-    display: block;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 11px;
-    color: var(--ink-3);
   }
 
   .rowname:hover { color: var(--terra-deep); }
