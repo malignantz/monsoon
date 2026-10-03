@@ -35,7 +35,11 @@
 
   $effect(() => {
     if (!sentinel) return;
-    const io = new IntersectionObserver(([e]) => (stuck = !e.isIntersecting), {
+    // Only "stuck" once the sentinel has left through the TOP of the viewport.
+    // A sentinel still below the fold (short phones, or on first paint) is also
+    // "not intersecting" — without the top check the bar used to appear on top
+    // of the static controls it duplicates.
+    const io = new IntersectionObserver(([e]) => (stuck = !e.isIntersecting && e.boundingClientRect.top < 0), {
       rootMargin: '-4px 0px 0px 0px'
     });
     io.observe(sentinel);
@@ -492,31 +496,42 @@
     margin: 0;
   }
 
+  /* A solid paper slab, never translucent: it slides (transform only — no
+     opacity fade, which left it half-transparent over cards mid-scroll on
+     phones) and is fully hidden with visibility when parked off-screen. Its own
+     layer + an opaque background-color keep card text from showing through. */
   .stickbar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 45;
-    background: var(--paper);
+    z-index: var(--z-sticky);
+    isolation: isolate;
+    background-color: var(--paper);
     border-bottom: 1px solid var(--line);
-    box-shadow: 0 6px 16px -12px rgba(33, 36, 30, 0.4);
+    box-shadow: 0 8px 18px -14px rgba(33, 36, 30, 0.45);
+    padding-top: var(--safe-t);
     transform: translateY(-100%);
-    opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.18s ease;
+    transition:
+      transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s linear 0.22s;
   }
 
   .stickbar.show {
     transform: translateY(0);
-    opacity: 1;
+    visibility: visible;
     pointer-events: auto;
+    transition:
+      transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s;
   }
 
   .stickbar-inner {
     max-width: 1240px;
     margin: 0 auto;
-    padding: 9px 26px;
+    padding: 9px var(--pad-x);
     display: flex;
     align-items: center;
     gap: 12px;
@@ -551,15 +566,11 @@
   }
 
   @media (max-width: 700px) {
-    .stickbar-inner { padding: 8px 16px; gap: 8px; }
+    .stickbar-inner { padding: 8px var(--pad-x); gap: 8px; }
     .stick-now { display: none; }
     .monthsel.compact { flex: 1; }
     .monthsel.compact .mbtn { flex: 1; width: auto; }
     .stickbar .seg { display: none; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .stickbar { transition: opacity 0.18s ease; transform: none; }
   }
 
   .strip-key {

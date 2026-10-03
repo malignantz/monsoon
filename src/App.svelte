@@ -265,15 +265,17 @@
           {n.label}
         </button>
       {/each}
-      <button type="button" class="howto" onclick={openHowTo} aria-label="How to use Monsoon">How it works</button>
-      <button type="button" class="gear util" onclick={openSettings} aria-label="Settings" title="Settings">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="3" />
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-        </svg>
-      </button>
+      <button type="button" class="howto" onclick={openHowTo} aria-label="How to use Monsoon"><span class="howto-long">How it works</span><span class="howto-short">Guide</span></button>
     </nav>
 
+    <!-- The gear sits outside <nav> so on phones it can ride up beside the logo,
+         leaving the nav row to the three labelled buttons (no label wrapping). -->
+    <button type="button" class="gear util" onclick={openSettings} aria-label="Settings" title="Settings">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+      </svg>
+    </button>
   </header>
 
   <main>
@@ -334,7 +336,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 16px 26px;
+    gap: 16px 2px;
     padding-bottom: 16px;
     border-bottom: 1.5px solid var(--ink);
   }
@@ -416,7 +418,11 @@
     .tag { display: none; }
   }
 
-  nav { display: flex; gap: 2px; }
+  nav {
+    display: flex;
+    gap: 2px;
+    margin-left: 24px;
+  }
 
   .navbtn {
     background: none;
@@ -426,6 +432,7 @@
     color: var(--ink-2);
     padding: 7px 13px;
     border-radius: 999px;
+    white-space: nowrap;
   }
 
   .navbtn:hover { color: var(--ink); }
@@ -547,7 +554,41 @@
     .util {
       min-height: var(--tap);
       min-width: var(--tap);
+      margin-right: -10px; /* optical: align the glyph, not its tap box, to the gutter */
     }
+
+    /* Two rows on phones: logo + gear, then the three labelled nav buttons on
+       their own full-width row, so "This month" / "My year" never wrap. */
+    .bar {
+      row-gap: 8px;
+      padding-bottom: 10px;
+    }
+
+    .gear { order: 2; }
+
+    nav {
+      order: 3;
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+
+  /* Narrow phones: trim the pills so all three labels still fit one row; at
+     ~320px the guide button drops to its short label. */
+  @media (max-width: 360px) {
+    .navbtn,
+    .howto {
+      padding-left: 11px;
+      padding-right: 11px;
+      font-size: 13.5px;
+    }
+  }
+
+  .howto-short { display: none; }
+
+  @media (max-width: 340px) {
+    .howto-long { display: none; }
+    .howto-short { display: inline; }
   }
 
   /* Add-to-year confirmation. Sits above every sheet (city sheet is z70, the My
@@ -557,7 +598,7 @@
     left: 50%;
     bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     transform: translateX(-50%);
-    z-index: 90;
+    z-index: var(--z-toast);
     display: flex;
     align-items: center;
     gap: 10px;
