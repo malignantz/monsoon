@@ -1,9 +1,21 @@
 // Methodology changelog, newest first. Real, shipped changes only — each entry
 // should point at something a reader could notice. The methodology page shows
 // the version, the newest date as "last updated", and these entries.
-export const METHOD_VERSION = 'v5';
+export const METHOD_VERSION = 'v6';
 
 export const CHANGELOG = [
+  {
+    date: '2026-10-03',
+    title: 'Climate and air now come from measured and modelled data (methodology v6)',
+    body:
+      'Day and night temperature, humidity and rain days now come from WMO 1991–2020 weather-station ' +
+      'normals where a station is within 35 km and 200 m of the city, and from ERA5 reanalysis elsewhere. ' +
+      'PM2.5 follows the CAMS model’s seasonal pattern, scaled to each city’s WHO ground-monitor annual ' +
+      'mean, with cited monitor data for Chiang Mai’s burning season and Skopje and Sarajevo winters. ' +
+      'Where a new figure could not be verified, the previous estimate is kept and labelled as an ' +
+      'editorial estimate: 107 city-metrics (940 of 6,660 city-months). Rankings shifted, mostly through ' +
+      'rain days and air quality. Each city sheet names the station or model behind its numbers.'
+  },
   {
     date: '2026-10-03',
     title: 'My year counts days per country',

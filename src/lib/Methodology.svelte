@@ -34,38 +34,63 @@
     }
     return null;
   }
-  const airSrc = sourceFor([/pm2\.?5|pm25/i, /\bcams\b/i, /air[- ]quality/i]);
-  const climateSrc = sourceFor([/era5|temperature/i, /climate|weather/i], airSrc);
+  // Sources the pipeline tags with the metric family they feed (sources[k].metric),
+  // in table order; older tables without tags fall back to matching on the text.
+  function sourcesFor(metric, patterns, exclude = null) {
+    if (!sources) return [];
+    const tagged = Object.entries(sources)
+      .filter(([, v]) => v?.metric === metric)
+      .map(([k, v]) => ({ key: k, ...v }));
+    if (tagged.length) return tagged;
+    const one = sourceFor(patterns, exclude);
+    return one ? [one] : [];
+  }
+  const airSrcs = sourcesFor('pm25', [/pm2\.?5|pm25/i, /\bcams\b/i, /air[- ]quality/i]);
+  const climateSrcs = sourcesFor('climate', [/era5|temperature/i, /climate|weather/i], airSrcs[0]);
 
-  // Coverage once the detail layer (which carries per-city prov) is in.
+  // Coverage once the detail layer (which carries per-city prov) is in: how many
+  // cities rest on a named source vs a held-back editorial estimate.
   const coverage = $derived.by(() => {
     if (!detailStatus.ready) return null;
-    const n = (metric) => cities.filter((c) => provFor(c, metric, sources)).length;
-    return { climate: n('climate'), pm25: n('pm25'), total: cities.length };
+    const count = (metric) => {
+      let sourced = 0, held = 0;
+      for (const c of cities) {
+        const pv = provFor(c, metric, sources);
+        if (!pv) continue;
+        if (pv.srcs.every((s) => s.key === 'editorial')) held++;
+        else sourced++;
+      }
+      return { sourced, held };
+    };
+    return { climate: count('climate'), pm25: count('pm25'), total: cities.length };
   });
 
-  function measuredRow(input, src, metric, fallbackNote) {
-    if (!src) {
+  function measuredRow(input, srcs, metric, fallbackNote) {
+    if (!srcs.length) {
       return { input, source: { name: 'No source yet: estimates, being replaced with measured data' }, type: 'Unsourced estimate', refreshed: '—', note: fallbackNote };
     }
     const cov = coverage?.[metric];
-    const partial = coverage && cov < coverage.total;
+    const text = srcs.map((s) => `${s.name} ${s.method ?? ''}`).join(' ');
+    const measured = srcs.some((s) => !/reanalysis|cams|model|forecast/i.test(`${s.name} ${s.method ?? ''}`));
+    const modelled = /reanalysis|cams|model|forecast/i.test(text);
+    const windows = [...new Set(srcs.map((s) => fmtWindow(s.window)).filter(Boolean))];
     return {
       input,
-      source: { name: src.name, url: src.url },
-      type: /reanalysis|cams|model|forecast/i.test(`${src.name} ${src.method ?? ''}`) ? 'Modelled' : 'Measured',
-      refreshed: src.retrieved ? fmtDate(src.retrieved) : '—',
+      sources: srcs.map((s) => ({ name: s.name, url: s.url ?? null })),
+      type: measured && modelled ? 'Measured + modelled' : modelled ? 'Modelled' : 'Measured',
+      refreshed: fmtDate(srcs.map((s) => s.retrieved).filter(Boolean).sort().at(-1)) || '—',
+      licence: [...new Set(srcs.map((s) => s.licence).filter(Boolean))].join(' · ') || null,
       note: [
-        src.window ? `${fmtWindow(src.window)} average.` : '',
-        partial ? `Covers ${cov} of ${coverage.total} cities so far; the rest are still unsourced estimates.` : ''
+        windows.length ? `${windows.join(' / ')} averages.` : '',
+        cov && cov.held ? `${cov.sourced} of ${coverage.total} cities fully or partly sourced; some values for some cities are held back as editorial estimates where the new figure could not be verified (each city sheet says which).` : ''
       ].filter(Boolean).join(' ')
     };
   }
 
   const INPUTS = $derived([
-    measuredRow('Day and night temperature, humidity, rain days (per month)', climateSrc, 'climate',
+    measuredRow('Day and night temperature, humidity, rain days (per month)', climateSrcs, 'climate',
       'Values were estimated without a citable source.'),
-    measuredRow('PM2.5 (monthly mean)', airSrc, 'pm25', 'Values were estimated without a citable source.'),
+    measuredRow('PM2.5 (monthly mean)', airSrcs, 'pm25', 'Values were estimated without a citable source.'),
     { input: 'Hazard flags (typhoon, flood, heat, smoke months)', source: null, type: 'Editorial estimate', refreshed: '—' },
     {
       input: 'Intentional-homicide rate',
@@ -228,8 +253,11 @@
           <div class="irow" role="row">
             <span class="iin" role="cell">{r.input}</span>
             <span class="isrc" role="cell">
-              {#if r.source?.url}<a href={r.source.url} target="_blank" rel="noopener">{r.source.name}</a>{:else if r.source}{r.source.name}{:else}Set by hand{/if}
+              {#if r.sources}
+                {#each r.sources as s, j}{j ? ' · ' : ''}{#if s.url}<a href={s.url} target="_blank" rel="noopener">{s.name}</a>{:else}{s.name}{/if}{/each}
+              {:else if r.source?.url}<a href={r.source.url} target="_blank" rel="noopener">{r.source.name}</a>{:else if r.source}{r.source.name}{:else}Set by hand{/if}
               {#if r.note}<span class="inote">{r.note}</span>{/if}
+              {#if r.licence}<span class="inote">Licence: {r.licence}</span>{/if}
             </span>
             <span class="itype" role="cell"><span class="tchip" class:ed={/Editorial|Unsourced/.test(r.type)}>{r.type}</span></span>
             <span class="iwhen num" role="cell">{r.refreshed}</span>
@@ -247,7 +275,9 @@
         these are labelled <em>Editorial estimate</em>, with the note stored for them where one exists.</p>
       <p class="qhint">Confidence on the city sheet: <strong>High</strong> for official statistics and
         surveys with a stored link; <strong>Medium</strong> for modelled estimates and secondary city
-        figures; <strong>Low</strong> for estimates with no source yet. Cost items carry the confidence
+        figures; <strong>Low</strong> for estimates with no source yet and for values held back as editorial
+        estimates because the measured or modelled replacement could not be verified. Climate and PM2.5
+        records carry the confidence the pipeline set for each city. Cost items carry the confidence
         recorded with each one.</p>
       <p class="qhint">Spot a number that looks wrong? Every source panel on a city sheet has a
         “Report this number” link, or <a href="{FEEDBACK_REPO}/issues/new" target="_blank" rel="noopener">open an issue</a>.</p>

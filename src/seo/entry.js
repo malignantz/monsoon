@@ -61,10 +61,14 @@ function climateNote(label, pv) {
       links: []
     };
   }
-  const bits = [pv.type, ...pv.srcs.map((s) => (s.window ? `${fmtWindow(s.window)} average` : '')), pv.asOf ? `as of ${fmtDate(pv.asOf)}` : ''];
+  const editorial = pv.srcs.length > 0 && pv.srcs.every((s) => s.key === 'editorial');
+  const wins = [...new Set(pv.srcs.map((s) => (s.window ? `${fmtWindow(s.window)} average` : '')).filter(Boolean))];
+  const bits = [editorial ? 'Editorial estimate (held back)' : pv.type, ...wins, pv.asOf ? `as of ${fmtDate(pv.asOf)}` : ''];
   if (pv.station) bits.push(`station: ${pv.station}${pv.distanceKm != null ? ` (${pv.distanceKm} km away)` : ''}`);
   else if (pv.reanalysis) bits.push('reanalysis grid cell, not a weather station');
   if (pv.note) bits.push(pv.note);
+  const licences = [...new Set(pv.srcs.map((s) => s.licence).filter(Boolean))];
+  if (licences.length) bits.push(`Licence: ${licences.join('; ')}`);
   return {
     label,
     chip: pv.confidence ? CHIP_LABEL[pv.confidence] : null,
@@ -307,8 +311,10 @@ export function buildSite({ detail, now = new Date() }) {
 
   // ---- llms.txt ----
   const w = PRESETS.balanced.w;
-  const nClimate = cities.filter((c) => provFor(P(c.key), 'climate', sources)).length;
-  const nAir = cities.filter((c) => provFor(P(c.key), 'pm25', sources)).length;
+  // A held-back value carries provenance too ("editorial"); count only named sources.
+  const named = (pv) => pv && pv.srcs.some((s) => s.key !== 'editorial');
+  const nClimate = cities.filter((c) => named(provFor(P(c.key), 'climate', sources))).length;
+  const nAir = cities.filter((c) => named(provFor(P(c.key), 'pm25', sources))).length;
   const climateCoverage =
     nClimate + nAir === 0
       ? 'climate and PM2.5 figures are estimates without a citable source yet, being replaced with measured data.'
