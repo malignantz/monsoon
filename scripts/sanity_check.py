@@ -47,16 +47,24 @@ def main():
                     print(f"DRIFT  {c['name']} {m['mo']} {k}: stored {m[k]} != {round(want,2)}")
                     errors += 1
 
-    # Hand-traced anchor: Chiang Mai Jan under v5 settings.
+    # Hand-traced anchor: Chiang Mai Jan under v5 settings, with the 2026-10-03
+    # sourced inputs (WMO station normals, PM2.5 = CAMS shape x WHO annual).
     cm = next(c for c in d["cities"] if c["name"] == "Chiang Mai")
     jan = cm["months"][0]
-    # high 84 -> 84, low 57 -> 100, temp 90.4; hum 60 -> 100; rain 2 days -> 96 (tiered)
-    want_weather = 0.4 * 90.4 + 0.25 * 100 + 0.35 * 96
-    if abs(jan["weather"] - round(want_weather, 1)) > TOL:
-        print(f"ANCHOR Chiang Mai Jan weather: stored {jan['weather']} != {want_weather}"); errors += 1
-    # pm25 25 -> 100 - 15*1.2 = 82.0
-    if abs(jan["air"] - 82.0) > TOL:
-        print(f"ANCHOR Chiang Mai Jan air: stored {jan['air']} != 82.0"); errors += 1
+    want_in = {"high": 86, "low": 60, "hum": 69, "rain": 1, "pm25": 35}
+    got_in = {k: jan[k] for k in want_in}
+    if got_in != want_in:
+        print(f"ANCHOR Chiang Mai Jan inputs changed: {got_in} (anchor traced for {want_in}) — re-trace it")
+        errors += 1
+    else:
+        # high 86 -> 100-6*4 = 76, low 60 -> 100, temp 0.6*76+0.4*100 = 85.6;
+        # hum 69 -> 100-9*2 = 82; rain 1 day -> 98 (tiered)
+        want_weather = 0.4 * 85.6 + 0.25 * 82 + 0.35 * 98
+        if abs(jan["weather"] - round(want_weather, 1)) > TOL:
+            print(f"ANCHOR Chiang Mai Jan weather: stored {jan['weather']} != {want_weather}"); errors += 1
+        # pm25 35 -> 100 - 25*1.2 = 70.0
+        if abs(jan["air"] - 70.0) > TOL:
+            print(f"ANCHOR Chiang Mai Jan air: stored {jan['air']} != 70.0"); errors += 1
 
     if errors:
         print(f"\n{errors} drift(s) — run scripts/rebake_scores.py --write")

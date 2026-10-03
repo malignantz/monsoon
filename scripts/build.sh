@@ -31,6 +31,11 @@ leaks=$(find dist -type f \( \
   -name 'climate-normals.json' -o \
   -name 'air-climatology.json' -o \
   -name 'air-overrides.json' -o \
+  -name 'air-calibrated.json' -o \
+  -name 'climate-calibrated.json' -o \
+  -name 'climate-air-holdbacks.json' -o \
+  -name 'station-normals.json' -o \
+  -name 'legacy-climate-air.json' -o \
   -name 'travel-data.json' -o \
   -name 'swim-inputs.json' -o \
   -path '*/cost-evidence/*' -o \
