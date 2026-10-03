@@ -5,7 +5,7 @@
   import { lazy } from './lib/lazy.svelte.js';
   import { focusTrap, focusTopLayer } from './lib/focusTrap.js';
   import { cities, cityByKey, regions, qolFor, valueFor, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS, prefetchDetail } from './lib/data.svelte.js';
-  import { addCity, removeStayRef } from './lib/route.svelte.js';
+  import { route, addCity, removeStayRef, adoptRoute } from './lib/route.svelte.js';
   import { track } from './lib/analytics.js';
   import { readUrlState, buildUrl } from './lib/urlState.js';
   import { MAX_COMPARE, sanitizeCompare, loadCompare, saveCompare } from './lib/compare.js';
@@ -37,14 +37,30 @@
   const currentMonth = new Date().getMonth();
 
   // A `?i=` (compact) or `?route=` (readable fallback) link opens straight into
-  // My year as a read-only shared itinerary.
+  // My year. A visitor with no saved year gets it as their own starting point
+  // (with a one-line note and Undo in My year); a visitor who already has a
+  // year sees it read-only (`sharedRoute`) until they Save a copy or go back.
   const shareParams = new URLSearchParams(location.search);
   const compact = decodeRouteCompact(shareParams.get('i'));
   const initialRoute = compact.length ? compact : decodeRoute(shareParams.get('route'));
-  let sharedRoute = $state(initialRoute.length ? initialRoute : null);
   // Decorative trip name carried alongside the route; decoded independently so a
   // missing or malformed name never affects the itinerary itself.
   const sharedName = initialRoute.length ? (shareParams.get('n') ?? '').slice(0, 60) : '';
+  const autoAdopt = initialRoute.length > 0 && route.stays.length === 0;
+  if (autoAdopt) {
+    adoptRoute(initialRoute, sharedName, 'auto');
+    track('shared_route_adopt', { auto: true, stays: initialRoute.length });
+    // It is theirs now: drop the share params so a reload shows their year
+    // rather than a preview of the same one.
+    stripShareParams();
+  }
+  let sharedRoute = $state(initialRoute.length && !autoAdopt ? initialRoute : null);
+
+  function stripShareParams() {
+    const u = new URL(location.href);
+    for (const k of ['i', 'route', 'n']) u.searchParams.delete(k);
+    history.replaceState(history.state, '', u.pathname + u.search.replace(/%2C/gi, ',') + u.hash);
+  }
 
   // Shareable state from the query string wins field by field; anything absent
   // falls back to saved prefs, then defaults (see urlState.js for the params).
@@ -204,10 +220,20 @@
   // sheet pushes on open and goes *back* on close (see applyOpen/applyClose).
   // Defaults emit no params, and unrelated params (?i=, ?n=, utm…) pass through.
   const defaultView = () => (sharedRoute ? 'year' : 'month');
+  // Once no shared year is on show, its params (?i=, ?route=, ?n=) are stale
+  // wherever they still sit in the query (e.g. on the history entry a sheet
+  // closed back to), so every rewrite drops them.
+  const searchNow = () => {
+    if (sharedRoute) return location.search;
+    const q = new URLSearchParams(location.search);
+    for (const k of ['i', 'route', 'n']) q.delete(k);
+    const qs = q.toString();
+    return qs ? `?${qs}` : '';
+  };
   const urlFor = () =>
     buildUrl(
       { view, month, mode, density, regions: activeRegions, city: cityKey, compare: compareOpen ? compareKeys : null },
-      { defaultView: defaultView(), currentMonth }
+      { defaultView: defaultView(), currentMonth, search: searchNow() }
     );
   const here = () => location.pathname + location.search + location.hash;
 
@@ -458,11 +484,7 @@
   // the param so a reload (or a later share) starts from their own year.
   function resolveShared() {
     sharedRoute = null;
-    const u = new URL(location.href);
-    u.searchParams.delete('i');
-    u.searchParams.delete('route');
-    u.searchParams.delete('n');
-    history.replaceState({}, '', u);
+    stripShareParams();
   }
 
   async function goHome() {
@@ -551,9 +573,13 @@
       res.len > 1 ? `${MONTHS[res.start]}–${MONTHS[(res.start + res.len - 1) % 12]}` : MONTHS[res.start];
     const bumped = res.bumped ? ` · ${MONTHS[m]} was taken` : '';
     const added = res.stay;
+    // While a shared year is on show, the add still goes to the visitor's own
+    // year, which the board isn't showing: say so, and offer to switch to it.
+    const previewing = !!sharedRoute;
     showToast({
       kind: 'ok',
-      text: `Added ${name} to ${range}${bumped}`,
+      text: previewing ? `Added ${name} to your own year, ${range}${bumped}` : `Added ${name} to ${range}${bumped}`,
+      viewLabel: previewing ? 'Show my year' : 'View year',
       undo: () => {
         removeStayRef(added);
         closeToast();
@@ -562,6 +588,7 @@
         toast = null;
         if (compareOpen) dropOverlays();
         else if (cityKey) await closeSheet();
+        if (sharedRoute) resolveShared();
         view = 'year';
       }
     });

@@ -1,5 +1,5 @@
 <script>
-  import { untrack } from 'svelte';
+  import { untrack, tick } from 'svelte';
   import MonthStrip from './MonthStrip.svelte';
   import ScoreInfo from './ScoreInfo.svelte';
   import Legend from './Legend.svelte';
@@ -31,7 +31,8 @@
   } from './data.svelte.js';
   import { screen } from './mobile.svelte.js';
   import { focusTrap } from './focusTrap.js';
-  import { route, nextOpenMonth } from './route.svelte.js';
+  import { route, nextOpenMonth, adoption, adoptRoute, undoAdoption, keepAdoption } from './route.svelte.js';
+  import { track } from './analytics.js';
   import {
     defaultFilters,
     filtersActive,
@@ -84,43 +85,45 @@
   let dur = $state(2);
   let query = $state('');
 
-  // Arriving on a shared link (?route=…) shows that itinerary read-only, so it
-  // never silently overwrites the visitor's own saved year. They can adopt it
-  // ("Save a copy") or dismiss it back to their own route.
-  const startsWithSharedRoute = untrack(() => sharedRoute != null);
-  let previewing = $state(startsWithSharedRoute);
-  const boardStays = $derived(previewing ? (sharedRoute ?? []) : route.stays);
+  // A shared link (?i=…) reaches here as `sharedRoute` only for a visitor who
+  // already has a saved year: it shows read-only, so it never silently
+  // overwrites theirs, until they Save a copy or go back to their own year.
+  // (A visitor with no saved year has it adopted on load by App instead.)
+  const previewing = $derived(sharedRoute != null);
+  const boardStays = $derived(previewing ? sharedRoute : route.stays);
 
-  // Adopting replaces the visitor's own year, so when they had one we keep it
-  // for an Undo bar (same banner treatment as the preview bar). It stays up until
-  // Undo, dismissal, or the first edit to the adopted route — after which an
-  // Undo would silently throw that edit away.
-  let replaced = $state.raw(null);
+  // The Undo banner after an adoption (auto on load, or Save a copy); its
+  // state lives in the route store so it survives a trip to This month.
+  const adopted = $derived(adoption());
+
+  // These buttons remove themselves (the banner swaps or goes), so focus is
+  // placed deliberately instead of falling back to <body>.
+  let headingEl = $state(null);
+  let bannerEl = $state(null);
+  const focusAfter = (getEl) => tick().then(() => getEl()?.focus({ preventScroll: true }));
 
   function adoptShared() {
-    const prev = route.stays.length ? { stays: route.stays.map((s) => ({ ...s })), name: route.name } : null;
-    route.stays = (sharedRoute ?? []).map((s) => ({ ...s }));
-    if (sharedName) route.name = sharedName;
-    // Hold the stored proxy (not the literal) so the identity check below works.
-    replaced = prev ? { ...prev, adopted: route.stays } : null;
+    adoptRoute(sharedRoute ?? [], sharedName, 'copy');
+    track('shared_route_adopt', { auto: false, stays: route.stays.length });
     selStart = -1;
-    previewing = false;
     onsharedresolved?.();
+    focusAfter(() => bannerEl?.querySelector('button'));
   }
 
-  const showRestore = $derived(replaced != null && route.stays === replaced.adopted);
-
   function undoAdopt() {
-    if (!replaced) return;
-    route.stays = replaced.stays;
-    route.name = replaced.name;
-    replaced = null;
+    undoAdoption();
     selStart = -1;
+    focusAfter(() => headingEl);
+  }
+
+  function keepAdopted() {
+    keepAdoption();
+    focusAfter(() => headingEl);
   }
 
   function dismissShared() {
-    previewing = false;
     onsharedresolved?.();
+    focusAfter(() => headingEl);
   }
 
   // Share a link that encodes the current route into the URL — no backend.
@@ -539,7 +542,7 @@
   <header class="view-head">
     <div>
       <p class="kicker">Build the year</p>
-      <h1>My year<span class="dot">.</span></h1>
+      <h1 tabindex="-1" bind:this={headingEl}>My year<span class="dot">.</span></h1>
       {#if previewing}
         {#if sharedName}<p class="trip-name-static">{sharedName}</p>{/if}
       {:else if route.stays.length > 0}
@@ -583,25 +586,40 @@
     <div class="previewbar">
       <div class="preview-msg">
         <span class="preview-eyebrow">Shared itinerary</span>
-        <span class="preview-sub">You're viewing a year someone shared. Save a copy to edit it as your own.</span>
+        <span class="preview-sub">
+          You're viewing a year someone shared.{#if route.stays.length}
+            Your own year ({route.stays.length} {route.stays.length === 1 ? 'stay' : 'stays'}) is kept; Save a copy replaces it.{:else}
+            Save a copy to edit it as your own.{/if}
+        </span>
       </div>
       <div class="preview-act">
         <button type="button" class="chip adopt" onclick={adoptShared}>Save a copy</button>
-        <button type="button" class="chip" onclick={dismissShared}>Dismiss</button>
+        <button type="button" class="chip" onclick={dismissShared}>Show my year</button>
       </div>
     </div>
-  {:else if showRestore}
-    <div class="previewbar" role="status">
+  {:else if adopted?.kind === 'auto'}
+    <div class="previewbar">
+      <div class="preview-msg">
+        <span class="preview-eyebrow">Shared with you</span>
+        <span class="preview-sub">Someone shared this year. It's now your starting point, saved on this device: edit anything.</span>
+      </div>
+      <div class="preview-act">
+        <button type="button" class="chip adopt" onclick={keepAdopted}>Keep it</button>
+        <button type="button" class="chip" onclick={undoAdopt} title="Remove the shared year and start from scratch">Undo</button>
+      </div>
+    </div>
+  {:else if adopted}
+    <div class="previewbar" bind:this={bannerEl}>
       <div class="preview-msg">
         <span class="preview-eyebrow">Saved as your year</span>
         <span class="preview-sub">
-          This replaced your previous year{replaced.name ? ` “${replaced.name}”` : ''} ({replaced.stays.length}
-          {replaced.stays.length === 1 ? 'stay' : 'stays'}).
+          This replaced your previous year{adopted.prev.name ? ` “${adopted.prev.name}”` : ''} ({adopted.prev.stays.length}
+          {adopted.prev.stays.length === 1 ? 'stay' : 'stays'}).
         </span>
       </div>
       <div class="preview-act">
         <button type="button" class="chip adopt" onclick={undoAdopt}>Undo</button>
-        <button type="button" class="chip" onclick={() => (replaced = null)}>Keep this year</button>
+        <button type="button" class="chip" onclick={keepAdopted}>Keep this year</button>
       </div>
     </div>
   {/if}
@@ -1161,6 +1179,9 @@
 
 <style>
   .wrap { padding-bottom: 70px; }
+
+  /* Focus lands on the heading after a banner closes; no ring on a heading. */
+  h1:focus { outline: none; }
 
   .head-right {
     display: flex;
