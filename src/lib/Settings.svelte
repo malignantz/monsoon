@@ -40,6 +40,14 @@
     </section>
 
     <section class="q">
+      <span class="qlabel">Temperatures</span>
+      <div class="seg" role="group" aria-label="Temperature unit">
+        <button type="button" class:on={prefs.units === 'C'} aria-pressed={prefs.units === 'C'} onclick={() => (prefs.units = 'C')}>°C</button>
+        <button type="button" class:on={prefs.units === 'F'} aria-pressed={prefs.units === 'F'} onclick={() => (prefs.units = 'F')}>°F</button>
+      </div>
+    </section>
+
+    <section class="q">
       <span class="qlabel">Optimize for</span>
       <div class="preset-grid" role="radiogroup" aria-label="Optimize for">
         {#each Object.entries(PRESETS) as [k, v]}

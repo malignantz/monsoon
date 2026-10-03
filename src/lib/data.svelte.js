@@ -45,9 +45,18 @@ const storedSettings = loadSettings();
 // from later ones (settings_save) in analytics.
 export const onboarded = $state({ done: storedSettings != null });
 
+// °F for US English, °C everywhere else, until the traveller picks one in
+// Settings (saved with the rest). Static pages pin °F (src/seo/entry.js).
+function defaultUnits() {
+  if (typeof navigator === 'undefined') return 'F';
+  const lang = String(navigator.languages?.[0] ?? navigator.language ?? '').toLowerCase();
+  return lang === 'en-us' ? 'F' : 'C';
+}
+
 export const prefs = $state({
   party: storedSettings?.party ?? 'solo', // 'solo' | 'couple' — picks which cost field is shown everywhere
   womensSafety: storedSettings?.womensSafety ?? false, // blend the women's-safety signal into safety, orthogonal to any preset
+  units: storedSettings?.units === 'C' || storedSettings?.units === 'F' ? storedSettings.units : defaultUnits(), // temperatures, display only
   passport: storedSettings?.passport ?? null // TODO: visa data — would drive per-passport visa-free windows
 });
 
@@ -59,7 +68,7 @@ export function saveSettings() {
   const firstTime = !onboarded.done;
   localStorage.setItem(
     SETTINGS_KEY,
-    JSON.stringify({ party: prefs.party, womensSafety: prefs.womensSafety, passport: prefs.passport })
+    JSON.stringify({ party: prefs.party, womensSafety: prefs.womensSafety, units: prefs.units, passport: prefs.passport })
   );
   onboarded.done = true;
   track(firstTime ? 'onboarding_complete' : 'settings_save', {
@@ -289,8 +298,12 @@ export function whyNow(city, mIdx) {
 export const fmtMoney = (n) => '$' + Math.round(n).toLocaleString('en-US');
 
 // Temperatures are stored in °F. Every temperature on screen goes through this
-// one formatter, always with its unit, so a °C setting only has to change here.
-export const fmtTemp = (f) => (f == null ? '—' : `${Math.round(f)}°F`);
+// one formatter, always with its unit; it reads prefs.units, so any template or
+// $derived that calls it follows the Settings switch.
+export const fmtTemp = (f) => {
+  if (f == null) return '—';
+  return prefs.units === 'C' ? `${Math.round(((f - 32) * 5) / 9)}°C` : `${Math.round(f)}°F`;
+};
 
 // "Jun–Oct" for a set of swim months (1-12), handling year-wrap (Dec–Mar).
 export function fmtMonthRange(months) {
