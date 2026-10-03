@@ -149,7 +149,7 @@
       .map((c) => ({
         c,
         s: by === 'value' ? valueFor(c, month, preset, valueModel) : qolFor(c, month, preset),
-        cost: c.months[month].cost2
+        cost: cityCost(c.months[month])
       }))
       .sort((a, b) => {
         const diff = b.s - a.s;
