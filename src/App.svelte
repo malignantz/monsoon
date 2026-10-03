@@ -1175,4 +1175,25 @@
   @media (prefers-reduced-motion: reduce) {
     .toast { animation: none; }
   }
+
+  /* Print: keep the wordmark, drop navigation, footer and floating UI. */
+  @media print {
+    nav,
+    .gear,
+    .tag,
+    .basefoot,
+    .trayspace,
+    .toast,
+    .lazywait {
+      display: none !important;
+    }
+
+    .shell { padding-top: 0; max-width: none; }
+    .bar { padding-bottom: 8px; border-bottom-width: 1px; }
+
+    .bcell {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
 </style>

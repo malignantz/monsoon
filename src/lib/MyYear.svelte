@@ -27,8 +27,12 @@
     partyWord,
     encodeRouteCompact,
     shareUrl,
-    shareOrCopy
+    shareOrCopy,
+    copyText,
+    PRESETS,
+    normalizePresetKey
   } from './data.svelte.js';
+  import { itineraryText, schengenLine } from './exportText.js';
   import { screen } from './mobile.svelte.js';
   import { focusTrap } from './focusTrap.js';
   import { route, nextOpenMonth, adoption, adoptRoute, undoAdoption, keepAdoption } from './route.svelte.js';
@@ -135,10 +139,8 @@
     // Route lives in `i`; the trip name rides along as a decorative `n` that
     // decoding ignores, so links stay valid even if the name is dropped.
     const name = route.name.trim();
-    const params = { i: encodeRouteCompact(route.stays) };
-    if (name) params.n = name;
     const result = await shareOrCopy({
-      url: shareUrl(params),
+      url: routeLink(),
       title: name || DEFAULT_NAME,
       text: name || 'My Monsoon travel year'
     });
@@ -146,6 +148,62 @@
     copied = true;
     clearTimeout(copyTimer);
     copyTimer = setTimeout(() => (copied = false), 1800);
+  }
+
+  // ---- Export: Copy as text (and the print-only stay list below) ----
+  // Stays in calendar order from January; a stay wrapping Dec→Jan leads.
+  const calendarOrder = (s) => (s.start + s.len > 12 ? s.start - 12 : s.start);
+  const orderedStays = $derived([...route.stays].sort((a, b) => calendarOrder(a) - calendarOrder(b)));
+
+  function routeLink() {
+    const name = route.name.trim();
+    const params = { i: encodeRouteCompact(route.stays) };
+    if (name) params.n = name;
+    return shareUrl(params);
+  }
+
+  function itinerary() {
+    const party = partyWord();
+    const rows = orderedStays.map((stay) => {
+      const c = cityByKey.get(stay.key);
+      return {
+        range: rangeLabel(stay.start, stay.len),
+        len: stay.len,
+        city: c.name,
+        country: c.country,
+        schengen: c.schengen,
+        score: Math.round(stayAvg(stay)),
+        cost: fmtMoney(stayCostAvg(stay))
+      };
+    });
+    const totals = [
+      `Average score ${Math.round(stats.avgQol)}`,
+      `${fmtMoney(stats.avgCost)}/mo ${party} on average`,
+      `${stats.months}-month total ${fmtMoney(stats.totalCost)}`,
+      stats.festivals ? `${stats.festivals} major ${stats.festivals === 1 ? 'festival' : 'festivals'}` : ''
+    ].filter(Boolean).join(' · ');
+    const longest = cty.top
+      ? `Longest in one country: ${cty.top.country}, ${cty.top.days} days${cty.state === 'over' ? ' (183+, a common tax-residency mark)' : ''}`
+      : '';
+    return itineraryText({
+      title: route.name.trim() || DEFAULT_NAME,
+      subtitle: `Planned on Monsoon (monsoon.fyi) · costs ${party === 'solo' ? 'solo' : 'for a couple'} · ${PRESETS[normalizePresetKey(preset)].label} lens`,
+      rows,
+      open: emptyMonths.map((m) => MONTHS[m]),
+      lines: [totals, schengenLine(sch), longest],
+      url: routeLink()
+    });
+  }
+
+  let textCopied = $state(false);
+  let textTimer;
+  async function copyItinerary() {
+    if (!route.stays.length) return;
+    if (!(await copyText(itinerary()))) return;
+    track('itinerary_copy_text', { stays: route.stays.length });
+    textCopied = true;
+    clearTimeout(textTimer);
+    textTimer = setTimeout(() => (textCopied = false), 1800);
   }
 
   let filters = $state(loadFilters());
@@ -577,6 +635,9 @@
             Share
           {/if}
         </button>
+        <button type="button" class="chip share" class:on={textCopied} onclick={copyItinerary} title="Copy the itinerary as plain text, with its share link">
+          {textCopied ? 'Text copied' : 'Copy as text'}
+        </button>
         <button type="button" class="chip clear" onclick={clearRoute}>Clear route</button>
       {/if}
     </div>
@@ -954,6 +1015,25 @@
   </div>
   {/if}
 
+  <!-- Print only: the stay list under the board, so a printed year reads on
+       its own (the board's names truncate and its controls don't print). -->
+  {#if boardStays.length}
+    <table class="printlist">
+      <thead><tr><th>Months</th><th>City</th><th>Score</th><th>Per month, {partyWord()}</th></tr></thead>
+      <tbody>
+        {#each [...boardStays].sort((a, b) => calendarOrder(a) - calendarOrder(b)) as stay (stay)}
+          {@const c = cityByKey.get(stay.key)}
+          <tr>
+            <td>{rangeLabel(stay.start, stay.len)} · {stay.len} mo</td>
+            <td>{c.name}, {c.country}{c.schengen ? ' ◆' : ''}</td>
+            <td class="num">{Math.round(stayAvg(stay))}</td>
+            <td class="num">{fmtMoney(stayCostAvg(stay))}</td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+  {/if}
+
   {#if !previewing}
   {#snippet pickerBody()}
   <div class="controls">
@@ -1180,13 +1260,91 @@
 <style>
   .wrap { padding-bottom: 70px; }
 
+  .printlist { display: none; }
+
+  /* ── Print: the board, its Schengen/country lines, totals and the stay
+     list on one page; every control, the picker and the banners drop out. */
+  @media print {
+    .wrap { padding-bottom: 0; }
+
+    .head-right,
+    .previewbar,
+    .seedstrip,
+    .board-hint,
+    .progress,
+    .gap,
+    .x,
+    .dur-ctl,
+    .cty-toggle,
+    .cty-panel,
+    .controls,
+    .refine,
+    .picker,
+    .mlist,
+    .mcaret,
+    .boardscroll-wrap::after {
+      display: none !important;
+    }
+
+    .board {
+      border-color: #bbb;
+      break-inside: avoid;
+      padding: 12px 14px;
+    }
+
+    .boardscroll { overflow: visible !important; }
+    .boardscroll .months,
+    .boardscroll .timeline { min-width: 0 !important; }
+
+    .stay,
+    .ovcell {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .stayname { padding-right: 0; }
+
+    .trip-name {
+      border-bottom: none !important;
+    }
+
+    .printlist {
+      display: table;
+      width: 100%;
+      margin-top: 14px;
+      border-collapse: collapse;
+      font-size: 11pt;
+      break-inside: avoid;
+    }
+
+    .printlist th {
+      text-align: left;
+      font-size: 9pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-2);
+      border-bottom: 1px solid #999;
+      padding: 4px 8px 4px 0;
+    }
+
+    .printlist td {
+      padding: 5px 8px 5px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .printlist .num { text-align: right; }
+    .printlist th:nth-child(n + 3) { text-align: right; }
+  }
+
   /* Focus lands on the heading after a banner closes; no ring on a heading. */
   h1:focus { outline: none; }
 
   .head-right {
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-end;
-    gap: 14px;
+    gap: 8px 12px;
   }
 
   .chip.clear { color: var(--terra-deep); }
