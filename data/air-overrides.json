@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "description": "Explicit, cited monthly PM2.5 overrides applied by scripts/calibrate_air.py AFTER the CAMS-shape x WHO-annual scaling, for documented burning-season / basin-smog cases that the scaling misses. Each entry: city (repo slug), months (1-12), value (µg/m³, replaces) or multiplier, reason, source (URL), sourceLicence where known. Only add an entry when a ground-measured monthly figure can be cited.",
+    "unresolved": {
+      "sofia": "CAMS seasonal shape is flat (winter 12 vs summer 9 µg/m³) although Sofia has well-documented heating-season smog; no citable monthly PM2.5 series found yet (ExEA / EEA monthly statistics would qualify).",
+      "plovdiv": "Same pattern as Sofia (flat CAMS shape); no citable monthly series found."
+    }
+  },
+  "overrides": [
+    {
+      "city": "chiang-mai",
+      "months": [2, 3, 4],
+      "values": {"2": 46, "3": 75, "4": 62},
+      "reason": "Burning season. Mean of PCD monthly averages at station 35T (Chiang Mai City Hall) for 2020-2023: Feb 56/47/30/51, Mar 91/78/43/88, Apr 65/38/41/105 µg/m³. CAMS (~45 km) smooths the smoke peak (scaled CAMS gave Feb 38, Mar 50, Apr 50).",
+      "source": "https://doi.org/10.57260/stc.2024.800",
+      "sourceDetail": "Chayathawat W. (2024), Forecasting Monthly Average PM2.5 in Chiang Mai Province Using Classical Decomposition Method, Science and Technology for Community Journal, Table 1 (data: Air Quality and Noise Management Division, Pollution Control Department, 2023).",
+      "sourceLicence": "journal article; factual figures cited with attribution"
+    },
+    {
+      "city": "skopje",
+      "months": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "values": {"1": 86.9, "2": 57.5, "3": 26.4, "4": 16.0, "5": 12.2, "6": 12.2, "7": 10.8, "8": 12.7, "9": 20.9, "10": 27.0, "11": 42.6, "12": 62.5},
+      "reason": "Basin heating smog. Mean of 2023 and 2024 monthly PM2.5 at the Lisice station (Ministry of Environment monitoring network, BAM). CAMS shape is far too flat (scaled winter ~32 µg/m³ vs measured 58-97). Same years as the CAMS window, so all 12 months are replaced. Single station in the more polluted east of the city: likely biased high vs the city-wide mean.",
+      "source": "https://doi.org/10.18280/ijdne.210522",
+      "sourceDetail": "Ceka R., Cuci O., Demaj I., Zenku A., Spahiju F. (2026), Monitoring of PM10 and PM2.5 Air Quality in Skopje, North Macedonia (2023-2024), IJDNE 21(5), Table 2.",
+      "sourceLicence": "journal article; factual figures cited with attribution"
+    },
+    {
+      "city": "sarajevo",
+      "months": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "values": {"1": 82.2, "2": 47.5, "3": 28.8, "4": 22.1, "5": 12.8, "6": 16.1, "7": 17.3, "8": 20.7, "9": 17.5, "10": 30.0, "11": 48.5, "12": 123.2},
+      "reason": "Basin heating smog with inversions. Monthly means of hourly US EPA MetOne BAM-1020 PM2.5 in Sarajevo, May 2018-Aug 2019 (Jun/Jul/Aug averaged over both years; Jan/Feb 2019 have 45%/64% hourly coverage). CAMS shape is inverted here (scaled CAMS peaked in summer at 33 µg/m³ and gave Dec 26). One winter only (2018-19) and older than the WHO 2022-24 annual (28.4): treat winter magnitudes as indicative.",
+      "source": "https://catalog.data.gov/dataset/sarajevo-pm2-5-data-from-metone-bam-1020",
+      "sourceDetail": "U.S. EPA Office of Research and Development (2019), Sarajevo PM2.5 Data from MetOne BAM-1020, https://pasteur.epa.gov/uploads/10.23719/1518365/Sarajevo-confproc-data.csv",
+      "sourceLicence": "U.S. Public Domain (EPA data licence https://pasteur.epa.gov/license/sciencehub-license.html)"
+    }
+  ]
+}

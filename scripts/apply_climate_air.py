@@ -1,20 +1,26 @@
 #!/usr/bin/env python3
-"""Map fetched climate normals + PM2.5 climatology into data/travel-data.json.
+"""Map calibrated climate + PM2.5 inputs into data/travel-data.json.
 
-Inputs (built by scripts/fetch_climate.py and scripts/fetch_air.py):
-    data/climate-normals.json   ERA5 via Open-Meteo  -> high, low (°F), hum (%), rain (days >= 1 mm)
-    data/air-climatology.json   CAMS via Open-Meteo  -> pm25 (µg/m³), airCat, airColor
+Pipeline (each step writes a committed JSON file):
+    fetch_climate.py          -> data/climate-normals.json    ERA5 (raw reanalysis)
+    fetch_air.py              -> data/air-climatology.json    CAMS (raw model)
+    build_station_normals.py  -> data/station-normals.json    WMO 1991-2020 station matches
+    calibrate_climate.py      -> data/climate-calibrated.json station-first high/low/hum/rain
+    calibrate_air.py          -> data/air-calibrated.json     CAMS shape x WHO annual + overrides
+    apply_climate_air.py      (this) -> travel-data.json months + sources + per-city prov
 
-Provenance written on --write:
-    top-level  sources = {key: {name, url, licence, window, retrieved, method}}
-    per city   prov    = {"climate": "<sources key>", "pm25": "<sources key>"}
-
+Fields replaced per month: high, low (°F), hum (%), rain (days >= 1 mm), pm25
+(µg/m³) and the derived airCat/airColor (all rounded to integers, as today).
 Untouched: risk/riskNote (hazards), season, evtTier/events, costs, safety.
 
+Provenance written on --write:
+    sources   top-level table {key: {name, url, licence, window, retrieved, method}}
+    city.prov {temp|hum|rain|pm25: {method, source, confidence, reason, [station], ...}}
+
 Usage:
-    python3 scripts/apply_climate_air.py                 # == --check: diff summary, no write
+    python3 scripts/apply_climate_air.py                       # == --check
     python3 scripts/apply_climate_air.py --check --report tmp/climate-air-diff.md
-    python3 scripts/apply_climate_air.py --write         # write, then rebake + sanity check
+    python3 scripts/apply_climate_air.py --write [--allow-legacy]   # then rebake + sanity check
 """
 import copy, json, math, os, subprocess, sys
 from collections import Counter, defaultdict
@@ -23,9 +29,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from openmeteo_common import ROOT, DATA, city_slug
 from rebake_scores import weather_score, air_score
 
-CLIMATE = os.path.join(ROOT, "data", "climate-normals.json")
-AIR = os.path.join(ROOT, "data", "air-climatology.json")
+P = lambda *a: os.path.join(ROOT, "data", *a)
 FIELDS = ["high", "low", "hum", "rain", "pm25"]
+GROUP = {"high": "temp", "low": "temp", "hum": "hum", "rain": "rain", "pm25": "pm25"}
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 # PM2.5 -> airCat/airColor. No script in the repo defines these bands; they are
@@ -41,8 +47,6 @@ AIR_BANDS = [
     (math.inf, "Hazardous", "#7d1128"),
 ]
 
-SOURCE_KEYS = {"climate": "era5-om", "pm25": "cams-om"}
-
 
 def air_band(pm):
     for hi, cat, color in AIR_BANDS:
@@ -50,270 +54,260 @@ def air_band(pm):
             return cat, color
 
 
-def source_entry(meta):
-    return {"name": meta["source"], "url": meta["url"], "licence": meta["licence"],
-        "window": meta["window"], "retrieved": meta["retrieved"], "method": meta["method"]}
-
-
 def load():
-    d = json.load(open(DATA))
-    clim = json.load(open(CLIMATE))
-    air = json.load(open(AIR))
-    return d, clim, air
+    j = lambda f: json.load(open(P(f)))
+    return (json.load(open(DATA)), j("climate-normals.json"), j("air-climatology.json"),
+            j("station-normals.json"), j("climate-calibrated.json"), j("air-calibrated.json"))
 
 
-def apply(d, clim, air):
-    """Return (new_doc, missing, covered) — a deep copy with fetched inputs mapped in.
+def sources_table(clim, air, stn, ccal, acal):
+    cm, am, sm, wm = clim["_meta"], air["_meta"], stn["_meta"], acal["_meta"]["sources"]["who-aaq-v8"]
+    return {
+        "wmo-9120": {"name": sm["source"], "url": sm["doi"], "licence": sm["licence"], "window": sm["window"],
+                     "retrieved": sm["retrieved"], "method": sm["method"], "citation": sm["citation"]},
+        "era5-om": {"name": cm["source"], "url": cm["url"], "licence": cm["licence"], "window": cm["window"],
+                    "retrieved": cm["retrieved"], "method": cm["method"],
+                    "rainThresholdMm": ccal["_meta"]["rainCalibration"]["thresholdMm"]},
+        "cams-om": {"name": am["source"], "url": am["url"], "licence": am["licence"], "window": am["window"],
+                    "retrieved": am["retrieved"], "method": am["method"]},
+        "who-aaq-v8": {"name": wm["name"], "url": wm["url"], "licence": wm["licence"],
+                       "window": "latest up-to-3 reported years >= 2018", "retrieved": acal["_meta"]["generated"],
+                       "method": acal["_meta"]["method"], "citation": wm["citation"]},
+    }
 
-    Each source is applied independently, so a city missing from one file keeps
-    its old values (and gets no prov entry) for that source only. covered maps
-    "climate"/"pm25" -> set of city names actually replaced.
-    """
+
+def build(d, clim, air, ccal, acal, mode):
+    """Deep copy of d with inputs from 'raw' (ERA5 >= 1 mm + raw CAMS) or 'cal' (calibrated)."""
     nd = copy.deepcopy(d)
-    missing, covered = [], {"climate": set(), "pm25": set()}
     for c in nd["cities"]:
-        slug = city_slug(c["name"])
-        cr, ar = clim.get(slug), air.get(slug)
-        if not cr or not ar:
-            missing.append((slug, bool(cr), bool(ar)))
-        prov = {}
+        s = city_slug(c["name"])
         for i, m in enumerate(c["months"]):
-            assert m["moNum"] == i + 1
-            if cr:
-                cm = cr["months"][i]
-                assert cm["mo"] == i + 1
-                m["high"] = round(cm["tmaxF"])
-                m["low"] = round(cm["tminF"])
-                m["hum"] = round(cm["rhPct"])
-                m["rain"] = round(cm["wetDays"])
-            if ar:
-                am = ar["months"][i]
-                assert am["mo"] == i + 1
-                m["pm25"] = round(am["pm25"])
-                m["airCat"], m["airColor"] = air_band(m["pm25"])
-        if cr:
-            prov["climate"] = SOURCE_KEYS["climate"]
-            covered["climate"].add(c["name"])
-        if ar:
-            prov["pm25"] = SOURCE_KEYS["pm25"]
-            covered["pm25"].add(c["name"])
-        if prov:
-            c["prov"] = prov
-    nd["sources"] = {SOURCE_KEYS["climate"]: source_entry(clim["_meta"]),
-                     SOURCE_KEYS["pm25"]: source_entry(air["_meta"])}
-    return nd, missing, covered
+            if mode == "raw":
+                cr = clim.get(s)
+                if cr:
+                    cm = cr["months"][i]
+                    m["high"], m["low"] = round(cm["tmaxF"]), round(cm["tminF"])
+                    m["hum"], m["rain"] = round(cm["rhPct"]), round(cm["wetDays"])
+                m["pm25"] = round(air[s]["months"][i]["pm25"])
+            else:
+                cm = ccal[s]["months"][i]
+                m["high"], m["low"] = round(cm["high"]), round(cm["low"])
+                m["hum"], m["rain"] = round(cm["hum"]), round(cm["rain"])
+                m["pm25"] = round(acal[s]["months"][i])
+            m["airCat"], m["airColor"] = air_band(m["pm25"])
+        if mode == "cal":
+            c["prov"] = dict(ccal[s]["prov"], pm25=acal[s]["prov"])
+    return nd
 
 
-# ---------- scoring (same formulas as rebake_scores.py, in memory) ----------
+# ---------- scoring (rebake_scores.py formulas, in memory) ----------
 
-def score_doc(doc):
-    """{(city, monthIdx): qol} using rebake_scores formulas on the doc's raw inputs."""
-    s = doc["settings"]
+def qol_of(c, m, s):
     qw = (s["q_weather"], s["q_safety"], s["q_air"], s["q_season"], s["q_event"])
-    out = {}
-    for c in doc["cities"]:
-        saf, floor = c["safety"]["score"], c["safety"]["qolFloor"]
-        for i, m in enumerate(c["months"]):
-            w = round(weather_score(m, s), 1)
-            a = round(air_score(m["pm25"], s), 1)
-            qb = qw[0] * w + qw[1] * saf + qw[2] * a + qw[3] * m["seasonScore"] + qw[4] * m["eventScore"]
-            out[(c["name"], i)] = {"weather": w, "air": a, "qol": round(floor * qb, 1)}
-    return out
+    w = round(weather_score(m, s), 1)
+    a = round(air_score(m["pm25"], s), 1)
+    qb = qw[0] * w + qw[1] * c["safety"]["score"] + qw[2] * a + qw[3] * m["seasonScore"] + qw[4] * m["eventScore"]
+    return round(c["safety"]["qolFloor"] * qb, 1)
 
 
-# ---------- diff ----------
-
-def field_stats(d, nd, covered):
-    """field -> [(city, mi, old, new)], only for cities whose source was applied."""
-    rows = defaultdict(list)
-    for c, nc in zip(d["cities"], nd["cities"]):
-        for i, (m, nm) in enumerate(zip(c["months"], nc["months"])):
-            for f in FIELDS:
-                if c["name"] in covered["pm25" if f == "pm25" else "climate"]:
-                    rows[f].append((c["name"], i, m[f], nm[f]))
-    return rows
+def scores(doc):
+    s = doc["settings"]
+    return {(c["name"], i): qol_of(c, m, s) for c in doc["cities"] for i, m in enumerate(c["months"])}
 
 
-def summary_lines(d, nd, covered):
-    rows = field_stats(d, nd, covered)
-    out = [f"{'field':6} {'cities':>6} {'mean old':>9} {'mean new':>9} {'bias':>7} {'MAE':>6} {'max|Δ|':>7} {'changed':>8}"]
-    for f in FIELDS:
-        r = rows[f]
-        diffs = [n - o for _, _, o, n in r]
-        out.append(f"{f:6} {len(r)//12:6} {sum(o for *_, o, _ in r)/len(r):9.1f} {sum(n for *_, n in r)/len(r):9.1f} "
-                   f"{sum(diffs)/len(diffs):+7.2f} {sum(map(abs, diffs))/len(diffs):6.2f} "
-                   f"{max(map(abs, diffs)):7} {sum(1 for x in diffs if x)/len(diffs):7.0%}")
-    cats = Counter((m["airCat"], nm["airCat"]) for c, nc in zip(d["cities"], nd["cities"])
-                   for m, nm in zip(c["months"], nc["months"]))
-    out.append(f"airCat changed in {sum(v for (a, b), v in cats.items() if a != b)} of "
-               f"{sum(cats.values())} city-months")
-    return out, rows
-
-
-# ---------- markdown report ----------
+# ---------- report helpers ----------
 
 def md_table(header, rows):
-    s = ["| " + " | ".join(header) + " |", "|" + "|".join("---" for _ in header) + "|"]
-    s += ["| " + " | ".join(str(x) for x in r) + " |" for r in rows]
-    return "\n".join(s)
+    out = ["| " + " | ".join(header) + " |", "|" + "|".join("---" for _ in header) + "|"]
+    out += ["| " + " | ".join(str(x) for x in r) + " |" for r in rows]
+    return "\n".join(out)
 
 
-def report(d, nd, clim, air, path, covered, missing):
-    L = []
-    summ, rows = summary_lines(d, nd, covered)
-    L.append("# Climate + PM2.5 replacement — diff report (check mode, nothing written)\n")
-    L.append(f"Generated by `python3 scripts/apply_climate_air.py --check --report {os.path.relpath(path, ROOT)}`.\n")
-    L.append(f"- Climate: {clim['_meta']['source']} — window **{clim['_meta']['window']}**, retrieved {clim['_meta']['retrieved']}.")
-    L.append(f"- PM2.5: {air['_meta']['source']} — window **{air['_meta']['window']}**, retrieved {air['_meta']['retrieved']}.")
-    L.append("- New values are rounded to integers like the existing schema (`rain` = mean days with ≥ 1 mm).")
-    L.append("- `bias` = mean(new − old). Positive = new data is warmer / more humid / wetter / dirtier.")
-    nclim = [m for m in missing if not m[1]]
-    nair = [m for m in missing if not m[2]]
-    if missing:
-        L.append(f"- **Coverage gap:** climate missing for {len(nclim)} cities"
-                 f"{' (' + ', '.join(m[0] for m in nclim) + ')' if nclim else ''}; PM2.5 missing for {len(nair)}. "
-                 "Those cities keep their old values for the missing source in every section below (incl. the "
-                 "ranking simulation); stats only cover replaced cities. Rerun the fetcher, then this report.")
-    L.append("")
+def stats(pairs):
+    dd = [n - o for o, n in pairs]
+    return (sum(dd) / len(dd), sum(map(abs, dd)) / len(dd), max(map(abs, dd)))
 
-    L.append("## 1. Field summary (replaced cities × 12 months)\n")
-    L.append("```\n" + "\n".join(summ) + "\n```\n")
 
-    # per-field worst 15 cities (by mean |Δ| across the 12 months)
-    L.append("## 2. Worst 15 cities per field (mean |Δ| over 12 months)\n")
+def summary(d, raw, cal, covered_raw):
+    rows = []
     for f in FIELDS:
-        by_city = defaultdict(list)
-        for name, i, o, n in rows[f]:
-            by_city[name].append((i, o, n))
-        ranked = sorted(by_city.items(), key=lambda kv: -sum(abs(n - o) for _, o, n in kv[1]))[:15]
-        tab = []
-        for name, ms in ranked:
-            mae = sum(abs(n - o) for _, o, n in ms) / 12
-            bias = sum(n - o for _, o, n in ms) / 12
-            wi, wo, wn = max(ms, key=lambda t: abs(t[2] - t[1]))
-            slug = city_slug(name)
-            g = clim.get(slug, {}).get("grid")
-            tab.append([name, f"{mae:.1f}", f"{bias:+.1f}", f"{MONTHS[wi]} {wo}→{wn}",
-                        f"{g['elevation']:.0f} / {g['modelCellElevation']:.0f}" if g else "n/a"])
-        L.append(f"### {f}\n")
-        L.append(md_table(["city", "MAE", "bias", "worst month (old→new)", "DEM / model-cell elev (m)"], tab) + "\n")
+        o_r, o_c, r_c = [], [], []
+        for c, rc, cc in zip(d["cities"], raw["cities"], cal["cities"]):
+            ok = f == "pm25" or c["name"] in covered_raw
+            for m, rm, cm in zip(c["months"], rc["months"], cc["months"]):
+                o_c.append((m[f], cm[f]))
+                if ok:
+                    o_r.append((m[f], rm[f]))
+                    r_c.append((rm[f], cm[f]))
+        a, b, cmx = stats(o_r), stats(o_c), stats(r_c)
+        rows.append([f, f"{sum(o for o, _ in o_c)/len(o_c):.1f}",
+                     f"{a[0]:+.2f} / {a[1]:.2f}", f"{b[0]:+.2f} / {b[1]:.2f} (max {b[2]})", f"{cmx[1]:.2f}"])
+    return md_table(["field", "old mean", "raw − old (bias / MAE)", "calibrated − old (bias / MAE)",
+                     "calibrated vs raw MAE"], rows)
 
-    # elevation mismatches
-    L.append("## 3. Elevation / grid-cell suspicion list\n")
-    L.append("Open-Meteo already lapse-rate-downscales temperature from the model cell height to a 90 m DEM height "
-             "at the city point, so the residual risk is **not** the raw height gap itself but what a simple "
-             "lapse rate cannot fix: coastal cells mixing sea and mountain (Kotor, Funchal…), valley inversions "
-             "and rain/cloud regimes of the surrounding terrain. Listed: |model cell − DEM| ≥ 250 m, with the "
-             "city's old-vs-new annual temperature and rain-day deltas.\n")
-    tab = []
-    for c, nc in zip(d["cities"], nd["cities"]):
-        if c["name"] not in covered["climate"]:
+
+def mover_reason(c_old, c_cal, mi, s):
+    """Attribute a city-month qol change to fields by swapping each field in alone."""
+    m_old, m_new = c_old["months"][mi], c_cal["months"][mi]
+    base = qol_of(c_old, m_old, s)
+    parts = []
+    for f in FIELDS:
+        if m_old[f] == m_new[f]:
             continue
-        g = clim[city_slug(c["name"])]["grid"]
-        gap = g["modelCellElevation"] - g["elevation"]
-        if abs(gap) >= 250:
-            dh = sum(nm["high"] - m["high"] for m, nm in zip(c["months"], nc["months"])) / 12
-            dl = sum(nm["low"] - m["low"] for m, nm in zip(c["months"], nc["months"])) / 12
-            dr = sum(nm["rain"] - m["rain"] for m, nm in zip(c["months"], nc["months"])) / 12
-            tab.append((abs(gap), [c["name"], f"{g['elevation']:.0f}", f"{g['modelCellElevation']:.0f}",
-                                   f"{gap:+.0f}", f"{dh:+.1f}", f"{dl:+.1f}", f"{dr:+.1f}"]))
-    tab.sort(key=lambda t: -t[0])
-    L.append(md_table(["city", "DEM elev", "model cell", "gap (m)", "Δhigh °F", "Δlow °F", "Δrain d"],
-                      [t[1] for t in tab]) + "\n")
+        t = dict(m_old, **{f: m_new[f]})
+        parts.append((qol_of(c_old, t, s) - base, f, m_old[f], m_new[f]))
+    parts.sort(key=lambda p: -abs(p[0]))
+    return parts
 
-    # large temperature disagreements regardless of elevation
-    L.append("### Large climate disagreements (any city-month |Δhigh| or |Δlow| ≥ 8 °F, or |Δrain| ≥ 8 days)\n")
-    flagged = []
-    for c, nc in zip(d["cities"], nd["cities"]):
-        bad = [(MONTHS[i], m, nm) for i, (m, nm) in enumerate(zip(c["months"], nc["months"]))
-               if abs(nm["high"] - m["high"]) >= 8 or abs(nm["low"] - m["low"]) >= 8 or abs(nm["rain"] - m["rain"]) >= 8]
-        if bad:
-            flagged.append([c["name"], len(bad), "; ".join(
-                f"{mo} H {m['high']}→{nm['high']} L {m['low']}→{nm['low']} R {m['rain']}→{nm['rain']}"
-                for mo, m, nm in bad[:3]) + (" …" if len(bad) > 3 else "")])
-    flagged.sort(key=lambda r: -r[1])
-    L.append(md_table(["city", "months", "examples"], flagged) + "\n" if flagged else "_none_\n")
 
-    # PM2.5
-    L.append("## 4. PM2.5 suspicion list\n")
-    L.append("CAMS global (~45 km) is a regional background model. Cases where it is far **below** the old value "
-             "for months the old data rated polluted (old ≥ 25 µg/m³ and new ≤ 0.6 × old):\n")
-    tab = []
-    for c, nc in zip(d["cities"], nd["cities"]):
-        hits = [(MONTHS[i], m["pm25"], nm["pm25"]) for i, (m, nm) in enumerate(zip(c["months"], nc["months"]))
-                if m["pm25"] >= 25 and nm["pm25"] <= 0.6 * m["pm25"]]
-        if hits:
-            tab.append([c["name"], len(hits), ", ".join(f"{mo} {o}→{n}" for mo, o, n in hits)])
-    tab.sort(key=lambda r: -r[1])
-    L.append(md_table(["city", "months", "old→new"], tab) + "\n" if tab else "_none_\n")
+def report(d, clim, air, stn, ccal, acal, raw, cal, path):
+    s = d["settings"]
+    covered_raw = {c["name"] for c in d["cities"] if city_slug(c["name"]) in clim}
+    L = ["# Climate + PM2.5 — old vs raw reanalysis vs calibrated (check mode, nothing written)\n",
+         f"Generated by `python3 scripts/apply_climate_air.py --check --report {os.path.relpath(path, ROOT)}`.\n",
+         "- **old** = current unsourced values in data/travel-data.json",
+         f"- **raw** = ERA5 (Open-Meteo, {clim['_meta']['window']}; rain = days ≥ 1 mm) + raw CAMS "
+         f"({air['_meta']['window']})",
+         "- **calibrated** = WMO 1991–2020 station normals where a station is within limits, else ERA5 (rain at a "
+         "threshold fitted to station DP01); PM2.5 = CAMS seasonal shape × WHO AAQ v8 annual mean, plus cited overrides",
+         f"- ERA5 is still missing for {len(d['cities']) - len(covered_raw)} cities (Open-Meteo daily quota); "
+         "where they also lack a station the old value is kept and flagged `legacy-estimate`. Raw-vs-old stats "
+         "cover only cities with ERA5.\n"]
 
-    L.append("Cases where CAMS is far **above** the old value (new ≥ 25 and ≥ 1.6 × old) — typically desert dust "
-             "or regional smoke that CAMS may overstate, or an old value that was too optimistic:\n")
-    tab = []
-    for c, nc in zip(d["cities"], nd["cities"]):
-        hits = [(MONTHS[i], m["pm25"], nm["pm25"]) for i, (m, nm) in enumerate(zip(c["months"], nc["months"]))
-                if nm["pm25"] >= 25 and nm["pm25"] >= 1.6 * m["pm25"]]
-        if hits:
-            tab.append([c["name"], len(hits), ", ".join(f"{mo} {o}→{n}" for mo, o, n in hits)])
-    tab.sort(key=lambda r: -r[1])
-    L.append(md_table(["city", "months", "old→new"], tab) + "\n" if tab else "_none_\n")
+    # 1. coverage
+    L.append("## 1. Coverage and confidence\n")
+    rows = []
+    for g in ("temp", "hum", "rain", "pm25"):
+        meth = Counter(c["prov"][g]["method"] for c in cal["cities"])
+        conf = Counter(c["prov"][g]["confidence"] for c in cal["cities"])
+        rows.append([g, ", ".join(f"{k} {v}" for k, v in meth.most_common()),
+                     ", ".join(f"{k} {conf.get(k, 0)}" for k in ("high", "medium", "low"))])
+    L.append(md_table(["metric", "method (cities)", "confidence (cities)"], rows) + "\n")
 
-    watch = ["Chiang Mai", "Hanoi", "Bangkok", "Kathmandu", "Skopje", "Sarajevo", "Belgrade", "Tbilisi",
-             "Sofia", "Krakow", "Kraków", "Ho Chi Minh City", "Siem Reap", "Pokhara", "Mexico City", "Lima",
-             "Cairo", "Marrakech", "Istanbul", "Kuala Lumpur", "Delhi", "Goa", "Colombo", "Jaipur"]
-    present = [c for c in d["cities"] if c["name"] in watch]
-    L.append("### Watch list — monthly PM2.5 old → new (µg/m³), CAMS year-to-year range in brackets\n")
-    tab = []
-    nd_by = {c["name"]: c for c in nd["cities"]}
-    for c in present:
-        am = air[city_slug(c["name"])]["months"]
-        tab.append([c["name"]] + [f"{m['pm25']}→{nm['pm25']} [{a['yearMin']:.0f}-{a['yearMax']:.0f}]"
-                                  for m, nm, a in zip(c["months"], nd_by[c["name"]]["months"], am)])
-    L.append(md_table(["city"] + MONTHS, tab) + "\n")
-
-    cats = Counter((m["airCat"], nm["airCat"]) for c, nc in zip(d["cities"], nd["cities"])
+    # 2. field summary
+    L.append("## 2. Field summary (all city-months)\n")
+    L.append(summary(d, raw, cal, covered_raw) + "\n")
+    cats = Counter((m["airCat"], nm["airCat"]) for c, nc in zip(d["cities"], cal["cities"])
                    for m, nm in zip(c["months"], nc["months"]))
-    order = [b[1] for b in AIR_BANDS]
-    L.append("### airCat transition matrix (rows old, columns new; city-months)\n")
-    L.append(md_table(["old \\ new"] + order,
-                      [[a] + [cats.get((a, b), "") for b in order] for a in order]) + "\n")
+    L.append(f"airCat changes old → calibrated: {sum(v for (a, b), v in cats.items() if a != b)} of "
+             f"{sum(cats.values())} city-months.\n")
 
-    # rankings
-    L.append("## 5. Simulated top-20 (Balanced Score = stored qol formula) — before vs after\n")
-    L.append("Scores recomputed in memory with `rebake_scores.py` formulas; safety, season, events and hazard "
-             "multipliers unchanged. `Δrank` = old rank − new rank (positive = moves up).\n")
-    old_s, new_s = score_doc(d), score_doc(nd)
-    full = covered["climate"] & covered["pm25"]
-    pool_old = [c for c in d["cities"] if c["name"] in full]
-    pool_new = [c for c in nd["cities"] if c["name"] in full]
-    if len(full) < len(d["cities"]):
-        L.append(f"**Ranked pool restricted to the {len(full)} cities with both sources replaced** — mixing "
-                 "half-replaced cities would bias the comparison (old climate inputs are systematically "
-                 "drier/sunnier than ERA5). Ranks are within that pool.\n")
-    for mi in (0, 6, 9):
-        old_rank = sorted(pool_old, key=lambda c: -old_s[(c["name"], mi)]["qol"])
-        new_rank = sorted(pool_new, key=lambda c: -new_s[(c["name"], mi)]["qol"])
-        orank = {c["name"]: r for r, c in enumerate(old_rank, 1)}
-        nrank = {c["name"]: r for r, c in enumerate(new_rank, 1)}
+    # 3. calibration fits
+    rc = ccal["_meta"]["rainCalibration"]
+    L.append("## 3. Calibration fits\n")
+    L.append("### Rain days: ERA5 wet-day threshold vs WMO DP01 (days ≥ 1 mm) at station-backed cities\n")
+    rows = []
+    for band, r in rc["fit"].items():
+        g = r["grid"]
+        rows.append([band, r["n"], f"{g['1']['bias']:+.2f} / {g['1']['mae']:.2f}",
+                     f"≥ {r['best']} mm: {g[r['best']]['bias']:+.2f} / {g[r['best']]['mae']:.2f}"])
+    L.append(md_table(["band", "cities", "≥ 1 mm bias / MAE (days)", "best threshold bias / MAE"], rows))
+    L.append(f"\nChosen: {rc['thresholdMm']} (tropical threshold fitted on only "
+             f"{rc['fit']['tropical']['n']} cities — treat as provisional).\n")
+    ev = ccal["_meta"]["era5VsStation"]
+    L.append("### ERA5 vs station normals (same cities), used to grade reanalysis-fallback confidence\n")
+    L.append(md_table(["class", "Tmax/Tmin bias / MAE (°F)", "RH bias / MAE (pts)"],
+                      [[k, f"{ev['tempF'][k]['bias']:+.2f} / {ev['tempF'][k]['mae']:.2f}",
+                        f"{ev['rhPct'][k]['bias']:+.2f} / {ev['rhPct'][k]['mae']:.2f}" if k in ev["rhPct"] else "–"]
+                       for k in ev["tempF"]]) + "\n")
+    am = acal["_meta"]
+    scaled = [(v["name"], v["prov"]) for k, v in acal.items() if k != "_meta" and "scale" in v["prov"]]
+    ks = sorted(p["scale"] for _, p in scaled)
+    L.append("### PM2.5: CAMS → WHO annual scale factors\n")
+    L.append(f"{len(scaled)} cities WHO-scaled; median factor {ks[len(ks)//2]:.2f} (CAMS annual × factor = WHO "
+             f"annual). Extreme factors (< 0.6 or > 2): " + ", ".join(
+                 f"{n} ×{p['scale']} ({p['whoSettlement']}, {p['whoStationTypes'][:30] or 'type n/a'})"
+                 for n, p in sorted(scaled, key=lambda t: t[1]["scale"]) if p["scale"] < 0.6 or p["scale"] > 2) + "\n")
+
+    # 4. worst 15 per field (calibrated vs old)
+    L.append("## 4. Worst 15 cities per field (calibrated vs old, mean |Δ| over 12 months)\n")
+    for f in FIELDS:
+        g = GROUP[f]
+        rows = []
+        for c, rc_, cc in zip(d["cities"], raw["cities"], cal["cities"]):
+            ms = [(i, m[f], rm[f], cm[f]) for i, (m, rm, cm) in enumerate(zip(c["months"], rc_["months"], cc["months"]))]
+            mae = sum(abs(n - o) for _, o, _, n in ms) / 12
+            rows.append((mae, c, ms, cc["prov"][g]))
+        rows.sort(key=lambda t: -t[0])
         tab = []
-        for r in range(min(20, len(old_rank))):
-            o, n = old_rank[r]["name"], new_rank[r]["name"]
-            tab.append([r + 1, f"{o} ({old_s[(o, mi)]['qol']})",
-                        f"{n} ({new_s[(n, mi)]['qol']})", f"{orank[n] - r - 1:+d}" if orank[n] != r + 1 else "="])
-        dropped = [c["name"] for c in old_rank[:20] if nrank[c["name"]] > 20]
-        entered = [c["name"] for c in new_rank[:20] if orank[c["name"]] > 20]
-        moves = [abs(orank[k] - nrank[k]) for k in orank]
+        for mae, c, ms, pv in rows[:15]:
+            wi, wo, wr, wn = max(ms, key=lambda t: abs(t[3] - t[1]))
+            st = pv.get("station", {}).get("name", "")
+            tab.append([c["name"], f"{mae:.1f}", f"{MONTHS[wi]} {wo} / {wr} / {wn}",
+                        f"{pv['method']}{' (' + st + ')' if st else ''}", pv["confidence"]])
+        L.append(f"### {f}\n")
+        L.append(md_table(["city", "MAE vs old", "worst month old / raw / cal", "calibrated method", "conf."], tab) + "\n")
+
+    # 5. rankings
+    L.append("## 5. Simulated top-20 (Balanced Score) — old vs calibrated, all 111 cities\n")
+    L.append("Scores recomputed with `rebake_scores.py` formulas on in-memory copies; safety/season/events/hazard "
+             "multipliers unchanged. Raw-reanalysis rank in brackets for reference.\n")
+    so, sr, sc = scores(d), scores(raw), scores(cal)
+    for mi in (0, 6, 9):
+        rank = lambda sc_: {n: r for r, n in enumerate(sorted((c["name"] for c in d["cities"]),
+                                                             key=lambda n: -sc_[(n, mi)]), 1)}
+        ro, rr, rcl = rank(so), rank(sr), rank(sc)
+        old_top = sorted(ro, key=ro.get)[:20]
+        cal_top = sorted(rcl, key=rcl.get)[:20]
+        tab = [[i + 1, f"{o} ({so[(o, mi)]})", f"{n} ({sc[(n, mi)]})",
+                ("=" if ro[n] == i + 1 else f"{ro[n] - i - 1:+d}") + f" [raw #{rr[n]}]"]
+               for i, (o, n) in enumerate(zip(old_top, cal_top))]
+        moves = [abs(ro[k] - rcl[k]) for k in ro]
         L.append(f"### {MONTHS[mi]}\n")
-        L.append(md_table(["#", "before (qol)", "after (qol)", "Δrank of after-city"], tab) + "\n")
-        L.append(f"- Dropped out of top 20: {', '.join(f'{x} (→#{nrank[x]})' for x in dropped) or 'none'}")
-        L.append(f"- Entered top 20: {', '.join(f'{x} (from #{orank[x]})' for x in entered) or 'none'}")
-        L.append(f"- Mean |rank change| across all {len(moves)}: {sum(moves)/len(moves):.1f}; max {max(moves)}\n")
+        L.append(md_table(["#", "old (qol)", "calibrated (qol)", "Δrank vs old [raw rank]"], tab) + "\n")
+        L.append(f"- Dropped out: {', '.join(f'{x} (→#{rcl[x]})' for x in old_top if rcl[x] > 20) or 'none'}")
+        L.append(f"- Entered: {', '.join(f'{x} (from #{ro[x]})' for x in cal_top if ro[x] > 20) or 'none'}")
+        L.append(f"- Mean |rank change| over 111 cities: {sum(moves)/len(moves):.1f}; max {max(moves)}\n")
 
-    # parity check on the old data
-    drift = sum(1 for c in d["cities"] for i, m in enumerate(c["months"])
-                if abs(old_s[(c["name"], i)]["qol"] - m["qol"]) > 0.11)
+    # 6. top 25 movers
+    L.append("## 6. Top 25 score movers (mean |Δqol| over 12 months, old → calibrated)\n")
+    L.append("Reason = the fields whose individual swap moves that city's biggest-changing month most "
+             "(Δqol contribution in brackets), with the calibrated method for that metric.\n")
+    movers = []
+    for c, cc in zip(d["cities"], cal["cities"]):
+        dq = [sc[(c["name"], i)] - so[(c["name"], i)] for i in range(12)]
+        movers.append((sum(map(abs, dq)) / 12, sum(dq) / 12, c, cc, dq))
+    movers.sort(key=lambda t: -t[0])
+    tab = []
+    for mae, bias, c, cc, dq in movers[:25]:
+        mi = max(range(12), key=lambda i: abs(dq[i]))
+        parts = mover_reason(c, cc, mi, s)[:3]
+        why = "; ".join(f"{f} {o}→{n} ({dv:+.1f}, {cc['prov'][GROUP[f]]['method']})" for dv, f, o, n in parts)
+        tab.append([c["name"], f"{mae:.1f}", f"{bias:+.1f}", f"{MONTHS[mi]} {dq[mi]:+.1f}", why])
+    L.append(md_table(["city", "mean |Δqol|", "mean Δqol", "biggest month", "reason (that month)"], tab) + "\n")
+
+    # 7. unresolved
+    L.append("## 7. Large old-vs-calibrated gaps where the calibrated value is not high-confidence\n")
+    L.append("Criteria: |Δhigh| or |Δlow| ≥ 6 °F, |Δhum| ≥ 15 pts, |Δrain| ≥ 6 days, or PM2.5 off by ≥ 10 µg/m³ "
+             "and ≥ 1.8× either way — and the calibrated metric's confidence is medium/low. Station-backed "
+             "high-confidence gaps are treated as resolved in favour of the station and are not listed. These are "
+             "the cases where I could not tell which value is right.\n")
+    tab = []
+    for c, cc in zip(d["cities"], cal["cities"]):
+        hits = []
+        for i, (m, n) in enumerate(zip(c["months"], cc["months"])):
+            for f, thr in (("high", 6), ("low", 6), ("hum", 15), ("rain", 6)):
+                if abs(n[f] - m[f]) >= thr and cc["prov"][GROUP[f]]["confidence"] != "high":
+                    hits.append((f, MONTHS[i], m[f], n[f]))
+            o, p = m["pm25"], n["pm25"]
+            if abs(p - o) >= 10 and max(p, o) >= 1.8 * max(1, min(p, o)) and cc["prov"]["pm25"]["confidence"] != "high":
+                hits.append(("pm25", MONTHS[i], o, p))
+        if hits:
+            by = defaultdict(list)
+            for f, mo, o, n in hits:
+                by[f].append(f"{mo} {o}→{n}")
+            tab.append([c["name"], len(hits), "; ".join(f"**{f}** ({cc['prov'][GROUP[f]]['confidence']}): "
+                                                      + ", ".join(v[:4]) + (" …" if len(v) > 4 else "")
+                                                      for f, v in by.items())])
+    tab.sort(key=lambda r: -r[1])
+    L.append(md_table(["city", "city-months", "details (old→calibrated)"], tab) + "\n")
+    unres = json.load(open(P("air-overrides.json")))["_meta"].get("unresolved", {})
+    if unres:
+        L.append("Known PM2.5 gaps with no citable override yet: " +
+                 "; ".join(f"**{k}** — {v}" for k, v in unres.items()) + "\n")
+
+    drift = sum(1 for c in d["cities"] for i, m in enumerate(c["months"]) if abs(so[(c["name"], i)] - m["qol"]) > 0.11)
     L.append(f"_Parity: recomputed old qol differs from stored qol in {drift} city-months (should be 0)._\n")
-
     os.makedirs(os.path.dirname(path), exist_ok=True)
     open(path, "w").write("\n".join(L))
     print(f"wrote {os.path.relpath(path, ROOT)}")
@@ -322,26 +316,32 @@ def report(d, nd, clim, air, path, covered, missing):
 def main():
     args = sys.argv[1:]
     mode = "--write" if "--write" in args else "--check"
-    d, clim, air = load()
-    nd, missing, covered = apply(d, clim, air)
-    if missing:
-        print("MISSING inputs (city, climate?, air?):", missing)
-        if mode == "--write":
-            raise SystemExit("refusing to write with missing cities — rerun the fetchers")
-    summ, _ = summary_lines(d, nd, covered)
-    print("\n".join(summ))
+    d, clim, air, stn, ccal, acal = load()
+    raw = build(d, clim, air, ccal, acal, "raw")
+    cal = build(d, clim, air, ccal, acal, "cal")
+    cal["sources"] = sources_table(clim, air, stn, ccal, acal)
+
+    legacy = sorted({c["name"] for c in cal["cities"] for g in ("temp", "hum", "rain")
+                     if c["prov"][g]["method"] == "legacy-estimate"})
+    covered_raw = {c["name"] for c in d["cities"] if city_slug(c["name"]) in clim}
+    print(summary(d, raw, cal, covered_raw))
+    if legacy:
+        print(f"\n{len(legacy)} cities still on legacy climate values (no station, ERA5 pending): {', '.join(legacy)}")
 
     if "--report" in args:
-        report(d, nd, clim, air, os.path.join(ROOT, args[args.index("--report") + 1]), covered, missing)
+        report(d, clim, air, stn, ccal, acal, raw, cal, os.path.join(ROOT, args[args.index("--report") + 1]))
 
     if mode == "--write":
-        json.dump(nd, open(DATA, "w"), indent=2, ensure_ascii=False)
+        if legacy and "--allow-legacy" not in args:
+            raise SystemExit("refusing to write while cities are on legacy climate values — rerun "
+                             "fetch_climate.py + calibrate_climate.py, or pass --allow-legacy")
+        json.dump(cal, open(DATA, "w"), indent=2, ensure_ascii=False)
         print(f"\nwrote {os.path.relpath(DATA, ROOT)} — rebaking scores + sanity check")
         here = os.path.dirname(os.path.abspath(__file__))
         subprocess.run([sys.executable, os.path.join(here, "rebake_scores.py"), "--write"], check=True)
         subprocess.run([sys.executable, os.path.join(here, "sanity_check.py")], check=True)
     else:
-        print("\ncheck only — travel-data.json not modified (use --write to apply, then it rebakes)")
+        print("\ncheck only — travel-data.json not modified")
 
 
 if __name__ == "__main__":

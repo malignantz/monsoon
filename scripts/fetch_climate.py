@@ -35,6 +35,9 @@ API = "https://archive-api.open-meteo.com/v1/archive"
 START, END = "2015-01-01", "2024-12-31"
 MODEL = "era5_seamless"
 WET_MM = 1.0
+# Extra thresholds kept so the ERA5 wet-day count can be calibrated against station
+# normals (scripts/calibrate_climate.py) without the raw cache.
+WET_GRID = [0.5, 1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10]
 RAW = os.path.join(ROOT, "data", "raw", "climate")
 OUT = os.path.join(ROOT, "data", "climate-normals.json")
 DAILY = ["temperature_2m_max", "temperature_2m_min", "relative_humidity_2m_mean", "precipitation_sum"]
@@ -57,7 +60,7 @@ def mean(xs):
 def normals(raw):
     d = raw["daily"]
     by_mo = defaultdict(lambda: defaultdict(list))   # mo -> var -> daily values
-    ym = defaultdict(lambda: {"wet": 0, "p": 0.0, "n": 0})  # (y, m) -> totals
+    ym = defaultdict(lambda: {"wet": 0, "p": 0.0, "n": 0, "grid": defaultdict(int)})  # (y, m) -> totals
     for i, t in enumerate(d["time"]):
         y, m = int(t[:4]), int(t[5:7])
         for k in DAILY[:3]:
@@ -69,6 +72,8 @@ def normals(raw):
             ym[(y, m)]["p"] += p
             ym[(y, m)]["n"] += 1
             ym[(y, m)]["wet"] += p >= WET_MM
+            for th in WET_GRID:
+                ym[(y, m)]["grid"][th] += p >= th
     months = []
     for m in range(1, 13):
         tx, tn = mean(by_mo[m]["temperature_2m_max"]), mean(by_mo[m]["temperature_2m_min"])
@@ -81,6 +86,7 @@ def normals(raw):
             "rhPct": round(rh, 1),
             "wetDays": round(mean([v["wet"] for v in yrs]), 2),
             "precipMm": round(mean([v["p"] for v in yrs]), 1),
+            "wetDaysByMm": {f"{th:g}": round(mean([v["grid"][th] for v in yrs]), 2) for th in WET_GRID},
             "nYears": len(yrs),
         })
     return months
@@ -150,7 +156,8 @@ def main():
                    "fix land/sea mixing in coastal cells, valley inversions or urban heat islands. ERA5 tends to "
                    "over-count light-rain days in the tropics and smooth convective extremes."),
         "units": {"tmaxC": "°C", "tminC": "°C", "tmaxF": "°F", "tminF": "°F", "rhPct": "%",
-                  "wetDays": "days/month (>= 1 mm)", "precipMm": "mm/month"},
+                  "wetDays": "days/month (>= 1 mm)", "precipMm": "mm/month",
+                  "wetDaysByMm": "days/month with precipitation >= key mm (for threshold calibration)"},
         "cities": len(out),
     }}
     doc.update(dict(sorted(out.items())))

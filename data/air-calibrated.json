@@ -1,0 +1,3723 @@
+{
+ "_meta": {
+  "description": "Monthly PM2.5 = CAMS seasonal shape scaled to a ground-measured annual mean, plus cited overrides.",
+  "sources": {
+   "who-aaq-v8": {
+    "name": "WHO Ambient Air Quality Database, Version 8.0 (update June 2026)",
+    "url": "https://cdn.who.int/media/docs/default-source/air-pollution-documents/air-quality-and-health/who-ambient-air-quality-database-version-2026-v8.xlsx",
+    "page": "https://www.who.int/data/gho/data/themes/air-pollution/who-air-quality-database",
+    "citation": "World Health Organization (2026). WHO Ambient Air Quality Database (Version 8.0). Geneva, World Health Organization, 2026.",
+    "licence": "CC BY-NC-SA 3.0 IGO (WHO's standard licence for its information products). Non-commercial, share-alike, attribution required — review before commercial use of derived values."
+   },
+   "cams-om": {
+    "name": "Copernicus Atmosphere Monitoring Service (CAMS) global atmospheric composition forecasts, via the Open-Meteo Air Quality API (domain 'cams_global')",
+    "url": "https://air-quality-api.open-meteo.com/v1/air-quality",
+    "licence": "CC BY 4.0 (Open-Meteo); contains modified Copernicus Atmosphere Monitoring Service information",
+    "window": "2022-09-01..2026-08-31"
+   },
+   "openaq": {
+    "status": "not used — https://api.openaq.org/v3 returns HTTP 401 without an API key"
+   }
+  },
+  "method": "calibrated[m] = CAMS[m] * WHO_annual / mean(CAMS). WHO settlement matched in the same country within 10 km of the city point (or 25 km with a name-prefix match, 80 km with an exact name match); WHO annual = mean of the latest up-to-3 reported years >= 2018. Note the year mismatch (WHO 2018-2025 vs CAMS 2022-09-01..2026-08-31). Overrides from data/air-overrides.json are applied last.",
+  "confidenceRules": {
+   "high": "WHO-scaled, >= 2 years, latest >= 2021, within 10 km",
+   "medium": "WHO-scaled otherwise",
+   "low": "raw CAMS (no usable ground annual mean)"
+  },
+  "generated": "2026-10-03",
+  "counts": {
+   "who-scaled": 86,
+   "raw-cams": 25,
+   "overridden-cities": 3
+  }
+ },
+ "chiang-mai": {
+  "name": "Chiang Mai",
+  "months": [
+   35.3,
+   46,
+   75,
+   62,
+   24.3,
+   16.3,
+   15.0,
+   15.8,
+   20.2,
+   26.5,
+   30.9,
+   34.2
+  ],
+  "prov": {
+   "camsAnnual": 22.2,
+   "method": "cams-shape-x-who-annual+override",
+   "source": "who-aaq-v8+cams-om+override",
+   "confidence": "medium",
+   "whoSettlement": "Chiang Mai/THA",
+   "whoDistKm": 3.1,
+   "whoYears": [
+    2019,
+    2021
+   ],
+   "whoAnnual": 29.8,
+   "whoStationTypes": "Urban (n=2)",
+   "scale": 1.34,
+   "reason": "CAMS seasonal shape scaled x1.34 to WHO AAQ annual mean 29.8 µg/m³ (Chiang Mai/THA, 2019, 2021); months [2, 3, 4] overridden from cited ground data (https://doi.org/10.57260/stc.2024.800)",
+   "override": {
+    "months": [
+     2,
+     3,
+     4
+    ],
+    "reason": "Burning season. Mean of PCD monthly averages at station 35T (Chiang Mai City Hall) for 2020-2023: Feb 56/47/30/51, Mar 91/78/43/88, Apr 65/38/41/105 µg/m³. CAMS (~45 km) smooths the smoke peak (scaled CAMS gave Feb 38, Mar 50, Apr 50).",
+    "source": "https://doi.org/10.57260/stc.2024.800",
+    "sourceLicence": "journal article; factual figures cited with attribution",
+    "changes": [
+     {
+      "month": 2,
+      "before": 38.4,
+      "after": 46
+     },
+     {
+      "month": 3,
+      "before": 50.5,
+      "after": 75
+     },
+     {
+      "month": 4,
+      "before": 49.6,
+      "after": 62
+     }
+    ]
+   }
+  }
+ },
+ "bangkok": {
+  "name": "Bangkok",
+  "months": [
+   38.4,
+   35.2,
+   28.7,
+   21.5,
+   16.8,
+   9.6,
+   7.8,
+   7.8,
+   14.9,
+   34.4,
+   32.7,
+   31.5
+  ],
+  "prov": {
+   "camsAnnual": 29.8,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Bangkok/THA",
+   "whoDistKm": 7.8,
+   "whoYears": [
+    2019,
+    2021
+   ],
+   "whoAnnual": 23.3,
+   "whoStationTypes": "Urban (n=12)",
+   "scale": 0.78,
+   "reason": "CAMS seasonal shape scaled x0.78 to WHO AAQ annual mean 23.3 µg/m³ (Bangkok/THA, 2019, 2021)"
+  }
+ },
+ "hoi-an": {
+  "name": "Hoi An",
+  "months": [
+   19.6,
+   16.7,
+   20.7,
+   29.7,
+   21.9,
+   22.5,
+   18.2,
+   18.7,
+   14.6,
+   13.8,
+   15.3,
+   17.4
+  ],
+  "prov": {
+   "camsAnnual": 19.1,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "da-nang": {
+  "name": "Da Nang",
+  "months": [
+   19.6,
+   16.7,
+   20.7,
+   29.7,
+   21.9,
+   22.5,
+   18.2,
+   18.7,
+   14.6,
+   13.8,
+   15.3,
+   17.4
+  ],
+  "prov": {
+   "camsAnnual": 19.1,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "hanoi": {
+  "name": "Hanoi",
+  "months": [
+   50.3,
+   39.4,
+   43.3,
+   54.6,
+   38.0,
+   38.4,
+   40.3,
+   45.5,
+   39.8,
+   37.1,
+   40.5,
+   46.2
+  ],
+  "prov": {
+   "camsAnnual": 45.4,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Hanoi/VNM",
+   "whoDistKm": 3.7,
+   "whoYears": [
+    2018,
+    2019,
+    2020
+   ],
+   "whoAnnual": 42.8,
+   "whoStationTypes": "Urban (n=2)",
+   "scale": 0.94,
+   "reason": "CAMS seasonal shape scaled x0.94 to WHO AAQ annual mean 42.8 µg/m³ (Hanoi/VNM, 2018, 2019, 2020); fewer than 2 recent years or older data"
+  }
+ },
+ "bali-canggu-ubud": {
+  "name": "Bali (Canggu/Ubud)",
+  "months": [
+   13.5,
+   13.8,
+   13.8,
+   10.2,
+   12.5,
+   12.4,
+   13.0,
+   14.0,
+   13.7,
+   13.7,
+   15.0,
+   11.6
+  ],
+  "prov": {
+   "camsAnnual": 10.9,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Bali/IDN",
+   "whoDistKm": 8.2,
+   "whoYears": [
+    2019,
+    2020,
+    2021
+   ],
+   "whoAnnual": 13.1,
+   "whoStationTypes": "Urban (n=1)",
+   "scale": 1.2,
+   "reason": "CAMS seasonal shape scaled x1.20 to WHO AAQ annual mean 13.1 µg/m³ (Bali/IDN, 2019, 2020, 2021)"
+  }
+ },
+ "george-town-penang": {
+  "name": "George Town (Penang)",
+  "months": [
+   19.7,
+   22.5,
+   25.2,
+   23.1,
+   20.7,
+   24.2,
+   27.3,
+   26.0,
+   19.7,
+   15.3,
+   15.2,
+   15.9
+  ],
+  "prov": {
+   "camsAnnual": 18.0,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Pulau Pinang/MYS",
+   "whoDistKm": 6.7,
+   "whoYears": [
+    2019
+   ],
+   "whoAnnual": 21.2,
+   "whoStationTypes": "Sub Urban (n=2), Urban (n=2)",
+   "scale": 1.18,
+   "reason": "CAMS seasonal shape scaled x1.18 to WHO AAQ annual mean 21.2 µg/m³ (Pulau Pinang/MYS, 2019); fewer than 2 recent years or older data"
+  }
+ },
+ "siem-reap": {
+  "name": "Siem Reap",
+  "months": [
+   37.5,
+   47.5,
+   53.3,
+   52.7,
+   31.7,
+   16.5,
+   15.4,
+   14.8,
+   15.4,
+   20.1,
+   20.3,
+   18.8
+  ],
+  "prov": {
+   "camsAnnual": 13.4,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Siem Reap/KHM",
+   "whoDistKm": 5.4,
+   "whoYears": [
+    2019,
+    2020,
+    2021
+   ],
+   "whoAnnual": 28.7,
+   "whoStationTypes": "Unknown (n=1)",
+   "scale": 2.14,
+   "reason": "CAMS seasonal shape scaled x2.14 to WHO AAQ annual mean 28.7 µg/m³ (Siem Reap/KHM, 2019, 2020, 2021)"
+  }
+ },
+ "tbilisi": {
+  "name": "Tbilisi",
+  "months": [
+   14.6,
+   13.5,
+   12.5,
+   10.0,
+   10.2,
+   10.4,
+   13.3,
+   13.1,
+   10.6,
+   8.3,
+   12.4,
+   13.7
+  ],
+  "prov": {
+   "camsAnnual": 11.9,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city (latest Tbilisi/GEO 2017: 20.0 µg/m³, not used); OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "krakow": {
+  "name": "Kraków",
+  "months": [
+   23.3,
+   21.7,
+   21.5,
+   16.6,
+   14.1,
+   15.2,
+   14.9,
+   14.2,
+   12.5,
+   14.3,
+   20.2,
+   25.4
+  ],
+  "prov": {
+   "camsAnnual": 18.7,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Krakow/POL",
+   "whoDistKm": 3.2,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 17.8,
+   "whoStationTypes": "Background-Urban (n=4), Industrial-Urban (n=2), Traffic-Urban (n=1)",
+   "scale": 0.95,
+   "reason": "CAMS seasonal shape scaled x0.95 to WHO AAQ annual mean 17.8 µg/m³ (Krakow/POL, 2022, 2023, 2024)"
+  }
+ },
+ "budapest": {
+  "name": "Budapest",
+  "months": [
+   13.0,
+   14.2,
+   12.5,
+   8.3,
+   8.7,
+   9.1,
+   8.8,
+   8.5,
+   7.6,
+   8.8,
+   12.4,
+   15.2
+  ],
+  "prov": {
+   "camsAnnual": 13.9,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Budapest/HUN",
+   "whoDistKm": 3.2,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 10.6,
+   "whoStationTypes": "Background-Suburban (n=2), Background-Urban (n=2), Traffic-Urban (n=2)",
+   "scale": 0.76,
+   "reason": "CAMS seasonal shape scaled x0.76 to WHO AAQ annual mean 10.6 µg/m³ (Budapest/HUN, 2022, 2023, 2024)"
+  }
+ },
+ "sofia": {
+  "name": "Sofia",
+  "months": [
+   12.1,
+   13.8,
+   13.5,
+   11.0,
+   10.5,
+   11.0,
+   9.4,
+   9.3,
+   7.8,
+   8.8,
+   9.3,
+   11.6
+  ],
+  "prov": {
+   "camsAnnual": 10.6,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Sofia/BGR",
+   "whoDistKm": 3.0,
+   "whoYears": [
+    2023,
+    2024,
+    2025
+   ],
+   "whoAnnual": 10.7,
+   "whoStationTypes": "Background-Rural (n=1), Background-Urban (n=3), Traffic-Urban (n=2)",
+   "scale": 1.01,
+   "reason": "CAMS seasonal shape scaled x1.01 to WHO AAQ annual mean 10.7 µg/m³ (Sofia/BGR, 2023, 2024, 2025)"
+  }
+ },
+ "belgrade": {
+  "name": "Belgrade",
+  "months": [
+   28.8,
+   26.0,
+   23.7,
+   19.4,
+   18.3,
+   19.9,
+   17.1,
+   16.5,
+   15.5,
+   18.3,
+   22.7,
+   29.7
+  ],
+  "prov": {
+   "camsAnnual": 15.9,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Belgrade/SRB",
+   "whoDistKm": 2.2,
+   "whoYears": [
+    2024
+   ],
+   "whoAnnual": 21.3,
+   "whoStationTypes": "Traffic-Urban (n=1)",
+   "scale": 1.34,
+   "reason": "CAMS seasonal shape scaled x1.34 to WHO AAQ annual mean 21.3 µg/m³ (Belgrade/SRB, 2024); fewer than 2 recent years or older data"
+  }
+ },
+ "kotor": {
+  "name": "Kotor",
+  "months": [
+   9.1,
+   11.3,
+   12.4,
+   9.9,
+   10.2,
+   10.0,
+   9.5,
+   12.5,
+   7.4,
+   7.7,
+   7.4,
+   9.4
+  ],
+  "prov": {
+   "camsAnnual": 9.7,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "split": {
+  "name": "Split",
+  "months": [
+   7.4,
+   9.1,
+   10.9,
+   10.1,
+   11.0,
+   11.7,
+   12.0,
+   12.8,
+   7.8,
+   8.8,
+   6.6,
+   7.4
+  ],
+  "prov": {
+   "camsAnnual": 8.8,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Split/HRV",
+   "whoDistKm": 0.8,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 9.6,
+   "whoStationTypes": "Background-Suburban (n=2), Traffic-Suburban (n=1), Traffic-Urban (n=1)",
+   "scale": 1.1,
+   "reason": "CAMS seasonal shape scaled x1.10 to WHO AAQ annual mean 9.6 µg/m³ (Split/HRV, 2022, 2023, 2024)"
+  }
+ },
+ "sarande": {
+  "name": "Sarandë",
+  "months": [
+   5.6,
+   7.4,
+   9.0,
+   8.3,
+   9.4,
+   9.6,
+   10.2,
+   12.6,
+   7.0,
+   6.2,
+   4.8,
+   5.0
+  ],
+  "prov": {
+   "camsAnnual": 7.9,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "granada": {
+  "name": "Granada",
+  "months": [
+   7.5,
+   9.0,
+   10.2,
+   11.3,
+   10.8,
+   14.7,
+   14.0,
+   15.4,
+   11.1,
+   10.9,
+   8.0,
+   7.7
+  ],
+  "prov": {
+   "camsAnnual": 6.4,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Granada/ESP",
+   "whoDistKm": 1.7,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 10.9,
+   "whoStationTypes": "Background-Suburban (n=1), Background-Urban (n=1), Traffic-Urban (n=1)",
+   "scale": 1.71,
+   "reason": "CAMS seasonal shape scaled x1.71 to WHO AAQ annual mean 10.9 µg/m³ (Granada/ESP, 2022, 2023, 2024)"
+  }
+ },
+ "seville": {
+  "name": "Seville",
+  "months": [
+   11.3,
+   11.6,
+   10.4,
+   10.4,
+   10.6,
+   12.8,
+   12.2,
+   15.2,
+   9.7,
+   13.0,
+   10.6,
+   11.3
+  ],
+  "prov": {
+   "camsAnnual": 7.9,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Sevilla/ESP",
+   "whoDistKm": 0.9,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 11.6,
+   "whoStationTypes": "Background-Suburban (n=2), Background-Urban (n=3), Industrial-Suburban (n=1), Tr",
+   "scale": 1.47,
+   "reason": "CAMS seasonal shape scaled x1.47 to WHO AAQ annual mean 11.6 µg/m³ (Sevilla/ESP, 2022, 2023, 2024)"
+  }
+ },
+ "valencia": {
+  "name": "Valencia",
+  "months": [
+   7.9,
+   10.6,
+   9.3,
+   9.9,
+   10.6,
+   13.6,
+   15.5,
+   15.1,
+   10.3,
+   10.5,
+   7.5,
+   8.5
+  ],
+  "prov": {
+   "camsAnnual": 9.2,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Valencia/ESP",
+   "whoDistKm": 2.2,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 10.8,
+   "whoStationTypes": "Background-Suburban (n=3), Background-Urban (n=1), Traffic-Suburban (n=1), Traff",
+   "scale": 1.16,
+   "reason": "CAMS seasonal shape scaled x1.16 to WHO AAQ annual mean 10.8 µg/m³ (Valencia/ESP, 2022, 2023, 2024)"
+  }
+ },
+ "lisbon": {
+  "name": "Lisbon",
+  "months": [
+   7.4,
+   8.8,
+   7.2,
+   7.6,
+   7.3,
+   7.7,
+   6.7,
+   7.1,
+   6.4,
+   8.1,
+   7.5,
+   7.1
+  ],
+  "prov": {
+   "camsAnnual": 9.4,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Lisboa Greater City/PRT",
+   "whoDistKm": 2.8,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 7.4,
+   "whoStationTypes": "Background-Urban (n=11), Industrial-Suburban (n=1), Industrial-Urban (n=1), Traf",
+   "scale": 0.79,
+   "reason": "CAMS seasonal shape scaled x0.79 to WHO AAQ annual mean 7.4 µg/m³ (Lisboa Greater City/PRT, 2022, 2023, 2024)"
+  }
+ },
+ "lagos-algarve": {
+  "name": "Lagos (Algarve)",
+  "months": [
+   7.5,
+   9.0,
+   8.9,
+   9.2,
+   9.3,
+   10.2,
+   8.9,
+   9.8,
+   8.8,
+   9.7,
+   7.6,
+   6.4
+  ],
+  "prov": {
+   "camsAnnual": 8.8,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "catania-sicily": {
+  "name": "Catania (Sicily)",
+  "months": [
+   11.0,
+   12.7,
+   14.1,
+   12.3,
+   14.2,
+   14.1,
+   14.3,
+   15.3,
+   11.2,
+   11.0,
+   9.0,
+   10.1
+  ],
+  "prov": {
+   "camsAnnual": 10.5,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Catania/ITA",
+   "whoDistKm": 1.2,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 12.4,
+   "whoStationTypes": "Background-Urban (n=1), Traffic-Urban (n=2)",
+   "scale": 1.18,
+   "reason": "CAMS seasonal shape scaled x1.18 to WHO AAQ annual mean 12.4 µg/m³ (Catania/ITA, 2022, 2023, 2024)"
+  }
+ },
+ "athens": {
+  "name": "Athens",
+  "months": [
+   12.9,
+   13.0,
+   14.6,
+   14.6,
+   14.5,
+   14.7,
+   16.3,
+   13.8,
+   12.8,
+   11.9,
+   11.0,
+   11.6
+  ],
+  "prov": {
+   "camsAnnual": 10.3,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Athina/GRC",
+   "whoDistKm": 4.1,
+   "whoYears": [
+    2023,
+    2024,
+    2025
+   ],
+   "whoAnnual": 13.5,
+   "whoStationTypes": "Background-Suburban (n=4), Background-Urban (n=3), Traffic-Urban (n=3)",
+   "scale": 1.3,
+   "reason": "CAMS seasonal shape scaled x1.30 to WHO AAQ annual mean 13.5 µg/m³ (Athina/GRC, 2023, 2024, 2025)"
+  }
+ },
+ "chania-crete": {
+  "name": "Chania (Crete)",
+  "months": [
+   13.3,
+   13.1,
+   14.2,
+   14.8,
+   16.5,
+   14.0,
+   15.1,
+   15.0,
+   12.6,
+   13.0,
+   13.0,
+   10.0
+  ],
+  "prov": {
+   "camsAnnual": 8.8,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Chania/GRC",
+   "whoDistKm": 0.7,
+   "whoYears": [
+    2023,
+    2024,
+    2025
+   ],
+   "whoAnnual": 13.7,
+   "whoStationTypes": "Traffic-Urban (n=1)",
+   "scale": 1.56,
+   "reason": "CAMS seasonal shape scaled x1.56 to WHO AAQ annual mean 13.7 µg/m³ (Chania/GRC, 2023, 2024, 2025)"
+  }
+ },
+ "mexico-city": {
+  "name": "Mexico City",
+  "months": [
+   25.2,
+   24.7,
+   22.1,
+   21.1,
+   25.1,
+   18.5,
+   23.2,
+   21.1,
+   16.1,
+   18.3,
+   22.6,
+   24.0
+  ],
+  "prov": {
+   "camsAnnual": 24.0,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Venustiano Carranza Ciudad de Mexico/MEX",
+   "whoDistKm": 1.7,
+   "whoYears": [
+    2021,
+    2022,
+    2023
+   ],
+   "whoAnnual": 21.8,
+   "whoStationTypes": "NA (n=1)",
+   "scale": 0.91,
+   "reason": "CAMS seasonal shape scaled x0.91 to WHO AAQ annual mean 21.8 µg/m³ (Venustiano Carranza Ciudad de Mexico/MEX, 2021, 2022, 2023)"
+  }
+ },
+ "oaxaca": {
+  "name": "Oaxaca",
+  "months": [
+   6.3,
+   7.0,
+   10.2,
+   12.9,
+   16.8,
+   10.7,
+   8.3,
+   8.2,
+   6.2,
+   5.4,
+   6.6,
+   6.2
+  ],
+  "prov": {
+   "camsAnnual": 8.7,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "merida": {
+  "name": "Mérida",
+  "months": [
+   7.3,
+   7.7,
+   8.4,
+   9.9,
+   10.7,
+   10.6,
+   14.6,
+   12.6,
+   10.1,
+   8.2,
+   7.8,
+   7.3
+  ],
+  "prov": {
+   "camsAnnual": 9.6,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city (latest Merida Yucatan/MEX 2015: 14.6 µg/m³, not used); OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "antigua": {
+  "name": "Antigua",
+  "months": [
+   24.7,
+   25.5,
+   31.3,
+   35.1,
+   41.8,
+   28.2,
+   27.8,
+   27.3,
+   24.6,
+   23.1,
+   24.3,
+   22.4
+  ],
+  "prov": {
+   "camsAnnual": 28.0,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "medellin": {
+  "name": "Medellín",
+  "months": [
+   21.0,
+   21.9,
+   26.0,
+   21.5,
+   18.3,
+   16.3,
+   15.8,
+   16.3,
+   19.0,
+   16.9,
+   16.2,
+   21.3
+  ],
+  "prov": {
+   "camsAnnual": 13.5,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Medellin/COL",
+   "whoDistKm": 0.4,
+   "whoYears": [
+    2020,
+    2021
+   ],
+   "whoAnnual": 19.2,
+   "whoStationTypes": "Agrupaciones rurales (n=1), Centros urbanos (n=16), Cuadrículas suburbanas o per",
+   "scale": 1.42,
+   "reason": "CAMS seasonal shape scaled x1.42 to WHO AAQ annual mean 19.2 µg/m³ (Medellin/COL, 2020, 2021)"
+  }
+ },
+ "lake-atitlan-panajachel": {
+  "name": "Lake Atitlán (Panajachel)",
+  "months": [
+   20.8,
+   20.5,
+   25.4,
+   28.3,
+   35.7,
+   21.6,
+   17.5,
+   18.4,
+   16.6,
+   15.9,
+   16.5,
+   16.5
+  ],
+  "prov": {
+   "camsAnnual": 21.1,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "buenos-aires": {
+  "name": "Buenos Aires",
+  "months": [
+   9.4,
+   11.2,
+   10.9,
+   10.5,
+   12.3,
+   15.4,
+   14.3,
+   10.3,
+   11.3,
+   9.1,
+   9.6,
+   9.0
+  ],
+  "prov": {
+   "camsAnnual": 8.7,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Dock Sud/ARG",
+   "whoDistKm": 8.3,
+   "whoYears": [
+    2020,
+    2021
+   ],
+   "whoAnnual": 11.1,
+   "whoStationTypes": "NA (n=1)",
+   "scale": 1.28,
+   "reason": "CAMS seasonal shape scaled x1.28 to WHO AAQ annual mean 11.1 µg/m³ (Dock Sud/ARG, 2020, 2021)"
+  }
+ },
+ "florianopolis": {
+  "name": "Florianópolis",
+  "months": [
+   8.5,
+   7.7,
+   7.7,
+   7.6,
+   7.3,
+   8.3,
+   9.1,
+   9.9,
+   10.7,
+   9.5,
+   9.2,
+   8.2
+  ],
+  "prov": {
+   "camsAnnual": 8.6,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "montevideo": {
+  "name": "Montevideo",
+  "months": [
+   10.8,
+   11.9,
+   10.8,
+   9.9,
+   11.6,
+   15.3,
+   15.3,
+   12.2,
+   13.6,
+   10.9,
+   10.5,
+   11.4
+  ],
+  "prov": {
+   "camsAnnual": 7.8,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Montevideo/URY",
+   "whoDistKm": 7.5,
+   "whoYears": [
+    2018
+   ],
+   "whoAnnual": 12.0,
+   "whoStationTypes": "NA (n=1)",
+   "scale": 1.54,
+   "reason": "CAMS seasonal shape scaled x1.54 to WHO AAQ annual mean 12.0 µg/m³ (Montevideo/URY, 2018); fewer than 2 recent years or older data"
+  }
+ },
+ "cuenca": {
+  "name": "Cuenca",
+  "months": [
+   9.0,
+   9.4,
+   10.4,
+   10.8,
+   9.2,
+   8.9,
+   7.6,
+   9.4,
+   11.8,
+   9.7,
+   13.2,
+   10.4
+  ],
+  "prov": {
+   "camsAnnual": 5.8,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Cuenca/ECU",
+   "whoDistKm": 3.1,
+   "whoYears": [
+    2018
+   ],
+   "whoAnnual": 10.0,
+   "whoStationTypes": "Automática (n=2), Pasiva (n=19)",
+   "scale": 1.74,
+   "reason": "CAMS seasonal shape scaled x1.74 to WHO AAQ annual mean 10.0 µg/m³ (Cuenca/ECU, 2018); fewer than 2 recent years or older data"
+  }
+ },
+ "cusco": {
+  "name": "Cusco",
+  "months": [
+   4.4,
+   4.9,
+   5.1,
+   6.5,
+   6.9,
+   6.4,
+   6.7,
+   7.7,
+   9.3,
+   6.2,
+   5.6,
+   5.0
+  ],
+  "prov": {
+   "camsAnnual": 6.2,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "santiago": {
+  "name": "Santiago",
+  "months": [
+   12.9,
+   17.2,
+   18.7,
+   26.5,
+   39.6,
+   48.5,
+   43.4,
+   29.8,
+   25.3,
+   17.6,
+   12.6,
+   12.9
+  ],
+  "prov": {
+   "camsAnnual": 38.9,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Santiago/CHL",
+   "whoDistKm": 1.9,
+   "whoYears": [
+    2019
+   ],
+   "whoAnnual": 25.4,
+   "whoStationTypes": "Urban (n=25)",
+   "scale": 0.65,
+   "reason": "CAMS seasonal shape scaled x0.65 to WHO AAQ annual mean 25.4 µg/m³ (Santiago/CHL, 2019); fewer than 2 recent years or older data"
+  }
+ },
+ "tirana": {
+  "name": "Tirana",
+  "months": [
+   6.9,
+   9.0,
+   10.5,
+   9.4,
+   10.0,
+   10.0,
+   10.1,
+   13.5,
+   7.9,
+   7.2,
+   6.3,
+   7.0
+  ],
+  "prov": {
+   "camsAnnual": 9.0,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city (latest Tirana/ALB 2013: 16.6 µg/m³, not used); OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "san-miguel-de-allende": {
+  "name": "San Miguel de Allende",
+  "months": [
+   14.3,
+   14.0,
+   13.8,
+   13.8,
+   17.6,
+   12.3,
+   14.5,
+   12.1,
+   8.0,
+   8.6,
+   12.9,
+   12.9
+  ],
+  "prov": {
+   "camsAnnual": 11.1,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "San Miguel de Allende Guanajuato/MEX",
+   "whoDistKm": 0.2,
+   "whoYears": [
+    2020,
+    2021,
+    2022
+   ],
+   "whoAnnual": 12.9,
+   "whoStationTypes": "NA (n=1)",
+   "scale": 1.16,
+   "reason": "CAMS seasonal shape scaled x1.16 to WHO AAQ annual mean 12.9 µg/m³ (San Miguel de Allende Guanajuato/MEX, 2020, 2021, 2022)"
+  }
+ },
+ "ljubljana": {
+  "name": "Ljubljana",
+  "months": [
+   16.2,
+   22.3,
+   17.7,
+   13.2,
+   13.6,
+   14.0,
+   13.0,
+   13.3,
+   10.6,
+   13.3,
+   15.5,
+   18.2
+  ],
+  "prov": {
+   "camsAnnual": 13.3,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Ljubljana/SVN",
+   "whoDistKm": 0.7,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 15.1,
+   "whoStationTypes": "Background-Urban (n=2), Traffic-Urban (n=1)",
+   "scale": 1.13,
+   "reason": "CAMS seasonal shape scaled x1.13 to WHO AAQ annual mean 15.1 µg/m³ (Ljubljana/SVN, 2022, 2023, 2024)"
+  }
+ },
+ "porto": {
+  "name": "Porto",
+  "months": [
+   7.4,
+   8.8,
+   8.5,
+   8.5,
+   8.4,
+   9.2,
+   8.3,
+   9.6,
+   9.3,
+   8.9,
+   7.5,
+   7.6
+  ],
+  "prov": {
+   "camsAnnual": 11.5,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Porto Greater City/PRT",
+   "whoDistKm": 2.7,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 8.5,
+   "whoStationTypes": "Background-Suburban (n=1), Background-Urban (n=3), Industrial-Suburban (n=1), In",
+   "scale": 0.74,
+   "reason": "CAMS seasonal shape scaled x0.74 to WHO AAQ annual mean 8.5 µg/m³ (Porto Greater City/PRT, 2022, 2023, 2024)"
+  }
+ },
+ "yerevan": {
+  "name": "Yerevan",
+  "months": [
+   17.0,
+   16.7,
+   14.7,
+   12.1,
+   13.2,
+   10.0,
+   11.6,
+   10.8,
+   9.4,
+   10.6,
+   14.2,
+   17.2
+  ],
+  "prov": {
+   "camsAnnual": 13.1,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "puebla": {
+  "name": "Puebla",
+  "months": [
+   17.4,
+   17.9,
+   19.8,
+   21.3,
+   25.8,
+   15.8,
+   14.4,
+   12.7,
+   11.6,
+   12.1,
+   15.9,
+   15.5
+  ],
+  "prov": {
+   "camsAnnual": 16.0,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Puebla Puebla/MEX",
+   "whoDistKm": 2.6,
+   "whoYears": [
+    2019,
+    2021,
+    2022
+   ],
+   "whoAnnual": 16.7,
+   "whoStationTypes": "NA (n=4)",
+   "scale": 1.05,
+   "reason": "CAMS seasonal shape scaled x1.05 to WHO AAQ annual mean 16.7 µg/m³ (Puebla Puebla/MEX, 2019, 2021, 2022)"
+  }
+ },
+ "ho-chi-minh-city": {
+  "name": "Ho Chi Minh City",
+  "months": [
+   29.1,
+   19.6,
+   19.2,
+   19.5,
+   25.9,
+   36.1,
+   26.4,
+   24.0,
+   22.6,
+   26.0,
+   28.2,
+   28.7
+  ],
+  "prov": {
+   "camsAnnual": 26.7,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Ho Chi Minh/VNM",
+   "whoDistKm": 9.1,
+   "whoYears": [
+    2018,
+    2019,
+    2020
+   ],
+   "whoAnnual": 25.4,
+   "whoStationTypes": "Urban (n=1)",
+   "scale": 0.95,
+   "reason": "CAMS seasonal shape scaled x0.95 to WHO AAQ annual mean 25.4 µg/m³ (Ho Chi Minh/VNM, 2018, 2019, 2020); fewer than 2 recent years or older data"
+  }
+ },
+ "kuala-lumpur": {
+  "name": "Kuala Lumpur",
+  "months": [
+   27.3,
+   27.6,
+   33.2,
+   29.1,
+   28.4,
+   30.5,
+   30.6,
+   31.0,
+   30.4,
+   27.1,
+   21.7,
+   22.4
+  ],
+  "prov": {
+   "camsAnnual": 39.3,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Kuala Lumpur/MYS",
+   "whoDistKm": 2.7,
+   "whoYears": [
+    2019
+   ],
+   "whoAnnual": 28.3,
+   "whoStationTypes": "Sub Urban (n=1), Urban (n=1)",
+   "scale": 0.72,
+   "reason": "CAMS seasonal shape scaled x0.72 to WHO AAQ annual mean 28.3 µg/m³ (Kuala Lumpur/MYS, 2019); fewer than 2 recent years or older data"
+  }
+ },
+ "da-lat": {
+  "name": "Da Lat",
+  "months": [
+   7.6,
+   7.8,
+   12.9,
+   18.6,
+   12.0,
+   9.1,
+   7.2,
+   8.3,
+   6.7,
+   7.1,
+   6.0,
+   4.6
+  ],
+  "prov": {
+   "camsAnnual": 9.0,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "marrakech": {
+  "name": "Marrakech",
+  "months": [
+   37.3,
+   39.7,
+   37.3,
+   44.5,
+   40.1,
+   42.1,
+   44.1,
+   46.9,
+   34.1,
+   40.5,
+   37.3,
+   35.3
+  ],
+  "prov": {
+   "camsAnnual": 10.0,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Marrakech/MAR",
+   "whoDistKm": 1.0,
+   "whoYears": [
+    2023,
+    2024
+   ],
+   "whoAnnual": 39.9,
+   "whoStationTypes": "Urban (n=2)",
+   "scale": 4.01,
+   "reason": "CAMS seasonal shape scaled x4.01 to WHO AAQ annual mean 39.9 µg/m³ (Marrakech/MAR, 2023, 2024)"
+  }
+ },
+ "istanbul": {
+  "name": "Istanbul",
+  "months": [
+   45.6,
+   37.3,
+   46.8,
+   36.5,
+   29.3,
+   27.2,
+   26.2,
+   24.0,
+   23.2,
+   26.6,
+   31.1,
+   34.1
+  ],
+  "prov": {
+   "camsAnnual": 16.0,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Istanbul/TUR",
+   "whoDistKm": 2.1,
+   "whoYears": [
+    2023,
+    2024,
+    2025
+   ],
+   "whoAnnual": 32.3,
+   "whoStationTypes": "Traffic-Urban (n=1)",
+   "scale": 2.02,
+   "reason": "CAMS seasonal shape scaled x2.02 to WHO AAQ annual mean 32.3 µg/m³ (Istanbul/TUR, 2023, 2024, 2025)"
+  }
+ },
+ "boquete": {
+  "name": "Boquete",
+  "months": [
+   2.9,
+   3.5,
+   5.2,
+   5.0,
+   4.9,
+   3.9,
+   3.9,
+   4.1,
+   3.3,
+   2.5,
+   2.4,
+   2.8
+  ],
+  "prov": {
+   "camsAnnual": 3.7,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "arequipa": {
+  "name": "Arequipa",
+  "months": [
+   8.8,
+   6.0,
+   10.1,
+   12.9,
+   16.3,
+   16.0,
+   16.7,
+   14.7,
+   10.0,
+   9.5,
+   11.4,
+   13.4
+  ],
+  "prov": {
+   "camsAnnual": 12.2,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "taipei": {
+  "name": "Taipei",
+  "months": [
+   14.5,
+   15.2,
+   17.1,
+   19.7,
+   16.2,
+   19.0,
+   16.3,
+   18.0,
+   10.9,
+   10.2,
+   11.0,
+   11.9
+  ],
+  "prov": {
+   "camsAnnual": 22.0,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Taipei/CHN",
+   "whoDistKm": 5.3,
+   "whoYears": [
+    2018
+   ],
+   "whoAnnual": 15.0,
+   "whoStationTypes": "NA (n=2)",
+   "scale": 0.68,
+   "reason": "CAMS seasonal shape scaled x0.68 to WHO AAQ annual mean 15.0 µg/m³ (Taipei/CHN, 2018); fewer than 2 recent years or older data"
+  }
+ },
+ "cape-town": {
+  "name": "Cape Town",
+  "months": [
+   10.0,
+   9.5,
+   10.3,
+   12.6,
+   11.8,
+   11.8,
+   10.7,
+   13.1,
+   10.0,
+   9.4,
+   9.1,
+   9.1
+  ],
+  "prov": {
+   "camsAnnual": 20.5,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Cape Town/ZAF",
+   "whoDistKm": 14.7,
+   "whoYears": [
+    2019,
+    2020,
+    2021
+   ],
+   "whoAnnual": 10.6,
+   "whoStationTypes": "Industrial (n=1), Residential-Low income (n=1), Residential-Medium/Upper income ",
+   "scale": 0.52,
+   "reason": "CAMS seasonal shape scaled x0.52 to WHO AAQ annual mean 10.6 µg/m³ (Cape Town/ZAF, 2019, 2020, 2021); fewer than 2 recent years or older data"
+  }
+ },
+ "san-jose": {
+  "name": "San José",
+  "months": [
+   17.8,
+   18.7,
+   28.5,
+   30.0,
+   30.6,
+   30.0,
+   22.7,
+   25.1,
+   27.6,
+   23.9,
+   19.0,
+   18.1
+  ],
+  "prov": {
+   "camsAnnual": 7.9,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "San Jose/CRI",
+   "whoDistKm": 0.3,
+   "whoYears": [
+    2018,
+    2019,
+    2020
+   ],
+   "whoAnnual": 24.3,
+   "whoStationTypes": "NA (n=5)",
+   "scale": 3.06,
+   "reason": "CAMS seasonal shape scaled x3.06 to WHO AAQ annual mean 24.3 µg/m³ (San Jose/CRI, 2018, 2019, 2020); fewer than 2 recent years or older data"
+  }
+ },
+ "paphos": {
+  "name": "Paphos",
+  "months": [
+   14.5,
+   13.2,
+   14.7,
+   16.0,
+   15.6,
+   15.6,
+   16.1,
+   17.3,
+   13.7,
+   12.4,
+   13.7,
+   11.9
+  ],
+  "prov": {
+   "camsAnnual": 10.9,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Paphos/CYP",
+   "whoDistKm": 1.4,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 14.6,
+   "whoStationTypes": "Background-Suburban (n=1)",
+   "scale": 1.33,
+   "reason": "CAMS seasonal shape scaled x1.33 to WHO AAQ annual mean 14.6 µg/m³ (Paphos/CYP, 2022, 2023, 2024)"
+  }
+ },
+ "barcelona": {
+  "name": "Barcelona",
+  "months": [
+   10.6,
+   13.2,
+   12.5,
+   13.3,
+   13.5,
+   14.9,
+   14.2,
+   14.3,
+   10.4,
+   11.3,
+   9.4,
+   11.0
+  ],
+  "prov": {
+   "camsAnnual": 12.6,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Barcelona/ESP",
+   "whoDistKm": 4.7,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 12.4,
+   "whoStationTypes": "Background-Suburban (n=6), Background-Urban (n=14), Industrial-Suburban (n=3), T",
+   "scale": 0.99,
+   "reason": "CAMS seasonal shape scaled x0.99 to WHO AAQ annual mean 12.4 µg/m³ (Barcelona/ESP, 2022, 2023, 2024)"
+  }
+ },
+ "madrid": {
+  "name": "Madrid",
+  "months": [
+   12.3,
+   11.8,
+   9.1,
+   9.0,
+   8.4,
+   10.3,
+   8.1,
+   10.0,
+   8.4,
+   10.0,
+   11.4,
+   14.3
+  ],
+  "prov": {
+   "camsAnnual": 11.1,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Madrid/ESP",
+   "whoDistKm": 78.6,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 10.3,
+   "whoStationTypes": "Background-Suburban (n=8), Background-Urban (n=16), Industrial-Urban (n=2), Traf",
+   "scale": 0.93,
+   "reason": "CAMS seasonal shape scaled x0.93 to WHO AAQ annual mean 10.3 µg/m³ (Madrid/ESP, 2022, 2023, 2024); fewer than 2 recent years or older data"
+  }
+ },
+ "malaga": {
+  "name": "Málaga",
+  "months": [
+   7.1,
+   7.8,
+   8.2,
+   8.9,
+   8.3,
+   10.9,
+   11.8,
+   12.3,
+   9.2,
+   9.0,
+   7.5,
+   7.4
+  ],
+  "prov": {
+   "camsAnnual": 9.5,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Malaga/ESP",
+   "whoDistKm": 3.0,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 9.0,
+   "whoStationTypes": "Background-Suburban (n=2), Background-Urban (n=1), Industrial-Suburban (n=1), Tr",
+   "scale": 0.96,
+   "reason": "CAMS seasonal shape scaled x0.96 to WHO AAQ annual mean 9.0 µg/m³ (Malaga/ESP, 2022, 2023, 2024)"
+  }
+ },
+ "rome": {
+  "name": "Rome",
+  "months": [
+   13.8,
+   15.8,
+   13.6,
+   11.3,
+   11.3,
+   11.9,
+   11.6,
+   12.7,
+   10.0,
+   11.8,
+   10.7,
+   15.7
+  ],
+  "prov": {
+   "camsAnnual": 14.6,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Roma/ITA",
+   "whoDistKm": 0.7,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 12.5,
+   "whoStationTypes": "Background-Rural (n=1), Background-Suburban (n=2), Background-Urban (n=6), Traff",
+   "scale": 0.86,
+   "reason": "CAMS seasonal shape scaled x0.86 to WHO AAQ annual mean 12.5 µg/m³ (Roma/ITA, 2022, 2023, 2024)"
+  }
+ },
+ "florence": {
+  "name": "Florence",
+  "months": [
+   12.8,
+   15.9,
+   14.0,
+   11.9,
+   12.2,
+   13.3,
+   12.9,
+   12.9,
+   10.1,
+   11.6,
+   11.5,
+   14.1
+  ],
+  "prov": {
+   "camsAnnual": 11.4,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Firenze/ITA",
+   "whoDistKm": 1.8,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 12.8,
+   "whoStationTypes": "Background-Suburban (n=1), Background-Urban (n=2), Traffic-Urban (n=2)",
+   "scale": 1.12,
+   "reason": "CAMS seasonal shape scaled x1.12 to WHO AAQ annual mean 12.8 µg/m³ (Firenze/ITA, 2022, 2023, 2024)"
+  }
+ },
+ "bologna": {
+  "name": "Bologna",
+  "months": [
+   19.0,
+   18.9,
+   16.0,
+   12.7,
+   12.3,
+   12.8,
+   12.3,
+   13.1,
+   10.3,
+   12.7,
+   14.8,
+   18.6
+  ],
+  "prov": {
+   "camsAnnual": 13.2,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Bologna/ITA",
+   "whoDistKm": 1.5,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 14.5,
+   "whoStationTypes": "Background-Suburban (n=1), Background-Urban (n=1), Traffic-Urban (n=1)",
+   "scale": 1.1,
+   "reason": "CAMS seasonal shape scaled x1.10 to WHO AAQ annual mean 14.5 µg/m³ (Bologna/ITA, 2022, 2023, 2024)"
+  }
+ },
+ "palermo": {
+  "name": "Palermo",
+  "months": [
+   11.7,
+   14.3,
+   14.9,
+   14.0,
+   14.6,
+   15.7,
+   16.6,
+   14.6,
+   12.0,
+   11.7,
+   9.7,
+   12.1
+  ],
+  "prov": {
+   "camsAnnual": 10.7,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Palermo/ITA",
+   "whoDistKm": 2.4,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 13.5,
+   "whoStationTypes": "Background-Suburban (n=1), Background-Urban (n=1), Traffic-Urban (n=4)",
+   "scale": 1.26,
+   "reason": "CAMS seasonal shape scaled x1.26 to WHO AAQ annual mean 13.5 µg/m³ (Palermo/ITA, 2022, 2023, 2024)"
+  }
+ },
+ "valletta": {
+  "name": "Valletta",
+  "months": [
+   12.2,
+   11.8,
+   13.7,
+   13.1,
+   15.4,
+   14.7,
+   13.9,
+   14.4,
+   10.2,
+   10.3,
+   9.5,
+   9.2
+  ],
+  "prov": {
+   "camsAnnual": 11.8,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Valletta/MLT",
+   "whoDistKm": 2.3,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 12.4,
+   "whoStationTypes": "Traffic-Urban (n=1)",
+   "scale": 1.05,
+   "reason": "CAMS seasonal shape scaled x1.05 to WHO AAQ annual mean 12.4 µg/m³ (Valletta/MLT, 2022, 2023, 2024)"
+  }
+ },
+ "thessaloniki": {
+  "name": "Thessaloniki",
+  "months": [
+   18.6,
+   18.7,
+   20.2,
+   17.8,
+   16.7,
+   16.8,
+   16.4,
+   16.5,
+   13.5,
+   14.4,
+   14.9,
+   14.3
+  ],
+  "prov": {
+   "camsAnnual": 10.4,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Thessaloniki/GRC",
+   "whoDistKm": 1.6,
+   "whoYears": [
+    2023,
+    2024,
+    2025
+   ],
+   "whoAnnual": 16.6,
+   "whoStationTypes": "Background-Urban (n=1), Industrial-Urban (n=1), Traffic-Urban (n=1)",
+   "scale": 1.59,
+   "reason": "CAMS seasonal shape scaled x1.59 to WHO AAQ annual mean 16.6 µg/m³ (Thessaloniki/GRC, 2023, 2024, 2025)"
+  }
+ },
+ "funchal-madeira": {
+  "name": "Funchal (Madeira)",
+  "months": [
+   5.4,
+   6.7,
+   5.3,
+   5.7,
+   5.7,
+   5.9,
+   5.7,
+   5.9,
+   5.2,
+   5.3,
+   4.1,
+   5.1
+  ],
+  "prov": {
+   "camsAnnual": 8.7,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Funchal/PRT",
+   "whoDistKm": 2.9,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 5.5,
+   "whoStationTypes": "Background-Urban (n=1), Traffic-Urban (n=1)",
+   "scale": 0.63,
+   "reason": "CAMS seasonal shape scaled x0.63 to WHO AAQ annual mean 5.5 µg/m³ (Funchal/PRT, 2022, 2023, 2024)"
+  }
+ },
+ "las-palmas": {
+  "name": "Las Palmas",
+  "months": [
+   13.3,
+   16.0,
+   9.7,
+   11.5,
+   10.8,
+   10.4,
+   12.3,
+   12.6,
+   10.1,
+   10.3,
+   10.4,
+   13.6
+  ],
+  "prov": {
+   "camsAnnual": 10.1,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Las Palmas/ESP",
+   "whoDistKm": 1.0,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 11.8,
+   "whoStationTypes": "Background-Urban (n=1), Traffic-Urban (n=1)",
+   "scale": 1.16,
+   "reason": "CAMS seasonal shape scaled x1.16 to WHO AAQ annual mean 11.8 µg/m³ (Las Palmas/ESP, 2022, 2023, 2024)"
+  }
+ },
+ "nice": {
+  "name": "Nice",
+  "months": [
+   7.4,
+   10.6,
+   9.7,
+   9.9,
+   10.4,
+   13.6,
+   12.0,
+   12.0,
+   7.9,
+   9.0,
+   6.8,
+   7.4
+  ],
+  "prov": {
+   "camsAnnual": 10.4,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Nice/FRA",
+   "whoDistKm": 11.7,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 9.7,
+   "whoStationTypes": "Background-Suburban (n=1), Background-Urban (n=2), Traffic-Urban (n=1)",
+   "scale": 0.93,
+   "reason": "CAMS seasonal shape scaled x0.93 to WHO AAQ annual mean 9.7 µg/m³ (Nice/FRA, 2022, 2023, 2024); fewer than 2 recent years or older data"
+  }
+ },
+ "prague": {
+  "name": "Prague",
+  "months": [
+   11.9,
+   15.9,
+   18.2,
+   12.5,
+   11.4,
+   11.7,
+   10.5,
+   10.5,
+   9.8,
+   11.6,
+   14.4,
+   13.0
+  ],
+  "prov": {
+   "camsAnnual": 14.1,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Praha/CZE",
+   "whoDistKm": 0.5,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 12.6,
+   "whoStationTypes": "Background-Suburban (n=4), Background-Urban (n=5), Traffic-Urban (n=6)",
+   "scale": 0.9,
+   "reason": "CAMS seasonal shape scaled x0.90 to WHO AAQ annual mean 12.6 µg/m³ (Praha/CZE, 2022, 2023, 2024)"
+  }
+ },
+ "warsaw": {
+  "name": "Warsaw",
+  "months": [
+   16.1,
+   18.1,
+   20.7,
+   13.6,
+   13.3,
+   15.7,
+   14.0,
+   13.4,
+   12.4,
+   12.9,
+   15.8,
+   15.5
+  ],
+  "prov": {
+   "camsAnnual": 12.4,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Warszawa/POL",
+   "whoDistKm": 0.8,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 15.1,
+   "whoStationTypes": "Background-Urban (n=6), Traffic-Urban (n=1)",
+   "scale": 1.22,
+   "reason": "CAMS seasonal shape scaled x1.22 to WHO AAQ annual mean 15.1 µg/m³ (Warszawa/POL, 2022, 2023, 2024)"
+  }
+ },
+ "vilnius": {
+  "name": "Vilnius",
+  "months": [
+   6.4,
+   9.5,
+   11.4,
+   8.8,
+   8.3,
+   10.1,
+   8.8,
+   8.1,
+   7.3,
+   6.5,
+   6.7,
+   6.1
+  ],
+  "prov": {
+   "camsAnnual": 8.2,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Vilnius/LTU",
+   "whoDistKm": 1.4,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 8.2,
+   "whoStationTypes": "Background-Urban (n=2), Industrial-Urban (n=1), Traffic-Urban (n=1)",
+   "scale": 1.0,
+   "reason": "CAMS seasonal shape scaled x1.00 to WHO AAQ annual mean 8.2 µg/m³ (Vilnius/LTU, 2022, 2023, 2024)"
+  }
+ },
+ "tallinn": {
+  "name": "Tallinn",
+  "months": [
+   2.2,
+   3.4,
+   4.9,
+   5.9,
+   6.2,
+   5.6,
+   4.7,
+   3.9,
+   3.6,
+   2.4,
+   2.0,
+   2.1
+  ],
+  "prov": {
+   "camsAnnual": 9.1,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Tallinn/EST",
+   "whoDistKm": 2.9,
+   "whoYears": [
+    2023,
+    2024,
+    2025
+   ],
+   "whoAnnual": 3.9,
+   "whoStationTypes": "Background-Urban (n=1), Industrial-Urban (n=1), Traffic-Urban (n=1)",
+   "scale": 0.43,
+   "reason": "CAMS seasonal shape scaled x0.43 to WHO AAQ annual mean 3.9 µg/m³ (Tallinn/EST, 2023, 2024, 2025)"
+  }
+ },
+ "riga": {
+  "name": "Riga",
+  "months": [
+   7.0,
+   10.4,
+   11.9,
+   10.8,
+   10.4,
+   11.2,
+   8.7,
+   8.1,
+   8.1,
+   6.5,
+   6.7,
+   6.6
+  ],
+  "prov": {
+   "camsAnnual": 8.3,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Riga/LVA",
+   "whoDistKm": 1.0,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 8.9,
+   "whoStationTypes": "Background-Urban (n=1), Traffic-Urban (n=1)",
+   "scale": 1.07,
+   "reason": "CAMS seasonal shape scaled x1.07 to WHO AAQ annual mean 8.9 µg/m³ (Riga/LVA, 2022, 2023, 2024)"
+  }
+ },
+ "bucharest": {
+  "name": "Bucharest",
+  "months": [
+   20.9,
+   22.4,
+   18.2,
+   13.7,
+   12.7,
+   14.0,
+   13.2,
+   10.8,
+   10.0,
+   14.5,
+   19.6,
+   20.0
+  ],
+  "prov": {
+   "camsAnnual": 13.4,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Bucuresti/ROU",
+   "whoDistKm": 1.4,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 15.8,
+   "whoStationTypes": "Background-Urban (n=7), Industrial-Urban (n=3), Traffic-Urban (n=10)",
+   "scale": 1.18,
+   "reason": "CAMS seasonal shape scaled x1.18 to WHO AAQ annual mean 15.8 µg/m³ (Bucuresti/ROU, 2022, 2023, 2024)"
+  }
+ },
+ "cluj-napoca": {
+  "name": "Cluj-Napoca",
+  "months": [
+   16.0,
+   17.4,
+   16.6,
+   13.7,
+   15.5,
+   16.2,
+   14.3,
+   13.5,
+   11.5,
+   12.0,
+   14.9,
+   15.8
+  ],
+  "prov": {
+   "camsAnnual": 9.5,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Cluj Napoca/ROU",
+   "whoDistKm": 3.8,
+   "whoYears": [
+    2021,
+    2023,
+    2024
+   ],
+   "whoAnnual": 14.8,
+   "whoStationTypes": "Background-Suburban (n=1), Background-Urban (n=1), Industrial-Urban (n=1)",
+   "scale": 1.55,
+   "reason": "CAMS seasonal shape scaled x1.55 to WHO AAQ annual mean 14.8 µg/m³ (Cluj Napoca/ROU, 2021, 2023, 2024)"
+  }
+ },
+ "bratislava": {
+  "name": "Bratislava",
+  "months": [
+   11.1,
+   13.2,
+   13.9,
+   10.8,
+   12.0,
+   12.3,
+   12.1,
+   11.3,
+   9.6,
+   10.2,
+   12.7,
+   12.8
+  ],
+  "prov": {
+   "camsAnnual": 10.2,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Bratislava/SVK",
+   "whoDistKm": 2.0,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 11.8,
+   "whoStationTypes": "Background-Suburban (n=1), Background-Urban (n=2), Traffic-Urban (n=2)",
+   "scale": 1.16,
+   "reason": "CAMS seasonal shape scaled x1.16 to WHO AAQ annual mean 11.8 µg/m³ (Bratislava/SVK, 2022, 2023, 2024)"
+  }
+ },
+ "plovdiv": {
+  "name": "Plovdiv",
+  "months": [
+   15.5,
+   17.7,
+   20.4,
+   18.1,
+   17.7,
+   18.1,
+   18.3,
+   17.5,
+   14.1,
+   13.3,
+   12.7,
+   14.1
+  ],
+  "prov": {
+   "camsAnnual": 8.3,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Plovdiv/BGR",
+   "whoDistKm": 2.7,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 16.4,
+   "whoStationTypes": "Background-Urban (n=1), Traffic-Urban (n=1)",
+   "scale": 1.99,
+   "reason": "CAMS seasonal shape scaled x1.99 to WHO AAQ annual mean 16.4 µg/m³ (Plovdiv/BGR, 2022, 2023, 2024)"
+  }
+ },
+ "sarajevo": {
+  "name": "Sarajevo",
+  "months": [
+   82.2,
+   47.5,
+   28.8,
+   22.1,
+   12.8,
+   16.1,
+   17.3,
+   20.7,
+   17.5,
+   30.0,
+   48.5,
+   123.2
+  ],
+  "prov": {
+   "camsAnnual": 9.5,
+   "method": "cams-shape-x-who-annual+override",
+   "source": "who-aaq-v8+cams-om+override",
+   "confidence": "medium",
+   "whoSettlement": "Ilidza/BIH",
+   "whoDistKm": 4.2,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 28.4,
+   "whoStationTypes": "Background-Urban (n=1)",
+   "scale": 2.98,
+   "reason": "CAMS seasonal shape scaled x2.98 to WHO AAQ annual mean 28.4 µg/m³ (Ilidza/BIH, 2022, 2023, 2024); months [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] overridden from cited ground data (https://catalog.data.gov/dataset/sarajevo-pm2-5-data-from-metone-bam-1020)",
+   "override": {
+    "months": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12
+    ],
+    "reason": "Basin heating smog with inversions. Monthly means of hourly US EPA MetOne BAM-1020 PM2.5 in Sarajevo, May 2018-Aug 2019 (Jun/Jul/Aug averaged over both years; Jan/Feb 2019 have 45%/64% hourly coverage). CAMS shape is inverted here (scaled CAMS peaked in summer at 33 µg/m³ and gave Dec 26). One winter only (2018-19) and older than the WHO 2022-24 annual (28.4): treat winter magnitudes as indicative.",
+    "source": "https://catalog.data.gov/dataset/sarajevo-pm2-5-data-from-metone-bam-1020",
+    "sourceLicence": "U.S. Public Domain (EPA data licence https://pasteur.epa.gov/license/sciencehub-license.html)",
+    "changes": [
+     {
+      "month": 1,
+      "before": 22.3,
+      "after": 82.2
+     },
+     {
+      "month": 2,
+      "before": 30.4,
+      "after": 47.5
+     },
+     {
+      "month": 3,
+      "before": 31.0,
+      "after": 28.8
+     },
+     {
+      "month": 4,
+      "before": 32.2,
+      "after": 22.1
+     },
+     {
+      "month": 5,
+      "before": 30.7,
+      "after": 12.8
+     },
+     {
+      "month": 6,
+      "before": 33.1,
+      "after": 16.1
+     },
+     {
+      "month": 7,
+      "before": 31.9,
+      "after": 17.3
+     },
+     {
+      "month": 8,
+      "before": 33.4,
+      "after": 20.7
+     },
+     {
+      "month": 9,
+      "before": 25.0,
+      "after": 17.5
+     },
+     {
+      "month": 10,
+      "before": 24.7,
+      "after": 30.0
+     },
+     {
+      "month": 11,
+      "before": 20.6,
+      "after": 48.5
+     },
+     {
+      "month": 12,
+      "before": 25.6,
+      "after": 123.2
+     }
+    ]
+   }
+  }
+ },
+ "amsterdam": {
+  "name": "Amsterdam",
+  "months": [
+   7.3,
+   9.4,
+   11.1,
+   9.3,
+   9.9,
+   10.3,
+   10.0,
+   9.5,
+   9.6,
+   7.4,
+   6.9,
+   7.0
+  ],
+  "prov": {
+   "camsAnnual": 10.5,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Greater Amsterdam/NLD",
+   "whoDistKm": 0.9,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 9.0,
+   "whoStationTypes": "Background-Urban (n=5), Traffic-Urban (n=5)",
+   "scale": 0.86,
+   "reason": "CAMS seasonal shape scaled x0.86 to WHO AAQ annual mean 9.0 µg/m³ (Greater Amsterdam/NLD, 2022, 2023, 2024)"
+  }
+ },
+ "berlin": {
+  "name": "Berlin",
+  "months": [
+   9.4,
+   13.8,
+   15.1,
+   12.0,
+   11.2,
+   12.5,
+   11.4,
+   11.5,
+   9.6,
+   9.8,
+   10.5,
+   9.6
+  ],
+  "prov": {
+   "camsAnnual": 11.2,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Berlin/DEU",
+   "whoDistKm": 2.3,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 11.4,
+   "whoStationTypes": "Background-Rural (n=4), Background-Suburban (n=1), Background-Urban (n=5), Traff",
+   "scale": 1.02,
+   "reason": "CAMS seasonal shape scaled x1.02 to WHO AAQ annual mean 11.4 µg/m³ (Berlin/DEU, 2022, 2023, 2024)"
+  }
+ },
+ "vienna": {
+  "name": "Vienna",
+  "months": [
+   9.3,
+   11.1,
+   11.8,
+   9.2,
+   10.1,
+   10.5,
+   9.9,
+   9.8,
+   8.2,
+   9.2,
+   10.4,
+   10.5
+  ],
+  "prov": {
+   "camsAnnual": 11.5,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Wien/AUT",
+   "whoDistKm": 8.1,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 10.0,
+   "whoStationTypes": "Background-Rural (n=2), Background-Suburban (n=5), Background-Urban (n=8), Traff",
+   "scale": 0.87,
+   "reason": "CAMS seasonal shape scaled x0.87 to WHO AAQ annual mean 10.0 µg/m³ (Wien/AUT, 2022, 2023, 2024)"
+  }
+ },
+ "zurich": {
+  "name": "Zurich",
+  "months": [
+   8.8,
+   10.6,
+   9.5,
+   8.0,
+   7.2,
+   8.3,
+   7.6,
+   7.7,
+   6.2,
+   7.2,
+   7.7,
+   9.8
+  ],
+  "prov": {
+   "camsAnnual": 15.6,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Zurich Greater City/CHE",
+   "whoDistKm": 2.0,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 8.2,
+   "whoStationTypes": "Background-Suburban (n=2), Background-Urban (n=1), Traffic-Suburban (n=1), Traff",
+   "scale": 0.53,
+   "reason": "CAMS seasonal shape scaled x0.53 to WHO AAQ annual mean 8.2 µg/m³ (Zurich Greater City/CHE, 2022, 2023, 2024)"
+  }
+ },
+ "london": {
+  "name": "London",
+  "months": [
+   10.6,
+   10.1,
+   13.5,
+   10.8,
+   11.9,
+   11.3,
+   10.6,
+   11.0,
+   11.4,
+   9.8,
+   9.7,
+   9.4
+  ],
+  "prov": {
+   "camsAnnual": 9.5,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "London/GBR",
+   "whoDistKm": 2.0,
+   "whoYears": [
+    2018,
+    2019
+   ],
+   "whoAnnual": 10.8,
+   "whoStationTypes": "Suburban (n=2), Urban (n=14)",
+   "scale": 1.14,
+   "reason": "CAMS seasonal shape scaled x1.14 to WHO AAQ annual mean 10.8 µg/m³ (London/GBR, 2018, 2019); fewer than 2 recent years or older data"
+  }
+ },
+ "paris": {
+  "name": "Paris",
+  "months": [
+   10.1,
+   11.7,
+   12.0,
+   10.9,
+   10.9,
+   11.5,
+   9.4,
+   9.3,
+   9.6,
+   10.7,
+   9.5,
+   10.8
+  ],
+  "prov": {
+   "camsAnnual": 11.2,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Paris Greater City/FRA",
+   "whoDistKm": 1.0,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 10.5,
+   "whoStationTypes": "Background-Suburban (n=3), Background-Urban (n=21), Traffic-Suburban (n=1), Traf",
+   "scale": 0.94,
+   "reason": "CAMS seasonal shape scaled x0.94 to WHO AAQ annual mean 10.5 µg/m³ (Paris Greater City/FRA, 2022, 2023, 2024)"
+  }
+ },
+ "dublin": {
+  "name": "Dublin",
+  "months": [
+   5.4,
+   5.7,
+   8.1,
+   9.1,
+   10.0,
+   8.7,
+   7.5,
+   8.3,
+   7.6,
+   6.5,
+   5.7,
+   5.1
+  ],
+  "prov": {
+   "camsAnnual": 6.0,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Dublin/IRL",
+   "whoDistKm": 0.7,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 7.3,
+   "whoStationTypes": "Background-Suburban (n=5), Background-Urban (n=1), Traffic-Suburban (n=1), Traff",
+   "scale": 1.22,
+   "reason": "CAMS seasonal shape scaled x1.22 to WHO AAQ annual mean 7.3 µg/m³ (Dublin/IRL, 2022, 2023, 2024)"
+  }
+ },
+ "copenhagen": {
+  "name": "Copenhagen",
+  "months": [
+   5.0,
+   7.2,
+   9.9,
+   10.1,
+   8.0,
+   8.6,
+   8.0,
+   7.8,
+   7.1,
+   5.7,
+   5.4,
+   5.3
+  ],
+  "prov": {
+   "camsAnnual": 8.3,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Kobenhavn/DNK",
+   "whoDistKm": 2.0,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 7.4,
+   "whoStationTypes": "Background-Suburban (n=1), Background-Urban (n=1), Traffic-Urban (n=2)",
+   "scale": 0.88,
+   "reason": "CAMS seasonal shape scaled x0.88 to WHO AAQ annual mean 7.4 µg/m³ (Kobenhavn/DNK, 2022, 2023, 2024)"
+  }
+ },
+ "stockholm": {
+  "name": "Stockholm",
+  "months": [
+   3.4,
+   4.5,
+   5.2,
+   5.6,
+   6.2,
+   6.6,
+   5.8,
+   5.8,
+   5.7,
+   3.6,
+   3.6,
+   3.2
+  ],
+  "prov": {
+   "camsAnnual": 5.9,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Stockholm Greater City/SWE",
+   "whoDistKm": 4.5,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 4.9,
+   "whoStationTypes": "Background-Rural (n=1), Background-Suburban (n=2), Background-Urban (n=4), Traff",
+   "scale": 0.84,
+   "reason": "CAMS seasonal shape scaled x0.84 to WHO AAQ annual mean 4.9 µg/m³ (Stockholm Greater City/SWE, 2022, 2023, 2024)"
+  }
+ },
+ "geneva": {
+  "name": "Geneva",
+  "months": [
+   8.4,
+   12.0,
+   11.7,
+   9.2,
+   9.6,
+   11.2,
+   8.9,
+   9.3,
+   7.3,
+   8.7,
+   7.9,
+   9.8
+  ],
+  "prov": {
+   "camsAnnual": 9.5,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "munich": {
+  "name": "Munich",
+  "months": [
+   7.7,
+   9.4,
+   9.7,
+   8.6,
+   8.8,
+   10.4,
+   9.7,
+   9.2,
+   7.4,
+   8.3,
+   8.4,
+   8.8
+  ],
+  "prov": {
+   "camsAnnual": 10.8,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Munchen/DEU",
+   "whoDistKm": 3.4,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 8.9,
+   "whoStationTypes": "Background-Suburban (n=2), Background-Urban (n=1), Traffic-Urban (n=2)",
+   "scale": 0.82,
+   "reason": "CAMS seasonal shape scaled x0.82 to WHO AAQ annual mean 8.9 µg/m³ (Munchen/DEU, 2022, 2023, 2024)"
+  }
+ },
+ "helsinki": {
+  "name": "Helsinki",
+  "months": [
+   3.5,
+   5.1,
+   6.3,
+   7.2,
+   7.0,
+   7.2,
+   5.9,
+   5.6,
+   5.3,
+   3.6,
+   3.2,
+   3.5
+  ],
+  "prov": {
+   "camsAnnual": 7.1,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Helsinki Helsingfors Greater City/FIN",
+   "whoDistKm": 6.6,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 5.3,
+   "whoStationTypes": "Background-Rural (n=1), Background-Suburban (n=1), Background-Urban (n=1), Traff",
+   "scale": 0.75,
+   "reason": "CAMS seasonal shape scaled x0.75 to WHO AAQ annual mean 5.3 µg/m³ (Helsinki Helsingfors Greater City/FIN, 2022, 2023, 2024)"
+  }
+ },
+ "oslo": {
+  "name": "Oslo",
+  "months": [
+   7.7,
+   9.8,
+   8.7,
+   9.1,
+   8.8,
+   8.4,
+   8.7,
+   7.9,
+   8.2,
+   5.8,
+   5.6,
+   6.7
+  ],
+  "prov": {
+   "camsAnnual": 7.4,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Oslo/NOR",
+   "whoDistKm": 23.9,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 8.0,
+   "whoStationTypes": "Background-Suburban (n=1), Background-Urban (n=3), Industrial-Urban (n=1), Traff",
+   "scale": 1.08,
+   "reason": "CAMS seasonal shape scaled x1.08 to WHO AAQ annual mean 8.0 µg/m³ (Oslo/NOR, 2022, 2023, 2024); fewer than 2 recent years or older data"
+  }
+ },
+ "utrecht": {
+  "name": "Utrecht",
+  "months": [
+   8.1,
+   9.5,
+   11.6,
+   9.7,
+   10.3,
+   10.8,
+   11.4,
+   10.3,
+   9.9,
+   7.8,
+   7.5,
+   7.7
+  ],
+  "prov": {
+   "camsAnnual": 10.5,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Greater Utrecht/NLD",
+   "whoDistKm": 0.2,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 9.5,
+   "whoStationTypes": "Background-Urban (n=1), Traffic-Urban (n=2)",
+   "scale": 0.91,
+   "reason": "CAMS seasonal shape scaled x0.91 to WHO AAQ annual mean 9.5 µg/m³ (Greater Utrecht/NLD, 2022, 2023, 2024)"
+  }
+ },
+ "the-hague": {
+  "name": "The Hague",
+  "months": [
+   6.4,
+   8.3,
+   10.3,
+   9.2,
+   9.6,
+   9.7,
+   9.2,
+   8.5,
+   8.6,
+   6.5,
+   6.0,
+   6.1
+  ],
+  "prov": {
+   "camsAnnual": 11.2,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Greater S Gravenhage/NLD",
+   "whoDistKm": 1.6,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 8.2,
+   "whoStationTypes": "Background-Urban (n=2), Traffic-Urban (n=2)",
+   "scale": 0.73,
+   "reason": "CAMS seasonal shape scaled x0.73 to WHO AAQ annual mean 8.2 µg/m³ (Greater S Gravenhage/NLD, 2022, 2023, 2024)"
+  }
+ },
+ "vancouver": {
+  "name": "Vancouver",
+  "months": [
+   5.7,
+   5.2,
+   5.7,
+   6.6,
+   6.8,
+   6.6,
+   6.7,
+   8.6,
+   7.4,
+   6.4,
+   5.8,
+   4.6
+  ],
+  "prov": {
+   "camsAnnual": 12.5,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Vancouver/CAN",
+   "whoDistKm": 4.0,
+   "whoYears": [
+    2021,
+    2022,
+    2023
+   ],
+   "whoAnnual": 6.3,
+   "whoStationTypes": "urban-traffic (n=1)",
+   "scale": 0.51,
+   "reason": "CAMS seasonal shape scaled x0.51 to WHO AAQ annual mean 6.3 µg/m³ (Vancouver/CAN, 2021, 2022, 2023)"
+  }
+ },
+ "melbourne": {
+  "name": "Melbourne",
+  "months": [
+   7.5,
+   6.6,
+   6.9,
+   8.1,
+   7.7,
+   6.6,
+   6.8,
+   7.1,
+   6.1,
+   6.6,
+   6.9,
+   6.9
+  ],
+  "prov": {
+   "camsAnnual": 7.9,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Melbourne/AUS",
+   "whoDistKm": 7.1,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 7.0,
+   "whoStationTypes": "Urban (n=1)",
+   "scale": 0.89,
+   "reason": "CAMS seasonal shape scaled x0.89 to WHO AAQ annual mean 7.0 µg/m³ (Melbourne/AUS, 2022, 2023, 2024)"
+  }
+ },
+ "auckland": {
+  "name": "Auckland",
+  "months": [
+   8.1,
+   8.5,
+   8.1,
+   7.4,
+   7.8,
+   7.2,
+   8.3,
+   8.3,
+   9.8,
+   9.4,
+   8.7,
+   8.3
+  ],
+  "prov": {
+   "camsAnnual": 6.3,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Auckland CBD/NZL",
+   "whoDistKm": 0.3,
+   "whoYears": [
+    2021,
+    2022,
+    2023
+   ],
+   "whoAnnual": 8.3,
+   "whoStationTypes": "Traffic (n=3)",
+   "scale": 1.32,
+   "reason": "CAMS seasonal shape scaled x1.32 to WHO AAQ annual mean 8.3 µg/m³ (Auckland CBD/NZL, 2021, 2022, 2023)"
+  }
+ },
+ "wellington": {
+  "name": "Wellington",
+  "months": [
+   6.4,
+   6.3,
+   5.4,
+   4.5,
+   4.4,
+   4.2,
+   4.4,
+   4.9,
+   5.3,
+   5.9,
+   6.2,
+   6.1
+  ],
+  "prov": {
+   "camsAnnual": 5.0,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Wellington/NZL",
+   "whoDistKm": 0.9,
+   "whoYears": [
+    2021,
+    2022,
+    2023
+   ],
+   "whoAnnual": 5.3,
+   "whoStationTypes": "Traffic (n=1)",
+   "scale": 1.07,
+   "reason": "CAMS seasonal shape scaled x1.07 to WHO AAQ annual mean 5.3 µg/m³ (Wellington/NZL, 2021, 2022, 2023)"
+  }
+ },
+ "tokyo": {
+  "name": "Tokyo",
+  "months": [
+   13.5,
+   11.9,
+   12.1,
+   12.1,
+   10.4,
+   11.8,
+   12.7,
+   9.5,
+   9.1,
+   10.8,
+   13.9,
+   14.5
+  ],
+  "prov": {
+   "camsAnnual": 25.4,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Tokyo/JPN",
+   "whoDistKm": 8.4,
+   "whoYears": [
+    2018,
+    2019
+   ],
+   "whoAnnual": 11.9,
+   "whoStationTypes": "Urban (n=18)",
+   "scale": 0.47,
+   "reason": "CAMS seasonal shape scaled x0.47 to WHO AAQ annual mean 11.9 µg/m³ (Tokyo/JPN, 2018, 2019); fewer than 2 recent years or older data"
+  }
+ },
+ "osaka": {
+  "name": "Osaka",
+  "months": [
+   8.6,
+   9.8,
+   10.7,
+   11.3,
+   9.1,
+   12.0,
+   11.8,
+   9.1,
+   8.4,
+   7.3,
+   9.1,
+   8.4
+  ],
+  "prov": {
+   "camsAnnual": 17.9,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Osaka/JPN",
+   "whoDistKm": 2.0,
+   "whoYears": [
+    2020,
+    2021,
+    2022
+   ],
+   "whoAnnual": 9.6,
+   "whoStationTypes": "Urban (n=1)",
+   "scale": 0.54,
+   "reason": "CAMS seasonal shape scaled x0.54 to WHO AAQ annual mean 9.6 µg/m³ (Osaka/JPN, 2020, 2021, 2022)"
+  }
+ },
+ "nha-trang": {
+  "name": "Nha Trang",
+  "months": [
+   13.2,
+   11.9,
+   15.8,
+   17.1,
+   16.1,
+   19.5,
+   15.7,
+   15.1,
+   11.7,
+   9.8,
+   10.4,
+   10.0
+  ],
+  "prov": {
+   "camsAnnual": 13.9,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "ipoh": {
+  "name": "Ipoh",
+  "months": [
+   13.8,
+   15.0,
+   17.5,
+   16.5,
+   15.2,
+   17.6,
+   19.7,
+   19.9,
+   15.4,
+   13.2,
+   10.9,
+   11.5
+  ],
+  "prov": {
+   "camsAnnual": 15.5,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "kuching": {
+  "name": "Kuching",
+  "months": [
+   9.4,
+   10.0,
+   13.0,
+   16.8,
+   14.1,
+   15.5,
+   20.7,
+   33.8,
+   17.0,
+   14.1,
+   12.2,
+   10.5
+  ],
+  "prov": {
+   "camsAnnual": 15.6,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "dumaguete": {
+  "name": "Dumaguete",
+  "months": [
+   5.3,
+   5.4,
+   5.9,
+   7.7,
+   7.1,
+   6.6,
+   6.6,
+   6.7,
+   5.5,
+   5.3,
+   4.8,
+   4.2
+  ],
+  "prov": {
+   "camsAnnual": 5.9,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "novi-sad": {
+  "name": "Novi Sad",
+  "months": [
+   21.7,
+   19.6,
+   19.5,
+   14.6,
+   14.9,
+   16.4,
+   13.8,
+   13.0,
+   12.5,
+   14.6,
+   19.1,
+   23.9
+  ],
+  "prov": {
+   "camsAnnual": 12.6,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Novi Sad/SRB",
+   "whoDistKm": 1.2,
+   "whoYears": [
+    2024
+   ],
+   "whoAnnual": 17.0,
+   "whoStationTypes": "Traffic-Urban (n=1)",
+   "scale": 1.34,
+   "reason": "CAMS seasonal shape scaled x1.34 to WHO AAQ annual mean 17.0 µg/m³ (Novi Sad/SRB, 2024); fewer than 2 recent years or older data"
+  }
+ },
+ "skopje": {
+  "name": "Skopje",
+  "months": [
+   86.9,
+   57.5,
+   26.4,
+   16.0,
+   12.2,
+   12.2,
+   10.8,
+   12.7,
+   20.9,
+   27.0,
+   42.6,
+   62.5
+  ],
+  "prov": {
+   "camsAnnual": 14.8,
+   "method": "cams-shape-x-who-annual+override",
+   "source": "who-aaq-v8+cams-om+override",
+   "confidence": "medium",
+   "whoSettlement": "Skopje/MKD",
+   "whoDistKm": 0.7,
+   "whoYears": [
+    2023,
+    2024,
+    2025
+   ],
+   "whoAnnual": 24.8,
+   "whoStationTypes": "Traffic-Urban (n=1)",
+   "scale": 1.67,
+   "reason": "CAMS seasonal shape scaled x1.67 to WHO AAQ annual mean 24.8 µg/m³ (Skopje/MKD, 2023, 2024, 2025); months [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] overridden from cited ground data (https://doi.org/10.18280/ijdne.210522)",
+   "override": {
+    "months": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12
+    ],
+    "reason": "Basin heating smog. Mean of 2023 and 2024 monthly PM2.5 at the Lisice station (Ministry of Environment monitoring network, BAM). CAMS shape is far too flat (scaled winter ~32 µg/m³ vs measured 58-97). Same years as the CAMS window, so all 12 months are replaced. Single station in the more polluted east of the city: likely biased high vs the city-wide mean.",
+    "source": "https://doi.org/10.18280/ijdne.210522",
+    "sourceLicence": "journal article; factual figures cited with attribution",
+    "changes": [
+     {
+      "month": 1,
+      "before": 32.1,
+      "after": 86.9
+     },
+     {
+      "month": 2,
+      "before": 31.3,
+      "after": 57.5
+     },
+     {
+      "month": 3,
+      "before": 28.4,
+      "after": 26.4
+     },
+     {
+      "month": 4,
+      "before": 23.2,
+      "after": 16.0
+     },
+     {
+      "month": 5,
+      "before": 21.6,
+      "after": 12.2
+     },
+     {
+      "month": 6,
+      "before": 21.6,
+      "after": 12.2
+     },
+     {
+      "month": 7,
+      "before": 19.4,
+      "after": 10.8
+     },
+     {
+      "month": 8,
+      "before": 21.6,
+      "after": 12.7
+     },
+     {
+      "month": 9,
+      "before": 18.2,
+      "after": 20.9
+     },
+     {
+      "month": 10,
+      "before": 22.2,
+      "after": 27.0
+     },
+     {
+      "month": 11,
+      "before": 25.7,
+      "after": 42.6
+     },
+     {
+      "month": 12,
+      "before": 32.4,
+      "after": 62.5
+     }
+    ]
+   }
+  }
+ },
+ "ohrid": {
+  "name": "Ohrid",
+  "months": [
+   13.5,
+   19.5,
+   23.2,
+   20.8,
+   22.2,
+   23.2,
+   21.5,
+   25.1,
+   16.4,
+   14.2,
+   12.3,
+   13.3
+  ],
+  "prov": {
+   "camsAnnual": 7.8,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "medium",
+   "whoSettlement": "Ohrid/MKD",
+   "whoDistKm": 1.1,
+   "whoYears": [
+    2025
+   ],
+   "whoAnnual": 18.8,
+   "whoStationTypes": "Traffic-Urban (n=1)",
+   "scale": 2.41,
+   "reason": "CAMS seasonal shape scaled x2.41 to WHO AAQ annual mean 18.8 µg/m³ (Ohrid/MKD, 2025); fewer than 2 recent years or older data"
+  }
+ },
+ "brno": {
+  "name": "Brno",
+  "months": [
+   12.7,
+   15.9,
+   17.2,
+   12.9,
+   13.3,
+   13.4,
+   12.8,
+   12.3,
+   11.3,
+   11.7,
+   15.0,
+   15.3
+  ],
+  "prov": {
+   "camsAnnual": 11.2,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Brno/CZE",
+   "whoDistKm": 1.0,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 13.6,
+   "whoStationTypes": "Background-Suburban (n=3), Background-Urban (n=3), Industrial-Urban (n=1), Traff",
+   "scale": 1.22,
+   "reason": "CAMS seasonal shape scaled x1.22 to WHO AAQ annual mean 13.6 µg/m³ (Brno/CZE, 2022, 2023, 2024)"
+  }
+ },
+ "wroc-aw": {
+  "name": "Wrocław",
+  "months": [
+   14.7,
+   17.6,
+   20.7,
+   16.0,
+   14.9,
+   16.2,
+   15.7,
+   15.0,
+   13.3,
+   13.7,
+   16.0,
+   16.5
+  ],
+  "prov": {
+   "camsAnnual": 12.0,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Wroclaw/POL",
+   "whoDistKm": 1.4,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 15.9,
+   "whoStationTypes": "Background-Suburban (n=1), Background-Urban (n=3), Traffic-Urban (n=1)",
+   "scale": 1.32,
+   "reason": "CAMS seasonal shape scaled x1.32 to WHO AAQ annual mean 15.9 µg/m³ (Wroclaw/POL, 2022, 2023, 2024)"
+  }
+ },
+ "gdansk": {
+  "name": "Gdańsk",
+  "months": [
+   10.2,
+   13.4,
+   17.4,
+   15.7,
+   13.0,
+   13.5,
+   12.5,
+   12.0,
+   11.0,
+   9.5,
+   11.2,
+   10.9
+  ],
+  "prov": {
+   "camsAnnual": 9.9,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Gdansk/POL",
+   "whoDistKm": 4.7,
+   "whoYears": [
+    2022,
+    2023,
+    2024
+   ],
+   "whoAnnual": 12.5,
+   "whoStationTypes": "Background-Urban (n=3)",
+   "scale": 1.26,
+   "reason": "CAMS seasonal shape scaled x1.26 to WHO AAQ annual mean 12.5 µg/m³ (Gdansk/POL, 2022, 2023, 2024)"
+  }
+ },
+ "mendoza": {
+  "name": "Mendoza",
+  "months": [
+   5.6,
+   5.1,
+   5.9,
+   5.4,
+   7.0,
+   8.2,
+   8.9,
+   7.0,
+   6.2,
+   5.4,
+   4.9,
+   4.5
+  ],
+  "prov": {
+   "camsAnnual": 6.2,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "salta": {
+  "name": "Salta",
+  "months": [
+   5.2,
+   4.6,
+   4.2,
+   4.3,
+   4.5,
+   4.5,
+   6.4,
+   6.3,
+   6.3,
+   5.9,
+   7.2,
+   5.2
+  ],
+  "prov": {
+   "camsAnnual": 5.4,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ },
+ "queretaro": {
+  "name": "Querétaro",
+  "months": [
+   16.1,
+   16.7,
+   16.0,
+   17.1,
+   22.0,
+   14.3,
+   17.1,
+   14.1,
+   9.7,
+   10.7,
+   15.2,
+   14.5
+  ],
+  "prov": {
+   "camsAnnual": 11.5,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Santiago de Queretaro Queretaro/MEX",
+   "whoDistKm": 7.4,
+   "whoYears": [
+    2020,
+    2021,
+    2022
+   ],
+   "whoAnnual": 15.3,
+   "whoStationTypes": "NA (n=4)",
+   "scale": 1.33,
+   "reason": "CAMS seasonal shape scaled x1.33 to WHO AAQ annual mean 15.3 µg/m³ (Santiago de Queretaro Queretaro/MEX, 2020, 2021, 2022)"
+  }
+ },
+ "guanajuato": {
+  "name": "Guanajuato",
+  "months": [
+   12.8,
+   13.0,
+   14.3,
+   14.4,
+   19.0,
+   12.8,
+   13.6,
+   11.9,
+   7.6,
+   8.6,
+   11.7,
+   11.7
+  ],
+  "prov": {
+   "camsAnnual": 8.0,
+   "method": "cams-shape-x-who-annual",
+   "source": "who-aaq-v8+cams-om",
+   "confidence": "high",
+   "whoSettlement": "Guanajuato Guanajuato/MEX",
+   "whoDistKm": 0.2,
+   "whoYears": [
+    2020,
+    2021,
+    2022
+   ],
+   "whoAnnual": 12.6,
+   "whoStationTypes": "NA (n=1)",
+   "scale": 1.59,
+   "reason": "CAMS seasonal shape scaled x1.59 to WHO AAQ annual mean 12.6 µg/m³ (Guanajuato Guanajuato/MEX, 2020, 2021, 2022)"
+  }
+ },
+ "joao-pessoa": {
+  "name": "João Pessoa",
+  "months": [
+   9.4,
+   8.9,
+   8.0,
+   7.6,
+   8.1,
+   9.4,
+   9.8,
+   10.6,
+   12.1,
+   11.3,
+   10.0,
+   9.2
+  ],
+  "prov": {
+   "camsAnnual": 9.5,
+   "method": "raw-cams",
+   "source": "cams-om",
+   "confidence": "low",
+   "reason": "no WHO AAQ entry since 2018 near the city; OpenAQ needs an API key; raw CAMS (~45 km model) kept"
+  }
+ }
+}
