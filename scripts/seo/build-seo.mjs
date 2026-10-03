@@ -18,6 +18,7 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { GENERATED_TREES, countsLine } from './trees.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const outArg = process.argv.indexOf('--out');
@@ -52,8 +53,9 @@ try {
 }
 
 // Generated trees are owned by this script: clear them so a renamed or removed
-// city never leaves a stale page behind.
-for (const dir of ['city', 'best', 'cities']) rmSync(join(outDir, dir), { recursive: true, force: true });
+// city never leaves a stale page behind (compare/ and og/ are owned too, so a
+// removed comparison or share image goes with it).
+for (const dir of GENERATED_TREES) rmSync(join(outDir, dir), { recursive: true, force: true });
 
 let bytes = 0;
 for (const f of result.files) {
@@ -63,7 +65,12 @@ for (const f of result.files) {
   bytes += Buffer.byteLength(f.content);
 }
 
+// Pages that failed their substance gate are not emitted; say which and why.
+for (const s of result.skipped ?? []) console.log(`[seo] skip ${s.path} — ${s.reason}`);
+
 const ms = Math.round(performance.now() - t0);
+const pagePaths = result.files.filter((f) => f.path.endsWith('/index.html')).map((f) => ('/' + f.path).replace(/^\/+/, '/').replace(/index\.html$/, ''));
+const sitemaps = result.files.filter((f) => /^sitemap.*\.xml$/.test(f.path)).length;
 console.log(
-  `[seo] ${result.pages} pages (+ sitemap.xml, llms.txt) → ${outDir.replace(root + '/', '')}/ · ${(bytes / 1024).toFixed(0)} KB · ${ms} ms`
+  `[seo] ${result.pages} pages (${countsLine(pagePaths)}) + ${sitemaps} sitemap files, llms.txt → ${outDir.replace(root + '/', '')}/ · ${(bytes / 1024).toFixed(0)} KB · ${ms} ms`
 );

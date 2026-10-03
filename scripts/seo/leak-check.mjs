@@ -3,7 +3,8 @@
 // The generator renders only allowlisted public fields (src/seo/publicData.js).
 // This check proves it from the other side: it collects the text of the
 // private inputs and fails if any of it appears in a generated page,
-// sitemap.xml or llms.txt.
+// sitemap*.xml or llms.txt. Trees: city/, best/, cities/, compare/ (index.html
+// pages only) and og/ (.png only; binary, so only the file type is checked).
 //
 //   • data/cost-evidence/*.json — component notes, evidence claims & quotes, _doc
 //   • data/safety-inputs-v3.json — property / women's / visitor rationale, audit notes
@@ -17,6 +18,7 @@
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, relative } from 'node:path';
+import { GENERATED_TREES } from './trees.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const outArg = process.argv.indexOf('--out');
@@ -98,20 +100,31 @@ function walk(dir, acc = []) {
   }
   return acc;
 }
+// Every sitemap*.xml (the index and each per-type child) is scanned too.
+const sitemaps = existsSync(dist) ? readdirSync(dist).filter((f) => /^sitemap.*\.xml$/.test(f)) : [];
 const files = [
-  ...['city', 'best', 'cities'].flatMap((d) => walk(join(dist, d))),
-  ...['sitemap.xml', 'llms.txt'].map((f) => join(dist, f)).filter(existsSync)
+  ...GENERATED_TREES.flatMap((d) => walk(join(dist, d))),
+  ...[...sitemaps, 'llms.txt'].map((f) => join(dist, f)).filter(existsSync)
 ];
 
 const decode = (s) =>
   s.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
 
 const problems = [];
+let scanned = 0;
 for (const f of files) {
-  if (/\/(city|best|cities)\//.test(f) && !f.endsWith('/index.html')) {
+  // og/ holds build-time PNG share images and nothing else; they are binary, so
+  // there is no text to match, but any other file there is a stray.
+  if (f.startsWith(join(dist, 'og') + '/')) {
+    if (!f.endsWith('.png')) problems.push(`${relative(root, f)}: only .png files are allowed in og/`);
+    continue;
+  }
+  // compare/ is index.html pages only, like the other page trees.
+  if (/^\/(city|best|cities|compare)\//.test('/' + relative(dist, f)) && !f.endsWith('/index.html')) {
     problems.push(`${relative(root, f)}: unexpected non-page file in a generated tree`);
     continue;
   }
+  scanned++;
   const text = decode(readFileSync(f, 'utf8'));
   for (const [m, from] of markers) {
     if (text.includes(m)) problems.push(`${relative(root, f)}: contains private text from ${from}: "${m.slice(0, 60)}…"`);
@@ -123,4 +136,4 @@ if (problems.length) {
   for (const p of problems.slice(0, 40)) console.error('  ' + p);
   process.exit(1);
 }
-console.log(`[seo leak-check] ok — ${files.length} files clean against ${markers.size} private strings`);
+console.log(`[seo leak-check] ok — ${scanned} files clean against ${markers.size} private strings`);
