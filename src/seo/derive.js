@@ -20,6 +20,11 @@ export const regionSlug = (r) => r.toLowerCase().replace(/[^a-z0-9]+/g, '-').rep
 export const appCityUrl = (key, i) => `/?city=${encodeURIComponent(key)}&m=${monthParam(i)}`;
 export const appMonthUrl = (i) => `/?m=${monthParam(i)}`;
 export const APP_YEAR_URL = '/?view=year';
+export const COMPARE_INDEX = '/compare/';
+export const comparePath = (slug) => `/compare/${slug}/`;
+// "Lake Atitlán (Panajachel)" → "Lake Atitlán": the short name used where length matters (page titles).
+export const shortName = (name) => name.replace(/\s*\([^)]*\)\s*$/, '').trim() || name;
+export const appCompareUrl = (subjectKey, anchorKey, i) => `/?compare=${encodeURIComponent(subjectKey)},${encodeURIComponent(anchorKey)}&m=${monthParam(i)}`;
 
 // Cyclic runs of true flags → [[start, len], …] (a Dec→Jan run stays one run).
 export function runs(flags) {

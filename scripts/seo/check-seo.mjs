@@ -9,8 +9,13 @@
 //       month, region hub,
 //       /best/ index          ItemList + BreadcrumbList
 //       /cities/              Dataset (name, description, url, creator) + ItemList + BreadcrumbList
-//       /compare/<a>-vs-<b>/  WebPage + BreadcrumbList
+//       /compare/<a>-vs-<b>/  WebPage + BreadcrumbList; the WebPage's `about` is exactly
+//                             2 @ids that resolve to existing city pages; the page has a
+//                             ?compare= SPA link whose two keys are its own URL slug pair;
+//                             it is listed in sitemap-compare.xml
 //       /compare/ index       ItemList + BreadcrumbList
+//   • compare pages and the /compare/ index: no exclamation marks, and none of
+//     the words gem / hidden / secret in the visible text
 //   • every internal link resolves: to a generated page, a file in dist/, an
 //     id on the same page, or the SPA root — and SPA links with ?city= / ?m= /
 //     ?region= / ?compare= name a real city / month / region slug / 2–3 cities
@@ -166,6 +171,35 @@ for (const [path, html] of pages) {
     }
   }
 
+  if (kind === 'compare') {
+    const pair = path.split('/')[2].split('-vs-');
+    const wp = nodes.find((n) => n['@type'] === 'WebPage');
+    if (wp) {
+      const about = Array.isArray(wp.about) ? wp.about : wp.about ? [wp.about] : [];
+      if (about.length !== 2) err(where, `WebPage about has ${about.length} items (want exactly 2)`);
+      for (const a of about) {
+        const m = /^https:\/\/monsoon\.fyi(\/city\/[^/#]+\/)#place$/.exec(a?.['@id'] ?? '');
+        if (!m) err(where, `WebPage about @id ${JSON.stringify(a?.['@id'])} is not a /city/<slug>/#place id`);
+        else if (!pages.has(m[1])) err(where, `WebPage about ${a['@id']} does not resolve to a generated city page`);
+      }
+      if (pair.length === 2 && about.length === 2) {
+        const got = about.map((a) => /\/city\/([^/#]+)\//.exec(a?.['@id'] ?? '')?.[1]);
+        if (got.join() !== pair.join()) err(where, `WebPage about (${got.join(', ')}) does not match the URL slug pair (${pair.join(', ')})`);
+      }
+    }
+    const spa = [...html.split('<body>')[1].matchAll(/<a\b[^>]*\bhref="(\/\?[^"]*compare=[^"]*)"/g)].map((m) => new URL(decode(m[1]), SITE));
+    if (!spa.length) err(where, 'no ?compare= link to the SPA');
+    else if (!spa.some((u) => u.searchParams.get('compare') === pair.join(','))) {
+      err(where, `?compare= link keys (${spa.map((u) => u.searchParams.get('compare')).join(' | ')}) do not match the URL slug pair (${pair.join(',')})`);
+    }
+  }
+  if (kind === 'compare' || kind === 'compare-index') {
+    const text = (html.split('<body>')[1] ?? '').replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<style[\s\S]*?<\/style>/g, ' ').replace(/<[^>]+>/g, ' ');
+    if (text.includes('!')) err(where, 'visible text contains an exclamation mark');
+    const banned = text.match(/\b(gems?|hidden|secrets?)\b/i);
+    if (banned) err(where, `visible text contains "${banned[0]}"`);
+  }
+
   // Links: href on <a>/<link> in the body and head (skip canonical/og which are absolute self).
   const body = html.split('<body>')[1] ?? '';
   for (const m of body.matchAll(/<a\b[^>]*\bhref="([^"]*)"/g)) {
@@ -228,6 +262,7 @@ if (indexLocs) {
     if (noindexPages.has(p)) {
       if (inMap) err(inMap, `noindex page ${p} is in the sitemap`);
     } else if (!inMap) err('sitemaps', `missing ${p}`);
+    else if (pageType(p) === 'compare' && inMap !== 'sitemap-compare.xml') err(p, `compare page is in ${inMap}, not sitemap-compare.xml`);
   }
 }
 

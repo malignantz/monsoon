@@ -104,6 +104,23 @@ ul.plain,ol.plain{list-style:none;margin:0;padding:0}
 .rest .num{color:var(--ink-3);font-size:13px;margin-left:6px}
 .region{margin-top:28px}
 .region h2{font-size:var(--h2);margin-bottom:10px}
+.cmp{margin:22px 0 6px}
+.cmp-row+.cmp-row{margin-top:16px}
+.cmp-head{display:flex;justify-content:space-between;align-items:baseline;gap:4px 12px;flex-wrap:wrap;margin-bottom:6px}
+.cmp-head .name{font-family:var(--display);font-size:19px;font-weight:600}
+.cmp-head .cost{font-size:13px;color:var(--ink-2)}
+.winrow{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;margin-top:5px}
+.winrow span{display:block;height:5px;border-radius:2px}
+.winrow span.on{background:var(--terra)}
+.cmp-note{font-size:13.5px;color:var(--ink-3);margin:10px 0 0;max-width:46em}
+.cmp-note .key{display:inline-block;width:18px;height:5px;border-radius:2px;background:var(--terra);vertical-align:2px;margin-right:6px}
+td.verdict,th.verdict{text-align:left}
+td.verdict.win{color:var(--terra-deep);font-weight:650}
+td.diff{color:var(--ink-2)}
+.bullets{margin:10px 0;padding-left:1.2em;max-width:44em}
+.bullets li{padding:2px 0}
+.xlinks p{margin:8px 0;max-width:46em}
+.xlinks{margin-top:14px}
 .monthnav{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:0;padding:0;list-style:none}
 .monthnav a{display:block;text-align:center;padding:8px 0;border:1px solid var(--line);border-radius:8px;text-decoration:none;font-size:14px;font-weight:500}
 .monthnav a[aria-current]{background:var(--ink);color:var(--paper);border-color:var(--ink)}

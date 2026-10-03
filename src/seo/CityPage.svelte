@@ -6,7 +6,7 @@
   import { MONTHS, fmtMoney, fmtTemp } from '../lib/data.svelte.js';
   import { MONTHS_LONG, monthPath, cityPath, appCityUrl, APP_YEAR_URL, monthsText } from './derive.js';
 
-  let { c, year, rows, related, sources, safety, cost, hubs = [], regionLabel, site, crumbs } = $props();
+  let { c, year, rows, related, sources, safety, cost, hubs = [], regionLabel, comparisons = [], site, crumbs } = $props();
 
   const r = (n) => Math.round(n);
   const range = ([a, b]) => (a === b ? fmtMoney(a) : `${fmtMoney(a)}–${fmtMoney(b)}`);
@@ -203,6 +203,9 @@
         </a>
       {/each}
     </div>
+    {#if comparisons.length}
+      <p class="small muted">Compared with: {#each comparisons as o, i}<a href={o.path} title="{o.label}, month by month">{o.other}</a>{i < comparisons.length - 1 ? ' · ' : ''}{/each}</p>
+    {/if}
     {#if hubs.length}
       <p class="small muted">More in {regionLabel}: {#each hubs as h, i}<a href={h.path}>{h.label}</a>{i < hubs.length - 1 ? ' · ' : ''}{/each}</p>
     {/if}

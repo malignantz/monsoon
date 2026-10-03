@@ -17,6 +17,7 @@ import {
   eventsInMonth,
   fmtMoney
 } from '../lib/data.svelte.js';
+import fame from '../../data/seo/fame.json';
 import { provFor, fmtDate, fmtWindow, normConfidence, CHIP_LABEL, reportUrl, FEEDBACK_REPO } from '../lib/provenance.js';
 import { METHOD_VERSION, LAST_UPDATED } from '../lib/changelog.js';
 import { CITY_IDS_V1 } from '../lib/cityIds.v1.js';
@@ -36,8 +37,15 @@ import {
   HUB_ATTRS,
   regionName,
   candidateAttrs,
-  computeHub
+  computeHub,
+  COMPARE_INDEX,
+  comparePath,
+  shortName,
+  appCityUrl,
+  appCompareUrl,
+  fmtRuns
 } from './derive.js';
+import { selectPairs, pairStory, GATE } from './pairing.js';
 import { BASE_CSS, minify } from './styles.js';
 import { documentHtml, breadcrumbLd } from './head.js';
 import CityPage from './CityPage.svelte';
@@ -45,6 +53,8 @@ import MonthPage from './MonthPage.svelte';
 import CitiesPage from './CitiesPage.svelte';
 import BestIndexPage from './BestIndexPage.svelte';
 import RegionPage from './RegionPage.svelte';
+import ComparePage from './ComparePage.svelte';
+import CompareIndexPage from './CompareIndexPage.svelte';
 
 const TOP_N = 25;
 const pct = (x) => Math.round(x * 100);
@@ -163,6 +173,34 @@ function safetyView(p) {
 
 const minCost = (p) => Math.min(...p.months.map((m) => m.cost1));
 
+// <title> for a comparison: short display names (no trailing parenthetical),
+// the claim in a clause; falls back to a shorter form when that runs long.
+const TITLE_MAX = 75;
+function compareTitle(pair) {
+  const S = shortName(pair.subject.name);
+  const A = shortName(pair.anchor.name);
+  const n = pair.winMonths.length;
+  const pctLess = Math.round(pair.savings * 100);
+  const long = `${S} vs ${A}: ${S} scores higher ${n === 12 ? 'every month' : `in ${n} months`} for ${pctLess}% less | Monsoon`;
+  if (long.length <= TITLE_MAX) return long;
+  return `${S} vs ${A}, month by month: ${S} wins ${n === 12 ? 'every month' : `${n} months`} | Monsoon`;
+}
+
+// Meta description: the claim, then the best-month sentence. When both together
+// run long, keep the sentence's lead ("In May X scores 80 and Y 72.") and drop
+// its list of reasons; as a last resort cut at a word boundary.
+const DESC_MAX = 240;
+function compareDescription(story) {
+  const full = `${story.claim} ${story.bestMonth.sentence}`;
+  if (full.length <= DESC_MAX) return full;
+  const lead = `${story.claim} ${story.bestMonth.sentence.split(':')[0]}.`;
+  if (lead.length <= DESC_MAX) return lead;
+  return `${lead.slice(0, DESC_MAX - 1).replace(/[\s,;:–—-]+\S*$/, '')}…`;
+}
+
+const avg = (xs) => xs.reduce((s, x) => s + x, 0) / xs.length;
+const goodMonths = (cells) => cells.filter((c) => c.band === 'great' || c.band === 'good').length;
+
 export function buildSite({ detail, now = new Date() }) {
   // Deterministic lens: the app's defaults (solo, women's-safety blend off),
   // whatever a local Node storage shim might hold.
@@ -184,6 +222,7 @@ export function buildSite({ detail, now = new Date() }) {
     cityCount: cities.length,
     thisMonth: now.getUTCMonth(),
     methodVersion: METHOD_VERSION,
+    compareCount: 0, // set once the comparisons are computed; the footer links /compare/ only when > 0
     lastUpdated: LAST_UPDATED ? fmtDate(LAST_UPDATED) : null,
     costAsOf: fmtDate(dataAsOf.cost) || '—',
     safetyAsOf: fmtDate(dataAsOf.safety) || '—',
@@ -237,6 +276,32 @@ export function buildSite({ detail, now = new Date() }) {
   if (smallRegions.length) skipped.push({ path: 'region hubs', reason: `regions under ${MIN_REGION_CITIES} cities: ${smallRegions.join(', ')}` });
   const hubLinks = (region) => hubs.filter((h) => h.region === region).map((h) => ({ path: h.path, label: h.label }));
 
+  // ---- Comparisons: which pairs exist is pairing.js's call (the gate); a pair
+  // whose story is thin or incomplete is skipped here, never emitted. Computed
+  // before the city pages so each can link the comparisons it appears in. ----
+  const { pairs: gatePairs, rejected: gateRejected } = selectPairs(cities, pub, fame);
+  const comparisons = [];
+  for (const pair of gatePairs) {
+    const path = comparePath(pair.slug);
+    const S = P(pair.subject.key);
+    const A = P(pair.anchor.key);
+    const story = pairStory(pair, S, A);
+    const problems = [];
+    if (story.numericDeltas < 2) problems.push(`only ${story.numericDeltas} numeric delta(s) in the best-month sentence (needs at least 2)`);
+    if (!story.claim || !story.bestMonth?.sentence || !story.anchorSide) problems.push('story is missing its claim, best-month sentence or other-side paragraph');
+    if (!S || !A || !years.get(pair.subject.key) || !years.get(pair.anchor.key)) problems.push('missing public city data');
+    if (problems.length) {
+      skipped.push({ path, reason: problems.join('; ') });
+      continue;
+    }
+    comparisons.push({ pair, S, A, story, path, label: `${S.name} vs ${A.name}` });
+  }
+  const comparisonsFor = (key) =>
+    comparisons
+      .filter((o) => o.pair.subject.key === key || o.pair.anchor.key === key)
+      .map((o) => ({ path: o.path, other: o.pair.subject.key === key ? o.A.name : o.S.name, label: o.label }));
+  site.compareCount = comparisons.length;
+
   // ---- City pages ----
   for (const city of cities) {
     const p = P(city.key);
@@ -274,7 +339,7 @@ export function buildSite({ detail, now = new Date() }) {
       },
       breadcrumbLd(crumbs)
     ];
-    emit(cityPath(p.key), title, description, CityPage, { c: p, year, rows, related, sources: sourceNotes(p, year), safety, cost, hubs: hubLinks(city.region), regionLabel: regionName(city.region), crumbs }, jsonLd, 'article');
+    emit(cityPath(p.key), title, description, CityPage, { c: p, year, rows, related, sources: sourceNotes(p, year), safety, cost, hubs: hubLinks(city.region), regionLabel: regionName(city.region), comparisons: comparisonsFor(city.key), crumbs }, jsonLd, 'article');
   }
 
   // ---- Month pages ----
@@ -359,7 +424,7 @@ export function buildSite({ detail, now = new Date() }) {
       },
       breadcrumbLd(crumbs)
     ];
-    emit(BEST_INDEX, title, description, BestIndexPage, { months: monthSummaries, regionGroups, hubCount: hubs.length, regionCount: regions.length, crumbs }, jsonLd);
+    emit(BEST_INDEX, title, description, BestIndexPage, { months: monthSummaries, regionGroups, hubCount: hubs.length, regionCount: regions.length, compareCount: comparisons.length, crumbs }, jsonLd);
   }
 
   // ---- Cities index ----
@@ -428,6 +493,89 @@ export function buildSite({ detail, now = new Date() }) {
     emit('/cities/', title, description, CitiesPage, { groups, crumbs }, jsonLd);
   }
 
+  // ---- Comparison pages + /compare/ index ----
+  if (comparisons.length) {
+    const COMPARE = { name: 'Compare', href: COMPARE_INDEX };
+    for (const o of comparisons) {
+      const { pair, S, A, story } = o;
+      const bm = story.bestMonth.month;
+      const yS = years.get(S.key);
+      const yA = years.get(A.key);
+      const mon = MONTHS[bm];
+      const view = {
+        S,
+        A,
+        story,
+        regionLabel: regionName(pair.subject.region),
+        cellsS: yS.cells,
+        cellsA: yA.cells,
+        costS: yS.cost.solo,
+        costA: yA.cost.solo,
+        winFlags: Array.from({ length: 12 }, (_, i) => pair.winMonths.includes(i)),
+        winText: `${pair.winMonths.length === 12 ? 'every month' : `${pair.winMonths.length} ${pair.winMonths.length === 1 ? 'month' : 'months'}`} (${fmtRuns(Array.from({ length: 12 }, (_, i) => pair.winMonths.includes(i)))})`,
+        rows: pair.months.map((r) => ({ ...r, sBand: yS.cells[r.m].band, aBand: yA.cells[r.m].band })),
+        // compareFindings abbreviates the month ("Apr"); the page spells it out.
+        findings: story.bestMonth.findings.map((f) => f.replace(` in ${mon}`, ` in ${MONTHS_LONG[bm]}`).replace(` for ${mon},`, ` for ${MONTHS_LONG[bm]},`)),
+        glance: {
+          savingsPct: Math.round(pair.savings * 100),
+          safety: [
+            { score: Math.round(S.safety.score), label: S.safety.label },
+            { score: Math.round(A.safety.score), label: A.safety.label }
+          ],
+          schengen: !!S.schengen !== !!A.schengen ? [!!S.schengen, !!A.schengen] : null,
+          solo: [avg(S.months.map((m) => m.cost1)), avg(A.months.map((m) => m.cost1))],
+          couple: [avg(S.months.map((m) => m.cost2)), avg(A.months.map((m) => m.cost2))],
+          good: [goodMonths(yS.cells), goodMonths(yA.cells)]
+        },
+        sameSubject: comparisons.filter((x) => x.pair.subject.key === S.key && x !== o).map((x) => ({ path: x.path, label: x.label })),
+        sameAnchor: comparisons.filter((x) => x.pair.anchor.key === A.key && x !== o).map((x) => ({ path: x.path, label: x.label })),
+        hubs: hubLinks(pair.subject.region),
+        appCompare: appCompareUrl(S.key, A.key, bm),
+        appCity: appCityUrl(S.key, bm)
+      };
+      const crumbs = [HOME, COMPARE, { name: o.label, href: o.path }];
+      const title = compareTitle(pair);
+      const description = compareDescription(story);
+      const jsonLd = [
+        {
+          '@type': 'WebPage',
+          '@id': `${SITE}${o.path}#page`,
+          name: `${o.label}, month by month`,
+          url: SITE + o.path,
+          description: story.claim,
+          about: [S, A].map((p) => ({ '@id': `${SITE}${cityPath(p.key)}#place` })),
+          isPartOf: { '@type': 'WebSite', name: 'Monsoon', url: SITE }
+        },
+        breadcrumbLd(crumbs)
+      ];
+      emit(o.path, title, description, ComparePage, { v: view, crumbs }, jsonLd, 'article');
+    }
+
+    const bySubjectRegion = regions
+      .map((region) => ({
+        region,
+        regionName: regionName(region),
+        items: comparisons.filter((o) => o.pair.subject.region === region).map((o) => ({ path: o.path, label: o.label, claim: o.story.claim }))
+      }))
+      .filter((g) => g.items.length);
+    const crumbs = [HOME, COMPARE];
+    const title = `${comparisons.length} city comparisons, month by month | Monsoon`;
+    const description =
+      `${comparisons.length} lower-cost cities set beside better-known ones: which months each scores higher on weather, air, safety, season and events, and what a month costs. ` +
+      `Published only when the cheaper city is at least ${Math.round(GATE.minSavings * 100)}% cheaper and wins at least ${GATE.minWinMonths} months.`;
+    const jsonLd = [
+      {
+        '@type': 'ItemList',
+        name: 'Monsoon city comparisons',
+        url: SITE + COMPARE_INDEX,
+        numberOfItems: comparisons.length,
+        itemListElement: comparisons.map((o, k) => ({ '@type': 'ListItem', position: k + 1, name: o.label, url: SITE + o.path }))
+      },
+      breadcrumbLd(crumbs)
+    ];
+    emit(COMPARE_INDEX, title, description, CompareIndexPage, { groups: bySubjectRegion, count: comparisons.length, considered: gatePairs.length + gateRejected.length, crumbs }, jsonLd);
+  }
+
   // ---- sitemaps ----
   // sitemap.xml is an index of per-type sitemaps. A page marked noindex is in
   // none of them. /compare/ pages already route to sitemap-compare.xml, so the
@@ -486,6 +634,7 @@ export function buildSite({ detail, now = new Date() }) {
     '',
     `- [Where to be, by month and region](${SITE}${BEST_INDEX}): the twelve month rankings and the region pages`,
     `- [All cities](${SITE}/cities/): every city grouped by region, with its 12-month Score strip`,
+    ...(comparisons.length ? [`- [City comparisons](${SITE}${COMPARE_INDEX}): ${comparisons.length} lower-cost cities set beside better-known ones, month by month`] : []),
     `- [The app](${SITE}/): interactive ranking, city sheets and a year planner with a Schengen meter`,
     '',
     '## Where to be, by month',
@@ -497,6 +646,14 @@ export function buildSite({ detail, now = new Date() }) {
           '## Region pages',
           '',
           ...hubs.map((h) => `- [${h.title}](${SITE}${h.path}): ${h.blurb}`),
+          ''
+        ]
+      : []),
+    ...(comparisons.length
+      ? [
+          '## Comparisons',
+          '',
+          ...comparisons.map((o) => `- [${o.label}](${SITE}${o.path}): ${o.story.claim}`),
           ''
         ]
       : []),

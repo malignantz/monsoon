@@ -4,7 +4,7 @@
   // every region large enough to rank.
   import Shell from './Shell.svelte';
 
-  let { months, regionGroups, hubCount, regionCount, site, crumbs } = $props();
+  let { months, regionGroups, hubCount, regionCount, compareCount = 0, site, crumbs } = $props();
 </script>
 
 <Shell {crumbs} {site}>
@@ -43,6 +43,13 @@
           </ul>
         </div>
       {/each}
+    </section>
+  {/if}
+
+  {#if compareCount > 0}
+    <section aria-labelledby="compare">
+      <h2 id="compare">Comparisons</h2>
+      <p><a href="/compare/">{compareCount} comparisons</a> set a lower-cost city beside a better-known one and show, month by month, where each scores higher and what each costs.</p>
     </section>
   {/if}
 

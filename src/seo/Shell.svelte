@@ -41,7 +41,7 @@
         {/each}
       </ul>
     </nav>
-    <p><a href="/cities/">All {site.cityCount} cities</a> · <a href={BEST_INDEX}>Where to be, by month and region</a> · <a href="/">Plan your year in Monsoon</a> · <a href={site.feedback}>Report a number</a></p>
+    <p><a href="/cities/">All {site.cityCount} cities</a> · <a href={BEST_INDEX}>Where to be, by month and region</a>{#if site.compareCount > 0} · <a href="/compare/">Comparisons</a>{/if} · <a href="/">Plan your year in Monsoon</a> · <a href={site.feedback}>Report a number</a></p>
     <p>Scores use methodology {site.methodVersion}{site.lastUpdated ? `, last updated ${site.lastUpdated}` : ''}. Cost data as of {site.costAsOf}; safety data as of {site.safetyAsOf}.</p>
   </footer>
 </div>

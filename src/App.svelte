@@ -661,6 +661,10 @@
     <span class="footlinks">
       <a class="num footlink" href="/cities/">all cities</a>
       <span aria-hidden="true">·</span>
+      <a class="num footlink" href="/best/">where to be</a>
+      <span aria-hidden="true">·</span>
+      <a class="num footlink" href="/compare/">comparisons</a>
+      <span aria-hidden="true">·</span>
       <button type="button" class="num footlink" data-prefetch="about" onclick={() => (aboutOpen = true)}>about</button>
       <span aria-hidden="true">·</span>
       <button type="button" class="num footlink" data-prefetch="method" onclick={() => (methodOpen = true)}>methodology · 2026</button>
@@ -962,6 +966,7 @@
 
     .footlinks {
       align-self: flex-start;
+      flex-wrap: wrap; /* five links no longer fit one line on a phone */
     }
 
     .footlink {
