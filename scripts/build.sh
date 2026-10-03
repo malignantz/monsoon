@@ -20,6 +20,10 @@ leaks=$(find dist -type f \( \
   -name 'city-media.json' -o \
   -name 'worldbank-homicide.json' -o \
   -name 'wps-community-safety.json' -o \
+  -name 'climate-normals.json' -o \
+  -name 'air-climatology.json' -o \
+  -name 'air-overrides.json' -o \
+  -path '*/raw/*' -o \
   -name '*.backup.json' -o \
   -name '*.md' -o \
   -name '*.py' -o \

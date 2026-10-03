@@ -13,6 +13,9 @@ export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', '
 export const MONTH_LETTERS = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
 
 export const settings = core.settings;
+// Top-level provenance table {key: {name, url, licence, window, retrieved,
+// method}}; null until the measured climate/air pipeline lands.
+export const sources = core.sources ?? null;
 
 // ---- User settings (onboarding identity, not the exploratory lens) ----
 // Persisted separately from the view/mode/preset "lens" that App.svelte owns:
@@ -129,6 +132,8 @@ async function loadDetail() {
     if (d.safety) c.safety = d.safety;
     if (d.drawDetail) c.drawDetail = d.drawDetail;
     if (d.media) c.media = d.media;
+    if (d.prov) c.prov = d.prov;
+    if (d.costProv) c.costProv = d.costProv;
     d.months?.forEach((dm, j) => Object.assign(c.months[j], dm));
   });
   detailStatus.ready = true;
