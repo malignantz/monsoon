@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "check:ids": "node scripts/check-city-ids.mjs",
     "test:schengen": "node scripts/test-schengen.mjs",
+    "test:daycount": "node scripts/test-daycount.mjs",
     "deploy": "bash scripts/deploy.sh"
   },
   "devDependencies": {
