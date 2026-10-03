@@ -128,15 +128,36 @@ function loadCostProv() {
   return byCity;
 }
 
+// Dates for the methodology page's "refreshed" column, read from the private
+// input files at build time (only the dates ship, never the files).
+function readMeta(rel, pickDate) {
+  try {
+    return pickDate(JSON.parse(readFileSync(join(root, rel), 'utf8'))) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+const latest = (xs) => xs.filter(Boolean).sort().at(-1) ?? null;
+
 export function splitTravelData() {
   const raw = JSON.parse(readFileSync(join(root, 'data/travel-data.json'), 'utf8'));
 
   const costProv = loadCostProv();
+  const asOf = {
+    safety: latest(raw.cities.map((c) => c.safety?.asOf)),
+    advisory: latest(raw.cities.map((c) => c.safety?.date)),
+    cost: latest([...costProv.values()].map((c) => c.asOf)),
+    womens: readMeta('data/wps-community-safety.json', (j) => j._meta?.retrieved),
+    swim: readMeta('data/swim-inputs.json', (j) => j._meta?.asOf),
+    content: readMeta('data/city-content.json', (j) => j._meta?.asOf)
+  };
 
   const core = {
     settings: raw.settings,
     // Top-level source table; absent until the climate/air pipeline writes it.
     sources: raw.sources ?? null,
+    asOf,
     months: raw.months,
     cities: raw.cities.map((c) => ({
       ...pick(c, CORE_CITY),

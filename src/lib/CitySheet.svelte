@@ -1,10 +1,12 @@
 <script>
   import MonthStrip from './MonthStrip.svelte';
   import ScoreInfo from './ScoreInfo.svelte';
+  import Sources from './Sources.svelte';
   import { cityShareUrl } from './urlState.js';
-  import { stripCells, qolFor, fmtMoney, fmtTemp, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, retryDetail, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, shareOrCopy } from './data.svelte.js';
+  import { stripCells, qolFor, fmtMoney, fmtTemp, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, retryDetail, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, shareOrCopy, settings, sources, dataAsOf } from './data.svelte.js';
+  import { monthRows, safetyRows, costRows, cityDataDates, reportUrl, fmtDate, CHIP_LABEL, normConfidence } from './provenance.js';
 
-  let { city, month, preset, onclose, onmonth, onstep, onaddtoyear } = $props();
+  let { city, month, preset, onclose, onmonth, onstep, onaddtoyear, onmethod } = $props();
 
   let sheetEl = $state(null);
 
@@ -88,6 +90,60 @@
     return { total, rent, util, living, isSolo };
   });
 
+  // ---- Where the numbers come from (inline source disclosures) ----
+  let monthSrcOpen = $state(false);
+  let safetySrcOpen = $state(false);
+  let costOpen = $state(false);
+
+  const monthSrcRows = $derived(
+    monthRows(city, month, {
+      sources,
+      settings,
+      weights: pw,
+      presetLabel: activePreset.label,
+      peakPenalty: activePreset.peakPenalty && m.season === 'Peak' ? activePreset.peakPenalty : 0,
+      detailReady: detailStatus.ready,
+      fmtTemp
+    })
+  );
+  const safetySrcRows = $derived(detailStatus.ready ? safetyRows(city) : []);
+  const costSrcRows = $derived(detailStatus.ready ? costRows(city) : []);
+  const costLowest = $derived(normConfidence(city.costProv?.lowest));
+
+  // What the selected month's Events score counts: the month's scored event
+  // (detail layer), or "none" for tier 0.
+  const eventDriver = $derived(
+    (m.evtTier ?? 0) === 0
+      ? 'No notable event scored this month'
+      : m.evt
+        ? `${m.evt} · tier ${m.evtTier}`
+        : `Tier ${m.evtTier} of 3`
+  );
+
+  const report = (metric, shown) => reportUrl({ city: city.name, month: monthName, metric, shown });
+  const monthReport = $derived(
+    report(
+      'Weather, air, season or events',
+      `Score ${Math.round(qol)} · weather ${Math.round(m.weather)} · air ${Math.round(m.air)} · season ${m.seasonScore} (${m.season}) · events ${Math.round(m.eventScore)}${m.evt ? ` (${m.evt})` : ''}`
+    )
+  );
+  const safetyReport = $derived(
+    report(
+      'Safety',
+      `Safety ${saf.score ?? '—'} · violent ${Math.round(saf.violent?.sub ?? 0)} · property ${Math.round(saf.property?.sub ?? 0)} · visitor ×${saf.tourist?.modifier ?? 1} · women's ${Math.round(saf.womensSafety?.sub ?? 0)}`
+    )
+  );
+  const costReport = $derived(report('Cost', `${fmtMoney(cityCost(m))}/mo ${partyWord()}`));
+
+  const dataDates = $derived(cityDataDates(city, sources, dataAsOf));
+  const dataAsOfText = $derived(
+    !dataDates.to
+      ? ''
+      : dataDates.from === dataDates.to
+        ? fmtDate(dataDates.to)
+        : `${fmtDate(dataDates.from)} – ${fmtDate(dataDates.to)}`
+  );
+
   const comps = $derived([
     { label: 'Weather', v: m.weather },
     { label: 'Air', v: m.air },
@@ -170,26 +226,14 @@
         <div class="snapcell">
           <span class="num v">{fmtMoney(cityCost(m))}</span>
           <span class="k">/mo {partyWord()}
-            <ScoreInfo title="Cost estimate" align="right">
-              <table class="costbd">
-                <tbody>
-                  <tr><td>Rent · {MONTHS[month]}</td><td>{fmtMoney(costBd.rent)}</td></tr>
-                  <tr><td>Utilities</td><td>{fmtMoney(costBd.util)}</td></tr>
-                  <tr><td>Food, transit &amp; daily life</td><td>{fmtMoney(costBd.living)}</td></tr>
-                  <tr class="tot"><td>Total</td><td>{fmtMoney(costBd.total)}/mo</td></tr>
-                </tbody>
-              </table>
-              {#if costBd.isSolo}
-                <p>Anchored to one solo nomad living mid-range: furnished 1BR in a
-                  nomad-popular area, some cooking and eating out, a coworking desk.</p>
-              {:else}
-                <p>Couple scales from the solo budget — housing shared (×1.15), most
-                  daily spending counted per-person.</p>
-              {/if}
-              <p>Rent reflects {MONTHS[month]} seasonality; other costs are held flat
-                across the year.</p>
-              <p class="src">Itemized from sourced, dated city cost research.</p>
-            </ScoreInfo>
+            <button
+              type="button"
+              class="costdot"
+              class:active={costOpen}
+              aria-expanded={costOpen}
+              aria-controls="src-cost"
+              aria-label="Cost breakdown and sources"
+              onclick={() => (costOpen = !costOpen)}>i</button>
           </span>
         </div>
         {#if city.swim}
@@ -203,6 +247,34 @@
           </div>
         {/if}
       </div>
+      <Sources id="src-cost" toggle={false} bind:open={costOpen} rows={costSrcRows} reportHref={costReport}>
+        <p class="srchead">Cost · {MONTHS[month]} · {partyWord()}</p>
+        <table class="costbd">
+          <tbody>
+            <tr><td>Rent · {MONTHS[month]}</td><td>{fmtMoney(costBd.rent)}</td></tr>
+            <tr><td>Utilities</td><td>{fmtMoney(costBd.util)}</td></tr>
+            <tr><td>Food, transit &amp; daily life</td><td>{fmtMoney(costBd.living)}</td></tr>
+            <tr class="tot"><td>Total</td><td>{fmtMoney(costBd.total)}/mo</td></tr>
+          </tbody>
+        </table>
+        <p class="srcp">
+          {#if costBd.isSolo}
+            Anchored to one solo nomad living mid-range: furnished 1BR in a nomad-popular area,
+            some cooking and eating out, a coworking desk.
+          {:else}
+            Couple scales from the solo budget: rent and utilities ×1.15; groceries, eating out,
+            transport and SIM ×1.9; coworking and everything else ×1.6.
+          {/if}
+          Rent reflects {MONTHS[month]} seasonality; other costs are held flat across the year.
+        </p>
+        {#if detailStatus.ready && city.costProv}
+          <p class="srcp">
+            Line items below are for one person in a base month{#if city.costProv.asOf}, as of {fmtDate(city.costProv.asOf)}{/if}{#if costLowest}; lowest item confidence: {CHIP_LABEL[costLowest]}{/if}.
+          </p>
+        {:else if !detailStatus.ready}
+          <p class="srcp">{detailStatus.failed ? "Couldn't load the line items." : 'Loading the line items…'}</p>
+        {/if}
+      </Sources>
     </header>
 
     <section class="block">
@@ -222,7 +294,7 @@
               season {pct(pw.season)}%, events {pct(pw.events)}%.{peakPenaltyText}</p>
             <p>When safety falls below 55 it also drags the whole score down — a beautiful
               month in a dangerous place can't ride good weather to the top.</p>
-            <p class="src">Built from climate normals, WHO-anchored PM2.5, and the safety index below.</p>
+            <p class="src">Each input's source, date and confidence: “Where these numbers come from”, below.</p>
           </ScoreInfo>
         </h2>
         <div class="bars">
@@ -232,6 +304,9 @@
               <div class="bar"><div class="fill" style="width:{c.v}%; background:{barColor(c.v)}"></div></div>
               <span class="num bar-num">{Math.round(c.v)}</span>
             </div>
+            {#if c.label === 'Events'}
+              <p class="evtdriver">{eventDriver}</p>
+            {/if}
           {/each}
         </div>
         <table class="climate num">
@@ -245,6 +320,7 @@
             <tr><td>Season</td><td>{m.season}</td></tr>
           </tbody>
         </table>
+        <Sources id="src-month" bind:open={monthSrcOpen} rows={monthSrcRows} reportHref={monthReport} />
       </section>
 
       <section class="block">
@@ -254,8 +330,8 @@
               travelers are more insulated or more targeted than locals.</p>
             <p>Violent is anchored on the intentional-homicide rate — here
               {saf.violent?.homicideRate ?? '—'}/100k ({saf.violent?.scope ?? 'country'}) — the only
-              crime statistic comparable across countries. Property is hand-researched
-              petty-theft perception; government advisories never cap the score.</p>
+              crime statistic comparable across countries. Property and the visitor lens are
+              editorial estimates; government advisories never cap the score.</p>
             <p class="src">{saf.violent?.source ?? 'World Bank / UNODC'}</p>
           </ScoreInfo>
         </h2>
@@ -289,7 +365,7 @@
                   {saf.womensSafety.adj > 0 ? '+' : ''}{saf.womensSafety.adj} city adjustment for local
                   conditions (harassment, within-country variation, tourist-vs-local risk){/if}. The estimate
                   can diverge from the raw Gallup figure where local evidence warrants.</p>
-                {#if saf.womensSafety?.source}<p>{saf.womensSafety.source}.</p>{/if}
+                {#if saf.womensSafety?.adj && saf.womensSafety?.source}<p>City note (editorial): {saf.womensSafety.source}.</p>{/if}
                 <p>Displayed alongside, never folded into the headline score — turn on
                   the women's street-safety setting to blend it 50/50 into safety across every view.</p>
                 <p class="src"><a href={saf.womensSafety?.url} target="_blank" rel="noopener">
@@ -310,6 +386,7 @@
         {#if saf.tourist?.tags?.length}
           <p class="tags">{#each saf.tourist.tags as t}<span class="tag">{t}</span>{/each}</p>
         {/if}
+        <Sources id="src-safety" label="Where the safety numbers come from" bind:open={safetySrcOpen} rows={safetySrcRows} reportHref={safetyReport} />
         {/if}
         {#if city.drawDetail?.narrative}
           <h2 class="mt">The draw</h2>
@@ -329,7 +406,7 @@
             <li class:major={e.tier >= 3}>
               <span class="emo num">{e.months.map((x) => MONTHS[x - 1]).join('/')}</span>
               <span class="ename">{e.name}</span>
-              <span class="eblurb">{e.blurb}</span>
+              {#if e.blurb}<span class="eblurb">{e.blurb}</span>{/if}
               {#if e.tier >= 3}<span class="etier">major</span>{/if}
             </li>
           {/each}
@@ -338,7 +415,10 @@
     {/if}
 
     <footer class="foot">
-      <span>Scores per the Monsoon methodology — re-verify visa rules &amp; advisories before travel.</span>
+      <span>Re-verify visa rules &amp; advisories before travel.</span>
+      <span class="fresh">
+        {dataAsOfText ? `Data as of ${dataAsOfText} · ` : ''}{#if onmethod}<button type="button" class="howlink" onclick={onmethod}>How this is sourced</button>{:else}How this is sourced: see the methodology{/if}
+      </span>
     </footer>
   </div>
 </div>
@@ -622,7 +702,8 @@
 
   .emo { color: var(--ink-3); font-size: 12px; }
   .ename { font-weight: 600; }
-  .eblurb { color: var(--ink-2); }
+  /* Fixed columns so an entry without a blurb keeps its badge at the right edge. */
+  .eblurb { color: var(--ink-2); grid-column: 3; }
 
   .etier {
     font-size: 10px;
@@ -632,6 +713,8 @@
     border: 1px solid var(--terra);
     border-radius: 999px;
     padding: 1px 8px;
+    grid-column: 4;
+    justify-self: end;
   }
 
   li.major .ename { color: var(--terra-deep); }
@@ -641,11 +724,80 @@
     padding-top: 14px;
     border-top: 1px solid var(--line);
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    gap: 20px;
+    gap: 6px 20px;
     font-size: 11.5px;
     color: var(--ink-3);
   }
+
+  .howlink {
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    color: var(--ink-2);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+
+  .howlink:hover { color: var(--ink); }
+
+  @media (max-width: 600px) {
+    .howlink { min-height: 32px; }
+  }
+
+  /* What produces the selected month's Events score, right under that bar
+     (indented past the 104px label column + 10px gap). */
+  .evtdriver {
+    margin: -3px 0 0 114px;
+    font-size: 11.5px;
+    color: var(--ink-3);
+    line-height: 1.35;
+  }
+
+  /* Cost (i): same glyph as ScoreInfo's dot, but it opens the inline cost
+     panel under the headline numbers instead of a floating popover. */
+  .costdot {
+    position: relative;
+    width: 15px;
+    height: 15px;
+    margin-left: 2px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: none;
+    color: var(--ink-3);
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 10px;
+    line-height: 1;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: 1px;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .costdot:hover,
+  .costdot.active { border-color: var(--ink-2); color: var(--ink); }
+
+  @media (max-width: 700px) {
+    .costdot::after { content: ''; position: absolute; inset: -11px; }
+  }
+
+  .srchead {
+    margin: 8px 0 4px;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .srcp { margin: 0 0 8px; font-size: 12px; color: var(--ink-2); }
 
   /* ───────── Mobile: the sheet becomes a true bottom sheet ─────────
      Anchored to the bottom edge, full width, scrolling internally and clearing

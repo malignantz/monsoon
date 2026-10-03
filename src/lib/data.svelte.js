@@ -16,6 +16,9 @@ export const settings = core.settings;
 // Top-level provenance table {key: {name, url, licence, window, retrieved,
 // method}}; null until the measured climate/air pipeline lands.
 export const sources = core.sources ?? null;
+// Build-time "as of" dates per input family (safety, advisory, cost, womens,
+// swim, content) — see scripts/split-data.mjs.
+export const dataAsOf = core.asOf ?? {};
 
 // ---- User settings (onboarding identity, not the exploratory lens) ----
 // Persisted separately from the view/mode/preset "lens" that App.svelte owns:
