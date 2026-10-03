@@ -1,5 +1,5 @@
 <script>
-  import { tick } from 'svelte';
+  import { tick, untrack } from 'svelte';
   import ThisMonth from './lib/ThisMonth.svelte';
   import MyYear from './lib/MyYear.svelte';
   import CitySheet from './lib/CitySheet.svelte';
@@ -7,9 +7,10 @@
   import Methodology from './lib/Methodology.svelte';
   import About from './lib/About.svelte';
   import HowTo from './lib/HowTo.svelte';
-  import { cities, cityByKey, qolFor, valueFor, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS } from './lib/data.svelte.js';
+  import { cities, cityByKey, regions, qolFor, valueFor, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS } from './lib/data.svelte.js';
   import { addCity, removeStayRef } from './lib/route.svelte.js';
   import { track } from './lib/analytics.js';
+  import { readUrlState, buildUrl } from './lib/urlState.js';
 
   const PREFS = 'atlas.prefs.v1';
 
@@ -35,14 +36,28 @@
   // missing or malformed name never affects the itinerary itself.
   const sharedName = initialRoute.length ? (shareParams.get('n') ?? '').slice(0, 60) : '';
 
+  // Shareable state from the query string wins field by field; anything absent
+  // falls back to saved prefs, then defaults (see urlState.js for the params).
+  const fromUrl = readUrlState(location.search, regions);
+
   // 'explore' merged into 'month' as a card/table density toggle; fall back for saved prefs.
-  let view = $state(initialRoute.length ? 'year' : p.view === 'explore' ? 'month' : (p.view ?? 'month'));
-  let month = $state(currentMonth);
-  let mode = $state(p.mode ?? 'quality');
+  // A bare shared city link (?city=…) opens over This month, so closing the
+  // sheet lands on the ranked list rather than wherever the visitor last was.
+  let view = $state(
+    fromUrl.view ??
+      (initialRoute.length ? 'year' : fromUrl.city ? 'month' : p.view === 'explore' ? 'month' : (p.view ?? 'month'))
+  );
+  let month = $state(fromUrl.month ?? currentMonth);
+  let mode = $state(fromUrl.mode ?? p.mode ?? 'quality');
   let preset = $state(normalizePresetKey(p.preset));
   let valueModel = $state(p.valueModel ?? 'adjusted');
-  let density = $state(p.density === 'table' ? 'table' : 'cards');
-  let cityKey = $state(new URLSearchParams(location.search).get('city'));
+  let density = $state(fromUrl.density ?? (p.density === 'table' ? 'table' : 'cards'));
+  let activeRegions = $state(new Set(fromUrl.regions ?? []));
+  let cityKey = $state(fromUrl.city && cityByKey.has(fromUrl.city) ? fromUrl.city : null);
+  // First-visit colour key on This month; dismissed once, it stays dismissed.
+  let keyHidden = $state(p.keyHidden === true);
+  // This month's list in on-screen order (filtered + sorted) for ←/→ stepping.
+  let visibleKeys = $state([]);
   // The city whose card should wear the shared `city-hero` name during a
   // card↔sheet view transition. Held only across the transition, then cleared.
   let transitioningKey = $state(null);
@@ -71,7 +86,10 @@
   }
 
   $effect(() => {
-    localStorage.setItem(PREFS, JSON.stringify({ view, mode, preset, valueModel, density }));
+    const next = JSON.stringify({ view, mode, preset, valueModel, density, keyHidden });
+    try {
+      localStorage.setItem(PREFS, next);
+    } catch {}
   });
 
   // Surface view: fires on load and on every This month ↔ My year switch, so we
@@ -86,17 +104,48 @@
 
   const openCity = $derived(cityKey ? cityByKey.get(cityKey) : null);
 
-  // Same ranking the views use (unfiltered), so ←/→ in the sheet flips
-  // through the deck in the order the user is browsing it.
-  const rankedKeys = $derived(
-    [...cities]
+  // ── URL state ──
+  // view / month / sort / layout / region (+ the open city) live in the query
+  // string so any state is shareable and bookmarkable. Filter tweaks replace the
+  // current entry; a view change pushes one, so Back moves between views. The
+  // sheet pushes on open and goes *back* on close (see applyOpen/applyClose).
+  // Defaults emit no params, and unrelated params (?i=, ?n=, utm…) pass through.
+  const defaultView = () => (sharedRoute ? 'year' : 'month');
+  const urlFor = () =>
+    buildUrl(
+      { view, month, mode, density, regions: activeRegions, city: cityKey },
+      { defaultView: defaultView(), currentMonth }
+    );
+  const here = () => location.pathname + location.search + location.hash;
+
+  let lastView = untrack(() => view);
+  // Set while our own history.back() (closing a pushed sheet) is in flight, so
+  // the sync effect doesn't rewrite the entry we're leaving.
+  let pendingBack = false;
+
+  $effect(() => {
+    const target = urlFor();
+    const v = view;
+    untrack(() => {
+      const viewChanged = v !== lastView;
+      lastView = v;
+      if (pendingBack || target === here()) return;
+      if (viewChanged) history.pushState({}, '', target);
+      else history.replaceState(history.state, '', target);
+    });
+  });
+
+  // Fallback order for ←/→ when the sheet wasn't opened from the visible This
+  // month list (e.g. from My year): the unfiltered ranking for the month.
+  function rankedKeys() {
+    return [...cities]
       .map((c) => ({
         key: c.key,
         s: mode === 'value' ? valueFor(c, month, preset, valueModel) : qolFor(c, month, preset)
       }))
       .sort((a, b) => b.s - a.s)
-      .map((x) => x.key)
-  );
+      .map((x) => x.key);
+  }
 
   // Skip view transitions when unsupported or when the user prefers reduced
   // motion — the underlying state change still happens, just without the morph.
@@ -110,20 +159,31 @@
     cityKey = key;
     sheetOpenedAt = Date.now();
     track('city_sheet_open', { city: key, month, from: view === 'year' ? 'my_year' : 'this_month' });
-    const u = new URL(location.href);
-    u.searchParams.set('city', key);
-    replace ? history.replaceState({}, '', u) : history.pushState({}, '', u);
+    // Stepping (replace) keeps the entry's `sheet` flag; a fresh open pushes an
+    // entry marked as ours, so closing can simply go back to the list.
+    if (replace) history.replaceState(history.state, '', urlFor());
+    else history.pushState({ sheet: true }, '', urlFor());
   }
 
-  function applyClose() {
+  function trackClose() {
     if (sheetOpenedAt) {
       track('city_sheet_close', { city: cityKey, dwell_ms: Date.now() - sheetOpenedAt });
       sheetOpenedAt = 0;
     }
+  }
+
+  function applyClose() {
+    trackClose();
     cityKey = null;
-    const u = new URL(location.href);
-    u.searchParams.delete('city');
-    history.pushState({}, '', u);
+    if (history.state?.sheet) {
+      // Opened in-app via pushState: step back, so Back never reopens the sheet.
+      pendingBack = true;
+      history.back();
+    } else {
+      // Landed directly on a ?city= link: there's nothing of ours behind it, so
+      // drop the param in place and land cleanly on the list.
+      history.replaceState(history.state, '', urlFor());
+    }
   }
 
   // Card → sheet: tag the clicked card with the hero name in the outgoing
@@ -143,7 +203,8 @@
   }
 
   // Sheet → card: hold the hero name on the closing city so it flies back to
-  // its card, which reappears as the sheet unmounts.
+  // its card, which reappears as the sheet unmounts. Resolves once the close
+  // has been applied, so callers can switch view *after* the history step.
   async function closeSheet() {
     if (!canAnimate()) {
       applyClose();
@@ -156,14 +217,17 @@
       await tick();
     });
     vt.finished.finally(() => (transitioningKey = null));
+    await vt.updateCallbackDone.catch(() => {});
   }
 
   // ←/→ stepping swaps cities within the open sheet: a plain crossfade (no card
-  // hero) lets the title morph from one city to the next.
+  // hero) lets the title morph from one city to the next. It follows the list
+  // exactly as This month shows it (filters, search, sort, table column order).
   function stepCity(dir) {
-    const i = rankedKeys.indexOf(cityKey);
+    const list = view === 'month' && visibleKeys.includes(cityKey) ? visibleKeys : rankedKeys();
+    const i = list.indexOf(cityKey);
     if (i < 0) return;
-    const next = rankedKeys[(i + dir + rankedKeys.length) % rankedKeys.length];
+    const next = list[(i + dir + list.length) % list.length];
     if (!canAnimate()) {
       applyOpen(next, { replace: true });
       return;
@@ -172,7 +236,32 @@
   }
 
   $effect(() => {
-    const onPop = () => (cityKey = new URLSearchParams(location.search).get('city'));
+    const onPop = () => {
+      const s = readUrlState(location.search, regions);
+      const nextCity = s.city && cityByKey.has(s.city) ? s.city : null;
+      if (pendingBack) {
+        // Our own close landed. Keep in-memory state (e.g. a month picked inside
+        // the sheet) and rewrite this entry to match it — pushing instead if the
+        // view changed meanwhile (toast "View year"), so Back still works.
+        pendingBack = false;
+        if ((s.view ?? defaultView()) !== view) history.pushState({}, '', urlFor());
+        else history.replaceState(history.state, '', urlFor());
+        return;
+      }
+      if (cityKey && !nextCity) {
+        // Browser Back out of an open sheet behaves exactly like closing it.
+        trackClose();
+        cityKey = null;
+        history.replaceState(history.state, '', urlFor());
+        return;
+      }
+      cityKey = nextCity;
+      view = lastView = s.view ?? defaultView();
+      month = s.month ?? currentMonth;
+      mode = s.mode ?? 'quality';
+      density = s.density ?? 'cards';
+      activeRegions = new Set(s.regions ?? []);
+    };
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
   });
@@ -197,8 +286,8 @@
     history.replaceState({}, '', u);
   }
 
-  function goHome() {
-    if (cityKey) closeSheet();
+  async function goHome() {
+    if (cityKey) await closeSheet();
     view = 'month';
   }
 
@@ -238,9 +327,9 @@
         removeStayRef(added);
         toast = null;
       },
-      view: () => {
+      view: async () => {
         toast = null;
-        if (cityKey) closeSheet();
+        if (cityKey) await closeSheet();
         view = 'year';
       }
     });
@@ -265,27 +354,45 @@
           {n.label}
         </button>
       {/each}
-      <button type="button" class="howto" onclick={openHowTo} aria-label="How to use Monsoon">How it works</button>
-      <button type="button" class="gear util" onclick={openSettings} aria-label="Settings" title="Settings">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="3" />
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-        </svg>
-      </button>
+      <button type="button" class="howto" onclick={openHowTo} aria-label="How to use Monsoon"><span class="howto-long">How it works</span><span class="howto-short">Guide</span></button>
     </nav>
 
+    <!-- The gear sits outside <nav> so on phones it can ride up beside the logo,
+         leaving the nav row to the three labelled buttons (no label wrapping). -->
+    <button type="button" class="gear util" onclick={openSettings} aria-label="Settings" title="Settings">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+      </svg>
+    </button>
   </header>
 
   <main>
     {#if view === 'month'}
-      <ThisMonth bind:month bind:mode {currentMonth} {preset} {valueModel} bind:density heroKey={transitioningKey} openKey={cityKey} onopen={openSheet} onmodel={(m) => (valueModel = m)} />
+      <ThisMonth
+        bind:month
+        bind:mode
+        bind:density
+        bind:activeRegions
+        bind:keyHidden
+        bind:visibleKeys
+        {currentMonth}
+        {preset}
+        {valueModel}
+        heroKey={transitioningKey}
+        openKey={cityKey}
+        onopen={openSheet}
+        onmodel={(m) => (valueModel = m)}
+        onsettings={openSettings}
+        onresume={() => (view = 'year')}
+      />
     {:else}
       <MyYear bind:preset {sharedRoute} {sharedName} onsharedresolved={resolveShared} onopen={openSheet} />
     {/if}
   </main>
 
   <footer class="basefoot">
-    <span>Your ancestors moved with the seasons. 111 cities, scored month by month — clean air, mild weather, no typhoons, festivals on, 90 Schengen days at a time.</span>
+    <span>Your ancestors moved with the seasons. {cities.length} cities, scored month by month — clean air, mild weather, no typhoons, festivals on, 90 Schengen days at a time.</span>
     <span class="footlinks">
       <button type="button" class="num footlink" onclick={() => (aboutOpen = true)}>about</button>
       <span aria-hidden="true">·</span>
@@ -334,7 +441,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 16px 26px;
+    gap: 16px 2px;
     padding-bottom: 16px;
     border-bottom: 1.5px solid var(--ink);
   }
@@ -416,7 +523,11 @@
     .tag { display: none; }
   }
 
-  nav { display: flex; gap: 2px; }
+  nav {
+    display: flex;
+    gap: 2px;
+    margin-left: 24px;
+  }
 
   .navbtn {
     background: none;
@@ -426,6 +537,7 @@
     color: var(--ink-2);
     padding: 7px 13px;
     border-radius: 999px;
+    white-space: nowrap;
   }
 
   .navbtn:hover { color: var(--ink); }
@@ -547,7 +659,41 @@
     .util {
       min-height: var(--tap);
       min-width: var(--tap);
+      margin-right: -10px; /* optical: align the glyph, not its tap box, to the gutter */
     }
+
+    /* Two rows on phones: logo + gear, then the three labelled nav buttons on
+       their own full-width row, so "This month" / "My year" never wrap. */
+    .bar {
+      row-gap: 8px;
+      padding-bottom: 10px;
+    }
+
+    .gear { order: 2; }
+
+    nav {
+      order: 3;
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+
+  /* Narrow phones: trim the pills so all three labels still fit one row; at
+     ~320px the guide button drops to its short label. */
+  @media (max-width: 360px) {
+    .navbtn,
+    .howto {
+      padding-left: 11px;
+      padding-right: 11px;
+      font-size: 13.5px;
+    }
+  }
+
+  .howto-short { display: none; }
+
+  @media (max-width: 340px) {
+    .howto-long { display: none; }
+    .howto-short { display: inline; }
   }
 
   /* Add-to-year confirmation. Sits above every sheet (city sheet is z70, the My
@@ -557,7 +703,7 @@
     left: 50%;
     bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     transform: translateX(-50%);
-    z-index: 90;
+    z-index: var(--z-toast);
     display: flex;
     align-items: center;
     gap: 10px;

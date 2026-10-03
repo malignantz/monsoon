@@ -5,7 +5,9 @@
 
   // Dense view of the same ranking the cards show. The parent (This month) owns
   // all filtering and hands us an already-filtered list; we only sort columns.
-  let { cities, month, preset, valueModel, onmodel, onopen } = $props();
+  // `order` reports the row keys as currently sorted, so the city sheet's ←/→
+  // can step through the table in the order the user sees it.
+  let { cities, month, preset, valueModel, onmodel, onopen, order = $bindable([]) } = $props();
 
   let sortKey = $state('qol');
   let sortDir = $state(-1);
@@ -13,7 +15,7 @@
   const COLS = $derived([
     { k: 'name',  label: 'City',      num: false },
     { k: 'qol',   label: 'Score',      num: true, tip: 'Best month money aside: weather, safety, air quality, seasonality & events · 0-100' },
-    { k: 'value', label: 'Best Value', num: true, tip: 'Score relative to cost (cost is damped so "best value" = cheap-and-nice, not merely cheap) · unitless index, compare cities only' },
+    { k: 'value', label: 'Best Value', num: true, tip: 'Score relative to cost (cost is damped so Best Value = cheap-and-nice, not merely cheap) · unitless index, compare cities only' },
     { k: 'weather', label: 'Weather', num: true, tip: 'Temperature & sunshine comfort · 0–100' },
     { k: 'air',   label: 'Air',       num: true, tip: 'Air quality (PM2.5) · 100 = cleanest in dataset' },
     { k: 'safety', label: 'Safety',   num: true, tip: 'Crime & personal safety index · 100 = safest' },
@@ -55,6 +57,10 @@
       if (sortKey === 'value' && Math.abs(va - vb) < 1.0) return a.cost - b.cost;
       return primary;
     });
+  });
+
+  $effect(() => {
+    order = rows.map((r) => r.c.key);
   });
 
   function shade(v) {
@@ -108,9 +114,18 @@
       </thead>
       <tbody>
         {#each rows as r (r.c.key)}
+          <!-- The whole row stays a mouse target; the city name is the real,
+               focusable button, so keyboard and screen-reader users can open it. -->
           <tr onclick={() => onopen(r.c.key)}>
             <td class="city">
-              {r.name}
+              <button
+                type="button"
+                class="cityname"
+                onclick={(e) => {
+                  e.stopPropagation();
+                  onopen(r.c.key);
+                }}
+              >{r.name}</button>
               <em>{r.region}{r.schengen ? ' ◆' : ''}{r.swim ? ' ≋' : ''}{#if r.risk >= 1}
                   <span class="hz" title={r.riskNote}>⚠</span>{/if}</em>
             </td>
@@ -239,6 +254,21 @@
   .city {
     text-align: left;
     font-weight: 600;
+  }
+
+  .cityname {
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+  }
+
+  .cityname:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--terra);
+    text-underline-offset: 3px;
   }
 
   .city em {
