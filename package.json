@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:seo": "node scripts/seo/build-seo.mjs && node scripts/seo/leak-check.mjs",
+    "check:seo": "node scripts/seo/check-seo.mjs",
     "preview": "vite preview",
     "check:ids": "node scripts/check-city-ids.mjs",
     "test:schengen": "node scripts/test-schengen.mjs",
