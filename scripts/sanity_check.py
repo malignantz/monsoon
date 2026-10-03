@@ -66,6 +66,16 @@ def main():
         if abs(jan["air"] - 70.0) > TOL:
             print(f"ANCHOR Chiang Mai Jan air: stored {jan['air']} != 70.0"); errors += 1
 
+    # Events invariant: the scored calendar derives from the visible event list.
+    from reconcile_events import check_derived
+    ev_drift = check_derived(d)
+    for city, mo, ot, nt, ol, nl in ev_drift[:10]:
+        print(f"EVENTS {city} m{mo}: evtTier {ot} '{ol}' != derived {nt} '{nl}'")
+    if ev_drift:
+        print(f"{len(ev_drift)} event month(s) diverge from city.events — run "
+              "scripts/reconcile_events.py --derive, then rebake_scores.py --write")
+        errors += len(ev_drift)
+
     if errors:
         print(f"\n{errors} drift(s) — run scripts/rebake_scores.py --write")
         sys.exit(1)

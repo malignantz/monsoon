@@ -10,8 +10,17 @@ So a month could score Events 100 for an event the sheet never lists (Yerevan in
 October: "Yerevan city birthday / Erebuni-Yerevan"). This script checks every
 month with evtTier >= 2 for a visible entry that names the same event in that month.
 
-  python3 scripts/reconcile_events.py            # report only (default)
-  python3 scripts/reconcile_events.py --write    # add missing entries + rebake
+  python3 scripts/reconcile_events.py                  # report only (default)
+  python3 scripts/reconcile_events.py --write          # add missing entries + rebake
+  python3 scripts/reconcile_events.py --derive         # months' evtTier/events := city.events
+  python3 scripts/reconcile_events.py --check-derived  # fail if they diverge (sanity_check runs this)
+
+Since 2026-10-03 the structured list is the single source of truth: --derive sets
+each month's evtTier to the highest tier among city.events entries covering it (0 if
+none) and its events string to those entries' names, so the Events score and the
+visible calendar cannot disagree. Edit data/city-content.json, then run
+build_city_content.py --only events, reconcile_events.py --derive, rebake_scores.py
+--write and sanity_check.py.
 
 --write adds one structured entry per missing event to data/city-content.json:
   {name, months, tier, from: "score-calendar"}
@@ -198,8 +207,59 @@ def write_report(additions, conflicts, majors, matched, checked, wrote):
     open(REPORT, "w").write("\n".join(L) + "\n")
 
 
+# ---------- single source of truth: derive the scored calendar from city.events ----------
+
+def derived_month(city, mo):
+    """(evtTier, events string) for month mo (1-12) from the structured list city.events.
+
+    evtTier = highest tier among entries covering the month (0 if none); the events
+    string names those entries, highest tier first, in list order within a tier.
+    """
+    cov = [e for e in (city.get("events") or []) if mo in (e.get("months") or [])]
+    cov = sorted(enumerate(cov), key=lambda t: (-(t[1].get("tier") or 0), t[0]))
+    tier = max([e.get("tier") or 0 for _, e in cov], default=0)
+    return tier, " · ".join(e["name"] for _, e in cov)
+
+
+def derive(d, write):
+    """Return [(city, month, old_tier, new_tier, old_label, new_label)] for months that differ.
+    With write=True, update months[].evtTier / months[].events in d in place."""
+    diffs = []
+    for c in d["cities"]:
+        for i, m in enumerate(c["months"]):
+            t, label = derived_month(c, i + 1)
+            if (m.get("evtTier") or 0) != t or (m.get("events") or "") != label:
+                diffs.append((c["name"], i + 1, m.get("evtTier") or 0, t, m.get("events") or "", label))
+                if write:
+                    m["evtTier"], m["events"] = t, label
+    return diffs
+
+
+def check_derived(d):
+    """Invariant used by sanity_check.py: every month's evtTier/events equals the derive."""
+    return derive(d, write=False)
+
+
 def main():
-    write = "--write" in sys.argv[1:]
+    args = sys.argv[1:]
+    if "--derive" in args or "--check-derived" in args:
+        d = json.load(open(DATA))
+        diffs = derive(d, write="--derive" in args)
+        if "--derive" in args:
+            if diffs:
+                with open(DATA, "w") as f:
+                    f.write(json.dumps(d, indent=2, ensure_ascii=False) + "\n")
+            print(f"derived scored event calendar from city.events: {len(diffs)} months changed"
+                  + ("" if not diffs else " — now run scripts/rebake_scores.py --write"))
+            return
+        for city, mo, ot, nt, ol, nl in diffs[:20]:
+            print(f"DRIFT  {city} {MONTHS[mo - 1]}: evtTier {ot} '{ol}' != derived {nt} '{nl}'")
+        if diffs:
+            raise SystemExit(f"{len(diffs)} month(s) disagree with city.events — run "
+                             "scripts/reconcile_events.py --derive then rebake_scores.py --write")
+        print("OK — every month's evtTier/events derives from city.events")
+        return
+    write = "--write" in args
     d = json.load(open(DATA))
     content = json.load(open(CONTENT))
     additions, conflicts, majors, matched, checked = analyse(d, content)
