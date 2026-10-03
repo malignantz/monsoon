@@ -273,6 +273,18 @@
     typeof document.startViewTransition === 'function' &&
     !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // A transition can be aborted (a newer one starts, the page is hidden, a
+  // resize or popstate lands mid-flight): ready, finished and updateCallbackDone
+  // then reject. Nothing here depends on those outcomes, so swallow them all.
+  function animate(update, then = () => {}) {
+    const vt = document.startViewTransition(update);
+    vt.ready.catch(() => {});
+    vt.updateCallbackDone.catch(() => {});
+    // Runs on both outcomes; the two-argument then() leaves no rejected promise.
+    vt.finished.then(then, then);
+    return vt;
+  }
+
   function applyOpen(key, { replace = false, month: sheetMonth } = {}) {
     if (Number.isInteger(sheetMonth) && sheetMonth >= 0 && sheetMonth < 12) month = sheetMonth;
     cityKey = key;
@@ -319,11 +331,13 @@
     }
     transitioningKey = key;
     await tick();
-    const vt = document.startViewTransition(async () => {
-      applyOpen(key, opts);
-      await tick();
-    });
-    vt.finished.finally(() => (transitioningKey = null));
+    animate(
+      async () => {
+        applyOpen(key, opts);
+        await tick();
+      },
+      () => (transitioningKey = null)
+    );
   }
 
   // Sheet → card: hold the hero name on the closing city so it flies back to
@@ -337,11 +351,13 @@
     }
     transitioningKey = cityKey;
     await tick();
-    const vt = document.startViewTransition(async () => {
-      applyClose();
-      await tick();
-    });
-    vt.finished.finally(() => (transitioningKey = null));
+    const vt = animate(
+      async () => {
+        applyClose();
+        await tick();
+      },
+      () => (transitioningKey = null)
+    );
     await vt.updateCallbackDone.catch(() => {});
   }
 
@@ -362,7 +378,7 @@
       applyOpen(next, { replace: true });
       return;
     }
-    document.startViewTransition(() => applyOpen(next, { replace: true }));
+    animate(() => applyOpen(next, { replace: true }));
   }
 
   $effect(() => {
@@ -458,7 +474,7 @@
   async function openFromCompare(key) {
     await CitySheetL.load().catch(() => {});
     if (!canAnimate()) applyOpen(key);
-    else document.startViewTransition(() => applyOpen(key));
+    else animate(() => applyOpen(key));
   }
 
   // Leaving for My year from inside an overlay (toast "View year"): drop the

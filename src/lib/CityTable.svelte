@@ -163,7 +163,7 @@
     </table>
   </div>
 </div>
-<p class="count">{rows.length} of {cities.length} cities · sorted by {sortLabel(sortKey)}</p>
+<p class="count">{rows.length} {rows.length === 1 ? 'city' : 'cities'} · sorted by {sortLabel(sortKey)}</p>
 
 <style>
   .tablecap {
