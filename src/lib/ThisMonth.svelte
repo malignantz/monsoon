@@ -7,6 +7,7 @@
   import { untrack } from 'svelte';
   import { COST_OPTIONS, snapCostCap } from './planner.js';
   import { route } from './route.svelte.js';
+  import { MAX_COMPARE } from './compare.js';
 
   let {
     month = $bindable(0),
@@ -25,7 +26,12 @@
     onopen,
     onmodel,
     onsettings,
-    onresume
+    onresume,
+    // Compare: picking mode on/off, the current picks, and the two actions.
+    comparing = false,
+    compareKeys = [],
+    oncompare,
+    oncomparemode
   } = $props();
 
   let nonSchengenOnly = $state(false);
@@ -63,6 +69,8 @@
   });
 
   const CAP = 48;
+
+  const compareFull = $derived(compareKeys.length >= MAX_COMPARE);
   const monthLong = $derived(new Date(2026, month, 1).toLocaleString('en-US', { month: 'long' }));
 
   // Budget caps scale with party size, mirroring My year's Max $/mo dropdown so
@@ -296,6 +304,22 @@
             <span class="seglbl">Table</span>
           </button>
         </div>
+        <!-- Compare is a mode, not a per-card fixture: switched on, each card
+             (or table row) gains a labelled checkbox and the tray appears. Off,
+             browse carries no extra chrome at all, on touch or desktop. -->
+        <button
+          type="button"
+          class="cmpmode"
+          class:on={comparing}
+          aria-pressed={comparing}
+          title={comparing ? 'Stop comparing (clears your picks)' : 'Pick two or three cities to compare side by side'}
+          onclick={oncomparemode}
+        >
+          <svg class="vicon" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <rect x="2" y="2.5" width="5" height="11" rx="1" /><rect x="9" y="2.5" width="5" height="11" rx="1" />
+          </svg>
+          Compare
+        </button>
       </div>
     </div>
 
@@ -415,11 +439,32 @@
       {/if}
     </div>
   {:else if density === 'table'}
-    <CityTable cities={filtered} {month} {preset} {valueModel} {onmodel} {onopen} bind:order={tableOrder} />
+    <CityTable
+      cities={filtered}
+      {month}
+      {preset}
+      {valueModel}
+      {onmodel}
+      {onopen}
+      bind:order={tableOrder}
+      compare={comparing ? { keys: compareKeys, full: compareFull } : null}
+      {oncompare}
+    />
   {:else}
     <div class="grid">
       {#each ranked.slice(0, showAll ? ranked.length : CAP) as city (city.key)}
-        <CityCard {city} {month} {preset} {mode} {valueModel} {heroKey} {openKey} {onopen} />
+        <CityCard
+          {city}
+          {month}
+          {preset}
+          {mode}
+          {valueModel}
+          {heroKey}
+          {openKey}
+          {onopen}
+          compare={comparing ? { on: compareKeys.includes(city.key), full: compareFull } : null}
+          {oncompare}
+        />
       {/each}
     </div>
 
@@ -706,6 +751,35 @@
   }
 
   .seg.density button.on .vicon { opacity: 1; }
+
+  /* Compare mode toggle: a single pill in the segmented controls' vocabulary
+     (same height, border and ink "on" fill), so it reads as a view switch. */
+  .cmpmode {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 32px;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-3);
+    flex-shrink: 0;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .cmpmode:hover { color: var(--ink); border-color: var(--ink-3); }
+
+  .cmpmode.on {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+
+  .cmpmode .vicon { opacity: 0.7; }
+  .cmpmode.on .vicon { opacity: 1; }
   .seg.density button:not(.on) .vicon { opacity: 0.6; }
 
   /* Search leads the filter row on desktop; on phones it takes its own row. */
@@ -802,7 +876,8 @@
        density toggle goes icon-only (labels stay for screen readers) so both
        controls share one row at 375px. */
     .seg,
-    .seg.density { height: var(--tap); }
+    .seg.density,
+    .cmpmode { height: var(--tap); }
 
     .seg button { padding: 0 13px; }
 
