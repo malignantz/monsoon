@@ -395,21 +395,38 @@ export function routeStats(stays, presetKey = 'balanced') {
 // never opens on a blank canvas. Used two ways — as the faint "ghost" example on
 // the empty board (adopt in one tap or dismiss), and behind the "Build me a year"
 // chooser, where each STYLE re-seeds the preview live before the user commits.
+// It also fills the rest of a half-planned year (`planYear` with locked stays and
+// anchors) and says why it picked each stay.
 //
-// Greedy and pure (no randomness): walk the year in three-month blocks and, for
-// each block, take the best-scoring candidate that keeps the route Schengen-legal
-// and adds geographic variety (a multiplicative nudge — scale-independent across
-// the quality/value score ranges — spreads the year across the map instead of
-// parking it in one region). Deterministic input → identical route every render.
+// Greedy and pure (no randomness): walk the open months in blocks of up to three
+// and, for each block, take the best-scoring candidate that keeps the route
+// Schengen-legal and adds geographic variety (a multiplicative nudge —
+// scale-independent across the quality/value score ranges — spreads the year
+// across the map instead of parking it in one region). Deterministic input →
+// identical route every render.
+//
+// Locks and anchors: `locked` stays are the user's own and are never extended,
+// moved or shortened — the generator only fills the months they leave open, and
+// counts them toward every legality check (so a locked year that is already over
+// Schengen or 183 days simply gets no more of that). Open months form cyclic runs
+// (Dec→Jan wraps); a run of n months is split into ceil(n/3) blocks, sizes as even
+// as possible, larger first (12→3,3,3,3 · 7→3,2,2 · 4→2,2). A fully open year is
+// one run from January, which gives the familiar Jan/Apr/Jul/Oct blocks. An
+// `anchor` ("I must be in <place> in <month>") only admits cities in its regions
+// for that month: a stay covering an anchored month is eligible only if its region
+// is accepted, and the stand-in for a month a trimmed stay leaves open counts only
+// accepted cities too. An anchor the pool can't honour comes back as `unmet`
+// rather than being faked.
 //
 // Schengen honesty: three real months are 89–92 days, so outside winter a full
 // Schengen block would land in the 1–2-day caution band. A seed never does that —
 // every placement must keep the year at or under 90 real days. A Schengen city
-// that can't take the whole block may take its best two-month slice instead
-// (≤ 62 days), judged against the block as if the spare month were filled by the
-// best non-Schengen month on offer; a gap pass then stretches a neighbouring
-// non-Schengen stay into that month (or drops in a one-month stay). Seeds are
-// therefore always strictly 90/180-legal, which the "visa-legal" copy relies on.
+// that can't take the whole block may take its best slice one month shorter
+// (≤ 62 days for three), judged against the block as if the spare month were
+// filled by the best non-Schengen month on offer; a gap pass then stretches a
+// neighbouring generated non-Schengen stay into that month (or drops in a
+// one-month stay). Seeds are therefore always strictly 90/180-legal, which the
+// "visa-legal" copy relies on.
 //
 // Days per country: a seed never puts 183+ days in one country (the common
 // tax-residency mark), so a ready-made year never trips the residency caution.
@@ -424,29 +441,117 @@ export function routeStats(stays, presetKey = 'balanced') {
 //   'nonschengen'  Score, but only non-Schengen cities (sidesteps the 90/180 cap)
 //   'favorites'    Score, drawn only from the user's saved cities
 //
-// A pool too small to fill all four blocks (e.g. few favorites) just yields a
-// shorter route — callers surface that honestly rather than padding it.
+// A pool too small to fill every block (e.g. few favorites) just yields a
+// shorter route — callers surface that honestly (`open`) rather than padding it.
 const SEED_LEN = 3;
 const SEED_VARIETY = 0.93; // nudge against repeating a region / adding a stop
 
-export function generateRoute(style = 'quality', presetKey = 'balanced', valueModel = 'adjusted') {
+// Best and runner-up (the best candidate of a DIFFERENT city) over a stream of
+// {key, score, …} offers. Strict `>`, so ties keep the earlier offer (pool order).
+function topTwo() {
+  const t = {
+    best: null,
+    runner: null,
+    offer(cand) {
+      if (!t.best || cand.score > t.best.score) {
+        if (t.best && t.best.key !== cand.key) t.runner = t.best;
+        t.best = cand;
+      } else if (cand.key !== t.best.key && (!t.runner || cand.score > t.runner.score)) {
+        t.runner = cand;
+      }
+    }
+  };
+  return t;
+}
+
+// Chronological from January; a stay stretched back across Dec→Jan leads.
+const stayOrder = (s) => (s.start + s.len > 12 ? s.start - 12 : s.start);
+
+// Open months → generation blocks [{start, len}], earliest start (from Jan) first.
+function openBlocks(open) {
+  const runs = [];
+  if (open.every(Boolean)) runs.push({ start: 0, n: 12 });
+  else
+    for (let m = 0; m < 12; m++) {
+      if (!open[m] || open[(m + 11) % 12]) continue;
+      let n = 0;
+      while (open[(m + n) % 12]) n++;
+      runs.push({ start: m, n });
+    }
+  const blocks = [];
+  for (const { start, n } of runs) {
+    const k = Math.ceil(n / SEED_LEN);
+    const base = Math.floor(n / k);
+    const extra = n % k; // the first `extra` blocks take one more month
+    let at = start;
+    for (let i = 0; i < k; i++) {
+      const len = base + (i < extra ? 1 : 0);
+      blocks.push({ start: at % 12, len });
+      at += len;
+    }
+  }
+  return blocks.sort((a, b) => a.start - b.start);
+}
+
+// planYear(style, preset, valueModel, { locked, anchors }) →
+//   { stays, added, legs, unmet, open }
+//   stays   locked ∪ generated, chronological
+//   added   only the generated stays, same order
+//   legs    one per added stay, same order, saying why it was picked:
+//           { key, start, len, kind: 'block' | 'gap', anchor, anchorMonth, runnerUp,
+//             trimmed, stretched: [month…], newRegion }
+//   unmet   anchors [{month, label}] the result doesn't satisfy
+//   open    months (0-11) still empty
+// `locked`: [{key, start, len}] (never mutated; copies come back). `anchors`:
+// [{month (0-11), regions: [string], label}].
+export function planYear(
+  style = 'quality',
+  presetKey = 'balanced',
+  valueModel = 'adjusted',
+  { locked = [], anchors = [] } = {}
+) {
   let pool = cities;
   if (style === 'nonschengen') pool = cities.filter((c) => !c.schengen);
   else if (style === 'favorites') pool = cities.filter((c) => favorites.has(c.key));
 
+  const lockedStays = (locked ?? []).map((s) => ({ key: s.key, start: s.start, len: s.len }));
+  const lockedOcc = monthOccupancy(lockedStays);
+  const open0 = lockedOcc.map((o) => !o);
+
+  // Anchors on a month a locked stay holds are moot; one per month, later wins.
+  const anchorBy = new Map();
+  for (const a of anchors ?? []) {
+    const regs = Array.isArray(a?.regions) ? a.regions.filter((r) => typeof r === 'string') : [];
+    if (!Number.isInteger(a?.month) || a.month < 0 || a.month > 11 || !regs.length) continue;
+    if (lockedOcc[a.month]) continue;
+    anchorBy.set(a.month, { month: a.month, regions: regs, label: a.label ?? regs.join(' / ') });
+  }
+  const accepts = (c, m) => {
+    const a = anchorBy.get(m);
+    return !a || a.regions.includes(c.region);
+  };
+  const acceptsStay = (c, p) => {
+    for (let i = 0; i < p.len; i++) if (!accepts(c, (p.start + i) % 12)) return false;
+    return true;
+  };
+
   const monthScore = (c, m) => (style === 'value' ? valueFor(c, m, presetKey, valueModel) : qolFor(c, m, presetKey));
 
   // Best non-Schengen month on offer, discounted like any extra stop — the
-  // stand-in value of the month a trimmed Schengen stay leaves open.
+  // stand-in value of the month a trimmed Schengen stay leaves open. In an
+  // anchored month only cities the anchor accepts count.
   const fillScore = MONTHS.map((_, m) =>
-    pool.reduce((best, c) => (c.schengen ? best : Math.max(best, monthScore(c, m) * SEED_VARIETY)), 0)
+    pool.reduce(
+      (best, c) => (c.schengen || !accepts(c, m) ? best : Math.max(best, monthScore(c, m) * SEED_VARIETY)),
+      0
+    )
   );
 
-  // Average over the whole block, so a two-month slice competes on equal terms.
-  const blockScore = (c, blockStart, p) => {
+  // Average over the whole block, so a trimmed slice competes on equal terms.
+  const blockScore = (c, blockStart, blockLen, p) => {
     let sum = 0;
     let fests = 0;
-    for (let i = 0; i < SEED_LEN; i++) {
+    for (let i = 0; i < blockLen; i++) {
       const m = (blockStart + i) % 12;
       const inStay = (m - p.start + 12) % 12 < p.len;
       if (!inStay) {
@@ -456,89 +561,134 @@ export function generateRoute(style = 'quality', presetKey = 'balanced', valueMo
       sum += monthScore(c, m);
       if (c.months[m].evtTier >= 3) fests++;
     }
-    let s = sum / SEED_LEN;
+    let s = sum / blockLen;
     if (style === 'festival') s += fests * 8; // pull a real festival into the block when it's close on Score
     return s;
   };
 
-  const stays = [];
-  const usedRegions = new Set();
-  const usedKeys = new Set();
-  for (let start = 0; start < 12; start += SEED_LEN) {
-    let best = null;
-    let bestScore = -Infinity;
+  const stays = [...lockedStays]; // locked first, then every generated stay (shared objects)
+  const meta = new Map(); // generated stay → why it was picked
+  const usedRegions = new Set(lockedStays.map((s) => cityByKey.get(s.key)?.region).filter(Boolean));
+  const usedKeys = new Set(lockedStays.map((s) => s.key));
+
+  for (const { start, len: L } of openBlocks(open0)) {
+    const top = topTwo();
     for (const c of pool) {
       if (usedKeys.has(c.key)) continue;
-      const options = c.schengen
-        ? [
-            { start, len: SEED_LEN },
-            { start, len: SEED_LEN - 1 },
-            { start: start + 1, len: SEED_LEN - 1 }
-          ]
-        : [{ start, len: SEED_LEN }];
+      const options = [{ start, len: L }];
+      if (c.schengen && L >= 2) {
+        options.push({ start, len: L - 1 }, { start: (start + 1) % 12, len: L - 1 });
+      }
       for (const p of options) {
+        const stay = { key: c.key, ...p };
         // Keep every seed honest: never place a Schengen stay that takes the year
         // past 90 real days in any 180 — not even into the caution band.
-        if (c.schengen && !schengenCheck([...stays, { key: c.key, ...p }]).ok) continue;
-        if (countryCheckAdd(stays, { key: c.key, ...p }).days >= RESIDENCY_DAYS) continue;
-        let s = blockScore(c, start, p);
+        if (c.schengen && !schengenCheck([...stays, stay]).ok) continue;
+        if (countryCheckAdd(stays, stay).days >= RESIDENCY_DAYS) continue;
+        if (!acceptsStay(c, p)) continue;
+        let s = blockScore(c, start, L, p);
         if (usedRegions.has(c.region)) s *= SEED_VARIETY;
-        if (s > bestScore) {
-          bestScore = s;
-          best = { key: c.key, region: c.region, ...p };
-        }
-        if (p.len === SEED_LEN) break; // the full block, when legal, beats trimming it
+        top.offer({ key: c.key, region: c.region, ...p, score: s });
+        if (p.len === L) break; // the full block, when legal, beats trimming it
       }
     }
+    const best = top.best;
     if (!best) continue;
-    stays.push({ key: best.key, start: best.start, len: best.len });
+    const stay = { key: best.key, start: best.start, len: best.len };
+    stays.push(stay);
+    meta.set(stay, {
+      kind: 'block',
+      runnerUp: top.runner?.key ?? null,
+      trimmed: best.len < L,
+      stretched: [],
+      newRegion: !usedRegions.has(best.region)
+    });
     usedRegions.add(best.region);
     usedKeys.add(best.key);
   }
 
-  // Gap pass: fill any month a trimmed Schengen stay left open. Stretching a
-  // non-Schengen neighbour (one fewer move) wins ties against a new one-month
-  // stop; neither can change the Schengen count.
+  // Gap pass: fill any month a trimmed Schengen stay (or an unfillable block)
+  // left open. Stretching a generated non-Schengen neighbour (one fewer move)
+  // wins ties against a new one-month stop; neither can push the Schengen count
+  // over. A new one-month stop may also be a Schengen city when the 90/180 check
+  // passes with it. Locked stays are never stretched.
   for (let m = 0; m < 12; m++) {
+    if (!open0[m]) continue;
     const occ = monthOccupancy(stays);
     if (occ[m]) continue;
     const prev = occ[(m + 11) % 12];
     const next = occ[(m + 1) % 12];
-    let fill = null;
-    let fillBest = -Infinity;
+    const top = topTwo();
     for (const nb of [prev, next]) {
-      const c = nb && cityByKey.get(nb.key);
-      if (!c || c.schengen) continue;
+      const c = nb && meta.has(nb) && cityByKey.get(nb.key);
+      if (!c || c.schengen || !accepts(c, m)) continue;
       if (countryCheckAdd(stays, { key: c.key, start: m, len: 1 }).days >= RESIDENCY_DAYS) continue;
-      const s = monthScore(c, m);
-      if (s > fillBest) {
-        fillBest = s;
-        fill = { extend: nb };
-      }
+      top.offer({ key: c.key, score: monthScore(c, m), extend: nb });
     }
     for (const c of pool) {
-      if (c.schengen || usedKeys.has(c.key)) continue;
-      if (countryCheckAdd(stays, { key: c.key, start: m, len: 1 }).days >= RESIDENCY_DAYS) continue;
-      const s = monthScore(c, m) * SEED_VARIETY;
-      if (s > fillBest) {
-        fillBest = s;
-        fill = { city: c };
-      }
+      if (usedKeys.has(c.key) || !accepts(c, m)) continue;
+      const stay = { key: c.key, start: m, len: 1 };
+      if (c.schengen && !schengenCheck([...stays, stay]).ok) continue;
+      if (countryCheckAdd(stays, stay).days >= RESIDENCY_DAYS) continue;
+      top.offer({ key: c.key, score: monthScore(c, m) * SEED_VARIETY, city: c });
     }
+    const fill = top.best;
     if (!fill) continue;
     if (fill.city) {
-      stays.push({ key: fill.city.key, start: m, len: 1 });
+      const regionSeen = stays.some((s) => cityByKey.get(s.key)?.region === fill.city.region);
+      const stay = { key: fill.city.key, start: m, len: 1 };
+      stays.push(stay);
+      meta.set(stay, {
+        kind: 'gap',
+        runnerUp: top.runner?.key ?? null,
+        trimmed: false,
+        stretched: [],
+        newRegion: !regionSeen
+      });
       usedKeys.add(fill.city.key);
-    } else if (fill.extend === prev) {
-      prev.len++;
     } else {
-      next.start = m;
-      next.len++;
+      const ext = fill.extend;
+      if (ext === prev) ext.len++;
+      else {
+        ext.start = m;
+        ext.len++;
+      }
+      meta.get(ext).stretched.push(m);
     }
   }
-  // Chronological from January; a stay stretched back across Dec→Jan leads.
-  const order = (s) => (s.start + s.len > 12 ? s.start - 12 : s.start);
-  return stays.sort((a, b) => order(a) - order(b));
+
+  const generated = stays.filter((s) => meta.has(s)).sort((a, b) => stayOrder(a) - stayOrder(b));
+  const legs = generated.map((s) => {
+    const mm = meta.get(s);
+    const hit = stayMonths(s).find((m) => anchorBy.has(m));
+    return {
+      key: s.key,
+      start: s.start,
+      len: s.len,
+      kind: mm.kind,
+      anchor: hit == null ? null : anchorBy.get(hit).label,
+      anchorMonth: hit ?? null,
+      runnerUp: mm.runnerUp,
+      trimmed: mm.trimmed,
+      stretched: mm.stretched,
+      newRegion: mm.newRegion
+    };
+  });
+  const added = generated.map((s) => ({ key: s.key, start: s.start, len: s.len }));
+  const all = stays.map((s) => ({ key: s.key, start: s.start, len: s.len })).sort((a, b) => stayOrder(a) - stayOrder(b));
+
+  const occ = monthOccupancy(stays);
+  const unmet = [...anchorBy.values()]
+    .sort((a, b) => a.month - b.month)
+    .filter((a) => !occ[a.month] || !a.regions.includes(cityByKey.get(occ[a.month].key)?.region))
+    .map((a) => ({ month: a.month, label: a.label }));
+  const openLeft = occ.flatMap((o, m) => (o ? [] : [m]));
+
+  return { stays: all, added, legs, unmet, open: openLeft };
+}
+
+export function generateRoute(style = 'quality', presetKey = 'balanced', valueModel = 'adjusted') {
+  return planYear(style, presetKey, valueModel).stays;
 }
 
 // ---- Shareable routes: the whole itinerary lives in the URL, no backend ----
