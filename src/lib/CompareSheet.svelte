@@ -4,7 +4,7 @@
   import { stripSummary } from './stripSummary.js';
   import { compareShareUrl } from './urlState.js';
   import { focusTrap, isTopLayer } from './focusTrap.js';
-  import { cityByKey, stripCells, qolFor, valueFor, band, cityCost, partyWord, fmtMoney, fmtTemp, swimNow, fmtMonthRange, eventsInMonth, MONTHS, MONTH_LETTERS, PRESETS, normalizePresetKey, prefs, detailStatus, retryDetail, prefetchDetail, shareOrCopy } from './data.svelte.js';
+  import { cityByKey, stripCells, qolFor, valueFor, band, cityCost, partyWord, fmtMoney, fmtTemp, swimNow, fmtMonthRange, eventsInMonth, MONTHS, MONTH_LETTERS, PRESETS, normalizePresetKey, prefs, detailStatus, retryDetail, shareOrCopy } from './data.svelte.js';
   import { bestOf, compareFindings } from './compare.js';
 
   // The comparison: 2–3 cities side by side for one month, over This month.
@@ -41,8 +41,9 @@
       step(e.key === 'ArrowLeft' ? -1 : 1);
     };
     window.addEventListener('keydown', onkey);
-    // The detail layer loads on first intent; a comparison may be the first.
-    untrack(prefetchDetail);
+    // The detail layer loads on first intent; a comparison may be the first
+    // (and opening one retries after an earlier failed prefetch).
+    untrack(retryDetail);
     return () => window.removeEventListener('keydown', onkey);
   });
 

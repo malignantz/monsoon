@@ -461,6 +461,7 @@
     const u = new URL(location.href);
     u.searchParams.delete('i');
     u.searchParams.delete('route');
+    u.searchParams.delete('n');
     history.replaceState({}, '', u);
   }
 

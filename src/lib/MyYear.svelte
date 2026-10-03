@@ -757,8 +757,8 @@
             <strong class="num">{sch.over}</strong> days over
             <span class="sch-sub">· {sch.worst} of 90 in {sch.window}</span>
           {:else if sch.caution}
-            <strong class="num">{sch.worst}</strong> of 90 days — trim a few days or leave early
-            <span class="sch-sub">· {sch.window} · count your exact days</span>
+            <strong class="num">{sch.worst}</strong> of 90 days — leave {sch.over} {sch.over === 1 ? 'day' : 'days'} early
+            <span class="sch-sub">· {sch.window} · count your exact dates</span>
           {:else if sch.atLimit}
             <strong class="num">0</strong> days left
             <span class="sch-sub">· worst window {sch.window}</span>
@@ -843,7 +843,7 @@
       <span class="mstat"><strong class="num">{Math.round(shownStats.avgQol) || '—'}</strong> avg score</span>
       <span class="mstat"><strong class="num">{shownStats.months ? fmtMoney(shownStats.avgCost) : '—'}</strong> /mo {partyWord()}</span>
       {#if sch.anySchengen}
-        <button type="button" class="mstat sch" class:bad={sch.breach} class:tight={schTight} onclick={() => { pickerOpen = true; flagNonSchengen(); }}>
+        <button type="button" class="mstat sch" class:bad={sch.breach} class:tight={schTight} onclick={() => { if (previewing) return; pickerOpen = true; flagNonSchengen(); }}>
           <strong class="num">◆ {sch.breach ? `${sch.over} over` : sch.caution ? `${sch.worst}/90 tight` : `${sch.remaining}/90`}</strong> Schengen
         </button>
       {/if}
@@ -1040,7 +1040,7 @@
     </div>
     {#if sch.anySchengen}
       <p class="schbudget num" class:warn={sch.breach} class:tight={sch.caution}>
-        ◆ {#if sch.breach}{sch.over} days over the Schengen cap{:else if sch.caution}{sch.worst} of 90 Schengen days in {sch.window} — tight, count your exact days{:else}{schLeft} of 90 Schengen days left in your tightest window{/if}
+        ◆ {#if sch.breach}{sch.over} days over the Schengen cap{:else if sch.caution}{sch.worst} of 90 Schengen days in {sch.window} — tight: leave {sch.over} {sch.over === 1 ? 'day' : 'days'} early{:else}{schLeft} of 90 Schengen days left in your tightest window{/if}
       </p>
     {/if}
     <div class="legendrow"><Legend /></div>
@@ -1626,7 +1626,7 @@
     --sch-accent: var(--schengen);
   }
 
-  .schline.tight { --sch-accent: var(--band-ok); }
+  .schline.tight { --sch-accent: var(--band-ok-text); }
   .schline.bad { --sch-accent: var(--band-bad); }
 
   .mlabel { font-size: 12px; font-weight: 600; color: var(--sch-accent); white-space: nowrap; }
@@ -1901,7 +1901,7 @@
   }
 
   .schbudget.warn { color: var(--band-bad); }
-  .schbudget.tight { color: var(--band-ok); }
+  .schbudget.tight { color: var(--band-ok-text); }
 
   .pickctl { display: flex; align-items: center; gap: 14px; font-size: 12.5px; color: var(--ink-2); }
   .pickctl input { width: 200px; }
@@ -2169,8 +2169,8 @@
      center-align beside it. */
   .mstat.sch { color: var(--schengen); border-color: var(--schengen); cursor: pointer; min-height: var(--tap); }
   .mstat.sch strong { color: var(--schengen); }
-  .mstat.sch.tight { color: var(--band-ok); border-color: var(--band-ok); }
-  .mstat.sch.tight strong { color: var(--band-ok); }
+  .mstat.sch.tight { color: var(--band-ok-text); border-color: var(--band-ok-text); }
+  .mstat.sch.tight strong { color: var(--band-ok-text); }
   .mstat.sch.bad { color: var(--band-bad); border-color: var(--band-bad); }
   .mstat.sch.bad strong { color: var(--band-bad); }
 

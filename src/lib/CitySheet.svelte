@@ -5,7 +5,7 @@
   import Sources from './Sources.svelte';
   import { focusTrap, isTopLayer } from './focusTrap.js';
   import { cityShareUrl } from './urlState.js';
-  import { stripCells, qolFor, fmtMoney, fmtTemp, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, retryDetail, prefetchDetail, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, shareOrCopy, settings, sources, dataAsOf } from './data.svelte.js';
+  import { stripCells, qolFor, fmtMoney, fmtTemp, fmtMonthRange, swimNow, MONTHS, PRESETS, detailStatus, retryDetail, cityCost, partyWord, isFavorite, toggleFavorite, shareUrl, shareOrCopy, settings, sources, dataAsOf } from './data.svelte.js';
   import { monthRows, safetyRows, costRows, cityDataDates, reportUrl, fmtDate, CHIP_LABEL, normConfidence } from './provenance.js';
 
   // oncompare is only passed where a comparison can be built (over This month,
@@ -53,9 +53,10 @@
   });
 
   // The detail layer loads on first intent; a sheet opened straight from a
-  // link (or by keyboard before any hover) asks for it here.
+  // link (or by keyboard before any hover) asks for it here. Opening a sheet
+  // is a strong enough signal to retry after an earlier failed prefetch.
   $effect(() => {
-    untrack(prefetchDetail);
+    untrack(retryDetail);
   });
 
   // Placeholder for detail-layer cells: an ellipsis while loading, a dash once

@@ -23,6 +23,9 @@
   --band-good-ink: #2c3a10;
   --band-ok-ink: #46300a;
   --band-bad-ink: #fff4ee;
+  /* The "ok" amber is a fill colour (about 2:1 on paper); text and outlines
+     that mean "tight" use this darker amber, 5:1 on paper. */
+  --band-ok-text: #8a5c0a;
 
   --h1: clamp(34px, 7vw, 56px);
   --h2: clamp(18px, 3vw, 22px);
