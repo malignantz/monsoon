@@ -8,6 +8,7 @@ import detailUrl from '../generated/travel-detail.json?url';
 import { CITY_IDS_V1 } from './cityIds.v1.js';
 import { track } from './analytics.js';
 import { schengenWindow, schengenImpact } from './schengen.js';
+import { countryDays, countryImpact, RESIDENCY_DAYS } from './dayCount.js';
 
 export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 export const MONTH_LETTERS = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
@@ -330,6 +331,20 @@ export function schengenCheckAdd(stays, stay) {
   return schengenImpact(stays, stay, isSchengenKey);
 }
 
+// ---- Days per country (183-day tax-residency signal) ----
+// Maths in dayCount.js; these wrappers supply the city → country lookup.
+const countryOfKey = (key) => cityByKey.get(key)?.country;
+
+// { rows: [{country, days, state}], top, over, near, state } — see dayCount.js.
+export function countryCheck(stays) {
+  return countryDays(stays, countryOfKey);
+}
+
+// What adding `stay` does to its own country's total: { country, days, added, state }.
+export function countryCheckAdd(stays, stay) {
+  return countryImpact(stays, stay, countryOfKey);
+}
+
 export function routeStats(stays, presetKey = 'balanced') {
   let qSum = 0;
   let cSum = 0;
@@ -377,6 +392,11 @@ export function routeStats(stays, presetKey = 'balanced') {
 // best non-Schengen month on offer; a gap pass then stretches a neighbouring
 // non-Schengen stay into that month (or drops in a one-month stay). Seeds are
 // therefore always strictly 90/180-legal, which the "visa-legal" copy relies on.
+//
+// Days per country: a seed never puts 183+ days in one country (the common
+// tax-residency mark), so a ready-made year never trips the residency caution.
+// Distinct cities rarely get there, but two blocks in one country can (Jul–Dec
+// is 184 days) and a small favorites pool easily does.
 //
 // Styles:
 //   'quality'      max average Score for each block (the default ghost)
@@ -442,6 +462,7 @@ export function generateRoute(style = 'quality', presetKey = 'balanced', valueMo
         // Keep every seed honest: never place a Schengen stay that takes the year
         // past 90 real days in any 180 — not even into the caution band.
         if (c.schengen && !schengenCheck([...stays, { key: c.key, ...p }]).ok) continue;
+        if (countryCheckAdd(stays, { key: c.key, ...p }).days >= RESIDENCY_DAYS) continue;
         let s = blockScore(c, start, p);
         if (usedRegions.has(c.region)) s *= SEED_VARIETY;
         if (s > bestScore) {
@@ -470,6 +491,7 @@ export function generateRoute(style = 'quality', presetKey = 'balanced', valueMo
     for (const nb of [prev, next]) {
       const c = nb && cityByKey.get(nb.key);
       if (!c || c.schengen) continue;
+      if (countryCheckAdd(stays, { key: c.key, start: m, len: 1 }).days >= RESIDENCY_DAYS) continue;
       const s = monthScore(c, m);
       if (s > fillBest) {
         fillBest = s;
@@ -478,6 +500,7 @@ export function generateRoute(style = 'quality', presetKey = 'balanced', valueMo
     }
     for (const c of pool) {
       if (c.schengen || usedKeys.has(c.key)) continue;
+      if (countryCheckAdd(stays, { key: c.key, start: m, len: 1 }).days >= RESIDENCY_DAYS) continue;
       const s = monthScore(c, m) * SEED_VARIETY;
       if (s > fillBest) {
         fillBest = s;
