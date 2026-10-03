@@ -1,5 +1,5 @@
 // Candidate filters for the My Year surface (plus the shared budget-cap options
-// This month uses too). Depends only on core-tier fields (methodology §9):
+// This month uses too). Depends only on core-tier fields (see scripts/split-data.mjs):
 // months[].{cost1,cost2,air,rain}, safety.score, english.tier, swim, schengen —
 // never the lazy detail layer.
 import { regions, cityCost } from './data.svelte.js';

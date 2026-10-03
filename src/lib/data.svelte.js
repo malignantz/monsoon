@@ -174,7 +174,8 @@ export function prefetchDetail() {
   retryDetail();
 }
 
-// ---- "Optimize for" lenses: weights over stored component scores (methodology §6) ----
+// ---- "Optimize for" lenses: weights over stored component scores ----
+// The in-app methodology dialog (Methodology.svelte) is the public write-up.
 export const PRESETS = {
   balanced: {
     label: 'Balanced',
@@ -223,7 +224,7 @@ export function safetyFloor(safety) {
   return FLOOR_MIN + (1 - FLOOR_MIN) * (safety / FLOOR_T);
 }
 
-// Recompute the headline Score client-side from stored component scores (methodology §6).
+// Recompute the headline Score client-side from stored component scores.
 export function qolFor(city, mIdx, presetKey = 'balanced') {
   const m = city.months[mIdx];
   const preset = PRESETS[normalizePresetKey(presetKey)];

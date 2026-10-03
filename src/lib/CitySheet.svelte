@@ -83,7 +83,7 @@
   // core fields the headline uses, so the three lines always sum to cityCost(m):
   // rent carries the month's accommodation seasonality (cost1/cost2 already bake
   // it in), utilities + daily-life are held flat. Couple scales the two shared
-  // items by ×1.15 (METHODOLOGY §6b).
+  // items by ×1.15 (the couple note in the cost panel below spells it out).
   const costBd = $derived.by(() => {
     const total = cityCost(m);
     const isSolo = partyWord() === 'solo';
