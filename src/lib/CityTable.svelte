@@ -9,7 +9,7 @@
   // can step through the table in the order the user sees it.
   // compare: null outside compare mode; { keys, full } while picking — each
   // row then leads with a checkbox (the row click still opens the sheet).
-  let { cities, month, preset, valueModel, onmodel, onopen, order = $bindable([]), compare = null, oncompare } = $props();
+  let { cities, month, preset, valueModel, onmodel, onopen, order = $bindable([]), compare = null, oncompare, onaddtoyear = null } = $props();
 
   let sortKey = $state('qol');
   let sortDir = $state(-1);
@@ -150,6 +150,18 @@
               <em>{r.region}{r.schengen ? ' ◆' : ''}{r.swim ? ' ≋' : ''}{#if r.risk >= 1}
                   <span class="hz" title={r.riskNote}>⚠</span>{/if}</em>
               </span>
+              {#if onaddtoyear}
+                <button
+                  type="button"
+                  class="tadd"
+                  aria-label="Add {r.name} to my year, from {MONTHS[month]}"
+                  title="Add to my year from {MONTHS[month]}"
+                  onclick={(e) => {
+                    e.stopPropagation();
+                    onaddtoyear(r.c.key, month);
+                  }}
+                >+</button>
+              {/if}
             </td>
             <td class="num {shade(r.qol)}">{Math.round(r.qol)}</td>
             <td class="num">{r.value.toFixed(1)}</td>
@@ -225,6 +237,44 @@
 
   .tcmp input:disabled { cursor: default; }
 
+  /* "+": add this city to the year from the selected month. Quiet until the row
+     is hovered or something in the city cell has focus; touch has no hover, so
+     there it is always shown. Sits after the name block, inside the nowrap cell. */
+  .tadd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    margin-left: 8px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    font: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--ink-2);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  }
+
+  tbody tr:hover .tadd,
+  td.city:focus-within .tadd { opacity: 1; }
+
+  .tadd:hover,
+  .tadd:focus-visible {
+    border-color: var(--terra);
+    color: var(--terra-deep);
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    .tadd { opacity: 1; }
+  }
+
   tbody tr.picked td,
   tbody tr.picked td.city { background: var(--terra-soft); }
 
@@ -233,6 +283,18 @@
       min-width: 40px;
       min-height: 40px;
       margin: -8px 2px -8px -10px;
+    }
+  }
+
+  /* Coarse pointers: the 24px pill stays as drawn, and a transparent ::before
+     stretches the target to 40px without growing the row. */
+  @media (hover: none) and (pointer: coarse) {
+    .tadd { position: relative; }
+
+    .tadd::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
     }
   }
 

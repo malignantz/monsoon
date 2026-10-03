@@ -3,11 +3,12 @@
   import CityTable from './CityTable.svelte';
   import Legend from './Legend.svelte';
   import RegionMenu from './RegionMenu.svelte';
-  import { cities, regions, qolFor, valueFor, swimNow, cityCost, partyWord, fmtMoney, routeStats, prefs, PRESETS, normalizePresetKey, MONTHS, MONTH_LETTERS, favorites } from './data.svelte.js';
+  import { cities, regions, qolFor, valueFor, swimNow, cityCost, partyWord, fmtMoney, routeStats, monthOccupancy, prefs, PRESETS, normalizePresetKey, MONTHS, MONTH_LETTERS, favorites } from './data.svelte.js';
   import { untrack } from 'svelte';
   import { COST_OPTIONS, snapCostCap } from './planner.js';
   import { route } from './route.svelte.js';
   import { MAX_COMPARE } from './compare.js';
+  import { valueWins } from './valueWin.js';
 
   let {
     month = $bindable(0),
@@ -31,7 +32,8 @@
     comparing = false,
     compareKeys = [],
     oncompare,
-    oncomparemode
+    oncomparemode,
+    onaddtoyear = null
   } = $props();
 
   let nonSchengenOnly = $state(false);
@@ -158,6 +160,16 @@
         return diff;
       });
   }
+
+  // Plain-words Best Value wins ("38% cheaper than …"), only while the cards are
+  // sorted by Best Value.
+  const wins = $derived(mode === 'value' && density === 'cards' ? valueWins(filtered, month, preset) : null);
+
+  // "+ Year" shows only when a route already exists and still has an open month
+  // (a full year would just answer with a "year is full" toast), and never in
+  // compare mode, where cards and rows already carry a checkbox.
+  const canAdd = $derived(route.stays.length > 0 && monthOccupancy(route.stays).some((x) => x === null));
+  const addToYear = $derived(canAdd && !comparing ? onaddtoyear : null);
 
   const rankedScored = $derived(rank(filtered, mode));
   const ranked = $derived(rankedScored.map((x) => x.c));
@@ -449,6 +461,7 @@
       bind:order={tableOrder}
       compare={comparing ? { keys: compareKeys, full: compareFull } : null}
       {oncompare}
+      onaddtoyear={addToYear}
     />
   {:else}
     <div class="grid">
@@ -464,6 +477,8 @@
           {onopen}
           compare={comparing ? { on: compareKeys.includes(city.key), full: compareFull } : null}
           {oncompare}
+          onaddtoyear={addToYear}
+          finding={wins?.get(city.key) ?? null}
         />
       {/each}
     </div>
