@@ -4,6 +4,7 @@
   import ScoreInfo from './ScoreInfo.svelte';
   import Legend from './Legend.svelte';
   import RegionMenu from './RegionMenu.svelte';
+  import CostWeight from './CostWeight.svelte';
   import {
     cities,
     cityByKey,
@@ -11,6 +12,7 @@
     stripCells,
     qolFor,
     valueFor,
+    DEFAULT_COST_WEIGHT,
     band,
     cityCost,
     fmtMoney,
@@ -53,11 +55,13 @@
   } from './planner.js';
   import { RESIDENCY_DAYS } from './dayCount.js';
 
-  // valueModel: the same 'adjusted' | 'classic' Best Value model the cards and
-  // table use, so a city never shows two different Best Value numbers.
+  // costWeight: the same Best Value cost exponent the cards and table use, so a
+  // city never shows two different Best Value numbers. oncostweight lets the
+  // dials here change it app-wide.
   let {
     preset = $bindable(),
-    valueModel = 'adjusted',
+    costWeight = DEFAULT_COST_WEIGHT,
+    oncostweight,
     onopen,
     sharedRoute = null,
     sharedName = '',
@@ -505,7 +509,7 @@
   );
   const plan = $derived(
     planMode
-      ? planYear(seedStyle, preset, valueModel, {
+      ? planYear(seedStyle, preset, costWeight, {
           locked: planMode === 'fill' ? route.stays : [],
           anchors: resolveAnchors(anchors)
         })
@@ -575,7 +579,7 @@
     const target = targetMonths;
     const score = (c) =>
       sortMode === 'value'
-        ? target.reduce((a, m) => a + valueFor(c, m, preset, valueModel), 0) / target.length
+        ? target.reduce((a, m) => a + valueFor(c, m, preset, costWeight), 0) / target.length
         : target.reduce((a, m) => a + qolFor(c, m, preset), 0) / target.length;
     // Average $/mo over the same months the score measures, so the rail's price
     // and number describe the identical booking window.
@@ -815,6 +819,11 @@
           >{st.label}</button>
         {/each}
       </div>
+      {#if seedStyle === 'value'}
+        <div class="seed-cw">
+          <CostWeight value={costWeight} onchange={oncostweight} context="my_year_seed" />
+        </div>
+      {/if}
 
       <div class="plan-extra">
         <div class="anchor-row">
@@ -1250,6 +1259,11 @@
       </div>
       <span class="fcount num">{filteredCities.length} of {cities.length} cities pass</span>
     </div>
+    {#if sortMode === 'value'}
+      <div class="ctl-cw">
+        <CostWeight value={costWeight} onchange={oncostweight} context="my_year_picker" />
+      </div>
+    {/if}
 
     <div class="filters">
       {#if filtersActive(filters)}
@@ -1600,6 +1614,13 @@
 
   .seed-copy { order: 1; }
   .seed-act { order: 3; }
+
+  /* The cost-weight dial rides under the style chips, only for Best Value. */
+  .seed-cw {
+    flex: 1 1 100%;
+    order: 2;
+    max-width: 420px;
+  }
 
   .seedchip {
     border: 1px solid var(--line);
@@ -2327,6 +2348,8 @@
     color: var(--ink-3);
     line-height: 1;
   }
+
+  .ctl-cw { max-width: 420px; }
 
   .filters {
     display: flex;

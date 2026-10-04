@@ -7,6 +7,9 @@
 //                        surface is My year)
 //   m=oct                selected month (omitted when it is the current month)
 //   sort=value           Best Value ranking (Highest Score is the default)
+//   cw=0.2               Best Value cost weight (the exponent on cost); only
+//                        written with sort=value and a non-default weight, and
+//                        absent means the default
 //   layout=table         table density (cards is the default)
 //   region=se-asia,latam region filter, slugged and comma-joined
 //   city=<key>           open city sheet (pre-existing, unchanged)
@@ -17,10 +20,10 @@
 //
 // Everything else in the query (`i`, `route`, `n`, utm_*, …) is passed through
 // untouched, so shared-route and campaign links keep working.
-import { MONTHS, slug } from './data.svelte.js';
+import { MONTHS, slug, snapCostWeight, DEFAULT_COST_WEIGHT } from './data.svelte.js';
 
 const MONTH_PARAMS = MONTHS.map((m) => m.toLowerCase());
-const OWNED = ['view', 'm', 'sort', 'layout', 'region', 'city', 'compare'];
+const OWNED = ['view', 'm', 'sort', 'cw', 'layout', 'region', 'city', 'compare'];
 
 export function parseMonth(v) {
   if (v == null || v === '') return null;
@@ -39,12 +42,14 @@ export function readUrlState(search = location.search, regionList = []) {
   const view = q.get('view');
   const sort = q.get('sort');
   const layout = q.get('layout');
+  const cw = q.has('cw') ? Number(q.get('cw')) : Number.NaN;
   const regionSlugs = (q.get('region') ?? '').split(',').filter(Boolean);
   const bySlug = new Map(regionList.map((r) => [slug(r), r]));
   return {
     view: view === 'year' || view === 'month' ? view : null,
     month: parseMonth(q.get('m')),
     mode: sort === 'value' || sort === 'score' ? (sort === 'value' ? 'value' : 'quality') : null,
+    costWeight: Number.isFinite(cw) && cw > 0 && cw <= 1 ? snapCostWeight(cw) : null,
     density: layout === 'table' || layout === 'cards' ? layout : null,
     regions: q.has('region') ? regionSlugs.map((s) => bySlug.get(s)).filter(Boolean) : null,
     city: q.get('city') || null,
@@ -66,7 +71,10 @@ export function buildUrl(state, { defaultView = 'month', currentMonth, search = 
   // the month the sharer was looking at; list views only pin a non-current month.
   if (state.city || compare || (state.view === 'month' && state.month !== currentMonth)) q.set('m', monthParam(state.month));
   if (state.view === 'month') {
-    if (state.mode === 'value') q.set('sort', 'value');
+    if (state.mode === 'value') {
+      q.set('sort', 'value');
+      if (Number.isFinite(state.costWeight) && state.costWeight !== DEFAULT_COST_WEIGHT) q.set('cw', String(state.costWeight));
+    }
     if (state.density === 'table') q.set('layout', 'table');
     const regions = [...(state.regions ?? [])]; // Set or array
     if (regions.length) q.set('region', regions.map(slug).sort().join(','));

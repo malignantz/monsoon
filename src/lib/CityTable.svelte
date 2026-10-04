@@ -1,7 +1,8 @@
 <script>
   import ScoreInfo from './ScoreInfo.svelte';
   import Legend from './Legend.svelte';
-  import { qolFor, valueFor, fmtMoney, swimNow, MONTHS, settings, cityCost, partyWord, prefs } from './data.svelte.js';
+  import CostWeight from './CostWeight.svelte';
+  import { qolFor, valueFor, fmtMoney, swimNow, MONTHS, cityCost, partyWord, prefs } from './data.svelte.js';
 
   // Dense view of the same ranking the cards show. The parent (This month) owns
   // all filtering and hands us an already-filtered list; we only sort columns.
@@ -9,7 +10,7 @@
   // can step through the table in the order the user sees it.
   // compare: null outside compare mode; { keys, full } while picking — each
   // row then leads with a checkbox (the row click still opens the sheet).
-  let { cities, month, preset, valueModel, onmodel, onopen, order = $bindable([]), compare = null, oncompare, onaddtoyear = null } = $props();
+  let { cities, month, preset, costWeight, oncostweight, onopen, order = $bindable([]), compare = null, oncompare, onaddtoyear = null } = $props();
 
   let sortKey = $state('qol');
   let sortDir = $state(-1);
@@ -17,7 +18,7 @@
   const COLS = $derived([
     { k: 'name',  label: 'City',      num: false },
     { k: 'qol',   label: 'Score',      num: true, tip: 'Best month money aside: weather, safety, air quality, seasonality & events · 0-100' },
-    { k: 'value', label: 'Best Value', num: true, tip: 'Score relative to cost (cost is damped so Best Value = cheap-and-nice, not merely cheap) · unitless index, compare cities only' },
+    { k: 'value', label: 'Best Value', num: true, tip: 'Score relative to cost, weighted as you set it in ⓘ · unitless index, compare cities only' },
     { k: 'weather', label: 'Weather', num: true, tip: 'Temperature & sunshine comfort · 0–100' },
     { k: 'air',   label: 'Air',       num: true, tip: 'Air quality (PM2.5) · 100 = cleanest in dataset' },
     { k: 'safety', label: 'Safety',   num: true, tip: 'Crime & personal safety index · 100 = safest' },
@@ -40,7 +41,7 @@
         name: c.name,
         region: c.region,
         qol: qolFor(c, month, preset),
-        value: valueFor(c, month, preset, valueModel),
+        value: valueFor(c, month, preset, costWeight),
         weather: m.weather,
         air: m.air,
         safety: c.safety?.score ?? 0,
@@ -80,18 +81,10 @@
 <div class="tablecap">
   <Legend />
   <ScoreInfo title="Best Value index" align="right">
-    <p>Score divided by cost — but cost is damped
-      (cost<sup>{settings.value_cost_exponent ?? 0.45}</sup>) so "best value" rewards
-      cheap-<em>and</em>-nice, not merely cheap.</p>
-    <p>Tick "classic Best Value" for plain Score ÷ cost per $1k, where cheapness dominates.</p>
-    <label class="cb pop-toggle">
-      <input
-        type="checkbox"
-        checked={valueModel === 'classic'}
-        onchange={(e) => onmodel(e.currentTarget.checked ? 'classic' : 'adjusted')}
-      />
-      classic Best Value
-    </label>
+    <p>Score divided by monthly cost (in $1,000s) raised to the cost weight. Low weight: a great month at a fair price wins. Full weight is the classic Score per $1,000, where cheapness dominates.</p>
+    <div class="pop-dial">
+      <CostWeight value={costWeight} onchange={oncostweight} context="table" compact />
+    </div>
     <p class="src">A unitless index — compare cities, don't read it as $ per anything.</p>
   </ScoreInfo>
 </div>
@@ -188,15 +181,7 @@
 
   .tablecap :global(.wrap) { margin-bottom: 0; }
 
-  .cb {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 12.5px;
-    color: var(--ink-2);
-  }
-
-  .pop-toggle { margin: 2px 0 7px; }
+  .pop-dial { margin: 2px 0 4px; }
 
   .tableouter { position: relative; }
 

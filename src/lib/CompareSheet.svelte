@@ -4,7 +4,7 @@
   import { stripSummary } from './stripSummary.js';
   import { compareShareUrl } from './urlState.js';
   import { focusTrap, isTopLayer } from './focusTrap.js';
-  import { cityByKey, stripCells, qolFor, valueFor, band, cityCost, partyWord, fmtMoney, fmtTemp, swimNow, fmtMonthRange, eventsInMonth, MONTHS, MONTH_LETTERS, PRESETS, normalizePresetKey, prefs, detailStatus, retryDetail, shareOrCopy } from './data.svelte.js';
+  import { cityByKey, stripCells, qolFor, valueFor, band, cityCost, partyWord, fmtMoney, fmtTemp, swimNow, fmtMonthRange, eventsInMonth, MONTHS, MONTH_LETTERS, PRESETS, normalizePresetKey, prefs, detailStatus, retryDetail, shareOrCopy, DEFAULT_COST_WEIGHT, costWeightStop } from './data.svelte.js';
   import { bestOf, compareFindings } from './compare.js';
 
   // The comparison: 2–3 cities side by side for one month, over This month.
@@ -13,7 +13,7 @@
   // shared scoring helpers under the active lens, party and value model.
   //
   // covered: a city sheet is open on top, so it owns Escape and the arrows.
-  let { keys, month, preset, valueModel, covered = false, onmonth, onremove, onclose, onopencity, onaddtoyear } = $props();
+  let { keys, month, preset, costWeight, covered = false, onmonth, onremove, onclose, onopencity, onaddtoyear } = $props();
 
   let sheetEl = $state(null);
 
@@ -82,7 +82,7 @@
         summary: stripSummary(cells),
         q: Math.round(q),
         band: band(q),
-        v: valueFor(c, month, preset, valueModel),
+        v: valueFor(c, month, preset, costWeight),
         cost: Math.round(cityCost(m)),
         saf: c.safety ?? {},
         event: eventsInMonth(c, month)[0] ?? null
@@ -90,7 +90,7 @@
     })
   );
 
-  const findings = $derived(compareFindings(list, month, preset, valueModel));
+  const findings = $derived(compareFindings(list, month, preset, costWeight));
 
   // Detail-layer cells: an ellipsis while loading, a dash once it has failed
   // (the banner at the top carries the Retry), exactly as the city sheet does.
@@ -112,7 +112,7 @@
           { label: 'Score', kind: 'score', vals: cols.map((x) => x.q), best: 'high' },
           {
             label: 'Best Value',
-            sub: valueModel === 'classic' ? 'classic index' : 'Score for the money',
+            sub: 'Score for the money',
             kind: 'num',
             vals: cols.map((x) => Number(x.v.toFixed(1))),
             texts: cols.map((x) => x.v.toFixed(1)),
@@ -247,7 +247,7 @@
           </span>
         </div>
         <p class="sub" id="cmp-sub">
-          {PRESETS[lensKey].label} lens{prefs.womensSafety ? ' · women’s safety blended' : ''} · costs {party === 'solo' ? 'solo' : 'for a couple'}{valueModel === 'classic' ? ' · classic Best Value' : ''}
+          {PRESETS[lensKey].label} lens{prefs.womensSafety ? ' · women’s safety blended' : ''} · costs {party === 'solo' ? 'solo' : 'for a couple'}{costWeight !== DEFAULT_COST_WEIGHT ? ` · cost counts: ${costWeightStop(costWeight).word.toLowerCase()}` : ''}
         </p>
       </div>
       <div class="hctl">

@@ -2,6 +2,7 @@
   import CityCard from './CityCard.svelte';
   import CityTable from './CityTable.svelte';
   import Legend from './Legend.svelte';
+  import CostWeight from './CostWeight.svelte';
   import RegionMenu from './RegionMenu.svelte';
   import { cities, regions, qolFor, valueFor, swimNow, cityCost, partyWord, fmtMoney, moneySymbol, routeStats, monthOccupancy, prefs, PRESETS, normalizePresetKey, MONTHS, MONTH_LETTERS, favorites } from './data.svelte.js';
   import { untrack } from 'svelte';
@@ -15,7 +16,7 @@
     preset,
     mode = $bindable('quality'),
     currentMonth,
-    valueModel,
+    costWeight,
     density = $bindable('cards'),
     activeRegions = $bindable(new Set()),
     keyHidden = $bindable(false),
@@ -25,7 +26,7 @@
     heroKey = null,
     openKey = null,
     onopen,
-    onmodel,
+    oncostweight,
     onsettings,
     onresume,
     // Compare: picking mode on/off, the current picks, and the two actions.
@@ -150,7 +151,7 @@
     return list
       .map((c) => ({
         c,
-        s: by === 'value' ? valueFor(c, month, preset, valueModel) : qolFor(c, month, preset),
+        s: by === 'value' ? valueFor(c, month, preset, costWeight) : qolFor(c, month, preset),
         cost: cityCost(c.months[month])
       }))
       .sort((a, b) => {
@@ -335,6 +336,13 @@
       </div>
     </div>
 
+    {#if density === 'cards' && mode === 'value'}
+      <!-- Best Value only: the dial that sets how much cost counts in it. -->
+      <div class="costrow">
+        <CostWeight value={costWeight} onchange={oncostweight} context="this_month" />
+      </div>
+    {/if}
+
     <div class="filterbar">
       <div class="find" role="search">
         <svg class="find-icon" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
@@ -455,8 +463,8 @@
       cities={filtered}
       {month}
       {preset}
-      {valueModel}
-      {onmodel}
+      {costWeight}
+      {oncostweight}
       {onopen}
       bind:order={tableOrder}
       compare={comparing ? { keys: compareKeys, full: compareFull } : null}
@@ -471,7 +479,7 @@
           {month}
           {preset}
           {mode}
-          {valueModel}
+          {costWeight}
           {heroKey}
           {openKey}
           {onopen}
@@ -796,6 +804,13 @@
   .cmpmode .vicon { opacity: 0.7; }
   .cmpmode.on .vicon { opacity: 1; }
   .seg.density button:not(.on) .vicon { opacity: 0.6; }
+
+  /* Cost-weight dial: sits under the toolbar, only while ranking by Best Value.
+     Capped width so the slider reads as a control, not a full-bleed bar. */
+  .costrow {
+    max-width: 420px;
+    margin-top: -2px;
+  }
 
   /* Search leads the filter row on desktop; on phones it takes its own row. */
   .filterbar {

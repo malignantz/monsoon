@@ -57,14 +57,14 @@ const list = (names) =>
 // A few plain sentences that say what the grid shows, in the order a slow
 // traveller weighs it: the month's Score, the money, value, the shape of the
 // year, then the visa catch. Kept to the differences that actually exist.
-export function compareFindings(cities, month, preset, valueModel) {
+export function compareFindings(cities, month, preset, costWeight) {
   if (cities.length < 2) return [];
   const mon = MONTHS[month];
   const party = partyWord() === 'solo' ? 'solo' : 'for a couple';
   const rows = cities.map((c) => ({
     name: c.name,
     q: Math.round(qolFor(c, month, preset)),
-    v: valueFor(c, month, preset, valueModel),
+    v: valueFor(c, month, preset, costWeight),
     cost: Math.round(cityCost(c.months[month])),
     good: stripCells(c, preset).filter((x) => x.q >= 75).length,
     schengen: !!c.schengen

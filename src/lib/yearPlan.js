@@ -49,7 +49,7 @@ export function resolveAnchors(list) {
 export const STYLE_BLURBS = {
   quality:
     'Each stretch takes the highest-scoring city that keeps the year Schengen-legal and under 183 days in any one country, nudged toward new regions.',
-  value: 'Each stretch takes the best Score for the money, under the same Best Value model as the cards.',
+  value: 'Each stretch takes the best Score for the money, with cost weighted by the dial above.',
   festival: 'Like Best quality, but leans toward stretches that land a major festival when the Score is close.',
   nonschengen: 'Only cities outside the Schengen Area, so the 90/180 rule never applies.',
   favorites: 'Only cities you have saved, under the same Schengen and 183-day limits.'
@@ -76,7 +76,7 @@ const listMonths = (ms) => ms.map((m) => MONTHS[m]).join(' and ');
 
 // Why the generator put this stay here: bits joined ' · ', at most four, in the
 // order anchor → merit/festival → how it fit → runner-up → new region.
-// leg: an entry of planYear().legs. opts: { style, preset, valueModel }.
+// leg: an entry of planYear().legs. opts: { style, preset }.
 export function legWhy(leg, { style = 'quality', preset = 'balanced' } = {}) {
   const c = cityByKey.get(leg.key);
   if (!c) return '';

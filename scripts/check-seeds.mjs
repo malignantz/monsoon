@@ -12,7 +12,12 @@ try {
   const data = await server.ssrLoadModule('/src/lib/data.svelte.js');
   const { countryDays, RESIDENCY_DAYS } = await server.ssrLoadModule('/src/lib/dayCount.js');
   const { resolveAnchors } = await server.ssrLoadModule('/src/lib/yearPlan.js');
-  const { generateRoute, planYear, stayMonths, routeStats, monthOccupancy, cityByKey, PRESETS, favorites, cities } = data;
+  const { DEFAULT_COST_WEIGHT, COST_WEIGHT_STOPS, generateRoute, planYear, stayMonths, routeStats, monthOccupancy, cityByKey, PRESETS, favorites, cities } = data;
+  const stopEs = COST_WEIGHT_STOPS.map((s) => s.e);
+  const dialOk = stopEs.includes(DEFAULT_COST_WEIGHT) && stopEs[0] > 0 && stopEs[stopEs.length - 1] === 1;
+  if (!dialOk) failed++;
+  console.log(`${dialOk ? '  ok ' : 'FAIL '} cost-weight stops ${stopEs.join(', ')} · default ${DEFAULT_COST_WEIGHT} in stops, first > 0, last = 1`);
+
   const countryOf = (k) => cityByKey.get(k)?.country;
 
   const check = (label, stays, { full = true } = {}) => {
@@ -30,7 +35,7 @@ try {
   const styles = ['quality', 'value', 'festival', 'nonschengen'];
   for (const preset of Object.keys(PRESETS))
     for (const style of styles)
-      for (const model of style === 'value' ? ['adjusted', 'classic'] : ['adjusted'])
+      for (const model of style === 'value' ? stopEs : [DEFAULT_COST_WEIGHT])
         check(`${style}${style === 'value' ? `/${model}` : ''} · ${preset}`, generateRoute(style, preset, model));
 
   // Favorites drawn from only two countries is the worst case for one country
@@ -94,16 +99,16 @@ try {
   const lisbon = [stay('lisbon', 5, 2)];
   for (const preset of Object.keys(PRESETS))
     for (const style of styles)
-      for (const model of style === 'value' ? ['adjusted', 'classic'] : ['adjusted'])
+      for (const model of style === 'value' ? stopEs : [DEFAULT_COST_WEIGHT])
         run(`lock Lisbon Jun–Jul · ${style}${style === 'value' ? `/${model}` : ''} · ${preset}`, lisbon, [], style, preset, model);
 
   // b. Chiang Mai Jan–Feb + Mexico City Sep–Oct
   const two = [stay('chiang-mai', 0, 2), stay('mexico-city', 8, 2)];
-  for (const style of styles) run(`lock Chiang Mai + Mexico City · ${style}`, two, [], style, 'balanced', 'adjusted');
+  for (const style of styles) run(`lock Chiang Mai + Mexico City · ${style}`, two, [], style, 'balanced', DEFAULT_COST_WEIGHT);
 
   // c. A locked stay that wraps Dec→Jan
   const wrap = [stay('buenos-aires', 11, 2)];
-  for (const style of styles) run(`lock Buenos Aires Dec–Jan · ${style}`, wrap, [], style, 'balanced', 'adjusted');
+  for (const style of styles) run(`lock Buenos Aires Dec–Jan · ${style}`, wrap, [], style, 'balanced', DEFAULT_COST_WEIGHT);
 
   // d. Eleven months locked, one gap month left (distinct non-Schengen countries)
   const seenCountry = new Set();
@@ -114,13 +119,13 @@ try {
     seenCountry.add(c.country);
     eleven.push({ key: c.key, start: [0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11][eleven.length], len: 1 });
   }
-  run('lock 11 months, one gap (Jul) · quality', eleven, [], 'quality', 'balanced', 'adjusted');
+  run('lock 11 months, one gap (Jul) · quality', eleven, [], 'quality', 'balanced', DEFAULT_COST_WEIGHT);
 
   // e. A locked year already over the Schengen limit: add no more Schengen, and
   // keep every country under 183 days; the over-limit locks themselves stay put.
   const illegal = [stay('rome', 3, 2), stay('paris', 6, 2)];
   for (const style of styles)
-    run(`lock Rome + Paris (already over) · ${style}`, illegal, [], style, 'balanced', 'adjusted', {
+    run(`lock Rome + Paris (already over) · ${style}`, illegal, [], style, 'balanced', DEFAULT_COST_WEIGHT, {
       schengen: false,
       extra: hasSchengenAdded
     });
@@ -132,12 +137,12 @@ try {
     ['Latin America in Dec + Asia in Mar', [{ place: 'latam', month: 11 }, { place: 'asia', month: 2 }]]
   ];
   for (const [name, anchors] of anchorSets)
-    for (const style of styles) run(`anchor ${name} · ${style}`, [], anchors, style, 'balanced', 'adjusted');
+    for (const style of styles) run(`anchor ${name} · ${style}`, [], anchors, style, 'balanced', DEFAULT_COST_WEIGHT);
 
   // g. Lisbon Jun–Jul + Europe in Aug: the Schengen budget is nearly spent, so
   // August has to go to a non-Schengen European city.
   const europeAug = [{ place: 'europe', month: 7 }];
-  for (const style of styles) run(`lock Lisbon Jun–Jul + Europe in Aug · ${style}`, lisbon, europeAug, style, 'balanced', 'adjusted');
+  for (const style of styles) run(`lock Lisbon Jun–Jul + Europe in Aug · ${style}`, lisbon, europeAug, style, 'balanced', DEFAULT_COST_WEIGHT);
 
   // h. The Spain + Mexico favorites pool (added above) with a lock and an anchor;
   // the pool may honestly run short, so only the legality promises are checked.
@@ -147,7 +152,7 @@ try {
     [{ place: 'europe', month: 6 }],
     'favorites',
     'balanced',
-    'adjusted',
+    DEFAULT_COST_WEIGHT,
     { full: false, anchorsMet: false }
   );
 } finally {

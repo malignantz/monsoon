@@ -51,8 +51,10 @@ The app can re-weight client-side with Optimize for lenses:
 Best Value is a unitless Score-versus-cost index:
 
 ```text
-Best Value = Score / (monthly party cost / 1000) ^ value_cost_exponent
+Best Value = Score / (monthly party cost / 1000) ^ e
 ```
+
+`e` is the user's cost weight, a five-stop dial: Barely 0.05, A little 0.1, Some 0.2, A lot 0.45, Fully 1 (the classic Score-per-$1,000 index). `settings.value_cost_exponent` (0.1) is the default stop, and a non-default weight rides in shared links as `cw`.
 
 Cost is itemized from `data/cost-evidence/*.json`, party-scaled from a solo nomad anchor, and seasonally adjusted on rent only.
 

@@ -219,7 +219,32 @@ export function normalizePresetKey(key) {
 
 const FLOOR_T = settings.safety_floor_threshold ?? 55;
 const FLOOR_MIN = settings.safety_floor_min ?? 0.6;
-const VALUE_EXP = settings.value_cost_exponent ?? 0.45;
+
+// Best Value = Score / (cost/1000)^e. The exponent is the user's "cost weight":
+// a 5-stop dial (CostWeight.svelte) from Barely (0.05) to Fully (1, the classic
+// Score-per-$1,000 index). The data setting is only the default stop.
+export const DEFAULT_COST_WEIGHT = settings.value_cost_exponent ?? 0.1;
+export const COST_WEIGHT_STOPS = [
+  { e: 0.05, word: 'Barely', hint: 'Near-ties on Score go to the cheaper city; otherwise the best months lead.' },
+  { e: 0.1, word: 'A little', hint: 'Cost counts, but a great month still beats a merely cheap one.' },
+  { e: 0.2, word: 'Some', hint: 'A cheaper city can outrank a noticeably better one.' },
+  { e: 0.45, word: 'A lot', hint: 'Price leads unless the Score gap is wide.' },
+  { e: 1, word: 'Fully', hint: 'Classic Best Value: Score per $1,000 a month. Cheapness dominates.' }
+];
+
+// Nearest stop's exponent; anything non-numeric falls back to the default.
+export function snapCostWeight(x) {
+  const n = typeof x === 'number' ? x : Number.NaN;
+  if (!Number.isFinite(n)) return DEFAULT_COST_WEIGHT;
+  let best = COST_WEIGHT_STOPS[0];
+  for (const s of COST_WEIGHT_STOPS) if (Math.abs(s.e - n) < Math.abs(best.e - n)) best = s;
+  return best.e;
+}
+
+export function costWeightStop(x) {
+  const e = snapCostWeight(x);
+  return COST_WEIGHT_STOPS.find((s) => s.e === e);
+}
 
 export function safetyInput(city) {
   const s = city.safety?.score ?? 50;
@@ -248,11 +273,14 @@ export function qolFor(city, mIdx, presetKey = 'balanced') {
   return Math.max(0, safetyFloor(saf) * base - peakPenalty);
 }
 
-export function valueFor(city, mIdx, presetKey = 'balanced', model = 'adjusted') {
+// costWeight is the exponent on cost. Legacy 'classic' (the old binary model)
+// still means 1; any other non-number means the default.
+export function valueFor(city, mIdx, presetKey = 'balanced', costWeight = DEFAULT_COST_WEIGHT) {
   const m = city.months[mIdx];
   const qol = qolFor(city, mIdx, presetKey);
   const k = cityCost(m) / 1000;
-  return qol / Math.pow(k, model === 'adjusted' ? VALUE_EXP : 1);
+  const e = costWeight === 'classic' ? 1 : typeof costWeight === 'number' ? costWeight : DEFAULT_COST_WEIGHT;
+  return qol / Math.pow(k, e);
 }
 
 export function band(qol) {
@@ -458,8 +486,8 @@ export function routeStats(stays, presetKey = 'balanced') {
 //
 // Styles:
 //   'quality'      max average Score for each block (the default ghost)
-//   'value'        max Best-Value (livability per dollar), under the same value
-//                  model the cards use (valueModel: 'adjusted' | 'classic')
+//   'value'        max Best-Value (livability per dollar), with the same cost
+//                  weight the cards use (costWeight: the exponent on cost)
 //   'festival'     Score, boosted toward blocks that land a major festival
 //   'nonschengen'  Score, but only non-Schengen cities (sidesteps the 90/180 cap)
 //   'favorites'    Score, drawn only from the user's saved cities
@@ -516,7 +544,7 @@ function openBlocks(open) {
   return blocks.sort((a, b) => a.start - b.start);
 }
 
-// planYear(style, preset, valueModel, { locked, anchors }) →
+// planYear(style, preset, costWeight, { locked, anchors }) →
 //   { stays, added, legs, unmet, open }
 //   stays   locked ∪ generated, chronological
 //   added   only the generated stays, same order
@@ -530,7 +558,7 @@ function openBlocks(open) {
 export function planYear(
   style = 'quality',
   presetKey = 'balanced',
-  valueModel = 'adjusted',
+  costWeight = DEFAULT_COST_WEIGHT,
   { locked = [], anchors = [] } = {}
 ) {
   let pool = cities;
@@ -558,7 +586,7 @@ export function planYear(
     return true;
   };
 
-  const monthScore = (c, m) => (style === 'value' ? valueFor(c, m, presetKey, valueModel) : qolFor(c, m, presetKey));
+  const monthScore = (c, m) => (style === 'value' ? valueFor(c, m, presetKey, costWeight) : qolFor(c, m, presetKey));
 
   // Best non-Schengen month on offer, discounted like any extra stop — the
   // stand-in value of the month a trimmed Schengen stay leaves open. In an
@@ -710,8 +738,8 @@ export function planYear(
   return { stays: all, added, legs, unmet, open: openLeft };
 }
 
-export function generateRoute(style = 'quality', presetKey = 'balanced', valueModel = 'adjusted') {
-  return planYear(style, presetKey, valueModel).stays;
+export function generateRoute(style = 'quality', presetKey = 'balanced', costWeight = DEFAULT_COST_WEIGHT) {
+  return planYear(style, presetKey, costWeight).stays;
 }
 
 // ---- Shareable routes: the whole itinerary lives in the URL, no backend ----

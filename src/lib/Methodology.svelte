@@ -3,7 +3,7 @@
   // language, but a scrollable sources-and-methods write-up instead of controls.
   // Opened from the footer's "methodology" link and from the city sheet footer
   // ("How this is sourced"), so it stacks above the sheet.
-  import { sources, dataAsOf, cities, detailStatus } from './data.svelte.js';
+  import { sources, dataAsOf, cities, detailStatus, DEFAULT_COST_WEIGHT } from './data.svelte.js';
   import { provFor, fmtDate, fmtWindow, FEEDBACK_REPO } from './provenance.js';
   import { METHOD_VERSION, CHANGELOG, LAST_UPDATED } from './changelog.js';
 
@@ -236,8 +236,11 @@
       <p class="qhint">Each city's monthly cost is the sum of eight itemized components for one anchor
         persona (a solo nomad living mid-range), each with its own cited page, date and confidence,
         then scaled for a couple and adjusted for accommodation seasonality. <strong>Best Value</strong>
-        is the only place the Score meets cost — the Score divided by a damped cost, so "best value"
-        rewards cheap-<em>and</em>-nice, not merely cheap.</p>
+        is the only place the Score meets cost: Score ÷ (monthly cost in $1,000s)<sup>w</sup>, where
+        <em>w</em> is the cost weight. The default <em>w</em> = {DEFAULT_COST_WEIGHT} damps cost so a
+        great month at a fair price outranks a merely cheap one; <em>w</em> = 1 is the classic Score
+        per $1,000. You can change <em>w</em> on any Best Value ranking. A unitless index for
+        comparing cities.</p>
     </section>
 
     <section class="q">

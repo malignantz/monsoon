@@ -4,7 +4,7 @@
   import CompareTray from './lib/CompareTray.svelte';
   import { lazy } from './lib/lazy.svelte.js';
   import { focusTrap, focusTopLayer } from './lib/focusTrap.js';
-  import { cities, cityByKey, regions, qolFor, valueFor, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS, prefetchDetail } from './lib/data.svelte.js';
+  import { cities, cityByKey, regions, qolFor, valueFor, cityCost, snapCostWeight, DEFAULT_COST_WEIGHT, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS, prefetchDetail } from './lib/data.svelte.js';
   import { route, addCity, removeStayRef, adoptRoute } from './lib/route.svelte.js';
   import { track } from './lib/analytics.js';
   import { readUrlState, buildUrl } from './lib/urlState.js';
@@ -83,7 +83,16 @@
   const rankingLink = fromUrl.month != null || fromUrl.density || fromUrl.regions || fromUrl.compare;
   let mode = $state(fromUrl.mode ?? (rankingLink ? 'quality' : (p.mode ?? 'quality')));
   let preset = $state(normalizePresetKey(p.preset));
-  let valueModel = $state(p.valueModel ?? 'adjusted');
+  // Best Value's cost weight (the exponent on cost). Same rule as sort: a
+  // Best Value link with no `cw` means the default, not the recipient's saved one.
+  // Older saved prefs held a binary valueModel; 'classic' was exponent 1.
+  const savedCostWeight =
+    typeof p.costWeight === 'number' && Number.isFinite(p.costWeight)
+      ? snapCostWeight(p.costWeight)
+      : p.valueModel === 'classic'
+        ? 1
+        : DEFAULT_COST_WEIGHT;
+  let costWeight = $state(fromUrl.costWeight ?? (fromUrl.mode === 'value' ? DEFAULT_COST_WEIGHT : savedCostWeight));
   let density = $state(fromUrl.density ?? (p.density === 'table' ? 'table' : 'cards'));
   let activeRegions = $state(new Set(fromUrl.regions ?? []));
   let cityKey = $state(fromUrl.city && cityByKey.has(fromUrl.city) ? fromUrl.city : null);
@@ -135,7 +144,7 @@
   }
 
   $effect(() => {
-    const next = JSON.stringify({ view, mode, preset, valueModel, density, keyHidden });
+    const next = JSON.stringify({ view, mode, preset, costWeight, density, keyHidden });
     try {
       localStorage.setItem(PREFS, next);
     } catch {}
@@ -232,7 +241,7 @@
   };
   const urlFor = () =>
     buildUrl(
-      { view, month, mode, density, regions: activeRegions, city: cityKey, compare: compareOpen ? compareKeys : null },
+      { view, month, mode, costWeight, density, regions: activeRegions, city: cityKey, compare: compareOpen ? compareKeys : null },
       { defaultView: defaultView(), currentMonth, search: searchNow() }
     );
   const here = () => location.pathname + location.search + location.hash;
@@ -260,9 +269,16 @@
     return [...cities]
       .map((c) => ({
         key: c.key,
-        s: mode === 'value' ? valueFor(c, month, preset, valueModel) : qolFor(c, month, preset)
+        s: mode === 'value' ? valueFor(c, month, preset, costWeight) : qolFor(c, month, preset),
+        cost: cityCost(c.months[month])
       }))
-      .sort((a, b) => b.s - a.s)
+      .sort((a, b) => {
+        const diff = b.s - a.s;
+        // Same Best Value tiebreaker as the list (within 1pt: cheaper first), so
+        // ←/→ stepping agrees with what's on screen.
+        if (mode === 'value' && Math.abs(diff) < 1.0) return a.cost - b.cost;
+        return diff;
+      })
       .map((x) => x.key);
   }
 
@@ -657,7 +673,7 @@
         bind:visibleKeys
         {currentMonth}
         {preset}
-        {valueModel}
+        {costWeight}
         heroKey={transitioningKey}
         openKey={cityKey}
         onopen={openSheet}
@@ -666,12 +682,12 @@
         oncompare={toggleCompare}
         oncomparemode={toggleCompareMode}
         onaddtoyear={addToYear}
-        onmodel={(m) => (valueModel = m)}
+        oncostweight={(n) => (costWeight = n)}
         onsettings={openSettings}
         onresume={() => (view = 'year')}
       />
     {:else if MyYearL.C}
-      <MyYearL.C bind:preset {valueModel} {sharedRoute} {sharedName} onsharedresolved={resolveShared} onopen={openSheet} />
+      <MyYearL.C bind:preset {costWeight} oncostweight={(n) => (costWeight = n)} {sharedRoute} {sharedName} onsharedresolved={resolveShared} onopen={openSheet} />
     {:else}
       {@render lazyWait(MyYearL, null, 'Loading your year…')}
     {/if}
@@ -705,7 +721,8 @@
     keys={compareKeys}
     {month}
     {preset}
-    {valueModel}
+    {costWeight}
+    oncostweight={(n) => (costWeight = n)}
     covered={!!openCity}
     onmonth={(i) => (month = i)}
     onremove={toggleCompare}

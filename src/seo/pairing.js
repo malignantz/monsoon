@@ -330,7 +330,7 @@ export function pairStory(pair, pubSubject, pubAnchor) {
   const shown = [...reasons, ...pair.axes.filter((a) => a.key === 'cost')];
   const deltas = shown.map((a) => a.text);
   const sentence = `In ${MONTHS_LONG[bm]} ${S} scores ${row.sq} and ${A} ${row.aq}: ${list(deltas)}.`;
-  const findings = compareFindings([pair.subject, pair.anchor], bm, 'balanced', 'adjusted');
+  const findings = compareFindings([pair.subject, pair.anchor], bm, 'balanced');
   const events = eventsInMonth(pubSubject, bm, 3).map((e) => e.name);
 
   // The honest other side.

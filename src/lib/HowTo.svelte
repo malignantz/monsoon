@@ -36,7 +36,7 @@
     },
     {
       label: 'Best Value',
-      text: 'This is where the hidden gems surface. Find a city where the weather’s gorgeous and the cost of living is low — settle in, then move on when the season turns. Keep chasing the good months and your runway stretches for years.'
+      text: 'This is where the hidden gems surface. Find a city where the weather’s gorgeous and the cost of living is low — settle in, then move on when the season turns. Keep chasing the good months and your runway stretches for years. The “How much cost counts” dial beside it sets how far a lower price can outweigh a better month.'
     }
   ];
 

@@ -38,8 +38,8 @@
     "safety_floor_threshold": 55,
     "safety_floor_min": 0.6,
     "qol_method": "QoL = SafetyFloor x (0.35*Weather + 0.24*Safety + 0.18*Air + 0.13*Season + 0.10*Events). Weather temp blends day-high (60%) and night-low (40%). SafetyFloor = 1.0 if safety>=55 else 0.6+0.4*(safety/55). v5 (2026-06): Events trimmed 0.20->0.10 for month-plus stays; redistributed to Safety/Air/Season. The app can re-weight client-side via priority presets; these are the Balanced defaults.",
-    "value_cost_exponent": 0.45,
-    "value_method": "Default (adjusted) value = QoL / (cost2/1000)^value_cost_exponent. Lower exponent (<1) damps cost's dominance so quality bargains surface; exponent 1 reproduces the classic QoL-per-$1k metric. QoL carries no cost term, so value is the only place quality and cost combine.",
+    "value_cost_exponent": 0.1,
+    "value_method": "Best Value = QoL / (monthly cost/1000)^e, where cost is the selected party's monthly cost (solo or couple). The exponent e is a user-set cost weight (Barely 0.05, A little 0.1, Some 0.2, A lot 0.45, Fully 1); value_cost_exponent is the default. Lower e damps cost's dominance so quality bargains surface; e = 1 reproduces the classic QoL-per-$1k metric. QoL carries no cost term, so value is the only place quality and cost combine.",
     "safety_v3": {
       "w_violent": 0.55,
       "w_property": 0.45,

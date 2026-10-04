@@ -10,7 +10,7 @@
   // onaddtoyear: null unless the parent wants the "+ Year" shortcut shown;
   // finding: a plain-words line (e.g. the Best Value win) that replaces the
   // usual one-line finding when there is one.
-  let { city, month, preset, mode, valueModel, heroKey = null, openKey = null, onopen, compare = null, oncompare, onaddtoyear = null, finding = null } = $props();
+  let { city, month, preset, mode, costWeight, heroKey = null, openKey = null, onopen, compare = null, oncompare, onaddtoyear = null, finding = null } = $props();
 
   const faved = $derived(isFavorite(city.key));
 
@@ -21,7 +21,7 @@
 
   const cells = $derived(stripCells(city, preset));
   const score = $derived(
-    mode === 'value' ? valueFor(city, month, preset, valueModel) : qolFor(city, month, preset)
+    mode === 'value' ? valueFor(city, month, preset, costWeight) : qolFor(city, month, preset)
   );
   // The strip is colour-only, so the card's accessible name carries its year.
   const yearSummary = $derived(stripSummary(cells));
