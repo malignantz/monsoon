@@ -1,0 +1,4 @@
+# www -> apex. Takes effect once www.monsoon.fyi is attached to the Pages
+# project as a custom domain (and has a CNAME to monsoon-24p.pages.dev).
+https://www.monsoon.fyi/* https://monsoon.fyi/:splat 301
+http://www.monsoon.fyi/* https://monsoon.fyi/:splat 301

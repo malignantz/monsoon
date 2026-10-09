@@ -4,7 +4,8 @@
 # Vite owns the build now: assets are content-hashed (cache-busting is
 # automatic) and data/travel-data.json is split into src/generated/ and loaded
 # via src/lib/data.svelte.js, so dist/ should contain only index.html, assets/
-# and the public/ files (robots.txt, og.png, clearStorage.html), plus the static
+# and the public/ files (robots.txt, og.png, clearStorage.html, 404.html, the
+# favicon set + site.webmanifest, and Pages' _headers/_redirects), plus the static
 # SEO surface scripts/seo/build-seo.mjs adds after the SPA build: city/<slug>/,
 # best/ (the index, where-to-be-in-<month>/ and region hubs), cities/ and
 # compare/ (an index.html each), og/ (build-time .png share images), the

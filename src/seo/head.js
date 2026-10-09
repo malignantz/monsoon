@@ -14,10 +14,6 @@ export const esc = (s) =>
 const jsonForScript = (obj) =>
   JSON.stringify(obj).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026');
 
-// Same favicon as index.html (the four score bands).
-const ICON =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23f6f1e6'/%3E%3Crect x='9' y='13' width='10' height='38' rx='2.5' fill='%23c8502e'/%3E%3Crect x='21' y='13' width='10' height='38' rx='2.5' fill='%23e2a53c'/%3E%3Crect x='33' y='13' width='10' height='38' rx='2.5' fill='%239eba63'/%3E%3Crect x='45' y='13' width='10' height='38' rx='2.5' fill='%23156b4f'/%3E%3C/svg%3E";
-
 // Svelte's SSR hydration markers (<!--[-->, <!--]-->, <!--[0-->, <!---->) mean
 // nothing on a page that never hydrates.
 const stripMarkers = (html) => html.replace(/<!--(?:\[-?\d*|\[!|\])?-->/g, '');
@@ -47,6 +43,9 @@ export function documentHtml({ path, title, description, ogType = 'website', jso
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${esc(url)}">
 <meta name="theme-color" content="#f6f1e6">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 ${noindex ? '<meta name="robots" content="noindex">\n' : ''}<meta property="og:type" content="${ogType}">
 <meta property="og:site_name" content="Monsoon">
 <meta property="og:url" content="${esc(url)}">
@@ -61,7 +60,6 @@ ${noindex ? '<meta name="robots" content="noindex">\n' : ''}<meta property="og:t
 <meta name="twitter:description" content="${esc(description)}">
 <meta name="twitter:image" content="${esc(img)}">
 <meta name="twitter:image:alt" content="${esc(alt)}">
-<link rel="icon" href="${ICON}">
 <style>${css}</style>
 ${ld ? `<script type="application/ld+json">${jsonForScript(ld)}</script>\n` : ''}</head>
 <body>
