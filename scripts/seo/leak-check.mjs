@@ -3,7 +3,7 @@
 // The generator renders only allowlisted public fields (src/seo/publicData.js).
 // This check proves it from the other side: it collects the text of the
 // private inputs and fails if any of it appears in a generated page,
-// sitemap*.xml or llms.txt. Trees: city/, best/, cities/, compare/ (index.html
+// sitemap*.xml, llms.txt or llms-full.txt. Trees: city/, best/, cities/, compare/ (index.html
 // pages only) and og/ (.png only; binary, so only the file type is checked).
 //
 //   • data/cost-evidence/*.json — component notes, evidence claims & quotes, _doc
@@ -104,7 +104,7 @@ function walk(dir, acc = []) {
 const sitemaps = existsSync(dist) ? readdirSync(dist).filter((f) => /^sitemap.*\.xml$/.test(f)) : [];
 const files = [
   ...GENERATED_TREES.flatMap((d) => walk(join(dist, d))),
-  ...[...sitemaps, 'llms.txt'].map((f) => join(dist, f)).filter(existsSync)
+  ...[...sitemaps, 'llms.txt', 'llms-full.txt'].map((f) => join(dist, f)).filter(existsSync)
 ];
 
 const decode = (s) =>

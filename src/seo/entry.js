@@ -49,6 +49,7 @@ import {
 import { selectPairs, pairStory, GATE } from './pairing.js';
 import { BASE_CSS, minify } from './styles.js';
 import { documentHtml, breadcrumbLd } from './head.js';
+import { htmlToText, mainOf, pageRank } from './llmsFull.js';
 import CityPage from './CityPage.svelte';
 import MonthPage from './MonthPage.svelte';
 import CitiesPage from './CitiesPage.svelte';
@@ -247,7 +248,7 @@ export function buildSite({ detail, now = new Date() }) {
       path: `${path}index.html`,
       content: documentHtml({ path, title, description, ogType, jsonLd, css, body, cityCount: cities.length, ...opts })
     });
-    pages.push({ path, title, description, noindex: !!opts.noindex });
+    pages.push({ path, title, description, noindex: !!opts.noindex, body });
   };
 
   const HOME = { name: 'Monsoon', href: '/' };
@@ -703,6 +704,7 @@ export function buildSite({ detail, now = new Date() }) {
     `- [All cities](${SITE}/cities/): every city grouped by region, with its 12-month Score strip`,
     ...(comparisons.length ? [`- [City comparisons](${SITE}${COMPARE_INDEX}): ${comparisons.length} lower-cost cities set beside better-known ones, month by month`] : []),
     `- [The app](${SITE}/): interactive ranking, city sheets and a year planner with a Schengen meter`,
+    `- [Full text of every page](${SITE}/llms-full.txt): the ${pages.filter((p) => !p.noindex).length} static pages above, as one plain-text file`,
     '',
     '## Where to be, by month',
     '',
@@ -730,6 +732,20 @@ export function buildSite({ detail, now = new Date() }) {
     ''
   ].join('\n');
   out.push({ path: 'llms.txt', content: llms });
+
+  // ---- llms-full.txt: the same intro, then every indexable page's text ----
+  const corpus = pages
+    .filter((p) => !p.noindex)
+    .map((p, i) => ({ ...p, i }))
+    .sort((a, b) => pageRank(a.path) - pageRank(b.path) || a.i - b.i);
+  const full = [
+    llms.split('\n## Hubs')[0].trimEnd(),
+    '',
+    `This file is the full text of the ${corpus.length} static pages on monsoon.fyi (llms.txt is the index). Each section starts with the page's title and canonical URL. Scores are the Balanced preset; costs are US dollars per month.`,
+    '',
+    ...corpus.flatMap((p) => ['', `## ${p.title}`, `URL: ${SITE}${p.path}`, '', p.description, '', htmlToText(mainOf(p.body), { shift: 1 }), ''])
+  ].join('\n');
+  out.push({ path: 'llms-full.txt', content: full });
 
   return { files: out, og, ogDefault, pages: pages.length, months: MONTHS.length, skipped, hubs: hubs.map((h) => h.path) };
 }

@@ -91,5 +91,5 @@ const ms = Math.round(performance.now() - t0);
 const pagePaths = result.files.filter((f) => f.path.endsWith('/index.html')).map((f) => ('/' + f.path).replace(/^\/+/, '/').replace(/index\.html$/, ''));
 const sitemaps = result.files.filter((f) => /^sitemap.*\.xml$/.test(f.path)).length;
 console.log(
-  `[seo] ${result.pages} pages (${countsLine(pagePaths)}) + ${sitemaps} sitemap files, llms.txt → ${outDir.replace(root + '/', '')}/ · ${(bytes / 1024).toFixed(0)} KB · ${ms} ms`
+  `[seo] ${result.pages} pages (${countsLine(pagePaths)}) + ${sitemaps} sitemap files, llms.txt + llms-full.txt → ${outDir.replace(root + '/', '')}/ · ${(bytes / 1024).toFixed(0)} KB · ${ms} ms`
 );

@@ -29,7 +29,8 @@
 //     they list every indexable page and the SPA root, once; no noindex page
 //     appears in any sitemap; every sitemap URL resolves
 //   • no orphans: every page has an inbound link from another generated page
-//   • robots.txt points at the sitemap; llms.txt links resolve; /og.png exists
+//   • robots.txt points at the sitemap; llms.txt links resolve; llms-full.txt has one
+//     section per indexable page and every URL: line resolves; /og.png exists
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -309,6 +310,19 @@ else {
     const ok = resolves(m[1], '/', '');
     if (ok !== true) err('llms.txt', `${m[1]} → ${ok}`);
   }
+}
+const llmsFullPath = join(dist, 'llms-full.txt');
+if (!existsSync(llmsFullPath)) err('llms-full.txt', 'missing');
+else {
+  const urls = [...readFileSync(llmsFullPath, 'utf8').matchAll(/^URL: (https:\/\/monsoon\.fyi\S*)$/gm)].map((m) => m[1]);
+  for (const u of urls) {
+    const ok = resolves(u, '/', '');
+    if (ok !== true) err('llms-full.txt', `${u} → ${ok}`);
+  }
+  const indexable = [...pages.keys()].filter((p) => !noindexPages.has(p));
+  const have = new Set(urls.map((u) => u.replace(SITE, '')));
+  for (const p of indexable) if (!have.has(p)) err('llms-full.txt', `no section for ${p}`);
+  if (urls.length !== new Set(urls).size) err('llms-full.txt', 'a page appears twice');
 }
 if (!existsSync(join(dist, 'og.png'))) err('og.png', 'default share image is missing from dist/');
 

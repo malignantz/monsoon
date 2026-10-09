@@ -9,7 +9,7 @@
 # SEO surface scripts/seo/build-seo.mjs adds after the SPA build: city/<slug>/,
 # best/ (the index, where-to-be-in-<month>/ and region hubs), cities/ and
 # compare/ (an index.html each), og/ (build-time .png share images), the
-# sitemap index sitemap.xml with its sitemap-<type>.xml children, and llms.txt.
+# sitemap index sitemap.xml with its sitemap-<type>.xml children, llms.txt and llms-full.txt.
 # Pages direct-upload does NOT honor .assetsignore, so after
 # building we verify that none of the private inputs (raw data files, scripts,
 # docs) leaked into the upload set, and that no private input TEXT was rendered
