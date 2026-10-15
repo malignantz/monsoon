@@ -133,13 +133,13 @@
   }
 
   .band-great { background: var(--band-great); color: var(--band-great-ink); }
-  .band-good { background: var(--band-good); color: var(--band-good-ink); }
-  .band-ok { background: var(--band-ok); color: var(--band-ok-ink); }
+  .band-good { --edge: var(--band-good-edge); background: var(--band-good); color: var(--band-good-ink); box-shadow: inset 0 0 0 1px var(--edge); }
+  .band-ok { --edge: var(--band-ok-edge); background: var(--band-ok); color: var(--band-ok-ink); box-shadow: inset 0 0 0 1px var(--edge); }
   .band-bad { background: var(--band-bad); color: var(--band-bad-ink); }
 
-  .risk1 { box-shadow: inset 0 0 0 1.5px rgb(var(--shade-rgb) / 0.35); }
+  .risk1 { box-shadow: inset 0 0 0 1px var(--edge, transparent), inset 0 0 0 1.5px rgb(var(--shade-rgb) / 0.35); }
   .risk2 {
-    box-shadow: inset 0 0 0 2px rgb(var(--shade-rgb) / 0.55);
+    box-shadow: inset 0 0 0 1px var(--edge, transparent), inset 0 0 0 2px rgb(var(--shade-rgb) / 0.55);
     background-image: repeating-linear-gradient(
       -45deg,
       transparent 0 3px,
