@@ -19,6 +19,10 @@
   --band-good: #9eba63;
   --band-ok: #e2a53c;
   --band-bad: #ad4324;
+  /* 1px inner edge for the pale light-theme good and ok fills, 3.1:1 on paper
+     (WCAG 1.4.11). Transparent in the dark block, where the fills already pass. */
+  --band-good-edge: #789241;
+  --band-ok-edge: #b77e1b;
   --band-great-ink: #e8f3ea;
   --band-good-ink: #2c3a10;
   --band-ok-ink: #46300a;
@@ -114,6 +118,8 @@
     --band-good: #b9d27a;
     --band-ok: #e0a23f;
     --band-bad: #c04a2c;
+    --band-good-edge: transparent;
+    --band-ok-edge: transparent;
     --band-great-ink: #0c1f16;
     --band-good-ink: #26330c;
     --band-ok-ink: #3a2706;

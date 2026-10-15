@@ -74,7 +74,7 @@
   }
 
   .sw-great { height: 11px; background: var(--band-great); }
-  .sw-good  { height: 11px; background: var(--band-good); }
-  .sw-ok    { height: 8.5px; background: var(--band-ok); }
+  .sw-good  { height: 11px; background: var(--band-good); box-shadow: inset 0 0 0 1px var(--band-good-edge); }
+  .sw-ok    { height: 8.5px; background: var(--band-ok); box-shadow: inset 0 0 0 1px var(--band-ok-edge); }
   .sw-bad   { height: 6px; background: var(--band-bad); }
 </style>
