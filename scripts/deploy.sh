@@ -10,6 +10,9 @@
 #   scripts/deploy.sh                 # production deploy (branch=main)
 #   scripts/deploy.sh <branch>        # preview deploy on a named branch
 #
+# Runs `npm run check` before the build (SKIP_CHECKS=1 to skip) and
+# `npm run check:seo` after it; either failing aborts the deploy.
+#
 # Requires wrangler authed as the account that owns the `monsoon` project
 # (wrangler whoami). Does not touch git — commit/push separately.
 set -euo pipefail
@@ -18,8 +21,19 @@ cd "$(dirname "$0")/.."
 PROJECT="monsoon"
 BRANCH="${1:-main}"
 
+# Offline checks first; a failure aborts before anything is built or uploaded.
+# SKIP_CHECKS=1 is the escape hatch (skips the checks only, never the build).
+if [ "${SKIP_CHECKS:-}" = "1" ]; then
+  echo "SKIP_CHECKS=1: skipping npm run check."
+else
+  npm run check
+fi
+
 # Build + stage dist/ (fails if any private input leaked into the upload set).
 bash scripts/build.sh
+
+# Static-page checks (script-free pages, JSON-LD, sitemap) against the fresh dist/.
+npm run check:seo
 
 echo
 echo "Deploying dist/ to Pages project '$PROJECT' (branch: $BRANCH)…"

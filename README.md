@@ -83,7 +83,7 @@ Homicide rates (World Bank/UNODC, with a WHO modelled fallback), the women's str
 
 ## Testing And Checks
 
-There is no unit-test framework, CI or browser test suite; these are plain scripts, run by hand before a deploy.
+There is no unit-test framework or browser test suite; these are plain scripts. `npm run check` runs all the offline ones (the tests below, `test:events`, `check:seeds`, `check:ids`) and `npm run check:build` does a full build and then `check:seo`. `scripts/deploy.sh` runs `check` before building and `check:seo` after (`SKIP_CHECKS=1` skips the first), and a GitHub Actions workflow runs both on pull requests and pushes to main.
 
 - `npm run test:schengen`: assertions on `src/lib/schengen.js` (real month lengths, rolling 180-day window, the Tight band).
 - `npm run test:daycount`: assertions on `src/lib/dayCount.js` (days per country, 150/183-day states).
