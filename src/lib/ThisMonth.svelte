@@ -4,8 +4,10 @@
   import Legend from './Legend.svelte';
   import CostWeight from './CostWeight.svelte';
   import RegionMenu from './RegionMenu.svelte';
+  import RefineSheet from './RefineSheet.svelte';
+  import { screen } from './mobile.svelte.js';
   import { cities, regions, qolFor, valueFor, swimNow, cityCost, partyWord, fmtMoney, moneySymbol, routeStats, monthOccupancy, prefs, PRESETS, normalizePresetKey, MONTHS, MONTH_LETTERS, favorites } from './data.svelte.js';
-  import { untrack } from 'svelte';
+  import { untrack, tick } from 'svelte';
   import { COST_OPTIONS, snapCostCap } from './planner.js';
   import { route } from './route.svelte.js';
   import { MAX_COMPARE } from './compare.js';
@@ -72,6 +74,12 @@
   });
 
   const CAP = 48;
+  const BANDS = [
+    { k: 'great', label: 'great', range: '85+' },
+    { k: 'good', label: 'good', range: '75+' },
+    { k: 'ok', label: 'ok', range: '65+' },
+    { k: 'bad', label: 'avoid', range: '' }
+  ];
 
   const compareFull = $derived(compareKeys.length >= MAX_COMPARE);
   const monthLong = $derived(new Date(2026, month, 1).toLocaleString('en-US', { month: 'long' }));
@@ -96,6 +104,26 @@
 
   const moreActive = $derived(maxCost !== '' || minQol !== '' || swimOnly || nonSchengenOnly);
   const filtersActive = $derived(activeRegions.size > 0 || favOnly || moreActive);
+
+  // ── Phones: one control row + the Refine sheet ──
+  let refineOpen = $state(false);
+  let searchOpen = $state(false);
+  let findWrap = $state();
+  // What the Refine button counts: each active filter once (regions as one),
+  // plus a non-default view and Compare mode.
+  const refineCount = $derived(
+    (favOnly ? 1 : 0) + (activeRegions.size ? 1 : 0) + (maxCost !== '' ? 1 : 0) + (minQol !== '' ? 1 : 0) +
+      (swimOnly ? 1 : 0) + (nonSchengenOnly ? 1 : 0) + (density !== 'cards' ? 1 : 0) + (comparing ? 1 : 0)
+  );
+  // The table has no sort toggle, so there the row is [search][Refine].
+  const findShown = $derived(searchOpen || query !== '' || density === 'table');
+  async function openSearch() {
+    searchOpen = true;
+    await tick();
+    findWrap?.querySelector('input')?.focus();
+  }
+  // A narrowing filter, a search or a non-default lens earns the status line.
+  const statusShown = $derived(filtersActive || terms.length > 0 || lensLabel !== '');
 
   function resetFilters() {
     activeRegions = new Set();
@@ -236,6 +264,13 @@
           <button type="button" class:on={mode === 'value'} aria-pressed={mode === 'value'} tabindex={stuck ? 0 : -1} onclick={() => (mode = 'value')}>Best Value</button>
         </div>
       {/if}
+      {#if screen.mobile}
+        <button type="button" class="stick-refine" class:on={refineCount > 0} aria-label="Refine{refineCount ? `, ${refineCount} active` : ''}" aria-haspopup="dialog" tabindex={stuck ? 0 : -1} onclick={() => (refineOpen = true)}>
+          <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <line x1="2" y1="4.5" x2="14" y2="4.5" /><line x1="2" y1="11.5" x2="14" y2="11.5" /><circle cx="10" cy="4.5" r="1.8" fill="var(--paper)" /><circle cx="6" cy="11.5" r="1.8" fill="var(--paper)" />
+          </svg>
+        </button>
+      {/if}
     </div>
   </div>
 
@@ -271,7 +306,7 @@
         {/each}
       </div>
     </div>
-    <p class="dek">The good months, ranked — clean air, mild weather, no typhoons, festivals on.</p>
+    <p class="dek">For slow travelers and nomads: {cities.length} cities scored month by month on weather, air, safety and season.</p>
     {#if answer}
       <p class="answer">
         <button type="button" class="answer-btn" onclick={() => onopen(answer.city.key)}>
@@ -284,6 +319,69 @@
   </header>
 
   <div class="controls">
+    {#if screen.mobile}
+      <div class="mbar">
+        {#if findShown}
+          <div class="find" role="search" bind:this={findWrap}>
+            <svg class="find-icon" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <circle cx="7" cy="7" r="4.5" /><line x1="10.4" y1="10.4" x2="14" y2="14" />
+            </svg>
+            <input
+              type="search"
+              placeholder="Find a city"
+              aria-label="Find a city or country"
+              autocomplete="off"
+              spellcheck="false"
+              bind:value={query}
+              onkeydown={(e) => {
+                if (e.key === 'Escape') {
+                  e.stopPropagation();
+                  if (query) query = '';
+                  else searchOpen = false;
+                }
+              }}
+            />
+            {#if query}
+              <button type="button" class="find-clear" aria-label="Clear search" onclick={clearQuery}>×</button>
+            {/if}
+          </div>
+          {#if density !== 'table'}
+            <button type="button" class="mbar-done" onclick={() => { if (!query) searchOpen = false; else document.activeElement?.blur?.(); }}>Done</button>
+          {/if}
+        {:else}
+          <div class="seg mseg" role="group" aria-label="Sort by">
+            <button type="button" class:on={mode === 'quality'} aria-pressed={mode === 'quality'} onclick={() => (mode = 'quality')}>
+              <span class="lbl-long">Highest Score</span><span class="lbl-short" aria-hidden="true">Score</span>
+            </button>
+            <button type="button" class:on={mode === 'value'} aria-pressed={mode === 'value'} onclick={() => (mode = 'value')}>Best Value</button>
+          </div>
+          <button type="button" class="mbar-icon" aria-label="Find a city" onclick={openSearch}>
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <circle cx="7" cy="7" r="4.5" /><line x1="10.4" y1="10.4" x2="14" y2="14" />
+            </svg>
+          </button>
+        {/if}
+        <button type="button" class="mbar-refine" class:on={refineCount > 0} aria-haspopup="dialog" aria-expanded={refineOpen} onclick={() => (refineOpen = true)}>
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+              <line x1="2" y1="4.5" x2="14" y2="4.5" /><line x1="2" y1="11.5" x2="14" y2="11.5" /><circle cx="10" cy="4.5" r="1.8" fill="var(--card)" /><circle cx="6" cy="11.5" r="1.8" fill="var(--card)" />
+            </svg>
+            Refine{refineCount ? ` · ${refineCount}` : ''}
+          </button>
+      </div>
+      {#if statusShown}
+        <p class="mstatus">
+          <span class="num">{filtered.length} {filtered.length === 1 ? 'city' : 'cities'}</span>
+          {#if lensLabel}
+            <span class="dotsep" aria-hidden="true">·</span>
+            <button type="button" class="mstatus-lens" onclick={onsettings}>Ranked for: <strong>{lensLabel}</strong></button>
+          {/if}
+          {#if filtersActive || terms.length}
+            <span class="dotsep" aria-hidden="true">·</span>
+            <button type="button" class="mstatus-clear" onclick={() => { resetFilters(); query = ''; searchOpen = false; }}>Clear</button>
+          {/if}
+        </p>
+      {/if}
+    {:else}
     <div class="toolbar">
       <div class="meta-row">
         <p class="result-count num">{filtered.length} {filtered.length === 1 ? 'city' : 'cities'}</p>
@@ -393,11 +491,12 @@
         </button>
       </div>
     </div>
+    {/if}
   </div>
 
   <div class="stick-sentinel" bind:this={sentinel} aria-hidden="true"></div>
 
-  {#if showMore}
+  {#if showMore && !screen.mobile}
     <div class="refine">
       <div class="refine-fields">
         <label class="refine-field">
@@ -435,11 +534,46 @@
   {#if density === 'cards' && !keyHidden}
     <!-- The whole key on one compact line: what a strip is, the four bands (with
          their height cue), the icons. Dismissed once, it stays dismissed. -->
-    <div class="keyline">
+    <div class="keyline" class:mkey={screen.mobile}>
       <span class="key-intro">Each strip is a city’s year:</span>
-      <Legend bands />
+      {#if screen.mobile}
+        <span class="mkey-bands">
+          {#each BANDS as b}
+            <span class="mk"><span class="msw msw-{b.k}" aria-hidden="true"></span>{b.label}{#if b.range}<span class="num rng">&nbsp;{b.range}</span>{/if}</span>
+          {/each}
+        </span>
+      {:else}
+        <Legend bands />
+      {/if}
       <button type="button" class="key-x" aria-label="Hide the colour key" title="Hide" onclick={() => (keyHidden = true)}>×</button>
     </div>
+  {/if}
+
+  {#if refineOpen && screen.mobile}
+    <RefineSheet
+      {month}
+      count={filtered.length}
+      {regions}
+      {costOptions}
+      qolOptions={QOL_OPTIONS}
+      favCount={favorites.size}
+      bind:favOnly
+      bind:nonSchengenOnly
+      bind:swimOnly
+      bind:maxCost
+      bind:minQol
+      bind:activeRegions
+      bind:density
+      bind:keyHidden
+      {mode}
+      {costWeight}
+      {oncostweight}
+      {comparing}
+      {oncomparemode}
+      anyActive={filtersActive || terms.length > 0}
+      onclear={() => { resetFilters(); query = ''; }}
+      onclose={() => (refineOpen = false)}
+    />
   {/if}
 
   {#if filtered.length === 0}
@@ -507,7 +641,7 @@
 <style>
   .dek {
     margin: 8px 0 0;
-    max-width: 32ch;
+    max-width: 110ch;
     font-family: var(--display);
     font-style: italic;
     font-size: 14px;
@@ -1127,5 +1261,99 @@
   .count {
     font-size: 12px;
     color: var(--ink-3);
+  }
+
+  /* ── Phone home: one control row, status line, one-line band key ── */
+  .mbar { display: flex; align-items: center; gap: 6px; height: var(--tap); }
+  .mseg { flex: 1 1 auto; min-width: 0; }
+  .mseg button { flex: 1 1 auto; justify-content: center; padding: 0 6px; font-size: 12px; white-space: nowrap; }
+  .lbl-short { display: none; }
+  .mbar-icon,
+  .stick-refine {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--ink-2);
+  }
+  .mbar-icon { width: var(--tap); height: var(--tap); }
+  .mbar-refine {
+    flex: none;
+    height: var(--tap);
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+  .mbar-refine.on,
+  .stick-refine.on { color: var(--terra-deep); border-color: var(--terra); background: var(--terra-soft); }
+  .mbar .find { flex: 1 1 auto; }
+  .mbar-done {
+    flex: none;
+    height: var(--tap);
+    padding: 0 6px 0 10px;
+    border: none;
+    background: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--terra-deep);
+  }
+  .stick-refine { width: var(--tap); height: 34px; }
+
+  .mstatus {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 6px;
+    margin: 8px 0 0;
+    font-size: 12.5px;
+    color: var(--ink-3);
+  }
+  .mstatus button {
+    min-height: 24px;
+    padding: 0;
+    border: none;
+    background: none;
+    font-size: inherit;
+    color: var(--terra-deep);
+    font-weight: 600;
+  }
+  .mstatus-lens { color: var(--ink-3) !important; font-weight: 400 !important; text-align: left; }
+  .mstatus-lens strong { font-weight: 600; color: var(--terra-deep); }
+
+  .mkey-bands { display: inline-flex; flex-wrap: nowrap; align-items: baseline; gap: 9px; font-size: 11px; color: var(--ink-3); }
+  .mk { display: inline-flex; align-items: baseline; gap: 4px; color: var(--ink-2); white-space: nowrap; }
+  .mk .rng { font-size: 11px; color: var(--ink-3); }
+  .msw { display: inline-block; width: 8px; border-radius: 2px; align-self: baseline; }
+  .msw-great { height: 11px; background: var(--band-great); }
+  .msw-good { height: 11px; background: var(--band-good); }
+  .msw-ok { height: 8.5px; background: var(--band-ok); }
+  .msw-bad { height: 6px; background: var(--band-bad); }
+
+  @media (max-width: 700px) {
+    .view-head { margin: 14px 0 0; }
+    .view-head h1 { font-size: 40px; line-height: 1; }
+    .title-row { gap: 0; margin-top: 4px; }
+    .monthsel { margin: 10px 0 0; }
+    .dek { margin-top: 10px; }
+    .answer { margin-top: 8px; }
+    .controls { margin: 14px 0 0; gap: 0; }
+    .keyline.mkey { margin: 10px 0 12px; }
+    .keyline.mkey .key-x { top: -13px; }
+  }
+  @media (max-width: 379px) {
+    .lbl-long { display: none; }
+    .lbl-short { display: inline; }
+    .mbar-refine { padding: 0 10px; }
   }
 </style>
