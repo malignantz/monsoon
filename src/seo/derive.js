@@ -17,14 +17,18 @@ export const monthSlug = (i) => `where-to-be-in-${MONTHS_LONG[i].toLowerCase()}`
 export const monthPath = (i) => `/best/${monthSlug(i)}/`;
 export const cityPath = (key) => `/city/${key}/`;
 export const regionSlug = (r) => r.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-export const appCityUrl = (key, i) => `/?city=${encodeURIComponent(key)}&m=${monthParam(i)}`;
-export const appMonthUrl = (i) => `/?m=${monthParam(i)}`;
+// `from=<page-type>` (see ENTRY_FROM in analytics.js) tells the app, once, which kind of static
+// page sent the visitor. It never carries city text, and the app strips it on load.
+const fromQ = (from) => (from ? `&from=${from}` : '');
+export const appCityUrl = (key, i, from) => `/?city=${encodeURIComponent(key)}&m=${monthParam(i)}${fromQ(from)}`;
+export const appMonthUrl = (i, from) => `/?m=${monthParam(i)}${fromQ(from)}`;
+export const appYearUrl = (from) => `/?view=year${fromQ(from)}`;
 export const APP_YEAR_URL = '/?view=year';
 export const COMPARE_INDEX = '/compare/';
 export const comparePath = (slug) => `/compare/${slug}/`;
 // "Lake Atitlán (Panajachel)" → "Lake Atitlán": the short name used where length matters (page titles).
 export const shortName = (name) => name.replace(/\s*\([^)]*\)\s*$/, '').trim() || name;
-export const appCompareUrl = (subjectKey, anchorKey, i) => `/?compare=${encodeURIComponent(subjectKey)},${encodeURIComponent(anchorKey)}&m=${monthParam(i)}`;
+export const appCompareUrl = (subjectKey, anchorKey, i, from) => `/?compare=${encodeURIComponent(subjectKey)},${encodeURIComponent(anchorKey)}&m=${monthParam(i)}${fromQ(from)}`;
 
 // Cyclic runs of true flags → [[start, len], …] (a Dec→Jan run stays one run).
 export function runs(flags) {
@@ -217,8 +221,8 @@ const REGION_NAMES = {
 export const regionName = (r) => REGION_NAMES[r] ?? r;
 export const regionHubSlug = (r) => (REGION_NAMES[r] ? regionSlug(REGION_NAMES[r]) : regionSlug(r));
 // The SPA's own region= value (slug() from data.svelte.js, as urlState.js writes it).
-export const appRegionUrl = (region, mIdx = null) =>
-  `/?region=${encodeURIComponent(slug(region))}${mIdx != null ? `&m=${monthParam(mIdx)}` : ''}`;
+export const appRegionUrl = (region, mIdx = null, from) =>
+  `/?region=${encodeURIComponent(slug(region))}${mIdx != null ? `&m=${monthParam(mIdx)}` : ''}${fromQ(from)}`;
 
 const WINTER = [11, 0, 1];
 const SUMMER = [5, 6, 7];
@@ -450,7 +454,7 @@ export function computeHub(attr, region, items) {
       }[attr] ?? `average Score across ${span}`,
       n,
       cta: {
-        href: appRegionUrl(region, firstMonth ?? null),
+        href: appRegionUrl(region, firstMonth ?? null, 'best-region'),
         text: firstMonth != null ? `See ${R} in ${MONTHS_LONG[firstMonth]} in Monsoon →` : `Filter the app to ${R} →`
       }
     }

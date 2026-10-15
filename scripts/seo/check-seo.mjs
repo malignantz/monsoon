@@ -35,6 +35,7 @@ import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { PAGE_TREES, PAGE_TYPES, pageType } from './trees.mjs';
+import { ENTRY_FROM } from '../../src/lib/analytics.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const outArg = process.argv.indexOf('--out');
@@ -98,6 +99,9 @@ function resolves(url, fromPath, html) {
     if (city != null && !citySlugs.has(city)) return `SPA link names unknown city "${city}"`;
     const m = u.searchParams.get('m');
     if (m != null && !MONTH_PARAMS.includes(m)) return `SPA link has bad month "${m}"`;
+    const from = u.searchParams.get('from');
+    if (from == null && u.search) return 'SPA link with params has no from= (entry attribution)';
+    if (from != null && !ENTRY_FROM.includes(from)) return `SPA link has from "${from}", not one of ${ENTRY_FROM.join(', ')}`;
     const view = u.searchParams.get('view');
     if (view != null && view !== 'year' && view !== 'month') return `SPA link has bad view "${view}"`;
     const region = u.searchParams.get('region');

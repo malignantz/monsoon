@@ -4,7 +4,7 @@
   import Shell from './Shell.svelte';
   import MonthStrip from '../lib/MonthStrip.svelte';
   import { MONTHS, fmtMoney, fmtTemp } from '../lib/data.svelte.js';
-  import { MONTHS_LONG, monthPath, cityPath, appCityUrl, APP_YEAR_URL, monthsText } from './derive.js';
+  import { MONTHS_LONG, monthPath, cityPath, appCityUrl, appYearUrl, monthsText } from './derive.js';
 
   let { c, year, rows, related, sources, safety, cost, hubs = [], regionLabel, comparisons = [], site, crumbs } = $props();
 
@@ -35,8 +35,8 @@
   </p>
 
   <div class="ctas">
-    <a class="btn primary" href={appCityUrl(c.key, year.best)}>Open {c.name} in {MONTHS_LONG[year.best]} →</a>
-    <a class="btn ghost" href={APP_YEAR_URL}>Plan a year around it</a>
+    <a class="btn primary" href={appCityUrl(c.key, year.best, 'city')}>Open {c.name} in {MONTHS_LONG[year.best]} →</a>
+    <a class="btn ghost" href={appYearUrl('city')}>Plan a year around it</a>
   </div>
 
   <section aria-labelledby="glance">
@@ -212,7 +212,7 @@
   </section>
 
   <div class="ctas">
-    <a class="btn primary" href={appCityUrl(c.key, year.best)}>Open {c.name} in Monsoon →</a>
+    <a class="btn primary" href={appCityUrl(c.key, year.best, 'city')}>Open {c.name} in Monsoon →</a>
     <a class="btn ghost" href="/cities/">Browse all {site.cityCount} cities</a>
   </div>
 </Shell>
