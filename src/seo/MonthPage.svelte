@@ -4,7 +4,7 @@
   import Shell from './Shell.svelte';
   import MonthStrip from '../lib/MonthStrip.svelte';
   import { fmtMoney } from '../lib/data.svelte.js';
-  import { MONTHS_LONG, monthPath, cityPath, appMonthUrl, APP_YEAR_URL, BEST_INDEX } from './derive.js';
+  import { MONTHS_LONG, monthPath, cityPath, appMonthUrl, appYearUrl, BEST_INDEX } from './derive.js';
 
   let { mIdx, facts, top, rest, site, crumbs } = $props();
 
@@ -37,8 +37,8 @@
   {/if}
 
   <div class="ctas">
-    <a class="btn primary" href={appMonthUrl(mIdx)}>See {M} in Monsoon →</a>
-    <a class="btn ghost" href={APP_YEAR_URL}>Plan a whole year</a>
+    <a class="btn primary" href={appMonthUrl(mIdx, 'best-month')}>See {M} in Monsoon →</a>
+    <a class="btn ghost" href={appYearUrl('best-month')}>Plan a whole year</a>
   </div>
 
   <section aria-labelledby="top">

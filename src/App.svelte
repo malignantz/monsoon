@@ -6,7 +6,7 @@
   import { focusTrap, focusTopLayer } from './lib/focusTrap.js';
   import { cities, cityByKey, regions, qolFor, valueFor, cityCost, snapCostWeight, DEFAULT_COST_WEIGHT, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS, prefetchDetail } from './lib/data.svelte.js';
   import { route, addCity, removeStayRef, adoptRoute } from './lib/route.svelte.js';
-  import { track } from './lib/analytics.js';
+  import { track, ENTRY_FROM } from './lib/analytics.js';
   import { readUrlState, buildUrl } from './lib/urlState.js';
   import { MAX_COMPARE, sanitizeCompare, loadCompare, saveCompare } from './lib/compare.js';
 
@@ -58,7 +58,7 @@
 
   function stripShareParams() {
     const u = new URL(location.href);
-    for (const k of ['i', 'route', 'n']) u.searchParams.delete(k);
+    for (const k of ['i', 'route', 'n', 'from']) u.searchParams.delete(k);
     history.replaceState(history.state, '', u.pathname + u.search.replace(/%2C/gi, ',') + u.hash);
   }
 
@@ -78,6 +78,14 @@
       (initialRoute.length ? 'year' : linksToRanking ? 'month' : p.view === 'explore' ? 'month' : (p.view ?? 'month'))
   );
   let month = $state(fromUrl.month ?? currentMonth);
+
+  // Landing from a static page: `?from=<page-type>` says which kind. Count the
+  // entry once, then drop the param so it never rides into a share link.
+  const entryFrom = shareParams.get('from');
+  if (entryFrom !== null) {
+    if (ENTRY_FROM.includes(entryFrom)) track('entry', { from: entryFrom, surface: view === 'year' ? 'my_year' : 'this_month' });
+    stripShareParams();
+  }
   // A ranking link with no sort param means the default sort (that is how the
   // sender's clean URL was built), not the recipient's last-used one.
   const rankingLink = fromUrl.month != null || fromUrl.density || fromUrl.regions || fromUrl.compare;

@@ -1,0 +1,11 @@
+# Cloudflare Pages config. Once this file exists it is the source of truth for the
+# project's bindings. `scripts/deploy.sh` runs `wrangler pages deploy dist` from
+# the repo root, which also picks up functions/.
+name = "monsoon"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-05-01"
+
+# First-party event sink: functions/api/e.js writes here; scripts/analytics-report.mjs reads it.
+[[analytics_engine_datasets]]
+binding = "EVENTS"
+dataset = "monsoon_events"
