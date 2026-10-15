@@ -18,6 +18,8 @@
     "check:seeds": "node scripts/check-seeds.mjs",
     "test:events": "node scripts/test-events.mjs",
     "report:events": "node scripts/analytics-report.mjs",
+    "check": "npm run test:schengen && npm run test:daycount && npm run test:currency && npm run test:events && npm run check:seeds && npm run check:ids",
+    "check:build": "bash scripts/build.sh && npm run check:seo",
     "deploy": "bash scripts/deploy.sh"
   },
   "devDependencies": {
