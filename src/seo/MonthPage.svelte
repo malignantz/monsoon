@@ -70,7 +70,7 @@
     <p class="small muted">Score is the default Balanced blend of weather, safety, air, season and events for {M}. Cost is one person's month in US dollars. The strip shows each city's whole year, with {M} outlined.</p>
     <div class="ctas end">
       <a class="btn primary" href={appYearUrl('best-month')}>Build a year around {facts.leader.city.name}</a>
-      <a class="btn ghost" href={appMonthUrl(mIdx)}>See {M} in Monsoon</a>
+      <a class="btn ghost" href={appMonthUrl(mIdx, 'best-month')}>See {M} in Monsoon</a>
     </div>
   </section>
 
