@@ -1,9 +1,10 @@
 # Monsoon — UX, Retention & SEO Research Audit
 
-> **Status as of 2026-10-03.** The audit text below is unchanged (it describes the app as of 2026-06-17). Against the code on `main` today:
+> **Status as of 2026-10-15.** The audit text below is unchanged (it describes the app as of 2026-06-17). Against the code on `main` today:
 >
 > - **Shipped:** seed and warm My year (§3.1–3.4: ghost example year, "Build me a year" styles, progress and completion milestone); one dismissible colour key, the #1 answer line and the "Ranked for" lens pill on This month (§2.1, §2.2); the "Your year … Resume" line for returning users (§5.1); freshness and sources (§4: "Data as of" on the city sheet, "Where these numbers come from" panels, methodology rewrite with per-input table, version and changelog); compare (P2: tray, comparison sheet, `?compare=` links); a shared route becomes a first-time visitor's starting year (§3.5); build-time static pages (§6, as a generator rather than SvelteKit): city pages, 12 month pages, a cities index, `sitemap.xml`, `llms.txt`, `Sitemap:` in `robots.txt`, per-page title, canonical and OG tags, and `TouristDestination`, `ItemList` and `BreadcrumbList` JSON-LD; then a `/best/` index, region/attribute hubs and gated comparison pages (§6.2), `Dataset` JSON-LD on `/cities/` (§6.4, placed on the directory since there is no static methodology page), sitemaps split by template (§6.3) and build-time share images per city, month and comparison page (§6.5).
-> - **Not shipped:** mobile first-card-above-the-fold (§2.1, unverified); labelling Best Value wins inline (§2.3); email capture and periodic re-engagement (§5.2, §5.3); a share image for a planned year (§6.5, needs a Worker).
+> - **Also shipped since:** labelling Best Value wins inline (§2.3; `src/lib/valueWin.js`); the mobile first-card-above-the-fold item (§2.1) resolved with the 2026-10-15 home first-screen change (one control row plus a Refine sheet, verified at 390x664); static pages in dark mode with an end-of-list CTA and trust line.
+> - **Not shipped:** email capture and periodic re-engagement (§5.2, §5.3); a share image for a planned year (§6.5, needs a Worker).
 > - The open items are tracked in `TODO.md`.
 
 _Prepared 2026-06-17. Scope: usability, intuitiveness, user retention, SEO, and user
@@ -15,6 +16,8 @@ Search Central, SvelteKit docs, Nomad List teardowns). Sources are listed at the
 ---
 
 ## 0. TL;DR
+
+(historical, 2026-06-17; SEO has since shipped, see status note)
 
 Monsoon is **already in the top decile of craft** for an indie data tool. The visual
 system, the city sheet, the month-strip primitive, and the copy are genuinely

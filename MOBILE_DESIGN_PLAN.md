@@ -9,6 +9,8 @@ Last updated: 2026-06-17
 
 ## Implementation status (branch `mobile_ready`)
 
+_Superseded where `TODO.md` differs. Since this was written, "+ Year" on browse cards and table rows (`src/lib/CityCard.svelte`) and the "Fill the open months" auto-fill (`src/lib/MyYear.svelte`, `src/lib/yearPlan.js`) have shipped._
+
 **Shipped & verified in-browser at 320 / 375 px (build green, no page overflow):**
 
 - ✅ **Phase 0 — Foundations.** Mobile tokens (`--tap`, `--pad-x`, `--sheet-max-h`,
