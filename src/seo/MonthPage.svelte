@@ -3,7 +3,7 @@
   // default (Balanced) Score, exactly as the app's This month view ranks it.
   import Shell from './Shell.svelte';
   import MonthStrip from '../lib/MonthStrip.svelte';
-  import { fmtMoney } from '../lib/data.svelte.js';
+  import { fmtMoney, PRESETS } from '../lib/data.svelte.js';
   import { MONTHS_LONG, monthPath, cityPath, appMonthUrl, appYearUrl, BEST_INDEX } from './derive.js';
 
   let { mIdx, facts, top, rest, site, crumbs } = $props();
@@ -13,11 +13,14 @@
   const prev = (mIdx + 11) % 12;
   const next = (mIdx + 1) % 12;
   const LIST_MAX = 8;
+  const w = PRESETS.balanced.w;
+  const pct = (x) => Math.round(x * 100);
 </script>
 
 <Shell {crumbs} {site} currentMonth={mIdx}>
   <p class="kicker">{facts.total} cities ranked · {M}</p>
   <h1>Where to be in {M}</h1>
+  {#if site.lastUpdated}<p class="dateline">Updated <time>{site.lastUpdated}</time> · methodology {site.methodVersion}</p>{/if}
 
   <p class="lede">
     {#if facts.great > 0}
@@ -32,14 +35,18 @@
     {#if facts.peakTop > 0}{facts.peakTop} of the top 25 are in their peak season.{/if}
     {#if facts.cheapestTop}The cheapest of the top 25 is <a href={cityPath(facts.cheapestTop.city.key)}>{facts.cheapestTop.city.name}</a> at <span class="num">{fmtMoney(facts.cheapestTop.m.cost1)}</span>/mo solo.{/if}
   </p>
+  <a class="plancta" href={appYearUrl('best-month')}>
+    <span class="plancta-k">Plan your year</span>
+    <span class="plancta-t">{facts.leader.city.name} in {M} is a start. Fill the other eleven months with good ones →</span>
+  </a>
   {#if facts.festivals.length}
     <p class="lede">Major events among the top 25: {#each facts.festivals as f, i}{f.event.name} (<a href={cityPath(f.city.key)}>{f.city.name}</a>){i < facts.festivals.length - 1 ? ', ' : '.'}{/each}</p>
   {/if}
 
   <div class="ctas">
     <a class="btn primary" href={appMonthUrl(mIdx, 'best-month')}>See {M} in Monsoon →</a>
-    <a class="btn ghost" href={appYearUrl('best-month')}>Plan a whole year</a>
   </div>
+  <p class="trust">Score = weather {pct(w.weather)}% · safety {pct(w.safety)}% · air {pct(w.air)}% · season {pct(w.season)}% · events {pct(w.events)}%, from WMO station normals, CAMS/WHO air data and UN homicide rates. <a href="{cityPath(facts.leader.city.key)}#sources">Sources</a></p>
 
   <section aria-labelledby="top">
     <h2 id="top">The top 25 for {M}</h2>
@@ -55,12 +62,16 @@
           </div>
           <div class="right">
             <span class="pill lg band-{row.band}">{r(row.q)}</span>
-            <span class="cost">{fmtMoney(row.m.cost1)}/mo</span>
+            <span class="cost">{fmtMoney(row.m.cost1)}/mo solo</span>
           </div>
         </li>
       {/each}
     </ol>
     <p class="small muted">Score is the default Balanced blend of weather, safety, air, season and events for {M}. Cost is one person's month in US dollars. The strip shows each city's whole year, with {M} outlined.</p>
+    <div class="ctas end">
+      <a class="btn primary" href={appYearUrl('best-month')}>Build a year around {facts.leader.city.name}</a>
+      <a class="btn ghost" href={appMonthUrl(mIdx)}>See {M} in Monsoon</a>
+    </div>
   </section>
 
   {#if facts.hazards.length || facts.badAir.length}
