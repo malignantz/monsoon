@@ -447,6 +447,16 @@
     background: var(--paper-2);
     border-radius: 999px;
     padding: 2.5px 9px;
+    white-space: nowrap;
+  }
+
+  /* 320px phone: a Schengen tag plus the cost and the 68px "+ Year" pill leaves
+     no slack, so tighten the tags a little rather than let them run under it. */
+  @media (max-width: 340px) {
+    .tag {
+      padding: 2.5px 7px;
+      letter-spacing: 0;
+    }
   }
 
   .tag.schengen {
