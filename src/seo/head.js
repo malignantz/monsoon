@@ -42,7 +42,9 @@ export function documentHtml({ path, title, description, ogType = 'website', jso
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${esc(url)}">
-<meta name="theme-color" content="#f6f1e6">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f1e6">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191b16">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">

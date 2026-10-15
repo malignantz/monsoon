@@ -6,10 +6,15 @@ import appCss from '../app.css?raw';
 const rootBlock = /:root\s*\{[\s\S]*?\n\}/.exec(appCss)?.[0];
 if (!rootBlock) throw new Error('[seo] could not find the :root token block in src/app.css');
 
+// The dark tokens live in the app's `:root[data-theme='dark']` block. Static
+// pages ship no script, so they follow the system theme only.
+const darkBlock = /:root\[data-theme='dark'\]\s*\{([\s\S]*?)\n  \}/.exec(appCss)?.[1];
+if (!darkBlock) throw new Error("[seo] could not find the :root[data-theme='dark'] token block in src/app.css");
+
 const PAGE_CSS = `
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{background:var(--paper);background-image:radial-gradient(rgba(33,36,30,.035) .5px,transparent .5px);background-size:14px 14px;color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{background:var(--paper);background-image:radial-gradient(rgb(var(--ink-rgb) / .035) .5px,transparent .5px);background-size:14px 14px;color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 h1,h2,h3{font-family:var(--display);font-weight:550;line-height:1.15;margin:0}
 a{color:var(--ink);text-decoration-color:var(--line);text-underline-offset:3px}
 a:hover{color:var(--terra-deep);text-decoration-color:currentColor}
@@ -34,6 +39,15 @@ h1 .dot{color:var(--terra)}
 .dek{font-family:var(--display);font-size:clamp(18px,2.6vw,21px);color:var(--ink-2);margin:12px 0 0;max-width:46em}
 .lede{font-size:17px;margin:18px 0 0;max-width:44em}
 .lede strong{font-weight:650}
+.dateline{margin:10px 0 0;font-size:13px;color:var(--ink-3)}
+.dateline time{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.plancta{display:flex;flex-direction:column;gap:2px;max-width:44em;margin:16px 0 0;padding:12px 16px;background:var(--card);border:1px solid var(--line-soft);border-left:3px solid var(--terra);border-radius:0 12px 12px 0;text-decoration:none;color:var(--ink)}
+.plancta:hover{border-color:var(--line);border-left-color:var(--terra-deep);color:var(--ink)}
+.plancta-k{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--terra-deep)}
+.plancta-t{font-family:var(--display);font-size:17px;line-height:1.35}
+.trust{margin:14px 0 0;font-size:13px;line-height:1.45;color:var(--ink-3);max-width:46em}
+.trust a{color:var(--ink-2)}
+.ctas.end{margin-top:26px}
 .strip-wrap{margin:22px 0 6px}
 .strip-months{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;margin-top:6px}
 .strip-months a{font-size:11px;text-align:center;color:var(--ink-3);text-decoration:none;padding:4px 0}
@@ -41,7 +55,7 @@ h1 .dot{color:var(--terra)}
 .ctas{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 4px}
 .btn{display:inline-flex;align-items:center;min-height:var(--tap);padding:0 18px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid var(--ink);transition:background .15s ease}
 .btn.primary{background:var(--ink);color:var(--paper)}
-.btn.primary:hover{background:var(--terra-deep);border-color:var(--terra-deep);color:#fff}
+.btn.primary:hover{background:var(--terra-deep);border-color:var(--terra-deep);color:var(--on-terra)}
 .btn.ghost{color:var(--ink);background:transparent}
 .btn.ghost:hover{background:var(--paper-2);color:var(--ink)}
 section{margin-top:40px;padding-top:22px;border-top:1px solid var(--line)}
@@ -130,7 +144,19 @@ td.diff{color:var(--ink-2)}
 .foot p{margin:8px 0}
 .foot a{color:var(--ink-2)}
 @media (min-width:720px){.monthnav{grid-template-columns:repeat(12,1fr)}}
-@media (max-width:560px){.rank>li{grid-template-columns:1.8em 1fr auto}.rank .strip-cell{max-width:none}}
+@media (max-width:560px){
+.rank>li{grid-template-columns:1.6em 1fr auto;grid-template-areas:"pos name pill" ". where where" ". strip strip" ". why why" ". unit unit" ". cost cost";gap:2px 10px;padding:14px 0}
+.rank>li>div:not(.right){display:contents}
+.rank .right{display:contents}
+.rank .pos{grid-area:pos}.rank .name{grid-area:name;align-self:center}
+.rank .pill.lg{grid-area:pill;font-size:17px;padding:2px 8px;align-self:center}
+.rank .val{grid-area:pill;align-self:center}
+.rank .unit{grid-area:unit;margin-left:0;max-width:none;text-align:left;margin-top:4px}
+.rank .where{grid-area:where}.rank .strip-cell{grid-area:strip;max-width:none;margin-top:8px}
+.rank .why{grid-area:why;margin-top:6px;font-size:14px}
+.rank .cost{grid-area:cost;text-align:left;margin-top:4px;font-size:13px}
+.rest{columns:1;padding-left:2.2em}
+}
 `;
 
 const minify = (css) =>
@@ -141,5 +167,8 @@ const minify = (css) =>
     .replace(/;}/g, '}')
     .trim();
 
-export const BASE_CSS = minify(rootBlock) + minify(PAGE_CSS);
+// Printing stays light: the dark tokens apply to screens only.
+const DARK_CSS = `@media screen and (prefers-color-scheme:dark){:root{color-scheme:dark;${darkBlock}}}`;
+
+export const BASE_CSS = minify(rootBlock) + minify(DARK_CSS) + minify(PAGE_CSS);
 export { minify };

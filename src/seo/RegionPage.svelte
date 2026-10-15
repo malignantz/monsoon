@@ -3,19 +3,24 @@
   // attribute (cost, safety, air, winter or summer Score). Every figure comes
   // from derive.js computeHub() over the public city view.
   import Shell from './Shell.svelte';
+  import { PRESETS } from '../lib/data.svelte.js';
   import MonthStrip from '../lib/MonthStrip.svelte';
-  import { cityPath, BEST_INDEX } from './derive.js';
+  import { cityPath, BEST_INDEX, APP_YEAR_URL } from './derive.js';
 
   let { hub, siblings, elsewhere, site, crumbs } = $props();
 
   const TOP = 10;
   const top = hub.rows.slice(0, TOP);
   const rest = hub.rows.slice(TOP);
+  const leader = hub.rows[0]?.p;
+  const w = PRESETS.balanced.w;
+  const pct = (x) => Math.round(x * 100);
 </script>
 
 <Shell {crumbs} {site}>
   <p class="kicker">{hub.kicker}</p>
   <h1>{hub.title}</h1>
+  {#if site.lastUpdated}<p class="dateline">Updated <time>{site.lastUpdated}</time> · methodology {site.methodVersion}</p>{/if}
 
   <p class="lede">
     {#each hub.parts as part}{#if typeof part === 'string'}{part}{:else}<a href={cityPath(part.key)}>{part.name}</a>{/if}{/each}
@@ -25,6 +30,9 @@
     <a class="btn primary" href={hub.cta.href}>{hub.cta.text}</a>
     <a class="btn ghost" href={BEST_INDEX}>All months and regions</a>
   </div>
+  {#if leader}
+    <p class="trust">Score = weather {pct(w.weather)}% · safety {pct(w.safety)}% · air {pct(w.air)}% · season {pct(w.season)}% · events {pct(w.events)}%, from WMO station normals, CAMS/WHO air data and UN homicide rates. <a href="{cityPath(leader.key)}#sources">Sources</a></p>
+  {/if}
 
   <section aria-labelledby="top">
     <h2 id="top">{rest.length ? `The top ${top.length}` : `All ${hub.n}`}</h2>
@@ -50,6 +58,12 @@
       {/each}
     </ol>
     <p class="small muted">The strip is each city's whole year by Score, with its best month outlined.</p>
+    {#if leader}
+      <div class="ctas end">
+        <a class="btn primary" href={APP_YEAR_URL}>Build a year around {leader.name}</a>
+        <a class="btn ghost" href={hub.cta.href}>{hub.cta.text.replace(/ →$/, '')}</a>
+      </div>
+    {/if}
   </section>
 
   {#if rest.length}
