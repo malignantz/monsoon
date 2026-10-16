@@ -567,8 +567,8 @@ export function buildSite({ detail, now = new Date() }) {
         sameSubject: comparisons.filter((x) => x.pair.subject.key === S.key && x !== o).map((x) => ({ path: x.path, label: x.label })),
         sameAnchor: comparisons.filter((x) => x.pair.anchor.key === A.key && x !== o).map((x) => ({ path: x.path, label: x.label })),
         hubs: hubLinks(pair.subject.region),
-        appCompare: appCompareUrl(S.key, A.key, bm),
-        appCity: appCityUrl(S.key, bm)
+        appCompare: appCompareUrl(S.key, A.key, bm, 'compare'),
+        appCity: appCityUrl(S.key, bm, 'compare')
       };
       const crumbs = [HOME, COMPARE, { name: o.label, href: o.path }];
       const title = compareTitle(pair);

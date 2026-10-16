@@ -1,8 +1,8 @@
 # Monsoon TODO
 
-Last consolidated: 2026-10-03 (after URL state, compare, provenance, Schengen/day-count, sourced climate and air, the derived events calendar and the static SEO pages shipped).
+Last consolidated 2026-10-15 (after the 2026-10-08 site hygiene and agentic-SEO work and the 2026-10-15 polish pass: events, home first screen, static pages in dark mode, the check gate). Earlier: 2026-10-03, after URL state, compare, provenance, Schengen/day-count, sourced climate and air, the derived events calendar and the static SEO pages shipped.
 
-See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring" My year problem, trust/freshness, retention loops, programmatic SEO), its source list and roadmap; its "Status as of 2026-10-03" note says which recommendations have shipped. The items below are the actionable slices.
+See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring" My year problem, trust/freshness, retention loops, programmatic SEO), its source list and roadmap; its "Status as of 2026-10-15" note says which recommendations have shipped. The items below are the actionable slices.
 
 ## Data And Scoring
 
@@ -56,12 +56,21 @@ See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring
 
 - [ ] Share card for a planned year ("My Monsoon Year: avg 89, 6 stays"). City, month and comparison pages have build-time cards now; a year is user state, so it needs a Cloudflare Worker rendering the card from the `?i=` link (the SVG builders in `src/seo/ogCard.js` can be reused).
 - [ ] Watch the comparison pages in Search Console before adding more. Submit `sitemap.xml` (an index; `sitemap-compare.xml` is its own segment) and watch the indexed:submitted ratio for `/compare/` for 2-3 weeks (GROWTH_ENGINE_PLAN §10). Only then loosen the gate in `src/seo/pairing.js` or add per-month pages; if the ratio is low, tighten it. Read the 74 published claims once by hand (`node scripts/seo/pairing-report.mjs`, `tmp/seo/pairs.csv`).
-- [ ] Comparison pages: curated human signal for the strongest pairs (one link or video per city, `data/seo/curations.json`, GROWTH_ENGINE_PLAN §6.4) and funnel analytics (`seo_cta_click`) once analytics is on.
+- [ ] Comparison pages: curated human signal for the strongest pairs (one link or video per city, `data/seo/curations.json`, GROWTH_ENGINE_PLAN §6.4) and funnel analytics, now unblocked: `entry` events carry `?from=` attribution from static pages, and `npm run report:events` (needs `CF_ACCOUNT_ID` and `CF_API_TOKEN`) prints them. There is no `seo_cta_click` event; `entry` replaces it.
 - [ ] Region hubs exist only for regions with 8+ cities. N Europe, E Asia, Africa, Oceania and W Asia get none; consider merged hubs (e.g. "Northern and Western Europe") if those regions grow, and southern-hemisphere seasonal hubs for South America.
 - [x] Label Best Value wins inline on cards when Best Value is the sort (`src/lib/valueWin.js`). Labels are deliberately sparse (about 3-8 of 120 cities a month): a city beaten on both score and cost, or saving under 10%, keeps its usual finding. The table has no finding line, so it shows no label.
-- [ ] Mobile: check whether the first city card is above the fold on This month; the audit asked for it and it has not been verified.
+- [x] Mobile: the first city card is above the fold on This month at 390x664 (verified 2026-10-15, see "Not Yet Seen" below); the home phone first screen is one control row plus a Refine sheet (`src/lib/RefineSheet.svelte`, `src/lib/ThisMonth.svelte`).
 - [ ] Tasteful, value-framed email capture ("Email me my year" / "Email me November's rankings"): passwordless, never a wall; Cloudflare Worker + KV + a transactional email service.
 - [ ] Periodic re-engagement: a monthly "where to be in <next month>" send that doubles as the month page, a win-back about 9-10 months after last activity, data-update nudges. Depends on email capture.
+
+## Garrett's checklist (outside the repo)
+
+- [ ] Before deploying: in the Cloudflare dashboard (Workers & Pages, `monsoon`, Settings, Bindings and Variables) confirm there are no dashboard-only bindings or variables, because `wrangler.toml` now owns them. Confirm Analytics Engine is enabled on the account.
+- [ ] Set `CF_ACCOUNT_ID` and `CF_API_TOKEN` (token: Account Analytics Read) in your shell for `npm run report:events`.
+- [ ] Deploy with `npm run deploy`, then run `npm run check:live`.
+- [ ] Google Search Console: add a Domain property for `monsoon.fyi` (DNS TXT) and submit `https://monsoon.fyi/sitemap.xml`.
+- [ ] Bing Webmaster Tools: Import from Google Search Console.
+- [ ] Set reminders for +14 and +21 days after submission: read Pages indexed vs submitted for `sitemap-compare.xml` (the gate for loosening `src/seo/pairing.js`) and run `npm run report:events -- --days 28`.
 
 ## Performance
 
@@ -81,8 +90,8 @@ See `UX_RESEARCH_AUDIT.md` for the research-backed audit (usability, the "boring
 - [x] Currency option: Settings → Currency (USD, EUR, GBP, CAD, AUD), stored in `atlas.settings.v1`; defaults from the first browser language's region (see README). Display only, through `fmtMoney`, at checked-in ECB rates (`src/lib/fxRates.json`, refresh with `npm run update:fx`) with the date shown in Settings, the sheet's cost panel and Copy as text. Best Value and scores stay USD; static pages stay USD.
   - [ ] Refresh the rate table now and then (`npm run update:fx`); nothing reminds anyone today. Converted Max cost filter options read as uneven amounts (e.g. €1,639) because the caps are USD steps.
 - [x] Dark mode: Settings → Appearance (System / Light / Dark), stored as `theme` in `atlas.settings.v1`; dark tokens in `src/app.css` under `@media screen` (print stays light), set before paint by `index.html`, kept live by `src/lib/theme.js`. Contrast ratios in README → Brand And UI.
-  - [ ] Static pages stay light (they lift only the light `:root` block). Adding a `prefers-color-scheme` copy of the dark tokens to `src/seo/styles.js` is cheap once the SEO work settles; its one literal (`.btn.primary:hover` white text) would need a token.
-  - [ ] The light theme's "good" and "ok" band fills are under 3:1 against paper (1.93) and equal in lightness to each other; the skyline heights carry it. Worth a deliberate look if the bands are ever retuned.
+  - [x] Static pages follow `prefers-color-scheme: dark` (dark tokens lifted at build time into `src/seo/styles.js`, screen only, no script; print stays light). Shipped 2026-10-15.
+  - [x] Light "good" and "ok" band cells and swatches have a 1px inner edge (`--band-good-edge`, `--band-ok-edge` in `src/app.css`, 3:1 against paper; transparent in dark). The fills themselves are unchanged and still under 3:1 (1.93); the edge carries the contrast.
 
 ## Not Yet Seen In A Real Browser
 
@@ -94,12 +103,24 @@ Ticked items were verified in a real browser on 2026-10-03 (rotation by viewport
 - [x] Phone rotation with the My year mobile picker open: the picker closes and the page scroll lock releases.
 - [x] "Tight" Schengen wording on a real route (1-2 days over, e.g. three consecutive 31-day months plus a shoulder stay).
 - [x] Compare mode on a phone (checkbox strips, tray over the toast, Back closing the comparison).
-- [ ] Dark mode on every surface (This month cards and table, city sheet, comparison, My year board, picker and mobile picker, Settings, About, How-to, Methodology, toasts): nothing reads as a light-mode leftover, band labels and the hazard hatch stay legible, focus rings show, the Settings switch knob reads off and on, and opacity-dimmed ghost or disabled text (My year ghost year and duration buttons, This month icons, the compare checkbox when off) is still readable. Then: no flash on reload in dark (System and forced Dark), System following an OS switch live, Print from dark gives the light page, the iOS status bar colour (theme-color).
-- [ ] Currency: switch to each of EUR/GBP/CAD/AUD and check cards, table, sheet (total, breakdown, line items, the conversion note), comparison, My year totals and rail, Max cost filters, Copy as text (note line at the end); the five-code control fits a 320px phone.
-- [ ] Card "+ Year": hover reveal, alignment on the meta row, tag wrapping on a narrow Schengen card with a hazard tag, always-on pill on touch; table "+" does not open the sheet; both show the add toast.
-- [ ] Best Value win labels read well and truncate cleanly to one line.
-- [ ] My year picker-row why lines (desktop and the mobile sheet).
-- [ ] Fill the open months: ghost suggestions on the desktop board (no `+` under them) and in the mobile list, anchor selects (disabled planned months, wrap at 375px), unmet note, "Why these picks", Add → Undo / Keep banner and focus, Cancel focus, print preview while filling.
+- [x] Dark mode on every surface (This month cards and table, city sheet, comparison, My year board, picker and mobile picker, Settings, About, How-to, Methodology, toasts): nothing reads as a light-mode leftover, band labels and the hazard hatch stay legible, focus rings show, the Settings switch knob reads off and on, and opacity-dimmed ghost or disabled text (My year ghost year and duration buttons, This month icons, the compare checkbox when off) is still readable. Then: no flash on reload in dark (System and forced Dark), System following an OS switch live, Print from dark gives the light page, the iOS status bar colour (theme-color).
+  - Verified 2026-10-15, Playwright/Chrome, viewport emulation (1280 and 390): This month cards and table, city sheet, comparison, My year board, desktop picker, mobile picker and fill panel, Settings, How it works, About, Methodology, the Refine sheet, the toast and compare tray: no light-mode leftovers, no overflow (`scrollWidth <= innerWidth` on every shot). Screenshots (scratchpad `monsoon/verify/`): `dark-{month-cards,month-table,sheet,compare,year,year-fill,settings,howto,about,method}-{desk,phone}-dark.png`, `refine-sheet-390-dark.png`, `pickerwhy-mobile-dark.png`; static pages `static-{best-month,city,cities,compare-index,best-index}-{desk,phone}-dark.png`.
+  - Also verified: forced Dark and System-dark both paint `rgb(25, 27, 22)` on `<html>` at DOMContentLoaded after a reload (no flash); System follows an emulated OS scheme change live (light, dark, light); print from dark gives the light page (`print-from-dark-desk.png`); the `theme-color` meta is `#191b16` in dark and `#f6f1e6` in light.
+  - Wave 1 checks, same date and method: M2 fold at 390x664 shows the "Oct." heading, the answer line, the one control row and the whole first card (top 387px, bottom 567px) with no overflow, in light and dark (`m2-fold-390x664-{light,dark}.png`, `refine-sheet-390-{light,dark}.png`). M3 static pages follow `prefers-color-scheme: dark` (body `rgb(25, 27, 22)`) on `/best/where-to-be-in-october/`, `/city/lisbon/`, `/cities/`, `/compare/` and `/best/` at 1280 and 390 with no overflow, and keep the light page in light (`static-*-dark.png`, `static-best-month-desk-light.png`). M4's 1px edge on good and ok cells is present in light (`rgb(183, 126, 27)` inset on the static page's ok cell) and transparent in dark (`m4-edge-desk-{light,dark}.png`).
+  - Not verified headless: how iOS Safari actually tints the status bar (only the meta value is checked), real-device focus rings and the hazard hatch at 1x on a phone, and a real OS theme switch. The Settings control is a segmented control, so there is no switch knob to inspect.
+- [x] Currency: switch to each of EUR/GBP/CAD/AUD and check cards, table, sheet (total, breakdown, line items, the conversion note), comparison, My year totals and rail, Max cost filters, Copy as text (note line at the end); the five-code control fits a 320px phone.
+  - Verified 2026-10-15, Playwright/Chrome, viewport emulation (1280, and 320 for the control): EUR (€), GBP (£), CAD (CA$) and AUD (A$) show no bare `$` amount on cards, table, sheet, comparison or My year; the sheet's rent line and conversion note ("Costs in EUR are converted from US dollars at ECB reference rates of 2 Oct 2026, so they are estimates."), the Refine Max cost options (e.g. €1,336 / €1,782 / €2,227) and the Copy as text note line all follow the currency. The five-code control is 228px wide inside a 320px viewport in light and dark, no overflow. Screenshots: `currency-{EUR,GBP,CAD,AUD}-{cards,table,sheet,year}-desk-light.png`, `currency-{EUR,CAD}-sheet-cost-desk-light.png`, `currency-{EUR,AUD}-refine-desk-light.png`, `currency-control-320-{light,dark}.png`.
+- [x] Card "+ Year": hover reveal, alignment on the meta row, tag wrapping on a narrow Schengen card with a hazard tag, always-on pill on touch; table "+" does not open the sheet; both show the add toast.
+  - Verified 2026-10-15, Playwright/Chrome, viewport emulation (1280 mouse; 390 and 320 touch): the pill is opacity 0 at rest and 1 on hover on desktop, vertically centred on the cost (585 vs 584 px), and always on (opacity 1 on all 48 cards) on touch. Card "+ Year" and table "+" each show the toast ("Added Busan to Oct–Nov", "Added San Miguel de Allende to Dec · Oct was taken") and open no sheet. No tag or cost overlaps the pill on any of 48 cards at 390 or 320. Screenshots: `plusyear-desk-light-hover-m5.png`, `plusyear-desk-light-toast-m5.png`, `plusyear-table-desk-light-m5.png`, `plusyear-schengen-hazard-{320,390}-light-m5.png`.
+  - 2026-10-15 defect, fixed (CSS only, `src/lib/CityCard.svelte`): on a 320px phone a Schengen card with a hazard tag let the tags run under the "+ Year" pill. Tags are now `white-space: nowrap` and tighter under 340px; they wrap above the pill instead (`plusyear-schengen-hazard-320-light-m5.png`).
+- [x] Best Value win labels read well and truncate cleanly to one line.
+  - Verified 2026-10-15, Playwright/Chrome, viewport emulation (1280 light, 390 dark and light, 320): Oct has four labelled cities ("16% cheaper than Antalya for the same score" through "21% cheaper than Dumaguete for nearly the same score"); each is one line (22px, line-clamp 1) and the long ones end in an ellipsis at 320 ("21% cheaper than Dumaguete for nearly t…"). Screenshots: `bestvalue-label-{320-light,390-dark,1280-light}.png`, `bestvalue-label-long-{320-light,390-dark,1280-light}.png`, `bestvalue-{desk1280,phone390,narrow320}-*.png`. At 320 the "for nearly the same score" tail is the part that is cut; the percentage and the reference city stay visible.
+- [x] My year picker-row why lines (desktop and the mobile sheet).
+  - Verified 2026-10-15, Playwright/Chrome, viewport emulation (1280, 390 light and dark): 30 rows carry a why line, e.g. "Semana Santa in Mar · $690/mo cheaper than your Lisbon stay · great all Mar–Apr"; on the phone sheet they sit under the strip at two lines with a trailing ellipsis and no overflow. Screenshots: `pickerwhy-desk-light.png`, `pickerwhy-mobile-{light,dark}.png`.
+- [x] Fill the open months: ghost suggestions on the desktop board (no `+` under them) and in the mobile list, anchor selects (disabled planned months, wrap at 375px), unmet note, "Why these picks", Add → Undo / Keep banner and focus, Cancel focus, print preview while filling.
+  - Verified 2026-10-15, Playwright/Chrome, viewport emulation (1280; 375 light and dark; 320 for the anchor row): ghost stays on the desktop board (3, no `+` buttons under them) and ghost rows in the mobile list (3, no "Add a city"); focus lands on "Fill your open months."; anchor Month options disable the planned months (Jan, Feb, May, Jun, Sep) and the anchor row stays inside 375 and 320 (it wraps); "N America in Mar" gives "No city in N America fits Mar with this style and the Schengen and 183-day limits." plus "1 month stays open: nothing else fits."; "Why these picks" opens; Add 3 stays gives the "Filled your open months" banner with focus on Undo (3 stays to 6), Undo returns to 3, and Cancel returns focus to the "Fill the open months" button. Screenshots: `fill-desk-light.png`, `fill-desk-anchor-light.png`, `fill-desk-why-light.png`, `fill-desk-added-light.png`, `fill-{375-light,375-dark,320-light}.png`, `fill-375-full-light.png`.
+  - 2026-10-15 defect, fixed (CSS only, `src/lib/MyYear.svelte` print block): printing while filling hid the suggested stays but still printed the stats row ("WITH SUGGESTIONS", avg score and 12-month total counting them), which disagreed with the printed stay list (`fill-desk-print.png`). The ghost stats are now hidden in print (`fill-desk-print-fixed.png`).
+  - 2026-10-15 note: after Undo on the fill banner, focus falls back to the "My year." heading rather than the "Fill the open months" button; harmless, left as is.
 
 ## UI Polish
 
@@ -108,6 +129,24 @@ Ticked items were verified in a real browser on 2026-10-03 (rotation by viewport
   - Any future coaching should be contextual, dismissible, and tied to a relevant action.
 
 ## Done Or Consumed
+
+Shipped 2026-10-15 (polish pass, merged on `polish/2026-10`):
+
+- [x] First-party event sink: `POST /api/e` (`functions/api/e.js`) writes to Analytics Engine dataset `monsoon_events` (bound in `wrangler.toml`); `track()` in `src/lib/analytics.js`; allowlist checked by `npm run test:events`; read with `npm run report:events [days]`. Cookie-free, off in dev and under Global Privacy Control, with a privacy line in the footer. Plausible/PostHog branches removed.
+- [x] `entry` events: a static-page link to the app carries `?from=<page-type>` (`src/seo/derive.js`, `ENTRY_FROM` in `src/lib/analytics.js`); `App.svelte` sends one `entry` event with the surface. The month page's end-of-list ghost link carries `from=best-month` too.
+- [x] Home first screen on phones: one control row and a Refine sheet (`src/lib/RefineSheet.svelte`); the first card is above the fold at 390x664.
+- [x] Static pages: dark mode, end-of-list "Build a year" CTA, a trust line and a dateline on month and region pages (`src/seo/MonthPage.svelte`, `RegionPage.svelte`, `styles.js`).
+- [x] Band edge tokens for the light good/ok cells (`src/app.css`).
+- [x] `npm run check:live` (`scripts/seo/check-live.mjs`): read-only probe of production or a preview (`--base`): sitemap URLs return 200 HTML with matching canonical and no noindex, `www` 301s to the apex, `/llms.txt` and `/llms-full.txt` exist.
+- [x] `npm run check` (tests, `check:seeds`, `check:ids`) and `npm run check:build` (build plus `check:seo`); `scripts/deploy.sh` runs `check` first (`SKIP_CHECKS=1` skips it) and `check:seo` after the build, and aborts on failure.
+- [x] `.github/workflows/check.yml` runs `check` and `check:build` on pull requests and pushes to main. It is a separate commit (114a665) and reverses the README's old "no CI" stance; drop it if Garrett wants GitHub out of the loop.
+- [x] Real-browser verification of the Not Yet Seen checklist, with two CSS fixes (below).
+
+Shipped 2026-10-08 (site hygiene, agentic SEO, Best Value):
+
+- [x] Real 404 page (`public/404.html`), favicon set and web manifest (`public/favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `site.webmanifest`), Pages `public/_headers` (HSTS, nosniff, frame and referrer policy) and `public/_redirects` (`www` to apex 301, effective once www is attached to the Pages project), and `WebSite`/`Organization`/`WebApplication` JSON-LD on the home page (`index.html`).
+- [x] `llms-full.txt` (full text of all static pages, written by `scripts/seo/build-seo.mjs`) and explicit allows for AI crawlers in `public/robots.txt` (GPTBot, ClaudeBot, PerplexityBot and others).
+- [x] Best Value cost weight: the default exponent is 0.10 (`DEFAULT_COST_WEIGHT` in `src/lib/data.svelte.js`) and a "How much cost counts" dial (`src/lib/CostWeight.svelte`, `cw` in the URL via `src/lib/urlState.js`) lets the user change it.
 
 Shipped 2026-10-03 (growth pages):
 

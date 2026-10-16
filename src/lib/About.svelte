@@ -66,6 +66,7 @@
     </section>
 
     <footer class="foot">
+      <p class="disclaim">Monsoon counts anonymous page views (Cloudflare Web Analytics) and a few in-app actions, such as adding a city to your year, to learn what helps. No cookies, no IDs, nothing personal, and nothing leaves your browser if Global Privacy Control is on.</p>
       <p class="disclaim">Use it as a planning signal, then re-check visas, advisories, and local
         conditions before you book.</p>
       <button type="button" class="cta" onclick={onclose}>Back to the atlas</button>

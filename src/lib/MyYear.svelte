@@ -1516,6 +1516,10 @@
 
     /* Suggestions that are still being weighed are not part of the year. */
     .board.fill .stay.ghost { display: none !important; }
+    /* ...and neither are the totals that count them (they would disagree with
+       the printed stay list). */
+    .totals.ghost,
+    .mstats.ghost { display: none !important; }
 
     .stay,
     .ovcell {
