@@ -39,6 +39,7 @@ export function documentHtml({ path, title, description, ogType = 'website', jso
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script defer src="https://stats.meseeks.xyz/kit.js" data-website-id="8bb031ec-615a-45cf-abb7-362db4d20367"></script>
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${esc(url)}">
