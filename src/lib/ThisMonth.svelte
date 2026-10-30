@@ -237,10 +237,22 @@
   });
 </script>
 
+<!-- Month labels hold the width of the widest month, so the picker beside the
+     headline and the pills after the selected one never shift when the month
+     changes. Every month name sits in one grid cell; only the current one shows. -->
+{#snippet fixedWidth(label, dot = false)}
+  <span class="fixw">
+    {#each MONTHS as m}
+      <span class="fixw-ghost" aria-hidden="true">{m}{#if dot}<span class="dot">.</span>{/if}</span>
+    {/each}
+    <span class="fixw-label">{label}{#if dot}<span class="dot">.</span>{/if}</span>
+  </span>
+{/snippet}
+
 <section>
   <div class="stickbar" class:show={stuck} aria-hidden={!stuck}>
     <div class="stickbar-inner">
-      <span class="stick-now">{MONTHS[month]}</span>
+      <span class="stick-now">{@render fixedWidth(MONTHS[month])}</span>
       <div class="monthsel compact" role="group" aria-label="Choose month">
         {#each MONTH_LETTERS as l, i}
           <button
@@ -254,7 +266,7 @@
             tabindex={stuck ? 0 : -1}
             onclick={() => (month = i)}
           >
-            {i === month ? MONTHS[i] : l}
+            {#if i === month}{@render fixedWidth(MONTHS[i])}{:else}{l}{/if}
           </button>
         {/each}
       </div>
@@ -288,7 +300,7 @@
   <header class="view-head">
     <p class="kicker">Where should I be in</p>
     <div class="title-row">
-      <h1>{MONTHS[month]}<span class="dot">.</span></h1>
+      <h1>{@render fixedWidth(MONTHS[month], true)}</h1>
       <div class="monthsel" role="group" aria-label="Choose month">
         {#each MONTH_LETTERS as l, i}
           <button
@@ -301,7 +313,7 @@
             aria-pressed={i === month}
             onclick={() => (month = i)}
           >
-            {i === month ? MONTHS[i] : l}
+            {#if i === month}{@render fixedWidth(MONTHS[i])}{:else}{l}{/if}
           </button>
         {/each}
       </div>
@@ -738,6 +750,15 @@
     gap: 8px 18px;
     margin-top: 6px;
   }
+
+  .fixw {
+    display: inline-grid;
+    justify-items: start;
+  }
+
+  .fixw > * { grid-area: 1 / 1; }
+  .fixw-ghost { visibility: hidden; }
+  .mbtn .fixw { justify-items: center; }
 
   /* The month picker sits flush under the headline word — title and control
      read as one object. The big word is the current selection. */
