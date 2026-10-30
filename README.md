@@ -20,6 +20,8 @@ The product scores 121 cities month by month across weather, air quality, safety
 
 The month strip is the signature primitive: 12 cells, one per month, colored by Score band. It appears on browse cards, city sheets, and route-picking rows.
 
+The month picker on This month (and its compact copy in the sticky bar) keeps the same width and position whatever month is chosen: the headline month, the selected pill and the sticky label each reserve the width of the widest month name (`fixedWidth` in `src/lib/ThisMonth.svelte`), so changing month only swaps two cells.
+
 Browse and share state lives in the query string (`src/lib/urlState.js`): `view=year`, `m=<month>`, `sort=value`, `layout=table`, `region=<slugs>`, `city=<key>`, `compare=<a>,<b>[,<c>]`. Defaults emit no params. City and compare links also pin `m`. Itinerary share links use `?i=<base64url>` (frozen city IDs), with `n=` for the trip name and `?route=` as a readable fallback; other params (utm_*, etc.) pass through untouched.
 
 ## Brand And UI
