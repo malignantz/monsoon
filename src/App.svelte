@@ -714,6 +714,7 @@
       <span aria-hidden="true">·</span>
       <button type="button" class="num footlink" data-prefetch="method" onclick={() => (methodOpen = true)}>methodology · 2026</button>
     </span>
+    <span class="credit">Made with <span role="img" aria-label="love">❤️</span> by <a href="https://garrettholmes.com/?utm_source=monsoon.fyi&amp;utm_medium=referral&amp;utm_campaign=footer">Garrett</a></span>
   </footer>
   {#if trayVisible}<div class="trayspace" aria-hidden="true"></div>{/if}
 </div>
@@ -960,14 +961,30 @@
 
   .basefoot {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    gap: 24px;
+    gap: 10px 24px;
     border-top: 1px solid var(--line);
     padding: 16px 0 28px;
     font-family: var(--display);
     font-style: italic;
     font-size: 13px;
     color: var(--ink-3);
+  }
+
+  /* Maker credit: its own line under the tagline and links. The UTM tags let
+     garrettholmes.com's analytics attribute the visit to Monsoon. */
+  .basefoot > span:first-child {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .basefoot .credit {
+    flex-basis: 100%;
+  }
+
+  .basefoot .credit a {
+    color: var(--ink-2);
   }
 
   .basefoot .num {
@@ -1009,6 +1026,8 @@
       flex-direction: column;
       gap: 8px;
     }
+
+    .basefoot > span:first-child { flex: none; }
 
     .footlinks {
       align-self: flex-start;
