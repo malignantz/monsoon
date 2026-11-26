@@ -11,7 +11,10 @@
 //                        written with sort=value and a non-default weight, and
 //                        absent means the default
 //   layout=table         table density (cards is the default)
-//   region=se-asia,latam region filter, slugged and comma-joined
+//   region=se-asia,latam and the other filter keys (fav, b, score, swim, hi,
+//                        rain, air, safety, ns): This month's filters, owned by
+//                        the registry in filters.svelte.js, which writes and
+//                        reads them (defaults omitted). Search text never rides.
 //   city=<key>           open city sheet (pre-existing, unchanged)
 //   compare=lisbon,porto open the comparison (2–3 city keys, comma-joined, in
 //                        the order picked); like `city`, it pins `m` so a shared
@@ -20,10 +23,11 @@
 //
 // Everything else in the query (`i`, `route`, `n`, utm_*, …) is passed through
 // untouched, so shared-route and campaign links keep working.
-import { MONTHS, slug, snapCostWeight, DEFAULT_COST_WEIGHT } from './data.svelte.js';
+import { MONTHS, snapCostWeight, DEFAULT_COST_WEIGHT } from './data.svelte.js';
+import { FILTER_KEYS, filtersFromQuery, writeFiltersToQuery, filterCtx } from './filters.svelte.js';
 
 const MONTH_PARAMS = MONTHS.map((m) => m.toLowerCase());
-const OWNED = ['view', 'm', 'sort', 'cw', 'layout', 'region', 'city', 'compare'];
+const OWNED = ['view', 'm', 'sort', 'cw', 'layout', 'city', 'compare', ...FILTER_KEYS];
 
 export function parseMonth(v) {
   if (v == null || v === '') return null;
@@ -37,21 +41,22 @@ export const monthParam = (i) => MONTH_PARAMS[i];
 
 // Read the owned params. Each field is null when absent so callers can fall
 // back to saved prefs / defaults field by field.
-export function readUrlState(search = location.search, regionList = []) {
+export function readUrlState(search = location.search) {
   const q = new URLSearchParams(search);
   const view = q.get('view');
   const sort = q.get('sort');
   const layout = q.get('layout');
   const cw = q.has('cw') ? Number(q.get('cw')) : Number.NaN;
-  const regionSlugs = (q.get('region') ?? '').split(',').filter(Boolean);
-  const bySlug = new Map(regionList.map((r) => [slug(r), r]));
   return {
     view: view === 'year' || view === 'month' ? view : null,
     month: parseMonth(q.get('m')),
     mode: sort === 'value' || sort === 'score' ? (sort === 'value' ? 'value' : 'quality') : null,
     costWeight: Number.isFinite(cw) && cw > 0 && cw <= 1 ? snapCostWeight(cw) : null,
     density: layout === 'table' || layout === 'cards' ? layout : null,
-    regions: q.has('region') ? regionSlugs.map((s) => bySlug.get(s)).filter(Boolean) : null,
+    // Only the filters the link sets ({id: value}), or null when it sets none.
+    // Party, currency and units come from this visitor's Settings, so a budget
+    // or temperature cap is re-snapped onto their own steps.
+    filters: filtersFromQuery(q, filterCtx(0, 'balanced')),
     city: q.get('city') || null,
     // Raw keys (unvalidated, possibly stale spellings); App canonicalises them
     // against the bundle and decides whether there are enough to open.
@@ -76,8 +81,7 @@ export function buildUrl(state, { defaultView = 'month', currentMonth, search = 
       if (Number.isFinite(state.costWeight) && state.costWeight !== DEFAULT_COST_WEIGHT) q.set('cw', String(state.costWeight));
     }
     if (state.density === 'table') q.set('layout', 'table');
-    const regions = [...(state.regions ?? [])]; // Set or array
-    if (regions.length) q.set('region', regions.map(slug).sort().join(','));
+    writeFiltersToQuery(q, state.filters, filterCtx(state.month, 'balanced'));
   }
   const qs = q.toString().replace(/%2C/gi, ',');
   return location.pathname + (qs ? `?${qs}` : '') + location.hash;

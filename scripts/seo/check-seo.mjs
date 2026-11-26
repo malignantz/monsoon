@@ -64,7 +64,7 @@ function walk(dir, acc = []) {
 
 const decode = (s) => s.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
 
-// Same slugging as slug() in src/lib/data.svelte.js, which urlState.js uses for region=.
+// Same slugging as slug() in src/lib/data.svelte.js, which the filter registry (src/lib/filters.svelte.js) uses for region=.
 const slug = (name) =>
   name
     .toLowerCase()
