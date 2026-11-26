@@ -101,9 +101,19 @@ Subtract 15 if no cited quote is `verified` or `verified-archive`. **High** is 7
 
 ## Recommended order
 
-**Phase 1, weeks 1 to 4: cheap and honest.** Proposal 1 as a scheduled check, proposal 2's rule applied to existing data, the 12-month stale flag, the WHO licence decision, and "estimated" labelling.
-**Phase 2, months 2 to 3: measure.** The basket, tier 1 rent for 30 cities, and a 20-city double-collection pilot.
-**Phase 3, months 4 to 6: validate.** Benchmarks and the reader form, the remaining cities, couple multipliers, crime and seasonality fixes, CPI roll-forward.
+The verification run changes the order. Only 14% of old quotes can be re-found, mostly because aggregator pages change monthly and nothing was saved when the quote was written. Repairing old quotes one by one would mean re-finding pages that no longer say what they said. It is cheaper and more honest to stop the leak and then re-collect.
+
+**Phase 1, now: stop the leak and measure rent.**
+- Snapshot at collection time (built 2026-11-26): `scripts/collect_evidence.py snapshot` refuses a quote that is not on the page, archives the page by hash outside git, and writes a small record to `data/evidence-snapshots/`. `npm run check` fails any evidence row dated 2026-11-26 or later without one. Usage: `docs/adding-a-city.md`.
+- Measured rent (proposal 3), the largest component. A 5-city trial ran on 2026-11-26: `docs/research/2026-11-26-rent-sampling-trial.md`. Roll it out on the definition and sample size that report recommends.
+- Keep proposal 1 (verification) as a monthly check on the new rows, and label the 36 "estimated" components and 12-month-stale ones as such.
+- Decide the WHO air-quality licence question; it is a legal decision, not a data one, and does not wait on the rest.
+
+**Phase 2: re-collect, do not repair.** For the 78 cities with no verifiable row, re-collect the other seven components under the new rules (snapshot per row, primary sources first: official fares, operator price pages, coworking price pages), rather than chasing old quotes. Store every source per component and apply proposal 2 (ranges and rule-based confidence) as each city is re-collected. Then do the 49 cities that have at least one verified row. The fixed basket (proposal 4) defines what is priced.
+
+**Phase 3: validate.** Blind double collection on a 20-city pilot (proposal 5), benchmarks and the reader form (proposal 6), freshness timers and CPI roll-forward (proposal 7).
+
+**Phase 4: the rest.** Unsourced inputs (proposal 8): property crime and tourist modifier, couple multipliers, seasonality for the 27 flat cities, and the WHO data replacement.
 
 ## What we will say publicly
 
