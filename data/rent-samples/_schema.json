@@ -1,0 +1,57 @@
+{
+  "_doc": "Measured rent samples, one file per city: data/rent-samples/<slug>.json. A trial started 2026-11-26 (docs/research/2026-11-26-rent-sampling-trial.md). These files do NOT feed the build; shipped rent still comes from data/cost-evidence/<slug>.json. scripts/summarize_rent_samples.py computes every `usd` and `summary` from the listings, and `--check` (part of npm run check) fails if a stored value differs or a listing lacks a snapshot whose excerpt contains its quote.",
+
+  "city": "Exact city name as in travel-data.json.",
+  "slug": "repo slug (scripts/city_inputs.py slug()).",
+  "collectedOn": "YYYY-MM-DD, the day the listings were seen.",
+  "storedRentUsd": "data/cost-evidence/<slug>.json components.rent.usd at collection time, copied for comparison only.",
+
+  "searchDefinition": {
+    "_doc": "Written before collecting and identical across cities (id furnished-1br-midterm-v1). Per-city parts are the neighbourhoods and portal filters actually used.",
+    "id": "furnished-1br-midterm-v1",
+    "unit": "whole furnished unit (no shared rooms, no hotel rooms), studio or 1 bedroom",
+    "sizeM2": [30, 60],
+    "stay": "available for a 1-3 month stay starting within ~2 months",
+    "neighbourhoods": ["2-4 named areas where slow travellers stay, chosen before looking at prices"],
+    "markets": {
+      "longTermLocal": "local long-term rental portal: what a resident pays (asking price, usually 12-month lease or open-ended)",
+      "midTermFurnished": "platforms a traveller would book for 1-3 months (Flatio, Spotahome, Uniplaces, HousingAnywhere, local serviced-apartment portals): the monthly price for a ~1-2 month stay"
+    },
+    "order": "listings taken in the order the portal shows them under the stated neutral sort; none skipped except by the exclusion rules"
+  },
+
+  "fx": {
+    "<CUR>": {"perUSD": 0.0, "source": "open.er-api.com/v6/latest/USD (the feed the cost-evidence store cites)", "date": "YYYY-MM-DD"}
+  },
+
+  "markets": {
+    "longTermLocal | midTermFurnished": {
+      "portals": [{"portal": "domain", "searchUrl": "", "sort": "the neutral sort used, e.g. portal default / newest", "filters": "", "note": ""}],
+      "listings": [
+        {
+          "id": "short stable id, e.g. portal listing id",
+          "portal": "domain",
+          "url": "listing URL (or results page URL if listings have no stable URL)",
+          "priceLocal": 0,
+          "currency": "ISO code as shown",
+          "priceBasis": "per month as shown | per month for a stated stay length",
+          "includes": "what the shown price includes: utilities / internet / service fee / deposit not included ... or 'not stated'",
+          "sizeM2": 0,
+          "bedrooms": "0 = studio, 1 = one bedroom",
+          "neighbourhood": "",
+          "furnished": true,
+          "minStay": "as stated, or null",
+          "seenOn": "YYYY-MM-DD",
+          "quote": "verbatim card/listing text (>= 25 letters) holding the price",
+          "snapshot": "<slug>/rent-<sha12>.json under data/evidence-snapshots/",
+          "exclude": "OPTIONAL manual reason: duplicate of <id> | wrong type | outside size band ...",
+          "usd": "computed"
+        }
+      ],
+      "summary": "computed: listingsSeen, n, medianUsd, p25Usd, p75Usd, minUsd, maxUsd, storedRentUsd, diffVsStoredPct, exclusions[] (manual first, then outliers beyond 1.5xIQR fences, computed once)"
+    }
+  },
+
+  "portalsTried": [{"portal": "domain", "market": "", "outcome": "used | blocked | terms forbid automated access | robots.txt disallows | too few results", "note": ""}],
+  "effort": {"wallClockMinutes": 0, "pageViews": 0, "note": ""}
+}

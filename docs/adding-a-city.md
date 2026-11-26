@@ -106,6 +106,12 @@ python3 scripts/collect_evidence.py snapshot --city lisbon --component rent \
   the row `YYYY-MM-DD`. `python3 scripts/build_costs.py check` (part of `npm run check`)
   fails for any row dated 2026-11-26 or later whose snapshot is missing or does not contain
   its quote. Older rows are grandfathered.
+- Listing pages: `collect_evidence.py fetch --browser --url … --text-out page.txt` saves the
+  page once and prints its sha256; read the listings from the text, then
+  `snapshot --from-archive <sha256> --quote … --quote …` records them without a second page
+  view. Measured rent samples live in `data/rent-samples/<slug>.json`
+  (`scripts/summarize_rent_samples.py` computes the summaries; method in
+  `docs/research/2026-11-26-rent-sampling-trial.md`).
 - Do not use a portal whose terms or robots.txt forbid automated access; record by hand
   from a normal browser session instead and keep a screenshot.
 

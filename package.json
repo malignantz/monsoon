@@ -21,7 +21,7 @@
     "check": "npm run test:schengen && npm run test:daycount && npm run test:currency && npm run test:events && npm run check:seeds && npm run check:ids && npm run check:evidence",
     "check:build": "bash scripts/build.sh && npm run check:seo",
     "deploy": "bash scripts/deploy.sh",
-    "check:evidence": "python3 scripts/build_costs.py check && python3 scripts/collect_evidence.py check"
+    "check:evidence": "python3 scripts/build_costs.py check && python3 scripts/collect_evidence.py check && python3 scripts/summarize_rent_samples.py --check"
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",

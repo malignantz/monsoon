@@ -26,6 +26,15 @@ Archive's availability API for a capture within 7 days and, if none exists,
 requests one through Save Page Now (at most one request per 10 s, enforced
 across runs). The resulting archiveUrl is stored in the record.
 
+Two-step use for listing pages (one page view instead of two):
+
+  scripts/collect_evidence.py fetch --url URL [--browser]   # archive body + meta, print text
+  scripts/collect_evidence.py snapshot --from-archive SHA256 --quote ... --city ... 
+
+`fetch` stores <sha256>.html.gz plus <sha256>.meta.json (url, fetchedAt, status)
+in the archive; `snapshot --from-archive` matches quotes against that stored body
+(re-hashed to confirm it is unchanged) and records the original fetch time.
+
   scripts/collect_evidence.py check   # every record's excerpts still contain their quotes
 """
 import argparse, datetime as dt, gzip, hashlib, json, os, re, subprocess, sys, time
@@ -90,10 +99,10 @@ def fetch_http(url):
             "finalUrl": r["final"], "error": r["error"], "mode": "http"}
 
 
-def fetch_browser(url, wait_ms, scrolls):
+def fetch_browser(url, wait_ms, scrolls, idle=True):
     ve.LIMITER.wait(ve.dom_key(url))
     cmd = ["node", os.path.join(ROOT, "scripts", "render_page.mjs"), url,
-           "--wait", str(wait_ms), "--scroll", str(scrolls)]
+           "--wait", str(wait_ms), "--scroll", str(scrolls)] + (["--idle"] if idle else [])
     try:
         p = subprocess.run(cmd, capture_output=True, timeout=180)
     except subprocess.TimeoutExpired:
@@ -154,6 +163,47 @@ def wayback_copy(url, archive_dir):
 
 
 # ---------------------------------------------------------------- snapshot
+def now_utc():
+    return dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def archive_body(r, url, archive_dir):
+    sha = hashlib.sha256(r["body"]).hexdigest()
+    os.makedirs(archive_dir, exist_ok=True)
+    body_path = os.path.join(archive_dir, sha + ".html.gz")
+    if not os.path.exists(body_path):
+        with gzip.open(body_path, "wb") as f:
+            f.write(r["body"])
+    return sha
+
+
+def fetch_only(args):
+    r = fetch_browser(args.url, args.wait, args.scroll) if args.browser else fetch_http(args.url)
+    r["fetchedAt"] = now_utc()
+    if r["httpStatus"] is None:
+        sys.exit(f"could not fetch {args.url}: {r['error']}")
+    sha = archive_body(r, args.url, args.archive_dir)
+    meta = {k: r[k] for k in ("httpStatus", "contentType", "finalUrl", "mode", "fetchedAt")}
+    meta["url"] = args.url
+    json.dump(meta, open(os.path.join(args.archive_dir, sha + ".meta.json"), "w"))
+    vis, js, _ = ve.extract(r["body"], r["contentType"])
+    if args.text_out:
+        open(args.text_out, "w").write(re.sub(r"\s+", " ", vis))
+    print(json.dumps({"sha256": sha, "httpStatus": r["httpStatus"], "finalUrl": r["finalUrl"], "textChars": len(vis)}))
+
+
+def load_archived(sha, archive_dir):
+    mp = os.path.join(archive_dir, sha + ".meta.json")
+    bp = os.path.join(archive_dir, sha + ".html.gz")
+    if not (os.path.exists(mp) and os.path.exists(bp)):
+        sys.exit(f"REFUSED: {sha} is not in {archive_dir} (fetch it with `collect_evidence.py fetch` first)")
+    body = gzip.open(bp).read()
+    if hashlib.sha256(body).hexdigest() != sha:
+        sys.exit(f"REFUSED: archived body {sha} does not match its hash")
+    m = json.load(open(mp))
+    return {**m, "body": body, "error": None}
+
+
 def snapshot(args):
     if args.component not in COMPONENTS:
         sys.exit(f"--component must be one of {sorted(COMPONENTS)}")
@@ -163,7 +213,14 @@ def snapshot(args):
         if ve.is_short(q):
             sys.exit(f"REFUSED: quote too short to prove anything (under {ve.SHORT} letters): {q!r}. "
                      "Quote more of the surrounding text.")
-    r = fetch_browser(args.url, args.wait, args.scroll) if args.browser else fetch_http(args.url)
+    if args.from_archive:
+        r = load_archived(args.from_archive, args.archive_dir)
+        args.url = r["url"]
+    else:
+        if not args.url:
+            sys.exit("--url or --from-archive is required")
+        r = fetch_browser(args.url, args.wait, args.scroll) if args.browser else fetch_http(args.url)
+        r["fetchedAt"] = now_utc()
     if r["httpStatus"] is None or r["httpStatus"] >= 400:
         sys.exit(f"REFUSED: could not fetch {args.url}: HTTP {r['httpStatus']} {r['error'] or ''}".strip())
     vis, js, _ = ve.extract(r["body"], r["contentType"])
@@ -182,16 +239,11 @@ def snapshot(args):
             print(f"REFUSED: quote not found on {r['finalUrl']}: {q!r}", file=sys.stderr)
         sys.exit("REFUSED: nothing written." + hint)
 
-    sha = hashlib.sha256(r["body"]).hexdigest()
-    os.makedirs(args.archive_dir, exist_ok=True)
-    body_path = os.path.join(args.archive_dir, sha + ".html.gz")
-    if not os.path.exists(body_path):
-        with gzip.open(body_path, "wb") as f:
-            f.write(r["body"])
+    sha = archive_body(r, args.url, args.archive_dir)
     out_dir = os.path.join(SNAP_DIR, args.city)
     os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, f"{args.component}-{sha[:12]}.json")
-    fetched = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    fetched = r["fetchedAt"]
     if os.path.exists(out_path):
         rec = json.load(open(out_path))
         have = {m["quote"] for m in rec["matches"]}
@@ -265,7 +317,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
     s = sub.add_parser("snapshot", help="fetch, match, archive, record")
-    s.add_argument("--url", required=True)
+    s.add_argument("--url")
+    s.add_argument("--from-archive", metavar="SHA256", help="use a body stored by `fetch` instead of fetching")
     s.add_argument("--quote", required=True, action="append", help="repeatable; every one must match")
     s.add_argument("--city", required=True)
     s.add_argument("--component", default="rent")
@@ -274,10 +327,19 @@ def main():
     s.add_argument("--scroll", type=int, default=2, help="browser: scroll steps (lazy-loaded lists)")
     s.add_argument("--wayback", action="store_true", help="ensure an Internet Archive copy (sparingly)")
     s.add_argument("--archive-dir", default=DEFAULT_ARCHIVE)
+    f = sub.add_parser("fetch", help="fetch and archive a page, print its sha256 (no record)")
+    f.add_argument("--url", required=True)
+    f.add_argument("--browser", action="store_true")
+    f.add_argument("--wait", type=int, default=4000)
+    f.add_argument("--scroll", type=int, default=2)
+    f.add_argument("--archive-dir", default=DEFAULT_ARCHIVE)
+    f.add_argument("--text-out", help="write the visible text here")
     sub.add_parser("check", help="validate every snapshot record")
     a = ap.parse_args()
     if a.cmd == "snapshot":
         snapshot(a)
+    elif a.cmd == "fetch":
+        fetch_only(a)
     else:
         sys.exit(0 if check(a) else 1)
 
