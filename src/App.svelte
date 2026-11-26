@@ -4,10 +4,11 @@
   import CompareTray from './lib/CompareTray.svelte';
   import { lazy } from './lib/lazy.svelte.js';
   import { focusTrap, focusTopLayer } from './lib/focusTrap.js';
-  import { cities, cityByKey, regions, qolFor, valueFor, cityCost, snapCostWeight, DEFAULT_COST_WEIGHT, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS, prefetchDetail } from './lib/data.svelte.js';
+  import { cities, cityByKey, qolFor, valueFor, cityCost, snapCostWeight, DEFAULT_COST_WEIGHT, decodeRouteCompact, decodeRoute, normalizePresetKey, MONTHS, prefetchDetail } from './lib/data.svelte.js';
   import { route, addCity, removeStayRef, adoptRoute } from './lib/route.svelte.js';
   import { track, ENTRY_FROM } from './lib/analytics.js';
   import { readUrlState, buildUrl } from './lib/urlState.js';
+  import { filterState, loadFilters } from './lib/filters.svelte.js';
   import { MAX_COMPARE, sanitizeCompare, loadCompare, saveCompare } from './lib/compare.js';
 
   // Code-split: This month is the landing surface and ships in the entry
@@ -64,7 +65,7 @@
 
   // Shareable state from the query string wins field by field; anything absent
   // falls back to saved prefs, then defaults (see urlState.js for the params).
-  const fromUrl = readUrlState(location.search, regions);
+  const fromUrl = readUrlState(location.search);
 
   // 'explore' merged into 'month' as a card/table density toggle; fall back for saved prefs.
   // A bare shared city link (?city=…) opens over This month, so closing the
@@ -72,7 +73,7 @@
   // Any This-month param (month, sort, layout, region) is a link to the
   // ranking too, so it wins over the visitor's last-used view.
   const linksToRanking =
-    fromUrl.city || fromUrl.compare || fromUrl.month != null || fromUrl.mode || fromUrl.density || fromUrl.regions;
+    fromUrl.city || fromUrl.compare || fromUrl.month != null || fromUrl.mode || fromUrl.density || fromUrl.filters;
   let view = $state(
     fromUrl.view ??
       (initialRoute.length ? 'year' : linksToRanking ? 'month' : p.view === 'explore' ? 'month' : (p.view ?? 'month'))
@@ -88,7 +89,7 @@
   }
   // A ranking link with no sort param means the default sort (that is how the
   // sender's clean URL was built), not the recipient's last-used one.
-  const rankingLink = fromUrl.month != null || fromUrl.density || fromUrl.regions || fromUrl.compare;
+  const rankingLink = fromUrl.month != null || fromUrl.density || fromUrl.filters || fromUrl.compare;
   let mode = $state(fromUrl.mode ?? (rankingLink ? 'quality' : (p.mode ?? 'quality')));
   let preset = $state(normalizePresetKey(p.preset));
   // Best Value's cost weight (the exponent on cost). Same rule as sort: a
@@ -102,7 +103,9 @@
         : DEFAULT_COST_WEIGHT;
   let costWeight = $state(fromUrl.costWeight ?? (fromUrl.mode === 'value' ? DEFAULT_COST_WEIGHT : savedCostWeight));
   let density = $state(fromUrl.density ?? (p.density === 'table' ? 'table' : 'cards'));
-  let activeRegions = $state(new Set(fromUrl.regions ?? []));
+  // This month's filters live in the registry's one state object; a link sets
+  // the ones it names and the rest start at their defaults.
+  loadFilters(fromUrl.filters);
   let cityKey = $state(fromUrl.city && cityByKey.has(fromUrl.city) ? fromUrl.city : null);
 
   // ── Compare ──
@@ -249,7 +252,7 @@
   };
   const urlFor = () =>
     buildUrl(
-      { view, month, mode, costWeight, density, regions: activeRegions, city: cityKey, compare: compareOpen ? compareKeys : null },
+      { view, month, mode, costWeight, density, filters: filterState, city: cityKey, compare: compareOpen ? compareKeys : null },
       { defaultView: defaultView(), currentMonth, search: searchNow() }
     );
   const here = () => location.pathname + location.search + location.hash;
@@ -411,7 +414,7 @@
 
   $effect(() => {
     const onPop = () => {
-      const s = readUrlState(location.search, regions);
+      const s = readUrlState(location.search);
       const nextCity = s.city && cityByKey.has(s.city) ? s.city : null;
       if (pendingBack) {
         // Our own close landed. Keep in-memory state (e.g. a month picked inside
@@ -447,7 +450,7 @@
       month = s.month ?? currentMonth;
       mode = s.mode ?? 'quality';
       density = s.density ?? 'cards';
-      activeRegions = new Set(s.regions ?? []);
+      loadFilters(s.filters);
     };
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
@@ -676,11 +679,10 @@
         bind:month
         bind:mode
         bind:density
-        bind:activeRegions
+        bind:preset
         bind:keyHidden
         bind:visibleKeys
         {currentMonth}
-        {preset}
         {costWeight}
         heroKey={transitioningKey}
         openKey={cityKey}

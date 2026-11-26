@@ -1,27 +1,22 @@
 <script>
-  // Phone-only bottom sheet that holds every home control that left the fold:
-  // Favorites, Non-Schengen, Swimmable, Regions, budget and score floor, the
-  // Best Value weight, Cards/Table, Compare and the full colour key.
+  // Phone-only bottom sheet that holds every home control that left the fold.
+  // The filter sections are rendered from the registry's groups
+  // (filters.svelte.js), so a new filter appears here with no edit; View
+  // (Cards/Table, Compare), the Best Value weight and the key sit in their own
+  // section that is not counted and that "Clear all" leaves alone.
   // Dialog behaviour (focus in and back, Tab cycle, Escape, scroll lock) is the
   // shared focusTrap; motion is switched off by the global reduced-motion rule.
   import Legend from './Legend.svelte';
   import CostWeight from './CostWeight.svelte';
+  import FilterControl from './FilterControl.svelte';
   import { focusTrap } from './focusTrap.js';
-  import { fmtMoney, moneySymbol, partyWord, MONTHS } from './data.svelte.js';
+  import { GROUPS, filtersIn, filterState, setFilter } from './filters.svelte.js';
 
   let {
-    month,
+    ctx,
     count,
-    regions,
-    costOptions,
-    qolOptions,
+    total,
     favCount = 0,
-    favOnly = $bindable(false),
-    nonSchengenOnly = $bindable(false),
-    swimOnly = $bindable(false),
-    maxCost = $bindable(''),
-    minQol = $bindable(''),
-    activeRegions = $bindable(new Set()),
     density = $bindable('cards'),
     mode = 'quality',
     costWeight,
@@ -34,10 +29,13 @@
     onclose
   } = $props();
 
+  const sections = GROUPS.map((g) => ({ ...g, items: filtersIn(g.id) })).filter((g) => g.items.length);
+  const allRegions = $derived(filterState.regions.length === 0);
+  const countText = $derived(count === total ? `${total} cities` : `${count} of ${total} cities`);
+
   function toggleRegion(r) {
-    const next = new Set(activeRegions);
-    next.has(r) ? next.delete(r) : next.add(r);
-    activeRegions = next;
+    const cur = filterState.regions;
+    setFilter('regions', cur.includes(r) ? cur.filter((x) => x !== r) : [...cur, r]);
   }
 
   function toggleCompare() {
@@ -54,68 +52,36 @@
     <div class="body">
       <div class="head">
         <h2 id="refine-h">Refine</h2>
-        <span class="num n">{count} {count === 1 ? 'city' : 'cities'}</span>
+        <span class="num n" aria-live="polite">{countText}</span>
       </div>
 
-      <section>
-        <p class="k">Show</p>
-        <div class="rows">
-          <button type="button" class="chip fav" class:on={favOnly} aria-pressed={favOnly} onclick={() => (favOnly = !favOnly)}>
-            {favOnly ? '♥' : '♡'} Favorites{favCount ? ` · ${favCount}` : ''}
-          </button>
-          <label class="refine-toggle">
-            <input type="checkbox" bind:checked={nonSchengenOnly} />
-            <span>◆ Non-Schengen</span>
-          </label>
-          <label class="refine-toggle">
-            <input type="checkbox" bind:checked={swimOnly} />
-            <span>≋ Swimmable in {MONTHS[month]}</span>
-          </label>
-        </div>
-      </section>
-
-      <section>
-        <p class="k" id="refine-regions">Regions</p>
-        <div class="chips" role="group" aria-labelledby="refine-regions">
-          <button type="button" class="chip" class:on={activeRegions.size === 0} aria-pressed={activeRegions.size === 0} onclick={() => (activeRegions = new Set())}>All</button>
-          {#each regions as r}
-            <button type="button" class="chip" class:on={activeRegions.has(r)} aria-pressed={activeRegions.has(r)} onclick={() => toggleRegion(r)}>{r}</button>
-          {/each}
-        </div>
-      </section>
-
-      <section>
-        <p class="k">Budget and score</p>
-        <div class="refine-fields">
-          <label class="refine-field">
-            <span class="refine-field-lbl">Max {moneySymbol()}/mo {partyWord()}</span>
-            <div class="refine-select">
-              <select bind:value={maxCost} aria-label="Max monthly budget, {partyWord()}">
-                <option value="">Any</option>
-                {#each costOptions as v}<option value={v}>{fmtMoney(v)}</option>{/each}
-              </select>
+      {#each sections as g (g.id)}
+        <section aria-labelledby="refine-{g.id}">
+          <h3 class="k" id="refine-{g.id}">{g.label}</h3>
+          {#if g.id === 'regions'}
+            <div class="chips" role="group" aria-labelledby="refine-{g.id}">
+              <button type="button" class="chip" class:on={allRegions} aria-pressed={allRegions} onclick={() => setFilter('regions', [])}>All</button>
+              {#each g.items[0].options(ctx) as o (o.v)}
+                {@const on = filterState.regions.includes(o.v)}
+                <button type="button" class="chip" class:on aria-pressed={on} onclick={() => toggleRegion(o.v)}>{o.label}</button>
+              {/each}
             </div>
-          </label>
-          <label class="refine-field">
-            <span class="refine-field-lbl">Min score</span>
-            <div class="refine-select">
-              <select bind:value={minQol} aria-label="Minimum score">
-                <option value="">Any</option>
-                {#each qolOptions as o}<option value={o.v}>{o.label}</option>{/each}
-              </select>
+          {:else if g.id === 'show'}
+            <button type="button" class="chip fav" class:on={filterState.favOnly} aria-pressed={filterState.favOnly} onclick={() => setFilter('favOnly', !filterState.favOnly)}>
+              <span aria-hidden="true">{filterState.favOnly ? '♥' : '♡'}</span> Favorites only{favCount ? ` · ${favCount}` : ''}
+            </button>
+          {:else}
+            <div class="rows">
+              {#each g.items as f (f.id)}
+                <FilterControl filter={f} {ctx} variant="pills" />
+              {/each}
             </div>
-          </label>
-        </div>
-      </section>
-
-      {#if mode === 'value' && density === 'cards'}
-        <section>
-          <CostWeight value={costWeight} onchange={oncostweight} context="refine_sheet" />
+          {/if}
         </section>
-      {/if}
+      {/each}
 
-      <section>
-        <p class="k">View</p>
+      <section class="viewsec" aria-labelledby="refine-view">
+        <h3 class="k" id="refine-view">View</h3>
         <div class="viewrow">
           <div class="vseg" role="group" aria-label="View as">
             <button type="button" class:on={density === 'cards'} aria-pressed={density === 'cards'} onclick={() => (density = 'cards')}>Cards</button>
@@ -125,10 +91,12 @@
             {comparing ? 'Stop comparing' : 'Compare cities'}
           </button>
         </div>
-      </section>
-
-      <section>
-        <p class="k">Key</p>
+        {#if mode === 'value' && density === 'cards'}
+          <div class="cw">
+            <CostWeight value={costWeight} onchange={oncostweight} context="refine_sheet" />
+          </div>
+        {/if}
+        <p class="k k2">Key</p>
         <Legend bands />
         {#if keyHidden}
           <button type="button" class="textbtn showkey" onclick={() => (keyHidden = false)}>Show key on the page</button>
@@ -219,6 +187,8 @@
 
   .k {
     margin: 0 0 8px;
+    font-family: var(--sans);
+    line-height: 1.3;
     font-size: 11.5px;
     font-weight: 600;
     letter-spacing: 0.08em;
@@ -226,21 +196,22 @@
     color: var(--ink-3);
   }
 
-  .rows { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
-  .rows .chip { align-self: flex-start; }
-  .rows .refine-toggle { min-height: var(--tap); }
+  .rows { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+  .rows :global(.refine-toggle) { min-height: var(--tap); }
+  .viewsec { padding-top: 16px; border-top: 1px solid var(--line); }
+  .cw { margin-top: 12px; }
+  .k2 { margin-top: 16px; }
 
   .chips { display: flex; flex-wrap: wrap; gap: 8px; }
   .chip { min-height: var(--tap); white-space: nowrap; }
+
+  .chip.fav { gap: 5px; }
 
   .chip.fav.on {
     color: var(--terra-deep);
     border-color: var(--terra);
     background: var(--terra-soft);
   }
-
-  .refine-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .refine-select select { height: var(--tap); }
 
   .viewrow { display: flex; flex-direction: column; gap: 10px; }
 

@@ -3,24 +3,24 @@
   import CityTable from './CityTable.svelte';
   import Legend from './Legend.svelte';
   import CostWeight from './CostWeight.svelte';
-  import RegionMenu from './RegionMenu.svelte';
   import RefineSheet from './RefineSheet.svelte';
+  import Dropdown from './Dropdown.svelte';
+  import FilterControl from './FilterControl.svelte';
   import { screen } from './mobile.svelte.js';
-  import { cities, regions, qolFor, valueFor, swimNow, cityCost, partyWord, fmtMoney, moneySymbol, routeStats, monthOccupancy, prefs, PRESETS, normalizePresetKey, MONTHS, MONTH_LETTERS, favorites } from './data.svelte.js';
+  import { cities, qolFor, valueFor, cityCost, routeStats, monthOccupancy, prefs, PRESETS, normalizePresetKey, MONTHS, MONTH_LETTERS, favorites } from './data.svelte.js';
   import { untrack, tick } from 'svelte';
-  import { COST_OPTIONS, snapCostCap } from './planner.js';
+  import { FILTER_BY_ID, filterState, filterCtx, chipText, activeFilters, filtersIn, applyFilters, normalizeFilters, clearFilter, clearAllFilters, setFilter } from './filters.svelte.js';
   import { route } from './route.svelte.js';
   import { MAX_COMPARE } from './compare.js';
   import { valueWins } from './valueWin.js';
 
   let {
     month = $bindable(0),
-    preset,
+    preset = $bindable('balanced'),
     mode = $bindable('quality'),
     currentMonth,
     costWeight,
     density = $bindable('cards'),
-    activeRegions = $bindable(new Set()),
     keyHidden = $bindable(false),
     // The list as the user currently sees it (filtered + sorted), so the city
     // sheet's ←/→ steps through the same order.
@@ -39,19 +39,17 @@
     onaddtoyear = null
   } = $props();
 
-  let nonSchengenOnly = $state(false);
-  let favOnly = $state(false);
-  let swimOnly = $state(false);
-  let maxCost = $state('');
-  // Budget caps differ for solo vs couple; re-snap so a party switch never
-  // leaves a cap that no option represents.
+  // Filters live in the registry (filters.svelte.js): one state object, read by
+  // the filter pass, both control surfaces, the chips, the counts and the URL.
+  // ctx is what their options and tests depend on.
+  const ctx = $derived(filterCtx(month, preset));
+  // Budget and temperature steps follow party, currency and units; re-snap so a
+  // Settings change never leaves a cap that no option represents.
   $effect(() => {
-    const party = partyWord();
-    untrack(() => (maxCost = snapCostCap(maxCost, party)));
+    const c = ctx;
+    untrack(() => normalizeFilters(c));
   });
-  let minQol = $state('');
   let query = $state('');
-  let showMore = $state(false);
   let showAll = $state(false);
   let tableOrder = $state([]);
 
@@ -84,37 +82,31 @@
   const compareFull = $derived(compareKeys.length >= MAX_COMPARE);
   const monthLong = $derived(new Date(2026, month, 1).toLocaleString('en-US', { month: 'long' }));
 
-  // Budget caps scale with party size, mirroring My year's Max $/mo dropdown so
-  // the two surfaces offer the same choices in the same control.
-  const costOptions = $derived(COST_OPTIONS[partyWord()] ?? COST_OPTIONS.solo);
-
-  // Score floors share the month strip's band vocabulary (great 85+, good 75+,
-  // ok 65+), so a filter label always means the same thing as a strip colour.
-  const QOL_OPTIONS = [
-    { v: 65, label: 'OK (65+)' },
-    { v: 75, label: 'Good (75+)' },
-    { v: 85, label: 'Great (85+)' }
+  const active = $derived(activeFilters());
+  const filtersActive = $derived(active.length > 0);
+  // Desktop row: three filters get their own button, the rest sit in "More".
+  const ROW = ['regions', 'maxBudget', 'minScore'].map((id) => FILTER_BY_ID[id]);
+  const MORE_GROUPS = [
+    { label: 'Weather', items: filtersIn('weather') },
+    { label: 'Air and safety', items: filtersIn('airsafety') },
+    { label: 'Stay', items: filtersIn('stay') }
   ];
-
-  function toggleRegion(r) {
-    const next = new Set(activeRegions);
-    next.has(r) ? next.delete(r) : next.add(r);
-    activeRegions = next;
-  }
-
-  const moreActive = $derived(maxCost !== '' || minQol !== '' || swimOnly || nonSchengenOnly);
-  const filtersActive = $derived(activeRegions.size > 0 || favOnly || moreActive);
+  // Row C chips: only filters hidden inside "More" (the row buttons show their own value).
+  const moreActive = $derived(active.filter((f) => ['weather', 'airsafety', 'stay'].includes(f.group)));
+  const moreCount = $derived(moreActive.length);
+  // "Budget: ≤ $2,000" once set, the plain name otherwise.
+  const rowLabel = (f) => {
+    const name = f.short ?? f.label;
+    return f.isActive(filterState[f.id]) ? `${name}: ${f.chipLabel(filterState[f.id], ctx)}` : name;
+  };
 
   // ── Phones: one control row + the Refine sheet ──
   let refineOpen = $state(false);
   let searchOpen = $state(false);
   let findWrap = $state();
-  // What the Refine button counts: each active filter once (regions as one),
-  // plus a non-default view and Compare mode.
-  const refineCount = $derived(
-    (favOnly ? 1 : 0) + (activeRegions.size ? 1 : 0) + (maxCost !== '' ? 1 : 0) + (minQol !== '' ? 1 : 0) +
-      (swimOnly ? 1 : 0) + (nonSchengenOnly ? 1 : 0) + (density !== 'cards' ? 1 : 0) + (comparing ? 1 : 0)
-  );
+  // What the Refine button counts: each active filter once (regions as one).
+  // View and Compare are not filters and never count.
+  const refineCount = $derived(active.length);
   // The table has no sort toggle, so there the row is [search][Refine].
   const findShown = $derived(searchOpen || query !== '' || density === 'table');
   async function openSearch() {
@@ -125,14 +117,7 @@
   // A narrowing filter, a search or a non-default lens earns the status line.
   const statusShown = $derived(filtersActive || terms.length > 0 || lensLabel !== '');
 
-  function resetFilters() {
-    activeRegions = new Set();
-    nonSchengenOnly = false;
-    favOnly = false;
-    swimOnly = false;
-    maxCost = '';
-    minQol = '';
-  }
+  const resetFilters = clearAllFilters;
 
   // ── Find a city ──
   // Diacritics-insensitive: NFD strips combining accents (Málaga → malaga), and
@@ -157,19 +142,12 @@
 
   // One filter pass, shared by both densities. Cards re-rank it by the toolbar's
   // Highest Score/Best Value mode; the table column-sorts it itself.
-  const filtered = $derived.by(() => {
-    let list = cities;
-    if (terms.length) list = list.filter(matchesQuery);
-    if (favOnly) list = list.filter((c) => favorites.has(c.key));
-    if (activeRegions.size) list = list.filter((c) => activeRegions.has(c.region));
-    if (nonSchengenOnly) list = list.filter((c) => !c.schengen);
-    if (swimOnly) list = list.filter((c) => swimNow(c, month));
-    const mc = parseFloat(maxCost);
-    if (!isNaN(mc)) list = list.filter((c) => cityCost(c.months[month]) <= mc);
-    const mq = parseFloat(minQol);
-    if (!isNaN(mq)) list = list.filter((c) => qolFor(c, month, preset) >= mq);
-    return list;
-  });
+  const filtered = $derived(applyFilters(terms.length ? cities.filter(matchesQuery) : cities, ctx));
+  const countLine = $derived(
+    filtered.length === cities.length ? `${cities.length} cities` : `${filtered.length} of ${cities.length} cities`
+  );
+  // "Budget ≤ $1,500, Good air only" — the empty state names what is set.
+  const activeNames = $derived(active.map((f) => chipText(f, ctx)).join(', '));
 
   // How many cities the search alone matches — tells the empty state whether
   // the query or the filters are what's excluding everything.
@@ -223,6 +201,7 @@
   // Only surfaced when it isn't the default, so the browse page stays quiet for
   // most people but never silently ranks by a lens someone forgot they set.
   const lensKey = $derived(normalizePresetKey(preset));
+  const lensName = $derived(`${PRESETS[lensKey].label}${prefs.womensSafety ? ' · women’s safety' : ''}`);
   const lensLabel = $derived(
     lensKey === 'balanced' && !prefs.womensSafety
       ? ''
@@ -247,6 +226,17 @@
     {/each}
     <span class="fixw-label">{label}{#if dot}<span class="dot">.</span>{/if}</span>
   </span>
+{/snippet}
+
+<!-- One applied filter: its value in words, and a real Remove button. -->
+{#snippet chip(f)}
+  {@const t = chipText(f, ctx)}
+  <button type="button" class="fchip" aria-label="Remove {t}" onclick={() => clearFilter(f.id)}>
+    <span>{t}</span>
+    <svg class="fchip-x" viewBox="0 0 10 10" width="9" height="9" aria-hidden="true">
+      <path d="M2 2 8 8M8 2 2 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </svg>
+  </button>
 {/snippet}
 
 <section>
@@ -380,28 +370,31 @@
             Refine{refineCount ? ` · ${refineCount}` : ''}
           </button>
       </div>
+      {#if filtersActive}
+        <div class="mchips" role="group" aria-label="Applied filters">
+          {#each active as f (f.id)}
+            {@render chip(f)}
+          {/each}
+        </div>
+      {/if}
+      <p class="sr-only" aria-live="polite">{countLine}</p>
       {#if statusShown}
         <p class="mstatus">
-          <span class="num">{filtered.length} {filtered.length === 1 ? 'city' : 'cities'}</span>
+          <span class="num">{countLine}</span>
           {#if lensLabel}
             <span class="dotsep" aria-hidden="true">·</span>
             <button type="button" class="mstatus-lens" onclick={onsettings}>Ranked for: <strong>{lensLabel}</strong></button>
           {/if}
           {#if filtersActive || terms.length}
             <span class="dotsep" aria-hidden="true">·</span>
-            <button type="button" class="mstatus-clear" onclick={() => { resetFilters(); query = ''; searchOpen = false; }}>Clear</button>
+            <button type="button" class="mstatus-clear" onclick={() => { resetFilters(); query = ''; searchOpen = false; }}>Clear all</button>
           {/if}
         </p>
       {/if}
     {:else}
     <div class="toolbar">
       <div class="meta-row">
-        <p class="result-count num">{filtered.length} {filtered.length === 1 ? 'city' : 'cities'}</p>
-        {#if lensLabel}
-          <button type="button" class="lens" onclick={onsettings} title="Change in Settings">
-            Ranked for: <strong>{lensLabel}</strong>
-          </button>
-        {/if}
+        <p class="result-count num" aria-live="polite">{countLine}</p>
         {#if density === 'cards' && keyHidden}
           <button type="button" class="keylink" onclick={() => (keyHidden = false)}>What do the colours mean?</button>
         {/if}
@@ -413,6 +406,20 @@
             <button type="button" class:on={mode === 'value'} aria-pressed={mode === 'value'} onclick={() => (mode = 'value')}>Best Value</button>
           </div>
         {/if}
+        <!-- The scoring lens, the same setting Settings → Optimize for edits. -->
+        <Dropdown id="lens" label="Scored for: {lensName}" panelLabel="Scored for" width={300}>
+          {#snippet button()}<span class="lens-k">Scored for:</span> <strong class="lens-v">{lensName}</strong>{/snippet}
+          <fieldset class="lensset">
+            <legend class="sr-only">Scored for</legend>
+            {#each Object.entries(PRESETS) as [k, p] (k)}
+              <label class="lensopt">
+                <input type="radio" name="lens" checked={lensKey === k} onchange={() => (preset = k)} />
+                <span><strong>{p.label}</strong><em>{p.blurb}</em></span>
+              </label>
+            {/each}
+          </fieldset>
+          <button type="button" class="lens-more" onclick={onsettings}>Women’s safety and more in Settings</button>
+        </Dropdown>
         <div class="seg density" role="group" aria-label="View as">
           <button type="button" class:on={density === 'cards'} aria-pressed={density === 'cards'} onclick={() => (density = 'cards')}>
             <svg class="vicon" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -478,70 +485,65 @@
       </div>
 
       <div class="filters">
-        {#if filtersActive}
-          <button type="button" class="chip clearchip" onclick={resetFilters}>✕ Clear</button>
-        {/if}
+        {#each ROW as f (f.id)}
+          <Dropdown
+            id="f-{f.id}"
+            label={rowLabel(f)}
+            panelLabel={f.label}
+            active={f.isActive(filterState[f.id])}
+            width={f.kind === 'multi' ? 300 : 220}
+            onclear={() => clearFilter(f.id)}
+            clearLabel="Clear {(f.short ?? f.label).toLowerCase()}"
+          >
+            <div class="pop-head">
+              <span class="pop-title">{f.legend ? f.legend(ctx) : f.label}</span>
+              {#if f.isActive(filterState[f.id])}
+                <button type="button" class="pop-clear" onclick={() => clearFilter(f.id)}>Clear</button>
+              {/if}
+            </div>
+            <FilterControl filter={f} {ctx} variant="list" showLegend={false} />
+          </Dropdown>
+        {/each}
+        <Dropdown id="f-more" label="More filters" panelLabel="More filters" active={moreCount > 0} badge={moreCount} width={440} fitHeight>
+          {#each MORE_GROUPS as g (g.label)}
+            <section class="more-group">
+              <h3 class="pop-title">{g.label}</h3>
+              <div class="more-items">
+                {#each g.items as f (f.id)}
+                  <FilterControl filter={f} {ctx} variant="pills" />
+                {/each}
+              </div>
+            </section>
+          {/each}
+        </Dropdown>
         <button
           type="button"
           class="chip fav"
-          class:on={favOnly}
-          aria-pressed={favOnly}
+          class:on={filterState.favOnly}
+          aria-pressed={filterState.favOnly}
           title="Show only saved cities"
-          onclick={() => (favOnly = !favOnly)}
+          onclick={() => setFilter('favOnly', !filterState.favOnly)}
         >
-          {favOnly ? '♥' : '♡'} Favorites{favorites.size ? ` · ${favorites.size}` : ''}
+          <span aria-hidden="true">{filterState.favOnly ? '♥' : '♡'}</span> Favorites{#if favorites.size}<span class="num fav-n"> · {favorites.size}</span>{/if}
         </button>
-        <RegionMenu {regions} active={activeRegions} ontoggle={toggleRegion} onclear={() => (activeRegions = new Set())} />
-        <button
-          type="button"
-          class="chip more"
-          class:on={showMore || moreActive}
-          aria-expanded={showMore}
-          onclick={() => (showMore = !showMore)}
-        >
-          Refine{moreActive ? ' ·' : ''}{showMore ? ' ▴' : ' ▾'}
-        </button>
+        {#if filtersActive && !moreCount}
+          <button type="button" class="clearall" onclick={resetFilters}>Clear all</button>
+        {/if}
       </div>
     </div>
+
+    {#if moreCount}
+      <div class="applied" role="group" aria-label="Applied filters">
+        {#each moreActive as f (f.id)}
+          {@render chip(f)}
+        {/each}
+        <button type="button" class="clearall" onclick={resetFilters}>Clear all</button>
+      </div>
+    {/if}
     {/if}
   </div>
 
   <div class="stick-sentinel" bind:this={sentinel} aria-hidden="true"></div>
-
-  {#if showMore && !screen.mobile}
-    <div class="refine">
-      <div class="refine-fields">
-        <label class="refine-field">
-          <span class="refine-field-lbl">Max {moneySymbol()}/mo {partyWord()}</span>
-          <div class="refine-select">
-            <select bind:value={maxCost} aria-label="Max monthly budget, {partyWord()}">
-              <option value="">Any</option>
-              {#each costOptions as v}<option value={v}>{fmtMoney(v)}</option>{/each}
-            </select>
-          </div>
-        </label>
-        <label class="refine-field">
-          <span class="refine-field-lbl">Min score</span>
-          <div class="refine-select">
-            <select bind:value={minQol} aria-label="Minimum score">
-              <option value="">Any</option>
-              {#each QOL_OPTIONS as o}<option value={o.v}>{o.label}</option>{/each}
-            </select>
-          </div>
-        </label>
-      </div>
-      <div class="refine-toggles">
-        <label class="refine-toggle">
-          <input type="checkbox" bind:checked={swimOnly} />
-          <span>≋ Swimmable in {MONTHS[month]}</span>
-        </label>
-        <label class="refine-toggle">
-          <input type="checkbox" bind:checked={nonSchengenOnly} />
-          <span>◆ Non-Schengen</span>
-        </label>
-      </div>
-    </div>
-  {/if}
 
   {#if density === 'cards' && !keyHidden}
     <!-- The whole key on one compact line: what a strip is, the four bands (with
@@ -563,18 +565,10 @@
 
   {#if refineOpen && screen.mobile}
     <RefineSheet
-      {month}
+      {ctx}
       count={filtered.length}
-      {regions}
-      {costOptions}
-      qolOptions={QOL_OPTIONS}
+      total={cities.length}
       favCount={favorites.size}
-      bind:favOnly
-      bind:nonSchengenOnly
-      bind:swimOnly
-      bind:maxCost
-      bind:minQol
-      bind:activeRegions
       bind:density
       bind:keyHidden
       {mode}
@@ -592,16 +586,16 @@
     <div class="emptystate">
       {#if terms.length && queryHits === 0}
         <p>No city or country matches “{query.trim()}”.</p>
-        <button type="button" class="chip clearchip" onclick={clearQuery}>✕ Clear search</button>
+        <button type="button" class="chip clearchip" onclick={clearQuery}>Clear search</button>
       {:else if terms.length && filtersActive}
-        <p>“{query.trim()}” matches {queryHits} {queryHits === 1 ? 'city' : 'cities'}, but none pass your filters.</p>
-        <button type="button" class="chip clearchip" onclick={resetFilters}>✕ Clear filters</button>
-      {:else if favOnly && favorites.size === 0}
-        <p>No saved cities yet — tap ♡ on any city to save it here.</p>
-        <button type="button" class="chip clearchip" onclick={() => (favOnly = false)}>← Back to all cities</button>
+        <p>“{query.trim()}” matches {queryHits} {queryHits === 1 ? 'city' : 'cities'}, but none pass your filters: {activeNames}.</p>
+        <button type="button" class="chip clearchip" onclick={resetFilters}>Clear all filters</button>
+      {:else if filterState.favOnly && favorites.size === 0 && active.length === 1}
+        <p>No saved cities yet. Tap the heart on any city to save it here.</p>
+        <button type="button" class="chip clearchip" onclick={() => clearFilter('favOnly')}><span aria-hidden="true">←</span> Back to all cities</button>
       {:else}
-        <p>No cities match — try clearing a filter.</p>
-        <button type="button" class="chip clearchip" onclick={resetFilters}>✕ Clear filters</button>
+        <p>No cities match all of: {activeNames}.</p>
+        <button type="button" class="chip clearchip" onclick={resetFilters}>Clear all filters</button>
       {/if}
     </div>
   {:else if density === 'table'}
@@ -843,26 +837,6 @@
     color: var(--ink-3);
   }
 
-  /* Active-lens pill: says what the ranking is for, opens Settings to change it. */
-  .lens {
-    align-self: center;
-    border: 1px solid var(--line);
-    background: var(--card);
-    border-radius: 999px;
-    padding: 2px 10px;
-    font-size: 11.5px;
-    color: var(--ink-3);
-    white-space: nowrap;
-    transition: border-color 0.15s ease, color 0.15s ease;
-  }
-
-  .lens strong {
-    font-weight: 600;
-    color: var(--terra-deep);
-  }
-
-  .lens:hover { border-color: var(--ink-3); color: var(--ink-2); }
-
   .keylink {
     border: none;
     background: none;
@@ -1043,8 +1017,177 @@
   }
 
   .clearchip { color: var(--terra-deep); white-space: nowrap; }
-  .chip.more { white-space: nowrap; }
-  .chip.fav { white-space: nowrap; }
+  .chip.fav { white-space: nowrap; height: 30px; }
+  .fav-n { font-size: 11.5px; }
+
+  /* ── Lens dropdown: says what the ranking is for, and changes it ── */
+  .lens-k { font-weight: 500; color: var(--ink-3); }
+  .lens-v { font-weight: 600; color: var(--terra-deep); }
+
+  .lensset {
+    margin: 0;
+    padding: 0;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .lensopt {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 7px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.12s ease;
+  }
+
+  .lensopt:hover { background: var(--paper-2); }
+
+  .lensopt input {
+    margin: 3px 0 0;
+    accent-color: var(--terra);
+    flex: none;
+  }
+
+  .lensopt span { display: flex; flex-direction: column; gap: 1px; }
+  .lensopt strong { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .lensopt em { font-style: normal; font-size: 12px; line-height: 1.35; color: var(--ink-3); }
+
+  .lens-more {
+    display: block;
+    margin: 6px 0 0;
+    padding: 8px 8px 2px;
+    width: 100%;
+    border: none;
+    border-top: 1px solid var(--line-soft);
+    background: none;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--terra-deep);
+  }
+
+  .lens-more:hover { color: var(--terra); }
+
+  /* ── Filter popovers ── */
+  .pop-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0 8px 8px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .pop-title {
+    margin: 0;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    line-height: 1.3;
+  }
+
+  .pop-clear {
+    border: none;
+    background: none;
+    padding: 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--terra-deep);
+  }
+
+  .more-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 4px 4px 12px;
+  }
+
+  /* Group headings stay in view while the capped panel scrolls. */
+  .more-group > .pop-title {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    margin: 0 -14px;
+    padding: 10px 14px 6px;
+    background: var(--card);
+  }
+
+  .more-group + .more-group {
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .more-group:last-child { padding-bottom: 4px; }
+
+  .more-items {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  /* ── Applied filters: one removable chip each, then Clear all ── */
+  .applied {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .fchip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 26px;
+    padding: 0 9px 0 11px;
+    border: 1px solid var(--terra);
+    border-radius: 999px;
+    background: var(--terra-soft);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--terra-deep);
+    white-space: nowrap;
+    flex: none;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+
+  .fchip:hover { border-color: var(--terra-deep); }
+  .fchip-x { flex: none; opacity: 0.8; }
+
+  .clearall {
+    height: 26px;
+    padding: 0 6px;
+    border: none;
+    background: none;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--terra-deep);
+    text-decoration: underline;
+    text-decoration-color: rgb(var(--terra-rgb) / 0.4);
+    text-underline-offset: 3px;
+  }
+
+  .clearall:hover { color: var(--terra); }
+
+  /* Phones: the applied chips scroll sideways under the control row. */
+  .mchips {
+    display: flex;
+    gap: 6px;
+    margin: 8px calc(-1 * var(--pad-x)) 0;
+    padding: 0 var(--pad-x) 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mchips::-webkit-scrollbar { display: none; }
+  .mchips .fchip { height: 36px; font-size: 13px; padding: 0 12px 0 14px; }
 
   .chip.fav.on {
     color: var(--terra-deep);
