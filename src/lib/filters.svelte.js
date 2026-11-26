@@ -7,7 +7,8 @@
 //
 // A filter:
 //   id         state field in `filterState`
-//   key        short query-string key (defaults are never written)
+//   key        short query-string key (defaults are never written); null keeps
+//              the filter out of the URL
 //   label      plain name ("Max budget"); also the Remove chip's noun
 //   group      section it sits under (GROUPS below)
 //   kind       'toggle' | 'select' | 'multi'
@@ -135,7 +136,9 @@ const select = (def) => ({
 });
 
 export const FILTERS = [
-  toggle('favOnly', 'fav', 'Favorites only', 'show', (c) => favorites.has(c.key), 'Favorites'),
+  // Favorites are the viewer's own, so a shared link must not carry this one:
+  // key null keeps it in memory only.
+  toggle('favOnly', null, 'Favorites only', 'show', (c) => favorites.has(c.key), 'Favorites'),
   {
     id: 'regions',
     key: 'region', // kept from the first URL scheme: slugged, comma-joined
@@ -146,7 +149,7 @@ export const FILTERS = [
     options: () => regions.map((r) => ({ v: r, label: r })),
     isActive: (v) => v.length > 0,
     test: (c, _ctx, v) => v.includes(c.region),
-    chipLabel: (v) => (v.length <= 2 ? v.join(', ') : `${v.length} regions`),
+    chipLabel: (v) => (v.length === 1 ? v[0] : `${v[0]} +${v.length - 1}`),
     toUrl: (v) => (v.length ? v.map(slug).sort().join(',') : null),
     fromUrl: (s) => {
       const want = new Set(s.split(',').filter(Boolean));
@@ -318,14 +321,15 @@ export function normalizeFilters(ctx) {
 }
 
 // ── URL ──
-export const FILTER_KEYS = FILTERS.map((f) => f.key);
+const IN_URL = FILTERS.filter((f) => f.key);
+export const FILTER_KEYS = IN_URL.map((f) => f.key);
 
 // Values from a query string; absent keys are left out (callers fall back to
 // defaults), so `null` means "no filter params at all".
 export function filtersFromQuery(q, ctx) {
   const out = {};
   let any = false;
-  for (const f of FILTERS) {
+  for (const f of IN_URL) {
     if (!q.has(f.key)) continue;
     const v = f.fromUrl(q.get(f.key) ?? '', ctx);
     if (f.isActive(v)) {
@@ -337,7 +341,7 @@ export function filtersFromQuery(q, ctx) {
 }
 
 export function writeFiltersToQuery(q, values, ctx) {
-  for (const f of FILTERS) {
+  for (const f of IN_URL) {
     q.delete(f.key);
     const v = values?.[f.id];
     if (v == null || !f.isActive(v)) continue;
@@ -346,9 +350,10 @@ export function writeFiltersToQuery(q, values, ctx) {
   }
 }
 
-// Replace the whole state from parsed URL values (missing ones reset).
+// Replace the URL-backed state from parsed URL values (missing ones reset).
+// In-memory-only filters (no key) keep their value, e.g. across Back/Forward.
 export function loadFilters(values) {
-  for (const f of FILTERS) filterState[f.id] = values && values[f.id] !== undefined ? values[f.id] : fresh(f);
+  for (const f of IN_URL) filterState[f.id] = values && values[f.id] !== undefined ? values[f.id] : fresh(f);
 }
 
 // Count of cities the registry would keep, for "N of M" lines.

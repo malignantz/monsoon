@@ -91,7 +91,9 @@
     { label: 'Air and safety', items: filtersIn('airsafety') },
     { label: 'Stay', items: filtersIn('stay') }
   ];
-  const moreCount = $derived(active.filter((f) => ['weather', 'airsafety', 'stay'].includes(f.group)).length);
+  // Row C chips: only filters hidden inside "More" (the row buttons show their own value).
+  const moreActive = $derived(active.filter((f) => ['weather', 'airsafety', 'stay'].includes(f.group)));
+  const moreCount = $derived(moreActive.length);
   // "Budget: ≤ $2,000" once set, the plain name otherwise.
   const rowLabel = (f) => {
     const name = f.short ?? f.label;
@@ -484,7 +486,15 @@
 
       <div class="filters">
         {#each ROW as f (f.id)}
-          <Dropdown id="f-{f.id}" label={rowLabel(f)} panelLabel={f.label} active={f.isActive(filterState[f.id])} width={f.kind === 'multi' ? 300 : 220}>
+          <Dropdown
+            id="f-{f.id}"
+            label={rowLabel(f)}
+            panelLabel={f.label}
+            active={f.isActive(filterState[f.id])}
+            width={f.kind === 'multi' ? 300 : 220}
+            onclear={() => clearFilter(f.id)}
+            clearLabel="Clear {(f.short ?? f.label).toLowerCase()}"
+          >
             <div class="pop-head">
               <span class="pop-title">{f.legend ? f.legend(ctx) : f.label}</span>
               {#if f.isActive(filterState[f.id])}
@@ -494,7 +504,7 @@
             <FilterControl filter={f} {ctx} variant="list" showLegend={false} />
           </Dropdown>
         {/each}
-        <Dropdown id="f-more" label="More filters" panelLabel="More filters" active={moreCount > 0} badge={moreCount} width={440}>
+        <Dropdown id="f-more" label="More filters" panelLabel="More filters" active={moreCount > 0} badge={moreCount} width={440} fitHeight>
           {#each MORE_GROUPS as g (g.label)}
             <section class="more-group">
               <h3 class="pop-title">{g.label}</h3>
@@ -516,12 +526,15 @@
         >
           <span aria-hidden="true">{filterState.favOnly ? '♥' : '♡'}</span> Favorites{#if favorites.size}<span class="num fav-n"> · {favorites.size}</span>{/if}
         </button>
+        {#if filtersActive && !moreCount}
+          <button type="button" class="clearall" onclick={resetFilters}>Clear all</button>
+        {/if}
       </div>
     </div>
 
-    {#if filtersActive}
+    {#if moreCount}
       <div class="applied" role="group" aria-label="Applied filters">
-        {#each active as f (f.id)}
+        {#each moreActive as f (f.id)}
           {@render chip(f)}
         {/each}
         <button type="button" class="clearall" onclick={resetFilters}>Clear all</button>
@@ -1096,8 +1109,17 @@
     padding: 4px 4px 12px;
   }
 
+  /* Group headings stay in view while the capped panel scrolls. */
+  .more-group > .pop-title {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    margin: 0 -14px;
+    padding: 10px 14px 6px;
+    background: var(--card);
+  }
+
   .more-group + .more-group {
-    padding-top: 12px;
     border-top: 1px solid var(--line-soft);
   }
 
