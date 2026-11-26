@@ -48,9 +48,21 @@
       e.stopPropagation();
       close(true);
     };
+    // Page scroll (not the panel's own: element scrolls don't reach window)
+    // closes the panel once its button leaves view or slides under the
+    // sticky month bar, so it never floats detached from its trigger.
+    const onScroll = () => {
+      if (!btn) return;
+      const r = btn.getBoundingClientRect();
+      const bar = document.querySelector('.stickbar.show');
+      const topEdge = bar ? bar.getBoundingClientRect().bottom : 0;
+      if (r.top < topEdge || r.bottom > window.innerHeight) close();
+    };
     document.addEventListener('pointerdown', onDown, true);
     document.addEventListener('keydown', onKey, true);
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
+      window.removeEventListener('scroll', onScroll);
       document.removeEventListener('pointerdown', onDown, true);
       document.removeEventListener('keydown', onKey, true);
     };
