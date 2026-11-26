@@ -33,13 +33,14 @@ const CORE_CITY = [
   'rent', 'var', 'util', 'vibe', 'draw', 'english', 'swim', 'events',
   'lat', 'lng'
 ];
-// rain (avg rainy days/mo) is core, not detail: the My Year rain filter and the
-// city sheet read it, and they must never depend on the lazy layer.
+// rain (avg rainy days/mo) and high (daytime high, °F) are core, not detail:
+// the My Year rain filter, This month's rain and max-high filters and the city
+// sheet read them, and a filter must never depend on the lazy layer.
 const CORE_MONTH = [
   'airCat', 'risk', 'riskNote', 'season', 'evtTier',
-  'weather', 'air', 'seasonScore', 'eventScore', 'cost1', 'cost2', 'rain'
+  'weather', 'air', 'seasonScore', 'eventScore', 'cost1', 'cost2', 'rain', 'high'
 ];
-const DETAIL_MONTH = ['high', 'low', 'hum', 'pm25'];
+const DETAIL_MONTH = ['low', 'hum', 'pm25'];
 
 const pick = (obj, keys) =>
   Object.fromEntries(keys.filter((k) => k in obj).map((k) => [k, obj[k]]));
