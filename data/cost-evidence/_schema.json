@@ -41,8 +41,9 @@
       "quote": "verbatim snippet",
       "source": "Numbeo | NomadList | r/digitalnomad | blog name",
       "url": "https://...",
-      "date": "YYYY-MM",
-      "confidence": "low|med|high"
+      "date": "YYYY-MM (rows written before 2026-11-26) or YYYY-MM-DD (from 2026-11-26)",
+      "confidence": "low|med|high",
+      "snapshot": "OPTIONAL before 2026-11-26, REQUIRED for rows dated 2026-11-26 or later: '<city>/<component>-<sha12>.json', a record under data/evidence-snapshots/ written by scripts/collect_evidence.py snapshot at collection time. build_costs.py check fails unless one of its excerpts contains this row's quote. The raw page is archived outside git by sha256."
     }
   ]
 }

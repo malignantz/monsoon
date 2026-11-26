@@ -28,3 +28,5 @@ about-mobile.png
 
 # Public data-change logs are tracked.
 !docs/**/*.md
+
+__pycache__/

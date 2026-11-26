@@ -76,6 +76,39 @@ worth planning a stay around; 2 = notable (a national holiday, city day or relig
 without a draw for visitors is at most 2); 1 = minor or recurring. Movable feasts list
 every month they can fall in.
 
+### Snapshot every cost quote when you collect it (from 2026-11-26)
+
+Aggregator pages change monthly, so a quote that is not saved when it is written usually
+cannot be checked later (only 14% could be, see
+`docs/research/2026-11-26-evidence-verification.md`). Every new evidence row is therefore
+captured at collection time:
+
+```
+python3 scripts/collect_evidence.py snapshot --city lisbon --component rent \
+  --url "https://…" --quote "T1 mobilado em Arroios, 45 m², 1.350 €/mês"
+```
+
+- It fetches the page and refuses (exit 1, nothing written) unless the quote is on it,
+  word for word after the usual smoothing (case, accents, number formats). Quotes under
+  25 letters are refused; quote more of the line. Repeat `--quote` for several figures on
+  one page.
+- Pages that need JavaScript: add `--browser` (headless Chrome at /opt/google/chrome/chrome,
+  Playwright loaded from `~/concert_bot/node_modules`; override with `CHROME_PATH` and
+  `PLAYWRIGHT_NODE_MODULES`).
+- The raw page goes to `~/monsoon-evidence-archive/<sha256>.html.gz`, outside git
+  (`--archive-dir` or `MONSOON_EVIDENCE_ARCHIVE` to change). The small record with the
+  date, HTTP status, hash and an excerpt of about 400 characters each side of the quote goes
+  to `data/evidence-snapshots/<city>/<component>-<sha12>.json` and is committed.
+- `--wayback` also makes sure the Internet Archive holds a copy from the last 7 days,
+  requesting one through Save Page Now if not (one request per 10 seconds). Use it for the
+  rows that carry a number, not for bulk runs.
+- Put the printed path in the evidence row as `"snapshot": "lisbon/rent-….json"` and date
+  the row `YYYY-MM-DD`. `python3 scripts/build_costs.py check` (part of `npm run check`)
+  fails for any row dated 2026-11-26 or later whose snapshot is missing or does not contain
+  its quote. Older rows are grandfathered.
+- Do not use a portal whose terms or robots.txt forbid automated access; record by hand
+  from a normal browser session instead and keep a screenshot.
+
 ## 3. Climate/air hold-backs for a new city
 
 The criteria in `docs/data-changes/2026-10-03-climate-air.md` apply, adapted because a new

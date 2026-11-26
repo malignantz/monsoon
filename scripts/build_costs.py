@@ -16,7 +16,8 @@ fields the app reads: rent, util, var, solo, couple, and monthly cost1/cost2.
 Modes:
   python3 scripts/build_costs.py migrate   # one-time: seed legacy evidence files
                                             # from the current travel-data.json
-  python3 scripts/build_costs.py check      # dry-run diff vs current data
+  python3 scripts/build_costs.py check      # dry-run diff vs current data, plus the
+                                            # snapshot gate (exits 1 if it fails)
   python3 scripts/build_costs.py build      # write cost fields into travel-data.json
 
 After `build`, run rebake_scores.py --write (refreshes `value`) then sanity_check.py.
@@ -155,11 +156,43 @@ def _leg(usd, party, note):
             "asOf": "2026-06", "confidence": "low", "note": note}
 
 
+# ---- snapshot gate -------------------------------------------------------
+# From 2026-11-26 a number may only enter the store with proof that the page said
+# it on that date: an evidence row dated on/after GATE_DATE must carry
+# "snapshot": "<city>/<file>.json" (data/evidence-snapshots/, written by
+# scripts/collect_evidence.py) whose excerpt contains the row's quote. Dates compare
+# as strings, so month-only "2026-11" rows (written before the gate) are
+# grandfathered and "2026-12" onwards are gated. New rows use YYYY-MM-DD.
+GATE_DATE = "2026-11-26"
+
+
+def snapshot_gate(store):
+    from collect_evidence import snapshot_supports
+    errs = []
+    for city, ev in sorted(store.items()):
+        for i, e in enumerate(ev.get("evidence", [])):
+            if (e.get("date") or "") < GATE_DATE:
+                continue
+            ref = e.get("snapshot")
+            if not ref:
+                errs.append(f"{slug(city)} evidence[{i}] dated {e['date']} has no snapshot")
+            elif not snapshot_supports(ref, e.get("quote", "")):
+                errs.append(f"{slug(city)} evidence[{i}]: snapshot {ref} missing, malformed, "
+                            "or its excerpt does not contain the quote")
+    return errs
+
+
 # ---- check / build -------------------------------------------------------
 
 def apply(write):
     d = json.load(open(DATA))
     store = load_store()
+    gate = snapshot_gate(store)
+    if gate:
+        for g in gate:
+            print("  GATE", g)
+        raise SystemExit(f"snapshot gate failed: {len(gate)} evidence rows dated {GATE_DATE} "
+                         "or later lack a matching snapshot (scripts/collect_evidence.py)")
     missing, changed = [], 0
     for c in d["cities"]:
         ev = store.get(c["name"])
@@ -188,7 +221,8 @@ def apply(write):
               f"({changed} changed) -> {os.path.relpath(DATA, ROOT)}")
         print("next: python3 scripts/rebake_scores.py --write && python3 scripts/sanity_check.py")
     else:
-        print(f"check only — {changed} cities would change, {len(missing)} missing")
+        print(f"check only — {changed} cities would change, {len(missing)} missing; "
+              f"snapshot gate ok")
 
 
 def main():
