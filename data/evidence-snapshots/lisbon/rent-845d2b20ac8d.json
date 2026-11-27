@@ -1,0 +1,66 @@
+{
+ "_doc": "Snapshot record written by scripts/collect_evidence.py. The raw body is kept outside git as <archive>/<sha256>.html.gz.",
+ "url": "https://www.flatio.com/s/Lisbon?page=5",
+ "finalUrl": "https://www.flatio.com/s/Lisbon?page=5",
+ "fetchedAt": "2026-11-26T23:07:09Z",
+ "httpStatus": 200,
+ "fetchMode": "browser",
+ "contentType": "text/html; charset=utf-8",
+ "sha256": "845d2b20ac8d4a054155713a0330827d5dcddefb6e5a9dac02183371ad9a3465",
+ "bytes": 439525,
+ "city": "lisbon",
+ "component": "rent",
+ "archiveUrl": null,
+ "matches": [
+  {
+   "quote": "Studio in Lisbon Lapa Diplomatic Flat 1.4 by Feel Lisboa 1 bedroom 21 m 2 200/200 Mbps Available from Nov 27, 2026 from €1,527 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": " from €599 / 30 days All utilities included · No deposit Private room in Lisbon Cosy single bedroom 1 with AC and sofa Available from Sep 12, 2027 from €609 / 30 days All utilities included · No deposit Apartment in Lisbon 5.0 (3) Perfect for a Couple in center Lisbon, free wifi! 1 bedroom 45 m 2 Available from Jan 31, 2027 from €1,450 / 30 days All utilities included · No deposit Instant booking Studio in Lisbon Lapa Diplomatic Flat 1.4 by Feel Lisboa 1 bedroom 21 m 2 200/200 Mbps Available from Nov 27, 2026 from €1,527 / 30 days All utilities included · No deposit Flatio is positively evaluated by more than 13 300 users Show all evaluations “ was easy to book and I felt safe that I wouldn't be scammed Show more Amalia M. She enjoyed month in Las Palmas de Gran Canaria “ Flatio services were super good: reminders on the date of arrival and departure were very appreciated. Show more Tatiana R. She enjoyed 16 days in Estoril “ The best! No compla"
+  },
+  {
+   "quote": "Studio in Lisbon Lapa Diplomatic Flat 0.3 by Feel Lisboa 1 bedroom 22 m 2 200/200 Mbps Available from Dec 6, 2026 from €1,403 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "e everything so easy and stress-free. Honestly, I can’t think of anything that needs improvement. Everything was perfect – thank you so much! Show more Zoriana S. She enjoyed 6 days in São Vicente “ Easy to use and helpful whenever you need any support. Show more Fernando C. Enjoyed 12 months in Budapest Flatio is positively evaluated by more than 13 300 users Show all evaluations Instant booking Studio in Lisbon Lapa Diplomatic Flat 0.3 by Feel Lisboa 1 bedroom 22 m 2 200/200 Mbps Available from Dec 6, 2026 from €1,403 / 30 days All utilities included · No deposit Private room in Lisbon 5.0 (2) UpperSuite DoubleBed-Balcony.PrivateWC.Alameda IST 30 m 2 Available from Dec 14, 2026 from €1,160 / 30 days All utilities included · No deposit 5% off! Apartment in Lisbon Bright Modern 2BR with A/C near Parque das Nações 2 bedrooms 53 m 2 500/500 Mbps Available from Nov 29, 2026 €1,933 from €1,837 / 30 days All utilities included · No deposit Apartment"
+  },
+  {
+   "quote": "Apartment in Lisbon Heart of Lisbon - Atalaia 1 1 bedroom 38 m 2 Available from Dec 13, 2026 from €1,183 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": " included · No deposit Private room in Lisbon 5.0 (2) UpperSuite DoubleBed-Balcony.PrivateWC.Alameda IST 30 m 2 Available from Dec 14, 2026 from €1,160 / 30 days All utilities included · No deposit 5% off! Apartment in Lisbon Bright Modern 2BR with A/C near Parque das Nações 2 bedrooms 53 m 2 500/500 Mbps Available from Nov 29, 2026 €1,933 from €1,837 / 30 days All utilities included · No deposit Apartment in Lisbon Heart of Lisbon - Atalaia 1 1 bedroom 38 m 2 Available from Dec 13, 2026 from €1,183 / 30 days All utilities included · No deposit Apartment in Lisbon Heart of Lisbon - Atalaia 215 1 bedroom 38 m 2 Available from Jan 10, 2027 from €993 / 30 days All utilities included · No deposit Apartment in Lisbon 4.6 (3) Cosy Apartment 1 bedroom 40 m 2 Available from Dec 20, 2026 from €1,257 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled le"
+  },
+  {
+   "quote": "Apartment in Lisbon Heart of Lisbon - Atalaia 215 1 bedroom 38 m 2 Available from Jan 10, 2027 from €993 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": " / 30 days All utilities included · No deposit 5% off! Apartment in Lisbon Bright Modern 2BR with A/C near Parque das Nações 2 bedrooms 53 m 2 500/500 Mbps Available from Nov 29, 2026 €1,933 from €1,837 / 30 days All utilities included · No deposit Apartment in Lisbon Heart of Lisbon - Atalaia 1 1 bedroom 38 m 2 Available from Dec 13, 2026 from €1,183 / 30 days All utilities included · No deposit Apartment in Lisbon Heart of Lisbon - Atalaia 215 1 bedroom 38 m 2 Available from Jan 10, 2027 from €993 / 30 days All utilities included · No deposit Apartment in Lisbon 4.6 (3) Cosy Apartment 1 bedroom 40 m 2 Available from Dec 20, 2026 from €1,257 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasu"
+  },
+  {
+   "quote": "Apartment in Lisbon 4.6 (3) Cosy Apartment 1 bedroom 40 m 2 Available from Dec 20, 2026 from €1,257 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "Mbps Available from Nov 29, 2026 €1,933 from €1,837 / 30 days All utilities included · No deposit Apartment in Lisbon Heart of Lisbon - Atalaia 1 1 bedroom 38 m 2 Available from Dec 13, 2026 from €1,183 / 30 days All utilities included · No deposit Apartment in Lisbon Heart of Lisbon - Atalaia 215 1 bedroom 38 m 2 Available from Jan 10, 2027 from €993 / 30 days All utilities included · No deposit Apartment in Lisbon 4.6 (3) Cosy Apartment 1 bedroom 40 m 2 Available from Dec 20, 2026 from €1,257 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasure of your rental stay. Show more Recommended Apartment in Lisbon Beautiful Tejo View 1 bedroom 40 m 2 500/500 Mbps Available from Dec 26, 2026 fr"
+  },
+  {
+   "quote": "Apartment in Lisbon Beautiful Tejo View 1 bedroom 40 m 2 500/500 Mbps Available from Dec 26, 2026 from €1,450 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": " Apartment 1 bedroom 40 m 2 Available from Dec 20, 2026 from €1,257 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasure of your rental stay. Show more Recommended Apartment in Lisbon Beautiful Tejo View 1 bedroom 40 m 2 500/500 Mbps Available from Dec 26, 2026 from €1,450 / 30 days All utilities included · No deposit Apartment in Lisbon 5.0 (1) Spacious and sunny T1 Campo de Ourique 1 bedroom 50 m 2 25/13 Mbps Available from Jul 2, 2027 from €1,914 / 30 days All utilities included · No deposit Private room in Lisbon Cozy room Available from Dec 11, 2026 €431 from €410 / 30 days All utilities included · No deposit Apartment in Lisbon 4.3 (1) Nice and cozy 3 rooms apartment 3 bedrooms 90 m 2 700/10"
+  },
+  {
+   "quote": "Apartment in Lisbon 5.0 (1) Spacious and sunny T1 Campo de Ourique 1 bedroom 50 m 2 25/13 Mbps Available from Jul 2, 2027 from €1,914 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ty, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasure of your rental stay. Show more Recommended Apartment in Lisbon Beautiful Tejo View 1 bedroom 40 m 2 500/500 Mbps Available from Dec 26, 2026 from €1,450 / 30 days All utilities included · No deposit Apartment in Lisbon 5.0 (1) Spacious and sunny T1 Campo de Ourique 1 bedroom 50 m 2 25/13 Mbps Available from Jul 2, 2027 from €1,914 / 30 days All utilities included · No deposit Private room in Lisbon Cozy room Available from Dec 11, 2026 €431 from €410 / 30 days All utilities included · No deposit Apartment in Lisbon 4.3 (1) Nice and cozy 3 rooms apartment 3 bedrooms 90 m 2 700/100 Mbps Available from Dec 28, 2026 from €2,126 / 30 days All utilities included · No deposit Apartment in Lisbon One-Bedroom Duplex Apartment - Lisbon City Centre 1 bedroom 100 m 2"
+  },
+  {
+   "quote": "Apartment in Lisbon One-Bedroom Duplex Apartment - Lisbon City Centre 1 bedroom 100 m 2 500/500 Mbps Available from Jan 16, 2027 €1,837 from €1,653 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": " m 2 25/13 Mbps Available from Jul 2, 2027 from €1,914 / 30 days All utilities included · No deposit Private room in Lisbon Cozy room Available from Dec 11, 2026 €431 from €410 / 30 days All utilities included · No deposit Apartment in Lisbon 4.3 (1) Nice and cozy 3 rooms apartment 3 bedrooms 90 m 2 700/100 Mbps Available from Dec 28, 2026 from €2,126 / 30 days All utilities included · No deposit Apartment in Lisbon One-Bedroom Duplex Apartment - Lisbon City Centre 1 bedroom 100 m 2 500/500 Mbps Available from Jan 16, 2027 €1,837 from €1,653 / 30 days All utilities included · No deposit 10% off! Studio in Lisbon Studio In Historical Alfama 1 bedroom 20 m 2 Available from Nov 27, 2026 €870 from €783 / 30 days All utilities included · No deposit Apartment in Lisbon 4.8 (3) Alegria Apartment 1 bedroom 55 m 2 Available from Feb 7, 2027 from €1,450 / 30 days All utilities included · No deposit 1 … 4 5 6 … … 4 5 6 … 20 Flatio is an online housing rental platform for digit"
+  },
+  {
+   "quote": "Studio in Lisbon Studio In Historical Alfama 1 bedroom 20 m 2 Available from Nov 27, 2026 €870 from €783 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "cluded · No deposit Apartment in Lisbon 4.3 (1) Nice and cozy 3 rooms apartment 3 bedrooms 90 m 2 700/100 Mbps Available from Dec 28, 2026 from €2,126 / 30 days All utilities included · No deposit Apartment in Lisbon One-Bedroom Duplex Apartment - Lisbon City Centre 1 bedroom 100 m 2 500/500 Mbps Available from Jan 16, 2027 €1,837 from €1,653 / 30 days All utilities included · No deposit 10% off! Studio in Lisbon Studio In Historical Alfama 1 bedroom 20 m 2 Available from Nov 27, 2026 €870 from €783 / 30 days All utilities included · No deposit Apartment in Lisbon 4.8 (3) Alegria Apartment 1 bedroom 55 m 2 Available from Feb 7, 2027 from €1,450 / 30 days All utilities included · No deposit 1 … 4 5 6 … … 4 5 6 … 20 Flatio is an online housing rental platform for digital nomads, remote workers, and slow travelers looking for flexible, deposit-free stays worldwide, from five days to a year. Follow us Flatio Blog Become a Partn"
+  },
+  {
+   "quote": "Apartment in Lisbon 4.8 (3) Alegria Apartment 1 bedroom 55 m 2 Available from Feb 7, 2027 from €1,450 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "/ 30 days All utilities included · No deposit Apartment in Lisbon One-Bedroom Duplex Apartment - Lisbon City Centre 1 bedroom 100 m 2 500/500 Mbps Available from Jan 16, 2027 €1,837 from €1,653 / 30 days All utilities included · No deposit 10% off! Studio in Lisbon Studio In Historical Alfama 1 bedroom 20 m 2 Available from Nov 27, 2026 €870 from €783 / 30 days All utilities included · No deposit Apartment in Lisbon 4.8 (3) Alegria Apartment 1 bedroom 55 m 2 Available from Feb 7, 2027 from €1,450 / 30 days All utilities included · No deposit 1 … 4 5 6 … … 4 5 6 … 20 Flatio is an online housing rental platform for digital nomads, remote workers, and slow travelers looking for flexible, deposit-free stays worldwide, from five days to a year. Follow us Flatio Blog Become a Partner Contact and Impressum Terms and conditions Personal data protection Experience of our clients Midterm community Guests Log in Create new account "
+  }
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "_doc": "Snapshot record written by scripts/collect_evidence.py. The raw body is kept outside git as <archive>/<sha256>.html.gz.",
+ "url": "https://www.flatio.com/s/Medellin",
+ "finalUrl": "https://www.flatio.com/s/Medellin",
+ "fetchedAt": "2026-11-26T23:40:32Z",
+ "httpStatus": 200,
+ "fetchMode": "browser",
+ "contentType": "text/html; charset=utf-8",
+ "sha256": "22f55687df0583690aeaa84533fbed1a3e065835e6108aed02260573d2a6fc51",
+ "bytes": 412302,
+ "city": "medellin",
+ "component": "rent",
+ "archiveUrl": "https://web.archive.org/web/20261127002341/https://www.flatio.com/s/Medellin",
+ "matches": [
+  {
+   "quote": "Studio in Medellín New Loft with Balcony 3 Min from the Subway - Prado 1 bedroom 40 m 2 200/200 Mbps Available from Nov 27, 2026 from €483 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "w! More than 126 possible guests were interested in these listings in the last 2 days. 1 – 34 out of 36 Show map Move in - Move out Dates · Guests Number of guests Guests How many guests? Filters 0 Renting flats, houses, and rooms - Medellín - Antioquia - Colombia 36 amazing listings are waiting for new guests. Recommended sorting Sort by the newest Sort by the cheapest Sort by the best rated Map Studio in Medellín New Loft with Balcony 3 Min from the Subway - Prado 1 bedroom 40 m 2 200/200 Mbps Available from Nov 27, 2026 from €483 / 30 days All utilities included · No deposit Studio in Medellín New Colonial loft with cañabrava ceiling - Prado 1 bedroom 35 m 2 200/200 Mbps Available from Feb 1, 2027 from €503 / 30 days All utilities included · No deposit Studio in Medellín New Loft for 3 with patio and kitchen, 3 min to the subway 1 bedroom 48 m 2 200/200 Mbps Available from Jan 4, 2027 from €532 / 30 days All utilities included · No deposit Studio in Mede"
+  },
+  {
+   "quote": "Studio in Medellín New Colonial loft with cañabrava ceiling - Prado 1 bedroom 35 m 2 200/200 Mbps Available from Feb 1, 2027 from €503 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "s? Filters 0 Renting flats, houses, and rooms - Medellín - Antioquia - Colombia 36 amazing listings are waiting for new guests. Recommended sorting Sort by the newest Sort by the cheapest Sort by the best rated Map Studio in Medellín New Loft with Balcony 3 Min from the Subway - Prado 1 bedroom 40 m 2 200/200 Mbps Available from Nov 27, 2026 from €483 / 30 days All utilities included · No deposit Studio in Medellín New Colonial loft with cañabrava ceiling - Prado 1 bedroom 35 m 2 200/200 Mbps Available from Feb 1, 2027 from €503 / 30 days All utilities included · No deposit Studio in Medellín New Loft for 3 with patio and kitchen, 3 min to the subway 1 bedroom 48 m 2 200/200 Mbps Available from Jan 4, 2027 from €532 / 30 days All utilities included · No deposit Studio in Medellín New Loft with Private Bathroom and Wi-Fi - Prado 1 bedroom 32 m 2 200/200 Mbps Available from Mar 1, 2027 from €522 / 30 days All utilities included · No deposit Studio in Mede"
+  },
+  {
+   "quote": "Studio in Medellín New Loft for 3 with patio and kitchen, 3 min to the subway 1 bedroom 48 m 2 200/200 Mbps Available from Jan 4, 2027 from €532 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "eapest Sort by the best rated Map Studio in Medellín New Loft with Balcony 3 Min from the Subway - Prado 1 bedroom 40 m 2 200/200 Mbps Available from Nov 27, 2026 from €483 / 30 days All utilities included · No deposit Studio in Medellín New Colonial loft with cañabrava ceiling - Prado 1 bedroom 35 m 2 200/200 Mbps Available from Feb 1, 2027 from €503 / 30 days All utilities included · No deposit Studio in Medellín New Loft for 3 with patio and kitchen, 3 min to the subway 1 bedroom 48 m 2 200/200 Mbps Available from Jan 4, 2027 from €532 / 30 days All utilities included · No deposit Studio in Medellín New Loft with Private Bathroom and Wi-Fi - Prado 1 bedroom 32 m 2 200/200 Mbps Available from Mar 1, 2027 from €522 / 30 days All utilities included · No deposit Studio in Medellín New Loft with High Ceilings - 3 Min from the Subway 1 bedroom 28 m 2 200/200 Mbps Available from Nov 27, 2026 from €483 / 30 days All utilities included · No deposit Flatio is positively"
+  },
+  {
+   "quote": "Studio in Medellín New Loft with Private Bathroom and Wi-Fi - Prado 1 bedroom 32 m 2 200/200 Mbps Available from Mar 1, 2027 from €522 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ities included · No deposit Studio in Medellín New Colonial loft with cañabrava ceiling - Prado 1 bedroom 35 m 2 200/200 Mbps Available from Feb 1, 2027 from €503 / 30 days All utilities included · No deposit Studio in Medellín New Loft for 3 with patio and kitchen, 3 min to the subway 1 bedroom 48 m 2 200/200 Mbps Available from Jan 4, 2027 from €532 / 30 days All utilities included · No deposit Studio in Medellín New Loft with Private Bathroom and Wi-Fi - Prado 1 bedroom 32 m 2 200/200 Mbps Available from Mar 1, 2027 from €522 / 30 days All utilities included · No deposit Studio in Medellín New Loft with High Ceilings - 3 Min from the Subway 1 bedroom 28 m 2 200/200 Mbps Available from Nov 27, 2026 from €483 / 30 days All utilities included · No deposit Flatio is positively evaluated by more than 13 300 users Show all evaluations “ was easy to book and I felt safe that I wouldn't be scammed Show more Amalia M. She enjoyed month in Las Palmas de Gran C"
+  },
+  {
+   "quote": "Studio in Medellín New Loft with High Ceilings - 3 Min from the Subway 1 bedroom 28 m 2 200/200 Mbps Available from Nov 27, 2026 from €483 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ities included · No deposit Studio in Medellín New Loft for 3 with patio and kitchen, 3 min to the subway 1 bedroom 48 m 2 200/200 Mbps Available from Jan 4, 2027 from €532 / 30 days All utilities included · No deposit Studio in Medellín New Loft with Private Bathroom and Wi-Fi - Prado 1 bedroom 32 m 2 200/200 Mbps Available from Mar 1, 2027 from €522 / 30 days All utilities included · No deposit Studio in Medellín New Loft with High Ceilings - 3 Min from the Subway 1 bedroom 28 m 2 200/200 Mbps Available from Nov 27, 2026 from €483 / 30 days All utilities included · No deposit Flatio is positively evaluated by more than 13 300 users Show all evaluations “ was easy to book and I felt safe that I wouldn't be scammed Show more Amalia M. She enjoyed month in Las Palmas de Gran Canaria “ It was very convenient and quick! Show more Maksym H. Enjoyed 19 days in Prague “ Foi ótimo...bom seguimento em todo o processo do princípio até ao final. Show more Manuela P. "
+  },
+  {
+   "quote": "Studio in Medellín New Loft for 2 in a Historic Mansion - Prado 1 bedroom 37 m 2 200/200 Mbps Available from Jan 6, 2027 from €483 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "use. Makes living in a foreign city far easier than having to negotiate every service for yourself. Show more Joanna B. She enjoyed 6 months in Budapest “ The best! No complaints. Show more Vyom B. Enjoyed month in Prague “ I’ve been happy so far with my Flatio experiences. Show more Henry F. Enjoyed 24 days in Ericeira Flatio is positively evaluated by more than 13 300 users Show all evaluations Studio in Medellín New Loft for 2 in a Historic Mansion - Prado 1 bedroom 37 m 2 200/200 Mbps Available from Jan 6, 2027 from €483 / 30 days All utilities included · No deposit Studio in Medellín New Private Loft for 2 - Prado, Medellín 1 bedroom 38 m 2 200/200 Mbps Available from Jan 1, 2027 from €512 / 30 days All utilities included · No deposit 7% off! Penthouse in Medellín New Luxe Green Sanctuary | Laureles Heart 3 bedrooms 114 m 2 900/900 Mbps Available from Dec 30, 2026 €1,656 from €1,540 / 30 days All utilities included · No deposit 5% off! Studio i"
+  },
+  {
+   "quote": "Studio in Medellín New Private Loft for 2 - Prado, Medellín 1 bedroom 38 m 2 200/200 Mbps Available from Jan 1, 2027 from €512 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "s. Show more Vyom B. Enjoyed month in Prague “ I’ve been happy so far with my Flatio experiences. Show more Henry F. Enjoyed 24 days in Ericeira Flatio is positively evaluated by more than 13 300 users Show all evaluations Studio in Medellín New Loft for 2 in a Historic Mansion - Prado 1 bedroom 37 m 2 200/200 Mbps Available from Jan 6, 2027 from €483 / 30 days All utilities included · No deposit Studio in Medellín New Private Loft for 2 - Prado, Medellín 1 bedroom 38 m 2 200/200 Mbps Available from Jan 1, 2027 from €512 / 30 days All utilities included · No deposit 7% off! Penthouse in Medellín New Luxe Green Sanctuary | Laureles Heart 3 bedrooms 114 m 2 900/900 Mbps Available from Dec 30, 2026 €1,656 from €1,540 / 30 days All utilities included · No deposit 5% off! Studio in Medellín One bedroom apartment in Laureles neighbourhood 1 bedroom 35 m 2 95/40 Mbps Available from Jan 11, 2027 €773 from €735 / 30 days All utilities included · No depos"
+  },
+  {
+   "quote": "Studio in Medellín One bedroom apartment in Laureles neighbourhood 1 bedroom 35 m 2 95/40 Mbps Available from Jan 11, 2027 €773 from €735 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "included · No deposit Studio in Medellín New Private Loft for 2 - Prado, Medellín 1 bedroom 38 m 2 200/200 Mbps Available from Jan 1, 2027 from €512 / 30 days All utilities included · No deposit 7% off! Penthouse in Medellín New Luxe Green Sanctuary | Laureles Heart 3 bedrooms 114 m 2 900/900 Mbps Available from Dec 30, 2026 €1,656 from €1,540 / 30 days All utilities included · No deposit 5% off! Studio in Medellín One bedroom apartment in Laureles neighbourhood 1 bedroom 35 m 2 95/40 Mbps Available from Jan 11, 2027 €773 from €735 / 30 days All utilities included · No deposit 10% off! Cabin in Medellín Work surrounded by nature 1 bedroom 500 Mbps Available from Nov 27, 2026 €947 from €853 / 30 days All utilities included · No deposit 10% off! Apartment in Medellín Bright 2BR Apartment with Balcony, AC & Free Parki 2 bedrooms Available from Dec 30, 2026 €1,361 from €1,225 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining sec"
+  },
+  {
+   "quote": "Apartment in Medellín Modern industrial duplex with views of Medellín 3 bedrooms 400/500 Mbps Available from Nov 27, 2026 €860 from €774 / 30 days All utilities included · No deposit Apartment in Medellín Bright apartment in El Poblado 1 bedroom 90 m 2 247/28 Mbps Available from Nov 27, 2026 from €1,276 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ncluded · No deposit 15% off! Apartment in Medellín Stylish Workspace Apartment Prime Location 2 bedrooms 900/900 Mbps Available from Nov 27, 2026 €1,192 from €1,013 / 30 days All utilities included · No deposit 15% off! Apartment in Medellín Luxury 3 Bedroom Apartment 3 bedrooms 116 m 2 450 Mbps Available from Nov 27, 2027 €2,030 from €1,726 / 30 days All utilities included · No deposit 10% off! Apartment in Medellín Modern industrial duplex with views of Medellín 3 bedrooms 400/500 Mbps Available from Nov 27, 2026 €860 from €774 / 30 days All utilities included · No deposit Apartment in Medellín Bright apartment in El Poblado 1 bedroom 90 m 2 247/28 Mbps Available from Nov 27, 2026 from €1,276 / 30 days All utilities included · No deposit 10% off! Apartment in Medellín Luxury Duplex - Prime Location in Laureles First 4 bedrooms 190 m 2 500/200 Mbps Available from Nov 27, 2026 €1,933 from €1,740 / 30 days All utilities included · No deposit 1 2 Flatio is an online housing rental platform for digital nomads, remote workers, and slow travelers looking for flexible, deposit-free stays worldwide, from five days to a year. "
+  }
+ ],
+ "archiveNote": "saved via Save Page Now"
+}

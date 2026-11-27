@@ -1,0 +1,56 @@
+{
+ "_doc": "Snapshot record written by scripts/collect_evidence.py. The raw body is kept outside git as <archive>/<sha256>.html.gz.",
+ "url": "https://www.flatio.com/s/Budapest?page=5",
+ "finalUrl": "https://www.flatio.com/s/Budapest?page=5",
+ "fetchedAt": "2026-11-27T00:15:58Z",
+ "httpStatus": 200,
+ "fetchMode": "browser",
+ "contentType": "text/html; charset=utf-8",
+ "sha256": "5d1be0a91c6f88d6c26dfe034f44a60071fbd184440be627579c0e6bc937529c",
+ "bytes": 428352,
+ "city": "budapest",
+ "component": "rent",
+ "archiveUrl": null,
+ "matches": [
+  {
+   "quote": "Apartment in Budapest 5.0 (1) Apartment next to the Parliament- A/C-top location 1 bedroom 56 m 2 Available from Jan 18, 2027 from €1,295 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "e cheapest Sort by the best rated Map Apartment in Budapest Modern Living Apartment - Free Parking 2 bedrooms 40 m 2 943/281 Mbps Available from Dec 18, 2026 from €985 / 30 days All utilities included · No deposit Apartment in Budapest PERFECT Location OKTOGON DESIGNED PERFECT FLAT 2 bedrooms 95 m 2 500/500 Mbps Available from Dec 26, 2026 from €1,295 / 30 days All utilities included · No deposit Apartment in Budapest 5.0 (1) Apartment next to the Parliament- A/C-top location 1 bedroom 56 m 2 Available from Jan 18, 2027 from €1,295 / 30 days All utilities included · No deposit Hotel room in Budapest 5.0 (2) Loft room near the Opera, in the city center 16 m 2 Available from Jan 4, 2027 from €631 / 30 days All utilities included · No deposit Studio in Budapest 4.8 (2) Mezzanine Studio with AC at National Theatre (3) 1 bedroom 22 m 2 150/50 Mbps Available from Nov 27, 2026 from €907 / 30 days All utilities included · No deposit Flatio is positively evaluated "
+  },
+  {
+   "quote": "Studio in Budapest 4.8 (2) Mezzanine Studio with AC at National Theatre (3) 1 bedroom 22 m 2 150/50 Mbps Available from Nov 27, 2026 from €907 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "295 / 30 days All utilities included · No deposit Apartment in Budapest 5.0 (1) Apartment next to the Parliament- A/C-top location 1 bedroom 56 m 2 Available from Jan 18, 2027 from €1,295 / 30 days All utilities included · No deposit Hotel room in Budapest 5.0 (2) Loft room near the Opera, in the city center 16 m 2 Available from Jan 4, 2027 from €631 / 30 days All utilities included · No deposit Studio in Budapest 4.8 (2) Mezzanine Studio with AC at National Theatre (3) 1 bedroom 22 m 2 150/50 Mbps Available from Nov 27, 2026 from €907 / 30 days All utilities included · No deposit Flatio is positively evaluated by more than 13 300 users Show all evaluations “ Foi ótimo...bom seguimento em todo o processo do princípio até ao final. Show more Manuela P. She enjoyed 7 days in São Vicente “ Everything was very simple and easy, making it very convenient. Show more Gabriel V. Enjoyed 2 months in Lisbon “ Very good service, nice and easy to use. Makes living in a for"
+  },
+  {
+   "quote": "Studio in Budapest 4.4 (4) CUTE & COZY STUDIO APARTMENT IN THE CITY CENTER 1 bedroom 30 m 2 Available from Jan 1, 2027 from €635 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "Palmas de Gran Canaria “ I’ve been happy so far with my Flatio experiences. Show more Henry F. Enjoyed 24 days in Ericeira “ It was very convenient and quick! Show more Maksym H. Enjoyed 19 days in Prague “ Very convenient and everything is straightforward when booking. Show more Margarita D. She enjoyed month in Prague Flatio is positively evaluated by more than 13 300 users Show all evaluations Studio in Budapest 4.4 (4) CUTE & COZY STUDIO APARTMENT IN THE CITY CENTER 1 bedroom 30 m 2 Available from Jan 1, 2027 from €635 / 30 days All utilities included · No deposit Apartment in Budapest Green Square Apartment 2 bedrooms 48 m 2 122/6 Mbps Available from Jan 6, 2027 from €1,166 / 30 days All utilities included · No deposit Hotel room in Budapest Loft room near the Opera 16 m 2 Available from Jan 4, 2027 from €628 / 30 days All utilities included · No deposit Studio in Budapest 4.9 (6) Design studio in centre 1 bedroom 38 m 2 250/500 Mbps Availabl"
+  },
+  {
+   "quote": "Studio in Budapest 4.9 (6) Design studio in centre 1 bedroom 38 m 2 250/500 Mbps Available from Dec 11, 2026 €868 from €825 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ER 1 bedroom 30 m 2 Available from Jan 1, 2027 from €635 / 30 days All utilities included · No deposit Apartment in Budapest Green Square Apartment 2 bedrooms 48 m 2 122/6 Mbps Available from Jan 6, 2027 from €1,166 / 30 days All utilities included · No deposit Hotel room in Budapest Loft room near the Opera 16 m 2 Available from Jan 4, 2027 from €628 / 30 days All utilities included · No deposit Studio in Budapest 4.9 (6) Design studio in centre 1 bedroom 38 m 2 250/500 Mbps Available from Dec 11, 2026 €868 from €825 / 30 days All utilities included · No deposit Studio in Budapest 5.0 (4) Downtown studio for rent 1 bedroom 32 m 2 Available from Dec 21, 2026 from €816 / 30 days All utilities included · No deposit Apartment in Budapest 4.5 (2) Real home for 2 (maybe with a baby) 1 bedroom 52 m 2 603/40 Mbps Available from Aug 1, 2028 €920 from €874 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, back"
+  },
+  {
+   "quote": "Studio in Budapest 5.0 (4) Downtown studio for rent 1 bedroom 32 m 2 Available from Dec 21, 2026 from €816 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "6 Mbps Available from Jan 6, 2027 from €1,166 / 30 days All utilities included · No deposit Hotel room in Budapest Loft room near the Opera 16 m 2 Available from Jan 4, 2027 from €628 / 30 days All utilities included · No deposit Studio in Budapest 4.9 (6) Design studio in centre 1 bedroom 38 m 2 250/500 Mbps Available from Dec 11, 2026 €868 from €825 / 30 days All utilities included · No deposit Studio in Budapest 5.0 (4) Downtown studio for rent 1 bedroom 32 m 2 Available from Dec 21, 2026 from €816 / 30 days All utilities included · No deposit Apartment in Budapest 4.5 (2) Real home for 2 (maybe with a baby) 1 bedroom 52 m 2 603/40 Mbps Available from Aug 1, 2028 €920 from €874 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enha"
+  },
+  {
+   "quote": "Apartment in Budapest 4.5 (2) Real home for 2 (maybe with a baby) 1 bedroom 52 m 2 603/40 Mbps Available from Aug 1, 2028 €920 from €874 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ble from Jan 4, 2027 from €628 / 30 days All utilities included · No deposit Studio in Budapest 4.9 (6) Design studio in centre 1 bedroom 38 m 2 250/500 Mbps Available from Dec 11, 2026 €868 from €825 / 30 days All utilities included · No deposit Studio in Budapest 5.0 (4) Downtown studio for rent 1 bedroom 32 m 2 Available from Dec 21, 2026 from €816 / 30 days All utilities included · No deposit Apartment in Budapest 4.5 (2) Real home for 2 (maybe with a baby) 1 bedroom 52 m 2 603/40 Mbps Available from Aug 1, 2028 €920 from €874 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasure of your rental stay. Show more Apartment in Budapest 5.0 (1) Quiet and beautiful apartment at Oktogon Square 1 bedroom 40 m 2 300/220 Mbps Avai"
+  },
+  {
+   "quote": "Apartment in Budapest 5.0 (1) Quiet and beautiful apartment at Oktogon Square 1 bedroom 40 m 2 300/220 Mbps Available from Jan 3, 2027 from €1,062 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": " a baby) 1 bedroom 52 m 2 603/40 Mbps Available from Aug 1, 2028 €920 from €874 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasure of your rental stay. Show more Apartment in Budapest 5.0 (1) Quiet and beautiful apartment at Oktogon Square 1 bedroom 40 m 2 300/220 Mbps Available from Jan 3, 2027 from €1,062 / 30 days All utilities included · No deposit Apartment in Budapest Cozy&Stylish Home/Top location/Kiraly street 1 bedroom 40 m 2 2/1 Mbps Available from Feb 1, 2027 from €790 / 30 days All utilities included · No deposit Apartment in Budapest 5.0 (2) Calm apartment in the heart of Budapest 2 bedrooms 70 m 2 Available from Feb 1, 2027 from €1,270 / 30 days All utilities included · No deposit Private room in Budapest Large Privat"
+  },
+  {
+   "quote": "Apartment in Budapest Cozy&Stylish Home/Top location/Kiraly street 1 bedroom 40 m 2 2/1 Mbps Available from Feb 1, 2027 from €790 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "nto an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasure of your rental stay. Show more Apartment in Budapest 5.0 (1) Quiet and beautiful apartment at Oktogon Square 1 bedroom 40 m 2 300/220 Mbps Available from Jan 3, 2027 from €1,062 / 30 days All utilities included · No deposit Apartment in Budapest Cozy&Stylish Home/Top location/Kiraly street 1 bedroom 40 m 2 2/1 Mbps Available from Feb 1, 2027 from €790 / 30 days All utilities included · No deposit Apartment in Budapest 5.0 (2) Calm apartment in the heart of Budapest 2 bedrooms 70 m 2 Available from Feb 1, 2027 from €1,270 / 30 days All utilities included · No deposit Private room in Budapest Large Private Room | Kazinczy Street 30 m 2 1000/1000 Mbps Available from Jul 1, 2027 from €570 / 30 days All utilities included · No deposit Private room in Budapest Quiet Private Room | "
+  }
+ ]
+}

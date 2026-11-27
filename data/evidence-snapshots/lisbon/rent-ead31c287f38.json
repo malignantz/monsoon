@@ -1,0 +1,26 @@
+{
+ "_doc": "Snapshot record written by scripts/collect_evidence.py. The raw body is kept outside git as <archive>/<sha256>.html.gz.",
+ "url": "https://casa.sapo.pt/alugar-apartamentos/t0,t1/lisboa/avenidas-novas/com-mobilia/",
+ "finalUrl": "https://casa.sapo.pt/alugar-apartamentos/t0,t1/lisboa/avenidas-novas/com-mobilia/",
+ "fetchedAt": "2026-11-26T23:28:06Z",
+ "httpStatus": 200,
+ "fetchMode": "browser",
+ "contentType": "text/html; charset=utf-8",
+ "sha256": "ead31c287f383b6ddf2cc14017a5a0b8a843ba26114096669c819df57d1bba29",
+ "bytes": 195386,
+ "city": "lisbon",
+ "component": "rent",
+ "archiveUrl": null,
+ "matches": [
+  {
+   "quote": "Apartamento T1 Corte Inglês (São Sebastião da Pedreira), Avenidas Novas, Lisboa, Distrito de Lisboa Usado · 60m² Com Garagem alugar 1.650 €",
+   "matchedIn": "visible-text",
+   "excerpt": "ra de Fátima) Sete Rios (São Sebastião da Pedreira) Tridente (Nossa Senhora de Fátima) Twin Towers (São Sebastião da Pedreira) 2 Casas para alugar, Apartamentos T0 e T1 em Lisboa, Avenidas Novas, com Mobília Mapa Ordenar por Relevância Relevância Mais baratos Mais caros Mais recentes Mais fotos Menos Recentes 2 Casas para alugar, Apartamentos T0 e T1 em Lisboa, Avenidas Novas, com Mobília Filtros Apartamento T1 Corte Inglês (São Sebastião da Pedreira), Avenidas Novas, Lisboa, Distrito de Lisboa Usado · 60m² Com Garagem alugar 1.650 € Apartamento como novo, T1 com um lugar de estacionamento (grande). Fica no Largo São Sebastião da Pedreira junto ao El Corte Inglés. O apartamento tem cozinha totalmente equipada e está mobilado. Tem uma suite, roupeiros, ar condicionado, estores eletricos, porta blindada,segurança 24 h, junto ao El Corte Inglés. As caixilharias são termolacadas com vidros duplos, com estores eléctricos, em tod"
+  },
+  {
+   "quote": "Apartamento T1 Avenidas Novas, Lisboa, Distrito de Lisboa Usado · 42m² alugar 2.000 €",
+   "matchedIn": "visible-text",
+   "excerpt": "és. As caixilharias são termolacadas com vidros duplos, com estores eléctricos, em todas as divisões. Está totalmente mobilado e equipado, com louças, talheres, alguns atoalhados e roupa de cama; também inclui candeeiros de teto e cortinados. Junto a transportes e comércio. Centro da Cidade. Disponível de imediato. Bom apartamento! CE-C As áreas mencionadas são aproximadas. Contactar Ver Telefone Apartamento T1 Avenidas Novas, Lisboa, Distrito de Lisboa Usado · 42m² alugar 2.000 € Apartamento T1 com 42 m², mobilado e pronto a habitar, numa excelente localização nas Avenidas Novas, junto à Fundação Calouste Gulbenkian. Situado no 3. andar de um prédio recentemente remodelado e modernizado, com 2 elevadores, é um apartamento virado para a rua, com uma varanda que se estende ao longo da sala e do quarto e uma agradável vista para as copas das árvores. A combinação entre a r"
+  }
+ ]
+}

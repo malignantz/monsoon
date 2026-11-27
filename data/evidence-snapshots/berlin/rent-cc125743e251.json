@@ -1,0 +1,76 @@
+{
+ "_doc": "Snapshot record written by scripts/collect_evidence.py. The raw body is kept outside git as <archive>/<sha256>.html.gz.",
+ "url": "https://www.flatio.com/s/Berlin?page=2",
+ "finalUrl": "https://www.flatio.com/s/Berlin?page=2",
+ "fetchedAt": "2026-11-26T23:27:50Z",
+ "httpStatus": 200,
+ "fetchMode": "browser",
+ "contentType": "text/html; charset=utf-8",
+ "sha256": "cc125743e251f16418c0ed7e785f3108f9aa399f05d69716f559667d71ba2428",
+ "bytes": 416111,
+ "city": "berlin",
+ "component": "rent",
+ "archiveUrl": null,
+ "matches": [
+  {
+   "quote": "Apartment in Berlin Bright 100m² Apartment at Görlitzer Park (10-Day S 2 bedrooms No Wi-Fi Available from Apr 1, 2027 €2,320 from €2,088 / 30 days All utilities included · No deposit 10% off! Apartment in Berlin Stylish Altbau Apartment with Balcony in Neukölln 1 bedroom 62 m 2 100/50 Mbps Available from Feb 7, 2027 €1,353 from €1,218 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": " Wow! More than 300 possible guests were interested in these listings in the last 2 days. 35 – 68 out of 127 Show map Move in - Move out Dates · Guests Number of guests Guests How many guests? Filters 0 Renting flats, houses, and rooms - Berlin - Germany 127 amazing listings are waiting for new guests. Recommended sorting Sort by the newest Sort by the cheapest Sort by the best rated Map 10% off! Apartment in Berlin Bright 100m² Apartment at Görlitzer Park (10-Day S 2 bedrooms No Wi-Fi Available from Apr 1, 2027 €2,320 from €2,088 / 30 days All utilities included · No deposit 10% off! Apartment in Berlin Stylish Altbau Apartment with Balcony in Neukölln 1 bedroom 62 m 2 100/50 Mbps Available from Feb 7, 2027 €1,353 from €1,218 / 30 days All utilities included · No deposit Studio in Berlin Brand new studio in Berlin Mitte 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,779 / 30 days All utilities included · No deposit Studio in Berlin Fully equiped studio in the heart of Prenzl' Berg 1 bedroom 37 m 2 Available from Jun 16, 2027 from €1,885 / 30 days All utilities included · No deposit Studio in Berlin Quiet Studio at Hakescher Markt 1 bedroom 39 m"
+  },
+  {
+   "quote": "Studio in Berlin Brand new studio in Berlin Mitte 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,779 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ted Map 10% off! Apartment in Berlin Bright 100m² Apartment at Görlitzer Park (10-Day S 2 bedrooms No Wi-Fi Available from Apr 1, 2027 €2,320 from €2,088 / 30 days All utilities included · No deposit 10% off! Apartment in Berlin Stylish Altbau Apartment with Balcony in Neukölln 1 bedroom 62 m 2 100/50 Mbps Available from Feb 7, 2027 €1,353 from €1,218 / 30 days All utilities included · No deposit Studio in Berlin Brand new studio in Berlin Mitte 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,779 / 30 days All utilities included · No deposit Studio in Berlin Fully equiped studio in the heart of Prenzl' Berg 1 bedroom 37 m 2 Available from Jun 16, 2027 from €1,885 / 30 days All utilities included · No deposit Studio in Berlin Quiet Studio at Hakescher Markt 1 bedroom 39 m 2 Available from Dec 1, 2027 from €1,827 / 30 days All utilities included · No deposit Flatio is positively evaluated by more than 13 300 users Show all"
+  },
+  {
+   "quote": "Studio in Berlin Fully equiped studio in the heart of Prenzl' Berg 1 bedroom 37 m 2 Available from Jun 16, 2027 from €1,885 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": " / 30 days All utilities included · No deposit 10% off! Apartment in Berlin Stylish Altbau Apartment with Balcony in Neukölln 1 bedroom 62 m 2 100/50 Mbps Available from Feb 7, 2027 €1,353 from €1,218 / 30 days All utilities included · No deposit Studio in Berlin Brand new studio in Berlin Mitte 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,779 / 30 days All utilities included · No deposit Studio in Berlin Fully equiped studio in the heart of Prenzl' Berg 1 bedroom 37 m 2 Available from Jun 16, 2027 from €1,885 / 30 days All utilities included · No deposit Studio in Berlin Quiet Studio at Hakescher Markt 1 bedroom 39 m 2 Available from Dec 1, 2027 from €1,827 / 30 days All utilities included · No deposit Flatio is positively evaluated by more than 13 300 users Show all evaluations “ I’ve been happy so far with my Flatio experiences. Show more Henry F. Enjoyed 24 days in Ericeira “ Very good service, nice and easy to use. Makes living i"
+  },
+  {
+   "quote": "Studio in Berlin Quiet Studio at Hakescher Markt 1 bedroom 39 m 2 Available from Dec 1, 2027 from €1,827 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "Feb 7, 2027 €1,353 from €1,218 / 30 days All utilities included · No deposit Studio in Berlin Brand new studio in Berlin Mitte 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,779 / 30 days All utilities included · No deposit Studio in Berlin Fully equiped studio in the heart of Prenzl' Berg 1 bedroom 37 m 2 Available from Jun 16, 2027 from €1,885 / 30 days All utilities included · No deposit Studio in Berlin Quiet Studio at Hakescher Markt 1 bedroom 39 m 2 Available from Dec 1, 2027 from €1,827 / 30 days All utilities included · No deposit Flatio is positively evaluated by more than 13 300 users Show all evaluations “ I’ve been happy so far with my Flatio experiences. Show more Henry F. Enjoyed 24 days in Ericeira “ Very good service, nice and easy to use. Makes living in a foreign city far easier than having to negotiate every service for yourself. Show more Joanna B. She enjoyed 6 months in Budapest “ Flatio services"
+  },
+  {
+   "quote": "Studio in Berlin Furnished Micro Apartment / Studio in Berlin 1 bedroom 22 m 2 100/100 Mbps Available from Nov 27, 2026 €957 from €947 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "our warm hospitality and quick communication made everything so easy and stress-free. Honestly, I can’t think of anything that needs improvement. Everything was perfect – thank you so much! Show more Zoriana S. She enjoyed 6 days in São Vicente “ The best! No complaints. Show more Vyom B. Enjoyed month in Prague Flatio is positively evaluated by more than 13 300 users Show all evaluations 1% off! Studio in Berlin Furnished Micro Apartment / Studio in Berlin 1 bedroom 22 m 2 100/100 Mbps Available from Nov 27, 2026 €957 from €947 / 30 days All utilities included · No deposit Apartment in Berlin A Mid-century Modern Apartment on the River 1 bedroom 50 m 2 Available from Feb 2, 2027 from €2,117 / 30 days All utilities included · No deposit Studio in Berlin Bright and comfy studio at Weinbergspark in Mitte 1 bedroom 25 m 2 Available from Jan 29, 2027 from €1,634 / 30 days All utilities included · No deposit Apartment in Berlin Beautiful two-bedroom apartmen"
+  },
+  {
+   "quote": "Apartment in Berlin A Mid-century Modern Apartment on the River 1 bedroom 50 m 2 Available from Feb 2, 2027 from €2,117 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "so much! Show more Zoriana S. She enjoyed 6 days in São Vicente “ The best! No complaints. Show more Vyom B. Enjoyed month in Prague Flatio is positively evaluated by more than 13 300 users Show all evaluations 1% off! Studio in Berlin Furnished Micro Apartment / Studio in Berlin 1 bedroom 22 m 2 100/100 Mbps Available from Nov 27, 2026 €957 from €947 / 30 days All utilities included · No deposit Apartment in Berlin A Mid-century Modern Apartment on the River 1 bedroom 50 m 2 Available from Feb 2, 2027 from €2,117 / 30 days All utilities included · No deposit Studio in Berlin Bright and comfy studio at Weinbergspark in Mitte 1 bedroom 25 m 2 Available from Jan 29, 2027 from €1,634 / 30 days All utilities included · No deposit Apartment in Berlin Beautiful two-bedroom apartment in Spandau 2 bedrooms 39 m 2 50/16 Mbps Available from May 3, 2027 from €1,740 / 30 days All utilities included · No deposit Apartment in Berlin Spacious, light fil"
+  },
+  {
+   "quote": "Studio in Berlin Bright and comfy studio at Weinbergspark in Mitte 1 bedroom 25 m 2 Available from Jan 29, 2027 from €1,634 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": " more than 13 300 users Show all evaluations 1% off! Studio in Berlin Furnished Micro Apartment / Studio in Berlin 1 bedroom 22 m 2 100/100 Mbps Available from Nov 27, 2026 €957 from €947 / 30 days All utilities included · No deposit Apartment in Berlin A Mid-century Modern Apartment on the River 1 bedroom 50 m 2 Available from Feb 2, 2027 from €2,117 / 30 days All utilities included · No deposit Studio in Berlin Bright and comfy studio at Weinbergspark in Mitte 1 bedroom 25 m 2 Available from Jan 29, 2027 from €1,634 / 30 days All utilities included · No deposit Apartment in Berlin Beautiful two-bedroom apartment in Spandau 2 bedrooms 39 m 2 50/16 Mbps Available from May 3, 2027 from €1,740 / 30 days All utilities included · No deposit Apartment in Berlin Spacious, light filled Pberg apt 1 bedroom 73 m 2 Available from Nov 29, 2026 from €2,252 / 30 days All utilities included · No deposit Studio in Berlin Colorful studio apartment next to SO"
+  },
+  {
+   "quote": "Apartment in Berlin Spacious, light filled Pberg apt 1 bedroom 73 m 2 Available from Nov 29, 2026 from €2,252 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "€2,117 / 30 days All utilities included · No deposit Studio in Berlin Bright and comfy studio at Weinbergspark in Mitte 1 bedroom 25 m 2 Available from Jan 29, 2027 from €1,634 / 30 days All utilities included · No deposit Apartment in Berlin Beautiful two-bedroom apartment in Spandau 2 bedrooms 39 m 2 50/16 Mbps Available from May 3, 2027 from €1,740 / 30 days All utilities included · No deposit Apartment in Berlin Spacious, light filled Pberg apt 1 bedroom 73 m 2 Available from Nov 29, 2026 from €2,252 / 30 days All utilities included · No deposit Studio in Berlin Colorful studio apartment next to SOHO HOUSE 1 bedroom 41 m 2 Available from Jun 1, 2027 from €1,730 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of m"
+  },
+  {
+   "quote": "Studio in Berlin Colorful studio apartment next to SOHO HOUSE 1 bedroom 41 m 2 Available from Jun 1, 2027 from €1,730 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "29, 2027 from €1,634 / 30 days All utilities included · No deposit Apartment in Berlin Beautiful two-bedroom apartment in Spandau 2 bedrooms 39 m 2 50/16 Mbps Available from May 3, 2027 from €1,740 / 30 days All utilities included · No deposit Apartment in Berlin Spacious, light filled Pberg apt 1 bedroom 73 m 2 Available from Nov 29, 2026 from €2,252 / 30 days All utilities included · No deposit Studio in Berlin Colorful studio apartment next to SOHO HOUSE 1 bedroom 41 m 2 Available from Jun 1, 2027 from €1,730 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasure of your rental stay. Show more Studio in Berlin A Mid-century Modern Prenzlauer Berg Studio 1 bedroom 42 m 2 Available from Apr 20, 2027 from €"
+  },
+  {
+   "quote": "Studio in Berlin A Mid-century Modern Prenzlauer Berg Studio 1 bedroom 42 m 2 Available from Apr 20, 2027 from €1,634 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ment next to SOHO HOUSE 1 bedroom 41 m 2 Available from Jun 1, 2027 from €1,730 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasure of your rental stay. Show more Studio in Berlin A Mid-century Modern Prenzlauer Berg Studio 1 bedroom 42 m 2 Available from Apr 20, 2027 from €1,634 / 30 days All utilities included · No deposit 2% off! Private room in Berlin Unique Loft Apartment Room in Berlin Köpenick 20 m 2 500/500 Mbps Available from Apr 11, 2027 €851 from €834 / 30 days All utilities included · No deposit Studio in Berlin Perfect Studio in Berlin Mitte | Hackescher Markt 1 bedroom 30 m 2 Available from Nov 27, 2026 from €1,537 / 30 days All utilities included · No deposit Apartment in Berlin Movie-love"
+  },
+  {
+   "quote": "Apartment in Berlin Movie-lover’s delight in Prenzlauer Berg 1 bedroom 65 m 2 Available from Nov 27, 2026 €2,900 from €2,610 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "30 days All utilities included · No deposit 2% off! Private room in Berlin Unique Loft Apartment Room in Berlin Köpenick 20 m 2 500/500 Mbps Available from Apr 11, 2027 €851 from €834 / 30 days All utilities included · No deposit Studio in Berlin Perfect Studio in Berlin Mitte | Hackescher Markt 1 bedroom 30 m 2 Available from Nov 27, 2026 from €1,537 / 30 days All utilities included · No deposit Apartment in Berlin Movie-lover’s delight in Prenzlauer Berg 1 bedroom 65 m 2 Available from Nov 27, 2026 €2,900 from €2,610 / 30 days All utilities included · No deposit 5% off! Apartment in Berlin Modern, Central and Quiet 2-Room Apartment 1 bedroom 41 m 2 100/10 Mbps Available from Nov 30, 2026 €1,334 from €1,267 / 30 days All utilities included · No deposit Apartment in Berlin Modern and completely renovated 4-room apartment 3 bedrooms 65 m 2 260/14 Mbps Available from Feb 28, 2027 from €2,296 / 30 days All utilities included · No deposit 10% off!"
+  },
+  {
+   "quote": "Apartment in Berlin Modern, Central and Quiet 2-Room Apartment 1 bedroom 41 m 2 100/10 Mbps Available from Nov 30, 2026 €1,334 from €1,267 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "€834 / 30 days All utilities included · No deposit Studio in Berlin Perfect Studio in Berlin Mitte | Hackescher Markt 1 bedroom 30 m 2 Available from Nov 27, 2026 from €1,537 / 30 days All utilities included · No deposit Apartment in Berlin Movie-lover’s delight in Prenzlauer Berg 1 bedroom 65 m 2 Available from Nov 27, 2026 €2,900 from €2,610 / 30 days All utilities included · No deposit 5% off! Apartment in Berlin Modern, Central and Quiet 2-Room Apartment 1 bedroom 41 m 2 100/10 Mbps Available from Nov 30, 2026 €1,334 from €1,267 / 30 days All utilities included · No deposit Apartment in Berlin Modern and completely renovated 4-room apartment 3 bedrooms 65 m 2 260/14 Mbps Available from Feb 28, 2027 from €2,296 / 30 days All utilities included · No deposit 10% off! Private room in Berlin Stylish & bright room in Rixdorf/Neukölln 20 m 2 50/20 Mbps Available from Nov 27, 2026 €1,402 from €1,261 / 30 days All utilities included · No deposit 1 2 3 4 Flatio i"
+  }
+ ]
+}

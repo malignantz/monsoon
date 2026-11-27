@@ -1,0 +1,332 @@
+{
+ "city": "Medellín",
+ "slug": "medellin",
+ "collectedOn": "2026-11-26",
+ "storedRentUsd": 700,
+ "searchDefinition": {
+  "id": "furnished-1br-midterm-v1",
+  "unit": "whole furnished unit, studio or 1 bedroom",
+  "sizeM2": [
+   30,
+   60
+  ],
+  "stay": "move-in by 2027-01-26 (within 2 months of collection) for a 1-3 month stay",
+  "neighbourhoods": [
+   "El Poblado",
+   "Laureles-Estadio",
+   "Envigado"
+  ],
+  "neighbourhoodRule": "declared before collecting. Enforced by portal filter where the portal has one (casa.sapo); otherwise the stated neighbourhood is recorded and inDeclaredNeighbourhoods flags it, but listings are not dropped for it."
+ },
+ "fx": {
+  "EUR": {
+   "perUSD": 0.9121,
+   "source": "open.er-api.com/v6/latest/USD (the feed the cost-evidence store cites)",
+   "date": "2026-11-26",
+   "note": "the app's own ECB table (src/lib/fxRates.json, 2026-10-02) gives 0.8909 EUR per USD, about 2.4% fewer dollars per euro"
+  }
+ },
+ "markets": {
+  "midTermFurnished": {
+   "portals": [
+    {
+     "portal": "flatio.com",
+     "searchUrl": "https://www.flatio.com/s/Medellin",
+     "sort": "portal default ('Recommended sorting'; includes 'Top pick' promotion). The 'newest' sort is a form control we could not set by URL.",
+     "filters": "none by URL; studio/1-bedroom whole apartments kept by reading each card",
+     "pagesRead": [
+      1,
+      2
+     ],
+     "note": "Flatio cannot filter by neighbourhood, so the whole city result list was taken. Only 15-19 of the 34 cards per page rendered for us (the rest stayed as loading placeholders), so this is the rendered part of each page, in order. Cards that are rooms, houses or 2+ bedrooms were skipped by definition and are not listed. 0 card(s) changed between our two page views and had no snapshot, so they are left out. Medellín has 36 listings in total (2 pages); later page numbers repeat page 1 and were ignored."
+    }
+   ],
+   "listings": [
+    {
+     "id": "flatio-p1-01",
+     "portal": "flatio.com",
+     "url": "https://www.flatio.com/s/Medellin",
+     "priceLocal": 483,
+     "currency": "EUR",
+     "priceBasis": "per 30 days, Flatio's lowest 30-day price ('from') for the next available period",
+     "includes": "card says all utilities included",
+     "sizeM2": 40,
+     "bedrooms": 0,
+     "neighbourhood": "not stated",
+     "inDeclaredNeighbourhoods": null,
+     "furnished": true,
+     "minStay": "not on card (Flatio stays are 1-12 months)",
+     "availableFrom": "2026-11-27",
+     "seenOn": "2026-11-26",
+     "title": "New Loft with Balcony 3 Min from the Subway - Prado",
+     "quote": "Studio in Medellín New Loft with Balcony 3 Min from the Subway - Prado 1 bedroom 40 m 2 200/200 Mbps Available from Nov 27, 2026 from €483 / 30 days All utilities included",
+     "snapshot": "medellin/rent-22f55687df05.json",
+     "usd": 529.55
+    },
+    {
+     "id": "flatio-p1-02",
+     "portal": "flatio.com",
+     "url": "https://www.flatio.com/s/Medellin",
+     "priceLocal": 503,
+     "currency": "EUR",
+     "priceBasis": "per 30 days, Flatio's lowest 30-day price ('from') for the next available period",
+     "includes": "card says all utilities included",
+     "sizeM2": 35,
+     "bedrooms": 0,
+     "neighbourhood": "not stated",
+     "inDeclaredNeighbourhoods": null,
+     "furnished": true,
+     "minStay": "not on card (Flatio stays are 1-12 months)",
+     "availableFrom": "2027-02-01",
+     "seenOn": "2026-11-26",
+     "title": "New Colonial loft with cañabrava ceiling - Prado",
+     "quote": "Studio in Medellín New Colonial loft with cañabrava ceiling - Prado 1 bedroom 35 m 2 200/200 Mbps Available from Feb 1, 2027 from €503 / 30 days All utilities included",
+     "snapshot": "medellin/rent-22f55687df05.json",
+     "exclude": "not available to move in within 2 months",
+     "usd": 551.47
+    },
+    {
+     "id": "flatio-p1-03",
+     "portal": "flatio.com",
+     "url": "https://www.flatio.com/s/Medellin",
+     "priceLocal": 532,
+     "currency": "EUR",
+     "priceBasis": "per 30 days, Flatio's lowest 30-day price ('from') for the next available period",
+     "includes": "card says all utilities included",
+     "sizeM2": 48,
+     "bedrooms": 0,
+     "neighbourhood": "not stated",
+     "inDeclaredNeighbourhoods": null,
+     "furnished": true,
+     "minStay": "not on card (Flatio stays are 1-12 months)",
+     "availableFrom": "2027-01-04",
+     "seenOn": "2026-11-26",
+     "title": "New Loft for 3 with patio and kitchen, 3 min to the subway",
+     "quote": "Studio in Medellín New Loft for 3 with patio and kitchen, 3 min to the subway 1 bedroom 48 m 2 200/200 Mbps Available from Jan 4, 2027 from €532 / 30 days All utilities included",
+     "snapshot": "medellin/rent-22f55687df05.json",
+     "usd": 583.27
+    },
+    {
+     "id": "flatio-p1-04",
+     "portal": "flatio.com",
+     "url": "https://www.flatio.com/s/Medellin",
+     "priceLocal": 522,
+     "currency": "EUR",
+     "priceBasis": "per 30 days, Flatio's lowest 30-day price ('from') for the next available period",
+     "includes": "card says all utilities included",
+     "sizeM2": 32,
+     "bedrooms": 0,
+     "neighbourhood": "not stated",
+     "inDeclaredNeighbourhoods": null,
+     "furnished": true,
+     "minStay": "not on card (Flatio stays are 1-12 months)",
+     "availableFrom": "2027-03-01",
+     "seenOn": "2026-11-26",
+     "title": "New Loft with Private Bathroom and Wi-Fi - Prado",
+     "quote": "Studio in Medellín New Loft with Private Bathroom and Wi-Fi - Prado 1 bedroom 32 m 2 200/200 Mbps Available from Mar 1, 2027 from €522 / 30 days All utilities included",
+     "snapshot": "medellin/rent-22f55687df05.json",
+     "exclude": "not available to move in within 2 months",
+     "usd": 572.31
+    },
+    {
+     "id": "flatio-p1-05",
+     "portal": "flatio.com",
+     "url": "https://www.flatio.com/s/Medellin",
+     "priceLocal": 483,
+     "currency": "EUR",
+     "priceBasis": "per 30 days, Flatio's lowest 30-day price ('from') for the next available period",
+     "includes": "card says all utilities included",
+     "sizeM2": 28,
+     "bedrooms": 0,
+     "neighbourhood": "not stated",
+     "inDeclaredNeighbourhoods": null,
+     "furnished": true,
+     "minStay": "not on card (Flatio stays are 1-12 months)",
+     "availableFrom": "2026-11-27",
+     "seenOn": "2026-11-26",
+     "title": "New Loft with High Ceilings - 3 Min from the Subway",
+     "quote": "Studio in Medellín New Loft with High Ceilings - 3 Min from the Subway 1 bedroom 28 m 2 200/200 Mbps Available from Nov 27, 2026 from €483 / 30 days All utilities included",
+     "snapshot": "medellin/rent-22f55687df05.json",
+     "exclude": "outside 30-60 m2 band",
+     "usd": 529.55
+    },
+    {
+     "id": "flatio-p1-06",
+     "portal": "flatio.com",
+     "url": "https://www.flatio.com/s/Medellin",
+     "priceLocal": 483,
+     "currency": "EUR",
+     "priceBasis": "per 30 days, Flatio's lowest 30-day price ('from') for the next available period",
+     "includes": "card says all utilities included",
+     "sizeM2": 37,
+     "bedrooms": 0,
+     "neighbourhood": "not stated",
+     "inDeclaredNeighbourhoods": null,
+     "furnished": true,
+     "minStay": "not on card (Flatio stays are 1-12 months)",
+     "availableFrom": "2027-01-06",
+     "seenOn": "2026-11-26",
+     "title": "New Loft for 2 in a Historic Mansion - Prado",
+     "quote": "Studio in Medellín New Loft for 2 in a Historic Mansion - Prado 1 bedroom 37 m 2 200/200 Mbps Available from Jan 6, 2027 from €483 / 30 days All utilities included",
+     "snapshot": "medellin/rent-22f55687df05.json",
+     "usd": 529.55
+    },
+    {
+     "id": "flatio-p1-07",
+     "portal": "flatio.com",
+     "url": "https://www.flatio.com/s/Medellin",
+     "priceLocal": 512,
+     "currency": "EUR",
+     "priceBasis": "per 30 days, Flatio's lowest 30-day price ('from') for the next available period",
+     "includes": "card says all utilities included",
+     "sizeM2": 38,
+     "bedrooms": 0,
+     "neighbourhood": "not stated",
+     "inDeclaredNeighbourhoods": null,
+     "furnished": true,
+     "minStay": "not on card (Flatio stays are 1-12 months)",
+     "availableFrom": "2027-01-01",
+     "seenOn": "2026-11-26",
+     "title": "New Private Loft for 2 - Prado, Medellín",
+     "quote": "Studio in Medellín New Private Loft for 2 - Prado, Medellín 1 bedroom 38 m 2 200/200 Mbps Available from Jan 1, 2027 from €512 / 30 days All utilities included",
+     "snapshot": "medellin/rent-22f55687df05.json",
+     "usd": 561.34
+    },
+    {
+     "id": "flatio-p1-08",
+     "portal": "flatio.com",
+     "url": "https://www.flatio.com/s/Medellin",
+     "priceLocal": 735,
+     "currency": "EUR",
+     "priceBasis": "per 30 days, Flatio's lowest 30-day price ('from') for the next available period",
+     "includes": "card says all utilities included",
+     "sizeM2": 35,
+     "bedrooms": 0,
+     "neighbourhood": "Laureles",
+     "inDeclaredNeighbourhoods": true,
+     "furnished": true,
+     "minStay": "not on card (Flatio stays are 1-12 months)",
+     "availableFrom": "2027-01-11",
+     "seenOn": "2026-11-26",
+     "title": "One bedroom apartment in Laureles neighbourhood",
+     "quote": "Studio in Medellín One bedroom apartment in Laureles neighbourhood 1 bedroom 35 m 2 95/40 Mbps Available from Jan 11, 2027 €773 from €735 / 30 days All utilities included",
+     "snapshot": "medellin/rent-22f55687df05.json",
+     "usd": 805.83
+    },
+    {
+     "id": "flatio-p1-09",
+     "portal": "flatio.com",
+     "url": "https://www.flatio.com/s/Medellin",
+     "priceLocal": 1276,
+     "currency": "EUR",
+     "priceBasis": "per 30 days, Flatio's lowest 30-day price ('from') for the next available period",
+     "includes": "card says all utilities included",
+     "sizeM2": 90,
+     "bedrooms": 1,
+     "neighbourhood": "Poblado",
+     "inDeclaredNeighbourhoods": true,
+     "furnished": true,
+     "minStay": "not on card (Flatio stays are 1-12 months)",
+     "availableFrom": "2026-11-27",
+     "seenOn": "2026-11-26",
+     "title": "Modern industrial duplex with views of Medellín 3 bedrooms 400/500 Mbps Available from Nov 27, 2026 €860 from €774 / 30 days All utilities included · No deposit Apartment in Medellín Bright apartment in El Poblado",
+     "quote": "Apartment in Medellín Modern industrial duplex with views of Medellín 3 bedrooms 400/500 Mbps Available from Nov 27, 2026 €860 from €774 / 30 days All utilities included · No deposit Apartment in Medellín Bright apartment in El Poblado 1 bedroom 90 m 2 247/28 Mbps Available from Nov 27, 2026 from €1,276 / 30 days All utilities included",
+     "snapshot": "medellin/rent-22f55687df05.json",
+     "exclude": "outside 30-60 m2 band",
+     "usd": 1398.97
+    },
+    {
+     "id": "flatio-p2-10",
+     "portal": "flatio.com",
+     "url": "https://www.flatio.com/s/Medellin?page=2",
+     "priceLocal": 1117,
+     "currency": "EUR",
+     "priceBasis": "per 30 days, Flatio's lowest 30-day price ('from') for the next available period",
+     "includes": "card says all utilities included",
+     "sizeM2": 50,
+     "bedrooms": 1,
+     "neighbourhood": "not stated",
+     "inDeclaredNeighbourhoods": null,
+     "furnished": true,
+     "minStay": "not on card (Flatio stays are 1-12 months)",
+     "availableFrom": "2026-12-01",
+     "seenOn": "2026-11-26",
+     "title": "Amazing Gold Mile Oviedo- Eafit",
+     "quote": "Apartment in Medellín Amazing Gold Mile Oviedo- Eafit 1 bedroom 50 m 2 626/559 Mbps Available from Dec 1, 2026 €2,233 from €1,117 / 30 days All utilities included",
+     "snapshot": "medellin/rent-4bf6cdb3570c.json",
+     "usd": 1224.65
+    }
+   ],
+   "summary": {
+    "listingsSeen": 10,
+    "n": 5,
+    "medianUsd": 561.34,
+    "p25Usd": 529.55,
+    "p75Usd": 583.27,
+    "minUsd": 529.55,
+    "maxUsd": 805.83,
+    "storedRentUsd": 700,
+    "diffVsStoredPct": -19.8,
+    "exclusions": [
+     {
+      "id": "flatio-p1-02",
+      "reason": "not available to move in within 2 months"
+     },
+     {
+      "id": "flatio-p1-04",
+      "reason": "not available to move in within 2 months"
+     },
+     {
+      "id": "flatio-p1-05",
+      "reason": "outside 30-60 m2 band"
+     },
+     {
+      "id": "flatio-p1-09",
+      "reason": "outside 30-60 m2 band"
+     },
+     {
+      "id": "flatio-p2-10",
+      "reason": "outlier: usd 1224.65 outside 1.5xIQR fences [218, 1069]"
+     }
+    ]
+   }
+  }
+ },
+ "portalsTried": [
+  {
+   "portal": "flatio.com",
+   "market": "midTermFurnished",
+   "outcome": "used",
+   "note": "only 36 listings city-wide"
+  },
+  {
+   "portal": "fincaraiz.com.co",
+   "market": "longTermLocal",
+   "outcome": "terms forbid automated access",
+   "note": "'Abstenerse de realizar actividades de scraping, bots, crawlers'"
+  },
+  {
+   "portal": "ciencuadras.com",
+   "market": "longTermLocal",
+   "outcome": "terms forbid automated access",
+   "note": "and robots.txt disallows /search/"
+  },
+  {
+   "portal": "metrocuadrado.com",
+   "market": "longTermLocal",
+   "outcome": "tried, not usable in the time box",
+   "note": "no clause found; result cards show price only (no size, bedrooms or furnished flag); filters are form controls we could not set by URL"
+  },
+  {
+   "portal": "airbnb.com",
+   "market": "midTermFurnished",
+   "outcome": "terms forbid automated access",
+   "note": ""
+  }
+ ],
+ "effort": {
+  "wallClockMinutes": 14,
+  "pageViews": 12,
+  "note": "includes 3 repeated pages and the metrocuadrado probe"
+ }
+}

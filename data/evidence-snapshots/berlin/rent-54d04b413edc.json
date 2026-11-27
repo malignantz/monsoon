@@ -1,0 +1,56 @@
+{
+ "_doc": "Snapshot record written by scripts/collect_evidence.py. The raw body is kept outside git as <archive>/<sha256>.html.gz.",
+ "url": "https://www.flatio.com/s/Berlin?page=3",
+ "finalUrl": "https://www.flatio.com/s/Berlin?page=3",
+ "fetchedAt": "2026-11-26T23:30:02Z",
+ "httpStatus": 200,
+ "fetchMode": "browser",
+ "contentType": "text/html; charset=utf-8",
+ "sha256": "54d04b413edc5f07ea66e7128886303147c1dc1c4e0c95b800571b8664ca982a",
+ "bytes": 413653,
+ "city": "berlin",
+ "component": "rent",
+ "archiveUrl": null,
+ "matches": [
+  {
+   "quote": "Apartment in Berlin Sunny design apartment. Best location. 1 bedroom 1000/50 Mbps Available from Nov 27, 2026 from €1,634 / 30 days All utilities included · No deposit Apartment in Berlin Spacious one-bedroom-apartment in Prenzlauerberg 1 bedroom 48 m 2 50/16 Mbps Available from Apr 2, 2027 from €1,933 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "t by the newest Sort by the cheapest Sort by the best rated Map Apartment in Berlin Bright Historic Garden Flat in Pankow 1 bedroom 65 m 2 400/400 Mbps Available from Nov 27, 2026 from €2,107 / 30 days All utilities included · No deposit Apartment in Berlin Bright 2 Bedroom apartment 2 bedrooms 79 m 2 50/16 Mbps Available from Nov 27, 2026 from €2,417 / 30 days All utilities included · No deposit Apartment in Berlin Sunny design apartment. Best location. 1 bedroom 1000/50 Mbps Available from Nov 27, 2026 from €1,634 / 30 days All utilities included · No deposit Apartment in Berlin Spacious one-bedroom-apartment in Prenzlauerberg 1 bedroom 48 m 2 50/16 Mbps Available from Apr 2, 2027 from €1,933 / 30 days All utilities included · No deposit Loft in Berlin 3-room apartment with terrace and sauna 2 bedrooms 90 m 2 50/1 Mbps Available from Nov 27, 2026 from €3,480 / 30 days All utilities included · No deposit Flatio is positively evaluated by more than 13 300 users Show all evaluations “ The best! No complaints. Show more Vyom B. Enjoyed month in Prague “ Foi ótimo...bom seguimento em todo o processo do princípio até ao fi"
+  },
+  {
+   "quote": "Studio in Berlin Beautiful studio apartment at Gleimviertel P-Berg 1 bedroom 32 m 2 50/16 Mbps Available from Nov 27, 2026 from €1,643 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ervices were super good: reminders on the date of arrival and departure were very appreciated. Show more Tatiana R. She enjoyed 16 days in Estoril Flatio is positively evaluated by more than 13 300 users Show all evaluations Apartment in Berlin 2-Bedroom Apartment with sleeping couch 2 bedrooms 48 m 2 50/16 Mbps Available from Jan 30, 2027 from €2,320 / 30 days All utilities included · No deposit Studio in Berlin Beautiful studio apartment at Gleimviertel P-Berg 1 bedroom 32 m 2 50/16 Mbps Available from Nov 27, 2026 from €1,643 / 30 days All utilities included · No deposit Studio in Berlin Beautiful Smart Home Studio 1 bedroom 42 m 2 50/16 Mbps Available from Nov 27, 2026 from €1,740 / 30 days All utilities included · No deposit Apartment in Berlin 3 bedroom old building dream with open kitchen 2 bedrooms 70 m 2 50/16 Mbps Available from Mar 1, 2027 from €2,900 / 30 days All utilities included · No deposit Studio in Berlin Studio Apartment at Pernzlaue"
+  },
+  {
+   "quote": "Studio in Berlin Beautiful Smart Home Studio 1 bedroom 42 m 2 50/16 Mbps Available from Nov 27, 2026 from €1,740 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "more than 13 300 users Show all evaluations Apartment in Berlin 2-Bedroom Apartment with sleeping couch 2 bedrooms 48 m 2 50/16 Mbps Available from Jan 30, 2027 from €2,320 / 30 days All utilities included · No deposit Studio in Berlin Beautiful studio apartment at Gleimviertel P-Berg 1 bedroom 32 m 2 50/16 Mbps Available from Nov 27, 2026 from €1,643 / 30 days All utilities included · No deposit Studio in Berlin Beautiful Smart Home Studio 1 bedroom 42 m 2 50/16 Mbps Available from Nov 27, 2026 from €1,740 / 30 days All utilities included · No deposit Apartment in Berlin 3 bedroom old building dream with open kitchen 2 bedrooms 70 m 2 50/16 Mbps Available from Mar 1, 2027 from €2,900 / 30 days All utilities included · No deposit Studio in Berlin Studio Apartment at PernzlauerBerg 1 bedroom 32 m 2 50/16 Mbps Available from Nov 27, 2026 from €1,740 / 30 days All utilities included · No deposit Studio in Berlin 1-room studio with ope"
+  },
+  {
+   "quote": "Studio in Berlin Studio Apartment at PernzlauerBerg 1 bedroom 32 m 2 50/16 Mbps Available from Nov 27, 2026 from €1,740 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "6 from €1,643 / 30 days All utilities included · No deposit Studio in Berlin Beautiful Smart Home Studio 1 bedroom 42 m 2 50/16 Mbps Available from Nov 27, 2026 from €1,740 / 30 days All utilities included · No deposit Apartment in Berlin 3 bedroom old building dream with open kitchen 2 bedrooms 70 m 2 50/16 Mbps Available from Mar 1, 2027 from €2,900 / 30 days All utilities included · No deposit Studio in Berlin Studio Apartment at PernzlauerBerg 1 bedroom 32 m 2 50/16 Mbps Available from Nov 27, 2026 from €1,740 / 30 days All utilities included · No deposit Studio in Berlin 1-room studio with open kitchen/living room 1 bedroom 35 m 2 50/16 Mbps Available from Dec 1, 2026 from €1,740 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your "
+  },
+  {
+   "quote": "Studio in Berlin 1-room studio with open kitchen/living room 1 bedroom 35 m 2 50/16 Mbps Available from Dec 1, 2026 from €1,740 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "€1,740 / 30 days All utilities included · No deposit Apartment in Berlin 3 bedroom old building dream with open kitchen 2 bedrooms 70 m 2 50/16 Mbps Available from Mar 1, 2027 from €2,900 / 30 days All utilities included · No deposit Studio in Berlin Studio Apartment at PernzlauerBerg 1 bedroom 32 m 2 50/16 Mbps Available from Nov 27, 2026 from €1,740 / 30 days All utilities included · No deposit Studio in Berlin 1-room studio with open kitchen/living room 1 bedroom 35 m 2 50/16 Mbps Available from Dec 1, 2026 from €1,740 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasure of your rental stay. Show more Studio in Berlin Studio apartment Mauerpark Berlin 1 bedroom 27 m 2 50/16 Mbps Available from Dec 31, 2026 from "
+  },
+  {
+   "quote": "Studio in Berlin Studio apartment Mauerpark Berlin 1 bedroom 27 m 2 50/16 Mbps Available from Dec 31, 2026 from €1,740 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "/living room 1 bedroom 35 m 2 50/16 Mbps Available from Dec 1, 2026 from €1,740 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasure of your rental stay. Show more Studio in Berlin Studio apartment Mauerpark Berlin 1 bedroom 27 m 2 50/16 Mbps Available from Dec 31, 2026 from €1,740 / 30 days All utilities included · No deposit Apartment in Berlin Family-friendly 3-bedroom apartment in Berlin 3 bedrooms 105 m 2 50/16 Mbps Available from Mar 1, 2027 from €2,707 / 30 days All utilities included · No deposit 10% off! Apartment in Berlin Charming Altbau Apartment with High Ceilings & His 2 bedrooms 100 m 2 Available from Nov 27, 2027 €3,093 from €2,784 / 30 days All utilities included · No deposit Apartment in "
+  },
+  {
+   "quote": "Apartment in Berlin City Pop Berlin Ostkreuz - M 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,392 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ties included · No deposit Apartment in Berlin Family-friendly 3-bedroom apartment in Berlin 3 bedrooms 105 m 2 50/16 Mbps Available from Mar 1, 2027 from €2,707 / 30 days All utilities included · No deposit 10% off! Apartment in Berlin Charming Altbau Apartment with High Ceilings & His 2 bedrooms 100 m 2 Available from Nov 27, 2027 €3,093 from €2,784 / 30 days All utilities included · No deposit Apartment in Berlin City Pop Berlin Ostkreuz - M 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,392 / 30 days All utilities included · No deposit Apartment in Berlin City Pop Berlin Ostkreuz - M 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,392 / 30 days All utilities included · No deposit Apartment in Berlin Cozy 1-bedroom apartment in Berlin 1 bedroom 42 m 2 50/16 Mbps Available from Feb 28, 2027 from €1,353 / 30 days All utilities included · No deposit Penthouse in Berlin Beautiful 3-room penthouse apartment with ter"
+  },
+  {
+   "quote": "Apartment in Berlin Cozy 1-bedroom apartment in Berlin 1 bedroom 42 m 2 50/16 Mbps Available from Feb 28, 2027 from €1,353 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": " 2 Available from Nov 27, 2027 €3,093 from €2,784 / 30 days All utilities included · No deposit Apartment in Berlin City Pop Berlin Ostkreuz - M 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,392 / 30 days All utilities included · No deposit Apartment in Berlin City Pop Berlin Ostkreuz - M 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,392 / 30 days All utilities included · No deposit Apartment in Berlin Cozy 1-bedroom apartment in Berlin 1 bedroom 42 m 2 50/16 Mbps Available from Feb 28, 2027 from €1,353 / 30 days All utilities included · No deposit Penthouse in Berlin Beautiful 3-room penthouse apartment with terrace 2 bedrooms 67 m 2 50/16 Mbps Available from Aug 30, 2027 from €3,287 / 30 days All utilities included · No deposit 1 2 3 4 Flatio is an online housing rental platform for digital nomads, remote workers, and slow travelers looking for flexible, deposit-free stays worldwide, from five days to a year. Follow us Flatio"
+  }
+ ]
+}

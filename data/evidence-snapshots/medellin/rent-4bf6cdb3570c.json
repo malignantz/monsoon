@@ -1,0 +1,21 @@
+{
+ "_doc": "Snapshot record written by scripts/collect_evidence.py. The raw body is kept outside git as <archive>/<sha256>.html.gz.",
+ "url": "https://www.flatio.com/s/Medellin?page=2",
+ "finalUrl": "https://www.flatio.com/s/Medellin?page=2",
+ "fetchedAt": "2026-11-26T23:41:38Z",
+ "httpStatus": 200,
+ "fetchMode": "browser",
+ "contentType": "text/html; charset=utf-8",
+ "sha256": "4bf6cdb3570ce614689c5cc3bbdb4ea8636dd0218ce05aef3a89217bf968eba8",
+ "bytes": 695389,
+ "city": "medellin",
+ "component": "rent",
+ "archiveUrl": null,
+ "matches": [
+  {
+   "quote": "Apartment in Medellín Amazing Gold Mile Oviedo- Eafit 1 bedroom 50 m 2 626/559 Mbps Available from Dec 1, 2026 €2,233 from €1,117 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ea More than 32 possible guests were interested in these listings in the last 2 days. 35 – 36 out of 36 Show map Move in - Move out Dates · Guests Number of guests Guests How many guests? Filters 0 Renting flats, houses, and rooms - Medellín - Antioquia - Colombia 36 amazing listings are waiting for new guests. Recommended sorting Sort by the newest Sort by the cheapest Sort by the best rated Map Apartment in Medellín Amazing Gold Mile Oviedo- Eafit 1 bedroom 50 m 2 626/559 Mbps Available from Dec 1, 2026 €2,233 from €1,117 / 30 days All utilities included · No deposit Apartment in Medellín Awesome Gold Mile Oviedo- Eafit -Poblado 2 bedrooms 100 m 2 626/559 Mbps Available from Nov 28, 2026 €2,781 from €1,391 / 30 days All utilities included · No deposit 1 2 Flatio is an online housing rental platform for digital nomads, remote workers, and slow travelers looking for flexible, deposit-free stays worldwide, from five days to a year. Follow us Flatio "
+  }
+ ]
+}

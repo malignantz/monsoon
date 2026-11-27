@@ -1,0 +1,67 @@
+{
+ "_doc": "Snapshot record written by scripts/collect_evidence.py. The raw body is kept outside git as <archive>/<sha256>.html.gz.",
+ "url": "https://www.flatio.com/s/Lisbon",
+ "finalUrl": "https://www.flatio.com/s/Lisbon",
+ "fetchedAt": "2026-11-26T23:00:15Z",
+ "httpStatus": 200,
+ "fetchMode": "browser",
+ "contentType": "text/html; charset=utf-8",
+ "sha256": "6d79f95d69545cc12d750c491c1887e29293b943bd3ff51b56424ab4487831b9",
+ "bytes": 452505,
+ "city": "lisbon",
+ "component": "rent",
+ "archiveUrl": "https://web.archive.org/web/20261127001921/https://www.flatio.com/s/Lisbon",
+ "matches": [
+  {
+   "quote": "Apartment in Lisbon 4.9 (23) Bright apartment in Avenidas Novas 1 bedroom 65 m 2 500/200 Mbps Available from Jun 1, 2027 €1,547 from €1,469 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "le guests were interested in these listings in the last 2 days. 1 – 34 out of 678 Show map Move in - Move out Dates · Guests Number of guests Guests How many guests? Filters 0 Renting flats, houses, and rooms - Lisbon - Portugal 678 amazing listings are waiting for new guests. Recommended sorting Sort by the newest Sort by the cheapest Sort by the best rated Map Top pick + 5% off! Instant booking Apartment in Lisbon 4.9 (23) Bright apartment in Avenidas Novas 1 bedroom 65 m 2 500/200 Mbps Available from Jun 1, 2027 €1,547 from €1,469 / 30 days All utilities included · No deposit Top pick Apartment in Lisbon 4.5 (2) Vintage Soul | Rooftop, Pet Friendly, Metro 3 Min 2 bedrooms 75 m 2 451/378 Mbps Available from Dec 10, 2026 from €1,837 / 30 days All utilities included · No deposit Top pick Apartment in Lisbon 4.5 (3) TP 1E Central - Ideal for couples - free wifi 1 bedroom 35 m 2 63/19 Mbps Available from Nov 27, 2026 from €1,305 / 30 days All utilities include"
+  },
+  {
+   "quote": "Apartment in Lisbon 4.5 (3) TP 1E Central - Ideal for couples - free wifi 1 bedroom 35 m 2 63/19 Mbps Available from Nov 27, 2026 from €1,305 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": " Apartment in Lisbon 4.9 (23) Bright apartment in Avenidas Novas 1 bedroom 65 m 2 500/200 Mbps Available from Jun 1, 2027 €1,547 from €1,469 / 30 days All utilities included · No deposit Top pick Apartment in Lisbon 4.5 (2) Vintage Soul | Rooftop, Pet Friendly, Metro 3 Min 2 bedrooms 75 m 2 451/378 Mbps Available from Dec 10, 2026 from €1,837 / 30 days All utilities included · No deposit Top pick Apartment in Lisbon 4.5 (3) TP 1E Central - Ideal for couples - free wifi 1 bedroom 35 m 2 63/19 Mbps Available from Nov 27, 2026 from €1,305 / 30 days All utilities included · No deposit Apartment in Lisbon 3.6 (2) Smile you are at Mouraria, excellent location! 2 bedrooms 70 m 2 Available from Nov 26, 2026 from €1,450 / 30 days All utilities included · No deposit Studio in Lisbon 4.9 (4) Apartments Center Alfama 1E 1 bedroom 16 m 2 100/20 Mbps Available from Dec 6, 2026 €870 from €861 / 30 days All utilities included · No deposit Flatio is positively evaluated by mor"
+  },
+  {
+   "quote": "Studio in Lisbon 4.9 (4) Apartments Center Alfama 1E 1 bedroom 16 m 2 100/20 Mbps Available from Dec 6, 2026 €870 from €861 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "s included · No deposit Top pick Apartment in Lisbon 4.5 (3) TP 1E Central - Ideal for couples - free wifi 1 bedroom 35 m 2 63/19 Mbps Available from Nov 27, 2026 from €1,305 / 30 days All utilities included · No deposit Apartment in Lisbon 3.6 (2) Smile you are at Mouraria, excellent location! 2 bedrooms 70 m 2 Available from Nov 26, 2026 from €1,450 / 30 days All utilities included · No deposit Studio in Lisbon 4.9 (4) Apartments Center Alfama 1E 1 bedroom 16 m 2 100/20 Mbps Available from Dec 6, 2026 €870 from €861 / 30 days All utilities included · No deposit Flatio is positively evaluated by more than 13 300 users Show all evaluations “ Very good service, nice and easy to use. Makes living in a foreign city far easier than having to negotiate every service for yourself. Show more Joanna B. She enjoyed 6 months in Budapest “ The best! No complaints. Show more Vyom B. Enjoyed month in Prague “ I would rate your services 10 out of 10! What "
+  },
+  {
+   "quote": "Apartment in Lisbon Bella Rosa @ Bairro Alto by Homeful Homes 1 bedroom 60 m 2 516/124 Mbps Available from Dec 8, 2026 from €1,740 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ando C. Enjoyed 12 months in Budapest “ Very convenient and everything is straightforward when booking. Show more Margarita D. She enjoyed month in Prague “ I would and have recommended Flatio, they did everything they promised and always responded very quickly to any questions Show more Tony J. Enjoyed 4 months in Guia Flatio is positively evaluated by more than 13 300 users Show all evaluations Apartment in Lisbon Bella Rosa @ Bairro Alto by Homeful Homes 1 bedroom 60 m 2 516/124 Mbps Available from Dec 8, 2026 from €1,740 / 30 days All utilities included · No deposit Apartment in Lisbon 4.3 (2) TP 1D Central - Ideal for couples - free wifi 1 bedroom 35 m 2 63/19 Mbps Available from Feb 1, 2027 €1,450 from €1,378 / 30 days All utilities included · No deposit Apartment in Lisbon Lisbon Flower 360º - Lovely Flat with Pool & Park 1 bedroom 85 m 2 Available from Dec 7, 2026 from €2,417 / 30 days All utilities included · No deposit Private room in Lisb"
+  },
+  {
+   "quote": "Apartment in Lisbon 4.3 (2) TP 1D Central - Ideal for couples - free wifi 1 bedroom 35 m 2 63/19 Mbps Available from Feb 1, 2027 €1,450 from €1,378 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ommended Flatio, they did everything they promised and always responded very quickly to any questions Show more Tony J. Enjoyed 4 months in Guia Flatio is positively evaluated by more than 13 300 users Show all evaluations Apartment in Lisbon Bella Rosa @ Bairro Alto by Homeful Homes 1 bedroom 60 m 2 516/124 Mbps Available from Dec 8, 2026 from €1,740 / 30 days All utilities included · No deposit Apartment in Lisbon 4.3 (2) TP 1D Central - Ideal for couples - free wifi 1 bedroom 35 m 2 63/19 Mbps Available from Feb 1, 2027 €1,450 from €1,378 / 30 days All utilities included · No deposit Apartment in Lisbon Lisbon Flower 360º - Lovely Flat with Pool & Park 1 bedroom 85 m 2 Available from Dec 7, 2026 from €2,417 / 30 days All utilities included · No deposit Private room in Lisbon Brand new Luxurious Room in Town Center 18 m 2 500/500 Mbps Available from Nov 29, 2026 from €822 / 30 days All utilities included · No deposit 10% off! Apartment in Lisbon Central avenida cl"
+  },
+  {
+   "quote": "Apartment in Lisbon Lisbon Flower 360º - Lovely Flat with Pool & Park 1 bedroom 85 m 2 Available from Dec 7, 2026 from €2,417 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "0 users Show all evaluations Apartment in Lisbon Bella Rosa @ Bairro Alto by Homeful Homes 1 bedroom 60 m 2 516/124 Mbps Available from Dec 8, 2026 from €1,740 / 30 days All utilities included · No deposit Apartment in Lisbon 4.3 (2) TP 1D Central - Ideal for couples - free wifi 1 bedroom 35 m 2 63/19 Mbps Available from Feb 1, 2027 €1,450 from €1,378 / 30 days All utilities included · No deposit Apartment in Lisbon Lisbon Flower 360º - Lovely Flat with Pool & Park 1 bedroom 85 m 2 Available from Dec 7, 2026 from €2,417 / 30 days All utilities included · No deposit Private room in Lisbon Brand new Luxurious Room in Town Center 18 m 2 500/500 Mbps Available from Nov 29, 2026 from €822 / 30 days All utilities included · No deposit 10% off! Apartment in Lisbon Central avenida close to subway 1 bedroom 60 m 2 Available from Nov 26, 2026 €2,900 from €2,610 / 30 days All utilities included · No deposit Instant booking Apartment in Lisbon 4.9 (17) T1 "
+  },
+  {
+   "quote": "Apartment in Lisbon 4.9 (17) T1 with a Patio in Vila Candida - 5 min GRAÇA 1 bedroom 55 m 2 563/215 Mbps Available from Dec 1, 2026 from €1,740 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "/ 30 days All utilities included · No deposit Private room in Lisbon Brand new Luxurious Room in Town Center 18 m 2 500/500 Mbps Available from Nov 29, 2026 from €822 / 30 days All utilities included · No deposit 10% off! Apartment in Lisbon Central avenida close to subway 1 bedroom 60 m 2 Available from Nov 26, 2026 €2,900 from €2,610 / 30 days All utilities included · No deposit Instant booking Apartment in Lisbon 4.9 (17) T1 with a Patio in Vila Candida - 5 min GRAÇA 1 bedroom 55 m 2 563/215 Mbps Available from Dec 1, 2026 from €1,740 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasure of your rental stay. Show more Apartment in Lisbon 4.3 (8) Authentic 2-bedroom apartment in Alfama 2 bedrooms 50 m 2 200/200 Mbps Available fro"
+  },
+  {
+   "quote": "Apartment in Lisbon 5.0 (2) Renovated Alcântara Apartment | AC + Fast Wi-Fi | 1 bedroom 55 m 2 507/110 Mbps Available from Nov 26, 2026 €1,643 from €1,561 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ilities included · No deposit Private room in Lisbon 4.8 (3) Cosy room in the center of Alfama 11 m 2 500/200 Mbps Available from Dec 21, 2026 from €628 / 30 days All utilities included · No deposit Apartment in Lisbon 5.0 (6) Flat in Graça with amazing panoramic river view 2 bedrooms 132 m 2 480/102 Mbps Available from Nov 26, 2026 €3,625 from €3,444 / 30 days All utilities included · No deposit Apartment in Lisbon 5.0 (2) Renovated Alcântara Apartment | AC + Fast Wi-Fi | 1 bedroom 55 m 2 507/110 Mbps Available from Nov 26, 2026 €1,643 from €1,561 / 30 days All utilities included · No deposit Apartment in Lisbon 4.8 (3) Sunny apartment with a view 2 bedrooms 54 m 2 500/500 Mbps Available from Nov 26, 2026 from €1,498 / 30 days All utilities included · No deposit Apartment in Lisbon 5.0 (1) Harmonious Apartment Lisboa 1 bedroom 35 m 2 Available from Nov 26, 2026 from €1,063 / 30 days All utilities included · No deposit Apartment in Lisbon 5.0 (3) Premium 1BR with Balcony i"
+  },
+  {
+   "quote": "Apartment in Lisbon 5.0 (1) Harmonious Apartment Lisboa 1 bedroom 35 m 2 Available from Nov 26, 2026 from €1,063 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ies included · No deposit Apartment in Lisbon 5.0 (2) Renovated Alcântara Apartment | AC + Fast Wi-Fi | 1 bedroom 55 m 2 507/110 Mbps Available from Nov 26, 2026 €1,643 from €1,561 / 30 days All utilities included · No deposit Apartment in Lisbon 4.8 (3) Sunny apartment with a view 2 bedrooms 54 m 2 500/500 Mbps Available from Nov 26, 2026 from €1,498 / 30 days All utilities included · No deposit Apartment in Lisbon 5.0 (1) Harmonious Apartment Lisboa 1 bedroom 35 m 2 Available from Nov 26, 2026 from €1,063 / 30 days All utilities included · No deposit Apartment in Lisbon 5.0 (3) Premium 1BR with Balcony in Avenidas Novas 1 bedroom 55 m 2 1000/1000 Mbps Available from Dec 1, 2026 €2,658 from €2,472 / 30 days All utilities included · No deposit 1 2 3 … 2 … 20 Flatio is an online housing rental platform for digital nomads, remote workers, and slow travelers looking for flexible, deposit-free stays worldwide, from five days to a year."
+  },
+  {
+   "quote": "Apartment in Lisbon 5.0 (3) Premium 1BR with Balcony in Avenidas Novas 1 bedroom 55 m 2 1000/1000 Mbps Available from Dec 1, 2026 €2,658 from €2,472 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "26 €1,643 from €1,561 / 30 days All utilities included · No deposit Apartment in Lisbon 4.8 (3) Sunny apartment with a view 2 bedrooms 54 m 2 500/500 Mbps Available from Nov 26, 2026 from €1,498 / 30 days All utilities included · No deposit Apartment in Lisbon 5.0 (1) Harmonious Apartment Lisboa 1 bedroom 35 m 2 Available from Nov 26, 2026 from €1,063 / 30 days All utilities included · No deposit Apartment in Lisbon 5.0 (3) Premium 1BR with Balcony in Avenidas Novas 1 bedroom 55 m 2 1000/1000 Mbps Available from Dec 1, 2026 €2,658 from €2,472 / 30 days All utilities included · No deposit 1 2 3 … 2 … 20 Flatio is an online housing rental platform for digital nomads, remote workers, and slow travelers looking for flexible, deposit-free stays worldwide, from five days to a year. Follow us Flatio Blog Become a Partner Contact and Impressum Terms and conditions Personal data protection Experience of our clients Midterm community Guests Log in Create new account For compan"
+  }
+ ],
+ "archiveNote": "saved via Save Page Now"
+}

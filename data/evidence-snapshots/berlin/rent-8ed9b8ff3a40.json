@@ -1,0 +1,51 @@
+{
+ "_doc": "Snapshot record written by scripts/collect_evidence.py. The raw body is kept outside git as <archive>/<sha256>.html.gz.",
+ "url": "https://www.flatio.com/s/Berlin?page=4",
+ "finalUrl": "https://www.flatio.com/s/Berlin?page=4",
+ "fetchedAt": "2026-11-26T23:31:08Z",
+ "httpStatus": 200,
+ "fetchMode": "browser",
+ "contentType": "text/html; charset=utf-8",
+ "sha256": "8ed9b8ff3a405e0b09d0a162c31f08b7f6251823e238bafc6524b9cc38bbb505",
+ "bytes": 920002,
+ "city": "berlin",
+ "component": "rent",
+ "archiveUrl": null,
+ "matches": [
+  {
+   "quote": "Apartment in Berlin One-bedroom apartment in Berlin Friedrichshain 1 bedroom 45 m 2 50/16 Mbps Available from Feb 1, 2027 from €1,740 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "is area Wow! More than 129 possible guests were interested in these listings in the last 2 days. 103 – 127 out of 127 Show map Move in - Move out Dates · Guests Number of guests Guests How many guests? Filters 0 Renting flats, houses, and rooms - Berlin - Germany 127 amazing listings are waiting for new guests. Recommended sorting Sort by the newest Sort by the cheapest Sort by the best rated Map Apartment in Berlin One-bedroom apartment in Berlin Friedrichshain 1 bedroom 45 m 2 50/16 Mbps Available from Feb 1, 2027 from €1,740 / 30 days All utilities included · No deposit Apartment in Berlin 3-room apartment in Kollwitzkiez 3 bedrooms 90 m 2 50/16 Mbps Available from Nov 29, 2026 from €3,867 / 30 days All utilities included · No deposit Studio in Berlin Studio with big terrace, Berlin 1 bedroom 41 m 2 50/16 Mbps Available from Nov 27, 2026 from €1,740 / 30 days All utilities included · No deposit Apartment in Berlin Cozy 4-room apartment in Mitte Spre"
+  },
+  {
+   "quote": "Studio in Berlin Studio with big terrace, Berlin 1 bedroom 41 m 2 50/16 Mbps Available from Nov 27, 2026 from €1,740 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "est Sort by the cheapest Sort by the best rated Map Apartment in Berlin One-bedroom apartment in Berlin Friedrichshain 1 bedroom 45 m 2 50/16 Mbps Available from Feb 1, 2027 from €1,740 / 30 days All utilities included · No deposit Apartment in Berlin 3-room apartment in Kollwitzkiez 3 bedrooms 90 m 2 50/16 Mbps Available from Nov 29, 2026 from €3,867 / 30 days All utilities included · No deposit Studio in Berlin Studio with big terrace, Berlin 1 bedroom 41 m 2 50/16 Mbps Available from Nov 27, 2026 from €1,740 / 30 days All utilities included · No deposit Apartment in Berlin Cozy 4-room apartment in Mitte Sprengelkiez 3 bedrooms 109 m 2 50/16 Mbps Available from Apr 30, 2027 from €3,673 / 30 days All utilities included · No deposit Apartment in Berlin 4-Room Apartment with Terrace 3 bedrooms 105 m 2 50/16 Mbps Available from Jan 15, 2027 from €3,093 / 30 days All utilities included · No deposit Flatio is positively evaluated by more t"
+  },
+  {
+   "quote": "Studio in Berlin Cozy 1 room apartment with modern interior 1 bedroom 32 m 2 50/16 Mbps Available from Dec 18, 2026 from €1,933 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "n Kreuzberg 3 bedrooms 80 m 2 50/16 Mbps Available from Aug 1, 2027 from €3,480 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasure of your rental stay. Show more Studio in Berlin Cozy 1 room apartment with modern interior 1 bedroom 32 m 2 50/16 Mbps Available from Dec 18, 2026 from €1,933 / 30 days All utilities included · No deposit Apartment in Berlin Cozy 2-bedroom apartment in central area 2 bedrooms 38 m 2 50/16 Mbps Available from Dec 31, 2026 from €2,127 / 30 days All utilities included · No deposit Apartment in Berlin City Pop Berlin Ostkreuz - M 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,392 / 30 days All utilities included · No deposit Apartment in Berlin City Pop Berlin Ostkreuz - M 1 bedroom"
+  },
+  {
+   "quote": "Apartment in Berlin City Pop Berlin Ostkreuz - M 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,392 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "d and the pleasure of your rental stay. Show more Studio in Berlin Cozy 1 room apartment with modern interior 1 bedroom 32 m 2 50/16 Mbps Available from Dec 18, 2026 from €1,933 / 30 days All utilities included · No deposit Apartment in Berlin Cozy 2-bedroom apartment in central area 2 bedrooms 38 m 2 50/16 Mbps Available from Dec 31, 2026 from €2,127 / 30 days All utilities included · No deposit Apartment in Berlin City Pop Berlin Ostkreuz - M 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,392 / 30 days All utilities included · No deposit Apartment in Berlin City Pop Berlin Ostkreuz - M 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,392 / 30 days All utilities included · No deposit Apartment in Berlin City Pop Berlin Ostkreuz - S Compact 1 bedroom 18 m 2 Available from Nov 27, 2026 from €1,237 / 30 days All utilities included · No deposit Studio in Berlin City Pop Berlin Ostkreuz - XL with Balcony 1 bedroom 38 m"
+  },
+  {
+   "quote": "Apartment in Berlin City Pop Berlin Ostkreuz - S Compact 1 bedroom 18 m 2 Available from Nov 27, 2026 from €1,237 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "0/16 Mbps Available from Dec 31, 2026 from €2,127 / 30 days All utilities included · No deposit Apartment in Berlin City Pop Berlin Ostkreuz - M 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,392 / 30 days All utilities included · No deposit Apartment in Berlin City Pop Berlin Ostkreuz - M 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,392 / 30 days All utilities included · No deposit Apartment in Berlin City Pop Berlin Ostkreuz - S Compact 1 bedroom 18 m 2 Available from Nov 27, 2026 from €1,237 / 30 days All utilities included · No deposit Studio in Berlin City Pop Berlin Ostkreuz - XL with Balcony 1 bedroom 38 m 2 Available from Nov 27, 2026 from €1,663 / 30 days All utilities included · No deposit Studio in Berlin AM SUEDSTERN 1 bedroom 40 m 2 100/103 Mbps Available from Dec 7, 2026 from €1,595 / 30 days All utilities included · No deposit 1 2 3 4 Flatio is an online housing rental platform for digital nomads, remote"
+  },
+  {
+   "quote": "Studio in Berlin City Pop Berlin Ostkreuz - XL with Balcony 1 bedroom 38 m 2 Available from Nov 27, 2026 from €1,663 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "2 Available from Nov 27, 2026 from €1,392 / 30 days All utilities included · No deposit Apartment in Berlin City Pop Berlin Ostkreuz - M 1 bedroom 25 m 2 Available from Nov 27, 2026 from €1,392 / 30 days All utilities included · No deposit Apartment in Berlin City Pop Berlin Ostkreuz - S Compact 1 bedroom 18 m 2 Available from Nov 27, 2026 from €1,237 / 30 days All utilities included · No deposit Studio in Berlin City Pop Berlin Ostkreuz - XL with Balcony 1 bedroom 38 m 2 Available from Nov 27, 2026 from €1,663 / 30 days All utilities included · No deposit Studio in Berlin AM SUEDSTERN 1 bedroom 40 m 2 100/103 Mbps Available from Dec 7, 2026 from €1,595 / 30 days All utilities included · No deposit 1 2 3 4 Flatio is an online housing rental platform for digital nomads, remote workers, and slow travelers looking for flexible, deposit-free stays worldwide, from five days to a year. Follow us Flatio Blog Become a Partner Contact and Impre"
+  },
+  {
+   "quote": "Studio in Berlin AM SUEDSTERN 1 bedroom 40 m 2 100/103 Mbps Available from Dec 7, 2026 from €1,595 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": " from Nov 27, 2026 from €1,392 / 30 days All utilities included · No deposit Apartment in Berlin City Pop Berlin Ostkreuz - S Compact 1 bedroom 18 m 2 Available from Nov 27, 2026 from €1,237 / 30 days All utilities included · No deposit Studio in Berlin City Pop Berlin Ostkreuz - XL with Balcony 1 bedroom 38 m 2 Available from Nov 27, 2026 from €1,663 / 30 days All utilities included · No deposit Studio in Berlin AM SUEDSTERN 1 bedroom 40 m 2 100/103 Mbps Available from Dec 7, 2026 from €1,595 / 30 days All utilities included · No deposit 1 2 3 4 Flatio is an online housing rental platform for digital nomads, remote workers, and slow travelers looking for flexible, deposit-free stays worldwide, from five days to a year. Follow us Flatio Blog Become a Partner Contact and Impressum Terms and conditions Personal data protection Experience of our clients Midterm community Guests Log in Create new account For companies Sta"
+  }
+ ]
+}

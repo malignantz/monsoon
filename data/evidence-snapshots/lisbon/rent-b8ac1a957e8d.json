@@ -1,0 +1,41 @@
+{
+ "_doc": "Snapshot record written by scripts/collect_evidence.py. The raw body is kept outside git as <archive>/<sha256>.html.gz.",
+ "url": "https://www.flatio.com/s/Lisbon?page=6",
+ "finalUrl": "https://www.flatio.com/s/Lisbon?page=6",
+ "fetchedAt": "2026-11-27T00:00:29Z",
+ "httpStatus": 200,
+ "fetchMode": "browser",
+ "contentType": "text/html; charset=utf-8",
+ "sha256": "b8ac1a957e8d2439e5d716d7b1902d978cf9392819f892873fdfcd565904b262",
+ "bytes": 423671,
+ "city": "lisbon",
+ "component": "rent",
+ "archiveUrl": null,
+ "matches": [
+  {
+   "quote": "Apartment in Lisbon The Doormans House • Homeful Homes 1 bedroom 70 m 2 200/124 Mbps Available from Nov 30, 2026 from €1,837 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "s in Guia “ It was very convenient and quick! Show more Maksym H. Enjoyed 19 days in Prague “ I’ve been happy so far with my Flatio experiences. Show more Henry F. Enjoyed 24 days in Ericeira “ Foi ótimo...bom seguimento em todo o processo do princípio até ao final. Show more Manuela P. She enjoyed 7 days in São Vicente Flatio is positively evaluated by more than 13 300 users Show all evaluations Apartment in Lisbon The Doormans House • Homeful Homes 1 bedroom 70 m 2 200/124 Mbps Available from Nov 30, 2026 from €1,837 / 30 days All utilities included · No deposit 5% off! Apartment in Lisbon New 2 beedroom apartment in the heart of lisbon 1 bedroom 70 m 2 Available from Dec 13, 2026 €1,159 from €1,101 / 30 days All utilities included · No deposit 5% off! Apartment in Lisbon New Sunny Loft in Santos | 2BR • Central Lisbon 2 bedrooms 60 m 2 Available from Dec 10, 2026 €2,078 from €1,975 / 30 days All utilities included · No deposit House in Lisb"
+  },
+  {
+   "quote": "Apartment in Lisbon New 2 beedroom apartment in the heart of lisbon 1 bedroom 70 m 2 Available from Dec 13, 2026 €1,159 from €1,101 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": " in Ericeira “ Foi ótimo...bom seguimento em todo o processo do princípio até ao final. Show more Manuela P. She enjoyed 7 days in São Vicente Flatio is positively evaluated by more than 13 300 users Show all evaluations Apartment in Lisbon The Doormans House • Homeful Homes 1 bedroom 70 m 2 200/124 Mbps Available from Nov 30, 2026 from €1,837 / 30 days All utilities included · No deposit 5% off! Apartment in Lisbon New 2 beedroom apartment in the heart of lisbon 1 bedroom 70 m 2 Available from Dec 13, 2026 €1,159 from €1,101 / 30 days All utilities included · No deposit 5% off! Apartment in Lisbon New Sunny Loft in Santos | 2BR • Central Lisbon 2 bedrooms 60 m 2 Available from Dec 10, 2026 €2,078 from €1,975 / 30 days All utilities included · No deposit House in Lisbon 4.9 (7) Smartvilla loft 1 bedroom 53 m 2 604/500 Mbps Available from Dec 13, 2026 from €1,059 / 30 days All utilities included · No deposit 5% off! Apartment in Lisbon New Beautiful T"
+  },
+  {
+   "quote": "Studio in Lisbon Studio in Lisbon - Madragoa zero 1 bedroom 25 m 2 Available from Dec 7, 2026 €1,268 from €1,204 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "utilities included · No deposit House in Lisbon 4.9 (7) Smartvilla loft 1 bedroom 53 m 2 604/500 Mbps Available from Dec 13, 2026 from €1,059 / 30 days All utilities included · No deposit 5% off! Apartment in Lisbon New Beautiful T2, central Lisbon, Praça da Alegria 2 bedrooms 100 m 2 500/400 Mbps Available from Nov 27, 2026 €1,885 from €1,791 / 30 days All utilities included · No deposit 5% off! Studio in Lisbon Studio in Lisbon - Madragoa zero 1 bedroom 25 m 2 Available from Dec 7, 2026 €1,268 from €1,204 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasure of your rental stay. Show more 10% off! Apartment in Lisbon New Boutique Alfama Apt | Fully Renovated, A/C & Fiber 1 bedroom 30 m 2 1000/500 Mb"
+  },
+  {
+   "quote": "Apartment in Lisbon New Boutique Alfama Apt | Fully Renovated, A/C & Fiber 1 bedroom 30 m 2 1000/500 Mbps Available from Dec 1, 2026 €1,813 from €1,631 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "oa zero 1 bedroom 25 m 2 Available from Dec 7, 2026 €1,268 from €1,204 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasure of your rental stay. Show more 10% off! Apartment in Lisbon New Boutique Alfama Apt | Fully Renovated, A/C & Fiber 1 bedroom 30 m 2 1000/500 Mbps Available from Dec 1, 2026 €1,813 from €1,631 / 30 days All utilities included · No deposit 10% off! Apartment in Lisbon New Spacious apartment with balcony near the subway 2 bedrooms Available from Nov 27, 2026 €2,214 from €1,992 / 30 days All utilities included · No deposit 15% off! Private room in Lisbon New Cozy room in downtown Lisbon Available from Jan 1, 2027 €570 from €485 / 30 days All utilities included · No deposit Apartment in Lisbon The Nest at Mouraria 2 bedro"
+  },
+  {
+   "quote": "Apartment in Lisbon New Sunny Flat in São Vicente, Lisbon 2 bedrooms Available from Dec 15, 2026 €1,353 from €1,286 / 30 days All utilities included · No deposit Apartment in Lisbon 4.9 (2) Lapa by Stay Home Lisbon 1 bedroom 60 m 2 1000/200 Mbps Available from Dec 11, 2026 €1,800 from €1,530 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "s Available from Nov 27, 2026 €2,214 from €1,992 / 30 days All utilities included · No deposit 15% off! Private room in Lisbon New Cozy room in downtown Lisbon Available from Jan 1, 2027 €570 from €485 / 30 days All utilities included · No deposit Apartment in Lisbon The Nest at Mouraria 2 bedrooms 55 m 2 Available from Dec 9, 2026 from €1,257 / 30 days All utilities included · No deposit 5% off! Apartment in Lisbon New Sunny Flat in São Vicente, Lisbon 2 bedrooms Available from Dec 15, 2026 €1,353 from €1,286 / 30 days All utilities included · No deposit Apartment in Lisbon 4.9 (2) Lapa by Stay Home Lisbon 1 bedroom 60 m 2 1000/200 Mbps Available from Dec 11, 2026 €1,800 from €1,530 / 30 days All utilities included · No deposit 10% off! Apartment in Lisbon Furnished 2BR Gulbenkian with Cleaning & Services 2 bedrooms 90 m 2 1000/1000 Mbps Available from Nov 30, 2026 €3,673 from €3,306 / 30 days All utilities included · No deposit 1 … 5 6 7 … … 5 6 7 … 20 Flatio is an online housing rental platform for digital nomads, remote workers, and slow travelers looking for flexible, deposit-free stays worldwide, from "
+  }
+ ]
+}

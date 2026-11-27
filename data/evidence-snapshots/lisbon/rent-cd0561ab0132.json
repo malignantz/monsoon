@@ -1,0 +1,31 @@
+{
+ "_doc": "Snapshot record written by scripts/collect_evidence.py. The raw body is kept outside git as <archive>/<sha256>.html.gz.",
+ "url": "https://casa.sapo.pt/alugar-apartamentos/t0,t1/lisboa/santo-antonio/com-mobilia/",
+ "finalUrl": "https://casa.sapo.pt/alugar-apartamentos/t0,t1/lisboa/santo-antonio/com-mobilia/",
+ "fetchedAt": "2026-11-26T23:26:46Z",
+ "httpStatus": 200,
+ "fetchMode": "browser",
+ "contentType": "text/html; charset=utf-8",
+ "sha256": "cd0561ab013240308eaf7107cc08f5ad329fd5fa60e22b6c711b3375a9e7ef60",
+ "bytes": 233597,
+ "city": "lisbon",
+ "component": "rent",
+ "archiveUrl": null,
+ "matches": [
+  {
+   "quote": "Apartamento T1 Santo António, Lisboa, Distrito de Lisboa Renovado · 69m² alugar 2.450 €",
+   "matchedIn": "visible-text",
+   "excerpt": " Santa Marta (São José) São Bento (Coração de Jesus) São Bento (São Mamede) Sapadores (São José) Tivoli Fórum (Coração de Jesus) 4 Casas para alugar, Apartamentos T0 e T1 em Lisboa, Santo António, com Mobília Mapa Ordenar por Relevância Relevância Mais baratos Mais caros Mais recentes Mais fotos Menos Recentes 4 Casas para alugar, Apartamentos T0 e T1 em Lisboa, Santo António, com Mobília Filtros Apartamento T1 Santo António, Lisboa, Distrito de Lisboa Renovado · 69m² alugar 2.450 € Excelente apatamento novo - disponível de imediato! Na Rua Bernardo Lima, em localização central e privilegiada de Lisboa, este edifício de época foi alvo de uma remodelação total, dando origem a 10 apartamentos novos, todos a estrear. A intervenção foi pensada ao detalhe, conciliando uma linguagem contemporânea e elegante com a preservação de alguns elementos que conferem charme e carácter ao "
+  },
+  {
+   "quote": "Apartamento T1 Santo António, Lisboa, Distrito de Lisboa Usado · 95m² alugar 1.500 €",
+   "matchedIn": "visible-text",
+   "excerpt": "m se acede através da sala, proporcionando uma agradável ligação entre os espaços interiores e exteriores. Existem mais frações de diferentes tipologias no prédio. Comunicação para utilização após operação urbanística sujeita a controlo prévio, pela Câmara Municipal de Lisboa, em 29/07/2026. Se acredita que este é o imóvel ideal para si, entre em contato! Refª: LS102602BL3B Contactar Ver Telefone Apartamento T1 Santo António, Lisboa, Distrito de Lisboa Usado · 95m² alugar 1.500 € Fantástico apart com 1 quarto no piso superior, wc, AC e cama extra. Piso inferior com 1 sala, wc c/duche e cozinha completamente equipada. Terraço fantástico e privado, com espreguiçadeiras, mesas e toldos longos, perfeito para relaxar ou tomar uma refeição. 1 cama de casal, 1 cama de solteiro. Leve os seus animais de estimação consigo. Tudo isto no Coração de Lisboa - Av. da Liberdade. ’coraç"
+  },
+  {
+   "quote": "Apartamento T1 Príncipe Real (São Mamede), Santo António, Lisboa, Distrito de Lisboa Novo · 71m² Com Garagem alugar 2.500 €",
+   "matchedIn": "visible-text",
+   "excerpt": "ração de Lisboa - Av. da Liberdade. ’coração de Lisboa’ é aquele lugar que se sente mais do que se explica. É o som dos elétricos a subir e descer colinas, o cheiro do café acabado de tirar, as calçadas gastas onde passam histórias de séculos. É a luz amarela que se espalha ao fim da tarde, o Tejo a brilhar e a forma como a cidade se abre em miradouros que parecem abraços. #ref:34624206 Contactar Apartamento T1 Príncipe Real (São Mamede), Santo António, Lisboa, Distrito de Lisboa Novo · 71m² Com Garagem alugar 2.500 € Excelente apartamento T1 totalmente mobilado, com varanda e 1 lugar de garagem, inserido num exclusivo condomínio de luxo com maravilhoso jardim no Príncipe Real. O apartamento é composto por: Hall de entrada, sala ampla em open space com cozinha totalmente equipada, suite com roupeiros embutidos e varanda. Casa-de-banho social. Edifício de prestigio, com materiais nobres e acabamentos de quali"
+  }
+ ]
+}

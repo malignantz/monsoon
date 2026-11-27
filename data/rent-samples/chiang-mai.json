@@ -1,0 +1,80 @@
+{
+ "city": "Chiang Mai",
+ "slug": "chiang-mai",
+ "collectedOn": "2026-11-26",
+ "storedRentUsd": 400,
+ "searchDefinition": {
+  "id": "furnished-1br-midterm-v1",
+  "unit": "whole furnished unit, studio or 1 bedroom",
+  "sizeM2": [
+   30,
+   60
+  ],
+  "stay": "move-in by 2027-01-26 (within 2 months of collection) for a 1-3 month stay",
+  "neighbourhoods": [
+   "Nimmanhaemin (Suthep)",
+   "Santitham",
+   "Old City",
+   "Chang Phueak"
+  ],
+  "neighbourhoodRule": "declared before collecting. Enforced by portal filter where the portal has one (casa.sapo); otherwise the stated neighbourhood is recorded and inDeclaredNeighbourhoods flags it, but listings are not dropped for it."
+ },
+ "fx": {
+  "EUR": {
+   "perUSD": 0.9121,
+   "source": "open.er-api.com/v6/latest/USD (the feed the cost-evidence store cites)",
+   "date": "2026-11-26",
+   "note": "the app's own ECB table (src/lib/fxRates.json, 2026-10-02) gives 0.8909 EUR per USD, about 2.4% fewer dollars per euro"
+  }
+ },
+ "markets": {},
+ "portalsTried": [
+  {
+   "portal": "flatio.com",
+   "market": "midTermFurnished",
+   "outcome": "too few results",
+   "note": "4 listings city-wide, all private rooms in one house: none fits"
+  },
+  {
+   "portal": "renthub.in.th",
+   "market": "midTermFurnished",
+   "outcome": "terms forbid automated access",
+   "note": "Thai-language clause bans automated programs that copy or collect data; this is the main local monthly-apartment portal"
+  },
+  {
+   "portal": "airbnb.com",
+   "market": "midTermFurnished",
+   "outcome": "terms forbid automated access",
+   "note": ""
+  },
+  {
+   "portal": "hipflat.co.th",
+   "market": "longTermLocal",
+   "outcome": "blocked",
+   "note": "401/Cloudflare 403"
+  },
+  {
+   "portal": "ddproperty.com",
+   "market": "longTermLocal",
+   "outcome": "blocked",
+   "note": "robots.txt returns 403"
+  },
+  {
+   "portal": "fazwaz.com",
+   "market": "longTermLocal",
+   "outcome": "not used",
+   "note": "legal notice bars reproducing, compiling or extracting any content"
+  },
+  {
+   "portal": "dotproperty.co.th",
+   "market": "longTermLocal",
+   "outcome": "not used",
+   "note": "same LIFULL Connect legal notice as FazWaz"
+  }
+ ],
+ "effort": {
+  "wallClockMinutes": 6,
+  "pageViews": 5,
+  "note": "portal checks only; nothing usable"
+ }
+}

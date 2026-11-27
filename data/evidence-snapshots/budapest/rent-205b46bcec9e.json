@@ -1,0 +1,46 @@
+{
+ "_doc": "Snapshot record written by scripts/collect_evidence.py. The raw body is kept outside git as <archive>/<sha256>.html.gz.",
+ "url": "https://www.flatio.com/s/Budapest?page=6",
+ "finalUrl": "https://www.flatio.com/s/Budapest?page=6",
+ "fetchedAt": "2026-11-27T00:17:04Z",
+ "httpStatus": 200,
+ "fetchMode": "browser",
+ "contentType": "text/html; charset=utf-8",
+ "sha256": "205b46bcec9e58adb92a168b12b752c27157e28723b2ac133edf2a661e6f1d94",
+ "bytes": 432282,
+ "city": "budapest",
+ "component": "rent",
+ "archiveUrl": null,
+ "matches": [
+  {
+   "quote": "Apartment in Budapest 5.0 (4) Coolpads flat - Almássy square, Budapest 1 bedroom 43 m 2 150/50 Mbps Available from Mar 1, 2027 €855 from €812 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "30 days All utilities included · No deposit Apartment in Budapest Jazz Nest Apartment Budapest 1 bedroom 35 m 2 1000/25 Mbps Available from Feb 12, 2027 €622 from €560 / 30 days All utilities included · No deposit Apartment in Budapest Designer 2BR Apartment near Parliament 2 bedrooms 94 m 2 1000/1000 Mbps Available from Feb 1, 2027 €2,320 from €2,134 / 30 days All utilities included · No deposit Apartment in Budapest 5.0 (4) Coolpads flat - Almássy square, Budapest 1 bedroom 43 m 2 150/50 Mbps Available from Mar 1, 2027 €855 from €812 / 30 days All utilities included · No deposit Studio in Budapest Quiet apartment near the party district 1 bedroom 33 m 2 250/20 Mbps Available from Feb 1, 2027 from €822 / 30 days All utilities included · No deposit Flatio is positively evaluated by more than 13 300 users Show all evaluations “ The best! No complaints. Show more Vyom B. Enjoyed month in Prague “ Easy to use and helpful whenever you need any support. Show more F"
+  },
+  {
+   "quote": "Studio in Budapest Quiet apartment near the party district 1 bedroom 33 m 2 250/20 Mbps Available from Feb 1, 2027 from €822 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ies included · No deposit Apartment in Budapest Designer 2BR Apartment near Parliament 2 bedrooms 94 m 2 1000/1000 Mbps Available from Feb 1, 2027 €2,320 from €2,134 / 30 days All utilities included · No deposit Apartment in Budapest 5.0 (4) Coolpads flat - Almássy square, Budapest 1 bedroom 43 m 2 150/50 Mbps Available from Mar 1, 2027 €855 from €812 / 30 days All utilities included · No deposit Studio in Budapest Quiet apartment near the party district 1 bedroom 33 m 2 250/20 Mbps Available from Feb 1, 2027 from €822 / 30 days All utilities included · No deposit Flatio is positively evaluated by more than 13 300 users Show all evaluations “ The best! No complaints. Show more Vyom B. Enjoyed month in Prague “ Easy to use and helpful whenever you need any support. Show more Fernando C. Enjoyed 12 months in Budapest “ I’ve been happy so far with my Flatio experiences. Show more Henry F. Enjoyed 24 days in Ericeira “ Very convenient and everythi"
+  },
+  {
+   "quote": "Studio in Budapest Design Studio with Brand New Walk-in Shower & AC 1 bedroom Available from Dec 1, 2026 from €1,402 / 30 days All utilities included · No deposit Apartment in Budapest 5.0 (1) Stylish Downtown Apartment with Smart Comfort 1 bedroom 45 m 2 800/400 Mbps Available from Feb 1, 2027 from €1,321 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ncluded · No deposit Apartment in Budapest 5.0 (4) Stylish 1.5-BR Apartment in an Excellent Location 2 bedrooms 50 m 2 475/75 Mbps Available from Jun 1, 2027 from €1,373 / 30 days All utilities included · No deposit Apartment in Budapest 3 room modern apartment for rent near the metro 3 bedrooms 72 m 2 151/7 Mbps Available from Feb 1, 2027 from €1,671 / 30 days All utilities included · No deposit Studio in Budapest Design Studio with Brand New Walk-in Shower & AC 1 bedroom Available from Dec 1, 2026 from €1,402 / 30 days All utilities included · No deposit Apartment in Budapest 5.0 (1) Stylish Downtown Apartment with Smart Comfort 1 bedroom 45 m 2 800/400 Mbps Available from Feb 1, 2027 from €1,321 / 30 days All utilities included · No deposit Apartment in Budapest .Family Comfort. with free parking 2 bedrooms 62 m 2 70/41 Mbps Available from Feb 1, 2027 €1,334 from €1,268 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance y"
+  },
+  {
+   "quote": "Apartment in Budapest 4.8 (2) 1.5 bedroom apartment in the Corvin district 1 bedroom 49 m 2 500/149 Mbps Available from Jun 2, 2027 €1,153 from €1,095 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "king 2 bedrooms 62 m 2 70/41 Mbps Available from Feb 1, 2027 €1,334 from €1,268 / 30 days All utilities included · No deposit Flatio’s StayProtection: Redefining security, backed by AXA! Step into an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasure of your rental stay. Show more Apartment in Budapest 4.8 (2) 1.5 bedroom apartment in the Corvin district 1 bedroom 49 m 2 500/149 Mbps Available from Jun 2, 2027 €1,153 from €1,095 / 30 days All utilities included · No deposit Apartment in Budapest 5.0 (2) City Work & Stay Serviced Apartment 1 bedroom 48 m 2 800/200 Mbps Available from Feb 28, 2027 €1,395 from €1,326 / 30 days All utilities included · No deposit Apartment in Budapest Danube Riverside Apartment 2 bedrooms 79 m 2 49/46 Mbps Available from Apr 1, 2027 from €1,529 / 30 days All utilities included · No deposit Apartment in Budapest 5.0 (1) Brig"
+  },
+  {
+   "quote": "Apartment in Budapest 5.0 (2) City Work & Stay Serviced Apartment 1 bedroom 48 m 2 800/200 Mbps Available from Feb 28, 2027 €1,395 from €1,326 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "an unparalleled level of security with StayProtection ! With AXA by our side, we're offering a revolutionary solution that will enhance your peace of mind and the pleasure of your rental stay. Show more Apartment in Budapest 4.8 (2) 1.5 bedroom apartment in the Corvin district 1 bedroom 49 m 2 500/149 Mbps Available from Jun 2, 2027 €1,153 from €1,095 / 30 days All utilities included · No deposit Apartment in Budapest 5.0 (2) City Work & Stay Serviced Apartment 1 bedroom 48 m 2 800/200 Mbps Available from Feb 28, 2027 €1,395 from €1,326 / 30 days All utilities included · No deposit Apartment in Budapest Danube Riverside Apartment 2 bedrooms 79 m 2 49/46 Mbps Available from Apr 1, 2027 from €1,529 / 30 days All utilities included · No deposit Apartment in Budapest 5.0 (1) Bright, spacious 2-bedroom apartment on Király utca 2 bedrooms 110 m 2 250/250 Mbps Available from Dec 22, 2026 from €1,450 / 30 days All utilities included · No deposit Apartment in Budapest 4"
+  },
+  {
+   "quote": "Apartment in Budapest 4.8 (4) Rubik's Cube Apartment 1 bedroom 44 m 2 21/21 Mbps Available from Feb 1, 2027 from €997 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": " All utilities included · No deposit Apartment in Budapest Danube Riverside Apartment 2 bedrooms 79 m 2 49/46 Mbps Available from Apr 1, 2027 from €1,529 / 30 days All utilities included · No deposit Apartment in Budapest 5.0 (1) Bright, spacious 2-bedroom apartment on Király utca 2 bedrooms 110 m 2 250/250 Mbps Available from Dec 22, 2026 from €1,450 / 30 days All utilities included · No deposit Apartment in Budapest 4.8 (4) Rubik's Cube Apartment 1 bedroom 44 m 2 21/21 Mbps Available from Feb 1, 2027 from €997 / 30 days All utilities included · No deposit Studio in Budapest 4.6 (7) Stúdió Budapest belvárosában 1 bedroom 25 m 2 250/100 Mbps Available from Jan 2, 2027 from €1,270 / 30 days All utilities included · No deposit Private room in Budapest Room in a 3 bedroom shared apartment in Budapest 13 m 2 Available from Apr 2, 2027 from €350 / 30 days All utilities included · No deposit 1 … 5 6 7 … … 5 6 7 … 23 Flatio is an online housin"
+  }
+ ]
+}

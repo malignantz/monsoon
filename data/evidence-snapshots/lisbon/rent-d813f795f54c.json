@@ -1,0 +1,26 @@
+{
+ "_doc": "Snapshot record written by scripts/collect_evidence.py. The raw body is kept outside git as <archive>/<sha256>.html.gz.",
+ "url": "https://www.flatio.com/s/Lisbon?page=4",
+ "finalUrl": "https://www.flatio.com/s/Lisbon?page=4",
+ "fetchedAt": "2026-11-26T23:04:43Z",
+ "httpStatus": 200,
+ "fetchMode": "browser",
+ "contentType": "text/html; charset=utf-8",
+ "sha256": "d813f795f54ca88cc7bc51e07b096b9a932f3072e1526b82382adf561708ed63",
+ "bytes": 480836,
+ "city": "lisbon",
+ "component": "rent",
+ "archiveUrl": null,
+ "matches": [
+  {
+   "quote": "Apartment in Lisbon 5.0 (3) Apartments Center Alfama 47-2E 1 bedroom 38 m 2 200/100 Mbps Available from Feb 1, 2027 from €1,353 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "ded · No deposit Apartment in Lisbon 4.8 (11) Central (Estrela Garden) T1 1 bedroom 60 m 2 500/100 Mbps Available from Dec 11, 2026 €2,127 from €1,701 / 30 days All utilities included · No deposit Apartment in Lisbon 2BR Lisbon Avenidas Novas Services & Comfort 2 bedrooms 74 m 2 1000/1000 Mbps Available from Nov 29, 2026 €3,093 from €2,877 / 30 days All utilities included · No deposit Recommended Apartment in Lisbon 5.0 (3) Apartments Center Alfama 47-2E 1 bedroom 38 m 2 200/100 Mbps Available from Feb 1, 2027 from €1,353 / 30 days All utilities included · No deposit Flatio is positively evaluated by more than 13 300 users Show all evaluations “ I’ve been happy so far with my Flatio experiences. Show more Henry F. Enjoyed 24 days in Ericeira “ It was very convenient and quick! Show more Maksym H. Enjoyed 19 days in Prague “ Very convenient and everything is straightforward when booking. Show more Margarita D. She enjoyed month in Prague “ The bes"
+  },
+  {
+   "quote": "Studio in Lisbon Lapa Diplomatic Flat 2.4 by Feel Lisboa 1 bedroom 21 m 2 500/500 Mbps Available from Nov 27, 2026 from €1,621 / 30 days All utilities included",
+   "matchedIn": "visible-text",
+   "excerpt": "eposit Instant booking Private room in Lisbon New Lapa Diplomatic Suite 1.2 by Feel Lisboa 20 m 2 500/500 Mbps Available from Jan 3, 2027 from €1,091 / 30 days All utilities included · No deposit Instant booking Studio in Lisbon Lapa Diplomatic Flat 1.1 by Feel Lisboa 1 bedroom 31 m 2 500/500 Mbps Available from Dec 3, 2026 from €2,026 / 30 days All utilities included · No deposit Instant booking Studio in Lisbon Lapa Diplomatic Flat 2.4 by Feel Lisboa 1 bedroom 21 m 2 500/500 Mbps Available from Nov 27, 2026 from €1,621 / 30 days All utilities included · No deposit Instant booking Private room in Lisbon New Lapa Diplomatic Suite 2.3 by Feel Lisboa 17 m 2 500/500 Mbps Available from Dec 16, 2026 from €1,061 / 30 days All utilities included · No deposit Instant booking Private room in Lisbon New Lapa Diplomatic Suite 0.2 by Feel Lisboa 12 m 2 500/500 Mbps Available from Nov 29, 2026 from €936 / 30 days All utilities included · No deposit Flatio’s"
+  }
+ ]
+}
